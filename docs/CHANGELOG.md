@@ -4,6 +4,12 @@
 
 정렬은 최근 변경부터 합니다. 이 문서에는 의도·규칙·구조 변경을 요약하고, 세부 차이는 Git으로 추적합니다. 과거 대화의 정확한 처리 시각을 새로 만들어 기록하지 않습니다.
 
+## CHG-0030 · 2026-09-14 · 원격 push·GitHub CI 실행
+
+- 사용자 요청으로 작업 브랜치를 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)을 생성. 첫 GitHub CI 실행 성공.
+- PR 생성·커밋 추가·재오픈, main push, 기본 브랜치 등록 후 수동 실행 조건을 [관리 방식](WORKFLOW.md)에 명시.
+- [RUN-20260914-02](production/TEST_RUNS.md)에 실제 실행 SHA·결과·로그를 보존. main 병합·필수 검사 설정·UE/Android 실행은 포함하지 않음.
+
 ## CHG-0029 · 2026-09-14 · 문서 운영·검사·Git 기준점 보완
 
 - DEC-023에 따라 Windows 완료/Android 미검증 상태와 다음 작업을 정리하고 소환 템플릿의 미확정 수치를 제거.

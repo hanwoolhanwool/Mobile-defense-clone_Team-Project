@@ -259,6 +259,16 @@
 - 증거: [검사 실행 로그](evidence/RUN-20260914-01.txt).
 - 검증 경계: 기존 Source·Content·게임 데이터의 의미 변경 없음. AFS 토큰은 Config/UserEngine.ini 로컬 계층으로 분리하며 새 Android/UE 실행 검증으로 표시하지 않음. 원격 push·GitHub Actions 실제 실행·필수 검사 설정은 미수행.
 
+## RUN-20260914-02 · 원격 push·GitHub CI 첫 실행
+
+- 실행일: 2026-09-14 / 실행자: Codex, GitHub Actions.
+- 요청: 사용자 원격 push·GitHub CI 실행 지시. main 병합·보호 규칙 변경은 포함하지 않음.
+- 입력: 작업 브랜치 `codex/docs-operations-baseline`, 기준 커밋 `c86817b24181a16a5e7002196f95357b7c9e05b6`, 초안 PR #1의 병합 예상 커밋.
+- 결과: **Pass**. pull_request 이벤트의 Actions 34788260254, documentation 작업 성공. Ubuntu·Node.js 24.15.0에서 생성 데이터/보고서 검사, 문서 검사 3,872개, 검사기 테스트 15개 통과.
+- 증거: [원격 실행 메타데이터](evidence/RUN-20260914-02-github.json), [GitHub 작업 로그](evidence/RUN-20260914-02-github.log), [Actions 실행 링크](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254).
+- 후속: 실행 조건과 첫 성공 기록을 문서에 반영. 후속 커밋의 CI는 PR checks에서 해당 커밋 결과를 확인한다.
+- 검증 경계: 문서·데이터 정적 검사이며 UE 빌드·게임·Android 검수 아님. main은 아직 병합 전이며 필수 검사 보호 설정은 미적용.
+
 ## 게임 기능·기기 테스트
 
 현재 이 기록에는 전투 구현, 소환 RPC, Android/iOS 패키징, 모바일 성능, 온라인 재접속의 실제 실행 증거가 등록되지 않았습니다. 기존 프로젝트의 구현 여부는 작업을 착수하며 확인합니다. 데이터·문서 검사 통과만으로 해당 작업을 Done 처리하지 않습니다.

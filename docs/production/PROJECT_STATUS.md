@@ -18,7 +18,7 @@
 | 현재 상황 한 문장 | Windows 기본 빌드·실행 검증을 마쳤으며, Android 준비와 미확인 원작 규칙 확정이 다음 순서다. |
 | 진행 중 작업 | 없음 — 작업 보드 기준 InProgress 0개 |
 | 다음 착수 후보 | TASK-MOB-01 중 Android 도구·설정·기본 패키징 준비 |
-| 이번 갱신 내용 | 문서 운영 보완: 상태·초안 예시 정리, 검사·CI·증거 보관, 담당/검증일 관리와 로컬 Git 기준점. [CHG-0029](../CHANGELOG.md). 개발 작업 37개 상태 유지 |
+| 이번 갱신 내용 | 작업 브랜치 원격 push·초안 PR #1 생성, GitHub CI 첫 실행 성공 및 실행 조건 문서화. [CHG-0030](../CHANGELOG.md). 개발 작업 37개 상태 유지 |
 
 ### A2. 단계별 현황
 
@@ -81,6 +81,7 @@ OPEN 항목의 상세 상태는 [결정 기록](../DECISIONS.md)을 따른다.
 
 | 날짜 | 구분 | 변경·완료 내용 | 근거·남은 범위 |
 |---|---|---|---|
+| 2026-09-14 | 원격 CI | 작업 브랜치 push·초안 PR #1, Ubuntu 문서·데이터 검사와 테스트 15개 통과 | [RUN-20260914-02](TEST_RUNS.md), [Actions 실행](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254). main 병합·필수 검사 설정 및 UE/Android 실행 제외 |
 | 2026-09-14 | 문서 운영 | 상태·초안 예시 정리, 문서/완료 판정 검사 확대, CI 설정·증거 보관·담당/검토일, 로컬 기준 커밋 | [RUN-20260914-01](TEST_RUNS.md), [CHG-0029](../CHANGELOG.md). 원격 CI·push 미수행, Android 준비가 다음 개발 작업 |
 | 2026-09-13 | 사용 안내 | MCP 서버·성능·화면 디버깅·기록용 콘솔 명령 문서 추가 | [명령 안내](../technical/UNREAL_CONSOLE_COMMANDS.md), [CHG-0028](../CHANGELOG.md). 명령 실제 실행·MCP 설정 변경은 미수행 |
 | 2026-09-13 | 문서 구조 | 현황 갱신 영역·진행 이력·고정 흐름·갱신 양식으로 개편 | 사용자 요청. 개발 상태 변경 없음 |

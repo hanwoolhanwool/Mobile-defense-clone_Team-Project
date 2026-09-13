@@ -1,11 +1,11 @@
 ---
 id: DOC-WORKFLOW
-version: 0.3.0
+version: 0.3.1
 status: Baseline
 owner: Codex
 updated: 2026-09-14
 reviewed: 2026-09-14
-review_run: RUN-20260914-01
+review_run: RUN-20260914-02
 applies_to: 문서·Git·검증 운영
 baseline_basis: DEC-023 사용자 보완 진행 지시
 ---
@@ -112,7 +112,7 @@ baseline_basis: DEC-023 사용자 보완 진행 지시
 
 권장 브랜치명 예시는 `codex/docs-summon-pity` 또는 `codex/ECON-01-summon`입니다. 커밋·PR 설명에 작업 ID와 변경 이유를 넣습니다. 예: `docs(SPEC-SUMMON): 보장 발동 조건 명확화`.
 
-기준 커밋에는 프로젝트·Source·Content(기존 맵 조명 데이터 포함)·공유 Config·문서·생성 데이터·검사 도구를 포함합니다. 커밋 전 diff·파일 목록을 검토하고 캐시·빌드 산출물·개인 설정·토큰은 제외합니다. 이번 사용자 보완 요청에 따라 로컬 기준 커밋을 만들며 원격 push·이슈 등록·서버 설정 변경은 별도 작업입니다. 사용 중인 저장소가 GitHub라면 동봉한 이슈/PR 템플릿을 사용할 수 있습니다. 템플릿은 GitHub 기본 브랜치에 반영된 이후 웹 UI에서 적용됩니다. [GitHub 템플릿 안내](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
+기준 커밋에는 프로젝트·Source·Content(기존 맵 조명 데이터 포함)·공유 Config·문서·생성 데이터·검사 도구를 포함합니다. 커밋 전 diff·파일 목록을 검토하고 캐시·빌드 산출물·개인 설정·토큰은 제외합니다. 2026-09-14 사용자 후속 요청으로 `codex/docs-operations-baseline`을 원격에 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)을 생성했습니다. main 병합·필수 검사 설정은 별도 작업입니다. 사용 중인 저장소가 GitHub라면 동봉한 이슈/PR 템플릿을 사용할 수 있습니다. 템플릿은 GitHub 기본 브랜치에 반영된 이후 웹 UI에서 적용됩니다. [GitHub 템플릿 안내](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
 
 ## 7. 생성과 검사
 
@@ -123,7 +123,21 @@ node tools/check-project.mjs
 node --test tools/validate-planning.test.mjs
 ```
 
-[GitHub Actions 설정](../.github/workflows/documentation.yml)은 PR·main push·수동 실행 시 동일 검사를 수행합니다. 원격 실행 결과는 로컬 통과와 별개입니다. 검사 실패를 병합 차단으로 사용하려면 원격에서 `documentation` 상태 검사를 필수로 지정해야 하며, 이번에는 원격 설정을 변경하지 않습니다. 워크플로 권한은 contents 읽기로 한정합니다. [공식 워크플로 문법](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)
+[GitHub Actions 설정](../.github/workflows/documentation.yml)의 실행 조건은 다음과 같습니다. 파일 경로 필터는 없으며, 조건에 해당하는 변경마다 전체 문서·데이터 검사를 실행합니다.
+
+| 실행 조건 | 구체적인 동작 |
+|---|---|
+| PR 생성 | 초안 PR 포함, 새 PR을 열 때 실행 |
+| PR에 커밋 추가 | 열린 PR의 작업 브랜치에 새 커밋을 push하면 synchronize 이벤트로 실행 |
+| PR 재오픈 | 닫힌 PR을 다시 열 때 실행 |
+| main push | main에 직접 push하거나 PR을 병합해 main이 바뀔 때 실행 |
+| 수동 실행 | workflow_dispatch. 워크플로 파일이 기본 브랜치 main에 등록된 뒤 Actions 화면/CLI에서 실행 가능 |
+
+PR이 없는 작업 브랜치에 push하는 것만으로는 실행되지 않습니다. PR 제목·본문 편집은 현재 자동 실행 조건에 포함하지 않습니다. 수동 실행의 기본 브랜치 요건과 PR 기본 이벤트는 [GitHub 공식 실행 조건](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)을 따릅니다.
+
+첫 원격 실행은 [Actions 34788260254](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254)에서 성공했습니다. PR 검사는 GitHub가 만든 병합 예상 커밋을 대상으로 하며, Ubuntu에서 문서·생성 데이터·검사기 테스트 15개를 실행합니다. Unreal 컴파일·패키징·Android 실기기는 포함하지 않습니다.
+
+검사 실패를 병합 차단으로 사용하려면 원격에서 `documentation` 상태 검사를 필수로 지정해야 합니다. 2026-09-14 확인한 main은 보호되지 않은 상태이며, 이번 요청에서 보호 규칙을 변경하지 않았습니다. 워크플로 권한은 contents 읽기로 한정합니다. [공식 워크플로 문법](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)
 
 
 기능별 기획을 수정했다면:

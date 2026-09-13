@@ -26,7 +26,7 @@
 
 ## 현재 기준
 
-2026-09-14 문서 운영 보완을 적용했습니다. [관리 방식](WORKFLOW.md)의 통합 검사·CI 설정·문서 검토일·증거 보관 기준을 사용합니다. 원격 CI 실행은 아직입니다.
+2026-09-14 문서 운영 보완을 적용했습니다. [관리 방식](WORKFLOW.md)의 통합 검사·CI 설정·문서 검토일·증거 보관 기준을 사용합니다. 작업 브랜치를 원격에 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)에서 [첫 GitHub CI 성공](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254)을 확인했습니다. main 병합·필수 검사 설정은 별도입니다.
 
 2026-09-13 TASK-CORE-01의 Windows 기반 검증을 완료했습니다. VS 2026·MSVC·SDK를 적용하고 별도 복사본의 빌드·패키징·기본 맵 입력/종료를 확인했습니다. 한국어 Editor의 엔진 시작 검사 문제와 Android 미검증은 [실행 기록](production/TEST_RUNS.md)에 남겼으며 엔진 최종 고정·P0 완료는 아직입니다.
 
