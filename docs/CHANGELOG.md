@@ -4,6 +4,13 @@
 
 정렬은 최근 변경부터 합니다. 이 문서에는 의도·규칙·구조 변경을 요약하고, 세부 차이는 Git으로 추적합니다. 과거 대화의 정확한 처리 시각을 새로 만들어 기록하지 않습니다.
 
+## CHG-0032 · 2026-09-14 · 코드 규약·포맷 설정·CI 검사
+
+- DEC-025로 [C++·Blueprint 작성 규약](technical/CODING_STANDARD.md), [클래스·폴더·데이터 규칙](technical/NAMING_AND_STRUCTURE.md), [설치·검사 안내](technical/CODE_STYLE.md)를 추가.
+- .editorconfig·.clang-format·wheel 해시로 고정한 clang-format 20.1.8을 적용. 새/수정 C++는 전체 파일을 검사하고 원래 템플릿 48개는 경로·내용 해시가 같을 때만 기존 서식을 허용.
+- 통합 검사와 기존 필수 documentation CI에 스타일 검사·오류 거절 테스트를 연결. README·관리 방식·아키텍처·데이터 명세·PR 양식에 사용 경로 반영.
+- 검증은 [RUN-20260914-04](production/TEST_RUNS.md). 게임 소스·에셋·수치의 일괄 변경과 Blueprint/UE 빌드 검증은 포함하지 않으며 게임 작업 상태는 유지.
+
 ## CHG-0031 · 2026-09-14 · main 보호·코드 규약 현황 확인
 
 - DEC-024에 따라 main의 PR 필수·documentation 필수 검사·strict·관리자 적용·강제 push/삭제 금지·대화 해소를 설정하고 API로 재조회.

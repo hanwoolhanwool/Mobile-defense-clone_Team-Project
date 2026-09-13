@@ -18,7 +18,7 @@
 | 현재 상황 한 문장 | Windows 기본 빌드·실행 검증을 마쳤으며, Android 준비와 미확인 원작 규칙 확정이 다음 순서다. |
 | 진행 중 작업 | 없음 — 작업 보드 기준 InProgress 0개 |
 | 다음 착수 후보 | TASK-MOB-01 중 Android 도구·설정·기본 패키징 준비 |
-| 이번 갱신 내용 | main 보호 규칙 적용·필수 CI 연결 및 코드 규약 문서 보유 현황 확인. [CHG-0031](../CHANGELOG.md). 개발 작업 37개 상태 유지 |
+| 이번 갱신 내용 | C++·Blueprint 및 이름·폴더·데이터 규약, 포맷 설정·코드 스타일 CI 추가. [CHG-0032](../CHANGELOG.md). 개발 작업 37개 상태 유지 |
 
 ### A2. 단계별 현황
 
@@ -81,6 +81,7 @@ OPEN 항목의 상세 상태는 [결정 기록](../DECISIONS.md)을 따른다.
 
 | 날짜 | 구분 | 변경·완료 내용 | 근거·남은 범위 |
 |---|---|---|---|
+| 2026-09-14 | 코드 규약 도입 | C++·Blueprint·이름·폴더·데이터 규약, 고정 formatter와 신규/수정 파일 검사·테스트·CI 연결 | [RUN-20260914-04](TEST_RUNS.md). 기존 템플릿 보존, Blueprint 의미·UE 빌드·게임 기능 검수는 별도 |
 | 2026-09-14 | 병합 보호·규약 점검 | main에 PR·필수 CI·strict·관리자 적용·강제 push/삭제 금지·대화 해소 적용. 독립 코드 작성 규약은 없음 | [RUN-20260914-03](TEST_RUNS.md). 필수 승인 0명, 코드 규약 신설·main 병합·UE 검증은 별도 |
 | 2026-09-14 | 원격 CI | 작업 브랜치 push·초안 PR #1, Ubuntu 문서·데이터 검사와 테스트 15개 통과 | [RUN-20260914-02](TEST_RUNS.md), [Actions 실행](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254). main 병합·필수 검사 설정 및 UE/Android 실행 제외 |
 | 2026-09-14 | 문서 운영 | 상태·초안 예시 정리, 문서/완료 판정 검사 확대, CI 설정·증거 보관·담당/검토일, 로컬 기준 커밋 | [RUN-20260914-01](TEST_RUNS.md), [CHG-0029](../CHANGELOG.md). 원격 CI·push 미수행, Android 준비가 다음 개발 작업 |

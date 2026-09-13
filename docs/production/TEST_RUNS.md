@@ -279,6 +279,14 @@
 - 증거: [GitHub 보호 설정 재조회](evidence/RUN-20260914-03-protection.json), [확인·검사 기록](evidence/RUN-20260914-03.txt).
 - 검증 경계: 코드 규약 문서의 신설·코드 서식 변경·UE/Android 검증은 수행하지 않음. PR 상태와 후속 커밋 CI는 GitHub에서 별도 확인.
 
+## RUN-20260914-04 · 코드 규약·포맷·자동 검사 도입
+
+- 실행일: 2026-09-14 / 실행자: Codex.
+- 요청·범위: DEC-025, C++·Blueprint 작성 규약·이름/폴더/데이터 기준·EditorConfig·ClangFormat·필수 CI 연결.
+- 결과: **로컬 Pass**. 통합 검사(데이터 21,483·문서 4,148개 검사), C++ 샘플 1개 통과·미변경 템플릿 48개 확인, 검사기 테스트 25개 통과. actionlint v1.7.12·git diff --check 통과. 원격 결과는 push 후 해당 커밋의 CI로 확인한다.
+- 증거: [검사 기록](evidence/RUN-20260914-04.txt). 기준 해시는 [legacy-baseline.json](../../tools/style/legacy-baseline.json), 포맷 샘플은 tools/style/LDStyleExample.h이며 게임 빌드 입력은 아니다.
+- 검증 경계: 기존 Source·Content·게임 데이터 의미 변경 없음. 새/수정 C++ 서식 검사이며 기존 48개 전체의 규약 적합성을 주장하지 않는다. Blueprint 그래프/에셋 이름 자동 검사·UE/Android 빌드·플레이는 수행하지 않는다. 개발 작업 37개 상태 유지.
+
 ## 게임 기능·기기 테스트
 
 현재 이 기록에는 전투 구현, 소환 RPC, Android/iOS 패키징, 모바일 성능, 온라인 재접속의 실제 실행 증거가 등록되지 않았습니다. 기존 프로젝트의 구현 여부는 작업을 착수하며 확인합니다. 데이터·문서 검사 통과만으로 해당 작업을 Done 처리하지 않습니다.

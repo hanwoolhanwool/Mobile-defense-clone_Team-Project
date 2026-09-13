@@ -4,6 +4,16 @@
 *.json text eol=lf
 *.yml text eol=lf
 *.ps1 text eol=lf
+*.h text eol=lf
+*.hpp text eol=lf
+*.cpp text eol=lf
+*.cc text eol=lf
+*.cxx text eol=lf
+*.inl text eol=lf
+*.cs text eol=lf
+.editorconfig text eol=lf
+.clang-format text eol=lf
+tools/style/requirements.txt text eol=lf
 *.uasset -text
 *.umap -text
 # Preserve the exact bytes used by evidence SHA-256 checks on all platforms.

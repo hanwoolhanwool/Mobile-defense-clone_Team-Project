@@ -20,5 +20,7 @@
 - [ ] 기획 원본을 바꿨다면 전체 GDD를 재생성하고 문서 검사를 실행했다.
 - [ ] 작업 보드의 상태를 실제 검증 수준에 맞게 갱신했다.
 - [ ] `node tools/check-project.mjs`를 통과했고, 검사 도구 변경 시 오류 거절 테스트도 실행했다.
+- [ ] [코드 규약](../docs/technical/CODING_STANDARD.md)과 [이름·폴더·데이터 기준](../docs/technical/NAMING_AND_STRUCTURE.md)을 확인했다. 기존 파일 기준 해시를 새 코드 면제용으로 변경하지 않았다.
+- [ ] C++·Blueprint·에셋 변경은 해당 빌드/Compile·PIE·참조 검수 결과를 남겼다. 해당 없음 또는 미실행이면 이유를 적었다.
 - [ ] Done 항목은 verification.json에서 조건별 Pass·실제 Run·증거를 연결했고, 미검증 범위를 명시했다.
 - [ ] 문서 검토일과 실제 실행 검증일을 구분하고, 필요한 증거를 보관 위치로 복사했다.

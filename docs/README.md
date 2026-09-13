@@ -14,6 +14,8 @@
 | 어떤 게임인지, MVP에 무엇이 포함되는지 확인 | [제품 방향과 범위](product/OVERVIEW.md) |
 | 원작 재현 근거와 미확인 동작 확인 | [원작 대조 기록](product/ORIGINAL_REFERENCE.md) |
 | 현재 프로젝트에서 개발 시작 | [개발 환경과 프로젝트 시작 안내](technical/DEVELOPMENT_SETUP.md) |
+| C++·Blueprint 작성·리뷰 | [코드 작성 규약](technical/CODING_STANDARD.md) · [클래스·폴더·데이터 규칙](technical/NAMING_AND_STRUCTURE.md) |
+| 코드 포맷 설치·자동 검사 | [코드 스타일 설정과 검사](technical/CODE_STYLE.md) |
 | 빌드·실행 명령과 로그 확인 | [PowerShell 빌드·실행 절차](technical/BUILD_RUN.md) |
 | 언리얼 내부 콘솔·MCP 서버·성능 명령 확인 | [언리얼 내부 콘솔 주요 명령어](technical/UNREAL_CONSOLE_COMMANDS.md) |
 | 지금 할 작업과 상태 확인 | [작업 보드](production/BOARD.md) |
@@ -26,7 +28,7 @@
 
 ## 현재 기준
 
-2026-09-14 문서 운영 보완을 적용했습니다. [관리 방식](WORKFLOW.md)의 통합 검사·CI 설정·문서 검토일·증거 보관 기준을 사용합니다. 작업 브랜치를 원격에 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)에서 [첫 GitHub CI 성공](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254)을 확인했습니다. 이어서 main에 PR·필수 CI·최신 기준 반영·관리자 적용·강제 push/삭제 금지 규칙을 적용했습니다. 코드 작성 규약의 현재 보유 현황은 관리 방식에서 확인합니다.
+2026-09-14 문서 운영 보완과 main 보호 규칙을 적용했습니다. [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)에서 GitHub CI를 사용합니다. DEC-025로 C++·Blueprint 작성 규약, 클래스·폴더·데이터 규칙, .editorconfig·.clang-format과 새 코드·수정 코드 포맷 검사를 추가했습니다. 사용 명령과 기존 템플릿 이행 범위는 [코드 스타일 안내](technical/CODE_STYLE.md), 실제 검증은 [실행 기록](production/TEST_RUNS.md)을 확인합니다.
 
 2026-09-13 TASK-CORE-01의 Windows 기반 검증을 완료했습니다. VS 2026·MSVC·SDK를 적용하고 별도 복사본의 빌드·패키징·기본 맵 입력/종료를 확인했습니다. 한국어 Editor의 엔진 시작 검사 문제와 Android 미검증은 [실행 기록](production/TEST_RUNS.md)에 남겼으며 엔진 최종 고정·P0 완료는 아직입니다.
 

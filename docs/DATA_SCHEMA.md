@@ -1,6 +1,6 @@
 ---
 id: DATA-SCHEMA
-version: 0.1.0
+version: 0.1.1
 status: Draft
 owner: unassigned
 updated: 2026-09-14
@@ -29,6 +29,8 @@ DEC-021의 [원작 대조 기록](product/ORIGINAL_REFERENCE.md)을 먼저 확�
 DEC-019로 P0 강화·희귀 고유 스킬도 제외했다. 현재 JSON의 P0Overrides에는 이를 위한 별도 활성화 키가 없으므로 기존 JSON을 읽기만 해도 제한이 적용된다고 가정하지 않는다. TASK-DATA-01/TASK-COMBAT-01/TASK-ECON-01에서 P0 모드에 따른 스킬 실행 제한·강화 레벨 0·구매 거절을 구현하고 검증한다. 전체 DT_Units의 SkillId 참조와 P1 스킬·강화 데이터는 유지한다. 이번 문서 결정은 필드·수치·생성 JSON을 변경하지 않아 데이터 형식 버전과 RulesVersion은 0.1.0을 유지하며, 향후 명시적 활성화 필드를 추가할 때 생성기·로더·검증기·버전을 함께 변경한다.
 
 ## 2. 공통 타입 규칙
+
+새 이름·단위·ID·스키마 변경 절차는 [클래스·폴더·데이터 규칙](technical/NAMING_AND_STRUCTURE.md)을 따른다. 기존 필드 이름·타입은 이 데이터 계약이 우선한다. 코드 규약 도입으로 JSON·RulesVersion 0.1.0을 변경하지 않는다.
 
 | 데이터 | C++ 타입 | 해석 |
 |---|---|---|

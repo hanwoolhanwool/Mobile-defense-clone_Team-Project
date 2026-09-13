@@ -6,6 +6,7 @@ for(const args of [
  ['tools/build-design-data.mjs','--check'],
  ['tools/validate-design-data.mjs','--check'],
  ['tools/validate-planning.mjs'],
+ ['tools/check-code-style.mjs'],
 ]){
  console.log(`> node ${args.join(' ')}`);
  const result=spawnSync(process.execPath,args,{cwd:projectRoot,stdio:'inherit'});

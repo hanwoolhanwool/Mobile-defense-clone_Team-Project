@@ -1,9 +1,9 @@
 ---
 id: TECH-001
-version: 0.2.8
+version: 0.2.9
 status: Draft
 owner: unassigned
-updated: 2026-09-11
+updated: 2026-09-14
 ---
 
 # UE5 구현·데이터·성능
@@ -29,6 +29,8 @@ DEC-012의 [PowerShell 빌드·실행 절차](BUILD_RUN.md)에 프로젝트 파�
 초기 플러그인은 Enhanced Input, Niagara, 프로젝트에서 쓰는 온라인 연결 모듈만 사용한다. GAS는 이 규모에서 필수가 아니며, 스킬 실행기와 상태 컴포넌트로 시작한다. 복잡한 조합형 능력 요구가 늘면 별도 검토한다.
 
 ### 15.2 클래스 책임
+
+C++·Blueprint 작성 방식은 [코드 작성 규약](CODING_STANDARD.md), 새 클래스·파일·에셋 이름과 배치는 [이름·폴더·데이터 규칙](NAMING_AND_STRUCTURE.md)을 따른다. 아래 표는 기능 책임의 원본이며, 포맷 설치·검사는 [코드 스타일 안내](CODE_STYLE.md)에 둔다.
 
 | 클래스·에셋 | 책임 | 권한 |
 |---|---|---|

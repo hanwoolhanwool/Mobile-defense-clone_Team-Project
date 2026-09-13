@@ -11,7 +11,7 @@ import {projectRoot} from './build-planning.mjs';
 function fixture(run){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'defense-doc-check-'));
  try{
-  for(const name of ['docs','tools','.github','data','Source','.gitignore','README.md','PLANNING_README.md','COMMIT_CONVENTION.md','Mobile_defense_clone.uproject']){
+  for(const name of ['docs','tools','.github','data','Source','.gitignore','.editorconfig','.clang-format','README.md','PLANNING_README.md','COMMIT_CONVENTION.md','Mobile_defense_clone.uproject']){
    fs.cpSync(path.join(projectRoot,name),path.join(dir,name),{recursive:true});
   }
   fs.mkdirSync(path.join(dir,'Content'),{recursive:true});

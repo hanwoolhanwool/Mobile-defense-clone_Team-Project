@@ -1,4 +1,4 @@
-name: Documentation and design data
+name: Documentation, design data and code style
 
 on:
   pull_request:
@@ -21,7 +21,12 @@ jobs:
         with:
           node-version: '24.15.0'
           package-manager-cache: false
-      - name: Check documentation, evidence and generated data
+      - name: Install pinned C++ formatter
+        run: |
+          python3 -m venv "$RUNNER_TEMP/code-style"
+          "$RUNNER_TEMP/code-style/bin/python" -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: --no-deps -r tools/style/requirements.txt
+          echo "CLANG_FORMAT=$RUNNER_TEMP/code-style/bin/clang-format" >> "$GITHUB_ENV"
+      - name: Check documentation, evidence, generated data and code style
         run: node tools/check-project.mjs
       - name: Check validator rejection cases
-        run: node --test tools/validate-planning.test.mjs
+        run: node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs

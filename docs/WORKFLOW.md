@@ -1,18 +1,18 @@
 ---
 id: DOC-WORKFLOW
-version: 0.3.2
+version: 0.4.0
 status: Baseline
 owner: Codex
 updated: 2026-09-14
 reviewed: 2026-09-14
-review_run: RUN-20260914-03
+review_run: RUN-20260914-04
 applies_to: 문서·Git·검증 운영
-baseline_basis: DEC-023 문서 운영 보완 및 DEC-024 main 보호 규칙 적용 지시
+baseline_basis: DEC-023 문서 운영, DEC-024 main 보호 및 DEC-025 코드 규약·자동 검사 도입 지시
 ---
 
 # 기획 문서 관리 방식
 
-[기획 허브](README.md) · 운영 기준 0.3 · 2026-09-14
+[기획 허브](README.md) · 운영 기준 0.4 · 2026-09-14
 
 ## 1. 이 프로젝트의 운영 방식
 
@@ -116,14 +116,14 @@ baseline_basis: DEC-023 문서 운영 보완 및 DEC-024 main 보호 규칙 적�
 
 ## 7. 생성과 검사
 
-Node.js 24.15.0을 로컬/CI 검사 기준으로 사용합니다. 외부 npm 의존성은 없습니다. 다음 명령은 파일을 수정하지 않습니다.
+Node.js 24.15.0과 clang-format 20.1.8을 로컬/CI 검사 기준으로 사용합니다. 외부 npm 의존성은 없습니다. 최초에는 [포맷 도구 설치](technical/CODE_STYLE.md)를 수행합니다. 다음 명령은 파일을 수정하지 않습니다.
 
 ```powershell
 node tools/check-project.mjs
-node --test tools/validate-planning.test.mjs
+node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs
 ```
 
-[GitHub Actions 설정](../.github/workflows/documentation.yml)의 실행 조건은 다음과 같습니다. 파일 경로 필터는 없으며, 조건에 해당하는 변경마다 전체 문서·데이터 검사를 실행합니다.
+[GitHub Actions 설정](../.github/workflows/documentation.yml)의 실행 조건은 다음과 같습니다. 파일 경로 필터는 없으며, 조건에 해당하는 변경마다 문서·데이터·C++ 스타일 검사를 실행합니다.
 
 | 실행 조건 | 구체적인 동작 |
 |---|---|
@@ -135,7 +135,7 @@ node --test tools/validate-planning.test.mjs
 
 PR이 없는 작업 브랜치에 push하는 것만으로는 실행되지 않습니다. PR 제목·본문 편집은 현재 자동 실행 조건에 포함하지 않습니다. 수동 실행의 기본 브랜치 요건과 PR 기본 이벤트는 [GitHub 공식 실행 조건](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)을 따릅니다.
 
-첫 원격 실행은 [Actions 34788260254](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254)에서 성공했습니다. PR 검사는 GitHub가 만든 병합 예상 커밋을 대상으로 하며, Ubuntu에서 문서·생성 데이터·검사기 테스트 15개를 실행합니다. Unreal 컴파일·패키징·Android 실기기는 포함하지 않습니다.
+첫 문서 CI 실행은 [Actions 34788260254](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254)에서 성공했습니다. DEC-025 이후에는 C++ 스타일 검사와 관련 테스트도 같은 필수 작업에 포함합니다. PR 검사는 GitHub가 만든 병합 예상 커밋을 대상으로 합니다. Unreal 컴파일·패키징·Android 실기기는 포함하지 않습니다.
 
 2026-09-14 DEC-024에 따라 main 보호 규칙을 적용하고 GitHub API로 다시 조회했습니다. [설정 조회 증거](production/evidence/RUN-20260914-03-protection.json)
 
@@ -194,16 +194,16 @@ Done은 [완료 판정 JSON](production/verification.json)에 작업·판정 범
 
 이 체계는 특정 회사 절차를 그대로 복사한 표준이 아니라, [PRD와 성공 기준](https://www.atlassian.com/agile/product-management/requirements), [버전 관리 설계 문서와 결정 상태](https://handbook.gitlab.com/handbook/engineering/architecture/workflow/)를 현재 프로젝트에 맞게 적용한 운영안입니다.
 
-## 11. 코드 작성 규약 보유 현황
+## 11. 코드 작성 규약 운영
 
-2026-09-14 저장소 문서·설정·CI를 확인한 결과다. 이번 확인으로 새 코드 규약을 채택하거나 기존 코드를 일괄 포맷하지 않았다.
+DEC-025로 다음 규약과 설정을 도입했다. 도입 전 보유 현황은 RUN-20260914-03에 보존하며, 현재는 아래 문서를 사용한다.
 
-| 항목 | 현재 상태 | 근거 |
-|---|---|---|
-| Git 커밋 규약 | 별도 문서 있음 | [COMMIT_CONVENTION.md](../COMMIT_CONVENTION.md). 메시지·변경 단위·PR 지침 |
-| C++·Blueprint 코드 작성 규약 | 별도 문서 없음 | 이름·서식·헤더 구성·수명 관리·노출·오류 처리·리뷰 기준을 모은 문서 미발견 |
-| 프로젝트별 부분 규칙 | 기술 문서에 일부 존재 | [아키텍처](technical/ARCHITECTURE.md)의 ALD/ULD 접두사·폴더·책임, [데이터 명세](DATA_SCHEMA.md)의 행 구조·필드·리플렉션 규칙 |
-| 포맷 설정 | 전용 설정 없음 | .editorconfig·.clang-format 미발견. .gitattributes는 개행/증거 바이트 관리 |
-| 코드 스타일 자동 검사 | 없음 | 현재 CI는 문서·데이터·검사기 테스트이며 C++ 포맷/정적 분석/빌드 검사는 별도 |
+| 항목 | 원본·적용 |
+|---|---|
+| Git 커밋 규약 | [COMMIT_CONVENTION.md](../COMMIT_CONVENTION.md). 메시지·변경 단위·PR 지침 |
+| C++·Blueprint 작성 | [코드 작성 규약](technical/CODING_STANDARD.md). 헤더·수명·노출·권한·오류·그래프·리뷰 |
+| 이름·폴더·데이터 | [이름·구조 규칙](technical/NAMING_AND_STRUCTURE.md). 새 타입·파일·에셋·ID와 호환성 |
+| 포맷 설정 | [.editorconfig](../.editorconfig), [.clang-format](../.clang-format). clang-format 20.1.8 고정 |
+| 자동 검사 | [설치·검사 안내](technical/CODE_STYLE.md). 새/변경 C++ 파일 전체 검사, 기존 48개는 경로·내용이 그대로일 때만 기존 서식 허용 |
 
-추가로 정리할 때는 [Epic C++ Coding Standard](https://dev.epicgames.com/documentation/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine)를 기준 후보로 삼고, 기존 프로젝트의 접두사·폴더 규칙과 Blueprint·도구 스크립트 범위를 함께 명시한다. 공식 문서가 있다는 이유만으로 프로젝트가 이미 그 규약 전체를 채택·자동 검사한다고 표시하지 않는다.
+Blueprint 그래프·에셋 참조·클래스 책임은 PR 및 Unreal 에디터에서 검수한다. 현재 필수 CI가 코드 의미·UE 빌드까지 자동 보장하는 것으로 표시하지 않는다. 규약 예외와 도구 버전 변경에는 이유·영향·검증을 남기고 관련 문서와 설정을 함께 수정한다.
