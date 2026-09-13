@@ -283,7 +283,8 @@
 
 - 실행일: 2026-09-14 / 실행자: Codex.
 - 요청·범위: DEC-025, C++·Blueprint 작성 규약·이름/폴더/데이터 기준·EditorConfig·ClangFormat·필수 CI 연결.
-- 결과: **로컬 Pass**. 통합 검사(데이터 21,483·문서 4,148개 검사), C++ 샘플 1개 통과·미변경 템플릿 48개 확인, 검사기 테스트 25개 통과. actionlint v1.7.12·git diff --check 통과. 원격 결과는 push 후 해당 커밋의 CI로 확인한다.
+- 결과: **Pass**. 로컬 통합 검사(데이터 21,483·문서 최초 4,148개, 결정 표 정리 후 4,150개 검사), C++ 샘플 1개 통과·미변경 템플릿 48개 확인, 검사기 테스트 25개 통과. actionlint v1.7.12·git diff --check 통과.
+- 원격: 커밋 `1279203532e3c6ce52f8ee043e20e32ab9cf3f48`의 PR CI [Actions 34790900908](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34790900908) 성공. Ubuntu에서 Linux wheel 해시 검증 설치·통합 검사·테스트 25개 통과. [실행 메타데이터](evidence/RUN-20260914-04-github.json)와 [작업 로그](evidence/RUN-20260914-04-github.log)를 보관한다. 기록 추가 후 커밋의 결과는 PR 최신 checks에서 확인한다.
 - 증거: [검사 기록](evidence/RUN-20260914-04.txt). 기준 해시는 [legacy-baseline.json](../../tools/style/legacy-baseline.json), 포맷 샘플은 tools/style/LDStyleExample.h이며 게임 빌드 입력은 아니다.
 - 검증 경계: 기존 Source·Content·게임 데이터 의미 변경 없음. 새/수정 C++ 서식 검사이며 기존 48개 전체의 규약 적합성을 주장하지 않는다. Blueprint 그래프/에셋 이름 자동 검사·UE/Android 빌드·플레이는 수행하지 않는다. 개발 작업 37개 상태 유지.
 
