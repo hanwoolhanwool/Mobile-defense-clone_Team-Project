@@ -1,13 +1,13 @@
 ---
 id: DOC-WORKFLOW
-version: 0.3.1
+version: 0.3.2
 status: Baseline
 owner: Codex
 updated: 2026-09-14
 reviewed: 2026-09-14
-review_run: RUN-20260914-02
+review_run: RUN-20260914-03
 applies_to: 문서·Git·검증 운영
-baseline_basis: DEC-023 사용자 보완 진행 지시
+baseline_basis: DEC-023 문서 운영 보완 및 DEC-024 main 보호 규칙 적용 지시
 ---
 
 # 기획 문서 관리 방식
@@ -112,7 +112,7 @@ baseline_basis: DEC-023 사용자 보완 진행 지시
 
 권장 브랜치명 예시는 `codex/docs-summon-pity` 또는 `codex/ECON-01-summon`입니다. 커밋·PR 설명에 작업 ID와 변경 이유를 넣습니다. 예: `docs(SPEC-SUMMON): 보장 발동 조건 명확화`.
 
-기준 커밋에는 프로젝트·Source·Content(기존 맵 조명 데이터 포함)·공유 Config·문서·생성 데이터·검사 도구를 포함합니다. 커밋 전 diff·파일 목록을 검토하고 캐시·빌드 산출물·개인 설정·토큰은 제외합니다. 2026-09-14 사용자 후속 요청으로 `codex/docs-operations-baseline`을 원격에 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)을 생성했습니다. main 병합·필수 검사 설정은 별도 작업입니다. 사용 중인 저장소가 GitHub라면 동봉한 이슈/PR 템플릿을 사용할 수 있습니다. 템플릿은 GitHub 기본 브랜치에 반영된 이후 웹 UI에서 적용됩니다. [GitHub 템플릿 안내](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
+기준 커밋에는 프로젝트·Source·Content(기존 맵 조명 데이터 포함)·공유 Config·문서·생성 데이터·검사 도구를 포함합니다. 커밋 전 diff·파일 목록을 검토하고 캐시·빌드 산출물·개인 설정·토큰은 제외합니다. 2026-09-14 사용자 후속 요청으로 `codex/docs-operations-baseline`을 원격에 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)을 생성했습니다. 이어서 DEC-024의 main 보호 규칙을 적용했습니다. 실제 main 병합은 PR 상태를 따릅니다. 사용 중인 저장소가 GitHub라면 동봉한 이슈/PR 템플릿을 사용할 수 있습니다. 템플릿은 GitHub 기본 브랜치에 반영된 이후 웹 UI에서 적용됩니다. [GitHub 템플릿 안내](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
 
 ## 7. 생성과 검사
 
@@ -137,7 +137,19 @@ PR이 없는 작업 브랜치에 push하는 것만으로는 실행되지 않습�
 
 첫 원격 실행은 [Actions 34788260254](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254)에서 성공했습니다. PR 검사는 GitHub가 만든 병합 예상 커밋을 대상으로 하며, Ubuntu에서 문서·생성 데이터·검사기 테스트 15개를 실행합니다. Unreal 컴파일·패키징·Android 실기기는 포함하지 않습니다.
 
-검사 실패를 병합 차단으로 사용하려면 원격에서 `documentation` 상태 검사를 필수로 지정해야 합니다. 2026-09-14 확인한 main은 보호되지 않은 상태이며, 이번 요청에서 보호 규칙을 변경하지 않았습니다. 워크플로 권한은 contents 읽기로 한정합니다. [공식 워크플로 문법](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)
+2026-09-14 DEC-024에 따라 main 보호 규칙을 적용하고 GitHub API로 다시 조회했습니다. [설정 조회 증거](production/evidence/RUN-20260914-03-protection.json)
+
+| 보호 항목 | 현재 적용값 |
+|---|---|
+| main 변경 경로 | PR을 통한 변경 필수 |
+| 필수 CI | GitHub Actions 앱이 실행한 `documentation` 검사. 실패·대기 상태이면 병합 차단 |
+| 최신 main 반영 | strict=true. 병합 전에 기준 브랜치의 변경을 반영하고 다시 검사 |
+| 관리자 적용 | 관리자도 동일 보호 규칙 적용 |
+| 강제 push·main 삭제 | 허용하지 않음 |
+| 리뷰 대화 | 미해결 대화 해소 필수 |
+| 필수 승인 인원 | 현재 0명. 별도 리뷰 담당자를 배정하면 1명 이상으로 재검토 |
+
+필수 승인 0명은 사람의 코드 리뷰를 완료했다는 의미가 아닙니다. 현재 미배정 상태에서 승인 대기로 모든 작업을 막지 않도록 한 운영 선택입니다. 코드 리뷰 담당자가 정해지면 담당 범위·승인 수·CODEOWNERS 도입을 함께 정합니다. 보호 규칙의 기본 동작은 [GitHub 보호 브랜치 안내](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)를 따릅니다. 워크플로 권한은 contents 읽기로 한정합니다.
 
 
 기능별 기획을 수정했다면:
@@ -181,3 +193,17 @@ Done은 [완료 판정 JSON](production/verification.json)에 작업·판정 범
 - 주간 점검에서는 미배정/미결정 문서를, 마일스톤에서는 설치·빌드 절차와 실제 검증일을 대조합니다. 날짜만 바꿔 최신으로 보이게 하지 않습니다.
 
 이 체계는 특정 회사 절차를 그대로 복사한 표준이 아니라, [PRD와 성공 기준](https://www.atlassian.com/agile/product-management/requirements), [버전 관리 설계 문서와 결정 상태](https://handbook.gitlab.com/handbook/engineering/architecture/workflow/)를 현재 프로젝트에 맞게 적용한 운영안입니다.
+
+## 11. 코드 작성 규약 보유 현황
+
+2026-09-14 저장소 문서·설정·CI를 확인한 결과다. 이번 확인으로 새 코드 규약을 채택하거나 기존 코드를 일괄 포맷하지 않았다.
+
+| 항목 | 현재 상태 | 근거 |
+|---|---|---|
+| Git 커밋 규약 | 별도 문서 있음 | [COMMIT_CONVENTION.md](../COMMIT_CONVENTION.md). 메시지·변경 단위·PR 지침 |
+| C++·Blueprint 코드 작성 규약 | 별도 문서 없음 | 이름·서식·헤더 구성·수명 관리·노출·오류 처리·리뷰 기준을 모은 문서 미발견 |
+| 프로젝트별 부분 규칙 | 기술 문서에 일부 존재 | [아키텍처](technical/ARCHITECTURE.md)의 ALD/ULD 접두사·폴더·책임, [데이터 명세](DATA_SCHEMA.md)의 행 구조·필드·리플렉션 규칙 |
+| 포맷 설정 | 전용 설정 없음 | .editorconfig·.clang-format 미발견. .gitattributes는 개행/증거 바이트 관리 |
+| 코드 스타일 자동 검사 | 없음 | 현재 CI는 문서·데이터·검사기 테스트이며 C++ 포맷/정적 분석/빌드 검사는 별도 |
+
+추가로 정리할 때는 [Epic C++ Coding Standard](https://dev.epicgames.com/documentation/unreal-engine/epic-cplusplus-coding-standard-for-unreal-engine)를 기준 후보로 삼고, 기존 프로젝트의 접두사·폴더 규칙과 Blueprint·도구 스크립트 범위를 함께 명시한다. 공식 문서가 있다는 이유만으로 프로젝트가 이미 그 규약 전체를 채택·자동 검사한다고 표시하지 않는다.

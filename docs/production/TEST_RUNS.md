@@ -269,6 +269,16 @@
 - 후속: 실행 조건과 첫 성공 기록을 문서에 반영. 후속 커밋의 CI는 PR checks에서 해당 커밋 결과를 확인한다.
 - 검증 경계: 문서·데이터 정적 검사이며 UE 빌드·게임·Android 검수 아님. main은 아직 병합 전이며 필수 검사 보호 설정은 미적용.
 
+## RUN-20260914-03 · main 보호 설정·코드 규약 보유 현황 확인
+
+- 실행일: 2026-09-14 / 실행자: Codex.
+- 요청: 현업에서 사용하는 해당 설정 적용 및 현재 코드 규약 문서 존재 여부 확인.
+- 결과: **Pass**. GitHub branch protection PUT 후 GET 재조회로 main의 PR 필수, documentation 필수 검사(app 15368), strict, 관리자 적용, 강제 push/삭제 금지, 대화 해소 필수를 확인했다. 필수 승인 수는 0명이며 새 사람 리뷰를 받은 것으로 표시하지 않는다.
+- CI 연결: `gh pr checks 1 --required`에서 documentation이 필수 검사로 조회되고 기존 최신 실행 성공 확인. 실제 실패 변경을 main에 push하는 파괴적 검사는 수행하지 않았다.
+- 코드 규약 조사: 별도 C++·Blueprint 코드 작성 규약, .editorconfig, .clang-format, 코드 포맷 CI는 없음. COMMIT_CONVENTION.md는 커밋 메시지·변경 단위 규약. ARCHITECTURE/DATA_SCHEMA에는 클래스 접두사·폴더·데이터 규칙 일부가 있음.
+- 증거: [GitHub 보호 설정 재조회](evidence/RUN-20260914-03-protection.json), [확인·검사 기록](evidence/RUN-20260914-03.txt).
+- 검증 경계: 코드 규약 문서의 신설·코드 서식 변경·UE/Android 검증은 수행하지 않음. PR 상태와 후속 커밋 CI는 GitHub에서 별도 확인.
+
 ## 게임 기능·기기 테스트
 
 현재 이 기록에는 전투 구현, 소환 RPC, Android/iOS 패키징, 모바일 성능, 온라인 재접속의 실제 실행 증거가 등록되지 않았습니다. 기존 프로젝트의 구현 여부는 작업을 착수하며 확인합니다. 데이터·문서 검사 통과만으로 해당 작업을 Done 처리하지 않습니다.
