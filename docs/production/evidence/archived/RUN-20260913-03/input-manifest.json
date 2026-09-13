@@ -1,0 +1,2697 @@
+[
+  {
+    "Path": "Mobile_defense_clone.uproject",
+    "SHA256": "22532AFCB39AD209D1ACB148BECC6A0B6771D7C48C08B5373B89BA674A9E20AA",
+    "Bytes": 533
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone.Target.cs",
+    "SHA256": "965191C5138FFC26E4BE47AB356313CA59626C9C9AC3806373F8630169FF1EA2",
+    "Bytes": 443
+  },
+  {
+    "Path": "Source\\Mobile_defense_cloneEditor.Target.cs",
+    "SHA256": "743FA1F503A9C0784F02862C726A34209FEA245B6B57B53960411A17182CC401",
+    "Bytes": 457
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_clone.Build.cs",
+    "SHA256": "1134BE13A68B22FA4CD9B62E967F5CEB7A89AE2460DC4F9874160E910A61FADD",
+    "Bytes": 1353
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_clone.cpp",
+    "SHA256": "E199E87E0569240538E2B4B805A81A5AFFFBDC6D08DC05FF288EE38B7CD53FFF",
+    "Bytes": 280
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_clone.h",
+    "SHA256": "F4059B1F0F45B49981998D92175FB120CD33ED915FDC8B08A9126F7AE243709D",
+    "Bytes": 213
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_cloneCharacter.cpp",
+    "SHA256": "51E2605F518CEBB211644CF38272775A0C6B50F8EEF30D008265C419F8DFF8A0",
+    "Bytes": 2055
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_cloneCharacter.h",
+    "SHA256": "3A77FD957BDB59FB49D2456A061BF0F9DEAAAFD90F94C4E518E49DADEBFD25D5",
+    "Bytes": 1293
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_cloneGameMode.cpp",
+    "SHA256": "C6F29771FFF4E6BAC80F64EB6897D20B8A0A852E113DC1F15C2C4C377A911598",
+    "Bytes": 177
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_cloneGameMode.h",
+    "SHA256": "F1C97AC138A63B3C27D4D79573DC184918C0B80281DACCAB8CADB735AEE00E91",
+    "Bytes": 542
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_clonePlayerController.cpp",
+    "SHA256": "76CCB37CF39F97555F3263D47961EF8691469AB37BE8B3D9BF7EF31757D5BA17",
+    "Bytes": 5326
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Mobile_defense_clonePlayerController.h",
+    "SHA256": "D4BDC5F97B244F97884C2DD9FBE15155935F2F005339E8C00265561DECB34A85",
+    "Bytes": 2279
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\EnvQueryContext_MoveGoal.cpp",
+    "SHA256": "7FE7C24DEAF36BD892B70B64FED63D9E6C52927C1F377D4A9BD222455AA42A6C",
+    "Bytes": 617
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\EnvQueryContext_MoveGoal.h",
+    "SHA256": "C866DD705A2972EE904C05D1E45158DEBDB648BF219AB6670272A83C0A6AF20E",
+    "Bytes": 576
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyGameMode.cpp",
+    "SHA256": "1310E3392B3C0D7771C7BB50E2958801391DE5013B048018C49D3293002D249D",
+    "Bytes": 89
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyGameMode.h",
+    "SHA256": "01CD3333B845BA31277668A6BD04D54A9DB799CAD4F738159C0F01F23FE1A182",
+    "Bytes": 336
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyPawn.cpp",
+    "SHA256": "8CDE52F2053FD40920DABD9C2EA194F6D3FF58D798AA3AADE0E1D70DE02E52E8",
+    "Bytes": 1220
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyPawn.h",
+    "SHA256": "B3E6F42FFD9BFB61B0C9B8D68E25238B0231B474A1CE5C6BF2CA8668136A066C",
+    "Bytes": 1038
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyPlayerController.cpp",
+    "SHA256": "A7186885E0E3E4F15C4B0C7EE3DA5169241F63450D348FBE6FE4EF5698163B11",
+    "Bytes": 20350
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyPlayerController.h",
+    "SHA256": "E45164A1205274FD2253A3704EB04BDDDD5DE3F7AD5DC7A47453B4D5BCB2E5B4",
+    "Bytes": 9908
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyUnit.cpp",
+    "SHA256": "1206789DE383F4F680636BFC9E3FF9BAFAD55799991FE118BC7066F462CA883B",
+    "Bytes": 6884
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\StrategyUnit.h",
+    "SHA256": "9027AA52FD20CCE2B761570E76975EC9D61EF32CACEB00D6EFA85C2A4E6E1F0A",
+    "Bytes": 4350
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\UI\\StrategyHUD.cpp",
+    "SHA256": "DC23222794554C3EA371F4852E64169E223BADEC87BD4B8CA0EF669EC0D9F6A8",
+    "Bytes": 2155
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\UI\\StrategyHUD.h",
+    "SHA256": "00DC765854636166452E9EC65C7CAA9B334CC5035D4FAF67F6086735E625C237",
+    "Bytes": 1301
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\UI\\StrategyTouchControls.cpp",
+    "SHA256": "DF578A0CE812D4134D3D9D2AA2D2C237E8F7C10A31E79F9AAF413E0921EA11CC",
+    "Bytes": 804
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\UI\\StrategyTouchControls.h",
+    "SHA256": "57CAB60A10CBA0E9F59E93411DA3371A996CA194A1924A47CED07C80D9ECDEBE",
+    "Bytes": 1321
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\UI\\StrategyUI.cpp",
+    "SHA256": "2E14134E418FF3667A91BE0BD39AE3AE5D403F0B10B318EEFB3D5F871604AC4E",
+    "Bytes": 375
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_Strategy\\UI\\StrategyUI.h",
+    "SHA256": "3D0757DF10F69AB62C08598267D29E06890F19107A0EBA69384CD40F3AD3FBA1",
+    "Bytes": 912
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\TwinStickCharacter.cpp",
+    "SHA256": "3964C82295B2325F35C68ADB3C94EACAAB3105B02C2A92F7F09047EC36BD399C",
+    "Bytes": 8794
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\TwinStickCharacter.h",
+    "SHA256": "9575B4AC41BBC16B5B6720FBD25BD4F0C02CC354FF45472536AC39930E2FA248",
+    "Bytes": 6432
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\TwinStickGameMode.cpp",
+    "SHA256": "8949DEBF1C1D43A6D6049F363E3C4D2D7B938FF352D02ED4F24C922497A8382D",
+    "Bytes": 2709
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\TwinStickGameMode.h",
+    "SHA256": "6E58327674B6FAE0CF368D4E824ABB1DCF3878ED0FCF351BA0ED3C069F82CBF5",
+    "Bytes": 2562
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\TwinStickPlayerController.cpp",
+    "SHA256": "0F0665A9D00D4E5DB84A9124F2C3819F326947102DE9D03013E0C3A7238D4196",
+    "Bytes": 2827
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\TwinStickPlayerController.h",
+    "SHA256": "3ACC5054709FB6A0BB91D6C025A2C36206B118101227EDBD5074FC4B706C174C",
+    "Bytes": 1957
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickAIController.cpp",
+    "SHA256": "C69E3D326835BBDC4B03481805FA1D777C0025734B6EAD303FD1D96CE5F06885",
+    "Bytes": 571
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickAIController.h",
+    "SHA256": "B509CB1B95840B9FEE1F61D611717452DEF00AB2367687AAA96C642BEDA609A7",
+    "Bytes": 660
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickNPC.cpp",
+    "SHA256": "FE089063C98B934483A6B3B72111904B4D480FB654FC9EC555A6C029EF3F72BE",
+    "Bytes": 3801
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickNPC.h",
+    "SHA256": "04B60B4ADBAA24DB61F664F4C4BAD41FEE10ED9B6EB3598AACD7145CC66F58B5",
+    "Bytes": 2433
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickNPCDestruction.cpp",
+    "SHA256": "C48B8D0BD813FE1046E650258E290C00C107CF5ECB2FB764191F90CAC5F6628C",
+    "Bytes": 197
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickNPCDestruction.h",
+    "SHA256": "B11E5D37A7480BDE8D88A4A0302AAD94A1C86ACFAD309C904B1053A19D1EF6F4",
+    "Bytes": 513
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickSpawner.cpp",
+    "SHA256": "50DF6C637C0F36D20159251802FB7879C7889C092CE4B84F0A91A92C76B8EA75",
+    "Bytes": 2289
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickSpawner.h",
+    "SHA256": "8C45FA082C0FE15760F449DAFDD6BD52EAEF13EFFB939BFF16E64298048E0F41",
+    "Bytes": 2118
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickStateTreeUtility.cpp",
+    "SHA256": "393D9C76FBE3FE0D7F5C4CDA211C20BB91A34228FE66F8B885EB11EFB6560BBD",
+    "Bytes": 1106
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\AI\\TwinStickStateTreeUtility.h",
+    "SHA256": "E1654D76B31E338730FFD044B75C4E2B0699D9318A811E1E3583104DDF329269",
+    "Bytes": 1463
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\Gameplay\\TwinStickAoEAttack.cpp",
+    "SHA256": "EA5CDAD973AB0F20C28791F996187E6590ABE1AF9FA6EC1A6CF91348C8B812FE",
+    "Bytes": 3225
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\Gameplay\\TwinStickAoEAttack.h",
+    "SHA256": "6F09D574CDE582D56F20EF2CF9843844AA6AD8D44AC84E8AD15F0D914BFE4484",
+    "Bytes": 2298
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\Gameplay\\TwinStickPickup.cpp",
+    "SHA256": "474D2A5EE1554D1D292E467513D7CCA947304780FFE855A7667609DB5156A884",
+    "Bytes": 1561
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\Gameplay\\TwinStickPickup.h",
+    "SHA256": "16C6B735A215729BC89547C10D432EC8CA91F9CB8082A94824142E7E9670EAAF",
+    "Bytes": 913
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\Gameplay\\TwinStickProjectile.cpp",
+    "SHA256": "3E314D6863D0A72B0F1AC404759EF4E15E891916CF0A9550361831E83DCDD347",
+    "Bytes": 2455
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\Gameplay\\TwinStickProjectile.h",
+    "SHA256": "5CE6C6495845A4467CA4BDDBCD1074C08BF2E33C2741EB382E22CCA175C503F5",
+    "Bytes": 1530
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\UI\\TwinStickUI.cpp",
+    "SHA256": "D85A6DD8AB72B3913DDE3B665FA0078E95E56E25BE3C3AD837ECC5DC3A46DFA9",
+    "Bytes": 84
+  },
+  {
+    "Path": "Source\\Mobile_defense_clone\\Variant_TwinStick\\UI\\TwinStickUI.h",
+    "SHA256": "D88558C4F985A3531A5F185FC37A1E7A7C299DB159224A9F9D645FDDF620D19D",
+    "Bytes": 843
+  },
+  {
+    "Path": "Config\\DefaultEditor.ini",
+    "SHA256": "F8A1CC4F22355D467E8B5A44048D1CF2518FCA99A1CBE49DA7E70AD429917F81",
+    "Bytes": 240
+  },
+  {
+    "Path": "Config\\DefaultEditorPerProjectUserSettings.ini",
+    "SHA256": "0FB65E5C5681EB8ED94E55704AA8BEED3DADC6EF7217FAE85FE87B21C84CC8FF",
+    "Bytes": 64
+  },
+  {
+    "Path": "Config\\DefaultEngine.ini",
+    "SHA256": "E3DA3F6D0A080C8071700CD3C7500A89E228CF699FF341CF45EB88DA391BA72F",
+    "Bytes": 11439
+  },
+  {
+    "Path": "Config\\DefaultGame.ini",
+    "SHA256": "ECF184AC5DAC0D6B9FAF4F6BF99A8A6BDD5EA63D8A5943B0E2D50D6B134C509A",
+    "Bytes": 422
+  },
+  {
+    "Path": "Config\\DefaultInput.ini",
+    "SHA256": "02090691777462B6FB2850725DA4C9EC86833F3703A83C9EDEB262706F003411",
+    "Bytes": 8955
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Death\\MM_Death_Back_01.uasset",
+    "SHA256": "FDEE63C4A4DC23076DDA04B32EB8505BCD41FB791E574A264026C43E700BF923",
+    "Bytes": 308880
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Death\\MM_Death_Front_01.uasset",
+    "SHA256": "C9DAA694DDA4639B106A29401712B03376344B301B6161955A92BA64EA60AE6D",
+    "Bytes": 308516
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Death\\MM_Death_Front_02.uasset",
+    "SHA256": "DDA4F9D6A4C8FC3BF79458D4D2F490965FF01401256E90FDF98A938A58C61986",
+    "Bytes": 314751
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Death\\MM_Death_Front_03.uasset",
+    "SHA256": "BF3A411D465002756EB1A19CDB2BEF63B75A57A9FAB7CE121EE71941E010D2CC",
+    "Bytes": 277478
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Death\\MM_Death_Left_01.uasset",
+    "SHA256": "712A25024FE931BD518FFF6C935B82BC0EE2070A77CAEF63EDD0D6FC7FF66508",
+    "Bytes": 283231
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Death\\MM_Death_Right_01.uasset",
+    "SHA256": "7968E7E1BC3D8E33C3F0D8479E6753D011CED0E05A831EB7F10E28CEB536B9A4",
+    "Bytes": 302339
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\MF_Pistol_Idle_ADS.uasset",
+    "SHA256": "766A02544F06604946D8C47C47C6BB877E14208904306188BC1F5B174FD7715B",
+    "Bytes": 2068319
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\MM_Pistol_DryFire.uasset",
+    "SHA256": "64B3C6DC7357F8A1B380057EF76E1CBB984D69E7D0732EAEFD70BEFE2BE7B67F",
+    "Bytes": 250601
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\MM_Pistol_Equip.uasset",
+    "SHA256": "7F5A1ED2C1B72A9BB27B417CB0D5315440AF2B22B7B846254FBCE50E2FBB3D17",
+    "Bytes": 360966
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\MM_Pistol_Fire_Montage.uasset",
+    "SHA256": "2EABACC1911BE6C5B0DFF7CF8A5C29C0506A25FFA6F3E7FA5946E76F992E38EE",
+    "Bytes": 10119
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\MM_Pistol_Fire.uasset",
+    "SHA256": "EBD8467DBB3DE5BA0E1B2EAC0092352E270B37E616BC443872341CDE2F5C22D8",
+    "Bytes": 186765
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\MM_Pistol_Reload.uasset",
+    "SHA256": "A821A774302CE5121EFFF744620DA09587752290E35E4413B8E40DB8AD9C0391",
+    "Bytes": 479562
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Aim\\AO_Pistol.uasset",
+    "SHA256": "A4F2FCA2458488BE2D05CB2188BD641293D06BDCC4E598FEEE59BA1B23156C24",
+    "Bytes": 8824
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Aim\\MF_Pistol_Idle_ADS_AO_CD.uasset",
+    "SHA256": "2898B38D8EF305D1D2E285F519BE72CDE7E2B0106BB85657FDA47E35DC27B15D",
+    "Bytes": 170203
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Aim\\MF_Pistol_Idle_ADS_AO_CU.uasset",
+    "SHA256": "E5C5855B58743D51BF1ABE11B470749F50AE6074FAC734DA446D1C4A9B076650",
+    "Bytes": 173260
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Aim\\MF_Pistol_Idle_ADS1.uasset",
+    "SHA256": "4D7113F1799219DB01D8394C2984D5AFD2957DE07D66CFA463C9C33822E11D89",
+    "Bytes": 2056489
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Bwd_Left.uasset",
+    "SHA256": "DC8A45C6259A8A51808FF3DE4688302A65CE4988A05A5B0F70FBCED01001EA6B",
+    "Bytes": 255387
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Bwd_Right.uasset",
+    "SHA256": "E6F80EB946A12E3056A53D67B8134F5E9BD028EB66333A8A665C13D6CF14D1EE",
+    "Bytes": 255329
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Bwd.uasset",
+    "SHA256": "F93AACABF40A36D906896E5C5998E4A63445749EFA25C973092B9AE82EF1477F",
+    "Bytes": 365135
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Fwd_Left.uasset",
+    "SHA256": "8ED2295BBFBBE7800395B2FC2023E082F6C9B2B7127DD6CEB5C7EC055486C39B",
+    "Bytes": 309345
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Fwd_Right.uasset",
+    "SHA256": "D80C0C9BB0A8FAE52095506F7F83C42BDD11B4D62EBFE57B1D9C7F40E8A9478A",
+    "Bytes": 309527
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Fwd.uasset",
+    "SHA256": "CABA32A2584600031BCA7CEC76875E50EB80E4C1D6FEA3E249F2532388D4F221",
+    "Bytes": 432796
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Left.uasset",
+    "SHA256": "4D8FCF3A8B6E581F4D06BC4FE2B307E1DCDCC7432CC114173C201A0115CAD2C9",
+    "Bytes": 310960
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jog\\MF_Pistol_Jog_Right.uasset",
+    "SHA256": "017F902B0A80B4FFF2115C5C39F640B7622AD562A0EC137D25AAE61D511D0B53",
+    "Bytes": 354844
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jump\\MM_Pistol_Jump_Fall_Loop.uasset",
+    "SHA256": "7B01836FA36515FCB523644E82F2F130289A69A14314B6B939D5A580B3C5950E",
+    "Bytes": 255338
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jump\\MM_Pistol_Jump_RecoveryAdditive.uasset",
+    "SHA256": "E9935321B5EE3FE9445CFA2A6C9F0D0391D888FBB9DB71B1EAF76B3BC5345D6D",
+    "Bytes": 268356
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Jump\\MM_Pistol_Jump_Start.uasset",
+    "SHA256": "58C1E69B2690611740C465F92E3763FD9747B9A6E75FE6A7629B16C5FCC37E7A",
+    "Bytes": 144542
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Bwd_Left.uasset",
+    "SHA256": "FFF084ED3CA270A8D926F810F078A69347507851744CF399F3142C97E36E2FA6",
+    "Bytes": 450957
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Bwd_Right.uasset",
+    "SHA256": "26A82255DB90C0DC4E8C01D52A55F73B5F5A532EF161812FAF63BE65869F3504",
+    "Bytes": 451022
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Bwd.uasset",
+    "SHA256": "704DD7E116A755B086A8D685321F23E332BBA6CB77DD6AE95542D38C462FEB9B",
+    "Bytes": 545138
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Fwd_Left.uasset",
+    "SHA256": "BDD682C2A45CF6A73A34DF6499F8BB4CCF8B68A42B8888C47B8532BFECB200D1",
+    "Bytes": 374604
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Fwd_Right.uasset",
+    "SHA256": "B9B42E230D6FDF9F4F836592507C3F8A17DFD76D7B054B78B633A11722F94100",
+    "Bytes": 374748
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Fwd.uasset",
+    "SHA256": "7AC6171E3B841B09FFF67DC4162B0C70F99F3107F549A20A213D5E05405DC69E",
+    "Bytes": 474209
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Left.uasset",
+    "SHA256": "BC5F5B9F355E755023D1AA153070A073156F6D902B08E7CF78463F5E0BC8F629",
+    "Bytes": 580040
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Pistol\\Walk\\MF_Pistol_Walk_Right.uasset",
+    "SHA256": "E72F68C9A306EC44F7BC4F37E3533F2918EE19D99A1D8E60986036F2A4405D68",
+    "Bytes": 498997
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\MF_Rifle_Idle_ADS.uasset",
+    "SHA256": "CFA32B19207A25546BB5BC2DDE8454DC633CC27C3DE45747E941756E23DA5D4D",
+    "Bytes": 1700234
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\MM_Rifle_DryFire.uasset",
+    "SHA256": "131E01F0A31F999E7FD09EF190B314314C851F39101412161DABDB00D2DDA801",
+    "Bytes": 249623
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\MM_Rifle_Equip.uasset",
+    "SHA256": "136B19498B8BAC4119DDE48236D22127E8463C0BECFF775069E0B6399B7939D6",
+    "Bytes": 416648
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\MM_Rifle_Fire.uasset",
+    "SHA256": "1C5B983BD6C09431C83866F772CCF13871AD9626426C86CC08A0C87C150555F7",
+    "Bytes": 184600
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\MM_Rifle_Reload.uasset",
+    "SHA256": "AC1E17D2ACB7E3CEA6E4C9CA967400DC3052D5EC6514E155B33D8E4701E80784",
+    "Bytes": 547351
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\AIM\\AO_Rifle.uasset",
+    "SHA256": "A3CFB9E380D881FA8561DF0515F4FF24D96AF4D3E1430DF829C7EDE641A12B1D",
+    "Bytes": 10402
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\AIM\\MM_Rifle_Idle_ADS_AO_CC.uasset",
+    "SHA256": "9521C1941980DC784CEDB3DF736D7C1EDF56AFAA0201F28B41C5AE9923E88BBB",
+    "Bytes": 94995
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\AIM\\MM_Rifle_Idle_ADS_AO_CD.uasset",
+    "SHA256": "09B2C98AA7778B6A970B0D90882555CF920C03D761F1E50BB3FEAF0E3C9A6FEF",
+    "Bytes": 94882
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\AIM\\MM_Rifle_Idle_ADS_AO_CU.uasset",
+    "SHA256": "60969C39FF3C1BD1E30E7C728A9DBE49C236857659B1AE8D20AE7605D8152324",
+    "Bytes": 95154
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Back_Med_01.uasset",
+    "SHA256": "ECB41AE9339D797408A7B9C0270DC1F917B680A21F1C189AC0E3890F41185E0B",
+    "Bytes": 252342
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Front_Hvy_01.uasset",
+    "SHA256": "E5CAF5938C73D131C9254C1AF09CB7FD4335516C9A406BE77C17AD5E1F2CDEBE",
+    "Bytes": 247961
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Front_Lgt_01.uasset",
+    "SHA256": "AE8728F698434DD1E63978D5D92C5984D086D7EE39CE618598122B6FA87DC820",
+    "Bytes": 224756
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Front_Lgt_02.uasset",
+    "SHA256": "DCB6C068D81D5BE1D84C88895805EB29C2F3F345668A10884836F00759B0647B",
+    "Bytes": 238345
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Front_Lgt_03.uasset",
+    "SHA256": "3949DF1228E6C14047477538424F9440216915A0637DA33CF6C7298400128073",
+    "Bytes": 281622
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Front_Lgt_04.uasset",
+    "SHA256": "E0ED26DE9C333968631CC040E82AEBAC289A2FD655A1F348A3B09CE3B40F1EF5",
+    "Bytes": 318893
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Front_Med_01.uasset",
+    "SHA256": "CCA3C893D68D8270A9EEC9EB7572F7ED6BFCFDF6CE6345DC8B2860D6135DBE00",
+    "Bytes": 225043
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\HitReact\\MM_HitReact_Front_Med_02.uasset",
+    "SHA256": "3ACB6956F9EB6512E386B575C4C3E390F7D0280B037CA52E0EEF813FB1F729D6",
+    "Bytes": 234402
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Bwd_Left.uasset",
+    "SHA256": "C3939C4AA298E6BE0834256EF6F642CFF0465A40D676EC7E464AAF504B44F729",
+    "Bytes": 458365
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Bwd_Right.uasset",
+    "SHA256": "907CB106C1C466AAC0B38753B7551AF73A09C082A652C82C43DF5418EB33B089",
+    "Bytes": 458272
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Bwd.uasset",
+    "SHA256": "0FD489F5C8D4D63E84F8A25C2DB46C3AE54EAE828212B2A32622726E593B5D3C",
+    "Bytes": 582054
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Fwd_Left.uasset",
+    "SHA256": "4103EA6388D484E8F71CD30B955C3C954750D922A0C030BF3D902BDB3E02C13D",
+    "Bytes": 384314
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Fwd_Right.uasset",
+    "SHA256": "2CA8D8EC88D086D4CB6027A2EEFDDE258142587BCA40E98DEE021ABE9C8824F8",
+    "Bytes": 384322
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Fwd.uasset",
+    "SHA256": "287D39883A65CCF6F89D91C7CA13B23184F04AE6EB5CC3867DD7EF7CFB35EC1C",
+    "Bytes": 516328
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Left.uasset",
+    "SHA256": "4FEAF1BD5B370E28F5DCE611B28D955BBF84BBEB72B7E22972A0E143022621A7",
+    "Bytes": 296415
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jog\\MF_Rifle_Jog_Right.uasset",
+    "SHA256": "E3C5CAE5448DBB8C4E3BDA5406202A8E55B08247695082270E1FEF3DBDD6E533",
+    "Bytes": 420984
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jump\\MM_Rifle_Jump_Apex.uasset",
+    "SHA256": "39ACBD6BCFC5EC2795EE2497BB353FBE954766BDA545C3318C3CD6EE5F1EE008",
+    "Bytes": 228355
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jump\\MM_Rifle_Jump_Fall_Land.uasset",
+    "SHA256": "CE74E83B9B88FA3722951C1C6B2CC36AE7159B8141F5347E5B47D760CEE41C42",
+    "Bytes": 179028
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jump\\MM_Rifle_Jump_Fall_Loop.uasset",
+    "SHA256": "D17C0A4FE1D9BB970B3208909E1C35B7183568C7968A0D6D0DE391CCA216B472",
+    "Bytes": 645680
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jump\\MM_Rifle_Jump_RecoveryAdditive.uasset",
+    "SHA256": "9D663743AC0FD361303751C55688A34053FBED145AAA88A004ABD7B02533D5E5",
+    "Bytes": 294517
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jump\\MM_Rifle_Jump_Start_Loop.uasset",
+    "SHA256": "C2DA3D291DF2070E1AAA62A45E445A7979948489B9E811E0D17F94B3E627D14E",
+    "Bytes": 441727
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Jump\\MM_Rifle_Jump_Start.uasset",
+    "SHA256": "925F27182BE45054A1BBB5D458CB53D38773B356DD61E18B82FA9A72880DC8E7",
+    "Bytes": 146783
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Bwd_Left.uasset",
+    "SHA256": "8D535EB181E756F56974EFAE068F34DA050747FD8836FE2BB5F0C693F51325C2",
+    "Bytes": 332682
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Bwd_Right.uasset",
+    "SHA256": "6E0BD9B3BA2E982AC9FFD60A643DAB78CF886D194A26AF518170A02DC4F3EAC0",
+    "Bytes": 332577
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Bwd.uasset",
+    "SHA256": "E1400DC7A7BFCA224E0AA7796E5C230236AD634C808B2A1540CBAD8903FA897B",
+    "Bytes": 449720
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Fwd_Left.uasset",
+    "SHA256": "F7797A7841CB86C3DC9E68DCDF968E538C9A7335ABB1B0D9DB95E0983B2226D7",
+    "Bytes": 384794
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Fwd_Right.uasset",
+    "SHA256": "787C7B69A054C6F2850503C016A2EF2FADE7AD0941375C8E521C3534BF695D12",
+    "Bytes": 384793
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Fwd.uasset",
+    "SHA256": "540A6A77C48027E13BE84D483C6AFD18D82FB115B7532334597EBEFE2249ECD0",
+    "Bytes": 490267
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Left.uasset",
+    "SHA256": "A99D18722E504801616E1C0C495711C43C2D82C4465F7F388CDAE8A45502BD1E",
+    "Bytes": 453120
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Rifle\\Walk\\MF_Rifle_Walk_Right.uasset",
+    "SHA256": "2C2C12D6A959D69C96962CA340BDFE984942DF621EE2FF7E7E955662DDAEE52A",
+    "Bytes": 510650
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\ABP_Unarmed.uasset",
+    "SHA256": "60AE8C970189979D9E070BEB0FD8675F4AFB2B04D8AAA8D11A0F03C5B7EBF4B2",
+    "Bytes": 385911
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\BS_Idle_Walk_Run.uasset",
+    "SHA256": "BC71AF8768B569695D4BCB69C79867F998E085693F5E8230854D228DE359F5BB",
+    "Bytes": 52333
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\MM_Idle.uasset",
+    "SHA256": "11EE7FDEB84DB89C1A66785B43B9BFC1415782122B8AC229517F4C5125D9CB0D",
+    "Bytes": 1436554
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Attack\\MM_Attack_01.uasset",
+    "SHA256": "F796113F17C91ECA7E48EF57BBADC4FC36245A86B127E75A34CA4771500639ED",
+    "Bytes": 757637
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Attack\\MM_Attack_02.uasset",
+    "SHA256": "FB3C74B8E32FB5A88C6D659CAE8717294AF85D4EAA7F684B2A36C36D245559DC",
+    "Bytes": 661409
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Attack\\MM_Attack_03.uasset",
+    "SHA256": "1C66016FC3BD386453AC7FB1229A5F0644C6BD5F98EAD29F6E6A1BE80632BA1F",
+    "Bytes": 1036132
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Attack\\MM_ChargedAttack.uasset",
+    "SHA256": "5D9B0FC6892519095CB6930ABA5C0DD063ACF647612A06E0F2F7E19C463223EE",
+    "Bytes": 1057890
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Bwd_Left.uasset",
+    "SHA256": "E6E68E6CF4175F85C0E16A60F80335A1FAB3F8C76A014D02BC0CD18AABE3314A",
+    "Bytes": 417528
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Bwd_Right.uasset",
+    "SHA256": "EE3137FF2B7D2CB721C935E2DE91D55479E20F030FF230E9F912F6B70658C399",
+    "Bytes": 417530
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Bwd.uasset",
+    "SHA256": "1F6E9448F0E0737F506D9E8F11B8D661D6D65C818F0E3160938F1E24082B16C3",
+    "Bytes": 483265
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Fwd_Left.uasset",
+    "SHA256": "12EE5A11F277AF90429980F120026F430AE1E438F6EAE42C10222E175F9DBE12",
+    "Bytes": 466995
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Fwd_Right.uasset",
+    "SHA256": "66A7561D60453794864EDD7E0C55487817068B6B66E31E179C98B9F2BAB4C76B",
+    "Bytes": 467310
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Fwd.uasset",
+    "SHA256": "0CCBE851F85A6D4CD7C6438C219CB6AF8E281784107B5BE8E9B052E4DF3069CB",
+    "Bytes": 531789
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Left.uasset",
+    "SHA256": "F7842445F0C2B2F8D3CD9D43B9F58BC3EA888ADEB1E161398B492097358431BD",
+    "Bytes": 487864
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jog\\MF_Unarmed_Jog_Right.uasset",
+    "SHA256": "208F642310D9627D12A5125889B480E051A1F1FC5397A10B83975903A0C59AEA",
+    "Bytes": 521907
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jump\\MM_Dash.uasset",
+    "SHA256": "8A1C964403B7B1D9D9F5E0DD8C20C1AE809606C5E8021B2983EDFC65AC0A66F0",
+    "Bytes": 663135
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jump\\MM_Fall_Loop.uasset",
+    "SHA256": "408BE742C63ADFFE8C6C1D22442E99EA34A7618CD33C6E78E0EED3D7DB877433",
+    "Bytes": 925351
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jump\\MM_Jump.uasset",
+    "SHA256": "252CBF69B07B797D3C3C6177D3AE9DF17E9873F4872C4FA040C0D441DC3B3CEF",
+    "Bytes": 403730
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jump\\MM_Land.uasset",
+    "SHA256": "A00DE25A6BECA56FF6D8077081531E5CEF238C92825B6C184351D0AA99EF3FCB",
+    "Bytes": 410017
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Jump\\MM_WallJump.uasset",
+    "SHA256": "E29AF6DC13219CB813097E596C143D964A18C118CACA138015574009E50859C0",
+    "Bytes": 409179
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Bwd_Left.uasset",
+    "SHA256": "7C25A8EEBB9883085AC8F82DE3C83FC34FD19B02567F17FAFDE9DD60C09CF3E5",
+    "Bytes": 537758
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Bwd_Right.uasset",
+    "SHA256": "8C71B9BBF7B15D75CACDDBEB8827E22888CFA63A359ECBC0E017AEC822D1A522",
+    "Bytes": 537632
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Bwd.uasset",
+    "SHA256": "AE0C2EE1C1178FD1B9493F6C327E52D10A3D6BBDE29EAE54DCB07C13A27DCF46",
+    "Bytes": 606821
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Fwd_Left.uasset",
+    "SHA256": "A7D8FF5A55EB0C445DA2C74B2FD9460B6A3AFF0DB206BE9E99AED319158D5770",
+    "Bytes": 411535
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Fwd_Right.uasset",
+    "SHA256": "67D3D4FED066023A14220277F5598DB83F19EFEE97DE908B1397B0AE998E5599",
+    "Bytes": 411529
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Fwd.uasset",
+    "SHA256": "C74B2FC0CB651C4924804B364E534856A1B44DEE818127C408DC055E4BDA5ED9",
+    "Bytes": 475783
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Left.uasset",
+    "SHA256": "81500E4FCDD9AE9AA6433E652E67DEA8F9DD9FA7B9EF1714E29F6AB0A1BB9D97",
+    "Bytes": 486552
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Anims\\Unarmed\\Walk\\MF_Unarmed_Walk_Right.uasset",
+    "SHA256": "F5922B4E632351353224B32F719AF97E85512AB4F6553B15315CF14AD04F675F",
+    "Bytes": 491934
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Materials\\M_Mannequin.uasset",
+    "SHA256": "D7FFE412D906380BD5BD4462F464B2A1FE48FDB79B9077F29BD0F958A782035C",
+    "Bytes": 59292
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Materials\\Manny\\MI_Manny_01_New.uasset",
+    "SHA256": "9F1E4ED382304D020B750C81505140FC1DE4D339B0909430ADB5380A6BB89B65",
+    "Bytes": 17963
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Materials\\Manny\\MI_Manny_02_New.uasset",
+    "SHA256": "26389DB06F0B7928B487494BEF3320D6B0E6BCCD58193BCCEDD67C2C89132A46",
+    "Bytes": 18706
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Materials\\Quinn\\MI_Quinn_01.uasset",
+    "SHA256": "62A3050EF24B823F9FE84AC5D9C477099494982D35DAFCC3D8078F32B0D4A865",
+    "Bytes": 11184
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Materials\\Quinn\\MI_Quinn_02.uasset",
+    "SHA256": "6AEC77489FDFAB0E1EA299DE60FBD4F332FACE4495BBBD20B97FB0308BB9C5B4",
+    "Bytes": 10718
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Meshes\\SK_Mannequin.uasset",
+    "SHA256": "22029D47455F24471195B26A0E04A1E1389F27D6A924E88C9F46A0F600C9A530",
+    "Bytes": 191198
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Meshes\\SKM_Manny_Simple.uasset",
+    "SHA256": "BE9F011191EE1887B97CD13BCE09886A6066C2FD62C619991070EC142184E1BF",
+    "Bytes": 15825101
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Meshes\\SKM_Quinn_Simple.uasset",
+    "SHA256": "1EF45D92507A76D74A5E06737F94CAD40EB7D5F5769DFBB63F7F74E784A178C6",
+    "Bytes": 16252577
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Rigs\\CR_Mannequin_Body.uasset",
+    "SHA256": "57F84458A160C35B77F0442D2AF41054E41E021EBBB496C2C76DEA76D1D89580",
+    "Bytes": 17057558
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Rigs\\CR_Mannequin_FootIK.uasset",
+    "SHA256": "AA01BE065D2EFA2DFD3B258F60B94B09FCD5D351356D16BB52578EF5BCBFB5C5",
+    "Bytes": 498698
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Rigs\\CR_Mannequin_Procedural.uasset",
+    "SHA256": "057818DD3E0E16FF90C147E25A8FC5AB309C49C4C60360477CF4742E767D151E",
+    "Bytes": 2575944
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Rigs\\PA_Mannequin.uasset",
+    "SHA256": "C0CEAF003947088FF076555B81A46E5CCB11149C94025EB2A9E74263FBAA0D67",
+    "Bytes": 301538
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Manny\\T_Manny_01_BN.uasset",
+    "SHA256": "2F623209571ECBD8185B5B463786BE033C3284190B4FC7B249E8D1D2ED995FD8",
+    "Bytes": 1422785
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Manny\\T_Manny_01_D.uasset",
+    "SHA256": "6AE0F4F9908C30ECC9AEDF1EBB442E4983E526A7832EC791542064C7853F9999",
+    "Bytes": 699555
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Manny\\T_Manny_01_MRA.uasset",
+    "SHA256": "3E42E888AED8AEFFF68DA7D7DDA4F177C5647B19473E4E913F61375C1319ABD8",
+    "Bytes": 712594
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Manny\\T_Manny_02_BN.uasset",
+    "SHA256": "C9575D21C9E2872B3358C0EFB9E202535CE2EFCE94C338B9D3BD04CB9831E353",
+    "Bytes": 20999487
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Manny\\T_Manny_02_D.uasset",
+    "SHA256": "474728713232C6833F55C041548F555BC62C5C49E74082A5D16E68A5CE488CFE",
+    "Bytes": 1036712
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Manny\\T_Manny_02_MRA.uasset",
+    "SHA256": "6697972EAF2DFE201923DBA6A302F024B0EF4C4E46B4ECF578178717098E8277",
+    "Bytes": 1059559
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Manny\\T_Manny_02_N.uasset",
+    "SHA256": "61A9DB73F72FE2D7D8821B33A79F57F3F11DF9DA9455822392B84B199C78E8DF",
+    "Bytes": 1680197
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Quinn\\T_Quinn_01_D.uasset",
+    "SHA256": "04E5ED207B7DF0D2AD1BBC668916BCF170545FC2A72875E49EC99C6E2667002F",
+    "Bytes": 674768
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Quinn\\T_Quinn_01_MRA.uasset",
+    "SHA256": "0988D4D9F25597224910E1043591CB2A089A8607A4FE4A63CBC68F3EB2AB473E",
+    "Bytes": 791597
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Quinn\\T_Quinn_01_N.uasset",
+    "SHA256": "10FBE9AC3E18E0A890D19756D3470CA372A1AEAFFEFBE9A22D6B0E6182293551",
+    "Bytes": 1263741
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Quinn\\T_Quinn_02_D.uasset",
+    "SHA256": "F0CCB2F465894C6F9FF4DD142351ED33186C5F861283A75F3E08D1531A253C49",
+    "Bytes": 943331
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Quinn\\T_Quinn_02_MRA.uasset",
+    "SHA256": "9F7E495CBE0430AED7084B5508F87186F98346EB04F003734C9B378891DA7887",
+    "Bytes": 974099
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Quinn\\T_Quinn_02_N.uasset",
+    "SHA256": "0BC26466E9FDC954CC276BB6AC1350E22C3DABBE1B54B6BF78ED5AE2E339D9FC",
+    "Bytes": 1524635
+  },
+  {
+    "Path": "Content\\Characters\\Mannequins\\Textures\\Shared\\T_UE_Logo_M.uasset",
+    "SHA256": "34E6FA3414C04A86B7A5287E5569EA9D6E53C319D6E7DBFC8B09DAB5B70611A6",
+    "Bytes": 59927
+  },
+  {
+    "Path": "Content\\Cursor\\FX_Cursor.uasset",
+    "SHA256": "EBF03AD281DEF0782F0AFAAB95950AE3AD8BDCC64E89768C6A89FC18B1366035",
+    "Bytes": 441413
+  },
+  {
+    "Path": "Content\\Cursor\\M_Cursor.uasset",
+    "SHA256": "FBD1A950D969D49A99EC9B78376CD9C2C9CEB33000A74ECD0657628DD2B875F7",
+    "Bytes": 13940
+  },
+  {
+    "Path": "Content\\Cursor\\SM_CursorMesh.uasset",
+    "SHA256": "19CF635C9C60BD2BF812DFBA7AFD9E6EF0026B4A7F0B5E684B1CAB3FCCDF9FD8",
+    "Bytes": 16870
+  },
+  {
+    "Path": "Content\\Cursor\\T_Arrow.uasset",
+    "SHA256": "CBF467EDE14627047457DE58E1365AE70F203B9CC4CBCB35CD8C78098C7786BA",
+    "Bytes": 10213
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\Door\\BP_DoorFrame.uasset",
+    "SHA256": "4386D7D71B8D5241FD8150AA47900711EB0D8BD069C00DE25FCE07F011D698FA",
+    "Bytes": 448616
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\Door\\Meshes\\SM_Door.uasset",
+    "SHA256": "FA98C4FC5083393E085D7B44D0B67A7E830922E2601A439167916616BBC29993",
+    "Bytes": 59267
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\Door\\Meshes\\SM_DoorFrame_Corner.uasset",
+    "SHA256": "383DEA9555E76303D60D0011FAE6651A4BE07C24033C0ACEEECD137C954EE3FC",
+    "Bytes": 86885
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\Door\\Meshes\\SM_DoorFrame_Edge.uasset",
+    "SHA256": "26EB76A2CE36BE334BF0770561475A9E06BE928E9CA75B4A31F5DF3DEBB36592",
+    "Bytes": 69088
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\JumpPad\\BP_JumpPad.uasset",
+    "SHA256": "42BA8262F07355CDF36E33977F3BB415810390CF210B75573D766BD819CF8401",
+    "Bytes": 92487
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\JumpPad\\Assets\\NS_JumpPad.uasset",
+    "SHA256": "2E76849CBB139160E5E73C226FE6AAA66A63FBF75CBD1213F871CCA65E409817",
+    "Bytes": 795908
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\JumpPad\\Assets\\Materials\\M_GradientGlow.uasset",
+    "SHA256": "C1B29AD29C2EAC3DBA6DD6A90AED9DE8C6147A13B6288A42BD73FE14B78970A8",
+    "Bytes": 17587
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\JumpPad\\Assets\\Materials\\M_SimpleGlow.uasset",
+    "SHA256": "E6098242541B34BE6ABA19EA1FBFA35107F891E8F55D30D4061AA11B065B8BD8",
+    "Bytes": 15213
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\JumpPad\\Assets\\Materials\\MI_GlowNT.uasset",
+    "SHA256": "6FD40BC38BFEA9418FA54FE365732A1219E615169542A0A4D2E1D518318C864B",
+    "Bytes": 4145
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\JumpPad\\Assets\\Meshes\\SM_CircularBand.uasset",
+    "SHA256": "97FBE3DA2D907279DCBFBBF285E1B111CEB8D5F4A1C9D6BD48FCB8DEFC86842B",
+    "Bytes": 70608
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\JumpPad\\Assets\\Meshes\\SM_CircularGlow.uasset",
+    "SHA256": "6DDB27BF7020F4980D3F8435CB0928FB48B32C1AB3EA24BAC7E253435081BF6B",
+    "Bytes": 71705
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\Target\\BP_WobbleTarget.uasset",
+    "SHA256": "8BD8784BF03CB945D63DEB2C4C22261A9A9EA2AF1F84766805CA92EC7B521AB3",
+    "Bytes": 45551
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Interactable\\Target\\Assets\\SM_TargetBaseMesh.uasset",
+    "SHA256": "378ACE355B8F5E71A12E459D9F8CF4958626884142FEC34BE8630DB6D8412CAD",
+    "Bytes": 283425
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\M_FlatCol.uasset",
+    "SHA256": "41DBBDA4B463A224C29EE01765E1F52A8AE63F2F94F1440EE267FE7B1A481585",
+    "Bytes": 11771
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\M_PrototypeGrid.uasset",
+    "SHA256": "BF8625AD5917CEE705867038D8A590B25465E6B5D5818A738A584E515D7CBDFC",
+    "Bytes": 79863
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\MF_ProcGrid.uasset",
+    "SHA256": "E5EE13ABDB241D9811F6C1BCC0A607D229FA7ADC5F46BFD5A9D5FEDBFA279683",
+    "Bytes": 49820
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\MI_DefaultColorway.uasset",
+    "SHA256": "786A4DFCAAA6F4DAF459C77BDA247C2C138140680A8246D521974D0CC4FC8A8E",
+    "Bytes": 9260
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\MI_PrototypeGrid_Gray_02.uasset",
+    "SHA256": "FA0F2A06A7D937127D7D737C13BACB3F8FE88C8E0479F5E6B7CDA81FD225D077",
+    "Bytes": 11922
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\MI_PrototypeGrid_Gray_Round.uasset",
+    "SHA256": "901EC868E81E7A73C9F3AD4814E1205AF27ABC772949E5A30550A00F31CE4437",
+    "Bytes": 11413
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\MI_PrototypeGrid_Gray.uasset",
+    "SHA256": "084681BF680DAD66B8C8CA803D927053CF46756F2F2E62D18FCC439E07DE7263",
+    "Bytes": 13121
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Materials\\MI_PrototypeGrid_TopDark.uasset",
+    "SHA256": "838034E5AFC7AB3A70BFFF6DE2E1237AA02337FB423E95C1B536B3E30C61C982",
+    "Bytes": 11957
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Meshes\\SM_ChamferCube.uasset",
+    "SHA256": "B20A3AE9668EC599DB519AF3F84B67952D0E31AC4427B80EE812232EDDE91F53",
+    "Bytes": 128849
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Meshes\\SM_Cube.uasset",
+    "SHA256": "4680317A8C87F983E077F6C0A6B93FFAA0BA4DBDDBC810960D4553E6AD380A89",
+    "Bytes": 18279
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Meshes\\SM_Cylinder.uasset",
+    "SHA256": "76AAA3C2B812FF790FB57AE7736B748E4E1556AFBB13466FD787D4BACD2C7DFE",
+    "Bytes": 193636
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Meshes\\SM_Plane.uasset",
+    "SHA256": "39AB83DC57A9A27A80476711610F72E81C0685A05D4AA95413B3E4E7F6C4A3F2",
+    "Bytes": 15581
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Meshes\\SM_QuarterCylinder.uasset",
+    "SHA256": "4087B3F85753D9CCBCED7D00D42208DAD4D21185F24A97B0C86DB31BE867B733",
+    "Bytes": 135087
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Meshes\\SM_QuarterCylinderOuter.uasset",
+    "SHA256": "AB58A5224DA57452F367C9D55EA4976466138FC2CB8EC9E2FA92748C86A07F11",
+    "Bytes": 79741
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Meshes\\SM_Ramp.uasset",
+    "SHA256": "E5B472DEB37A9956B9112DCCEE3D09498A456BAEACC574DB8C5D725463B73597",
+    "Bytes": 18690
+  },
+  {
+    "Path": "Content\\LevelPrototyping\\Textures\\T_GridChecker_A.uasset",
+    "SHA256": "BB8334767064B107EC4F4407EF1365E8B9E2DFEFF5984E66D4A6232254DDD02A",
+    "Bytes": 9600
+  },
+  {
+    "Path": "Content\\TopDown\\Lvl_TopDown.umap",
+    "SHA256": "B076B2E8BD78ACFB4353E0DE04BA433FD4F92539217FEC5155EC95F69B2CDF56",
+    "Bytes": 14193
+  },
+  {
+    "Path": "Content\\TopDown\\MI_Colorway.uasset",
+    "SHA256": "B7813B7E15B10E23A5E82C6FE0B9CEF445FADD3B9BF30956CE66B1719781B6DA",
+    "Bytes": 9439
+  },
+  {
+    "Path": "Content\\TopDown\\Blueprints\\BP_TopDownCharacter.uasset",
+    "SHA256": "14C42F80BC851A9E2C87733A69A77306A1B3670317768A2D82B8F0C83B3E51AC",
+    "Bytes": 30964
+  },
+  {
+    "Path": "Content\\TopDown\\Blueprints\\BP_TopDownController.uasset",
+    "SHA256": "CEB3307599A23D865D153F4059054D949CE2B9C3FB49B9D8EECBD2FAF4C3D515",
+    "Bytes": 223935
+  },
+  {
+    "Path": "Content\\TopDown\\Blueprints\\BP_TopDownGameMode.uasset",
+    "SHA256": "F345CABB05364D71DA114F332FA1E3FC7BDBC6C9975E951151FC2387E89A1354",
+    "Bytes": 15825
+  },
+  {
+    "Path": "Content\\TopDown\\Cursor\\FX_Cursor_Failure.uasset",
+    "SHA256": "CF64045D80039E94EECAF635022ACD871ADEC5F97BABCD03B0CF1F7B3B542972",
+    "Bytes": 191594
+  },
+  {
+    "Path": "Content\\TopDown\\Cursor\\FX_Cursor_Success.uasset",
+    "SHA256": "C829140DB710D983AEBA7A8F276B88104D5D7B9A65EA8F8D4E23F82038E4F1EA",
+    "Bytes": 190461
+  },
+  {
+    "Path": "Content\\TopDown\\Cursor\\M_Cursor.uasset",
+    "SHA256": "246E71DBFC438EDCF384FD4EE5A653C849182B87587481EBEE42E5D949A3A36F",
+    "Bytes": 16483
+  },
+  {
+    "Path": "Content\\TopDown\\Cursor\\MI_Cursor_Red.uasset",
+    "SHA256": "72A21A3FD04133F2BFE3B93FD2166102115817E9D07E6C0523A53AEC709C8233",
+    "Bytes": 8515
+  },
+  {
+    "Path": "Content\\TopDown\\Cursor\\SM_CursorMesh_Red.uasset",
+    "SHA256": "97B8340534D55452A374DEC457D979A6EB1D72E515C479B9205E0F03C4FDFC0D",
+    "Bytes": 17135
+  },
+  {
+    "Path": "Content\\TopDown\\Cursor\\SM_CursorMesh.uasset",
+    "SHA256": "EAB853AB337FC844F3E4E01C4CA53DA019DEB4AE5606BC56C085667835591024",
+    "Bytes": 17291
+  },
+  {
+    "Path": "Content\\TopDown\\Cursor\\T_Arrow.uasset",
+    "SHA256": "4CA97BF839C7A6BDB3407870BE543005C0E95E1211703EA70F6D0C6C5DDDB343",
+    "Bytes": 10536
+  },
+  {
+    "Path": "Content\\TopDown\\Input\\IMC_Default.uasset",
+    "SHA256": "1EA0C4D1DB69E87E8C9F19153A42FAE1939C69A1FB1A921F89D2B34B6F43E294",
+    "Bytes": 2717
+  },
+  {
+    "Path": "Content\\TopDown\\Input\\Actions\\IA_SetDestination_Click.uasset",
+    "SHA256": "BE147401A338C8C4870C508B474F3D4089B993415B5346983EE3EF80476D2BAB",
+    "Bytes": 1289
+  },
+  {
+    "Path": "Content\\TopDown\\Input\\Actions\\IA_SetDestination_Touch.uasset",
+    "SHA256": "E94DBAE505AB90EA9BEE4CDDCC28727D9EDA95A691E5FA8D2EF7C691F0F6E71F",
+    "Bytes": 1289
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\LVL_Strategy.umap",
+    "SHA256": "AF66C1791216EFDD509B966C22BF6E059A649C9122E0D4541A04B9D3E6760C91",
+    "Bytes": 12140
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\M_Cutout.uasset",
+    "SHA256": "C32999D0556855C1741FC5E45DDD1B155A3E4535AB8B905734DE95C6834AA617",
+    "Bytes": 19232
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\M_DitherStrategy.uasset",
+    "SHA256": "E4945F3A27D3B9D73E609902585A6AE2060978F1F25FE4CB2CC1EE5BAF56C1E8",
+    "Bytes": 1378
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Anims\\MF_Emote_FingerGuns.uasset",
+    "SHA256": "F81391595101783A150D35E561803FC3705CFCA27BBD8E2645439893D6B8A7DC",
+    "Bytes": 1396551
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Blueprints\\BP_StrategyGameMode.uasset",
+    "SHA256": "D52776D700B94AF2F8E59019F84E464F58BA186F4843DB6C9DCE467FE1A91FB1",
+    "Bytes": 21999
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Blueprints\\BP_StrategyHUD.uasset",
+    "SHA256": "06C91613AC93A5417D2703C3F43C80FA961DD6DAF8E5885E67CB4AA60B48CC26",
+    "Bytes": 24734
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Blueprints\\BP_StrategyPawn.uasset",
+    "SHA256": "786D003017BE24FE35FFE5034739491CACA5F8EA3AB0AF5517DD3D920B8767BD",
+    "Bytes": 24931
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Blueprints\\BP_StrategyPlayerController.uasset",
+    "SHA256": "E6C23A615058DA73C44E8463C7D455EC5D9589D2B721D04D6C1AA9187E3A841E",
+    "Bytes": 35614
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Blueprints\\BP_StrategyUnit.uasset",
+    "SHA256": "9B7C14F24F81A5E69B93CB37098447FE788ECDAF3E64C5F7784155FFECB6411E",
+    "Bytes": 98750
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Blueprints\\EnvQuery_MoveUnitAdditional.uasset",
+    "SHA256": "4CD0CE9D718A5C9315C3FB43959C6CBF7CF9BFBF373170141A2648372666B0EA",
+    "Bytes": 16656
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Blueprints\\EnvQuery_MoveUnitClosest.uasset",
+    "SHA256": "64DE1C7D4DF9DF5FCA894F61F70D7C347A55967C738399FA42DB62579FA1D360",
+    "Bytes": 13253
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\IMC_Strategy_Mouse.uasset",
+    "SHA256": "CFD7E98F4C6BB333E7AA07D1D8BFAF77D76A0D5B58779E964CB2D11FCE125D2F",
+    "Bytes": 10507
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\IMC_Strategy_Touch.uasset",
+    "SHA256": "6250793DEB0BB156B3C9777BEA8F082EC0826E5C566193689CCF100BA01A04D2",
+    "Bytes": 2921
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_InteractClick.uasset",
+    "SHA256": "921F25034296D16A65481348B5088EB3864642EE4D60D4B7339EB1EA5D7DE0A1",
+    "Bytes": 1681
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_InteractHold.uasset",
+    "SHA256": "169E0C77C09DA4A48BCAFE659277B58A3BDDA6649FDDCAE2BBA19B86992AABB4",
+    "Bytes": 1754
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_MoveCamera.uasset",
+    "SHA256": "E9118154D003FB3993FD517C91540C2B4C50199120F153ECE5FC11B7CE1A7586",
+    "Bytes": 2153
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_ResetCamera.uasset",
+    "SHA256": "E0D4894A45CA9199B2684817108CB96BDCB5E505092ADA3F97B311AFF451D054",
+    "Bytes": 1303
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_SelectAllDoubleClick.uasset",
+    "SHA256": "B78BBEAEC574934B3E100FE821D12BCB5B6CD66A690EB4392CEA7AB7808D9434",
+    "Bytes": 1751
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_SelectClick.uasset",
+    "SHA256": "36431F3FAF54F3A6233150EAD059CE7360B56D9B6CAA08B83241A1E7F5C183A2",
+    "Bytes": 1671
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_SelectClickAdditive.uasset",
+    "SHA256": "B88A8B7319AD44F8D6A24690BF9F10030DDE995D090033700A08E81A00258EAC",
+    "Bytes": 2109
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_SelectHold.uasset",
+    "SHA256": "BD56FDBAC3194E617DED35FE829A748BE26F179520692536F2F664A6777B581F",
+    "Bytes": 1744
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_SelectionModifier.uasset",
+    "SHA256": "494924A31291A2BF42EB4CBC877080E6D32F30206D8D50774F3B78B80A8A8A0B",
+    "Bytes": 1333
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_Touch_Primary.uasset",
+    "SHA256": "A9724B4355900EB4FC36CB3B8DF9F5230BD12BA03359FB0C58FC19444CA02CD2",
+    "Bytes": 1848
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_Touch_Secondary.uasset",
+    "SHA256": "00D8EB9F1A1AC841DF5E9DEDC9FC1F1B6183AA2E0DA134B0E33024F1A9AD1449",
+    "Bytes": 1883
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\Input\\Actions\\IA_Strategy_Zoom.uasset",
+    "SHA256": "5D0698E3218729D7C10FEE0DDC95DA32481D2942A928714343DBD30F7E221299",
+    "Bytes": 1464
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\UI\\UI_Strategy.uasset",
+    "SHA256": "63EBE622F9ACB109B00A30C5DD0D303EB539F421DE4E255C9907B302A4E59CCB",
+    "Bytes": 52936
+  },
+  {
+    "Path": "Content\\Variant_Strategy\\UI\\WBP_StrategyMobileControls.uasset",
+    "SHA256": "F8B47E916C7BEC8BBF566357701DAC53197B496E2CFD7924BA461F367421C150",
+    "Bytes": 62574
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\LVL_TwinStick.umap",
+    "SHA256": "CF66E40BAB9E0537EC9067662AB3921E2F757ABB598863BC123EF5ABDAFDA1FA",
+    "Bytes": 12216
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\M_Glow.uasset",
+    "SHA256": "1D1BBBBE468EEEF92D26CB6C158DF0DBE61DCB04E69DA1B44E09E093F4AA7171",
+    "Bytes": 13249
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\BP_AssetGuideline_StateTree.uasset",
+    "SHA256": "ED74FE2771A74CE6EFA67D56A66EFDB1DF997C11F2DB450990EDF3AFE631C120",
+    "Bytes": 6170
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\BP_TwinStickAoEAttack.uasset",
+    "SHA256": "7EFDEDE2879AE15B8E0050F798C4465A070DBFC4C799BEF69907C934E5682437",
+    "Bytes": 54863
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\BP_TwinStickCharacter.uasset",
+    "SHA256": "B787FB0291B031E22AF83A9C494F81949F8ECA182FB9E54F6F3716BF4A980171",
+    "Bytes": 72300
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\BP_TwinStickGameMode.uasset",
+    "SHA256": "A001669817C3BD12CC50CE28B85EB0BC0D1DFA2E7A9A17FCD89C13E562632184",
+    "Bytes": 21988
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\BP_TwinStickPickup.uasset",
+    "SHA256": "3FDE9836162AF18F109527BA999A73EA6FEEF155B158421BB4FE24A4026961BF",
+    "Bytes": 59717
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\BP_TwinStickPlayerController.uasset",
+    "SHA256": "01ABB452F056C29228273A7D7ECE5EF2479026938552A700416AFD59ED9C3499",
+    "Bytes": 21864
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\BP_TwinStickProjectile.uasset",
+    "SHA256": "D120B5255D7172A7A9B5CA124B7A7E3370D2BEF20F518539A1E4D289D69B6600",
+    "Bytes": 34087
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\AI\\BP_TwinStickAIController.uasset",
+    "SHA256": "5A14D46FBF6C089CC156DF5D692EFECDC36933BA2F35D8D1A1E657330EE0C38A",
+    "Bytes": 21822
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\AI\\BP_TwinStickNPC.uasset",
+    "SHA256": "A781AE49441D7E8A37FDABAF7620152CF8107CDE824335EB94A2CD3A914EA9C1",
+    "Bytes": 32784
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\AI\\BP_TwinStickNPCDestruction.uasset",
+    "SHA256": "967691DAE7E2B4D51D24A62FD9D39461F200E6A15037B56B7CECAB0AE8CE5373",
+    "Bytes": 67680
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\AI\\BP_TwinStickSpawner.uasset",
+    "SHA256": "AA6E43031E0352778EFD369392181A59BD4759249DE5C0C9BF1C40AEDED1E7D1",
+    "Bytes": 30707
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Blueprints\\AI\\ST_TwinStickNPC.uasset",
+    "SHA256": "239EC327344191A535778686B8F120DB5FF8E15E384522750D5B2CE766C0BED5",
+    "Bytes": 68296
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\FX\\NS_TopDownAction_Destruction.uasset",
+    "SHA256": "9DF3139E34DFE6E36C9282BEF76025A2F27DA911C155A4F26053CC9ECE4F0E8E",
+    "Bytes": 147612
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\IMC_TwinStick_MouseShoot.uasset",
+    "SHA256": "EAD11C745046FE35BFFAF866A90C5B64C73649D4816E20B004D9D9E3B009DEF1",
+    "Bytes": 2448
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\IMC_TwinStick.uasset",
+    "SHA256": "8728C80744EBF35397B89EAE764D919B6FE0F3639F0B272DF4BCCBAD22EFF030",
+    "Bytes": 8514
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Actions\\IA_Action_Dash.uasset",
+    "SHA256": "D346575FA6A858F3586B24F31A6E32FD7C489B92E7EA9B99362E68FD122CB8EC",
+    "Bytes": 1564
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Actions\\IA_Action_Interact.uasset",
+    "SHA256": "2F32AFE94ECFBAA5E27664EA91379DB1C69FDBE3F0F35AE0425D4FB70EFB216E",
+    "Bytes": 1650
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Actions\\IA_Action_MouseAim.uasset",
+    "SHA256": "BDAC1AD722C35062F94E983467F2F275ABA9F6A07C1E68354A052671565F4888",
+    "Bytes": 1476
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Actions\\IA_Action_Move.uasset",
+    "SHA256": "D944ADAC36FE5BD2DAC0674AB1F7335E604D029F3FDED9347ABFFA38000E272B",
+    "Bytes": 1456
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Actions\\IA_Action_StickAim.uasset",
+    "SHA256": "58FBF939D17D2FD8D378ACF73F4BA6695B3DF7C060E7DA9CE4B9CDC10326C5D1",
+    "Bytes": 1476
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Actions\\IA_Action_UseItem.uasset",
+    "SHA256": "C145C151C8EEA3FADAA71838826E6BC3FE5AE1A2A1EA91CA262DC801BAAB1FD2",
+    "Bytes": 1645
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Touch\\BPI_TouchInterface_TwinStick.uasset",
+    "SHA256": "FD799F4787B26D5227712313DB990C8835721EB59DBAE270ABDC267F559AC3C6",
+    "Bytes": 16697
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Touch\\UI_Thumbstick.uasset",
+    "SHA256": "86A77FD462D5A359A21D4EC0255540C08BA688ED714567EF8338434E7FA1FCE9",
+    "Bytes": 223476
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Input\\Touch\\UI_TouchInterface_TwinStick.uasset",
+    "SHA256": "9691071FAACF2D9E6CD7D857680A5E826E430AC53695D5BAE6B537C016D8944D",
+    "Bytes": 83086
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Meshes\\SM_TargetBaseMesh.uasset",
+    "SHA256": "7CB518C95F09351B4DB0609CE84EF1627EE586FD6B52E17EB4A15938209C0C01",
+    "Bytes": 212183
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\Meshes\\GC\\GC_SM_TargetBaseMesh_Destruction.uasset",
+    "SHA256": "DCCEAA6E742A66EE600AB47D49AE4838C594E12E9A25FA136C968FE9DEB94152",
+    "Bytes": 1551409
+  },
+  {
+    "Path": "Content\\Variant_TwinStick\\UI\\UI_TwinStick.uasset",
+    "SHA256": "C9DC5DE3240B4294734311BA80F7925A9CA885A994AF658A34FE4243C583D1F1",
+    "Bytes": 117697
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\DQ\\RVE9L36OBYXPD3FR8PNPJR.uasset",
+    "SHA256": "01A07D73C3A177B52B37026C1E4818D00301274CD8D650CE9D5DE56AAE545BEA",
+    "Bytes": 4303
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\ED\\GP2N37NOM204TM8HSIOHDA.uasset",
+    "SHA256": "6D6C3490FDA5C2AD57B95DB08454330B5D8284341D8F50BAD4E8F960EB673572",
+    "Bytes": 4533
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\H7\\HXHBY8XB24FN2PZ9N5HJNL.uasset",
+    "SHA256": "40F21B2F25AB29461990C23E50477A4EF453C357BF48FB528061A083CD56337F",
+    "Bytes": 3800
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\KK\\FN2AKQMCUI8N4G72TP2P2F.uasset",
+    "SHA256": "1CEC2FFF6187FFADBCBCBC70DD20D968631DEF3C336116A8A207EFC63DAAB7C7",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\RQ\\JQBEDFO07FYQTBAZRBESFQ.uasset",
+    "SHA256": "B862C3C49D7DB33AEB90950ED8A63AEA4BF838E60F90CDD61099D9F0FE9BC08A",
+    "Bytes": 4524
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\RT\\UXR7VJZGTACYQ5KESB48LQ.uasset",
+    "SHA256": "575E6CCDBD3A2B4A5B468BF3C3CDC18D61B09DFF5F67CA06DF50872B1A8B1D29",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\SW\\XDDW2UFRQWQEHQ45U62WCG.uasset",
+    "SHA256": "47F74FBC80530DEE8C236DD704B777BF1DBC36E38FACEE46BA41D763BFB35904",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\WI\\54CLCT4Y9TRDQT3H5CBBO2.uasset",
+    "SHA256": "EC2802E332AFF038B12DE1FC20C03D4215B30A9748BB1AECBB43DAF36D443473",
+    "Bytes": 4587
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\Y4\\CP52WV1UMP464PD8ICZOTA.uasset",
+    "SHA256": "E4ECB6A11691EA434A11FAA94CEDA508F80EEB398DBF9D7867D6B78A2C7E322A",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\1\\ZF\\IJBC0CRZ22BKZL3LLSTS8O.uasset",
+    "SHA256": "7BDFCF5D3DD52C1C826E86A0B5B2358D2B7A3529BFF14A00003FC461F7AC8CE3",
+    "Bytes": 4247
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\2\\0B\\PMMHST2XKRV46LOJVX1P5K.uasset",
+    "SHA256": "6E9B4A79BBD80C4AF18A6D8272C97481BA6B5AC14124509F51FE9DD7231684C3",
+    "Bytes": 4258
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\2\\1W\\YHRY4WLD8BTNQ6QGV0P0HD.uasset",
+    "SHA256": "44DAC590586572B9D20ECA37A22EF1EF5C97F90058E7C1942AC12EB075DBEF77",
+    "Bytes": 4533
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\2\\20\\CAF8980R922NS7UK2NT0EK.uasset",
+    "SHA256": "21B937DD01F5E5A8D87ED0696D7F6562F399CB58851097D4E31C6E9BBCAE3E21",
+    "Bytes": 4249
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\2\\33\\SKUR0WWL7JT7C3OXZMWAQS.uasset",
+    "SHA256": "FC3FB08042B6326758474E043E0A9180CE6772D0B9AA624D91C32D92D39148C6",
+    "Bytes": 4947
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\2\\BC\\O0SDGKASWUILQXBY5MT8BU.uasset",
+    "SHA256": "FD64E0C0CC8B5D105990AA0C1953468DFDADD32B10F4262121FF2913A68404E6",
+    "Bytes": 4423
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\2\\EU\\C5FXL3H56VG2BGRBVI945A.uasset",
+    "SHA256": "8189C9C41DE0B7AE76551F26E9732C2D220055724C83D5CCFD4C4BD48E703500",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\2\\UK\\PK5MGXTTW78V94WNR2EJE5.uasset",
+    "SHA256": "39D70333A61734745C9C279125761F55C6BD7FC5EEC119BF4975CD51D8A27862",
+    "Bytes": 9097
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\3\\3W\\KVKK3JZ9YOQDKZN4SA819U.uasset",
+    "SHA256": "5891D6C61FD033C2570BFB4F31BD289BE47DF2A69EFD91EB74A3045637BECE48",
+    "Bytes": 3682
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\3\\DB\\3WAT7AKB2FD7W2F2FBB3RL.uasset",
+    "SHA256": "6C8177BE87E6C080F12B43CCB2324CB19D4ED52E4EE24EC9D270001621AF4C4C",
+    "Bytes": 4530
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\4\\3R\\FBA0Z00NHOZRLY2VS6QWS5.uasset",
+    "SHA256": "9909814D2E0D6A02434946766782C18AEA5D3677517DB9CB4DCA018BABBE89E9",
+    "Bytes": 5382
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\4\\AH\\Q0LWU54DITS9SGJR66EGIS.uasset",
+    "SHA256": "A2C00F9B5ADF32F5B820FBE95C29A20054DF41AF1771A3AA0BEA78ECE42528C3",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\4\\EF\\HK90174B848TUVF24GPVDP.uasset",
+    "SHA256": "06615965F2F54CD8B7D752625DFFE986E72F8C99D3F967C088E300CF46531DDC",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\5\\FO\\ECPD0L2VGZ9HAW86J7D07O.uasset",
+    "SHA256": "3269C93DC92F77A64EEF29A13C457A9ECE504BE6A5BE9889506D3D440757636B",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\5\\MU\\RF58KVN4H83EF3SOHF978Y.uasset",
+    "SHA256": "B9E51F6803572E2514BBD31C534463D1C8B23CDBAFC32B56ABC822EB36F7B5B2",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\5\\Q0\\VM38BFBBIS13CFU3PR5QZS.uasset",
+    "SHA256": "91B41900602B99DE718A17FCC334980947D1CBB195540E7C94681DF8AEEA9088",
+    "Bytes": 4581
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\5\\TK\\BEGV01JEMC3BQKMHDEA7SB.uasset",
+    "SHA256": "E662C970D13208B609C1AA7D029D6C969B5E3885B39FA9D7E2D2CAE9433E760D",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\6\\38\\VQ8HM2V1RTOU5IAUWY4WGW.uasset",
+    "SHA256": "621690D734434ED7F04278457B59E50C83EC30C3068A808E84843C284C255505",
+    "Bytes": 4587
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\6\\CE\\DT9U6EGO7HSBDBDH26PHEU.uasset",
+    "SHA256": "4C4217A2ECF875EFF07DB28DC0D3059B565FAB57E5CCC16DE6B04EC889D549E6",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\6\\EM\\EPB7DR6H66LKO4QQTOZTJV.uasset",
+    "SHA256": "BCE08E5474252F5AEF8E654587CD6637970B3C5B7A470CCC69997202515632E4",
+    "Bytes": 4249
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\6\\JE\\9E0M0U0V1AAGBPWO0CF9CI.uasset",
+    "SHA256": "CCE3C79371398195146466D489ECC32132128166C7C2295C83176D3002B22A07",
+    "Bytes": 4581
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\6\\MF\\489IW7U7P9MIAKUIULAEPS.uasset",
+    "SHA256": "40CEBF88C5C185BCC7D82E9DD4B0391E08477986890977A5FC2EA50E3A6ADC3E",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\6\\SX\\UJD585HI4TXMW9YG4YAQO1.uasset",
+    "SHA256": "BC6A5DBB077E1ECA3EF1D44362DA498C0797DA046F6F1AEA2CA27457A84001DD",
+    "Bytes": 4259
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\6\\TH\\Z8NDYBYXW69596N30WYMU7.uasset",
+    "SHA256": "CFF44AAF89FBBA1E7563D7E3667341C47A0B0340F54984A57BFE0637810C5EC9",
+    "Bytes": 4261
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\7\\4B\\T1PIVNI01BWDPTT6KC0IOK.uasset",
+    "SHA256": "DCCB27687B4F11A41DA653A033EB0BC19F2D3169D0172BE7F89FFEE94404684B",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\7\\6M\\QTS3CWKKBCQU2OQX281KWZ.uasset",
+    "SHA256": "E26F1AAA6E463928EFE5925E13D3748CD9FBFB89F7194CC1CF113A6AC75AA515",
+    "Bytes": 4261
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\7\\NA\\4DMAZX2N566NQIXEI3N7ZM.uasset",
+    "SHA256": "F429C10407E59450C78B691CD9C0730052F19B3C1DABCB6BC15D4670E5B78A6A",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\7\\PF\\I0DNH0U6BTFFYSKQYHTIC2.uasset",
+    "SHA256": "9787BBD72F3678C941714855635D5B094434622605D0FDBA1F62425FEC003D83",
+    "Bytes": 3695
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\7\\YE\\VXQOJGJUW30HALXKHFYRLV.uasset",
+    "SHA256": "37C04F94284B95A15B1211E47EE57508E8832F46181140FA23C323C0EB8DB6D0",
+    "Bytes": 4575
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\8\\EI\\U2P92STNP0RZF8VV2WCE9O.uasset",
+    "SHA256": "F577F5A6950376AC2E92EF608FE3A121EE78A3447C3409C3A003582ED9F580D6",
+    "Bytes": 4249
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\8\\PY\\QMLKP6A3WDUNKON0OGPXW6.uasset",
+    "SHA256": "BCA024A836A9723D9BC60B1A24DB323FB09DC3FBB872C611A99ED17184071DCC",
+    "Bytes": 4587
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\8\\Q4\\R8M0CG218XE49XJZH5VPL1.uasset",
+    "SHA256": "38022DF1A7C53DA26ECFC0D635E8F392E22D1F29C34D07B2FFA144D2473690A9",
+    "Bytes": 4249
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\9\\BG\\ZOI83A4HBTEWQ0ANEMFW7Y.uasset",
+    "SHA256": "738735DBDD5FBDDEB87D30ED3593A0B18AEB9CAE31DDBEEA868B6E65F6CC985E",
+    "Bytes": 56069
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\9\\OW\\75DR5F3ICVIHE723FRDK10.uasset",
+    "SHA256": "1546BA186AD07EF93C0E7DF375BE3A855E8B0EB6AE2C76DDFC6CEDC36A1C8C8B",
+    "Bytes": 4261
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\9\\V9\\VCZ6Z3BRAFZ7RBG1Y9IVQD.uasset",
+    "SHA256": "0779B7DACEFDD42AAD12BE8990D1E75E132E3CB9C8923411DC69B70792DFB960",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\9\\XA\\AKS4QGDKLNT2ECMCM0OSYJ.uasset",
+    "SHA256": "32D55FCB10CA81E383DD438DB4F99CDC7AEDAD823216A4C59C0589718F12B7A7",
+    "Bytes": 4942
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\A\\11\\XDMMS42FJJ729ISOP9VU34.uasset",
+    "SHA256": "BA15904BE55CFE7500FEEF25E6453446C0CAFAC952E9D3E560CB869151FFE454",
+    "Bytes": 4524
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\A\\3I\\L42FC3SQPNLGCNAE52AMJA.uasset",
+    "SHA256": "DFBBDFB1E5100103E46FF981D0CB8BBCEEDBE98F0F944CD3DE6A5CAF327E2EB3",
+    "Bytes": 4258
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\A\\7H\\0FT8AXSA9QOC4VS5YQUFKK.uasset",
+    "SHA256": "98D129F0A839BF414EC2CDA7509180FDFF8EAF3EC2EC8A2E0C801D42AF120CB1",
+    "Bytes": 4303
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\A\\CA\\QUC0O7VEQCFH5L4KTJ932P.uasset",
+    "SHA256": "94A7328EF048F2F9717DD46DEBBDF9AC915682D86C6F99FDC3F6F9A4B7C7C180",
+    "Bytes": 4303
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\A\\FM\\E2Z2GWJUV6DYF4T64DU12Y.uasset",
+    "SHA256": "FB03C5DE222702586E8472E3983207F6A4484D8BCF57D9039A8C68F51E5B3B19",
+    "Bytes": 4259
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\A\\N5\\5RG8QC3I2LA42PMAV0KQKB.uasset",
+    "SHA256": "47B7FE4ABFB9265A6862AC4AE27292DC38A7B5C4E95D3E4E48810B39A5947369",
+    "Bytes": 4249
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\A\\UI\\FYPDNBRF80ZC1CFUDAJ8O0.uasset",
+    "SHA256": "E3AAE96BA177B2E0B6B2427298BEA22278534428CCCDD3D0D3D3FD81BB68404E",
+    "Bytes": 2512
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\B\\HK\\5C7FMPWMFNNW4N5A6KM7CJ.uasset",
+    "SHA256": "1E4488A8B9386B7C2E1B48C7476246056B4F5F805F9BD70152C278D18D0E8C4D",
+    "Bytes": 3572
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\C\\46\\WDAXNYJP9CJF9H8ENZMQZ0.uasset",
+    "SHA256": "40127215BA5EB41DBC1CB6C819ED58E105A9EA76E5D513621E5A6D8800F389FF",
+    "Bytes": 4565
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\C\\62\\A5TY2GJOS6N9TUYSJCTKQP.uasset",
+    "SHA256": "A0ECD72509D101DC930E3EF6BBB40374790A08D951436CB1DBE222DBD66E8479",
+    "Bytes": 4303
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\C\\BP\\BUPDHPEMHC4VKWBMQ8RZHT.uasset",
+    "SHA256": "FA3B505318DC03DAA89135EB2F692FE7A7CAC715BEB2BB6A5360CDEFA452F131",
+    "Bytes": 4254
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\C\\QY\\NWXGPXGH1INB3E31CV33D7.uasset",
+    "SHA256": "70799A427F616A161C9526E08B53A6C2B8F3B9C91F1845EE720C405EF824F723",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\C\\VX\\0QHACH4DL6THCUYLI1M3P2.uasset",
+    "SHA256": "B5808D4E90F27CADF6B3EBC4BCD2C8C5811378AF25D95C4D54D8D27AA1C3276A",
+    "Bytes": 4135
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\D\\7X\\F3A4HCV21GTJXPK2SLR5GG.uasset",
+    "SHA256": "7B5F03047C542FE2ABF320BC191397EAC858CBF08B370ECB48ADCA4882F08EAC",
+    "Bytes": 4531
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\D\\SH\\PW0AQVQUKM8YU4NRQMBZNU.uasset",
+    "SHA256": "0869241715E69DB18EFA29D2BE06959635516F573B95C92321B497D1AE60A16C",
+    "Bytes": 2413
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\E\\05\\CUR46BAKJ3XVWLZ272OSZL.uasset",
+    "SHA256": "0ACF5DEE82659843DEE0C25C4A8AA0437EAEEBA2558930D86B7812941B14E7D3",
+    "Bytes": 4585
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\E\\1J\\HRXBHJMHKGUJ9O51YEGVI7.uasset",
+    "SHA256": "F03C1AC52B5864594CDB475D324A2BF04E4E1A70F5C5C836A27F58BF110C5C44",
+    "Bytes": 4261
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\E\\4R\\U5OOLFU19ARDKG4EEYPL7O.uasset",
+    "SHA256": "0E0831DA913F947FCDDCE7FD7869844E560EFD245E52E2FF38C727589B477768",
+    "Bytes": 4135
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\E\\AC\\S5HQ3NZCBVHROE3V64DVKY.uasset",
+    "SHA256": "6AB308A5D0DD7FAA493B4484F11706572DF55AAFF2502627704DCD773B3791CB",
+    "Bytes": 4581
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\TopDown\\Lvl_TopDown\\E\\P0\\6BJ49D2QVGYTGKTJ12J1UB.uasset",
+    "SHA256": "79C81A2964315B491C63B49042F3103400EC51418826B3238CDFFC238C1BEE55",
+    "Bytes": 4533
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\07\\5M7T18SMQOQPG4GVQKN297.uasset",
+    "SHA256": "B7028486D4F1667388AA3AD0895B32D1D8FC922F1ECD8FD8F23BFC3AD3A6E528",
+    "Bytes": 5786
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\2C\\JE3A9HV4N5EUTEIPMRAYAD.uasset",
+    "SHA256": "4E4E940C0EA0B7EC3CA4B544D4BCF037FC55DC7E8BA0A56B7477F533EBE728B1",
+    "Bytes": 4116
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\41\\RMYOMEHSWNPQ3Y2OQ1BVKU.uasset",
+    "SHA256": "5F36C1C57522ECE356ACD109A9C2F2C1DC17E830ED9E9B77B5B943773368414D",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\AS\\NKVPW7SGCTO0NP7Y7EZLWA.uasset",
+    "SHA256": "12C4CABFFEF275F23AA23B906FDE5DF0D7C1F372969C635B5D40505B406BDC2D",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\C3\\LQ11TP05Q7V8H9KNSOTLN7.uasset",
+    "SHA256": "663D74A735DB0DA71CF4330595658B761F75BC9B46092471E91C3D152DBAC265",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\FQ\\XR54PGCY6GPFX0VA748UOS.uasset",
+    "SHA256": "DFF933A7DB5F6196E4E0DD6C21CBC3E473D8C0CEB7DFE252907204A5A9024924",
+    "Bytes": 4393
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\N2\\DBT97XB4Z23EBRJF70P3T3.uasset",
+    "SHA256": "B76B6875C370EDEE0E722155A358DD45B72D3F1D0BCFD90341D2D9893A1C91DF",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\PO\\4F96KL2AVYFEPRETKA7F7R.uasset",
+    "SHA256": "C41E3E2C47B079C3CF79DC2060A5B898DF0706347BC6E9676AAA46C549309942",
+    "Bytes": 4432
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\0\\W4\\TAA8WPOOELN8IGFLQ8DH2D.uasset",
+    "SHA256": "0D68C5111B16A7464C8336861729820D05FE93501BE362261780D9CED3587D88",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\1\\0I\\7DYF79Z5QN1WTGTIX8VSNZ.uasset",
+    "SHA256": "FBE5FA6A18AF1F8232BC0CFA23C8482852F9D6B474D6C2940016DC9F0E3FA167",
+    "Bytes": 6030
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\1\\2D\\PSBYP4BUE1L2SNKJY1KCP1.uasset",
+    "SHA256": "157826F83D1481946DE2C17A567DCD1CC9F5FFE66755D08CD79134282FDAE94A",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\1\\3W\\UWZ8D98PG023XV0TWAV93W.uasset",
+    "SHA256": "B79C577AE8FBD15818DA978B09CF68AFEB27F9ABEE754FB299A3ECFBFAF018AD",
+    "Bytes": 4393
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\1\\97\\P902XZ3OXYEF5EWL6FD130.uasset",
+    "SHA256": "282C205F23A7087AA77F010BE42D31CB901E721BE5E39C1E9194C11EC2AF6C4C",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\1\\BI\\2DNHTSM8KQSJZ2KXVB93RJ.uasset",
+    "SHA256": "A1057DCD2324CDE44B37D9A8A284379D10433E43341F3183DD2FF9349D5846F3",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\1\\DT\\A9TL2JI4U6J9FQ2ZVM21QL.uasset",
+    "SHA256": "20EDB1EAA066806ADB9A3379E5C0787A678A91674A43EC89DECF693AFEA443B4",
+    "Bytes": 5362
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\1\\Y2\\ROO6JF0XJ9U200262UQYOJ.uasset",
+    "SHA256": "2470093C2DE29E94A6143E3D9928F0178011A68B485462B8A293735D5957DDB1",
+    "Bytes": 5521
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\9Y\\3E71GTVMYT9QLEVIKGJC1Y.uasset",
+    "SHA256": "1E38DBEBF67F62DA7C1B670C93DCD73AD3996741969966242D944846810401DD",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\A5\\ZA6KA3G72Y0JHK0B8FZS8M.uasset",
+    "SHA256": "E95CB245F621F04546497221770A74BF53ECB8530A977E48FC9AFC8DB4FCB127",
+    "Bytes": 4449
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\BL\\731NYIXITXLCEX4R8G1YC8.uasset",
+    "SHA256": "2CCB80F2ED51F8F27CEE10BBEE1787512E42C1AD9A8CEA108068CE774FB57E77",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\MZ\\SJH8TIEZRN4PBH1HCDRK12.uasset",
+    "SHA256": "A5648C251EC9D96A592B013EC2A1AC8BEAE9E3CA2324CDCDD82F1379A3342254",
+    "Bytes": 4393
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\N1\\ANAPDQ5K6V6AIIN8DA4H4Z.uasset",
+    "SHA256": "38E5B7DFF5B7DB1300286324E1362D18635C02629C6BB4E314706BA04B7EA1D5",
+    "Bytes": 4417
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\PX\\EB6OESXYI62XJ1UFB3O0U4.uasset",
+    "SHA256": "23659FF267BF5A1DA5EB829648330032A5D473F7E64DBFDA1793621CF67A5C1B",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\QG\\PQV01S0CYB8CB3CJFSS80M.uasset",
+    "SHA256": "5D9723019ABAFA74A5144ABBBFB99430D313704CBA20D2A65184D500D72FFD0B",
+    "Bytes": 4417
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\2\\Y6\\7IACCV2D66ULMD7BYCY0T3.uasset",
+    "SHA256": "5EE9CB4C45EE4E0066FA284A0F4649677C1A9F865CAEC5D2C68B295A24AFC74C",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\21\\E3QUMQ6OVVEZRQPX99O1WJ.uasset",
+    "SHA256": "7D549FBC5F2E0A2CA03DC664ECFA79C28E68F326DB3B061CC87B90A71B3D2700",
+    "Bytes": 6030
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\7M\\WCHMYTF9IBT38PXKQR1XNJ.uasset",
+    "SHA256": "0D678EBD7C6D8BE15E2B68AB895DC8E5B7D225D356B9C8E6784B0B57F3AA91B7",
+    "Bytes": 4417
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\7Y\\5P2KRD3VUJFAUI2P7DX6VK.uasset",
+    "SHA256": "8CE52000F5E93ED8D35609F30DEB3C7C4863287C29402D8D9C8C207819371339",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\C6\\ZDXIN6DORDYCS2UMRFEW6M.uasset",
+    "SHA256": "4FDDF0D4993A4BA08BD9EBFE2F281F0265DBB3D7A06EF0FA9555E1CC765D431C",
+    "Bytes": 4363
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\EV\\2R55V2CDFM1OYODMF0NSRJ.uasset",
+    "SHA256": "FF15EA1FE394CE6A3126921AA0D1D98B159F2B6DEECCDD48D941468345D2769A",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\IR\\8XBERZIY5QYTSVCN5Y596K.uasset",
+    "SHA256": "D3646E59511500CD16A8D9A7B4D85E9CC10D8C699849122DA8D4113D97D6FCD5",
+    "Bytes": 4393
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\NZ\\OLHZHHRIELGBI4D5SOKSTA.uasset",
+    "SHA256": "1723205EC65EF0142B5E46D996074E0D174D4754303C4DA7D95CBC962CC4453F",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\PH\\SMD4M4BBCOEZYH57HXMT97.uasset",
+    "SHA256": "D8E7E758C654706B242F8D54654E38CB756024E7EBB2AE9C79C2BBFE7A8449F5",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\SH\\GFJTLS4O4I7MC55Z9ACHQQ.uasset",
+    "SHA256": "586B2294E788542B8C2B9370D7F250E49954557809A5AF0A0DD3857CDBA4AD37",
+    "Bytes": 56960
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\UK\\TPH3XWL31E6AD9EF4SBK2D.uasset",
+    "SHA256": "B8D7D71267579262D889127CEA7D73DBF67A9734F746C1BB4B36371984AD278B",
+    "Bytes": 7042
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\3\\X6\\QGIYXJFGW68OQS8NC9PY8O.uasset",
+    "SHA256": "8AAA76FB1E74D95B94746084692BF084C3BD4356659E4D2BABF286195591D395",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\4\\0H\\P4F2BMKH58EVU7P7VLI5LC.uasset",
+    "SHA256": "AF46389E2EF7D2FE8147485264AC07BC49CB31F5F3EFED3BCF59C1F8EE01B757",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\4\\3X\\HK1AFWIY78EQGAK8YMP1E9.uasset",
+    "SHA256": "303330DC55E95991B2C1C4B91E11E80CE9CE40A74D2B88637DBCDEEEF863CD16",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\4\\6L\\5QQWO8MJ2V1FMU4UTTS3TE.uasset",
+    "SHA256": "EEB0B58AC79EAF1F6CA6F9A7571857CF5A20465DAFAE58B4624F97B138EE0103",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\4\\CP\\20E2K55VG6EJVZRIF2SAFP.uasset",
+    "SHA256": "A246BB465F08CBF953C89695BC46E14773E02C13EC49891B9F9628FE4F1C8B9A",
+    "Bytes": 4415
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\4\\LE\\URUIHJS3LM4ZW6IMKV2XZJ.uasset",
+    "SHA256": "9D91934B3B9EBE32785CFA8F6C73F1D3DA8D5499F10A9DA976597C55CFD538AF",
+    "Bytes": 5786
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\4\\M9\\AV7PTMVNXAEH2AJRH8EGT3.uasset",
+    "SHA256": "CC071A30C740AF227BDB697F4D82FA4BF1093C55229CD9781AE9FD4A7DCBA01B",
+    "Bytes": 11386
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\5\\2C\\NUJGZQBQX9ROI0EFFI9RFB.uasset",
+    "SHA256": "E351CAACDAC465BEE130D33A3D60A2116BB89CC8308121B059E654AABA5FCECD",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\5\\AL\\7W5THG7K2D03LWZZKZXNPN.uasset",
+    "SHA256": "0DDE3DEED17F0C29A408E2F826A108317D1CF1C40402BD2089C75A8F611932EC",
+    "Bytes": 4116
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\5\\BY\\PE8UHTKXB77LMTCFAO6W2H.uasset",
+    "SHA256": "473CFA1B6CA60916E8B5FB888BA5B4C9F29593F832FD97765D6387F87BC09495",
+    "Bytes": 4393
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\5\\DY\\I2RO0MEURQW96LDFI2C18O.uasset",
+    "SHA256": "764744A8FB3CC0C7450E5942E157A2D7051AE9975A867A913E7BB7BDEFEA12CC",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\5\\EP\\QSQIKPQHWN55C2C7IU8Y3A.uasset",
+    "SHA256": "B30A3EBE9F8A85E1775F5B40F5F32F49312B2DE9F07ED0832192E9323E6CCC6C",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\5\\XF\\EBN9HBEKLE7EG544JNQ0HK.uasset",
+    "SHA256": "4A80D237167A809BAC6D6A98B96BC55D961688600ABDEDC7668EAE93F14354E1",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\6\\3N\\JT0ZXL73MAHGD3WG2MAKDK.uasset",
+    "SHA256": "8413B86A99BD8F97FA48B86593D40B0C94185088F0F0BE6E67B598BB71A52CA1",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\6\\AR\\F748VNRZ7K29RPWPTZVGBP.uasset",
+    "SHA256": "3087B1FD692F56363998C63165CAE805DA7FB2C2CDB437811EE3AF86110C58DC",
+    "Bytes": 5786
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\6\\JZ\\IXETFOMTGXV00TVCQHNAQM.uasset",
+    "SHA256": "28FF5368C7F06C1D1C3F1B027E41315B7E439006D720C0EAB1A6BC938947C40B",
+    "Bytes": 4393
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\6\\N8\\7YPSH6R320YA2V1TD97T0M.uasset",
+    "SHA256": "EB906723F25F70ABF75B08B109542AF5E587501BBDD60AE71295F8F5E91C44D6",
+    "Bytes": 12253
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\6\\PL\\2PGX4T4DIX9RW32XF9VU5G.uasset",
+    "SHA256": "E027B33F82654DA0E17017629CDA92F7B5C7AB5A5861A153510BDC73C96D468F",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\6\\VP\\R3XO31U4VB5CH6J797MV9C.uasset",
+    "SHA256": "2E73ADD5C2A62E1F11DE5A4C31B9BE487892F8813813F3EDB88C5726DA121B26",
+    "Bytes": 5224
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\7\\2J\\EEW96CE8H6O7YLD2I0B7YS.uasset",
+    "SHA256": "D6FC41A3461350C8D79F3104F7D15FEE7F2E1231E56AC0618023C8D87CD33262",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\7\\6M\\95KUYPSXLH1XOWTU8ZRVE8.uasset",
+    "SHA256": "F161B04719A40A1F65062E0A2ECCCF0C88BA27819D2C1663E9239EAFB1D64632",
+    "Bytes": 4318
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\7\\AL\\KJUTD8AGV9PKD506EDU21C.uasset",
+    "SHA256": "B640421A32E19A382813BDE5632E4FF0C7D7B346BE3EEC9C608FD88CADB8986E",
+    "Bytes": 4328
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\7\\DT\\66C25FSG9SQZ8YQ36R9QR4.uasset",
+    "SHA256": "DE0E93B4B9ED8FE73FD5E36465B702EDC30C8C4ACBFDCC18EDBF3EC46CF05018",
+    "Bytes": 4114
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\7\\JW\\5TAGOAWU1LO9X7P6HIHD3O.uasset",
+    "SHA256": "CC8C161294AC25C7326EA48A6A391A15BE44B97AFEFAC1EC186C823E7D3C421B",
+    "Bytes": 2260
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\7\\QT\\9X1VZVQE0M9H540LUAVGXK.uasset",
+    "SHA256": "8BBEECDEA7924AA18C427B4ADFEBA9B51BDFF047DAEEA503CCDBEE13E32C4C68",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\17\\0W5094GBEB59BKEQSXLV8K.uasset",
+    "SHA256": "961F404009E3FA00479895BE57DAA33810AC35F20D87DFB9B7D83F9CDDCAE17E",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\2S\\1A9OPETJ9KABWKN84FBLD9.uasset",
+    "SHA256": "6E65FFD6F76395886478B84217532BDC1BA4111CCFD93AC9F337EBD41A6D3E4F",
+    "Bytes": 3816
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\68\\DXIZSEG8YE07XA5O9CPQYP.uasset",
+    "SHA256": "9394BC2A7802A5EA560AB915BFB11325806972675B1CDAC0EAD312FD555C361C",
+    "Bytes": 4432
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\7C\\LOXCVDQC4UYW4L7EE7FHJK.uasset",
+    "SHA256": "8135C3D0472FADEB37936F7F7B393F6CDE6563777E7F0A3841EFC983064A5C31",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\C8\\NXS0YAIXW5EKTUIMVF7YGK.uasset",
+    "SHA256": "1AE09E88E7E3B159D78C2BA3634A2A6DD3A9E1DC1E0D7C3E34D2897C4E36E578",
+    "Bytes": 4220
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\EO\\YIAK0OL7TOHME1ZHFYGNKC.uasset",
+    "SHA256": "737730C4B5414FC7B2E156A6C730749BCD739D261EA15AA5D3730E57B8A8F0F0",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\EX\\OE2BVWGO06FFGGCBIY6OZ6.uasset",
+    "SHA256": "1F687EBECD9B4E6565549F8E2D5F2610687CC07388E7BB9744BEEC1A71E604C9",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\JJ\\VUVADXOLSOKOXKZ2FFFJ72.uasset",
+    "SHA256": "A483DBD23F1A452A0F351656F22D399B2439D4093D71DDF75F06D385E7AE908C",
+    "Bytes": 7040
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\L0\\VT5FLU44ZYMXUDILIS475F.uasset",
+    "SHA256": "76CA81AD8076A146D0B37688882A06F4331A25E2F254752A556AE6861C130536",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\OK\\7SQO9JPPPKD9OS2LN5ZLF7.uasset",
+    "SHA256": "9CEB86A760B0B35CBC5A9D0B4F3B3C015ACC1181D068343FFFD9B2EBA8C9FC27",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\8\\XK\\MBOBHYN8H79615PS2W9MAQ.uasset",
+    "SHA256": "1825DC49E0AA0DC8D59D93BC8DC0141DDED7FA60F1DCA026C605377491879011",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\0F\\D4HRDTZE2HEXRZ15PN0SSP.uasset",
+    "SHA256": "1E4ACBE812F88401613641BB0B2599C728060DDEE1C82115ACF252D4D177CB3F",
+    "Bytes": 7042
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\2N\\UI9CJYW423LUQ2HIP9TMM7.uasset",
+    "SHA256": "F627A01498F1E43525E02217AA65D06F924E759F0C311C261658426EB3818A59",
+    "Bytes": 5224
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\4X\\43DYGBM2L5O4SUAT9PWPUL.uasset",
+    "SHA256": "2549EB2AAF429A9F870CDE584FECC9A20B0041BB0544021E103C8771CF91287F",
+    "Bytes": 4489
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\58\\WY2QT3CFGPRN8JF065YT99.uasset",
+    "SHA256": "A40D040AB868B4C5857F2C9103CFE7D712C3C8795BF8D2E78AE914D97B240C43",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\83\\6U9OQYID4S00OKY9P2ZU5S.uasset",
+    "SHA256": "415AC7A6956C003A372BD5191C202F9DC8D6C523D7E4E867313917EC35360369",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\8X\\LUUG9T9118ZTR1EVZSMF6V.uasset",
+    "SHA256": "7FE6AA401E49F34B0A6795AE4214DAB5A029D1C41D14EEF26F2E670A35505E9C",
+    "Bytes": 3873
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\B0\\H1ZPAG8MKI3RWCHNXG9IQS.uasset",
+    "SHA256": "1503DA46701E82FF54D31CCB7EB6FBFD550970ABF133268515E2CAA48674A2D5",
+    "Bytes": 3698
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\BE\\GUG7TPSEDE6SHBA7TUEXIB.uasset",
+    "SHA256": "24863843A3F8FC016B0C9EABA9DE51298750F7E53C59855308B451B84E2E009F",
+    "Bytes": 5224
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\BO\\N4J4PRVKN6H491CODYYH09.uasset",
+    "SHA256": "57366FE45DB35B1D6BB9907D9EEEE9EFAE66BE2CDD4D0E44460CCC45F65CD4F7",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\C1\\EH2C90Z14U49KQZ0SGXRPL.uasset",
+    "SHA256": "8298B89F560123F53EF5D11C491DCF575DF82B2538D536C460E245154F737AF4",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\F7\\5A99VSISSDOPDD83NOTEAU.uasset",
+    "SHA256": "0472B452553A277E016C979FC299EA912DFC74DDCDBC39B4D1E10C060F475908",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\IT\\PL0FZAX4528P9UA11W1DD3.uasset",
+    "SHA256": "6CDF633A575AD49A9B882D68E15A2F6D6BFDBAF42A11F5DE596ECBF0D2BFC683",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\9\\X4\\DW7CXA3V31FST4DG33KHLG.uasset",
+    "SHA256": "BFBF8C572571281CD0A064C800B9C9E2A650FDB075AF64FDDDCCE72AF39412A7",
+    "Bytes": 4281
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\0G\\N6FX5RB1SXKOHDQCVB8PRQ.uasset",
+    "SHA256": "58986A970C911352E87AFBB2E6AF64E43D8E057491D9C05E56B69383D5B9B7AB",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\2I\\13H0AP1GWGGDWYU8AS8SKA.uasset",
+    "SHA256": "8E1252873997079C53DAB7A5366D327C5B1465DED15012E4385E2A1D8E52A522",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\3T\\YKD2SZ7DVFDZDA4L98ON4W.uasset",
+    "SHA256": "33F8BFF66978893BB7916A1E73FEA48F2EAAB0915574EE099D47204C7996EC28",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\85\\ARTDN5GJ3FX5WLHXM3FBDJ.uasset",
+    "SHA256": "B04658806A74D9A3332B13267AB6371452371D37A900447E94A82B7763A56478",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\9Q\\3MYWH8ZPDN9GNDD9UQFYAL.uasset",
+    "SHA256": "6D309884A5EBB4A7D515F6708B8A2B80EC5E529657E3C143C294A73305908066",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\A3\\LEZVSMWJEOU8GFZDGKQW82.uasset",
+    "SHA256": "B5C453EFE160EA7DA298110BC72DD484840E2D0ECD462DAACA76106C6DA3FEA6",
+    "Bytes": 4417
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\AK\\5Q8RGM7A058L6NK6QQH0V6.uasset",
+    "SHA256": "63289E709055772C3F201E0A8508F60BD08D175575414A660FD748851B056357",
+    "Bytes": 6926
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\B6\\E69NT5MWVYZ8FZ9N10NORZ.uasset",
+    "SHA256": "DCEDEA50ECBBA833CB9B224A3309893D87B8995452D0D27EE6B14ED103BD4733",
+    "Bytes": 4432
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\L9\\565EE6BZQKLLI4FV09KZOS.uasset",
+    "SHA256": "DEFF80F35E572DAD7E6C0E22E7A444E0A60B9FA120A7996B2B01377E590F764B",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\SX\\GF5UP7AC7TXVXM3FXGA8S7.uasset",
+    "SHA256": "CB6953A9FC895953E19D4F815736993412C6FE79D40D8961F0411AF0AFF91911",
+    "Bytes": 4320
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\TJ\\FXTSJPP9Q7M1MSQCN2JN33.uasset",
+    "SHA256": "9A482A0EB16A6E19D742BB2CF1C051537ED68293CFFF75A66909CF3767BD7E8C",
+    "Bytes": 11285
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\UI\\YIR1IUZC8QXRS2JDMB25M2.uasset",
+    "SHA256": "0E5D15BE02EA7B2BEDC3AFD24F9F90541A95785612D8A560E0FA7A63B29C9090",
+    "Bytes": 4318
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\A\\WK\\11WG8HWBADKBJZT8QD1ULI.uasset",
+    "SHA256": "3ABDBDEF580A0A0BD69247CCA328DDE86EE4AF4FBC6128956D5DD936587E6B72",
+    "Bytes": 6030
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\08\\45TH08XMXPNWZE36B8OPMZ.uasset",
+    "SHA256": "DD740CD2F6B03B7D826D7BE8701A2BFCBC90A8370679C72F04CC7E00F592E29A",
+    "Bytes": 4449
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\2S\\M567QKDFVJIVOPI8ZXLPKI.uasset",
+    "SHA256": "21E513F58065B59D344E6367F940B1AA3D8C7A058D4463E541CD856CAF3E3351",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\4O\\RWGFJZ3IAYT4Z96P45J2TX.uasset",
+    "SHA256": "2B576C790C9CD7B3348EDA1C6D588579987956513BEE3B613920C3A9C8747A49",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\7F\\Q4ELXD515VGBTQT5TT1J7M.uasset",
+    "SHA256": "4FE8DACD0A32D52F65E6015E692DDDA68D87895F001853A8CB0A7DDC377E683C",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\MU\\1LX7HWQ9QHI85D0FRQZWV5.uasset",
+    "SHA256": "3BA4356597B23B38CB53C93B2395ACCA25A640AF1329BEC5692E740A6F9BA1C3",
+    "Bytes": 4116
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\NL\\IIELZXSYFRO6KSWBT2BH7K.uasset",
+    "SHA256": "73D498A5BE89978912EFF647F8148C49782B23A77C641F8C20314F79272D7378",
+    "Bytes": 4355
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\OT\\8NEMYHTTE8DCZM9MR13GIV.uasset",
+    "SHA256": "D1019581453473982620BD602453AAB9B45D67EB9F8ADC2E4594380574347DB7",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\SU\\MNZTG7KUIAVRXO8IEM61V2.uasset",
+    "SHA256": "28557E8C946CAB3AE7393D2E0DFF09967E9EF9CEE37450EC5B625A7C134AE729",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\B\\VS\\LHYDJG2MSP6SENYF1OJWM3.uasset",
+    "SHA256": "08CF85DCF13101F54D3A7689749D609078CBA212979F388609AEE89F625A9897",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\1R\\2KJRW1S7TXYY3CH56RRQM5.uasset",
+    "SHA256": "C7A2849F4F173289FB9CE9A571E7BCA3FDB59A73E17F12002785E70CF6A62CBD",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\6U\\NNLLOMSPC1MTQ0UP9W5KUN.uasset",
+    "SHA256": "633B733FF687D8EDF4DA72C02A313342046662FCE5C1313CD71554DC3BD74B47",
+    "Bytes": 4328
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\BT\\7SNF792H9MCGE3Q9OXZA9E.uasset",
+    "SHA256": "CFBF6277FBD3E525AEEFDC94BEDA25257FF0F2C9238CF081DAA6AA22B111E103",
+    "Bytes": 4116
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\EH\\F6OKSXR7R1OR8OJRZ624AJ.uasset",
+    "SHA256": "010206C517D554323DC82B99B6FA05B1A13ADF757FE26FE19C81BA33F37829EE",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\LS\\FZT6BIBU3TCRG5E6GFWC0T.uasset",
+    "SHA256": "21E11A6CAECAABFE7C97373495770313297AB87440D935E3F9CA6491F47EFAF6",
+    "Bytes": 2238
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\S7\\SV523QJR3T9C6I4RLG0OKT.uasset",
+    "SHA256": "27F25C0CA863555A18141632937AE98A4D0AC23C162161247C10171A291E7214",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\UF\\WFJ3P3V5LZQA4LLAC7IXO2.uasset",
+    "SHA256": "59F0C63B76B4DAD9266DDC63770C650F9E7E3119D69D9D6FF16ABEF0061EDAA7",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\XD\\T0Z5BSP3LJJ0IQSR7Z6V41.uasset",
+    "SHA256": "B5FA3708CA2F17F7984BF77B33A730DA0AA77EF6AC355D6ED6D8EA5B883D1DFD",
+    "Bytes": 4279
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\Y5\\08TJ9XALSQEQM1ATUIZ86Q.uasset",
+    "SHA256": "CE25EBAD298DB33D33C6EAA454DB72AD0A7ED34E33D9F15C239DBFC00DBDE774",
+    "Bytes": 4282
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\C\\YM\\J2Q9S5WPW1PM70HD6T0RGA.uasset",
+    "SHA256": "87A923CC0E6930352F075062160CD982FAA6D599FC6E94056252D59866E18130",
+    "Bytes": 4449
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\CO\\LC1X4LVZEEN556USL2V94A.uasset",
+    "SHA256": "1B2409BB642BA956337733A3D1DE8DEE6F763C9379B1DECFC13EA9AAA1A7BEE0",
+    "Bytes": 4281
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\GW\\DB1Q9DJYO5ZO4LCZFQEDQ3.uasset",
+    "SHA256": "E120F81A84914171603AB067BE98E7C9FC24B6500AC6CD41FA4F198EEEAE6BC2",
+    "Bytes": 3588
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\JD\\349G9WT61HBCU3HM5P59FR.uasset",
+    "SHA256": "8AB31A210BD760B3B2E939E567CB9057F244DFEFF739B4093D0D8FEBDB15802D",
+    "Bytes": 5521
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\M4\\4ELSEUMXEMAKLBKCMM64ZB.uasset",
+    "SHA256": "EE6910534CC3BC45554F18B6987B378B8473C60C5AE47351B35C5532F9867C1A",
+    "Bytes": 4434
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\ON\\4NYACSYE03N2W6TOCBIA3U.uasset",
+    "SHA256": "34ABB5A2D5D90E49690FC58D5ADFF1FEC2B30CFD7F0FCC629344FC682FA20DEB",
+    "Bytes": 4395
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\PZ\\MMU5HH1E5HBG9CT8V9IA94.uasset",
+    "SHA256": "35E8822B3622BD652DFF7D2582A2AE317BC1BD4DBC36DD07DCAFAB9BFA98AF0E",
+    "Bytes": 4432
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\QR\\59J6NP86VJRRKFO56S4AHZ.uasset",
+    "SHA256": "F9A9603AE0DB4A5B49DC998FB7326085B76F51FAB86267699879C659FB8D8107",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\D\\X6\\YEE6P03IQ4TA0ZJ0NRNVRY.uasset",
+    "SHA256": "5373070DE408F0FD3799FE06305F794A297DD5A9D68D5913CD6FC121F9EB8044",
+    "Bytes": 5225
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\E\\23\\AJW6RP615YJKXOX608GJS5.uasset",
+    "SHA256": "7618C46402A066C59F47C22A8F078EEFB1A7A83571456A0547D5B9292780DF53",
+    "Bytes": 5521
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\E\\2T\\JB94MPTU62C32DNVXZ27LC.uasset",
+    "SHA256": "CBD71DF7574ABAD9F286B9ACD0D3333484DD05BC1973343EC2F364AFB5632E29",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\E\\D6\\R3BFKW3DJ0FCB6JIFG1TL2.uasset",
+    "SHA256": "8527DAD6AA978AC9D1085D35474C64DE30AA543B6CF7C34121EFB8A6426785B5",
+    "Bytes": 4926
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\E\\GM\\71DEB6VXFR86UQJQGX1ISK.uasset",
+    "SHA256": "2D09D3DD6C30D22C3D06CC263D23332150E687CF8C4C096B42A93901F026892D",
+    "Bytes": 4281
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\E\\R9\\B7UJ8JCPT2YAW6UQS5H6SX.uasset",
+    "SHA256": "7428CA1E51A22821D79427924A10BA2C68BB2DDA22EA03FC89E649A608683A3B",
+    "Bytes": 4228
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\E\\U3\\C2ETKDIVX2JC64CVR45HDR.uasset",
+    "SHA256": "FC5E9E5C36C64841864ED6403A59895AE8CA04F0FFE86D74ABF9EDBF8D1A3608",
+    "Bytes": 4417
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_Strategy\\LVL_Strategy\\F\\4C\\JFJX0PFEQWEWO1LUFNVNXM.uasset",
+    "SHA256": "6863029AB404B5B76E1C03D49184C045AC1CBA2C5359FD6E36F8D0908533D9E6",
+    "Bytes": 5227
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\0\\Z0\\H2NW1MGKA04WBI7UV7XTWY.uasset",
+    "SHA256": "A071F41C4766BD04C47AB6469234DFF0E90E8EDB48F9C8CAB029EFD5F8A635C2",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\1\\OZ\\1AUC0YPG0MAP351MOPZ91W.uasset",
+    "SHA256": "75CCE7AC2D7A7099689CCAD5F9C1D942CA5CC527FAFF85F180AC9C9AC4DFE5FE",
+    "Bytes": 4400
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\2\\2T\\ML35WIS2X3SPWLI85J3Q5X.uasset",
+    "SHA256": "C66D62A5D597DD79A9E3F8FAA0844239D26671EC2054928548BCB19515EA7EFE",
+    "Bytes": 12538
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\2\\JL\\60QQLX9VH7SBV8PE54T0PG.uasset",
+    "SHA256": "695E739C18289F3E6807A4287BDC078036D1AECC70C6B466733E3877B0F7F4A7",
+    "Bytes": 2246
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\3\\LQ\\GRXGE4EXBMKR0ZI7T6Q5RQ.uasset",
+    "SHA256": "04D06A92A1AD356FF87CC6BD087DE1BEB0CEE3A9414A82173198E644BEFF9E66",
+    "Bytes": 5158
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\3\\OT\\SS65U8LSUV09GEMPBTIXXE.uasset",
+    "SHA256": "3F9916B97D2C4BB7A0CF4E1A742045CFB2E6DE26D2C7E866BEE44EEEEDC22C0E",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\4\\69\\EV545TB1XZ9FLRBO3G68LF.uasset",
+    "SHA256": "57423D060826CB95E3B1933138D6E34C4B14CBB7745E05E66B0CDEB866DC2737",
+    "Bytes": 4400
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\4\\8U\\636NGDRJSZP8IMH0XRLO95.uasset",
+    "SHA256": "EBF34C23E16A0DB2AB4FE5A5025407794EB53B8F3DDDCD93FA21B23E836FC94E",
+    "Bytes": 5124
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\4\\HJ\\5QTGZOUSYAR75A5C2WOKHZ.uasset",
+    "SHA256": "0A38A4697F24B42B0B4A7348D51CA826E55ACFFBF3AFE3E4814EEBF7C04DEF23",
+    "Bytes": 3824
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\6\\8I\\FZR4ANBRI1BOUBR0678KEM.uasset",
+    "SHA256": "7CA81E8B22861A997893B7B15AF07E991D4F502E1BDE08D21C50F574C315D7C9",
+    "Bytes": 4400
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\6\\EV\\YH2UNPXWU1KNUUO2ZA2U63.uasset",
+    "SHA256": "CE2D4428CAD8E382A3B3E0B0FAFF6EBF052FDFC2BE0F110A0055AEA88F4671E4",
+    "Bytes": 12164
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\6\\JS\\BL0JE06PRU1AIAAUMZ86GY.uasset",
+    "SHA256": "61951B2BD7522A9360D0B6888537252A67866BA9E7E174C2D00E643C36F43134",
+    "Bytes": 4445
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\6\\NS\\2RY7CHBUGVY0MJ2NTSGTHJ.uasset",
+    "SHA256": "833630FA13F88FDA00CAEBA2041CA56F2CD1A52E295805D5B5FFDFCE414408D4",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\6\\V0\\13PY294MQ1XSW2G4KSYMY6.uasset",
+    "SHA256": "29F0A0DEEE321973E2FA561E5B3710B2E92B8B5B883ECD94F63EF59077BF6F49",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\7\\EL\\5OB2XLVLAIT7NFJI5DZV7C.uasset",
+    "SHA256": "18B8E58B749E733CB5A9706EDD3C80FAB84423D648B5F0B612DAA9B82B97D709",
+    "Bytes": 5124
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\7\\X4\\MF99LD3O7365ND0KYKU5K1.uasset",
+    "SHA256": "E482934BBF28B4BBD534D8AE7F1D046D67598ED92500BAAD10520A5F0386242E",
+    "Bytes": 3706
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\8\\6G\\ZRGEHXKTJNS2BHKSYHLM0R.uasset",
+    "SHA256": "E1CF07F1420C9ACFFCE6A23D5E367DEB6739459CCC8C9D444A7C4ECD1FED8E46",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\9\\E0\\SA0J6ABUZQ0HL9UNXPSTHI.uasset",
+    "SHA256": "247DC567230E6FB69DA1CB45DF2DDE4459EBB30BE33AD958DDAAC51ABF4D482F",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\9\\ML\\ZUPNP0MKZY4A754T1D804R.uasset",
+    "SHA256": "1ABF88439E5948C1E4B8050D2696D1DDC61D1C78A922B434C6DCB0C7CCB24281",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\9\\RV\\NROIL1I3XU4B70M8HZF5XB.uasset",
+    "SHA256": "89A9159F2D9EB03B9FD2C66CB5EE511F5493C807C152264111DADC220C65AB4A",
+    "Bytes": 5124
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\9\\UI\\YIKZQMNWCSLVEJEE5HXUHR.uasset",
+    "SHA256": "66EF7FDDB596D90F02FB20A26299F8AB4A47E66269F6D694FE1058B86B1FFDF0",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\A\\9C\\FE7DU8Q9D37DOKJ0YPKPKK.uasset",
+    "SHA256": "4FE120C74F08F9CAC1485E7C7D6CA21A3B5A0DED21033D767404D4B523A4CE31",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\A\\NB\\5PMMVJEQFFNP1WLTID5NBB.uasset",
+    "SHA256": "11EC8045D122999F3CE7D68D063C3DF8F693898170354AAD15AED6F698082354",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\A\\RF\\KCNBQ961TOGXYK4254OPQZ.uasset",
+    "SHA256": "2FB151BA037266B053E6F7A3C3DC80016F8222186FA49DDD030377136AC9F01C",
+    "Bytes": 4914
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\B\\2N\\VPVO00KHQY00E10168790A.uasset",
+    "SHA256": "ECD5C9F01C6FCBDDBF3A5B3477761C86ACF730A617193712BDB4A6018F8143DF",
+    "Bytes": 2268
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\B\\5D\\XI47L1MBSMRZ8XK3LTX2CB.uasset",
+    "SHA256": "2E7C6851D01745AE31A67144D98F2C739B2DDDF2BD30D8F2ADBCB07ECDF257A7",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\B\\7L\\N4O3RH54KJ5RLZYA4L5252.uasset",
+    "SHA256": "9C56C4A4722D1797980622683B3E74E0DA3A341CBB207EC80C02799C1ADA1FF3",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\B\\DU\\UYN0O3XX9O9MIMZAFZRX2X.uasset",
+    "SHA256": "E1BC832DD9FEDBF5E3DDAC3A988802AFFD1356AA91388E0D05A68C214D7EA04E",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\B\\NM\\Y0Z514JUCTV9K9WN65KKZA.uasset",
+    "SHA256": "D1C6EF80B72D7AD5C8701BF8DA962F5475CCC1017BCE20E3E5CBA86C0E168FB8",
+    "Bytes": 4591
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\B\\RM\\YMHN4JTXOXXP1CX2AET5EK.uasset",
+    "SHA256": "39AB1C7EFFB60A36F4E050684226B39259825FB83133DFE3037EBA87A72E50C8",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\B\\ZL\\SLCFAIA64DJRBATZ27NWX5.uasset",
+    "SHA256": "3EACE5B35BA8B9C4B888BE88D54CF077492B52D8FF02CC9DADA31EEAE888F83D",
+    "Bytes": 4445
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\C\\52\\LC9LDOUDLKG7834XVG4ASS.uasset",
+    "SHA256": "9AA1A0A3A213F99743653CC35110CBBF849291401481EACEC9B9963C6DB078B1",
+    "Bytes": 4474
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\C\\KY\\X1JSAODIJLSR4OV5MLJN81.uasset",
+    "SHA256": "7E87BA52B6D2962A4F1A1929CA595DFC256E17077E5CD56812138634E6931724",
+    "Bytes": 5124
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\C\\L2\\1ZMFCYSWBVG1KFKX81E69Z.uasset",
+    "SHA256": "817B33C36BF5703561124B51BE612F5C411D905B68758B2883603F2C13EF4ACC",
+    "Bytes": 4339
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\D\\J2\\7WN2ZPHTVLKZ131PV2RPY5.uasset",
+    "SHA256": "61E6109CE2B3FB775F6CB922A61E598A3C7B127364D9E0A26CB33669DF418C37",
+    "Bytes": 4445
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\D\\TI\\GTJQ48XYAZOTLD26NDKSIE.uasset",
+    "SHA256": "BD5BC5269593305FC3E6FA0E65AB8542A0CEE70C97FBBCBBB1952B3306284942",
+    "Bytes": 46650
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\E\\07\\VU94ERHT8S9TKCXP0OYGW4.uasset",
+    "SHA256": "2B4ADC0F189CEB0C0B77F21A7F6694344FB444E7E8030DFD83BA0D95DC25EEB1",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\E\\59\\LYH3FN16E6KX2C65FJIO4W.uasset",
+    "SHA256": "1A90EB11ADDDE328478F599C916288D362A23F3E965B25F8E7DFA454D0E998B1",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\E\\5K\\1XT1JXM7VZIGQ71NJGELX0.uasset",
+    "SHA256": "693BD8972029F913800E7D06C5FD7C406995D408707A47142A2060B249F1B641",
+    "Bytes": 3596
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\E\\5W\\A9YKZ7HY1EKCL54LSHM298.uasset",
+    "SHA256": "16C2116350F729244A970D203DA6F4430103608CB4D9D94DAE5C3DEDEDA66ADE",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\E\\AF\\S05CKFQUUKC2MTT7M7JAF6.uasset",
+    "SHA256": "BE99AFB9BB09BECC501E08FCDD1C77E511C98FF7C277C95625B4EEDC5EAE378F",
+    "Bytes": 4597
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\E\\LQ\\MB54T42VSFM3REBWVW5FLK.uasset",
+    "SHA256": "22FA893096C06F6EEE10C1B9DE8FFBFA5BC9D53076DC3D06C498E9FCB19DCD14",
+    "Bytes": 4585
+  },
+  {
+    "Path": "Content\\__ExternalActors__\\Variant_TwinStick\\LVL_TwinStick\\F\\4G\\FUAVN9BX4KF913ZI4C7NIV.uasset",
+    "SHA256": "425823BB8803392CBC4AD8E7EA2B7C5DC63B1D48B2497A8603167395BDC2C6C9",
+    "Bytes": 4445
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\TopDown\\Lvl_TopDown\\1\\5F\\ACU59NVHABC7KE5P5H7QYG.uasset",
+    "SHA256": "771215A0D85B752D981B8B470C609EA9B07FE5D26F89EDE00DCD720C1FA0C784",
+    "Bytes": 1823
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\TopDown\\Lvl_TopDown\\7\\XH\\ILKF82DAIKT5TPOED6FWR3.uasset",
+    "SHA256": "EEE37FB185012FCB9E549EFEA6CD33E9D60ACA4863D54E413ED0198AF2A884FC",
+    "Bytes": 1827
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_Strategy\\LVL_Strategy\\5\\2F\\ZP3SIDH4VMWIM2OVBV9PTW.uasset",
+    "SHA256": "A5C2497C09E3BCB7651DE578B22D5C3E11BA7813026A7922B7331601BFB9B0A8",
+    "Bytes": 1853
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_Strategy\\LVL_Strategy\\5\\98\\O8ATF3OUFRAJBFZSQRYKKU.uasset",
+    "SHA256": "DBCA0F10646A68E6B81B205749F3D1E6703941192C7D8D9027C2F0CDFD856750",
+    "Bytes": 1853
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_Strategy\\LVL_Strategy\\8\\V4\\D0ATQIWXVGKYBVNDP62UTH.uasset",
+    "SHA256": "0603ABCDBE3738C7C79CCB8D041836A7D793A24E9790F85ED9A02700860CE744",
+    "Bytes": 1849
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_Strategy\\LVL_Strategy\\B\\AR\\41W5T1N2JY3G63VV2Z1JGV.uasset",
+    "SHA256": "97C6FE09A11E954270FD18FAF1789DE148CCF4B1861BFCB17AB81738823464C2",
+    "Bytes": 1843
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_Strategy\\LVL_Strategy\\D\\JH\\IYLWHZ1HA9XHGYYYAZZRW3.uasset",
+    "SHA256": "C706422BD0944315DB2BD85C95189584F5AAD890C587BFED7DBF33A05BB667DA",
+    "Bytes": 1849
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_TwinStick\\LVL_TwinStick\\1\\AM\\0BRW36YR2G76MFYALO61PU.uasset",
+    "SHA256": "2005CAF4EBED98FAE5F9337E115395CF24FDDDA0CDD6BBE2F41DDA1BE912C310",
+    "Bytes": 1863
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_TwinStick\\LVL_TwinStick\\8\\AT\\SJS2848HUMZ09R6EDL38J2.uasset",
+    "SHA256": "33127C1C042BFD5D509BC4A15C6BF7E2B3FA757127A60C81C1469CA68B01478C",
+    "Bytes": 1863
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_TwinStick\\LVL_TwinStick\\A\\CU\\Y602KT349DY7KKHP52CJEY.uasset",
+    "SHA256": "6C18551ACC0A3DFFF7D081F62661DE8035ADA919E3CA8186EC474CA77E2D71F1",
+    "Bytes": 1859
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_TwinStick\\LVL_TwinStick\\B\\IB\\9G3EDAMI76YK3PCVG6GDH9.uasset",
+    "SHA256": "84D41A0E3C338FB6546F7CC705E02ACA1FAF3C3E17EB4F9011C418703E3C3CC4",
+    "Bytes": 1859
+  },
+  {
+    "Path": "Content\\__ExternalObjects__\\Variant_TwinStick\\LVL_TwinStick\\C\\7Z\\Z3SLJD2PYS1TQTWNKZBCAX.uasset",
+    "SHA256": "4D3E5281A8C4A1FDA3F9C22B12107A2C4DF7C63333C6BF5E747B2F3424A3C6B1",
+    "Bytes": 1859
+  }
+]

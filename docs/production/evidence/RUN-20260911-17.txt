@@ -1,0 +1,16 @@
+RUN-20260911-17
+Scope: DEC-020 command payload and duplicate-request contract; documentation only.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2541,
+  "markdownFiles": 29,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 76,
+  "errors": []
+}
+UE builds and runtime network tests executed: false.
+Game code, Config, assets, JSON data and task statuses changed: false.

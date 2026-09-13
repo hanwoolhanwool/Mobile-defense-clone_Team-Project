@@ -1,0 +1,46 @@
+[
+  {
+    "Name": "Recipe_M01",
+    "OutputUnitId": "M01",
+    "LegendaryUnitId": "L01",
+    "EpicUnitId": "E03",
+    "RareUnitId": "R03",
+    "LegendaryCount": 1,
+    "EpicCount": 1,
+    "RareCount": 1,
+    "GoldCost": 0
+  },
+  {
+    "Name": "Recipe_M02",
+    "OutputUnitId": "M02",
+    "LegendaryUnitId": "L03",
+    "EpicUnitId": "E02",
+    "RareUnitId": "R02",
+    "LegendaryCount": 1,
+    "EpicCount": 1,
+    "RareCount": 1,
+    "GoldCost": 0
+  },
+  {
+    "Name": "Recipe_M03",
+    "OutputUnitId": "M03",
+    "LegendaryUnitId": "L02",
+    "EpicUnitId": "E01",
+    "RareUnitId": "R01",
+    "LegendaryCount": 1,
+    "EpicCount": 1,
+    "RareCount": 1,
+    "GoldCost": 0
+  },
+  {
+    "Name": "Recipe_M04",
+    "OutputUnitId": "M04",
+    "LegendaryUnitId": "L04",
+    "EpicUnitId": "E04",
+    "RareUnitId": "R04",
+    "LegendaryCount": 1,
+    "EpicCount": 1,
+    "RareCount": 1,
+    "GoldCost": 0
+  }
+]

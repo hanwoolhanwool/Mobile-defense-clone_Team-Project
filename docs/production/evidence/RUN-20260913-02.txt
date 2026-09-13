@@ -1,0 +1,16 @@
+RUN-20260913-02
+Task: TASK-CORE-01
+Preserved input: 606 unique files, 142091676 bytes, copied SHA-256 verified.
+Backup: Saved/BuildRuns/RUN-20260913-02/Input/
+Build run: Saved/BuildRuns/20260913-030434-725/
+VS installer: signed by Microsoft, file version 18.10.12201.205, exit 0, no reboot required.
+Engine: 5.8.2, changelist 56702186
+MSVC directory: 14.50.35717; compiler product version: 14.50.35738.0
+Windows SDK: 10.0.26100.0
+Bundled .NET SDK: 10.0.203
+Project generation: Pass
+Editor compilation: Pass (UnrealEditor-Mobile_defense_clone.dll created)
+Windows UAT package: Pass, ExitCode=0, BUILD SUCCESSFUL.
+Wrapper: Fail due to extra Windows/ directory assumption in artifact path.
+Original wrapper result.json preserved; corrected artifact check and UI verification recorded in RUN-20260913-03.
+Android build and device verification: NotRun; authorized adb device count 0.

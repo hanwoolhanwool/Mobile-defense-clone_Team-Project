@@ -1,0 +1,48 @@
+RUN-20260911-03
+Date: 2026-09-11
+Executor: Codex
+Environment: Windows PowerShell, Node.js, local uncommitted workspace
+Scope: Documentation only; no UE compilation, gameplay, device, or data-value test executed.
+
+Commands:
+node tools/build-planning.mjs
+node tools/validate-planning.mjs
+
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+{
+  "result": "PASS",
+  "checks": 2187,
+  "markdownFiles": 27,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 71,
+  "errors": []
+}
+
+Additional read-only Node.js inspection:
+Checked the two extension documents for expected metadata, one H1 title,
+UTF-8 replacement characters, balanced code fences, feature section counts,
+and acceptance-case counts. The existing planning validator validates their
+links and tables; its editableTopicDocuments count remains the 10 GDD sources.
+
+{
+  "result": "PASS",
+  "reports": [
+    {
+      "file": "docs/technical/EDITOR_TOOLS.md",
+      "id": "SPEC-EDITOR",
+      "lines": 206,
+      "featureSections": 6,
+      "acceptanceCases": 9
+    },
+    {
+      "file": "docs/technical/AUTOMATION.md",
+      "id": "SPEC-AUTOMATION",
+      "lines": 238,
+      "featureSections": 6,
+      "acceptanceCases": 9
+    }
+  ],
+  "errors": []
+}
+

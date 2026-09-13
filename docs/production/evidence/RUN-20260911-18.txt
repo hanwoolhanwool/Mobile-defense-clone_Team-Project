@@ -1,0 +1,15 @@
+RUN-20260911-18
+Scope: Original reference audit and documentation precedence (DEC-021).
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2611,
+  "markdownFiles": 30,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 76,
+  "errors": []
+}
+UE builds and original-game direct tests executed: false.

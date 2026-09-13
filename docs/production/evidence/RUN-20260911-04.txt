@@ -1,0 +1,14 @@
+RUN-20260911-04
+Scope: documentation for DEC-008; no UE build or gameplay execution.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2242,
+  "markdownFiles": 28,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 71,
+  "errors": []
+}

@@ -1,0 +1,1 @@
+--quiet --wait --norestart --installPath "C:\Program Files\Microsoft Visual Studio\18\Community" --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NativeGame --add Microsoft.VisualStudio.Component.VC.14.50.18.0.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.26100

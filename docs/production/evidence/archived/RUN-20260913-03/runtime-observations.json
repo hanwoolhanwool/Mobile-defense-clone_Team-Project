@@ -1,0 +1,12 @@
+{
+  "Observed": "2026-09-13T03:19:52.3423008+09:00",
+  "PackagedMap": "Pass: Lvl_TopDown rendered; click moved character off cyan platform; Alt+F4 normal exit",
+  "EditorPIE": "Pass: Lvl_TopDown loaded; Play entered PIE; click movement observed; Stop returned to editor; Alt+F4 normal exit",
+  "EngineStartupCultureComparison": {
+    "ko": 15,
+    "en": 0,
+    "DiagnosticArgs": "-nullrhi -unattended -nosound -seconds=3; only culture changed between diagnostic runs"
+  },
+  "ArtifactRecheck": "Pass; initial path-assumption failure preserved in result.json",
+  "SourceContentPreservation": "533 original source/content files unchanged"
+}
