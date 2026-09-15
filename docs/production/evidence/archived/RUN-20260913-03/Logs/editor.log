@@ -1,0 +1,56 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" Mobile_defense_cloneEditor Win64 Development -Project=C:\Users\iam12\Mobile_defense_clone\Saved\BuildRuns\20260913-030434-725\Workspace\Mobile_defense_clone.uproject -WaitMutex -NoHotReloadFromIDE -2026 -CompilerVersion=14.50.35717 -WindowsSdkVersion=10.0.26100.0 -MaxParallelActions=4
+Log file: C:\Users\iam12\AppData\Local\UnrealBuildTool\Log.txt
+Executing up to 4 actions based on MaxProcessorCount override
+Creating makefile for Mobile_defense_cloneEditor (no existing makefile)
+UbaServer - Listening on 0.0.0.0:1345
+UHT compiled-in object format Default
+Building Mobile_defense_cloneEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from Mobile_defense_clone unity file: Mobile_defense_clone.cpp, Mobile_defense_cloneCharacter.cpp, Mobile_defense_cloneGameMode.cpp, Mobile_defense_clonePlayerController.cpp, EnvQueryContext_MoveGoal.cpp, StrategyGameMode.cpp, StrategyPawn.cpp, StrategyPlayerController.cpp, StrategyUnit.cpp, StrategyHUD.cpp, StrategyTouchControls.cpp, StrategyUI.cpp, TwinStickCharacter.cpp, TwinStickGameMode.cpp, TwinStickPlayerController.cpp, TwinStickAIController.cpp, TwinStickNPC.cpp, TwinStickNPCDestruction.cpp, TwinStickSpawner.cpp, TwinStickStateTreeUtility.cpp, TwinStickAoEAttack.cpp, TwinStickPickup.cpp, TwinStickProjectile.cpp, TwinStickUI.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 30 action(s)
+  CPU 6 physical cores, 12 logical cores
+  Memory 31.65 GB physical, 26.71 GB/54.65 GB committed
+  UBA Storage capacity 40 GB
+[1/30] Compile Resource [x64] Default.rc2
+[2/30] Compile [x64] SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.cpp
+[3/30] Compile [x64] Mobile_defense_clone.cpp
+[4/30] Compile [x64] Mobile_defense_cloneGameMode.cpp
+[5/30] Compile [x64] Mobile_defense_cloneCharacter.cpp
+[6/30] Compile [x64] EnvQueryContext_MoveGoal.cpp
+[7/30] Compile [x64] StrategyGameMode.cpp
+[8/30] Compile [x64] StrategyHUD.cpp
+[9/30] Compile [x64] Module.Mobile_defense_clone.cpp
+[10/30] Compile [x64] StrategyPawn.cpp
+[11/30] Compile [x64] Mobile_defense_clonePlayerController.cpp
+[12/30] Compile [x64] StrategyTouchControls.cpp
+[13/30] Compile [x64] StrategyUI.cpp
+[14/30] Compile [x64] StrategyPlayerController.cpp
+[15/30] Compile [x64] TwinStickAoEAttack.cpp
+[16/30] Compile [x64] StrategyUnit.cpp
+[17/30] Compile [x64] TwinStickAIController.cpp
+[18/30] Compile [x64] TwinStickNPC.cpp
+[19/30] Compile [x64] TwinStickCharacter.cpp
+[20/30] Compile [x64] TwinStickNPCDestruction.cpp
+[21/30] Compile [x64] TwinStickGameMode.cpp
+[22/30] Compile [x64] TwinStickPickup.cpp
+[23/30] Compile [x64] TwinStickProjectile.cpp
+[24/30] Compile [x64] TwinStickSpawner.cpp
+[25/30] Compile [x64] TwinStickPlayerController.cpp
+[26/30] Compile [x64] TwinStickUI.cpp
+[27/30] Compile [x64] TwinStickStateTreeUtility.cpp
+[28/30] Link [x64] UnrealEditor-Mobile_defense_clone.lib
+   C:/Users/iam12/Mobile_defense_clone/Saved/BuildRuns/20260913-030434-725/Workspace/Intermediate/Build/Win64/x64/UnrealEditor/Development/Mobile_defense_clone/UnrealEditor-Mobile_defense_clone.lib 라이브러리 및 C:/Users/iam12/Mobile_defense_clone/Saved/BuildRuns/20260913-030434-725/Workspace/Intermediate/Build/Win64/x64/UnrealEditor/Development/Mobile_defense_clone/UnrealEditor-Mobile_defense_clone.exp 개체를 생성하고 있습니다.
+[29/30] Link [x64] UnrealEditor-Mobile_defense_clone.dll
+[30/30] WriteMetadata Mobile_defense_cloneEditor.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 74.13 seconds
+Output binary: C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe
+
+Result: Succeeded
+Total execution time: 94.45 seconds
+Trace written to file C:\Users\iam12\AppData\Local\UnrealBuildTool\Trace.uba with size 19.2kb

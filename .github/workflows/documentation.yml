@@ -1,0 +1,32 @@
+name: Documentation, design data and code style
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.15.0'
+          package-manager-cache: false
+      - name: Install pinned C++ formatter
+        run: |
+          python3 -m venv "$RUNNER_TEMP/code-style"
+          "$RUNNER_TEMP/code-style/bin/python" -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: --no-deps -r tools/style/requirements.txt
+          echo "CLANG_FORMAT=$RUNNER_TEMP/code-style/bin/clang-format" >> "$GITHUB_ENV"
+      - name: Check documentation, evidence, generated data and code style
+        run: node tools/check-project.mjs
+      - name: Check validator rejection cases
+        run: node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs

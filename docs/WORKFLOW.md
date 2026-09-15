@@ -1,0 +1,209 @@
+---
+id: DOC-WORKFLOW
+version: 0.4.0
+status: Baseline
+owner: Codex
+updated: 2026-09-14
+reviewed: 2026-09-14
+review_run: RUN-20260914-04
+applies_to: 문서·Git·검증 운영
+baseline_basis: DEC-023 문서 운영, DEC-024 main 보호 및 DEC-025 코드 규약·자동 검사 도입 지시
+---
+
+# 기획 문서 관리 방식
+
+[기획 허브](README.md) · 운영 기준 0.4 · 2026-09-14
+
+## 1. 이 프로젝트의 운영 방식
+
+프로젝트 저장소 안의 Markdown을 기획 원본으로 관리하고, Git 변경 내역으로 누가 무엇을 바꿨는지 추적합니다. 작업 상태는 현재 [작업 보드](production/BOARD.md)가 원본입니다. GitHub Projects·Jira 등을 나중에 도입하면 상태 원본을 한 곳으로 이관하고 이 보드는 링크 안내로 바꿉니다.
+
+허브는 탐색, 제품 문서는 목표·범위, 기능 명세는 동작, 데이터 명세는 타입, 작업 보드는 진행, 결정 기록은 이유, 검수 기록은 증거를 담당합니다. 문서 수는 기능 규모에 맞게 늘리되 매일 읽는 시작점은 허브 하나로 유지합니다.
+
+기존 GDD의 20개 장은 기능별 원본으로 옮겼습니다. 기존 GDD 경로에는 같은 원본에서 만드는 전체 읽기본을 제공합니다. 읽기본을 고치면 다음 생성 때 덮어써지므로 수정하지 않습니다.
+
+## 2. 원본과 책임
+
+| 정보 | 편집 위치 | 책임 역할 |
+|---|---|---|
+| 제품 목표·범위 | product/OVERVIEW.md | 프로젝트 오너/기획 |
+| 기능 규칙·예외 | design/*.md | 해당 기능 기획 담당 |
+| 아트 제작 기준 | art/ART_DIRECTION.md | 아트 담당 |
+| UE 구조·성능·네트워크 | technical/ARCHITECTURE.md | 개발 담당 |
+| 개발 환경·프로젝트 시작 절차 | technical/DEVELOPMENT_SETUP.md | 개발 담당 |
+| 빌드·실행 명령·산출물·로그·성공 기준 | technical/BUILD_RUN.md | 개발 담당 |
+| 개발 에디터·제작 및 검증 자동화 | technical/EDITOR_TOOLS.md, technical/AUTOMATION.md | 도구 개발+기획+QA |
+| 데이터 구조 | DATA_SCHEMA.md | 개발+기획 |
+| 초기 수치·생성 공식 | tools/build-design-data.mjs | 밸런스 담당, 현재는 개발 협업 |
+| 작업 진행 상태·실제 담당자 | production/BOARD.md | 작업 담당자 |
+| 전체 진행 상황 요약·주요 진행 이력 | production/PROJECT_STATUS.md | 원본을 갱신한 작업 수행자 |
+| 테스트 실행·증거 | production/TEST_RUNS.md | 실행자 |
+| 결정 근거 | DECISIONS.md | 결정을 내린 책임자 |
+
+담당자가 정해지지 않은 곳은 `unassigned`/`미지정`으로 남깁니다. 예시 역할명을 실제로 배정된 사람처럼 표시하지 않습니다. 한 사람이 여러 역할을 맡아도 됩니다. 코드 경로와 데이터 경로는 별도 표시가 없으면 프로젝트 루트 기준입니다.
+
+## 3. 문서 상태와 작업 상태
+
+### 문서 상태
+
+| 상태 | 뜻 | 변경 근거 |
+|---|---|---|
+| Draft | 검토·실험 중인 설계 | 초안 작성 |
+| Review | 영향을 받는 역할이 검토 중 | 검토 대상과 미해결 항목 기록 |
+| Baseline | 해당 마일스톤에서 사용할 합의된 규칙 | 결정 기록 또는 기존 사용자 지시 연결 |
+| Deprecated | 다른 명세로 대체 | 대체 문서 링크 |
+
+각 원본 문서 상단 메타데이터의 status가 기준입니다. 문서 전체가 Draft여도 그 안의 사용자 확정 조건은 결정 기록에 따라 확정 상태를 유지합니다. 이미 요청·허용된 프로토타입 작업은 Draft의 작업 기준으로 진행할 수 있습니다. Draft를 이유로 매번 추가 승인을 요청하지 않습니다.
+
+### 작업 상태
+
+| 상태 | 뜻 |
+|---|---|
+| Backlog | 등록됨, 착수 범위·선행 작업을 정리할 단계 |
+| Ready | 담당자·명세·완료 조건·선행 작업이 준비됨 |
+| InProgress | 실제 작업 중 |
+| Review | 변경 사항을 확인 중 |
+| QA | 테스트와 기기 검수 중 |
+| Done | 완료 조건을 검증했고 증거가 연결됨 |
+| Blocked | 구체적인 외부 의존성 때문에 진행할 수 없음 |
+
+문서가 Baseline이 되었다고 작업이 Done이 되지 않습니다. 구현 파일이 존재한다고 테스트가 통과한 것도 아닙니다. Blocked에는 원인·해결 담당·재확인 조건을 적습니다. 초기 보드의 Backlog는 실제 코드의 미구현 판정이 아니라 진척을 아직 확인하지 않은 등록 상태입니다.
+
+## 4. 작업을 시작할 때
+
+작업 시작·중단·완료, 검수 결과, 다음 우선순위나 미정 항목이 바뀌면 원본을 먼저 기록하고 [전체 진행 현황](production/PROJECT_STATUS.md)의 A 영역을 갱신합니다. 주요 완료·단계 전환·문제 해결은 B에 근거와 함께 남깁니다. Codex가 수행한 작업도 응답을 마치기 전에 반영합니다. C의 전체 흐름은 계획 변경 때만 수정하며, 구체적인 갱신 체크리스트와 양식은 해당 문서 D를 따릅니다.
+
+1. `TASK-ECON-01`처럼 작업 ID 하나를 정하고 작업 보드에서 실제 담당자와 상태를 갱신합니다.
+2. 연결된 기능 명세, 필요한 데이터, QA 기대 결과를 읽습니다.
+3. 이 작업에서 바꿀 범위·바꾸지 않을 범위를 작업 메모 또는 이슈에 짧게 씁니다.
+4. 완료 조건이 애매하면 관찰 가능한 결과로 다듬습니다. 예: `소환이 됨` → `확인한 초기 자원·소환 횟수·비용 규칙에 따른 잔액과 다음 비용이 일치함`. 게임 수치는 원작 대조 후 채웁니다.
+5. 구현을 진행하고 변경 내용과 검수 결과를 같은 작업 ID로 연결합니다.
+
+개발 작업은 보통 반나절~2일 정도로 확인 가능한 크기로 나눕니다. 기존 3~6일짜리 작업은 상위 항목으로 두고 실제 착수 시 `TASK-COMBAT-02.1` 같은 하위 작업 또는 이슈를 만듭니다. WIP는 담당자당 InProgress 1개를 기본으로 하되 긴 빌드 대기 등 합리적 예외는 기록합니다.
+
+## 5. 기획을 변경할 때
+
+오탈자·링크·문장 정리는 해당 원본만 고치고 커밋 또는 변경 설명에 남깁니다. 별도의 변경 제안서를 만들지 않습니다.
+
+소환 확률, 보장 규칙, 경제, 보스 시간, 저장 형식, 플랫폼, 네트워크 구조, 출시 범위를 바꾸면 짧은 변경 기록을 남깁니다. 기록에는 문제, 현재값, 제안값, 영향을 받는 명세·데이터·작업·QA, 판단 근거가 들어갑니다. 기존 사용자 지시가 변경을 이미 결정했다면 그 지시를 근거로 적용합니다.
+
+```text
+변경 필요 발견
+ → TEMPLATES의 변경 양식으로 이유·영향 정리
+ → 이미 결정된 요청이면 적용, 대안 검토가 필요하면 담당자가 결정
+ → 원본 명세와 데이터 변경
+ → 작업·QA·일정 영향 반영
+ → 필요한 생성·검증 실행
+ → 변경 이력·결정 기록 갱신
+```
+
+예를 들어 과밀 기준100을120으로 올리는 제안은 전투 명세, GameRules 생성값, 과밀 QA, 최대 적 부하 테스트, 관련 UI를 함께 확인해야 합니다. 이는 관리 방법을 설명하는 예시이며 현재 게임 수치에는 반영하지 않았습니다.
+
+결정 기록은 중요한 방향·트레이드오프에만 만듭니다. 단순 변수명 수정마다 기록을 만들지 않습니다. 확정된 결정을 바꾸면 이전 기록을 지우지 않고 새 결정 ID와 대체 관계를 남깁니다.
+
+## 6. 버전과 Git
+
+파일명은 고정합니다. 기능 문서는 현재 버전이며 과거 상태는 Git 커밋으로 조회합니다. 새 문서 체계 버전은0.2, 게임 데이터 RulesVersion은 현재0.1.0으로 서로 별개입니다. 문서 재정리만으로 전투 규칙 버전을 올리지 않습니다.
+
+- 의도·동작이 바뀌면 해당 명세 version과 updated, CHANGELOG를 갱신합니다.
+- 오탈자·링크 정리는 updated 또는 커밋 설명만으로 충분합니다.
+- 데이터 계약·수치가 바뀌면 RulesVersion과 관련 검증 기준도 함께 검토합니다.
+- 진행 중 매치에 다른 데이터 버전을 섞지 않습니다.
+
+권장 브랜치명 예시는 `codex/docs-summon-pity` 또는 `codex/ECON-01-summon`입니다. 커밋·PR 설명에 작업 ID와 변경 이유를 넣습니다. 예: `docs(SPEC-SUMMON): 보장 발동 조건 명확화`.
+
+기준 커밋에는 프로젝트·Source·Content(기존 맵 조명 데이터 포함)·공유 Config·문서·생성 데이터·검사 도구를 포함합니다. 커밋 전 diff·파일 목록을 검토하고 캐시·빌드 산출물·개인 설정·토큰은 제외합니다. 2026-09-14 사용자 후속 요청으로 `codex/docs-operations-baseline`을 원격에 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)을 생성했습니다. 이어서 DEC-024의 main 보호 규칙을 적용했습니다. 실제 main 병합은 PR 상태를 따릅니다. 사용 중인 저장소가 GitHub라면 동봉한 이슈/PR 템플릿을 사용할 수 있습니다. 템플릿은 GitHub 기본 브랜치에 반영된 이후 웹 UI에서 적용됩니다. [GitHub 템플릿 안내](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
+
+## 7. 생성과 검사
+
+Node.js 24.15.0과 clang-format 20.1.8을 로컬/CI 검사 기준으로 사용합니다. 외부 npm 의존성은 없습니다. 최초에는 [포맷 도구 설치](technical/CODE_STYLE.md)를 수행합니다. 다음 명령은 파일을 수정하지 않습니다.
+
+```powershell
+node tools/check-project.mjs
+node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs
+```
+
+[GitHub Actions 설정](../.github/workflows/documentation.yml)의 실행 조건은 다음과 같습니다. 파일 경로 필터는 없으며, 조건에 해당하는 변경마다 문서·데이터·C++ 스타일 검사를 실행합니다.
+
+| 실행 조건 | 구체적인 동작 |
+|---|---|
+| PR 생성 | 초안 PR 포함, 새 PR을 열 때 실행 |
+| PR에 커밋 추가 | 열린 PR의 작업 브랜치에 새 커밋을 push하면 synchronize 이벤트로 실행 |
+| PR 재오픈 | 닫힌 PR을 다시 열 때 실행 |
+| main push | main에 직접 push하거나 PR을 병합해 main이 바뀔 때 실행 |
+| 수동 실행 | workflow_dispatch. 워크플로 파일이 기본 브랜치 main에 등록된 뒤 Actions 화면/CLI에서 실행 가능 |
+
+PR이 없는 작업 브랜치에 push하는 것만으로는 실행되지 않습니다. PR 제목·본문 편집은 현재 자동 실행 조건에 포함하지 않습니다. 수동 실행의 기본 브랜치 요건과 PR 기본 이벤트는 [GitHub 공식 실행 조건](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)을 따릅니다.
+
+첫 문서 CI 실행은 [Actions 34788260254](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34788260254)에서 성공했습니다. DEC-025 이후에는 C++ 스타일 검사와 관련 테스트도 같은 필수 작업에 포함합니다. PR 검사는 GitHub가 만든 병합 예상 커밋을 대상으로 합니다. Unreal 컴파일·패키징·Android 실기기는 포함하지 않습니다.
+
+2026-09-14 DEC-024에 따라 main 보호 규칙을 적용하고 GitHub API로 다시 조회했습니다. [설정 조회 증거](production/evidence/RUN-20260914-03-protection.json)
+
+| 보호 항목 | 현재 적용값 |
+|---|---|
+| main 변경 경로 | PR을 통한 변경 필수 |
+| 필수 CI | GitHub Actions 앱이 실행한 `documentation` 검사. 실패·대기 상태이면 병합 차단 |
+| 최신 main 반영 | strict=true. 병합 전에 기준 브랜치의 변경을 반영하고 다시 검사 |
+| 관리자 적용 | 관리자도 동일 보호 규칙 적용 |
+| 강제 push·main 삭제 | 허용하지 않음 |
+| 리뷰 대화 | 미해결 대화 해소 필수 |
+| 필수 승인 인원 | 현재 0명. 별도 리뷰 담당자를 배정하면 1명 이상으로 재검토 |
+
+필수 승인 0명은 사람의 코드 리뷰를 완료했다는 의미가 아닙니다. 현재 미배정 상태에서 승인 대기로 모든 작업을 막지 않도록 한 운영 선택입니다. 코드 리뷰 담당자가 정해지면 담당 범위·승인 수·CODEOWNERS 도입을 함께 정합니다. 보호 규칙의 기본 동작은 [GitHub 보호 브랜치 안내](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)를 따릅니다. 워크플로 권한은 contents 읽기로 한정합니다.
+
+
+기능별 기획을 수정했다면:
+
+```powershell
+node tools/build-planning.mjs
+node tools/validate-planning.mjs
+```
+
+초기 수치를 변경했다면:
+
+```powershell
+node tools/build-design-data.mjs
+node tools/validate-design-data.mjs
+node tools/build-planning.mjs
+node tools/validate-planning.mjs
+```
+
+데이터 생성은 JSON을 덮어씁니다. 기획 생성은 전체 GDD 읽기본을 덮어씁니다. 기능별 원본·작업 보드·결정 기록은 자동으로 덮어쓰지 않습니다. 문서 검사는 GDD 원본 목록과 독립적으로 기술·기능 문서의 메타데이터, 문서 ID, 링크, 보드/현황 집계, 다음 작업, Done의 실행·조건별 증거, 보관 파일 해시와 읽기본 최신 여부를 검사합니다. 문장 의미·게임 밸런스·실제 UE 구현은 사람이 검수해야 합니다.
+
+## 8. 완료 기준과 검수 기록
+
+작업을 Done으로 옮길 때는 요구사항 충족, 필요한 테스트 통과, 관련 문서·데이터 갱신, 검수 증거 연결을 확인합니다. 모바일 화면/성능 작업은 기기·빌드·해상도·실행 조건을 남깁니다. 테스트를 실행하지 않았으면 `미실행`으로 기록하고 예상 결과를 통과 결과처럼 쓰지 않습니다.
+
+데이터 검증 스크립트 통과는 데이터 QA 증거입니다. 서버 권한·터치·실제 전투 테스트의 대체 증거로 쓰지 않습니다. 실패 항목에는 재현 조건·현재 결과·기대 결과·수정 작업을 연결합니다.
+
+Done은 [완료 판정 JSON](production/verification.json)에 작업·판정 범위·검토자·조건별 Pass·연결 Run·증거를 기록해야 합니다. 판정 Run은 해당 작업의 실제 기록과 연결되고 Pass여야 합니다. 최초 실패 Run은 보존하고 재검증 Run을 추가합니다. 자동 검사는 연결·형식·해시를 확인하며 조건의 충분성·증거의 의미는 리뷰에서 확인합니다.
+
+## 9. 반복 운영
+
+작업을 시작할 때 보드에서 오늘 할 일을 선택하고, 종료할 때 진행 상태와 막힌 점을 갱신합니다. 주 1회 정도 다음 마일스톤의 우선순위·남은 위험·실측 처리량을 확인합니다. 시간은 대략15~30분을 기본으로 합니다. 이는 팀 운영 제안이며 예약 자동화는 설정하지 않았습니다.
+
+플레이 테스트 후에는 문제를 먼저 기록하고 변경안을 정합니다. 한 실험에서 HP·수입·확률을 모두 바꾸지 않고, 빌드/시드/기기와 변경 변수에 연결해 비교합니다. 일정은 첫2주 실제 속도로 다시 추정합니다.
+
+## 10. 문서 책임과 증거 보관
+
+- 이번에 정리한 운영·실행 안내의 유지 담당은 Codex입니다. 사용자 대신 제품/설계 결정을 확정하는 권한을 뜻하지 않습니다. 미배정 게임 명세는 unassigned/Draft로 유지하고 실제 착수 때 지정합니다.
+- `updated`는 문서 변경일, `reviewed`/`review_run`은 문서 검토일/기록, `applies_to`는 적용 대상입니다. `verified`/`verified_run`/`verification_scope`는 실제 실행한 날짜/기록/범위이며 Windows 통과를 Android 검증으로 확장하지 않습니다.
+- Review/Baseline에는 담당자와 문서 검토 근거가 필요합니다. Baseline은 `baseline_basis`에 결정 근거를 남깁니다. 일부만 검증한 절차·미확정 게임 명세는 Draft를 유지합니다.
+- 증거의 저장 위치·보관 기간·삭제 조건은 [증거 보관 규칙](production/EVIDENCE.md)을 따릅니다.
+- 주간 점검에서는 미배정/미결정 문서를, 마일스톤에서는 설치·빌드 절차와 실제 검증일을 대조합니다. 날짜만 바꿔 최신으로 보이게 하지 않습니다.
+
+이 체계는 특정 회사 절차를 그대로 복사한 표준이 아니라, [PRD와 성공 기준](https://www.atlassian.com/agile/product-management/requirements), [버전 관리 설계 문서와 결정 상태](https://handbook.gitlab.com/handbook/engineering/architecture/workflow/)를 현재 프로젝트에 맞게 적용한 운영안입니다.
+
+## 11. 코드 작성 규약 운영
+
+DEC-025로 다음 규약과 설정을 도입했다. 도입 전 보유 현황은 RUN-20260914-03에 보존하며, 현재는 아래 문서를 사용한다.
+
+| 항목 | 원본·적용 |
+|---|---|
+| Git 커밋 규약 | [COMMIT_CONVENTION.md](../COMMIT_CONVENTION.md). 메시지·변경 단위·PR 지침 |
+| C++·Blueprint 작성 | [코드 작성 규약](technical/CODING_STANDARD.md). 헤더·수명·노출·권한·오류·그래프·리뷰 |
+| 이름·폴더·데이터 | [이름·구조 규칙](technical/NAMING_AND_STRUCTURE.md). 새 타입·파일·에셋·ID와 호환성 |
+| 포맷 설정 | [.editorconfig](../.editorconfig), [.clang-format](../.clang-format). clang-format 20.1.8 고정 |
+| 자동 검사 | [설치·검사 안내](technical/CODE_STYLE.md). 새/변경 C++ 파일 전체 검사, 기존 48개는 경로·내용이 그대로일 때만 기존 서식 허용 |
+
+Blueprint 그래프·에셋 참조·클래스 책임은 PR 및 Unreal 에디터에서 검수한다. 현재 필수 CI가 코드 의미·UE 빌드까지 자동 보장하는 것으로 표시하지 않는다. 규약 예외와 도구 버전 변경에는 이유·영향·검증을 남기고 관련 문서와 설정을 함께 수정한다.

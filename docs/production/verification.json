@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "runs": [
+    {
+      "id": "RUN-20260913-02",
+      "task": "TASK-CORE-01",
+      "result": "Fail",
+      "scope": "UAT/Editor 빌드는 성공했으나 외부 스크립트의 archive 경로 가정 오류로 전체 단계 Fail. 원래 결과 보존.",
+      "evidence": [
+        "docs/production/evidence/RUN-20260913-02.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/android-devices.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/environment.json",
+        "docs/production/evidence/archived/RUN-20260913-02/git-head.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/git-status-before.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/input-manifest.json",
+        "docs/production/evidence/archived/RUN-20260913-02/preservation-check.json",
+        "docs/production/evidence/archived/RUN-20260913-02/visual-studio-final.json",
+        "docs/production/evidence/archived/RUN-20260913-02/vs-bootstrapper.log",
+        "docs/production/evidence/archived/RUN-20260913-02/vs-install-arguments.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/vs-install-exit.txt"
+      ]
+    },
+    {
+      "id": "RUN-20260913-03",
+      "task": "TASK-CORE-01",
+      "result": "Pass",
+      "scope": "선행 빌드의 산출물 재검사·기본 맵 PIE/패키지 표시·입력·종료. 한국어 엔진 진단 전체 통과와 Android는 제외.",
+      "evidence": [
+        "docs/production/evidence/RUN-20260913-03.txt",
+        "docs/production/evidence/RUN-20260913-03-artifacts.json",
+        "docs/production/evidence/archived/RUN-20260913-03/artifact-recheck-01.json",
+        "docs/production/evidence/archived/RUN-20260913-03/editor-launch.json",
+        "docs/production/evidence/archived/RUN-20260913-03/game-launch.json",
+        "docs/production/evidence/archived/RUN-20260913-03/input-manifest.json",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-command.json",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-play.log",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-en-console.txt",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-en.log",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-ko-console.txt",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-ko.log",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/editor.log",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/engine-version.json",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/project-files-command.json",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/project-files.log",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-game.log",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-package-command.json",
+        "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-package.log",
+        "docs/production/evidence/archived/RUN-20260913-03/result.json",
+        "docs/production/evidence/archived/RUN-20260913-03/runtime-observations.json",
+        "docs/production/evidence/archived/RUN-20260913-02/android-devices.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/environment.json",
+        "docs/production/evidence/archived/RUN-20260913-02/git-head.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/git-status-before.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/input-manifest.json",
+        "docs/production/evidence/archived/RUN-20260913-02/preservation-check.json",
+        "docs/production/evidence/archived/RUN-20260913-02/visual-studio-final.json",
+        "docs/production/evidence/archived/RUN-20260913-02/vs-bootstrapper.log",
+        "docs/production/evidence/archived/RUN-20260913-02/vs-install-arguments.txt",
+        "docs/production/evidence/archived/RUN-20260913-02/vs-install-exit.txt"
+      ]
+    }
+  ],
+  "completions": [
+    {
+      "task": "TASK-CORE-01",
+      "reviewed": "2026-09-14",
+      "reviewedBy": "Codex",
+      "scope": "BACKLOG_QA의 Windows 환경·별도 작업 폴더 PC Development 빌드·기본 실행 완료 조건을 기존 증거와 대조.",
+      "excluded": [
+        "Android",
+        "디펜스 게임 기능",
+        "PC 협동",
+        "한국어 엔진 진단 전체 통과",
+        "엔진 최종 고정"
+      ],
+      "criteria": [
+        {
+          "id": "CORE-ENV",
+          "description": "DEC-008/009/010/012 환경·도구 선택과 실행 안내를 기록했다.",
+          "result": "Pass",
+          "run": "RUN-20260913-03",
+          "evidence": [
+            "docs/production/evidence/archived/RUN-20260913-02/environment.json",
+            "docs/production/evidence/archived/RUN-20260913-03/Logs/editor.log"
+          ]
+        },
+        {
+          "id": "CORE-INPUT",
+          "description": "별도 작업 폴더의 입력 목록과 해시 및 원본 보존을 기록했다.",
+          "result": "Pass",
+          "run": "RUN-20260913-03",
+          "evidence": [
+            "docs/production/evidence/archived/RUN-20260913-03/input-manifest.json",
+            "docs/production/evidence/archived/RUN-20260913-02/preservation-check.json"
+          ]
+        },
+        {
+          "id": "CORE-BUILD",
+          "description": "프로젝트 생성·Editor 빌드·Win64 Development 쿠킹/패키징 및 수정 후 산출물 검사를 통과했다.",
+          "result": "Pass",
+          "run": "RUN-20260913-03",
+          "evidence": [
+            "docs/production/evidence/archived/RUN-20260913-03/Logs/project-files.log",
+            "docs/production/evidence/archived/RUN-20260913-03/Logs/editor.log",
+            "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-package.log",
+            "docs/production/evidence/archived/RUN-20260913-03/artifact-recheck-01.json"
+          ]
+        },
+        {
+          "id": "CORE-RUN",
+          "description": "기본 맵에서 PIE와 패키지 표시·클릭 이동·정상 종료를 관찰했다.",
+          "result": "Pass",
+          "run": "RUN-20260913-03",
+          "evidence": [
+            "docs/production/evidence/archived/RUN-20260913-03/runtime-observations.json",
+            "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-play.log",
+            "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-game.log"
+          ]
+        }
+      ]
+    }
+  ]
+}

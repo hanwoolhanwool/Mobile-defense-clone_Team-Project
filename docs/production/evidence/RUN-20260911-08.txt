@@ -1,0 +1,16 @@
+RUN-20260911-08
+Scope: Build/run documentation and static PowerShell syntax checks only. No UE builds, installations, or project configuration changes performed.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Static syntax check: System.Management.Automation.Language.Parser.ParseInput
+PowerShell blocks: 10; parse errors: 0; build commands executed: false.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2320,
+  "markdownFiles": 29,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 71,
+  "errors": []
+}

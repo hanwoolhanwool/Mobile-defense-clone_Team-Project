@@ -1,0 +1,57 @@
+RUN-20260914-01
+Scope: documentation operations; no new UE/Android gameplay execution.
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21483,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 3872,
+  "markdownFiles": 36,
+  "metadataDocuments": 22,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+✔ a clean checkout of validation inputs passes (338.9857ms)
+✔ a new technical document without metadata fails (330.0382ms)
+✔ metadata is checked outside the GDD source list (325.1946ms)
+✔ a fabricated run cannot complete a task (339.363ms)
+✔ a failing run cannot justify Done (323.6908ms)
+✔ the run result must match the execution record (332.4053ms)
+✔ an unexecuted acceptance criterion cannot justify Done (331.7622ms)
+✔ Done requires a completion record (320.3499ms)
+✔ missing evidence fails (324.3283ms)
+✔ altered archived evidence fails its hash (332.7943ms)
+✔ a stale status summary fails (326.5862ms)
+✔ a completed task cannot be the next action (321.8367ms)
+✔ a stale GDD reading copy fails (327.056ms)
+✔ check-only data detects drift without repairing the file (253.3614ms)
+✔ check-only report detects drift without repairing the file (274.1105ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4895.8382
+actionlint v1.7.12: Pass
+Credential check: DefaultEngine SecurityToken moved into ignored project UserEngine.ini; engine ConfigHierarchy.h GameDirUser layer verified by source inspection. Android runtime application not executed.
+Archived evidence: 29 files, exact byte SHA-256 checks; previous Fail preserved.
+GitHub push / hosted Actions execution / required-check settings: NotRun.
+Staged index export: Pass; 652 tracked files, no Saved/outputs/UserEngine.ini/editor-user-settings in index.
+Staged checkout: generated data/report checks and planning checks Pass; validator tests 15/15 Pass.
+Original Source/Content: 533 files compared against prior input manifest; 0 hash changes.
+Credential scan of tracked text: 0 matches for local Android File Server token.
+Documentation/tool whitespace check: Pass. Full baseline whitespace check reports 68 inherited Source/Config formatting warnings; existing source bytes retained.

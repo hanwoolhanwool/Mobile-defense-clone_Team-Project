@@ -1,0 +1,10 @@
+{
+  "Arguments": [
+    "-projectfiles",
+    "-project=C:\\Users\\iam12\\Mobile_defense_clone\\Saved\\BuildRuns\\20260913-030434-725\\Workspace\\Mobile_defense_clone.uproject",
+    "-game",
+    "-engine",
+    "-2026"
+  ],
+  "Program": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Build\\BatchFiles\\Build.bat"
+}

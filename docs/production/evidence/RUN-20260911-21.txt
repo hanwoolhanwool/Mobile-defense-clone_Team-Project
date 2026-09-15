@@ -1,0 +1,15 @@
+RUN-20260911-21
+Scope: Documentation clarification of scheduled burn ticks at expiry; P1 QA specification only.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2707,
+  "markdownFiles": 30,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 80,
+  "errors": []
+}
+Original app burn verification and UE runtime tests executed: false.

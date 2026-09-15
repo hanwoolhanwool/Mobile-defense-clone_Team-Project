@@ -1,0 +1,141 @@
+{
+  "SchemaVersion": 1,
+  "RulesVersion": "0.1.0",
+  "DesignStatus": "Unplaytested",
+  "Session": {
+    "HumanPlayerCount": 2,
+    "GateCount": 2,
+    "PreparationSeconds": 10,
+    "LoadingTimeoutSeconds": 30,
+    "FinalWave": 30,
+    "LogicHz": 20,
+    "ResultFinalWaveRewards": true,
+    "PauseOnline": false
+  },
+  "Board": {
+    "Columns": 4,
+    "Rows": 3,
+    "CellsPerPlayer": 12,
+    "MaxUnitsPerPlayer": 36,
+    "CellSizeCm": 140,
+    "XCentersCm": [
+      -210,
+      -70,
+      70,
+      210
+    ],
+    "YCentersByPlayer": [
+      [
+        -470,
+        -330,
+        -190
+      ],
+      [
+        190,
+        330,
+        470
+      ]
+    ],
+    "MoveLockSeconds": 0.3,
+    "VisualMoveSeconds": 0.15,
+    "InitialAttackDelaySeconds": 0.25
+  },
+  "Path": {
+    "PointsCm": [
+      [
+        -350,
+        -650,
+        0
+      ],
+      [
+        350,
+        -650,
+        0
+      ],
+      [
+        350,
+        650,
+        0
+      ],
+      [
+        -350,
+        650,
+        0
+      ]
+    ],
+    "Closed": true,
+    "LinearSegments": true,
+    "LengthCm": 4000,
+    "GateDistancesCm": [
+      0,
+      2000
+    ]
+  },
+  "Defeat": {
+    "ActiveEnemyThreshold": 100,
+    "ContinuousSeconds": 3,
+    "FinalWaveRequiresNoEnemies": true,
+    "BossDeadlineIsWaveEnd": true,
+    "EnemyPoolStressCount": 128
+  },
+  "Economy": {
+    "StartingGold": 140,
+    "StartingStars": 0,
+    "GoldPerTeamNormalKillPerPlayer": 1,
+    "GoldPerBossKill": 0,
+    "SummonBaseGold": 20,
+    "SummonIncrementGold": 2,
+    "SummonMaxGold": 60,
+    "RequireEmptyCellForAnySummon": true,
+    "GoldProfile": "Gold_Default",
+    "StarProfile": "Star_Default",
+    "ExchangeEpicGold": 100,
+    "ExchangeLegendaryGold": 200,
+    "ExchangeLimitPerPlayer": 2
+  },
+  "Combat": {
+    "MinimumAttackIntervalSeconds": 0.25,
+    "AuraRefreshSeconds": 0.25,
+    "NormalSlowCap": 0.5,
+    "BossSlowCap": 0.25,
+    "ResistanceCap": 0.75,
+    "ArmorFloor": 0,
+    "CritEnabled": false,
+    "RoundMode": "PositiveHalfUp",
+    "SupportsTargetPriorityBoss": true
+  },
+  "Connectivity": {
+    "BotStartAfterDisconnectSeconds": 5,
+    "ReconnectGraceSeconds": 60,
+    "CommandRatePerSecond": 8,
+    "CommandBurst": 12,
+    "RequestResultCacheCount": 256,
+    "PingCooldownSeconds": 2
+  },
+  "Progression": {
+    "MaxLevel": 20,
+    "NextLevelBaseXP": 100,
+    "NextLevelXPIncrement": 50,
+    "XPPerCompletedWave": 10,
+    "WinBonusXP": 100,
+    "PracticeXP": 0,
+    "TutorialXP": 0
+  },
+  "P0Overrides": {
+    "FinalWave": 10,
+    "AllowedGrades": [
+      "Common",
+      "Rare"
+    ],
+    "AllowedNormalEnemyIds": [
+      "N01"
+    ],
+    "NormalSpawnProfileId": "Early",
+    "GoldProfile": "P0_Gold_Default",
+    "AllowRareMerge": false,
+    "EnableStars": false,
+    "EnableCraft": false,
+    "EnableExchange": false,
+    "EnableAccountXP": false
+  }
+}

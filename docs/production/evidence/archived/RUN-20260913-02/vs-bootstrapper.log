@@ -1,0 +1,49 @@
+[88ac:0001][2026-09-13T02:57:24] Assembly version: 4.10.30.62513.
+[88ac:0001][2026-09-13T02:57:24] Creating new ExperimentationService
+[88ac:0001][2026-09-13T02:57:24] Telemetry property VS.ABExp.Flights : lazytoolboxinit;fwlargebuffer;refactoring;spmoretempsbtn1;asloff;keybindgoldbarext;asynccsproj;vsfricheditor;completionapi
+[88ac:0001][2026-09-13T02:57:24] Command line arguments = --quiet,--wait,--norestart,--installPath,C:\Program Files\Microsoft Visual Studio\18\Community,--add,Microsoft.VisualStudio.Workload.NativeDesktop,--add,Microsoft.VisualStudio.Workload.NativeGame,--add,Microsoft.VisualStudio.Component.VC.14.50.18.0.x86.x64,--add,Microsoft.VisualStudio.Component.Windows11SDK.26100,--env,_SFX_CAB_EXE_PACKAGE:C:\Users\iam12\Mobile_defense_clone\Saved\BuildRuns\RUN-20260913-02\vs_Community.exe _SFX_CAB_EXE_ORIGINALWORKINGDIR:C:\Users\iam12\Mobile_defense_clone
+[88ac:0001][2026-09-13T02:57:24] C2R signature did not exist or could not be read: 
+[88ac:0001][2026-09-13T02:57:24] Parent process name = vs_Community
+[88ac:0001][2026-09-13T02:57:24] Parent process product version = 18.10.12201.205
+[88ac:0001][2026-09-13T02:57:24] CampaignId = 
+[88ac:0001][2026-09-13T02:57:24] Warning: ResponseId not available in 'vs_setup_bootstrapper.config'. Trying to parse filename.
+[88ac:0001][2026-09-13T02:57:24] Warning: loading config settings: -update --update --layout -offline --offline --locale --layout --originalworkingdir --installLayoutPath --env
+[88ac:0001][2026-09-13T02:57:24] DownloadURL = https://aka.ms/vs/18/stable/installer
+[88ac:0001][2026-09-13T02:57:24] InstallLocation = C:\Program Files (x86)\Microsoft Visual Studio\Installer
+[88ac:0001][2026-09-13T02:57:24] OfflineFilePath = 
+[88ac:0001][2026-09-13T02:57:24] LayoutLocation = 
+[88ac:0001][2026-09-13T02:57:24] ExecutableArguments = /finalizeInstall install --in "C:\ProgramData\Microsoft\VisualStudio\Packages\_bootstrapper\vs_setup_bootstrapper_202609130257243546.json" --quiet --norestart --installPath "C:\Program Files\Microsoft Visual Studio\18\Community" --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NativeGame --add Microsoft.VisualStudio.Component.VC.14.50.18.0.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.26100 --locale ko-KR --activityId "41004e22-73b3-46c2-9845-a33d49674920"
+[88ac:0001][2026-09-13T02:57:24] OSVersion = Microsoft Windows NT 10.0.26200.0
+[88ac:0001][2026-09-13T02:57:24] Starting to detect the existing VS and .NET...
+[88ac:0015][2026-09-13T02:57:24] Telemetry property VS.ABExp.Flights : lazytoolboxinit;fwlargebuffer;refactoring;spmoretempsbtn1;asloff;keybindgoldbarext;asynccsproj;vsfricheditor;completionapi;4f604693:30775293
+[88ac:0001][2026-09-13T02:57:24] Finished detecting the existing VS and .Net
+[88ac:0009][2026-09-13T02:57:24] Authentication Environment variable setting value: null
+[88ac:0009][2026-09-13T02:57:24] Authenticate: True
+[88ac:0017][2026-09-13T02:57:24] Download requested: https://download.visualstudio.microsoft.com/download/pr/f878a381-ad8a-423d-adab-0affb9805972/b0fb3efb434d217ab417fcbb61b51374/latestinstaller.json
+[88ac:0018][2026-09-13T02:57:24] Attempting download 'https://download.visualstudio.microsoft.com/download/pr/f878a381-ad8a-423d-adab-0affb9805972/b0fb3efb434d217ab417fcbb61b51374/latestinstaller.json' using engine 'WebClient'
+[88ac:0018][2026-09-13T02:57:24] ManifestVerifier Result: Success
+[88ac:0018][2026-09-13T02:57:24] Download of 'https://download.visualstudio.microsoft.com/download/pr/f878a381-ad8a-423d-adab-0affb9805972/b0fb3efb434d217ab417fcbb61b51374/latestinstaller.json' succeeded using engine 'WebClient'
+[88ac:0009][2026-09-13T02:57:24] ManifestVerifier Result: Success
+[88ac:0009][2026-09-13T02:57:24] Comparing client version '4.5.35.302252060' to autoSelfUpdateMinVersion '4.10.30.302448642'
+[88ac:0009][2026-09-13T02:57:24] Beginning file download. File = https://aka.ms/vs/18/stable/installer.
+[88ac:0017][2026-09-13T02:57:25] Download requested: https://download.visualstudio.microsoft.com/download/pr/af2bf19c-59e9-48c4-bac6-019f173389ac/C558FD9BD043138026409E4C053E3F43290774568DA214748E2739525BE37D25/vs_installer.opc
+[88ac:0018][2026-09-13T02:57:25] Attempting download 'https://download.visualstudio.microsoft.com/download/pr/af2bf19c-59e9-48c4-bac6-019f173389ac/C558FD9BD043138026409E4C053E3F43290774568DA214748E2739525BE37D25/vs_installer.opc' using engine 'WebClient'
+[88ac:0018][2026-09-13T02:57:31] Package signature verification returned Success for path: C:\ProgramData\Microsoft\VisualStudio\Packages\_bootstrapper\vs_installer\a3xijtg.4dt\vs_installer.opc
+[88ac:0018][2026-09-13T02:57:31] Download of 'https://download.visualstudio.microsoft.com/download/pr/af2bf19c-59e9-48c4-bac6-019f173389ac/C558FD9BD043138026409E4C053E3F43290774568DA214748E2739525BE37D25/vs_installer.opc' succeeded using engine 'WebClient'
+[88ac:0009][2026-09-13T02:57:31] Current OptIn value is 1
+[88ac:0009][2026-09-13T02:57:31] Extracting file 'vs_installer.version.json' from package stream.
+[88ac:0009][2026-09-13T02:57:31] File found 'vs_installer.version.json' in package stream.
+[88ac:001c][2026-09-13T02:57:31] Download requested: https://download.visualstudio.microsoft.com/download/pr/f878a381-ad8a-423d-adab-0affb9805972/b0fb3efb434d217ab417fcbb61b51374/latestinstaller.json
+[88ac:001d][2026-09-13T02:57:31] Attempting download 'https://download.visualstudio.microsoft.com/download/pr/f878a381-ad8a-423d-adab-0affb9805972/b0fb3efb434d217ab417fcbb61b51374/latestinstaller.json' using engine 'WebClient'
+[88ac:001d][2026-09-13T02:57:31] ManifestVerifier Result: Success
+[88ac:001d][2026-09-13T02:57:31] Download of 'https://download.visualstudio.microsoft.com/download/pr/f878a381-ad8a-423d-adab-0affb9805972/b0fb3efb434d217ab417fcbb61b51374/latestinstaller.json' succeeded using engine 'WebClient'
+[88ac:0009][2026-09-13T02:57:31] ManifestVerifier Result: Success
+[88ac:0009][2026-09-13T02:57:31] Comparing client version '4.10.30.302448642' to autoSelfUpdateMinVersion '4.10.30.302448642'
+[88ac:0009][2026-09-13T02:57:36] Beginning extracting files to C:\Program Files (x86)\Microsoft Visual Studio\Installer.
+[88ac:0009][2026-09-13T02:57:36] Extracting 'C:\ProgramData\Microsoft\VisualStudio\Packages\_bootstrapper\vs_installer\a3xijtg.4dt\vs_installer.opc' to 'C:\Program Files (x86)\Microsoft Visual Studio\Installer'.
+[88ac:0009][2026-09-13T02:57:39] Successfully extracted 'C:\Program Files (x86)\Microsoft Visual Studio\Installer'.
+[88ac:0009][2026-09-13T02:57:40] Starting VS setup process 'setup.exe' with arguments '/finalizeInstall install --in "C:\ProgramData\Microsoft\VisualStudio\Packages\_bootstrapper\vs_setup_bootstrapper_202609130257243546.json" --quiet --norestart --installPath "C:\Program Files\Microsoft Visual Studio\18\Community" --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NativeGame --add Microsoft.VisualStudio.Component.VC.14.50.18.0.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.26100 --locale ko-KR --activityId "41004e22-73b3-46c2-9845-a33d49674920"'.
+[88ac:0009][2026-09-13T02:57:40] VS setup process C:\Program Files (x86)\Microsoft Visual Studio\Installer\setup.exe started. All done.
+[88ac:0009][2026-09-13T02:57:40] Waiting for setup process to complete...
+[88ac:0009][2026-09-13T02:57:58] VS setup process exited with code 0
+[88ac:0009][2026-09-13T02:57:58] Bootstrapper Successfully completed.

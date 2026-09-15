@@ -1,0 +1,32 @@
+RUN-20260914-04 / 2026-09-14 / Codex
+Scope: coding standards, naming/data rules, pinned clang-format, style gate.
+Local environment: Windows x64, Node.js 24.15.0, Python 3.12.14.
+Formatter: clang-format-wheel 20.1.8 in Saved/Tooling/code-style.
+Installation: pip --require-hashes --only-binary=:all: --no-deps; Windows wheel hash verified by pip.
+
+Executed checks (local Pass):
+- node tools/build-planning.mjs: generated reading copy from 10 documents / 20 chapters.
+- node tools/check-project.mjs: exit 0.
+  Design data: 8 tables plus GameRules; 21,483 assertions, 0 errors.
+  Documents: 4,148 checks, 39 Markdown, 25 metadata documents, 37 tasks, 88 QA cases, 0 errors.
+  C++ style: 1 always-checked macro sample, 48 unchanged original files, 0 errors.
+- node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs:
+  25 tests, 25 passed, 0 failed, 0 skipped. Includes 10 style rejection/repair cases.
+  Tests cover new bad formatting, modified/renamed legacy, CRLF checkout, sample bypass,
+  clang-format off, BOM/new-file CRLF, explicit fix boundaries, missing/wrong tool version.
+- actionlint v1.7.12 .github/workflows/documentation.yml: no diagnostics.
+- git diff --check: no whitespace errors.
+- git diff --exit-code ed4239321aae2900641a17bd7a1bc39c2307e855 -- Source Content data: exit 0.
+- GitHub main protection GET: documentation required with app_id 15368, strict=true, admins=true.
+
+Limits: no new Unreal build, Blueprint graph/asset audit, PIE, Android or gameplay execution.
+The original C++ files retain their prior formatting; only exact path/content matches are exempt.
+Runtime Source, Content, generated game data and all game task statuses are unchanged.
+Follow-up local document validation after decision-table layout repair: 4,150 checks, Pass.
+
+Remote Pass: https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/34790900908
+Head commit: 1279203532e3c6ce52f8ee043e20e32ab9cf3f48
+Event: pull_request; required job: documentation; GitHub Actions app 15368.
+Ubuntu: pinned Linux wheel installed with hash verification; combined checks and all 25 tests passed.
+Metadata and original job log: RUN-20260914-04-github.json / RUN-20260914-04-github.log.
+Later evidence-only commits are checked separately by the PR workflow; see the latest PR checks.

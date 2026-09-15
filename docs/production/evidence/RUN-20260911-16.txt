@@ -1,0 +1,16 @@
+RUN-20260911-16
+Scope: DEC-019 P0 scope and completion criteria; documentation only.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2445,
+  "markdownFiles": 29,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 71,
+  "errors": []
+}
+UE builds, gameplay and device tests executed: false.
+Game code, Config, assets, JSON data and task statuses changed: false.

@@ -1,0 +1,51 @@
+RUN-20260914-03
+Date: 2026-09-14 Asia/Seoul
+Operator: Codex
+
+GitHub main protection: PUT followed by independent GET verification.
+Required pull request: enabled.
+Required check: documentation, GitHub Actions app_id 15368.
+Require branch up to date: strict=true.
+Enforce administrators: true.
+Force pushes / main deletion: disabled.
+Conversation resolution: required.
+Required approving reviews: 0; no assigned independent reviewer recorded.
+gh pr checks 1 --required: documentation SUCCESS at head d718d222c004f23187909751ea1f854cd1073f4b.
+No failing code or direct main push was used to test enforcement.
+
+Code convention inventory:
+- COMMIT_CONVENTION.md exists: commit messages, change units, PR/merge guidance.
+- docs/technical/ARCHITECTURE.md: ALD*/ULD* prefixes, folders, class responsibilities.
+- docs/DATA_SCHEMA.md: row structure, reflection properties, data identifiers/types.
+- .gitattributes: text line endings and evidence-byte preservation; not a C++ formatter.
+- No dedicated C++/Blueprint code-style document found.
+- No tracked .editorconfig or .clang-format found.
+- Current CI runs document/data checks and validator tests, not C++ formatting/lint/build.
+
+No new code convention was adopted and no gameplay/source formatting was changed.
+Protection response: RUN-20260914-03-protection.json
+
+Local validation after documentation update:
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21483,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 3926,
+  "markdownFiles": 36,
+  "metadataDocuments": 22,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}

@@ -1,0 +1,5 @@
+# clang-format-wheel 20.1.8, Windows x64 and Linux x64 wheels only.
+# Package source: https://github.com/ssciwr/clang-format-wheel
+clang-format==20.1.8 \
+    --hash=sha256:346ac8cab571eaba4d6b89dfa30fdbbc512db82a66ab0eeb1763cacc5977e325 \
+    --hash=sha256:7c6bcb7e01ba4f05a4c980fda147b330f7e4833c2aea8c92a0c2df9573ae7afe

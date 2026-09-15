@@ -1,0 +1,18 @@
+{
+  "checks": 21482,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+{
+  "result": "PASS",
+  "checks": 1951,
+  "markdownFiles": 25,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 71,
+  "errors": []
+}

@@ -1,0 +1,36 @@
+{
+  "Result": "Pass",
+  "Scope": "Artifact structure only; runtime and input are separate checks",
+  "PackageRoot": "C:\\Users\\iam12\\Mobile_defense_clone\\Saved\\BuildRuns\\20260913-030434-725\\Packages\\Windows",
+  "Executable": "C:\\Users\\iam12\\Mobile_defense_clone\\Saved\\BuildRuns\\20260913-030434-725\\Packages\\Windows\\Mobile_defense_clone.exe",
+  "Runtime": "C:\\Users\\iam12\\Mobile_defense_clone\\Saved\\BuildRuns\\20260913-030434-725\\Packages\\Windows\\Mobile_defense_clone\\Binaries\\Win64\\Mobile_defense_clone.exe",
+  "ExecutableSHA256": "05BE3605196F857B1823FF3018C215D4E4FCFC9BE7F1EA1C080C7935B5F480C6",
+  "RuntimeSHA256": "6998A793F3ACC82A32443672F0746FDE96D1947B43CC8BC0DD9D630CDF621D53",
+  "ContentFiles": [
+    {
+      "Name": "global.ucas",
+      "Bytes": 3216080,
+      "SHA256": "7D9EC97AD1A825DA53F744964373A7CB4C806E7820CDE1B10B82A9B4657373AB"
+    },
+    {
+      "Name": "global.utoc",
+      "Bytes": 794,
+      "SHA256": "3974A7D53B496530CF29CF372773E4914C4738CB9C8445E7D03484AF1ED3A5CD"
+    },
+    {
+      "Name": "Mobile_defense_clone-Windows.pak",
+      "Bytes": 11450997,
+      "SHA256": "10DD2329979166AA4CC12A2287CE04CB96144A8E6EACA10B3C7271AC55541AC8"
+    },
+    {
+      "Name": "Mobile_defense_clone-Windows.ucas",
+      "Bytes": 259324304,
+      "SHA256": "D2CDB1C6F169EE3EBC91CE4746F18DE8DC5EEB0AF80E598B6652F9B510BD38D9"
+    },
+    {
+      "Name": "Mobile_defense_clone-Windows.utoc",
+      "Bytes": 222592,
+      "SHA256": "48050886F2C5ED8BDA0C6B906AE39960588A626859056008079E759D821DD8A4"
+    }
+  ]
+}

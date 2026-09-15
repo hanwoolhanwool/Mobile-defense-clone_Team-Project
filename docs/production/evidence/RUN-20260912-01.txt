@@ -1,0 +1,15 @@
+RUN-20260912-01
+Scope: Editor and automation draft contracts, task mapping, acceptance criteria.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2875,
+  "markdownFiles": 30,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+Runtime/editor/UE import rollback tests executed: false.

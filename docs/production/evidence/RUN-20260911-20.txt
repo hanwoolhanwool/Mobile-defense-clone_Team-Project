@@ -1,0 +1,19 @@
+RUN-20260911-20
+Scope: DEC-022 Android 2.0.11 Normal mode and video observations OBS-06 through OBS-09.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2649,
+  "markdownFiles": 30,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 76,
+  "errors": []
+}
+Official Google Play About dialog observed: version 2.0.11; updated 2026-08-27.
+Source video: https://www.youtube.com/watch?v=DBcIP2ICDfY
+Inspected intervals: 115.60-118.10 and 121.00-121.60 seconds.
+Native player controls and read-only playback time used for inspection.
+Original app direct input tests and UE builds executed: false.

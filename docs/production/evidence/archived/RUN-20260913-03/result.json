@@ -1,0 +1,11 @@
+{
+  "Stage": "Windows",
+  "Result": "Fail",
+  "RunRoot": "C:\\Users\\iam12\\Mobile_defense_clone\\Saved\\BuildRuns\\20260913-030434-725",
+  "Started": "2026-09-13T03:04:34.7299872+09:00",
+  "CompilerVersion": "14.50.35717",
+  "WindowsSdkVersion": "10.0.26100.0",
+  "CompilerProductVersion": "14.50.35738.0",
+  "Error": "Expected packaged executable missing.",
+  "Finished": "2026-09-13T03:12:55.9532606+09:00"
+}

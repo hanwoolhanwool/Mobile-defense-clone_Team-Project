@@ -1,0 +1,58 @@
+{
+  "Observed": "2026-09-13T03:00:15.5842093+09:00",
+  "Engine": {
+    "MajorVersion": 5,
+    "MinorVersion": 8,
+    "PatchVersion": 2,
+    "Changelist": 56702186,
+    "CompatibleChangelist": 55116800,
+    "IsLicenseeVersion": 0,
+    "IsPromotedBuild": 1,
+    "BranchName": "++UE5+Release-5.8"
+  },
+  "VS": [
+    {
+      "installationPath": "C:\\Program Files\\Microsoft Visual Studio\\18\\Insiders",
+      "installationVersion": "18.5.11612.153",
+      "isComplete": true,
+      "isRebootRequired": false,
+      "isPrerelease": true
+    },
+    {
+      "installationPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community",
+      "installationVersion": "16.11.36128.20",
+      "isComplete": true,
+      "isRebootRequired": false,
+      "isPrerelease": false
+    },
+    {
+      "installationPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community",
+      "installationVersion": "17.14.36930.0",
+      "isComplete": true,
+      "isRebootRequired": false,
+      "isPrerelease": false
+    },
+    {
+      "installationPath": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community",
+      "installationVersion": "18.10.12201.205",
+      "isComplete": true,
+      "isRebootRequired": false,
+      "isPrerelease": false
+    }
+  ],
+  "WindowsSDK": [
+    "10.0.22621.0"
+  ],
+  "SystemDotnet": [
+    "9.0.311 [C:\\Program Files\\dotnet\\sdk]",
+    "10.0.201 [C:\\Program Files\\dotnet\\sdk]"
+  ],
+  "AndroidBuildTools": [
+    "36.1.0"
+  ],
+  "AndroidNdk": [
+    "28.0.13004108",
+    "29.0.14206865"
+  ],
+  "AndroidStudio": "AI-252.27397.103.2522.14617522"
+}

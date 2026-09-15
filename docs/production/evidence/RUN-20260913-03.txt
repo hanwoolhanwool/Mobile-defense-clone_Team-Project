@@ -1,0 +1,21 @@
+RUN-20260913-03
+Parent: RUN-20260913-02
+Build directory: Saved/BuildRuns/20260913-030434-725/
+Artifact recheck command: tools/Test-WindowsPackage.ps1 -ArchiveRoot Saved/BuildRuns/20260913-030434-725/Packages/Windows
+Artifact structure/hash check: Pass; non-package input rejected.
+Package bootstrap: Packages/Windows/Mobile_defense_clone.exe
+Runtime: Packages/Windows/Mobile_defense_clone/Binaries/Win64/Mobile_defense_clone.exe
+UI observations via Windows Computer Use:
+  Packaged game: cyan starting platform and character rendered, ground click moved character off platform, Alt+F4 closed game.
+  Editor: Lvl_TopDown loaded, Play entered PIE, ground click moved character off platform, Stop returned to edit mode, Alt+F4 closed editor.
+Both runtime logs contain LogExit: Exiting.
+Original Source/Content preservation: 533 files checked, 0 hash changes.
+Engine startup diagnostics:
+  editor-play.log (Korean UI): 15 LogAutomationTest Condition failed entries.
+  editor-smoke-ko.log: 15 entries, process exit 0.
+  editor-smoke-en.log: 0 entries, process exit 0.
+  Both headless diagnostic launches: UnrealEditor-Cmd.exe <workspace project> /Game/TopDown/Lvl_TopDown -culture=<ko|en> -nullrhi -unattended -nosound -seconds=3 -abslog=<separate log>
+  Engine source contains English string equality assertions in UnifiedErrorTests.cpp.
+  Locale-dependent engine test issue remains recorded; no engine code or global language settings changed.
+Scope: Windows basic build and gameplay-input smoke only, not defense gameplay or Android qualification.
+Planning validation: Pass; 3001 checks, 31 Markdown files, 10 original observation topics, 37 tasks, 88 QA cases, 0 errors.

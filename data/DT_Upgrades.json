@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "AttackTraining",
+    "MaxLevel": 8,
+    "BaseCost": 60,
+    "CostIncrement": 40,
+    "Stat": "AttackPct",
+    "ValuePerLevel": 0.1
+  },
+  {
+    "Name": "DeviceHaste",
+    "MaxLevel": 5,
+    "BaseCost": 80,
+    "CostIncrement": 60,
+    "Stat": "AttackSpeedPct",
+    "ValuePerLevel": 0.05
+  }
+]

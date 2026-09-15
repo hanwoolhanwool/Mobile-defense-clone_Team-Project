@@ -1,0 +1,33 @@
+# Project C++ subset of Epic's conventions. Requires clang-format 20.1.8.
+Language: Cpp
+BasedOnStyle: Microsoft
+UseTab: ForIndentation
+IndentWidth: 4
+TabWidth: 4
+ContinuationIndentWidth: 4
+BreakBeforeBraces: Allman
+ColumnLimit: 120
+AccessModifierOffset: -4
+IndentCaseLabels: false
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+DerivePointerAlignment: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+NamespaceIndentation: All
+# Include order is deliberate: own header first, generated.h last in headers.
+SortIncludes: Never
+IncludeBlocks: Preserve
+StatementMacros:
+  - UPROPERTY
+  - UFUNCTION
+  - GENERATED_BODY
+  - GENERATED_UCLASS_BODY
+  - GENERATED_USTRUCT_BODY
+WhitespaceSensitiveMacros:
+  - TEXT
+  - NSLOCTEXT
+  - LOCTEXT
+LineEnding: LF

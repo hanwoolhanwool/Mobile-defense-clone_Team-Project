@@ -1,0 +1,48 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" -projectfiles -project=C:\Users\iam12\Mobile_defense_clone\Saved\BuildRuns\20260913-030434-725\Workspace\Mobile_defense_clone.uproject -game -engine -2026
+Log file: C:\Users\iam12\AppData\Local\UnrealBuildTool\Log_GPF.txt
+Project file formats specified via the command line will be ignored when generating
+project files from the editor and other engine tools.
+
+Consider setting your desired IDE from the editor preferences window, or modify your
+BuildConfiguration.xml file with:
+
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
+  <ProjectFileGenerator>
+    <Format>VisualStudio2026</Format>
+  </ProjectFileGenerator>
+</Configuration>
+
+
+Generating VisualStudio2026 project files:
+Discovering modules, targets and source code for project...
+Writing 'C:\Users\iam12\Mobile_defense_clone\Saved\BuildRuns\20260913-030434-725\Workspace\Automation_Mobile_defense_clone.sln'...
+Writing 'C:\Users\iam12\Mobile_defense_clone\Saved\BuildRuns\20260913-030434-725\Workspace\Automation_Mobile_defense_clone.slnx'...
+Writing automation project files took 0.17s
+Adding projects for all targets...
+Adding projects for all targets took 3.73s
+Adding projects for all game projects took 0.00s
+Adding projects for all modules took 0.16s
+Compiling Rules Assemblies 100%
+Creating Build Targets 100%
+Binding IntelliSense data...
+Creating Build Targets took 0.88s
+Binding IntelliSense data... 100%
+Binding IntelliSense data took 7.91s
+Writing project files...
+Writing 'C:\Users\iam12\Mobile_defense_clone\Saved\BuildRuns\20260913-030434-725\Workspace\Mobile_defense_clone.sln'...
+Writing 'C:\Users\iam12\Mobile_defense_clone\Saved\BuildRuns\20260913-030434-725\Workspace\Mobile_defense_clone.slnx'...
+Writing project files... 100%
+Writing solution file took 0.12s
+Writing project files took 2.58s
+Compiling Rules Assemblies
+
+Generating QueryTargets data for editor...
+Compiling Rules Assemblies 100%
+Writing Query Target Info 100%
+Generating QueryTargets data for editor took 0.02s
+
+Result: Succeeded
+Total execution time: 20.71 seconds
+Trace written to file C:\Users\iam12\AppData\Local\UnrealBuildTool\Trace.uba with size 132.9kb

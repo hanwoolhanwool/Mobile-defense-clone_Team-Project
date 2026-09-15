@@ -1,0 +1,16 @@
+RUN-20260911-19
+Scope: Public screenshot observations OBS-01 through OBS-05 and affected specifications.
+Command: node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Command: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 2633,
+  "markdownFiles": 30,
+  "editableTopicDocuments": 10,
+  "tasks": 33,
+  "qaCases": 76,
+  "errors": []
+}
+Browser inspection: S7 figures 4, 7, 8 and S2 Tip 1 image.
+Original app input tests and UE builds executed: false.

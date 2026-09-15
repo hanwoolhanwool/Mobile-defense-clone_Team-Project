@@ -1,0 +1,273 @@
+documentation	Set up job	﻿2026-09-13T23:51:39.9700984Z Current runner version: '2.337.0'
+documentation	Set up job	2026-09-13T23:51:39.9717417Z ##[group]Runner Image Provisioner
+documentation	Set up job	2026-09-13T23:51:39.9718276Z Hosted Compute Agent
+documentation	Set up job	2026-09-13T23:51:39.9718664Z Version: 20260828.587
+documentation	Set up job	2026-09-13T23:51:39.9719129Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+documentation	Set up job	2026-09-13T23:51:39.9719651Z Build Date: 2026-08-28T16:44:25Z
+documentation	Set up job	2026-09-13T23:51:39.9720108Z Worker ID: {9565bc4a-240d-4432-88da-8a1936326076}
+documentation	Set up job	2026-09-13T23:51:39.9720599Z Azure Region: centralus
+documentation	Set up job	2026-09-13T23:51:39.9720993Z ##[endgroup]
+documentation	Set up job	2026-09-13T23:51:39.9721890Z ##[group]Operating System
+documentation	Set up job	2026-09-13T23:51:39.9722311Z Ubuntu
+documentation	Set up job	2026-09-13T23:51:39.9722692Z 24.04.5
+documentation	Set up job	2026-09-13T23:51:39.9723044Z LTS
+documentation	Set up job	2026-09-13T23:51:39.9723435Z ##[endgroup]
+documentation	Set up job	2026-09-13T23:51:39.9723815Z ##[group]Runner Image
+documentation	Set up job	2026-09-13T23:51:39.9724243Z Image: ubuntu-24.04
+documentation	Set up job	2026-09-13T23:51:39.9724610Z Version: 20260907.300.1
+documentation	Set up job	2026-09-13T23:51:39.9725344Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+documentation	Set up job	2026-09-13T23:51:39.9726519Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+documentation	Set up job	2026-09-13T23:51:39.9727182Z ##[endgroup]
+documentation	Set up job	2026-09-13T23:51:39.9728254Z ##[group]GITHUB_TOKEN Permissions
+documentation	Set up job	2026-09-13T23:51:39.9729729Z Contents: read
+documentation	Set up job	2026-09-13T23:51:39.9730105Z Metadata: read
+documentation	Set up job	2026-09-13T23:51:39.9730506Z ##[endgroup]
+documentation	Set up job	2026-09-13T23:51:39.9731851Z Secret source: Actions
+documentation	Set up job	2026-09-13T23:51:39.9732497Z Cache mode: write
+documentation	Set up job	2026-09-13T23:51:39.9732956Z Prepare workflow directory
+documentation	Set up job	2026-09-13T23:51:40.0649876Z Prepare all required actions
+documentation	Set up job	2026-09-13T23:51:40.0684324Z Getting action download info
+documentation	Set up job	2026-09-13T23:51:40.2570883Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+documentation	Set up job	2026-09-13T23:51:40.6871046Z Download action repository 'actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38' (SHA:249970729cb0ef3589644e2896645e5dc5ba9c38)
+documentation	Set up job	2026-09-13T23:51:41.2156728Z Complete job name: documentation
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-09-13T23:51:41.2688389Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2689287Z with:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2689742Z   persist-credentials: false
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2690313Z   repository: hanwoolhanwool/Mobile-defense-clone_Team-Project
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2693625Z   token: ***
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2694280Z   ssh-strict: true
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2694693Z   ssh-user: git
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2695091Z   clean: true
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2695502Z   sparse-checkout-cone-mode: true
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2695974Z   fetch-depth: 1
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2696397Z   fetch-tags: false
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2696806Z   show-progress: true
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2697217Z   lfs: false
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2697801Z   submodules: false
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2698249Z   set-safe-directory: true
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2698738Z   allow-unsafe-pr-checkout: false
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.2699340Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3453898Z Syncing repository: hanwoolhanwool/Mobile-defense-clone_Team-Project
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3455639Z ##[group]Getting Git version info
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3456786Z Working directory is '/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project'
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3458590Z [command]/usr/bin/git version
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3518818Z git version 2.55.0
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3533099Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3553606Z Temporarily overriding HOME='/home/runner/work/_temp/ad739158-81c8-4b86-a1ec-250a1fcf8982' before making global git config changes
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3555262Z Adding repository directory to the temporary git global config as a safe directory
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3556628Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3592259Z Deleting the contents of '/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project'
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3594201Z ##[group]Determining repository object format
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3595628Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3596330Z ##[group]Initializing the repository
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3597261Z [command]/usr/bin/git init /home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3681354Z hint: Using 'master' as the name for the initial branch. This default branch name
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3682716Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3684430Z hint: to use in all of your new repositories, which will suppress this warning,
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3685365Z hint: call:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3685990Z hint:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3686630Z hint: 	git config --global init.defaultBranch <name>
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3687419Z hint:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3688341Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3689398Z hint: 'development'. The just-created branch can be renamed via this command:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3690410Z hint:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3691032Z hint: 	git branch -m <name>
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3691786Z hint:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3692552Z hint: Disable this message with "git config set advice.defaultBranchName false"
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3694028Z Initialized empty Git repository in /home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git/
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3696737Z [command]/usr/bin/git remote add origin https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3732014Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3733262Z ##[group]Disabling automatic garbage collection
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3734182Z [command]/usr/bin/git config --local gc.auto 0
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3754459Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3755475Z ##[group]Setting up auth
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3756164Z Removing SSH command configuration
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3760402Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.3788569Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4045057Z Removing HTTP extra header
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4050291Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4074591Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4206184Z Removing includeIf entries pointing to credentials config files
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4211346Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4232974Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4368158Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4394033Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git.path /home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4414714Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4438149Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4457646Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4474070Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4475190Z ##[group]Fetching the repository
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:41.4480732Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +da0648462fc4cb485710942fe22e13fc8a3a4fba:refs/remotes/pull/1/merge
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.0969791Z From https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.0970714Z  * [new ref]         da0648462fc4cb485710942fe22e13fc8a3a4fba -> pull/1/merge
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.0975209Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.0975975Z ##[group]Determining the checkout info
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.0976585Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.0981355Z [command]/usr/bin/git sparse-checkout disable
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.1017187Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.1037051Z ##[group]Checking out the ref
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.1040959Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/1/merge
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3884835Z Note: switching to 'refs/remotes/pull/1/merge'.
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3885530Z 
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3885867Z You are in 'detached HEAD' state. You can look around, make experimental
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3886499Z changes and commit them, and you can discard any commits you make in this
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3887115Z state without impacting any branches by switching back to a branch.
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3887669Z 
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3887934Z If you want to create a new branch to retain commits you create, you may
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3888464Z do so (now or later) by using -c with the switch command. Example:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3888846Z 
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3889055Z   git switch -c <new-branch-name>
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3889273Z 
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3889448Z Or undo this operation with:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3889624Z 
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3889812Z   git switch -
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3891175Z 
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3891514Z Turn off this advice by setting config variable advice.detachedHead to false
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3892334Z 
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3892688Z HEAD is now at da06484 Merge 1279203532e3c6ce52f8ee043e20e32ab9cf3f48 into c366829075caa5a8bcdcf99eb60420e81204f301
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3902729Z ##[endgroup]
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3934150Z [command]/usr/bin/git log -1 --format=%H
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3952790Z da0648462fc4cb485710942fe22e13fc8a3a4fba
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3960516Z ##[group]Removing auth
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3960989Z Removing SSH command configuration
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3963234Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.3985213Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4127018Z Removing HTTP extra header
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4129777Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4152661Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4289878Z Removing includeIf entries pointing to credentials config files
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4293196Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4400669Z includeif.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4401655Z includeif.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git/worktrees/*.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4402426Z includeif.gitdir:/github/workspace/.git.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4402920Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4407615Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4423140Z /home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4430837Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git.path /home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4452101Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git/worktrees/*.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4467094Z /home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4473177Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4494670Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4510193Z /github/runner_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4523081Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4545028Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4559987Z /github/runner_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4567680Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4586978Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4716735Z Removing credentials config '/home/runner/work/_temp/git-credentials-347e89b7-3c09-4bef-ac6d-19d00a645815.config'
+documentation	Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:43.4722711Z ##[endgroup]
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	﻿2026-09-13T23:51:43.4904144Z ##[group]Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:43.4904507Z with:
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:43.4904747Z   node-version: 24.15.0
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:43.4905025Z   package-manager-cache: false
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:43.4905279Z   check-latest: false
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:43.4907140Z   token: ***
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:43.4907375Z ##[endgroup]
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:43.5841232Z Attempting to download 24.15.0...
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:44.4880001Z Acquiring 24.15.0 - x64 from https://github.com/actions/node-versions/releases/download/24.15.0-24511264946/node-24.15.0-linux-x64.tar.gz
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:44.9851921Z Extracting ...
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:44.9921660Z [command]/usr/bin/tar xz --strip 1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/4e18b253-5265-4020-837f-87496350aeaa -f /home/runner/work/_temp/17f92e54-964f-435d-9692-ddef59d53e76
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:45.9835105Z Adding to the cache ...
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:49.0623554Z ##[group]Environment details
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:49.2806484Z node: v24.15.0
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:49.2807064Z npm: 11.12.1
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:49.2807642Z yarn: 1.22.22
+documentation	Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	2026-09-13T23:51:49.2808333Z ##[endgroup]
+documentation	Install pinned C++ formatter	﻿2026-09-13T23:51:49.2933777Z ##[group]Run python3 -m venv "$RUNNER_TEMP/code-style"
+documentation	Install pinned C++ formatter	2026-09-13T23:51:49.2934211Z ^[[36;1mpython3 -m venv "$RUNNER_TEMP/code-style"^[[0m
+documentation	Install pinned C++ formatter	2026-09-13T23:51:49.2934900Z ^[[36;1m"$RUNNER_TEMP/code-style/bin/python" -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: --no-deps -r tools/style/requirements.txt^[[0m
+documentation	Install pinned C++ formatter	2026-09-13T23:51:49.2935540Z ^[[36;1mecho "CLANG_FORMAT=$RUNNER_TEMP/code-style/bin/clang-format" >> "$GITHUB_ENV"^[[0m
+documentation	Install pinned C++ formatter	2026-09-13T23:51:49.2962865Z shell: /usr/bin/bash -e {0}
+documentation	Install pinned C++ formatter	2026-09-13T23:51:49.2963194Z ##[endgroup]
+documentation	Install pinned C++ formatter	2026-09-13T23:51:52.1093635Z Collecting clang-format==20.1.8 (from -r tools/style/requirements.txt (line 3))
+documentation	Install pinned C++ formatter	2026-09-13T23:51:52.2020111Z   Downloading clang_format-20.1.8-py2.py3-none-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (1.8 MB)
+documentation	Install pinned C++ formatter	2026-09-13T23:51:52.4924174Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 6.1 MB/s eta 0:00:00
+documentation	Install pinned C++ formatter	2026-09-13T23:51:52.4953016Z Installing collected packages: clang-format
+documentation	Install pinned C++ formatter	2026-09-13T23:51:52.6480885Z Successfully installed clang-format-20.1.8
+documentation	Check documentation, evidence, generated data and code style	﻿2026-09-13T23:51:52.7055674Z ##[group]Run node tools/check-project.mjs
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7056008Z ^[[36;1mnode tools/check-project.mjs^[[0m
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7074894Z shell: /usr/bin/bash -e {0}
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7075147Z env:
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7075507Z   CLANG_FORMAT: /home/runner/work/_temp/code-style/bin/clang-format
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7075828Z ##[endgroup]
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7401793Z > node tools/build-design-data.mjs --check
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7645251Z Checked 8 DataTables and GameRules.json
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.7663890Z > node tools/validate-design-data.mjs --check
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8049532Z {
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8049891Z   "checks": 21483,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8050162Z   "errors": [],
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8050413Z   "totalNormalEnemies": 882,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8050839Z   "totalGoldPerPlayer": 3017,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8051184Z   "preFinalGoldPerPlayer": 2907,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8051441Z   "usableStars": 22,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8052031Z   "preFinalSummonsOnly": 55
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8052355Z }
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8069931Z > node tools/validate-planning.mjs
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8535286Z {
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8535592Z   "result": "PASS",
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8535935Z   "checks": 4150,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8536165Z   "markdownFiles": 39,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8536419Z   "metadataDocuments": 25,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8536730Z   "editableTopicDocuments": 10,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8536993Z   "tasks": 37,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8537228Z   "qaCases": 88,
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8537626Z   "errors": []
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8537876Z }
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.8555990Z > node tools/check-code-style.mjs
+documentation	Check documentation, evidence, generated data and code style	2026-09-13T23:51:52.9271683Z Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+documentation	Check validator rejection cases	﻿2026-09-13T23:51:52.9357796Z ##[group]Run node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs
+documentation	Check validator rejection cases	2026-09-13T23:51:52.9358322Z ^[[36;1mnode --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs^[[0m
+documentation	Check validator rejection cases	2026-09-13T23:51:52.9375325Z shell: /usr/bin/bash -e {0}
+documentation	Check validator rejection cases	2026-09-13T23:51:52.9375623Z env:
+documentation	Check validator rejection cases	2026-09-13T23:51:52.9375900Z   CLANG_FORMAT: /home/runner/work/_temp/code-style/bin/clang-format
+documentation	Check validator rejection cases	2026-09-13T23:51:52.9376208Z ##[endgroup]
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0991031Z ✔ unchanged legacy is exempt; Unreal macro sample is always checked (175.915733ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0992291Z ✔ new malformed code fails read-only; explicit formatting repairs it (236.60693ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0993024Z ✔ editing an inherited file removes its exemption (74.277616ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0993739Z ✔ renaming an inherited file does not carry its exemption (64.046936ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0994418Z ✔ Git CRLF checkout preserves the unchanged legacy exemption (121.616976ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0995157Z ✔ the sample cannot be hidden by a baseline entry (51.721754ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0995922Z ✔ new code cannot disable the formatter (131.590649ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0996565Z ✔ UTF-8 BOM and CRLF in new files fail and are fixed explicitly (166.688571ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0997217Z ✔ fix validates all paths before writing, and rejects outside paths (72.311809ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.0998186Z ✔ missing and mismatched formatters fail instead of skipping (4.252491ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7214978Z ✔ a clean checkout of validation inputs passes (169.093994ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7216163Z ✔ a new technical document without metadata fails (88.919395ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7217277Z ✔ metadata is checked outside the GDD source list (69.639823ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7218291Z ✔ a fabricated run cannot complete a task (111.637481ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7219670Z ✔ a failing run cannot justify Done (31.123762ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7220556Z ✔ the run result must match the execution record (36.08499ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7221923Z ✔ an unexecuted acceptance criterion cannot justify Done (169.148293ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7222792Z ✔ Done requires a completion record (175.22542ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7223327Z ✔ missing evidence fails (96.206111ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7223919Z ✔ altered archived evidence fails its hash (79.802411ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7224565Z ✔ a stale status summary fails (249.798758ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7225155Z ✔ a completed task cannot be the next action (27.16337ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7227979Z ✔ a stale GDD reading copy fails (204.00218ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7228529Z ✔ check-only data detects drift without repairing the file (108.49547ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7229066Z ✔ check-only report detects drift without repairing the file (100.139565ms)
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7374021Z ℹ tests 25
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7374314Z ℹ suites 0
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7374650Z ℹ pass 25
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7374853Z ℹ fail 0
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7375230Z ℹ cancelled 0
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7375529Z ℹ skipped 0
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7375807Z ℹ todo 0
+documentation	Check validator rejection cases	2026-09-13T23:51:54.7376184Z ℹ duration_ms 1775.716949
+documentation	Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38	﻿2026-09-13T23:51:54.7481845Z Post job cleanup.
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	﻿2026-09-13T23:51:54.8492495Z Post job cleanup.
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9110557Z [command]/usr/bin/git version
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9137377Z git version 2.55.0
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9162900Z Temporarily overriding HOME='/home/runner/work/_temp/5e3c94a6-841f-4750-875c-492b2a805eae' before making global git config changes
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9164111Z Adding repository directory to the temporary git global config as a safe directory
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9167223Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Mobile-defense-clone_Team-Project/Mobile-defense-clone_Team-Project
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9603274Z Removing SSH command configuration
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9608464Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9638557Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9793369Z Removing HTTP extra header
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9796813Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9819558Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9954213Z Removing includeIf entries pointing to credentials config files
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9958615Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+documentation	Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803	2026-09-13T23:51:54.9981396Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+documentation	Complete job	﻿2026-09-13T23:51:55.0218801Z Cleaning up orphan processes

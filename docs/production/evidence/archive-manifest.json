@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "archived": "2026-09-14",
+  "archivedBy": "Codex",
+  "policy": "docs/production/EVIDENCE.md",
+  "files": [
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/android-devices.txt",
+      "source": "Saved/BuildRuns/RUN-20260913-02/android-devices.txt",
+      "bytes": 28,
+      "sha256": "bbfcc7239a6f1be3544814ebdc6bcc9b66bf5b1f0b03baa3340808f19265a630"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/environment.json",
+      "source": "Saved/BuildRuns/RUN-20260913-02/environment.json",
+      "bytes": 1639,
+      "sha256": "5e72dce083d1694a8f0e8c71e963b11e18d6c6a59b27699fdf0c906748e45357"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/git-head.txt",
+      "source": "Saved/BuildRuns/RUN-20260913-02/git-head.txt",
+      "bytes": 42,
+      "sha256": "d5e5fbbb1209a952983e970e8f57d45ee213b198221a052e435e188f45d08bb2"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/git-status-before.txt",
+      "source": "Saved/BuildRuns/RUN-20260913-02/git-status-before.txt",
+      "bytes": 192,
+      "sha256": "d446100fa3b175259e5fa24cd084b0d7fad86bfc7164d90032a32918b2eeb923"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/input-manifest.json",
+      "source": "Saved/BuildRuns/RUN-20260913-02/input-manifest.json",
+      "bytes": 122144,
+      "sha256": "3d46def7424436ebdc1f4458f1ebfbe20ee4d1955778dffd5349a88e0952559d"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/preservation-check.json",
+      "source": "Saved/BuildRuns/RUN-20260913-02/preservation-check.json",
+      "bytes": 72,
+      "sha256": "20b1bafdcc60cd20531462219e7d70467e935239eca5c30389cbc76b5cbcd5a1"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/visual-studio-final.json",
+      "source": "Saved/BuildRuns/RUN-20260913-02/visual-studio-final.json",
+      "bytes": 187,
+      "sha256": "34e9d54bc7839e57a3dd663783d11caea4beefc62c0a6d0f29641ebef5a51d91"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/vs-bootstrapper.log",
+      "source": "Saved/BuildRuns/RUN-20260913-02/vs-bootstrapper.log",
+      "bytes": 7488,
+      "sha256": "77ed2361084bef2f0908997388dea3d019cc0bd5fda74cab6acc78ca844a0e16"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/vs-install-arguments.txt",
+      "source": "Saved/BuildRuns/RUN-20260913-02/vs-install-arguments.txt",
+      "bytes": 318,
+      "sha256": "7e09ad812fd0bdf4e3fbd3eee62e2df96d512adcfb10df267e5a7d7280343283"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-02/vs-install-exit.txt",
+      "source": "Saved/BuildRuns/RUN-20260913-02/vs-install-exit.txt",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/artifact-recheck-01.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/artifact-recheck-01.json",
+      "bytes": 1582,
+      "sha256": "dc98d45f51501918bd65fb03a7b50671d072620a6e04fa20e4c49dd22ebf715a"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/editor-launch.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/editor-launch.json",
+      "bytes": 273,
+      "sha256": "61755a6ea9b1bdde93d9efbc0c1653cbbba0a1eab48eb10345f1956f624f2e54"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/game-launch.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/game-launch.json",
+      "bytes": 273,
+      "sha256": "b16419b8a13e752a272aabdd980e2a98ff4d9d8f46dc71d36768e715facd1654"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/input-manifest.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/input-manifest.json",
+      "bytes": 114168,
+      "sha256": "6df1fc1775b4abc8df6a00e50d4c8b1e444613ff33b78a1ed5ae370a94d4b8a8"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-command.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/editor-command.json",
+      "bytes": 495,
+      "sha256": "1e17da3d0d4fef2df715378327a7c66b7bbb7f7630757b4c12c1615fd22555ad"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-play.log",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/editor-play.log",
+      "bytes": 326284,
+      "sha256": "0cd6e34a9f60b3681806132e36d8ffd636f3c5556db79c318f4be45f1dad42b9"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-en-console.txt",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/editor-smoke-en-console.txt",
+      "bytes": 1246,
+      "sha256": "f93a2f06f01002787b0c521fe589a6df91d9ad4fd560a384669d73e92f48c9c6"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-en.log",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/editor-smoke-en.log",
+      "bytes": 286048,
+      "sha256": "f0e204bf5f1f5653fcba2602b3c5ca92511f0c26040fd0957d1ebb3cb64321c6"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-ko-console.txt",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/editor-smoke-ko-console.txt",
+      "bytes": 1246,
+      "sha256": "f93a2f06f01002787b0c521fe589a6df91d9ad4fd560a384669d73e92f48c9c6"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/editor-smoke-ko.log",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/editor-smoke-ko.log",
+      "bytes": 287223,
+      "sha256": "acd57b1e640f48dfba5fa3a6ae296ae1a5ffaf4260ca3379d00b2d2dd6161120"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/editor.log",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/editor.log",
+      "bytes": 4357,
+      "sha256": "ba12cddfdcdac60ef63a43eeb76c1fce121cf03dd3b897af1535ee3e33d7e03e"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/engine-version.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/engine-version.json",
+      "bytes": 225,
+      "sha256": "4bbe1a08cfbe45062fd2a1763b9f79c9e71ae2184d8806397dc92fa8fde21c2c"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/project-files-command.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/project-files-command.json",
+      "bytes": 324,
+      "sha256": "d28b511f80bb9cf2138b51144936c3d92eb0b1fac28e97c8371c77846398f0ba"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/project-files.log",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/project-files.log",
+      "bytes": 2366,
+      "sha256": "3eb8e155fd998778e241cd9d2a672fb7ec56fc8f80c1befb974c1cee1cc1c702"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-game.log",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/windows-game.log",
+      "bytes": 109655,
+      "sha256": "a736cee812e2dac9641c27ac48aa09411e58e2194baacbc3a00c81eb6825efab"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-package-command.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/windows-package-command.json",
+      "bytes": 682,
+      "sha256": "a2477df6086969bc77f518ba67d32bf13a47b3a675a3c8e5e54a973285e3ca67"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/Logs/windows-package.log",
+      "source": "Saved/BuildRuns/20260913-030434-725/Logs/windows-package.log",
+      "bytes": 153239,
+      "sha256": "d293e2813d7f38d08c70c7eaf66b8661a772ae616b76a28393ed6ee21bc96c22"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/result.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/result.json",
+      "bytes": 423,
+      "sha256": "950325a528618aff5f4986098b4b93c6c50d0474459b127055f8e86bad3e0d8c"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260913-03/runtime-observations.json",
+      "source": "Saved/BuildRuns/20260913-030434-725/runtime-observations.json",
+      "bytes": 651,
+      "sha256": "061c0c48a14ab5070a1ed706323cdb21af8beec97eddd004ba100af69c296e14"
+    }
+  ]
+}
