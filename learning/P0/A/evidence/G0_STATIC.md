@@ -28,3 +28,5 @@ Code style: 11 checked (includes formatting sample), 48 unchanged legacy files, 
 학습 초안 작성 뒤 `node tools/check-project.mjs`도 exit code 0이었다. 전체 출력은 [G0_PROJECT_CHECK.log](G0_PROJECT_CHECK.log)에 보존했다. 데이터 검사2689건·기획 검사6601건·코드 서식11개가 통과했다. 데이터 검사에 나타나는 전체80웨이브 합계는 기획 데이터 정적 검사이며 P0 10웨이브 실행 결과가 아니다.
 
 정적 리뷰에서 정책 변경을 같은 RulesVersion으로 통과시키는 누락을 발견하여 ContinuousSeconds/CountedEnemyKinds/Timing.Order/합성·부분 뭉치/허용 목록 검사와 실패 변조 테스트를 추가했다. 좌표가 유한수인지만 확인하던 구현에 보드 간격·분리·경로 둘레 검사를 추가했다. 이러한 코드 수정은 실제 테스트 통과 증거와 구분한다.
+
+후속 실제 Editor 빌드에서 초기 코드 `0bab1ad`의 LDGameData.cpp554가 C2110(두 TEXT 포인터 덧셈), C2661(연쇄 생성자 오류)로 실패했다. 전체 로그는 역할 작업 폴더의 `Saved/P0Runs/G0-A-editor/build.log`에 있다. `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`에서 FString 연결로 수정하고 해당 파일 포맷과 `git diff --check`를 확인했다. 실제 재빌드 결과는 별도 기록한다.
