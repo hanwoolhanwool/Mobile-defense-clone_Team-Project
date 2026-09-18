@@ -7,7 +7,7 @@
 | 상위 TASK·정식 설계 | TASK-NET-01 중 A / [A-02 설계](../../../docs/technical/IMPLEMENTATION_A.md#a02) |
 | 참고 자료 제작 상태 | Draft |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 코드 `0bab1ad7241444fa73ce2ca41dbd8863046351dd` (검증 완료 아님) |
+| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6` (검증 완료 아님) |
 | 실제 개발 시작/완료 SHA | 출발점만 준비 / 미생성 |
 | 필요한 상대 산출물·버전 | A-01 규칙 로더, B Controller·CommandProcessor 선언 및 구현 |
 | 제공 코드 / 직접 작성할 코드 | 제공: 기본 UE 프로젝트·A-01 직접 작성 결과. 직접 작성: Data/LDMatchTypes.h, Core/LDGameMode.*, Core/LDGameState.*, Core/LDPlayerState.* |
@@ -65,9 +65,10 @@
 | 세 번째 참가자 | 슬롯을 덮어쓰지 않고 거절 | NotRun | 세 접속 실행 필요 |
 | Result/Aborted 뒤 재진입·반복 EndPlay | 상태 되돌림0, 예약/구독 없음 | 정적 경로 검토, 실제 실행 NotRun | SetPhase/StopMatchServices |
 | C++ 서식/공백 | 오류0 | Pass | [정적 기록](evidence/G0_STATIC.md) |
-| Editor/UHT·네트워크·패키지·Android | 각 검수 성공 | NotRun | 통합 담당자가 직렬 실행 예정 |
+| Editor 컴파일 | UHT/C++/링크 성공 | 첫 빌드 Fail; 로더 문자열 오류 수정 후 재검증 대기 | [A-01 실패 기록](G0_01_DATA.md) |
+| 네트워크·패키지·Android | 각 검수 성공 | NotRun | 통합 담당자가 직렬 실행 예정 |
 
-실행 실패를 아직 경험하지 않았으므로 성공/실패 화면이나 수정 재검증을 만들어 기록하지 않는다. 정적 리뷰 수정은 A-01의 정책/좌표 검증에 기록했다.
+실제 컴파일 실패와 문자열 연결 수정은 A-01에 기록했다. 게임 실행 화면이나 수정 재빌드 성공을 만들어 기록하지 않는다. 정적 리뷰 수정도 A-01의 정책/좌표 검증에 기록했다.
 
 ## 상대에게 전달하고 통합하기
 
