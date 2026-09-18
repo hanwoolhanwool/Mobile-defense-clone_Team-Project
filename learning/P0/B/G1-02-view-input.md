@@ -59,9 +59,12 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 | 상대/경로/화면밖 누르기 | 선택 불변·구체적인 거절문구 | NotRun | 직접 실행 검수 |
 | 연결 세대 변경/종료 | 위젯·로컬 Actor·선택 정리 | NotRun | 실제 UI 재생성/다음 매치 후속 |
 | source style/diff | 오류0 | Pass | `Saved/P0Evidence/G1-B/style.log` |
-| Editor/UE 자동화/실제 네트워크·패키지/Android | 각각 근거 확보 | NotRun | 루트 직렬 실행 대기 |
+| Editor 최초 빌드 | C++/UHT 컴파일 성공 | Fail: C4458, 수정 후 재검증 대기 | `Saved/P0Runs/G1-B-editor/build.log`, UI/LDG1BoardWidget.cpp42 |
+| UE 자동화/실제 네트워크·패키지/Android | 각각 근거 확보 | NotRun | 루트 직렬 실행 대기 |
 
 현재까지 실제 게임 실패를 관찰한 기록은 없다. 구성상 피한 문제는 (1) 화면마다 서버 좌표 변경, (2) 화면비별 X/Y 별도 확대, (3) visual과 다른 좌표의 입력 검사, (4) 터치 뒤 합성 mouse 입력의 중복 전달이다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다. 실제 실패가 발견되면 원인·수정 SHA·재검증을 추가한다.
+
+최초 Unreal Editor 컴파일에서 AddLabel의 지역변수 `Slot`이 UWidget의 동일 이름 멤버를 가려 MSVC C4458 오류가 발생했다. 지역변수를 `CanvasSlot`으로 바꿨다. 이는 동작 변경 없이 소유·슬롯 의미를 더 명확히 한 수정이다. 실제 Editor 재빌드와 자동화 결과는 후속 실행에 연결한다.
 
 ## 상대에게 전달하고 통합하기
 

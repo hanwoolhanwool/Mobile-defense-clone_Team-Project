@@ -39,10 +39,10 @@ UTextBlock* ULDG1BoardWidget::AddLabel(FName Name, double NormalizedY, int32 Fon
 	Label->SetFont(Font);
 	Label->SetColorAndOpacity(FSlateColor(FLinearColor(0.93f, 0.92f, 0.87f)));
 	Label->SetJustification(ETextJustify::Center);
-	UCanvasPanelSlot* Slot = SafeCanvas->AddChildToCanvas(Label);
-	Slot->SetAnchors(FAnchors(0.5f, static_cast<float>(NormalizedY)));
-	Slot->SetAlignment(FVector2D(0.5, 0.5));
-	Slot->SetAutoSize(true);
+	UCanvasPanelSlot* CanvasSlot = SafeCanvas->AddChildToCanvas(Label);
+	CanvasSlot->SetAnchors(FAnchors(0.5f, static_cast<float>(NormalizedY)));
+	CanvasSlot->SetAlignment(FVector2D(0.5, 0.5));
+	CanvasSlot->SetAutoSize(true);
 	return Label;
 }
 
