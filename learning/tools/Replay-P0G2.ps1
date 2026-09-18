@@ -74,7 +74,7 @@ $Steps = @(
         'Content/LD/Core/BP_LDGameMode.uasset', 'Content/LD/Maps/L_P0.umap', 'Content/LD/Materials/M_P0Flat.uasset',
         'Content/LD/Data/GameRules.json', 'Content/LD/Data/DT_Units.json', 'Content/LD/Data/DT_EnemyTypes.json',
         'Content/LD/Data/DT_Waves.json', 'Content/LD/Data/DT_SummonProfiles.json', 'Content/LD/Data/DT_SpawnProfiles.json',
-        'tools/Build-P0Editor.ps1', 'tools/Build-P0Package.ps1', 'tools/Test-P0Automation.ps1', 'tools/Sync-P0Data.ps1'
+        'tools/Build-P0Editor.ps1', 'tools/Build-P0Package.ps1', 'tools/Sync-P0Data.ps1'
     ) },
     @{ Name = '01 B board/economy value contracts before actor'; Lesson = 'B/G2-01-board-economy.md'; Kind = 'LearnerAuthoredReference'; Sha = $SourceSha; Paths = @(
         "${SourceRoot}Board/LDBoardTypes.h", "${SourceRoot}Economy/LDEconomyTypes.h"
@@ -114,7 +114,7 @@ $Steps = @(
     ) },
     @{ Name = '10 provided explicit Development two-process fixture'; Lesson = 'Integration'; Kind = 'ProvidedVerification'; Sha = $SourceSha; Paths = @(
         "${SourceRoot}Verification/LDG2ProbeSubsystem.h", "${SourceRoot}Verification/LDG2ProbeSubsystem.cpp",
-        'tools/Run-P0Pair.ps1'
+        'tools/Run-P0Pair.ps1', 'tools/Test-P0Automation.ps1'
     ) }
 )
 $AllPaths = @($Steps | ForEach-Object { $_.Paths })
