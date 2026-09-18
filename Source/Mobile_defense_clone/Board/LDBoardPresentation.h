@@ -38,6 +38,8 @@ private:
 	UPROPERTY()
 	TArray<TObjectPtr<UStaticMeshComponent>> Visuals;
 	UPROPERTY()
+	TArray<TObjectPtr<UStaticMeshComponent>> CellVisuals;
+	UPROPERTY()
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> CellMaterials;
 	FLDBoardGeometry Geometry;
 	int32 LocalPlayerIndex = INDEX_NONE;

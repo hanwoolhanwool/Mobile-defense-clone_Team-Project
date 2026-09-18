@@ -84,6 +84,7 @@ bool ALDBoardPresentation::Initialize(const FLDBoardGeometry& InGeometry, int32 
 		const FVector Presented = FLDViewTransform::ToPresentation(Canonical, LocalPlayerIndex);
 		AddCube(Presented, FVector(Size, Size, 6), BorderColor);
 		UStaticMeshComponent* Inner = AddCube(Presented + FVector(0, 0, 4), FVector(Size - 3, Size - 3, 6), CellColor);
+		CellVisuals.Add(Inner);
 		CellMaterials.Add(Cast<UMaterialInstanceDynamic>(Inner->GetMaterial(0)));
 	}
 	// Subtle chevrons mark the shared canonical -X movement; their direction is the same in both views.
@@ -115,6 +116,23 @@ void ALDBoardPresentation::ApplyViewportLayout(const FLDBoardViewportLayout& Lay
 	Camera->SetRelativeLocation(Layout.CameraLocation);
 	Camera->SetOrthoWidth(static_cast<float>(Layout.OrthoWidthCm));
 	Camera->SetAspectRatio(static_cast<float>(Layout.ViewportSizePixels.X / Layout.ViewportSizePixels.Y));
+	const double Size = Geometry.GetCellSizeCm();
+	if (Geometry.IsReady() && FMath::IsFinite(Layout.PixelsPerCm) && Layout.PixelsPerCm > 0 && Size > 0)
+	{
+		// A shared cell edge needs a visible pixel gap; keep tiny viewports from consuming the cell interior.
+		const double GapCm = FMath::Min(Size * 0.2, FMath::Max(3.0, 1.5 / Layout.PixelsPerCm));
+		const double InnerScale = (Size - GapCm) / 100.0;
+		for (UStaticMeshComponent* CellVisual : CellVisuals)
+		{
+			if (IsValid(CellVisual))
+			{
+				FVector Scale = CellVisual->GetRelativeScale3D();
+				Scale.X = InnerScale;
+				Scale.Y = InnerScale;
+				CellVisual->SetRelativeScale3D(Scale);
+			}
+		}
+	}
 }
 
 void ALDBoardPresentation::SetSelectedCell(int32 CellId)

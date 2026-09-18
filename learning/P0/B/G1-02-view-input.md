@@ -76,6 +76,10 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 이후 통합 `efa2aa9`의 Editor 빌드는 Pass였지만 `Saved/P0Runs/G1-integration-tests-fix2`의 새 EngineOrthoProjection만 Fail(기존9개 Pass)이었다. 두 화면 모두 ProjectWorldToScreen이 false여서 셀 폭·ray·clip 검사도 이어서 실패했다. 엔진 `AActor::CalcCamera`는 활성 카메라만 고르며 없으면 Actor eyes의 원점/기본 perspective로 돌아간다. 최초 fixture는 CreateWorld 후 Actor의 play 초기화 단계를 생략했다. CreateWorld 자체는 InitializeNewWorld를 이미 호출하므로 이를 중복 호출하지 않고 `InitializeActorsForPlay(FURL())`와 카메라 Activate를 fixture에 추가했다. 계산 전에 World actors 초기화·카메라 등록/활성·View가 Orthographic·Location.Z=2400임을 명시적으로 검사해 전제 실패를 투영 실패와 구분한다. 제품의 카메라 설정은 덮어쓰지 않는다. 수정 fixture의 실제 재실행 결과는 아직 NotRun이며 이 실패를 실제 제품 가로 화면 재검증과 혼동하지 않는다.
 
+제품의 두 번째 카메라 수정 후 root의 `G1-two-process-fix2` 실제 검사는 양쪽1338/1338 Pass였다. 다만14개 PNG의 시각 검토에서1280×720 화면의 세로 셀 경계4개가 거의 사라졌다. 기존 내부 셀 크기137cm와 논리140cm 사이의3cm 간격이 이 화면에서는0.79px뿐이라 안티앨리어싱 표본에 따라 선이 소실됐다. 입력 검사의 성공만으로6×3 구분이 충분하다고 판단할 수 없다.
+
+표시 수정은 `CellVisuals` 배열에 내부 메시를 명시적으로 보관하고 `ApplyViewportLayout`에서 XY scale만 갱신한다. 간격은 max(기존3cm,1.5px/현재PixelsPerCm), 상한은 셀 크기의20%로 하여 극단적으로 작은 viewport에서도 내부가 음수/0 크기가 되지 않게 한다. invalid/0 픽셀 밀도는 크기 계산에 쓰지 않는다.1280×720 기대 간격은5.6875cm=1.5px, 내부134.3125cm다. 논리 셀140cm·전체셀 입력·카메라·높이·선택 상태는 바꾸지 않는다. 이 표시 수정 후 빌드/PNG 시각 재검증은 아직 NotRun이며 최종 G1 통과 전에 확인한다.
+
 표시와 입력의 서버 좌표 불변, 동일 배율 확대, 터치 뒤 합성 mouse 입력 억제도 별도로 유지한다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다.
 
 최초 Unreal Editor 컴파일에서 AddLabel의 지역변수 `Slot`이 UWidget의 동일 이름 멤버를 가려 MSVC C4458 오류가 발생했다. `d5274dccdc11e1736e59239e558e8fb2ace7ee14`에서 지역변수를 `CanvasSlot`으로 바꿨다. 2026-09-18 14:13 KST의 실제 재빌드는 Pass, 14:15 KST `LD.P0.G1.Board`는 3Pass/0Fail/0NotRun이다. root는 같은 Windows11·UE5.8.2·MSVC 환경에서 직렬 실행했다. 실행 명령·SHA·시간은 위 JSON에 보존했고 전체 로그는 `Saved/P0Runs/G1-B-editor-fix1`, `G1-B-tests`에 있다. UBT14.66초는 빌드 시간이며 게임 프레임 성능이 아니다.
