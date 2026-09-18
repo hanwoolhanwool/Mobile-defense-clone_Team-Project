@@ -1,0 +1,45 @@
+{
+  "Scope": "Unreal automation with NullRHI; not PIE or visual gameplay",
+  "Head": "cb6c6312b66942adf65a97685139a639fca02dae",
+  "Started": "2026-09-18T15:31:30.5394605+09:00",
+  "AllTests": {
+    "Succeeded": 34,
+    "NotRun": 0,
+    "Result": "Pass",
+    "Failed": 0
+  },
+  "SelectedTests": [
+    {
+      "fullTestPath": "LD.P0.G2.Commands.AtomicSummonAndFailure",
+      "state": "Success",
+      "duration": 0.02197900041937828
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.EpochReplacementDuringPublication",
+      "state": "Success",
+      "duration": 0.010652400553226471
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.ExpiredRequiresCurrentRevisions",
+      "state": "Success",
+      "duration": 0.012082699686288834
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.PopulationOwnershipAndPreparedIsolation",
+      "state": "Success",
+      "duration": 0.015224400907754898
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.RewardsAndPreparedRevision",
+      "state": "Success",
+      "duration": 0.015994101762771606
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.StackMoveMergeAndRefill",
+      "state": "Success",
+      "duration": 0.017027702182531357
+    }
+  ],
+  "Source": "Saved/P0Runs/G2-ui-review-automation-fix2/report/index.json",
+  "Limitations": "NullRHI only; no delayed PC snapshot order or visual/RPC/package/Android pass inferred."
+}

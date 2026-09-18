@@ -1,0 +1,40 @@
+{
+  "Scope": "Unreal automation with NullRHI; not PIE or visual gameplay",
+  "Head": "dba8afa521c68dc48cc07207d22b7f72c06c4283",
+  "Started": "2026-09-18T15:15:34.839432+09:00",
+  "AllTests": {
+    "Failed": 1,
+    "Result": "Fail",
+    "NotRun": 0,
+    "Succeeded": 30
+  },
+  "SelectedTests": [
+    {
+      "fullTestPath": "LD.P0.G2.Commands.AtomicSummonAndFailure",
+      "state": "Success",
+      "duration": 0.025090999901294708
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.EpochReplacementDuringPublication",
+      "state": "Success",
+      "duration": 0.009472500532865524
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.PopulationOwnershipAndPreparedIsolation",
+      "state": "Success",
+      "duration": 0.020193200558423996
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.RewardsAndPreparedRevision",
+      "state": "Success",
+      "duration": 0.013465501368045807
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.StackMoveMergeAndRefill",
+      "state": "Success",
+      "duration": 0.01630060002207756
+    }
+  ],
+  "Source": "Saved/P0Runs/G2-composed-automation-initial/report/index.json",
+  "Limitations": "NullRHI command fixtures only; no real UI/RPC/PIE/package/Android pass inferred; overall run failed one separate A G0 assertion."
+}

@@ -1,0 +1,1 @@
+C:\Users\iam12\P0_reference_integration\Source\Mobile_defense_clone\UI\LDG1BoardWidget.cpp(81,25): error C4458: 'Visibility' 선언은 클래스 멤버를 숨깁니다.
