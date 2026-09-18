@@ -5,8 +5,8 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·설계 | TASK-MAP-01 중 경로, PLAN-ROUTE-01 / [공통 경로 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
-| 참고 자료 제작 상태 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작/코드 SHA | `4787bf1a3a0d866aa206d148586594b3c710f957` / `bce4b7b0abe7787e1efe54e9af8805612bdffe5d` |
+| 참고 자료 제작 상태 / 실제 개발 상태 | Verified — 파일 조립·Editor·자동화·G1 두 프로세스 재현 범위 / Planned |
+| 참고 재현 시작/완료 소스 SHA | `649c1dedd6832c41089a76b59bc76518cd262296` / `df8a2f27dd962a4d9f9f4051e51f3332245ba40a` |
 | 실제 개발 시작/완료 SHA | 자기 G0 통합 결과 사용 / 미생성 |
 | 필요한 상대 산출물 | G0 검증된 GameRules2/0.3.0, B의 동일 데이터 전장 표시 |
 | 제공 / 직접 작성 | 제공: Content/LD/Data와 G0 공통 타입. 직접 작성: Battle/LDRouteModel.h/.cpp, Tests/LDRouteTests.cpp의 계산 테스트 |
@@ -32,7 +32,7 @@
 | 순서 | 위치 | 값·연결 | 관찰 |
 |---|---|---|---|
 | 1 | C++ Editor 타깃 | 기존 모듈에 두 모델 파일 추가, Build.cs 추가 의존성 없음 | 실제 Editor compile Pass |
-| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 초기5개 Pass, 후속 호스트 시각 회귀1개 추가·실행 대기 |
+| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 호스트 시각 회귀를 포함한6개 Pass; 전체22개 재현에 포함 |
 | 3 | Blueprint·UMG·맵 | 이 수업에서 변경 없음 | World 없는 경로 계산이므로 화면 캡처를 생성하지 않음 |
 
 ## 실행·실패·수정 기록
@@ -48,22 +48,22 @@
 | clang-format20.1.8 검사 | 오류0 | Pass: 24 checked,48 legacy,0 errors; 코드 커밋 전 실행 |
 | git diff --check | 공백 오류0 | Pass |
 
-Editor 빌드 Pass(20.25초), Unreal NullRHI 자동화5개 Pass/0Fail/0NotRun을 직접 로그에서 확인했다. [결과·실행 SHA·로그](G1_EVIDENCE/README.md). 후속 통합2프로세스의 호스트 표시 시각 문제와 수정은 [actor 수업](G1_02_ENEMY_ACTOR.md)에 기록했으며 화면 검수는 미통과다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 이 선택의 실제 화면 품질과 지연 보정은 통합 네트워크 검수 대상이다.
+최초 A 역할의 Editor·5자동화 [증거](G1_EVIDENCE/README.md)와 별도로, 새 작업 경로에서 수업 순서로 파일을 조립하여 Editor Pass(88.39초), 전체22자동화 Pass/0Fail/0NotRun과 실제 두 프로세스 화면 검수를 통과했다. 시작점·파일별 blob·로그·화면·제한은 [공통 재현 결과](../evidence/G1_REPLAY/SUMMARY.md)를 따른다. 호스트 표시 시각 실패의 원인·수정·회귀 Pass는 [Actor 수업](G1_02_ENEMY_ACTOR.md)에 기록했다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 인위적 네트워크 지연 상태의 화면 품질은 아직 미측정이다.
 
 ## 상대에게 전달하고 통합하기
 
-경로 모델은 B 헤더·Controller·Spline에 의존하지 않는다. A actor가 모델을 사용하고 B는 동일 원본 좌표로 전장을 표시한다. 실제 API 선언은 `Battle/LDRouteModel.h`에 있다. G1-A 코드 SHA는 상단 표를 사용하고, G1 통합 SHA와 실제 학습 통합 SHA는 아직 미확정이다.
+경로 모델은 B 헤더·Controller·Spline에 의존하지 않는다. A actor가 모델을 사용하고 B는 동일 원본 좌표로 전장을 표시한다. 실제 API 선언은 `Battle/LDRouteModel.h`에 있다. 통합 완료 소스 SHA는 상단 표, 연결 순서는 [G1 통합 수업](../G1_INTEGRATION.md)을 따른다. 실제 학습자의 작성·통합 SHA는 미생성이다.
 
 ## 이해 확인
 
 - 누적거리를 fmod 결과로 덮어쓰면 두 바퀴 추적과 시간 복구에서 무엇을 잃는가?
 - 정확한 코너의 접선을 이전 구간으로 잡으면 회전 표시가 어떻게 달라지는가?
 - 작은 변형: 검증 전용 삼각형 경로에서 마지막→첫 점 구간을 직접 손계산하고 TrySample과 비교한다. 제품4점은 바꾸지 않는다.
-- 다음 단계는 같은 코드로 Actor 수업과 실제 Editor/Automation을 확인한다. G2 진입은 두 참가자 화면·입력·두 바퀴 실제 검수까지 통과한 뒤다.
+- 다음 단계는 같은 코드로 Actor 수업을 재현한다. 참고 구현은 두 참가자 화면·입력·두 바퀴 검수를 통과하여 G2 진입 조건을 충족했다. 학습자는 자기 구현에서 같은 증거를 남긴 뒤 진행한다.
 
 ## 단계 완료
 
-- [ ] 시작점과 설명만으로 직접 재현했다.
-- [x] 실제 Unreal 컴파일·NullRHI 자동화 결과와 SHA를 연결했다. 게임 화면은 미실행이다.
-- [ ] 상대 전장과 통합하여 경로를 확인했다.
+- [x] 새 작업 경로에서 시작점과 수업 순서로 참고 파일을 조립하여 재현했다. 학습자 작성 이력은 아니다.
+- [x] 실제 Unreal 컴파일·NullRHI 자동화 결과와 소스 manifest를 연결했다.
+- [x] 상대 전장과 통합한 실제 두 프로세스에서 양쪽 경로·두 바퀴를 확인했다.
 - [x] 미검증 범위와 다음 진입 조건을 명시했다.
