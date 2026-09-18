@@ -5,6 +5,7 @@
 #include "Battle/LDEnemyActor.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
+#include "GameFramework/GameStateBase.h"
 #include "Misc/AutomationTest.h"
 #include <limits>
 
@@ -277,6 +278,45 @@ bool FLDP0RouteViewTest::RunTest(const FString& Parameters)
 	TestFalse(TEXT("EndPlay hides mesh"), Enemy->IsPresentationVisible());
 	TestFalse(TEXT("Late view callback after EndPlay refused"), Enemy->SetLocalViewPlayerIndex(0));
 	TestFalse(TEXT("Late presentation after EndPlay refused"), Enemy->RefreshPresentation(100));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0HostPresentationClockTest, "LD.P0.G1.Route.HostStepKeepsCurrentViewClock",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0HostPresentationClockTest::RunTest(const FString& Parameters)
+{
+	FRouteWorldFixture Fixture;
+	if (!TestNotNull(TEXT("Transient host world"), Fixture.World))
+	{
+		return false;
+	}
+	AGameStateBase* State = Fixture.World->SpawnActor<AGameStateBase>();
+	ALDEnemyActor* Enemy = Fixture.World->SpawnActor<ALDEnemyActor>();
+	if (!TestNotNull(TEXT("Host GameState clock"), State) || !TestNotNull(TEXT("Host route actor"), Enemy))
+	{
+		return false;
+	}
+	Fixture.World->SetGameState(State);
+	// Set the transient fixture clock directly: no editor, game loop, socket or network simulation is involved.
+	Fixture.World->TimeSeconds = 100.0;
+	TestTrue(TEXT("Initialize at clock 100"),
+	              Enemy->InitializeRoute(FGuid::NewGuid(), 3001, 0, ReferenceRoute(0), 150, 100));
+	TestTrue(TEXT("Host view ready"), Enemy->SetLocalViewPlayerIndex(0));
+	Fixture.World->TimeSeconds = 100.125;
+	Enemy->Tick(0.125f);
+	const FVector BeforeServerStep = Enemy->GetPresentationLocation();
+	TestTrue(TEXT("Current display clock predicts 18.75cm"), BeforeServerStep.Equals(FVector(490, -541.25, 35), 1.e-6));
+	// The 20Hz authoritative step can execute after the display tick in the same frame.
+	TestTrue(TEXT("Due server step at 100.10"), Enemy->AdvanceRouteTo(100.10));
+	TestTrue(TEXT("Canonical authority is still the 15cm fixed step"),
+	              Enemy->GetActorLocation().Equals(FVector(490, -545, 0), 1.e-6));
+	TestTrue(TEXT("Server step does not rewind current host display"),
+	              Enemy->GetPresentationLocation().Equals(BeforeServerStep, 1.e-6));
+	TestTrue(TEXT("Snapshot keeps fixed-step time"),
+	              FMath::IsNearlyEqual(Enemy->GetRouteSnapshot().SampleServerSeconds, 100.10, 1.e-9));
+	TestTrue(TEXT("Snapshot keeps fixed-step distance"),
+	              FMath::IsNearlyEqual(Enemy->GetRouteSnapshot().TotalDistanceCm, 15.0, 1.e-9));
 	return true;
 }
 

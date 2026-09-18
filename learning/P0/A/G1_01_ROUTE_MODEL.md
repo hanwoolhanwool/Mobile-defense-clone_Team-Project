@@ -32,7 +32,7 @@
 | 순서 | 위치 | 값·연결 | 관찰 |
 |---|---|---|---|
 | 1 | C++ Editor 타깃 | 기존 모듈에 두 모델 파일 추가, Build.cs 추가 의존성 없음 | 실제 Editor compile Pass |
-| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 경로 계산/actor 포함5개 등록·실행 Pass |
+| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 초기5개 Pass, 후속 호스트 시각 회귀1개 추가·실행 대기 |
 | 3 | Blueprint·UMG·맵 | 이 수업에서 변경 없음 | World 없는 경로 계산이므로 화면 캡처를 생성하지 않음 |
 
 ## 실행·실패·수정 기록
@@ -48,7 +48,7 @@
 | clang-format20.1.8 검사 | 오류0 | Pass: 24 checked,48 legacy,0 errors; 코드 커밋 전 실행 |
 | git diff --check | 공백 오류0 | Pass |
 
-Editor 빌드 Pass(20.25초), Unreal NullRHI 자동화5개 Pass/0Fail/0NotRun을 직접 로그에서 확인했다. [결과·실행 SHA·로그](G1_EVIDENCE/README.md). 실제 게임 화면은 아직 없다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 이 선택의 실제 화면 품질과 지연 보정은 통합 네트워크 검수 대상이다.
+Editor 빌드 Pass(20.25초), Unreal NullRHI 자동화5개 Pass/0Fail/0NotRun을 직접 로그에서 확인했다. [결과·실행 SHA·로그](G1_EVIDENCE/README.md). 후속 통합2프로세스의 호스트 표시 시각 문제와 수정은 [actor 수업](G1_02_ENEMY_ACTOR.md)에 기록했으며 화면 검수는 미통과다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 이 선택의 실제 화면 품질과 지연 보정은 통합 네트워크 검수 대상이다.
 
 ## 상대에게 전달하고 통합하기
 
