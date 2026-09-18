@@ -76,6 +76,17 @@ bool ULDG1BoardWidget::TryGetSafeRectPixels(FBox2D& OutRect) const
 	return true;
 }
 
+void ULDG1BoardWidget::SetGameplayOverlayVisible(bool bVisible)
+{
+	const ESlateVisibility Visibility = bVisible ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible;
+	if (SelectionLabel)
+	{
+		SelectionLabel->SetVisibility(Visibility);
+		FeedbackLabel->SetVisibility(Visibility);
+		OwnLabel->SetVisibility(Visibility);
+	}
+}
+
 void ULDG1BoardWidget::SetViewState(int32 PlayerIndex, int32 SelectedCell, ELDCellInputResult Result)
 {
 	ViewPlayerIndex = PlayerIndex;

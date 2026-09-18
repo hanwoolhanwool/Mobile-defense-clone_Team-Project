@@ -133,6 +133,13 @@ void ALDBoardPresentation::ApplyViewportLayout(const FLDBoardViewportLayout& Lay
 			}
 		}
 	}
+	if (FMath::IsFinite(Layout.PixelsPerCm) && Layout.PixelsPerCm > 0)
+	{
+		PixelsPerCm = Layout.PixelsPerCm;
+		const double PreviousRadius = RangeRadiusCm;
+		RangeRadiusCm = -1;
+		SetRangePresentation(RangeCenter, FMath::Max(0.0, PreviousRadius));
+	}
 }
 
 void ALDBoardPresentation::SetSelectedCell(int32 CellId)
@@ -146,6 +153,42 @@ void ALDBoardPresentation::SetSelectedCell(int32 CellId)
 	if (CellMaterials.IsValidIndex(SelectedCellId))
 	{
 		CellMaterials[SelectedCellId]->SetVectorParameterValue(TEXT("Color"), SelectedColor);
+	}
+}
+
+void ALDBoardPresentation::SetRangePresentation(const FVector& CanonicalCenter, double RadiusCm)
+{
+	if (!bInitialized || !FMath::IsFinite(RadiusCm) || RadiusCm < 0 || CanonicalCenter.ContainsNaN() ||
+	    (RangeCenter.Equals(CanonicalCenter) && RangeRadiusCm == RadiusCm))
+	{
+		return;
+	}
+	RangeCenter = CanonicalCenter;
+	RangeRadiusCm = RadiusCm;
+	const int32 Segments = 48;
+	if (RadiusCm > 0 && RangeVisuals.IsEmpty())
+	{
+		for (int32 Index = 0; Index < Segments; ++Index)
+		{
+			RangeVisuals.Add(AddCube(FVector::ZeroVector, FVector(1, 1, 1), SelectedColor));
+		}
+	}
+	const FVector Center = FLDViewTransform::ToPresentation(CanonicalCenter, LocalPlayerIndex);
+	for (int32 Index = 0; Index < RangeVisuals.Num(); ++Index)
+	{
+		UStaticMeshComponent* Visual = RangeVisuals[Index];
+		Visual->SetVisibility(RadiusCm > 0);
+		if (RadiusCm <= 0)
+		{
+			continue;
+		}
+		const double Angle = 2 * PI * Index / Segments;
+		const double NextAngle = 2 * PI * (Index + 1) / Segments;
+		const FVector Start = Center + FVector(FMath::Cos(Angle) * RadiusCm, FMath::Sin(Angle) * RadiusCm, 12);
+		const FVector End = Center + FVector(FMath::Cos(NextAngle) * RadiusCm, FMath::Sin(NextAngle) * RadiusCm, 12);
+		Visual->SetRelativeLocation((Start + End) * .5);
+		Visual->SetRelativeRotation((End - Start).Rotation());
+		Visual->SetRelativeScale3D(FVector((End - Start).Size(), FMath::Max(3.0, 1.5 / PixelsPerCm), 1) / 100.0);
 	}
 }
 
