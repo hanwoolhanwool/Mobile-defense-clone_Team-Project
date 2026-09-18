@@ -98,6 +98,23 @@ namespace
 			Processor->DrainCombatRewards();
 		}
 
+		bool AwardKnownUnit(FName UnitId)
+		{
+			// Explicit board-only setup through the real public preparation API.
+			// This neither claims a random paid summon nor mutates the economic source.
+			FLDBoardPlan Plan;
+			const FLDCommand Award = Make();
+			if (Board->TryPrepare(Players[0], Award, UnitId, Now, Plan) != ELDCommandResultCode::Success ||
+			    !Board->ValidatePrepared(Plan))
+			{
+				Board->CancelPrepared(Plan);
+				return false;
+			}
+			Board->CommitPrepared(Plan);
+			Board->PublishPrepared(Plan);
+			return true;
+		}
+
 		FString Signature(int32 Player = 0) const
 		{
 			const FLDEconomySnapshot Money = Economy->GetSnapshot(Player);
@@ -497,6 +514,250 @@ bool FLDP0ControllerSnapshotOrderTest::RunTest(const FString& Parameters)
 			              Controller->IsGameplaySnapshotReady());
 		}
 	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0WholeStackSwapTest, "LD.P0.G2.Commands.WholeStackSwapKinds",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0WholeStackSwapTest::RunTest(const FString& Parameters)
+{
+	for (bool bSameKind : {true, false})
+	{
+		FGameplayFixture Fixture;
+		if (!TestTrue(TEXT("Services initialize"), Fixture.bReady))
+		{
+			return false;
+		}
+		for (int32 Index = 0; Index < 5; ++Index)
+		{
+			if (!TestTrue(TEXT("Explicit 3+2 stack preparation succeeds"),
+			                   Fixture.AwardKnownUnit(Index < 3 || bSameKind ? TEXT("C01") : TEXT("C02"))))
+			{
+				return false;
+			}
+		}
+		const FLDEconomySnapshot MoneyBefore = Fixture.Economy->GetSnapshot(0);
+		const int32 RandomBefore = Fixture.Economy->GetRandomState(0);
+		TMap<uint64, ALDUnitActor*> ActorsBefore;
+		for (uint64 Id = 1; Id <= 5; ++Id)
+		{
+			ALDUnitActor* Actor = nullptr;
+			Fixture.Board->TryGetCommittedUnitActor(Id, Actor);
+			ActorsBefore.Add(Id, Actor);
+		}
+		FLDCommand Move = Fixture.Make(ELDCommandType::Move);
+		Move.InstanceId = 1;
+		Move.DestinationCellId = 11;
+		const FLDCommandResult Result = Fixture.Run(Move);
+		TestEqual(TEXT("Same and different kinds both swap whole destination stacks"), Result.ResultCode,
+		               ELDCommandResultCode::Success);
+		TestEqual(TEXT("Exactly five existing IDs are moved"), Result.MovedInstanceIds.Num(), 5);
+		TestEqual(TEXT("Swap creates no IDs"), Result.CreatedInstanceIds.Num(), 0);
+		TestEqual(TEXT("Swap removes no IDs"), Result.RemovedInstanceIds.Num(), 0);
+		TestEqual(TEXT("Population remains five, never absorbs same-kind stacks"),
+		               Fixture.Board->GetSnapshot(0).Population, 5);
+		for (uint64 Id = 1; Id <= 5; ++Id)
+		{
+			FLDPlacedUnit Unit;
+			TestTrue(TEXT("Every original ID still exists"), Fixture.Board->TryGetUnit(Id, Unit));
+			TestEqual(TEXT("Whole source and destination memberships exchange"), Unit.CellId, Id <= 3 ? 11 : 17);
+			TestEqual(TEXT("Swap preserves each original kind"), Unit.UnitId,
+			               FName(Id <= 3 || bSameKind ? TEXT("C01") : TEXT("C02")));
+			TestTrue(TEXT("Both complete stacks receive the independent t2+.30 movement lock"),
+			              FMath::IsNearlyEqual(Unit.MoveBlockedUntilServerSeconds, 2.3, 0.000001));
+			ALDUnitActor* Actor = nullptr;
+			TestTrue(TEXT("Original actors remain committed"), Fixture.Board->TryGetCommittedUnitActor(Id, Actor));
+			TestTrue(TEXT("Whole-stack swap does not recreate actors"), Actor == ActorsBefore.FindRef(Id));
+		}
+		const FLDEconomySnapshot MoneyAfter = Fixture.Economy->GetSnapshot(0);
+		TestEqual(TEXT("Swap preserves gold"), MoneyAfter.Gold, MoneyBefore.Gold);
+		TestEqual(TEXT("Swap preserves stars"), MoneyAfter.Stars, MoneyBefore.Stars);
+		TestEqual(TEXT("Swap preserves paid summon count"), MoneyAfter.PaidSummonCount, MoneyBefore.PaidSummonCount);
+		TestEqual(TEXT("Swap preserves next price"), MoneyAfter.NextSummonGold, MoneyBefore.NextSummonGold);
+		TestEqual(TEXT("Swap preserves economic revision"), MoneyAfter.EconomyRevision, MoneyBefore.EconomyRevision);
+		TestEqual(TEXT("Swap consumes no random state"), Fixture.Economy->GetRandomState(0), RandomBefore);
+	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0GradeEconomicRulesTest, "LD.P0.G2.Commands.GradeSalesAndLegendaryMerge",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0GradeEconomicRulesTest::RunTest(const FString& Parameters)
+{
+	const FName Kinds[] = {TEXT("R01"), TEXT("E01"), TEXT("L01")};
+	const int32 ExpectedStars[] = {1, 2, 4};
+	for (int32 Grade = 0; Grade < 3; ++Grade)
+	{
+		FGameplayFixture Fixture;
+		if (!TestTrue(TEXT("Services and explicit grade award initialize"),
+		                   Fixture.bReady && Fixture.AwardKnownUnit(Kinds[Grade])))
+		{
+			return false;
+		}
+		for (int32 Purchase = 0; Purchase < 4; ++Purchase)
+		{
+			if (!TestEqual(TEXT("Four real purchases establish a nonzero paid summon history"),
+			                    Fixture.Run(Fixture.Make()).ResultCode, ELDCommandResultCode::Success))
+			{
+				return false;
+			}
+		}
+		const int32 RandomBefore = Fixture.Economy->GetRandomState(0);
+		FLDCommand Sell = Fixture.Make(ELDCommandType::Sell);
+		Sell.InstanceId = 1;
+		TestEqual(TEXT("Actual command sells the known higher grade"), Fixture.Run(Sell).ResultCode,
+		               ELDCommandResultCode::Success);
+		const FLDEconomySnapshot Money = Fixture.Economy->GetSnapshot(0);
+		TestEqual(TEXT("Rare Epic Legendary grant independent star amounts1 2 4"), Money.Stars, ExpectedStars[Grade]);
+		TestEqual(TEXT("Higher-grade sale gives no gold after four paid purchases"), Money.Gold, 8);
+		TestEqual(TEXT("Sale preserves the nonzero paid summon count"), Money.PaidSummonCount, 4);
+		TestEqual(TEXT("Sale preserves next summon price28"), Money.NextSummonGold, 28);
+		TestEqual(TEXT("Sale consumes no random draw"), Fixture.Economy->GetRandomState(0), RandomBefore);
+		TestEqual(TEXT("Exactly the awarded actor leaves the four paid units behind"),
+		               Fixture.Board->GetSnapshot(0).Population, 4);
+	}
+	FGameplayFixture Legendary;
+	if (!TestTrue(TEXT("Legendary fixture initializes"), Legendary.bReady))
+	{
+		return false;
+	}
+	for (int32 Index = 0; Index < 3; ++Index)
+	{
+		if (!TestTrue(TEXT("Known legendary materials use real board preparation"),
+		                   Legendary.AwardKnownUnit(TEXT("L01"))))
+		{
+			return false;
+		}
+	}
+	const FString BeforeMerge = Legendary.Signature();
+	FLDCommand Merge = Legendary.Make(ELDCommandType::Merge);
+	Merge.InstanceId = Merge.ConsumedInstanceId0 = 1;
+	Merge.ConsumedInstanceId1 = 2;
+	Merge.ConsumedInstanceId2 = 3;
+	TestEqual(TEXT("Three valid legendary materials still reject P1 progression"), Legendary.Run(Merge).ResultCode,
+	               ELDCommandResultCode::FeatureDisabled);
+	TestEqual(TEXT("Legendary rejection preserves gold stars n RNG revisions IDs cells locks"), Legendary.Signature(),
+	               BeforeMerge);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0PreparedLifetimeTest, "LD.P0.G2.Commands.PreparedIsolationAndIdReservation",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0PreparedLifetimeTest::RunTest(const FString& Parameters)
+{
+	FGameplayFixture Fixture;
+	if (!TestTrue(TEXT("Services initialize"), Fixture.bReady))
+	{
+		return false;
+	}
+	FLDBoardPlan Prepared;
+	TestEqual(TEXT("Explicit R02 prepares through real actor initialization"),
+	               Fixture.Board->TryPrepare(Fixture.Players[0], Fixture.Make(), TEXT("R02"), 1, Prepared),
+	                                         ELDCommandResultCode::Success);
+	if (!TestEqual(TEXT("Exactly one actor is prepared"), Prepared.PreparedActors.Num(), 1))
+	{
+		return false;
+	}
+	ALDUnitActor* Actor = Prepared.PreparedActors[0];
+	TestTrue(TEXT("Prepared actor is actually hidden"), Actor->IsHidden());
+	TestFalse(TEXT("Prepared actor actually has collision disabled"), Actor->GetActorEnableCollision());
+	TestFalse(TEXT("Prepared actor is actually not replicated"), Actor->GetIsReplicated());
+	TestFalse(TEXT("Prepared actor is not committed"), Actor->IsCommitted());
+	Fixture.Board->CancelPrepared(Prepared);
+	TestTrue(TEXT("Cancellation enters the engine actor destruction path"), Actor->IsActorBeingDestroyed());
+	const FLDCommandResult AfterCancel = Fixture.Run(Fixture.Make());
+	TestTrue(TEXT("Cancelled reservation leaves the next successful ID at1"),
+	              AfterCancel.CreatedInstanceIds == TArray<uint64>{1});
+	int32 Attempts = 0;
+	FGameplayFixture FailedOnce(
+	    [&Attempts](UWorld& World, const FLDPlacedUnit& Unit, const FLDUnitRow& Row, const FTransform& Transform)
+	    {
+		    if (++Attempts == 1)
+		    {
+			    return static_cast<ALDUnitActor*>(nullptr);
+		    }
+		    ALDUnitActor* UnitActor = World.SpawnActor<ALDUnitActor>();
+		    if (UnitActor && UnitActor->InitializePrepared(Unit, Row, Transform))
+		    {
+			    return UnitActor;
+		    }
+		    if (UnitActor)
+		    {
+			    UnitActor->Destroy();
+		    }
+		    return static_cast<ALDUnitActor*>(nullptr);
+	    });
+	if (!TestTrue(TEXT("Recovering adapter fixture initializes"), FailedOnce.bReady))
+	{
+		return false;
+	}
+	const FString BeforeFailure = FailedOnce.Signature();
+	TestEqual(TEXT("Explicit first adapter failure rejects before commit"),
+	               FailedOnce.Run(FailedOnce.Make()).ResultCode, ELDCommandResultCode::InvalidData);
+	TestEqual(TEXT("Preparation failure leaves all gameplay sources unchanged"), FailedOnce.Signature(), BeforeFailure);
+	const FLDCommandResult Retry = FailedOnce.Run(FailedOnce.Make());
+	TestEqual(TEXT("Real retry succeeds after adapter recovers"), Retry.ResultCode, ELDCommandResultCode::Success);
+	TestTrue(TEXT("Failed preparation did not consume ID1"), Retry.CreatedInstanceIds == TArray<uint64>{1});
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0RepeatedBossRewardsTest, "LD.P0.G2.Commands.TenfoldDeathAndTwoFastBosses",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0RepeatedBossRewardsTest::RunTest(const FString& Parameters)
+{
+	FGameplayFixture Fixture;
+	if (!TestTrue(TEXT("Services initialize"), Fixture.bReady))
+	{
+		return false;
+	}
+	const int32 RandomBefore[] = {Fixture.Economy->GetRandomState(0), Fixture.Economy->GetRandomState(1)};
+	for (uint64 EventId = 1; EventId <= 2; ++EventId)
+	{
+		for (int32 Repeat = 0; Repeat < 10; ++Repeat)
+		{
+			Fixture.Reward(EventId, TEXT("B01"), 30);
+		}
+	}
+	for (int32 Player = 0; Player < 2; ++Player)
+	{
+		const FLDEconomySnapshot Money = Fixture.Economy->GetSnapshot(Player);
+		TestEqual(TEXT("Each recipient gains exactly200 gold from two fast bosses"), Money.Gold - 100, 200);
+		TestEqual(TEXT("Each recipient gains exactly6 stars including both fast bonuses"), Money.Stars, 6);
+		TestEqual(TEXT("Ten deliveries per death still commit only two economic revisions"), Money.EconomyRevision, 2);
+		TestEqual(TEXT("Repeated rewards consume no random state"), Fixture.Economy->GetRandomState(Player),
+		               RandomBefore[Player]);
+	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0DefensivePlacementTest, "LD.P0.G2.Commands.DefensivePlacementFailure",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0DefensivePlacementTest::RunTest(const FString& Parameters)
+{
+	FGameplayFixture Fixture;
+	if (!TestTrue(TEXT("Services initialize"), Fixture.bReady))
+	{
+		return false;
+	}
+	// Normal P0 cannot fill18 cells: at most16 partial stacks plus two full stacks needs at least22 units.
+	// Exercise only the public defensive non-P0 result rejection, not an invented reachable full-board state.
+	const FString Before = Fixture.Signature();
+	const FLDCommand Command = Fixture.Make();
+	FLDEconomyPlan EconomyPlan;
+	TestEqual(TEXT("Actual economic preparation may draw on its private copy"),
+	               Fixture.Economy->TryPrepare(0, Command, NAME_None, EconomyPlan), ELDCommandResultCode::Success);
+	FLDBoardPlan BoardPlan;
+	TestEqual(TEXT("Non-P0 prepared result is rejected by defensive placement boundary"),
+	               Fixture.Board->TryPrepare(Fixture.Players[0], Command, TEXT("M01"), 1, BoardPlan),
+	                                         ELDCommandResultCode::NoSpace);
+	Fixture.Board->CancelPrepared(BoardPlan);
+	TestEqual(TEXT("Defensive placement failure preserves all original state including RNG"), Fixture.Signature(),
+	               Before);
 	return true;
 }
 
