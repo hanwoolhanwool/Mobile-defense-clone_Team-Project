@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "Early",
+    "N01Weight": 10000,
+    "N02Weight": 0,
+    "N03Weight": 0,
+    "N04Weight": 0
+  },
+  {
+    "Name": "Runner",
+    "N01Weight": 7500,
+    "N02Weight": 2500,
+    "N03Weight": 0,
+    "N04Weight": 0
+  },
+  {
+    "Name": "Armored",
+    "N01Weight": 5000,
+    "N02Weight": 2500,
+    "N03Weight": 2500,
+    "N04Weight": 0
+  },
+  {
+    "Name": "Mixed",
+    "N01Weight": 2500,
+    "N02Weight": 2500,
+    "N03Weight": 2500,
+    "N04Weight": 2500
+  }
+]
