@@ -1,0 +1,8 @@
+{
+  "Scope": "First G2 rendered two-process fixture; UI omitted from PNG; later review found missing mandatory response and extra actor checks",
+  "Result": "Pass with limited assertions; superseded by strengthened fixture",
+  "Source": "039964948422edb232382a739befd3fab5ba6465",
+  "Run": "Saved/P0Runs/G2-two-process-initial",
+  "Host": 144,
+  "Client": 24
+}

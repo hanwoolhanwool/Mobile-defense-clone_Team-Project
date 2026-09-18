@@ -46,7 +46,21 @@ foreach ($Role in @('host','client')) {
     if ($Role -eq 'host') { Start-Sleep -Seconds 5 }
 }
 $Deadline = (Get-Date).AddSeconds($TimeoutSeconds)
-while (($Pairs | Where-Object { !$_.Process.HasExited }) -and (Get-Date) -lt $Deadline) { Start-Sleep -Milliseconds 500 }
+while (($Pairs | Where-Object { !$_.Process.HasExited }) -and (Get-Date) -lt $Deadline) {
+    $FailedPeer = $false
+    foreach ($Pair in $Pairs) {
+        if (!$Pair.Process.HasExited) { continue }
+        $PeerResultPath = Join-Path $Pair.Output 'result.json'
+        if ($Pair.Process.ExitCode -ne 0 -or !(Test-Path -LiteralPath $PeerResultPath)) {
+            $FailedPeer = $true
+        } elseif ((Get-Content -LiteralPath $PeerResultPath -Raw | ConvertFrom-Json).result -ne 'Pass') {
+            $FailedPeer = $true
+        }
+    }
+    # A failed peer cannot complete the scenario. Preserve its evidence, then finally closes only our processes.
+    if ($FailedPeer) { $Metadata.Error = 'A peer failed; dependent peer execution stopped.'; break }
+    Start-Sleep -Milliseconds 500
+}
 $AllPassed = $true
 foreach ($Pair in $Pairs) {
     if (!$Pair.Process.HasExited) {

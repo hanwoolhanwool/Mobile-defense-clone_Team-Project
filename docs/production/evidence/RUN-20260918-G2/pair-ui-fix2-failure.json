@@ -1,0 +1,33 @@
+{
+  "Scope": "Strengthened real two-process fixture",
+  "Result": "Fail",
+  "Source": "cb6c631",
+  "Run": "Saved/P0Runs/G2-two-process-ui-fix2",
+  "RootCause": "Fixture changed selected merge ID without changing materials, making payload structurally invalid before conflict lookup. Use a different valid ExpectedBoardRevision.",
+  "Failures": [
+    {
+      "name": "server-replay-api-conflict",
+      "pass": false,
+      "detail": "",
+      "worldSeconds": 75.49091980879894
+    },
+    {
+      "name": "all-stages-complete",
+      "pass": false,
+      "detail": "inspected=17/20",
+      "worldSeconds": 75.50758660858264
+    },
+    {
+      "name": "hud-recreation-observed",
+      "pass": false,
+      "detail": "",
+      "worldSeconds": 75.50758660858264
+    },
+    {
+      "name": "required-command-result-stage18",
+      "pass": false,
+      "detail": "",
+      "worldSeconds": 75.50758660858264
+    }
+  ]
+}
