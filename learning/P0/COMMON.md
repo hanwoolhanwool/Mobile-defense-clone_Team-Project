@@ -15,6 +15,57 @@
 
 전체 로그는 각 worktree의 `Saved/P0Runs/<RunId>/`. 보관할 결과는 정식 `docs/production/evidence/`에 복사한다. 출발점·현재 커밋·미커밋 차이·환경·입력·기대값·관찰·실패와 수정·미검증을 기록한다.
 
+<a id="g0-replay"></a>
+
+## G0 출발점부터 참고 파일 조립하기
+
+이 절차는 **참고 수업에 적힌 입력과 파일 목록으로 빌드 가능한 참고본을 재현하는 검사**다. 학습자의 직접 구현·이해 확인·수업 이수 증거가 아니다. 참고 제작 상태는 Draft, 실제 학습 상태는 Planned로 유지한다. `learn/p0-*`에 적용하지 않으며 전체 참고 브랜치 병합도 하지 않는다.
+
+| 입력 | 고정 SHA | 필요한 범위 |
+|---|---|---|
+| 공통 출발점 | `8c6856d235de87cc28c12b49ca775bd0937334a5` | 기본 프로젝트·사용자 에셋·현행 명세·data 원본 |
+| 제공 도구·데이터·설정 | `81ba665adff6c60ef95f79319b3115050937a1c1` | 아래 도구3개, DefaultGame.ini, Content JSON6개만 |
+| A 완료 소스 | `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6` | A의 Data/Core·Build.cs·LDDataTests만 |
+| B 완료 소스 | `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92` | B의 Data/Core/Network·Build.cs·LDCommandTests만 |
+
+A/B 소스 커밋만 복원하면 Content 런타임 입력과 실행 도구가 빠진다. 제공 입력은 `tools/Sync-P0Data.ps1`, `tools/Build-P0Editor.ps1`, `tools/Test-P0Automation.ps1`, `Config/DefaultGame.ini`, `Content/LD/Data/{GameRules,DT_Units,DT_EnemyTypes,DT_Waves,DT_SummonProfiles,DT_SpawnProfiles}.json`이다. UFS 설정은 `[/Script/UnrealEd.ProjectPackagingSettings]`의 `+DirectoriesToAlwaysStageAsUFS=(Path="LD/Data")`다. 프로젝트의 기본 맵·GameMode를 바꾸는 DefaultEngine.ini는 이 조립 절차에 포함하지 않는다.
+
+PowerShell에서 기존 에디터·빌드·패키지 작업이 끝난 뒤 아래를 실행한다. 예시 폴더가 이미 있으면 다른 **새 폴더**를 사용한다. 파일을 지우거나 기존 worktree를 초기화하지 않는다.
+
+```powershell
+$ReferenceRoot = 'C:/Users/iam12/P0_reference_integration'
+$ReplayRoot = 'C:/Users/iam12/P0_lesson_replay_a'
+$Role = 'A' # B 재현은 새 P0_lesson_replay_b 폴더와 B를 사용
+$BaseSha = '8c6856d235de87cc28c12b49ca775bd0937334a5'
+if (Test-Path -LiteralPath $ReplayRoot) { throw '새 재현 폴더를 지정하세요.' }
+git -C $ReferenceRoot worktree add --detach $ReplayRoot $BaseSha
+if ($LASTEXITCODE -ne 0) { throw 'worktree 생성 실패' }
+pwsh -NoProfile -File "$ReferenceRoot/learning/tools/Replay-P0Lesson.ps1" `
+    -ProjectRoot $ReplayRoot -Role $Role -RunId "Replay-G0-$Role-assembly"
+if ($LASTEXITCODE -ne 0) { throw '참고 파일 조립 실패' }
+```
+
+[조립 도구](../tools/Replay-P0Lesson.ps1)는 대상이 출발 SHA의 깨끗한 detached worktree인지 확인한 뒤 **명시된 파일만** `git restore --source=<고정 SHA> --worktree -- <파일 목록>`으로 순서대로 가져온다. 제공 입력 → MatchTypes/Build.cs → Data → B Network → GameState/PlayerState → B Controller → GameMode → 역할 Tests 순서다. 각 파일의 Git blob을 원본과 대조하고 `Saved/P0Runs/<RunId>/assembly.json`에 단계·경로·원본 SHA·blob을 남긴다. HEAD·참고/학습 브랜치·인덱스를 바꾸지 않는다. 중간 실패 후에는 부분 조립 파일을 보존하고 새 재현 폴더에서 다시 시작한다.
+
+```powershell
+pwsh -NoProfile -File "$ReplayRoot/tools/Build-P0Editor.ps1" `
+    -ProjectRoot $ReplayRoot -RunId "Replay-G0-$Role-editor"
+if ($LASTEXITCODE -ne 0) { throw 'Editor 빌드 실패: build.log 확인' }
+$Filter = if ($Role -eq 'A') { 'LD.P0.G0.Data' } else { 'LD.P0.G0.Commands' }
+pwsh -NoProfile -File "$ReplayRoot/tools/Test-P0Automation.ps1" `
+    -ProjectRoot $ReplayRoot -Filter $Filter -RunId "Replay-G0-$Role-tests"
+if ($LASTEXITCODE -ne 0) { throw '자동화 실패: result.json 및 engine.log 확인' }
+Get-Content -LiteralPath "$ReplayRoot/Saved/P0Runs/Replay-G0-$Role-editor/result.json"
+Get-Content -LiteralPath "$ReplayRoot/Saved/P0Runs/Replay-G0-$Role-tests/result.json"
+git -C $ReplayRoot rev-parse HEAD
+```
+
+도구 기본 엔진은 `C:/Program Files/Epic Games/UE_5.8`이며 다른 설치 위치면 두 명령 모두 `-EngineRoot`로 지정한다. Editor는 exit0, 자동화는 exit0·Succeeded=4·Failed=0·NotRun=0을 모두 요구한다. 전체 로그는 파일로 보존하고 실패 원인 주변만 읽는다. 조립된 파일은 HEAD에 커밋되지 않았으므로 검사 result.json의 HEAD=출발 SHA만으로 소스를 식별하지 않는다. 반드시 assembly.json의 파일별 원본과 함께 인용한다.
+
+G0-01과 G0-02는 같은 모듈로 컴파일한다. A의 로더 테스트가 G0-02의 MatchTypes를 사용하고, B의 GameMode가 G0-02의 Controller/Processor를 참조한다. 따라서 **각 역할의 두 수업 파일을 모두 작성한 뒤 Editor 빌드는 한 번** 수행한다. A 필터4개는 데이터·참가자 값 계약 검사이고 Core 매치 실행 검사가 아니다. B 필터4개 중 BIndependentLoader 1개는 G0-01, AdmissionAndReplay/LimitsAndExpiry/PayloadNormalization 3개는 G0-02의 부분 검사다. 각 수업 이름에 따라 동일 빌드를 반복하거나 부분 Pass를 역할 전체·네트워크 Pass로 올리지 않는다.
+
+수업 재현을 완료한 담당자는 원본 SHA/조립 manifest, 실제 새 로그 경로, 실행 환경, 기대값과 결과, 미검증을 각 수업에 연결한다. 참고 조립·Editor·자동화의 재현을 통과했어도 A-02의 PIE 수명/접속, B-02의 RPC 양방향, 통합 종료/준비 경계 관찰이 없으면 해당 수업 전체를 Verified로 표시하지 않는다. 실제 학습자는 제공 도구/JSON만 받아 수업 순서로 소스를 직접 작성하고 자기 커밋·실행·변형 과제·상대 리뷰를 따로 남긴다.
+
 ## 확인 문제
 
 1. 화면을 뒤집어도 CellId와 RouteIndex를 바꾸면 안 되는 이유는 무엇인가?

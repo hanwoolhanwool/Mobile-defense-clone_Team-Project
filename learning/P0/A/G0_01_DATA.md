@@ -20,6 +20,8 @@ DataTable 에디터 임포트 대신 네이티브 JSON 로더를 선택했다. �
 
 ## 코드 작성 순서
 
+출발점부터의 입력·명령·증거 형식은 [공통 재현 절차](../COMMON.md#g0-replay)를 따른다. A-02의 `Data/LDMatchTypes.h` 값 계약을 먼저 작성한다. 이 수업의 `Tests/LDDataTests.cpp`가 해당 헤더를 포함하므로, A-01만 복원한 상태를 완전한 빌드 단위로 간주하지 않는다. 참고 파일 조립은 `-Role A`이며 고정 소스는 위 `4cc3e0f…`다. 소스 작성 순서와 참고 파일 복원은 같은 결과를 비교하기 위한 별개 행위다.
+
 1. `Source/Mobile_defense_clone/Data/LDGameData.h`: Unit/Enemy/Wave 값 타입 → FLDGameRules → ULDGameData 조회/로딩 API 순서로 작성한다. 상태는 private이고 GetRules/GetUnits/GetWaves는 const 참조다. 실패한 TryGet 조회는 호출자의 출력값을 바꾸지 않는다.
 2. `Data/LDGameData.cpp`: FCheckedObject의 필수 타입/범위 오류 반환, 파일/배열 로딩, 중복 Name 검사 순서로 작성한다. 직접 Get 호출은 앞 단계에서 타입 확인한 Name에만 쓴다.
 3. ParseRules/ParseLayout에서 버전·P0 정책·소유 셀 순열·좌표 간격·서로 분리된 두 보드·닫힌 경로 길이와 같은 중앙 방향을 검사한다. 단순히 JSON 파싱 성공을 유효한 규칙으로 취급하지 않는다.
@@ -45,6 +47,8 @@ DataTable 에디터 임포트 대신 네이티브 JSON 로더를 선택했다. �
 빌드 도구 경로는 통합 기록의 현재 엔진 경로를 사용한다. 명령줄 자동화는 `UnrealEditor-Cmd.exe <절대 프로젝트 경로> -unattended -NullRHI -ExecCmds="Automation RunTests LD.P0.G0.Data" -TestExit="Automation Test Queue Empty" -log=<절대 로그 경로>`다. 명령을 시작한 프로세스 종료 코드와 테스트 실패 개수를 둘 다 확인한다.
 
 ## 실행·실패·수정 기록
+
+아래 Pass는 기존 A 참고 제작 실행 결과다. 새 detached 출발점에서의 **수업 재현 결과는 NotRun**이며 공통 절차의 `Replay-G0-A-assembly/assembly.json`, `Replay-G0-A-editor/result.json`, `Replay-G0-A-tests/result.json`을 실제 생성한 후 별도로 기록한다. 원본 테스트4개 중 ParticipantIdentity는 A-02와 공유하는 값 계약 부분 검사다. 재현 명령이 적혀 있다는 이유만으로 아래 결과를 재현 Pass로 복사하지 않는다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
