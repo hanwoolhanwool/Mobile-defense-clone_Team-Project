@@ -54,7 +54,7 @@ ARCH-01/02: 모델/권위 actor/로컬 bootstrap을 분리하고 actor에서 Con
 | EndPlay 후 표시 콜백 | mesh숨김, 표시재개거절 | Pass, 같은 테스트 |
 | 스타일/공백 | 오류0 | Pass,24 checked/48 legacy/0 errors, git diff --check |
 | Editor | 컴파일/UHT/링크 성공 | Pass,20.25초; [실제 증거](G1_EVIDENCE/README.md) |
-| 최초 통합 PC2프로세스 | 양쪽 표시와 raw 좌표 일치 | 통합 담당자가 호스트 presentation assertFail2/client0 보고. canonical·두 바퀴는 정상; 아래 수정 재검증 대기 |
+| 최초 통합 PC2프로세스 | 양쪽 표시와 raw 좌표 일치 | 실제 결과 JSON 직접 확인: 호스트 presentation 실패2/client0. canonical·두 바퀴는 정상; 아래 수정 재검증 대기 |
 | 호스트 표시 회귀 테스트 | Tick 뒤 과거 논리 스텝이 실행되어도 현재 mesh 위치 유지 | NotRun, 신규 `HostStepKeepsCurrentViewClock` |
 | 수정 후 Editor·PC2인·화면비·Android | 각각 필수 검수 | 수정 코드 재검증 대기; Android NotRun |
 
@@ -64,7 +64,9 @@ ARCH-01/02: 모델/권위 actor/로컬 bootstrap을 분리하고 actor에서 Con
 
 수정은 AdvanceRouteTo 마지막 줄의 `RefreshPresentation(ServerSeconds)`를 `RefreshPresentation(GetPresentationServerSeconds())`로 바꾸는 것이다. 논리 snapshot의 시간/거리는20Hz 원본 그대로다. 회귀 기대값은 초기100초·속도150에서 view clock100.125초의 표시거리18.75cm, 늦게 처리한 논리100.10초의 canonical 거리15cm로 독립 고정했다. 논리 갱신 후에도 mesh는18.75cm에 있어야 한다. 기존 테스트는 world clock이 sample보다 뒤인 fixture라 이 실행순서를 포함하지 못했다.
 
-이 원인과 호스트 실패 수는 통합 담당자의 실제 실행 관찰을 전달받아 기록한 것이다. 실행 SHA·원본 증거 링크는 확보 후 보완한다. 신규 회귀 테스트와 수정 후2프로세스는 아직 실행하지 않았으므로 Pass로 기록하지 않는다. A 역할 fixture의 Y반사와 통합의 공통 view transform 부분은 이번 수정에서 바꾸지 않았다.
+원본 증거는 `C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/`의 `pair.json`, `host/result.json`, `client/result.json`이다. 실행 HEAD `73b872b8cdb74058499221098dae56e62fb38be4`, 2026-09-18 14:16:18~14:17:45 KST, Pair 결과 Fail을 직접 읽었다. 호스트의 `route-0-presentation`/`route-1-presentation` 실패는 각각1건이며 클라이언트 같은 항목 실패는0건이다. 양쪽 `route-0-two-laps`/`route-1-two-laps`는 distance6165cm로 Pass이고 최종 두 바퀴 항목도 Pass였다. `host/view-0.png`와 `host/engine.log`도 해당 실행 폴더에 보존돼 있다.
+
+원인은 통합 담당자와 독립 리뷰가 확인한 ActorTick→WorldSubsystemTick 순서와 일치한다. 신규 회귀 테스트 `HostStepKeepsCurrentViewClock`는 `4c36e604f39a00d2cb8a6fb3ba9ade67b2a91882`에 추가했으나 실행은 대기 중이다. 수정 후2프로세스도 아직 실행하지 않았으므로 Pass로 기록하지 않는다. A 역할 fixture의 Y반사와 통합의 공통 view transform 부분은 이번 수정에서 바꾸지 않았다.
 
 ## 상대에게 전달하고 통합하기
 

@@ -32,7 +32,7 @@
 | 순서 | 위치 | 값·연결 | 관찰 |
 |---|---|---|---|
 | 1 | C++ Editor 타깃 | 기존 모듈에 두 모델 파일 추가, Build.cs 추가 의존성 없음 | 실제 Editor compile Pass |
-| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 경로 계산/actor 포함5개 등록·실행 Pass |
+| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 초기5개 Pass, 후속 호스트 시각 회귀1개 추가·실행 대기 |
 | 3 | Blueprint·UMG·맵 | 이 수업에서 변경 없음 | World 없는 경로 계산이므로 화면 캡처를 생성하지 않음 |
 
 ## 실행·실패·수정 기록
