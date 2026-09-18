@@ -20,9 +20,7 @@ public class Mobile_defense_clone : ModuleRules
 			"GameplayStateTreeModule",
 			"Niagara",
 			"UMG",
-			"Slate",
-			"Json",
-			"JsonUtilities"
+			"Slate"
 		});
 
 		// Strict runtime P0 JSON loading; no editor-only importer dependency.
