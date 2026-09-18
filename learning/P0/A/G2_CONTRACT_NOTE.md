@@ -18,7 +18,7 @@
 B와 메시지로 합의한 값 계약:
 
 - `FLDPlacedUnit`: `uint64 InstanceId`, `FName UnitId`, `int32 PlayerIndex`, `int32 CellId`, `double MoveBlockedUntilServerSeconds`. 마지막 필드는 B 이동 잠금 원본의 복사다.
-- `FLDBoardCommit`: `FGuid MatchId`, `int32 PlayerIndex`, `uint64 BoardRevision`, `double CommitServerSeconds`, 변경 사유 `Summon/Move/Merge/Sell`, `AddedOrUpdatedUnits`, `RemovedInstanceIds`. 서버가 공동 확정 후 게시하는 값이며 클라이언트 쓰기 명령이 아니다.
+- `FLDBoardCommit`: `FGuid MatchId`, `int32 PlayerIndex/BoardRevision`, `double CommitServerSeconds`, 변경 사유 `Summon/Move/Merge/Sell`, `AddedOrUpdatedUnits`, `RemovedInstanceIds`. BoardRevision은 기존 FLDCommand.ExpectedBoardRevision/Result.NewBoardRevision의 int32와 맞춘다. 서버가 공동 확정 후 게시하는 값이며 클라이언트 쓰기 명령이 아니다.
 - `FLDCombatDeath`: `FGuid MatchId`, `uint64 DeathEventId/EnemyId/SpawnSerial`, `FName EnemyTypeId`, `int32 SpawnWaveIndex`, `double SpawnedServerSeconds/DeathServerSeconds`. 금액·수혜자 필드는 없다. B가 검증된 서버 규칙에서 결정한다.
 
 위 필드의 의미는 합의했으며 C++ enum/컨테이너 선언은 착수 때 하나의 헤더 원본으로 고정한다. 개체 ID를 뭉치 ID나 CellId로 대체하지 않는다.
