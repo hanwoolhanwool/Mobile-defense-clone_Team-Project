@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-MAP-01·TASK-NET-01, [전장 UI](../../../docs/design/BOARD_UI.md), [B 구현 설계](../../../docs/technical/IMPLEMENTATION_B.md) |
-| 참고 자료 제작 상태 | Draft — 역할/통합 실제 검수·수업 재현 전 |
+| 참고 자료 제작 상태 | Draft — 역할 Editor/계산 Pass, 실제 화면·수업 재현 검증 전 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 소스 `82cf174cab14746c4fc57867efd5c4522903ca2c` |
+| 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 구현 `82cf174cab14746c4fc57867efd5c4522903ca2c`, 수정·검증 `d5274dccdc11e1736e59239e558e8fb2ace7ee14` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | [G1-01](G1-01-geometry.md), G0 참가자 PlayerIndex, root 제공 M_P0Flat/기본 맵, A 경로 표시 |
 | 제공 코드 / 직접 작성할 코드 | 제공: 공통 맵·Unlit 재료·엔진 Cube, root 실행 probe. 직접 작성: BoardPresentation·Native UMG·Controller 로컬 입력·ViewportFit 테스트 |
@@ -51,20 +51,24 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
-| 1080×2340 기본 화면 | field60,520,960,1080·셀120px | NotRun | ViewportAndSafeAreaFit 계산 + 실제 probe 별도 |
-| 540×1170·720×1280·800×1280·1280×720 | 전체 field fit·정사각형 셀·입력 일치 | NotRun | root 실제 창 크기 변경 probe |
-| 비대칭 안전영역20/44/12/32 | field가 안전영역 안에 동일 배율 fit | NotRun | 계산 검사, 실기기 SafeArea와 구분 |
-| 양쪽 화면36중심 | 자기18 Selected·상대18 NotOwner | NotRun | 실제 Project/Deproject + 공통 InputScreenPosition |
-| 자기18셀 내부4모서리±62cm | 실제 보이는 셀과 같은 CellId | NotRun | root 독립 예상값 probe |
+| 1080×2340 기본 화면 | field60,520,960,1080·셀120px | 계산 Pass, 실화면 결과 미확정 | ViewportAndSafeAreaFit + 실제 probe 별도 |
+| 540×1170·720×1280·800×1280·1280×720 | 전체 field fit·정사각형 셀·입력 일치 | fit 계산 Pass, 실입력 결과 미확정 | root 실제 창 크기 변경 probe 진행 중 |
+| 비대칭 안전영역20/44/12/32 | field가 안전영역 안에 동일 배율 fit | Pass, 계산 검사 | 실기기 SafeArea는 별도 미검증 |
+| 양쪽 화면36중심 | 자기18 Selected·상대18 NotOwner | 결과 미확정 | 실제 Project/Deproject + 공통 InputScreenPosition |
+| 자기18셀 내부4모서리±62cm | 실제 보이는 셀과 같은 CellId | 결과 미확정 | root 독립 예상값 probe |
 | 상대/경로/화면밖 누르기 | 선택 불변·구체적인 거절문구 | NotRun | 직접 실행 검수 |
 | 연결 세대 변경/종료 | 위젯·로컬 Actor·선택 정리 | NotRun | 실제 UI 재생성/다음 매치 후속 |
 | source style/diff | 오류0 | Pass | `Saved/P0Evidence/G1-B/style.log` |
-| Editor 최초 빌드 | C++/UHT 컴파일 성공 | Fail: C4458, 수정 후 재검증 대기 | `Saved/P0Runs/G1-B-editor/build.log`, UI/LDG1BoardWidget.cpp42 |
-| UE 자동화/실제 네트워크·패키지/Android | 각각 근거 확보 | NotRun | 루트 직렬 실행 대기 |
+| Editor 최초 빌드 | C++/UHT 컴파일 성공 | Fail: C4458 | [최초 결과](evidence/G1-build-tests/editor-initial-result.json), [실패 발췌](evidence/G1-build-tests/compiler-failure-excerpt.txt) |
+| Editor 수정 후 재빌드 | C++/UHT 컴파일 성공 | Pass, UBT14.66초 | [수정 후 결과](evidence/G1-build-tests/editor-fixed-result.json) |
+| UE 보드 자동화 | 3Pass/0Fail/0NotRun | Pass | [결과](evidence/G1-build-tests/automation-result.json), [세부 요약](evidence/G1-build-tests/automation-summary.json) |
+| 실제 네트워크/패키지/Android | 각 범위의 검수 근거 확보 | 네트워크 화면 결과 미확정, 패키지/Android NotRun | 계산·컴파일 Pass와 구분 |
 
 현재까지 실제 게임 실패를 관찰한 기록은 없다. 구성상 피한 문제는 (1) 화면마다 서버 좌표 변경, (2) 화면비별 X/Y 별도 확대, (3) visual과 다른 좌표의 입력 검사, (4) 터치 뒤 합성 mouse 입력의 중복 전달이다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다. 실제 실패가 발견되면 원인·수정 SHA·재검증을 추가한다.
 
-최초 Unreal Editor 컴파일에서 AddLabel의 지역변수 `Slot`이 UWidget의 동일 이름 멤버를 가려 MSVC C4458 오류가 발생했다. 지역변수를 `CanvasSlot`으로 바꿨다. 이는 동작 변경 없이 소유·슬롯 의미를 더 명확히 한 수정이다. 실제 Editor 재빌드와 자동화 결과는 후속 실행에 연결한다.
+최초 Unreal Editor 컴파일에서 AddLabel의 지역변수 `Slot`이 UWidget의 동일 이름 멤버를 가려 MSVC C4458 오류가 발생했다. `d5274dccdc11e1736e59239e558e8fb2ace7ee14`에서 지역변수를 `CanvasSlot`으로 바꿨다. 2026-09-18 14:13 KST의 실제 재빌드는 Pass, 14:15 KST `LD.P0.G1.Board`는 3Pass/0Fail/0NotRun이다. root는 같은 Windows11·UE5.8.2·MSVC 환경에서 직렬 실행했다. 실행 명령·SHA·시간은 위 JSON에 보존했고 전체 로그는 `Saved/P0Runs/G1-B-editor-fix1`, `G1-B-tests`에 있다. UBT14.66초는 빌드 시간이며 게임 프레임 성능이 아니다.
+
+지금 보존한 검수 증거는 compact JSON과 성공/실패 구간뿐이다. 큰 engine.log는 학습 폴더에 복사하지 않았다. 실제 화면 캡처·양쪽 공통 입력·경로 두 바퀴·반복 UI 수명·패키지·Android는 별도 관찰 결과가 확보되기 전 미검증으로 유지한다. 수업 전체를 Verified로 바꾸지 않는다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -83,6 +87,7 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 ## 단계 완료
 
 - [x] 제공 에셋·Native UMG·카메라·입력 연결 순서를 기록했다.
-- [ ] 역할/통합 실행과 실제 캡처·시작/완료 SHA를 연결했다.
+- [x] 역할 Editor/계산 실행과 수정 SHA·compact 증거를 연결했다.
+- [ ] 통합 실제 화면 캡처·입력·두 바퀴 증거를 연결했다.
 - [ ] 시작점으로부터 수업을 재현했다.
 - [x] G2·패키지·실기기의 별도 의존성과 미검증 범위를 명시했다.

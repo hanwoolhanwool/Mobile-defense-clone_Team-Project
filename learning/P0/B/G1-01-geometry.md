@@ -7,7 +7,7 @@
 | 상위 TASK·정식 설계 | TASK-MAP-01, [전장·UI v2](../../../docs/design/BOARD_UI.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
 | 참고 자료 제작 상태 | Draft — 실제 화면·수업 재현 검증 전 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 소스 `82cf174cab14746c4fc57867efd5c4522903ca2c` |
+| 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 구현 `82cf174cab14746c4fc57867efd5c4522903ca2c`, 검증 소스 `d5274dccdc11e1736e59239e558e8fb2ace7ee14` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성, 실제 학습자는 자기 G0 통과 후 진입 |
 | 필요한 상대 산출물·버전 | Schema2/Rules0.3.0 좌표, A의 EnemyId·RouteIndex 불변 계약 |
 | 제공 코드 / 직접 작성할 코드 | 제공: canonical G0·JSON. 직접 작성: LDBoardGeometry와 LDViewTransform, 독립 기대값 테스트 |
@@ -46,16 +46,18 @@ ARCH-01~03: 순수 좌표 계산은 보드 경제·Controller·위젯을 호출�
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
-| 36셀 중심과 각 내부9점 | 같은 CellId 조회 | NotRun | CanonicalCellsAndOwnership |
-| 자기18칸/상대18칸 | Selected / NotOwner | NotRun | 같은 자동화 |
-| 중앙길(0,0) | OutsideBoard, 임의 셀 없음 | NotRun | 같은 자동화 |
-| 공유 X경계(-280,-420) | Cell1 한 칸 | NotRun | 같은 자동화 |
-| Rows를4로 바꾼 교체 | 실패·이전 좌표 유지 | NotRun | 같은 자동화 |
-| 양쪽 생성점 변환 | 둘 다 표시좌표(490,-560), 역변환 원본 복원 | NotRun | LocalReflectionContract |
+| 36셀 중심과 각 내부9점 | 같은 CellId 조회 | Pass | CanonicalCellsAndOwnership |
+| 자기18칸/상대18칸 | Selected / NotOwner | Pass, 계산 검사 | 같은 자동화 |
+| 중앙길(0,0) | OutsideBoard, 임의 셀 없음 | Pass | 같은 자동화 |
+| 공유 X경계(-280,-420) | Cell1 한 칸 | Pass | 같은 자동화 |
+| Rows를4로 바꾼 교체 | 실패·이전 좌표 유지 | Pass | 같은 자동화 |
+| 양쪽 생성점 변환 | 둘 다 표시좌표(490,-560), 역변환 원본 복원 | Pass, 계산 검사 | LocalReflectionContract |
 | 소스 스타일·diff 공백 | 오류0 | Pass | `Saved/P0Evidence/G1-B/style.log`:27checked/0errors |
-| 실제 화면·입력·두 바퀴 식별자 | 다음 수업·통합에서 확인 | NotRun | 계산 Pass로 대체하지 않음 |
+| 실제 화면·입력·두 바퀴 식별자 | 다음 수업·통합에서 확인 | 결과 미확정, 루트 별도 프로세스 검수 중 | 계산 Pass로 대체하지 않음 |
 
 설계 중 제거한 오류 가능성: player1을 180도 돌리면 생성점의 X도 반전돼 오른쪽 생성이 된다. Y반사만 로컬 표시와 입력 역변환에 사용하도록 계약을 확정했다. 구현 후 실패·수정이 생기면 실제 로그와 함께 이 표를 갱신한다.
+
+2026-09-18 역할 B 실제 검증: 수정 후 [Editor 결과](evidence/G1-build-tests/editor-fixed-result.json)는 Pass(UBT14.66초), [UE 자동화 결과](evidence/G1-build-tests/automation-result.json)는 `LD.P0.G1.Board` 3Pass/0Fail/0NotRun이다. [테스트별 요약](evidence/G1-build-tests/automation-summary.json)과 [성공 로그 발췌](evidence/G1-build-tests/automation-pass-excerpt.txt)를 보존했다. Windows11·UE5.8.2·Win64 Development/NullRHI 실행이며 실제 렌더링·터치·네트워크·실기기 성능 검증이 아니다. 첫 컴파일 실패와 수정은 다음 수업에 기록했다. 수업 시작점에서의 별도 재현은 아직 미실행이다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -71,6 +73,7 @@ ARCH-01~03: 순수 좌표 계산은 보드 경제·Controller·위젯을 호출�
 ## 단계 완료
 
 - [x] 제공 입력과 직접 작성할 코드·소유권·호출 순서를 기록했다.
-- [ ] 시작점 재현과 UE 계산 검사 증거를 연결했다.
+- [x] 실제 UE 계산 검사와 검증 소스 SHA·증거를 연결했다.
+- [ ] 수업 시작점에서 별도로 재현했다.
 - [ ] A의 실제 적 표시와 두 화면에서 확인했다.
 - [x] 실화면 검증과 G2 진입 의존성을 명시했다.
