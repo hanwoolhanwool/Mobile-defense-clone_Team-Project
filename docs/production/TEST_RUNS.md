@@ -527,3 +527,18 @@
 - 결과: **Pass** — 문서 정합성6,601항목·학습 문서 링크127개 오류0, 14개 주차표의 A/B 열·공동 검수 일치. 각 주의 작업/휴무 합계와 P0 16·P1 19(17+2)·P2 15(2+13)·QA5·수정7·휴무5일/인 검산, 팀 본작업880시간 유지. 변경 대상 밖 기존767개 입력 해시 불변·diff 공백 오류0. 최초 신규 절 링크4개 오류는 명시적 앵커로 수정 후 재검수 통과.
 - 증거: [문서·일정 검산 출력](evidence/RUN-20260917-09.txt).
 - 검증 경계: 문서/계획 반영이다. 실제 브랜치 생성·커밋/push·병합·UE 컴파일/게임 실행·PC/Android·외부2인 접속은 **NotRun**. 게임 규칙/데이터·UE 코드·디자인·작업 상태를 변경하지 않는다.
+
+## RUN-20260918-01 · P0 새 출발점·G0 독립 기반·통합
+
+- 날짜·실행자: 2026-09-18, Codex 참고 제작. 실제 학습자 진행은 Planned.
+- 입력: 공통 출발 `8c6856d235de87cc28c12b49ca775bd0937334a5`; 원래 미커밋157개 개별 사본·해시 보존 후 관련 입력만 선별 커밋. 상세 [작업 기록](P0_REFERENCE_RUN.md).
+- Unreal 컴파일: A 최초 C2110 실패→`4cc3e0f` 수정 재빌드 Pass, B 최초/수정 Pass, 통합 `3b4105e` Pass.
+- UE 계약 자동화(NullRHI): A4 Pass, B 최초3 Pass/1 Fail→보스 전용 생성간격0 로더 수정 후4 Pass, 통합9 Pass. 전체 엔진 종료코드0만으로 성공 판정하지 않고 report.failed/notRun을 검사.
+- 문서·데이터·스타일: 출발점 check-project Pass. 게이트 수정 후 최종 동기화 검사는 후속 실행 결과로 갱신한다.
+- 에셋: P0 전용 L_P0·BP_LDGameMode 생성/저장 및 기본 맵 설정. [생성 결과](evidence/RUN-20260918-G0/assets.json).
+- 통합 최초 결과: [Editor](evidence/RUN-20260918-G0/integration-editor-initial.json), [자동화](evidence/RUN-20260918-G0/integration-tests-initial.json). 전체 로그는 해당 worktree Saved/P0Runs의 result에 기록된 경로.
+- 구조 리뷰: [R-G0-01/02](evidence/RUN-20260918-G0/REVIEW.md) 초기화 순서·종료 응답 캐시 2건 수정 및 Mode/Controller 회귀 검사 중. 자동화9 Pass를 G0 최종 통과로 간주하지 않는다.
+- Android: SDK36/BuildTools36.0.0/NDK27.2.12479018·JDK21.0.3 준비. 실제 Android 타깃 빌드 exit6(UE Android 플랫폼 파일 누락); 사용자가 Launcher 구성 요소 설치 진행. 연결된 adb 장치0. 이 결과는 환경 차단이며 APK/실기기 Pass가 아니다.
+- 미실행: PIE 양쪽 화면·입력, PC 패키지 2인·지연, 10웨이브·5판 밸런스, Android 설치·터치·완주·성능. P0 전체 InProgress.
+
+- G0 최종 갱신: 수명2건 `a02efc1` 수정, `3797517` Editor 재빌드 Pass·통합 자동화12 Pass/0Fail/0NotRun, 독립 재리뷰 차단 결함0. G0 코드 게이트 Pass. [최종 빌드](evidence/RUN-20260918-G0/integration-editor-final.json)·[최종 자동화](evidence/RUN-20260918-G0/integration-tests-final.json). 실제 RPC/PIE·G1~G4 검수는 포함하지 않는다.

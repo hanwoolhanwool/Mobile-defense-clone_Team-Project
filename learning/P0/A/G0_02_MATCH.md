@@ -20,6 +20,8 @@
 
 ## 코드 작성 순서
 
+빌드 가능한 작성 순서는 **이 수업1번 MatchTypes → A-01 데이터·테스트 → 이 수업2~6번 Core**다. [공통 재현 절차](../COMMON.md#g0-replay)의 `-Role A`는 이 파일 목록을 고정 SHA에서 순서대로 조립한다. A 단독 완료 소스에는 B Network/Controller가 없고 기본 PlayerController를 사용한다. 이 차이를 실패로 간주하여 통합 완성 소스를 조립 폴더에 추가하지 않는다.
+
 1. `Data/LDMatchTypes.h`: Phase enum, MatchContext, ParticipantContext를 작성한다. participant의 uint64 ConnectionEpoch는 Blueprint 핀으로 직접 노출하지 않는다. IsValid는 PlayerIndex 0/1, 비어 있지 않은 MatchId, Epoch>0을 요구한다.
 2. `Core/LDGameState.h/.cpp`: 복제 필드와 OnRep를 선언한다. InitializeMatch는 중복 동일 문맥을 허용하고 다른 매치로 덮어쓰지 않는다. SetPhase는 서버만 호출할 수 있고 Loading→Preparing→Running→Result, 비종료→Aborted만 허용한다. Result/Aborted는 되돌리지 않는다.
 3. `Core/LDPlayerState.h/.cpp`: 서버 발급 문맥을 한 번 초기화한다. 같은 문맥의 재호출만 허용한다. ConnectionEpoch 포함 문맥은 소유자에게만 복제하고 PublicPlayerIndex는 모두에게 복제한다. 경제 원본·RNG를 PlayerState에 추가하지 않는다.
@@ -47,7 +49,7 @@
 | 1 | Content Browser `/Game/LD/Core` → Blueprint Class → All Classes | `BP_GameMode` 부모 ALDGameMode, `BP_GameState` 부모 ALDGameState | 기본 템플릿 GameMode를 상속해 규칙을 섞지 않음 |
 | 2 | BP_GameMode → Class Defaults → Classes | Game State Class=BP_GameState, Player State Class=LDPlayerState | 두 참가자에게 같은 공통 상태 복제 |
 | 3 | A 단독 G0 Class Defaults | Player Controller Class=기본 PlayerController, Default Pawn Class=None | 카메라/보드 준비를 성공으로 가장하지 않음; 게임 화면 완성 단계 아님 |
-| 4 | 통합 후 Class Defaults | Player Controller Class=B의 LDPlayerController, Default Pawn Class=B의 CameraPawn | 실제 생성 클래스 및 API를 확인한 뒤 연결 |
+| 4 | G0 통합 후 Class Defaults | Player Controller Class=B의 LDPlayerController, Default Pawn Class=None | G0에는 CameraPawn이 없다. G1에서 실제 구현 후 별도 연결 |
 | 5 | 테스트 레벨 → World Settings → GameMode Override | BP_GameMode 또는 native LDGameMode | 메뉴 기본값과 실제 맵 override가 다를 수 있으므로 생성 로그 확인 |
 | 6 | Play 드롭다운 → Advanced Settings → Multiplayer | Number of Players=2, Net Mode=Play As Listen Server | G0 공통 상태만 관찰; 최종 PC 두 프로세스 검수를 대신하지 않음 |
 | 7 | UMG/HUD | G0 A에서 새 위젯 없음 | 화면상의 성공 대신 준비 사유가 복제되는지 먼저 확인 |
@@ -55,6 +57,8 @@
 예상 관찰은 `LogLDMatch: G0 match <GUID> rules=0.3.0 units=16 waves=10`, 참가자0/1의 서로 다른 epoch, `Preparing: 2/2 participants; Stub: ... not connected`다. 전장/버튼/공격이 나타나는 것은 이 수업의 기대 결과가 아니다. 실제 화면 캡처·PIE 로그는 아직 없다.
 
 ## 실행·실패·수정 기록
+
+새 출발점 재현은 NotRun이다. [공통 재현 절차](../COMMON.md#g0-replay)로 A-01/02를 함께 조립·빌드하고 `LD.P0.G0.Data`의 ParticipantIdentity 부분 결과를 이 수업에 연결한다. 이 결과는 GameMode의 InitGameState/PostLogin/종료 실행이나 네트워크 복제의 Pass가 아니다. 아래 접속·종료 관찰은 native LDGameMode를 지정한 별도 실제 실행으로 보완해야 한다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
@@ -74,7 +78,7 @@
 
 GameState API는 `InitializeMatch`, `SetPhase`, `GetPhase`, `GetMatchContext`, `SetReadinessReason`, `OnMatchStateChanged`; PlayerState API는 `InitializeParticipant`, `GetParticipantContext`, `GetPlayerIndex`다. 최종 선언은 코드 헤더를 따른다.
 
-통합 순서: A/B 독립 공통 구현 차이 비교 → 하나의 GameState/PlayerState/로더 선택 → GameMode에 B Processor/Board/Economy 소유 참조 생성 → 참가자 등록과 `Controller.InitializeServerSession` 연결 → 필수 실제 서비스 준비 전 SetAcceptingCommands(false) 유지 → 종료 시 명령 접수 닫기/서버 session 해제/구독 해제 → G0 통합 빌드/실행. A의 하드 false Stub은 실제 서비스 검증과 함께 교체해야 한다.
+통합 순서: A/B 독립 공통 구현 차이 비교 → 하나의 GameState/PlayerState/로더 선택 → GameMode에 B Processor 소유 참조 생성 → 참가자 등록과 `Controller.InitializeServerSession` 연결 → 필수 실제 서비스 준비 전 접수 닫힘 유지 → 종료 시 접수·진행을 닫고 동일 연결의 캐시 응답 경로 유지 → Logout/EndPlay에서 최종 session/구독 해제 → G0 통합 빌드/실행. Board/Economy는 G0에 없는 Stub이며 실제 구현 단계에서 소유 참조를 추가한다. A의 하드 false Stub은 실제 서비스 검증과 함께 교체해야 한다. 통합에서 드러난 초기화 순서·종료 경계 수정은 [통합 기록](../INTEGRATION.md)에 따로 남기며 A 단독 완료 SHA의 검수 결과로 소급하지 않는다.
 
 현재 코드 기준은 위 표의 A 커밋이며 통합 참고 SHA·실제 학습 통합 SHA는 미확정이다. B가 작성한 공통 파일을 참고 A 파일로 덮어써 독립 구현한 것으로 기록하지 않는다.
 

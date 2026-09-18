@@ -2,7 +2,7 @@
 
 [기획 허브](../README.md) · [2인 개발 역할](TEAM_ROLES.md) · [작업 정의·완료 기준](../BACKLOG_QA.md) · [로드맵](ROADMAP.md) · [검수 기록](TEST_RUNS.md)
 
-**현재 상태:** 기존 P0 참고·A/B 학습 작업을 삭제했다. 게임 기능 10개는 Backlog이며 새 구현을 시작하기 전이다. TASK-CORE-01은 Windows 환경·기본 템플릿 준비 기록으로 유지한다. [초기화 내역](P0_RESET.md).
+**현재 상태:** 2026-09-18 공통 출발점을 보존하고 A/B 독립 G0 및 참고 통합을 구현했다. DATA/NET/TEST/MOB 4개는 참고 제작 InProgress이며 실제 학습자는 Planned다. Editor·자동화 통과와 수명 리뷰 수정 중이다. TASK-CORE-01의 기존 환경 기록은 이번 게임 검수 증거로 재사용하지 않는다. [이번 작업](P0_REFERENCE_RUN.md).
 
 **DEC-037 반영:** P0 TASK-ECON-01/BOARD-01/UI-01에 최대 3 뭉치·소환 자동 추가·합성/판매/사거리 UI를 포함한다. [QA-BOARD-11](../BACKLOG_QA.md#QA-BOARD-11)·[QA-BOARD-12](../BACKLOG_QA.md#QA-BOARD-12)·[QA-BOARD-13](../BACKLOG_QA.md#QA-BOARD-13)을 새 구현에서 검수한다. 작업 수·상태는 유지한다.
 
@@ -40,15 +40,15 @@ DEC-043에 따라 P0는 16종·10웨이브 기본 공격과 짧은 조작 안내
 |---|---|---|---|---|---|---|---|
 | [TASK-CORE-01](../BACKLOG_QA.md#TASK-CORE-01) | P0 | Must | Done | Codex | [TECH-001](../technical/ARCHITECTURE.md) | [작업 완료 조건](../BACKLOG_QA.md#TASK-CORE-01) | — (완료 기록 유지) |
 | [TASK-MAP-01](../BACKLOG_QA.md#TASK-MAP-01) | P0 | Must | Backlog | 미지정 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-VIS-03](../BACKLOG_QA.md#QA-VIS-03), [QA-WAVE-04](../BACKLOG_QA.md#QA-WAVE-04) | B |
-| [TASK-NET-01](../BACKLOG_QA.md#TASK-NET-01) | P0 | Must | Backlog | 미지정 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | A 주관 · B 명령 처리 |
-| [TASK-DATA-01](../BACKLOG_QA.md#TASK-DATA-01) | P0 | Must | Backlog | 미지정 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-RNG-01](../BACKLOG_QA.md#QA-RNG-01) | A 주관 · 각 기능 데이터는 A/B |
+| [TASK-NET-01](../BACKLOG_QA.md#TASK-NET-01) | P0 | Must | InProgress | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | A 주관 · B 명령 처리 |
+| [TASK-DATA-01](../BACKLOG_QA.md#TASK-DATA-01) | P0 | Must | InProgress | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-RNG-01](../BACKLOG_QA.md#QA-RNG-01) | A 주관 · 각 기능 데이터는 A/B |
 | [TASK-COMBAT-01](../BACKLOG_QA.md#TASK-COMBAT-01) | P0 | Must | Backlog | 미지정 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-DMG-01](../BACKLOG_QA.md#QA-DMG-01), [QA-ECO-03](../BACKLOG_QA.md#QA-ECO-03), [QA-WAVE-04](../BACKLOG_QA.md#QA-WAVE-04) | A |
 | [TASK-ECON-01](../BACKLOG_QA.md#TASK-ECON-01) | P0 | Must | Backlog | 미지정 | [SPEC-SUMMON](../design/SUMMON_ECONOMY.md) | [QA-ECO-01](../BACKLOG_QA.md#QA-ECO-01), [QA-BOARD-01](../BACKLOG_QA.md#QA-BOARD-01), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03), [QA-STACK-01](../BACKLOG_QA.md#QA-STACK-01), [QA-STACK-02](../BACKLOG_QA.md#QA-STACK-02) | B |
 | [TASK-BOARD-01](../BACKLOG_QA.md#TASK-BOARD-01) | P0 | Must | Backlog | 미지정 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-BOARD-02](../BACKLOG_QA.md#QA-BOARD-02), [QA-BOARD-03](../BACKLOG_QA.md#QA-BOARD-03), [QA-BOARD-04](../BACKLOG_QA.md#QA-BOARD-04), [QA-BOARD-08](../BACKLOG_QA.md#QA-BOARD-08) | B |
 | [TASK-WAVE-01](../BACKLOG_QA.md#TASK-WAVE-01) | P0 | Must | Backlog | 미지정 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-TIME-02](../BACKLOG_QA.md#QA-TIME-02), [QA-TIME-03](../BACKLOG_QA.md#QA-TIME-03), [QA-TIME-07](../BACKLOG_QA.md#QA-TIME-07) | A |
 | [TASK-UI-01](../BACKLOG_QA.md#TASK-UI-01) | P0 | Must | Backlog | 미지정 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-MOB-01](../BACKLOG_QA.md#QA-MOB-01), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04) | B 주관 · A 전투/결과 UI |
-| [TASK-TEST-01](../BACKLOG_QA.md#TASK-TEST-01) | P0 | Must | Backlog | 미지정 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-02](../BACKLOG_QA.md#QA-NET-02), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | B |
-| [TASK-MOB-01](../BACKLOG_QA.md#TASK-MOB-01) | P0 | Must | Backlog | 미지정 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-MOB-01](../BACKLOG_QA.md#QA-MOB-01), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04) | A |
+| [TASK-TEST-01](../BACKLOG_QA.md#TASK-TEST-01) | P0 | Must | InProgress | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-02](../BACKLOG_QA.md#QA-NET-02), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | B |
+| [TASK-MOB-01](../BACKLOG_QA.md#TASK-MOB-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-MOB-01](../BACKLOG_QA.md#QA-MOB-01), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04) | A |
 | [TASK-DATA-02](../BACKLOG_QA.md#TASK-DATA-02) | P1 | Must | Backlog | 미지정 | [SPEC-UNITS](../design/UNITS.md) | [QA-RNG-01](../BACKLOG_QA.md#QA-RNG-01), [QA-BOARD-10](../BACKLOG_QA.md#QA-BOARD-10) | A 주관 · 각 기능 데이터는 A/B |
 | [TASK-COMBAT-02](../BACKLOG_QA.md#TASK-COMBAT-02) | P1 | Must | Backlog | 미지정 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-DMG-03](../BACKLOG_QA.md#QA-DMG-03), [QA-DMG-05](../BACKLOG_QA.md#QA-DMG-05), [QA-DMG-07](../BACKLOG_QA.md#QA-DMG-07), [QA-DMG-10](../BACKLOG_QA.md#QA-DMG-10), [QA-DMG-11](../BACKLOG_QA.md#QA-DMG-11), [QA-DMG-12](../BACKLOG_QA.md#QA-DMG-12), [QA-DMG-13](../BACKLOG_QA.md#QA-DMG-13), [QA-DMG-14](../BACKLOG_QA.md#QA-DMG-14) | A |
 | [TASK-ECON-02](../BACKLOG_QA.md#TASK-ECON-02) | P1 | Must | Backlog | 미지정 | [SPEC-SUMMON](../design/SUMMON_ECONOMY.md) | [QA-RNG-04](../BACKLOG_QA.md#QA-RNG-04), [QA-ECO-06](../BACKLOG_QA.md#QA-ECO-06), [QA-ECO-07](../BACKLOG_QA.md#QA-ECO-07), [QA-BOARD-10](../BACKLOG_QA.md#QA-BOARD-10), [QA-MISSION-01](../BACKLOG_QA.md#QA-MISSION-01), [QA-DUNGEON-02](../BACKLOG_QA.md#QA-DUNGEON-02) | B |
