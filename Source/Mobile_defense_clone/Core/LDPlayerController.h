@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Board/LDBoardGeometry.h"
+#include "Board/LDBoardTypes.h"
+#include "Economy/LDEconomyTypes.h"
 #include "Data/LDMatchTypes.h"
 #include "GameFramework/PlayerController.h"
 #include "InputCoreTypes.h"
@@ -28,6 +30,10 @@ public:
 	bool RetryPendingCommand();
 	bool HasPendingCommand() const;
 	const FLDCommandResult& GetLastResult() const;
+	void PublishSnapshots(const FLDBoardSnapshot& Board, const FLDEconomySnapshot& Economy);
+	const FLDBoardSnapshot& GetBoardSnapshot() const;
+	const FLDEconomySnapshot& GetEconomySnapshot() const;
+	bool IsGameplaySnapshotReady() const;
 	// Shared authority-checked submission boundary used by the owning Controller's Server RPC.
 	FLDCommandResult SubmitServerCommand(const FLDCommand& Command);
 	FLDCommandCompleted OnCommandCompleted;
@@ -56,6 +62,8 @@ protected:
 private:
 	UFUNCTION()
 	void OnRep_ConnectionEpoch();
+	UFUNCTION()
+	void OnRep_GameplaySnapshot();
 	void TryInitializeLocalBoard();
 	void RefreshBoardViewport();
 	void ReleaseLocalBoard();
@@ -69,6 +77,10 @@ private:
 	FGuid CurrentMatchId;
 	UPROPERTY(ReplicatedUsing = OnRep_ConnectionEpoch)
 	uint64 ConnectionEpoch = 0;
+	UPROPERTY(ReplicatedUsing = OnRep_GameplaySnapshot)
+	FLDBoardSnapshot BoardSnapshot;
+	UPROPERTY(ReplicatedUsing = OnRep_GameplaySnapshot)
+	FLDEconomySnapshot EconomySnapshot;
 	uint32 NextRequestId = 1;
 	TOptional<FLDCommand> PendingCommand;
 	FLDCommandResult LastResult;
