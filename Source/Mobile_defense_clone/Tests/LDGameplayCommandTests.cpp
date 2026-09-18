@@ -363,4 +363,35 @@ bool FLDP0EpochDuringPublicationTest::RunTest(const FString& Parameters)
 	return true;
 }
 
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0ExpiredSnapshotTest, "LD.P0.G2.Commands.ExpiredRequiresCurrentRevisions",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0ExpiredSnapshotTest::RunTest(const FString& Parameters)
+{
+	FGameplayFixture Fixture;
+	if (!TestTrue(TEXT("Services initialize"), Fixture.bReady))
+	{
+		return false;
+	}
+	const FLDCommand First = Fixture.Make();
+	TestEqual(TEXT("Original request purchases exactly one unit"), Fixture.Run(First).ResultCode,
+	               ELDCommandResultCode::Success);
+	for (int32 Index = 0; Index < 256; ++Index)
+	{
+		FLDCommand Stale = Fixture.Make();
+		Stale.ExpectedBoardRevision = 0;
+		TestEqual(TEXT("Valid later requests evict history without changing the board"), Fixture.Run(Stale).ResultCode,
+		               ELDCommandResultCode::StaleBoard);
+	}
+	Fixture.Reward(1, TEXT("N01"));
+	const FString BeforeExpired = Fixture.Signature();
+	const FLDCommandResult Expired = Fixture.Run(First);
+	TestEqual(TEXT("Evicted request is never replayed as a new purchase"), Expired.ResultCode,
+	               ELDCommandResultCode::RequestExpired);
+	TestEqual(TEXT("Expired response requires board revision of the existing purchase"), Expired.NewBoardRevision, 1);
+	TestEqual(TEXT("Expired response includes economic revision after the later reward"), Expired.EconomyRevision, 2);
+	TestEqual(TEXT("History expiry mutates no gameplay source"), Fixture.Signature(), BeforeExpired);
+	return true;
+}
+
 #endif

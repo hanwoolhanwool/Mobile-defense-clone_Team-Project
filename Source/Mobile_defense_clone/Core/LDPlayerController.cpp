@@ -128,7 +128,8 @@ void ALDPlayerController::ClientCommandResult_Implementation(const FLDCommandRes
 	if (Result.ResultCode != ELDCommandResultCode::Pending)
 	{
 		PendingCommand.Reset();
-		bAwaitingCommittedSnapshot = Result.ResultCode == ELDCommandResultCode::Success;
+		bAwaitingCommittedSnapshot = Result.ResultCode == ELDCommandResultCode::Success ||
+		                             Result.ResultCode == ELDCommandResultCode::RequestExpired;
 		if (Result.ResultCode != ELDCommandResultCode::Success && Result.ResultCode != ELDCommandResultCode::NoChange)
 		{
 			if (GameplayWidget)
@@ -345,7 +346,7 @@ FText ALDPlayerController::GetCommandFeedback() const
 	}
 	if (bAwaitingCommittedSnapshot)
 	{
-		return NSLOCTEXT("LD", "AwaitSnapshot", "확정된 보드와 재화를 동기화하고 있습니다");
+		return NSLOCTEXT("LD", "AwaitSnapshot", "최신 보드와 재화를 동기화하고 있습니다");
 	}
 	if (PendingCommand.IsSet())
 	{
@@ -380,6 +381,8 @@ FText ALDPlayerController::GetCommandFeedback() const
 		return NSLOCTEXT("LD", "NoChange", "같은 칸입니다");
 	case ELDCommandResultCode::PhaseNotAllowed:
 		return NSLOCTEXT("LD", "MatchClosed", "지금은 조작할 수 없습니다");
+	case ELDCommandResultCode::RequestExpired:
+		return NSLOCTEXT("LD", "ExpiredRequest", "이전 요청 기록이 만료되었습니다. 최신 상태에서 다시 선택해 주세요");
 	default:
 		return NSLOCTEXT("LD", "CommandRejected", "요청이 거절되었습니다. 상태를 확인한 뒤 다시 선택해 주세요");
 	}
@@ -396,6 +399,15 @@ void ALDPlayerController::UpdateGameplayView()
 	    GetEconomySnapshot().EconomyRevision >= LastResult.EconomyRevision)
 	{
 		bAwaitingCommittedSnapshot = false;
+		if (LastResult.ResultCode == ELDCommandResultCode::RequestExpired)
+		{
+			SelectedCellId = INDEX_NONE;
+			DragSourceInstanceId = 0;
+			if (LocalBoard)
+			{
+				LocalBoard->SetSelectedCell(INDEX_NONE);
+			}
+		}
 	}
 	if (GameplayWidget && !GameplayWidget->IsInViewport())
 	{
