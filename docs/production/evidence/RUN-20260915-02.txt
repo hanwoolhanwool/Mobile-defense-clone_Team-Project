@@ -1,0 +1,54 @@
+RUN-20260915-02
+Scope: newcomer setup and A/B role onboarding guide; documentation only
+Started: 2026-09-15T05:39:24.9496558+09:00
+Base commit: a93138791dba9854f8be42a9480c652c03b926d6
+Input: existing uncommitted changes preserved; new guide and navigation/status records added
+No tool installation, UE build, PIE, Android run, or remote CI is claimed.
+
+> node tools/check-project.mjs
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21483,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 4611,
+  "markdownFiles": 41,
+  "metadataDocuments": 26,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+> node tools/check-code-style.mjs
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+Exit code: 0
+PowerShell fenced examples parsed successfully: 7. Commands were not executed.
+> git diff --check
+Exit code: 0
+
+Final verification after writing the result record:
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 4611,
+  "markdownFiles": 41,
+  "metadataDocuments": 26,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+Exit code: 0
+Final git diff --check: Pass
+Manual review: versions and build flags cross-checked with DEVELOPMENT_SETUP, BUILD_RUN, Config and Invoke-PrototypeBuild; roles and dependencies cross-checked with TEAM_ROLES, BOARD and BACKLOG_QA.
+Finished: 2026-09-15T05:39:57.4957555+09:00

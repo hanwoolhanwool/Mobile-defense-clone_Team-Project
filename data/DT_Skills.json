@@ -19,7 +19,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_R02",
@@ -41,7 +43,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_R03",
@@ -63,7 +67,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_R04",
@@ -85,7 +91,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0.08,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_E01",
@@ -107,7 +115,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_E02",
@@ -129,7 +139,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_E03",
@@ -151,7 +163,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_E04",
@@ -173,7 +187,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0.12,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_L01",
@@ -195,7 +211,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_L02",
@@ -217,7 +235,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_L03",
@@ -239,7 +259,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_L04",
@@ -261,7 +283,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0.2,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_M01",
@@ -283,7 +307,9 @@
     "DotIntervalSeconds": 1,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_M02",
@@ -305,7 +331,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 1.5
+    "BossBonusCoefficient": 1.5,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_M03",
@@ -327,7 +355,9 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0,
     "AuraHastePct": 0,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "S_M04",
@@ -349,6 +379,8 @@
     "DotIntervalSeconds": 0,
     "AuraAttackPct": 0.3,
     "AuraHastePct": 0.15,
-    "BossBonusCoefficient": 0
+    "BossBonusCoefficient": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   }
 ]

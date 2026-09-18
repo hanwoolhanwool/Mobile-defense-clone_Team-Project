@@ -1,108 +1,381 @@
 {
-  "SchemaVersion": 1,
-  "RulesVersion": "0.1.0",
+  "SchemaVersion": 2,
+  "RulesVersion": "0.3.0",
   "DesignStatus": "Unplaytested",
   "Session": {
     "HumanPlayerCount": 2,
     "GateCount": 2,
     "PreparationSeconds": 10,
     "LoadingTimeoutSeconds": 30,
-    "FinalWave": 30,
+    "FinalWave": 80,
     "LogicHz": 20,
-    "ResultFinalWaveRewards": true,
+    "ResultFinalWaveRewards": false,
     "PauseOnline": false
   },
   "Board": {
-    "Columns": 4,
+    "Columns": 6,
     "Rows": 3,
-    "CellsPerPlayer": 12,
-    "MaxUnitsPerPlayer": 36,
+    "CellsPerPlayer": 18,
+    "MaxUnitsPerPlayer": 20,
+    "PopulationIncludesDungeon": true,
+    "MaxStack": 3,
     "CellSizeCm": 140,
     "XCentersCm": [
+      -350,
       -210,
       -70,
       70,
-      210
+      210,
+      350
     ],
     "YCentersByPlayer": [
       [
-        -470,
-        -330,
-        -190
+        -420,
+        -280,
+        -140
       ],
       [
-        190,
-        330,
-        470
+        140,
+        280,
+        420
       ]
     ],
+    "PlacementOrderByPlayer": [
+      [
+        17,
+        11,
+        5,
+        16,
+        10,
+        4,
+        15,
+        9,
+        3,
+        14,
+        8,
+        2,
+        13,
+        7,
+        1,
+        12,
+        6,
+        0
+      ],
+      [
+        23,
+        29,
+        35,
+        22,
+        28,
+        34,
+        21,
+        27,
+        33,
+        20,
+        26,
+        32,
+        19,
+        25,
+        31,
+        18,
+        24,
+        30
+      ]
+    ],
+    "PlacementPolicy": "SameUnitPartialThenLocalColumnTopDown",
+    "MergeUsesSelectedCell": false,
+    "MaxPartialStacksPerUnitPerArea": 1,
+    "SaleCompaction": "TransferFromExistingPartialToSoldStack",
+    "MoveMode": "WholeStackDragSwap",
+    "ManualIndividualSplit": false,
+    "TransferPreservesInstanceAndTimers": true,
     "MoveLockSeconds": 0.3,
     "VisualMoveSeconds": 0.15,
     "InitialAttackDelaySeconds": 0.25
   },
-  "Path": {
-    "PointsCm": [
+  "Paths": {
+    "Closed": true,
+    "LinearSegments": true,
+    "WidthCm": 140,
+    "SharedSegmentCm": [
       [
-        -350,
-        -650,
+        490,
+        0,
         0
       ],
       [
-        350,
-        -650,
-        0
-      ],
-      [
-        350,
-        650,
-        0
-      ],
-      [
-        -350,
-        650,
+        -490,
+        0,
         0
       ]
     ],
-    "Closed": true,
-    "LinearSegments": true,
-    "LengthCm": 4000,
-    "GateDistancesCm": [
+    "PointsByGateCm": [
+      [
+        [
+          490,
+          -560,
+          0
+        ],
+        [
+          490,
+          0,
+          0
+        ],
+        [
+          -490,
+          0,
+          0
+        ],
+        [
+          -490,
+          -560,
+          0
+        ]
+      ],
+      [
+        [
+          490,
+          560,
+          0
+        ],
+        [
+          490,
+          0,
+          0
+        ],
+        [
+          -490,
+          0,
+          0
+        ],
+        [
+          -490,
+          560,
+          0
+        ]
+      ]
+    ],
+    "LengthPerGateCm": 3080,
+    "GateStartDistancesCm": [
       0,
-      2000
+      0
     ]
   },
   "Defeat": {
+    "CountedEnemyKinds": [
+      "Normal"
+    ],
     "ActiveEnemyThreshold": 100,
-    "ContinuousSeconds": 3,
-    "FinalWaveRequiresNoEnemies": true,
-    "BossDeadlineIsWaveEnd": true,
+    "ContinuousSeconds": 0,
+    "BossDeadlineSeconds": 60,
+    "RequireBothWaveBossesDead": true,
+    "HuntTimeoutDefeatsTeam": false,
     "EnemyPoolStressCount": 128
   },
+  "Victory": {
+    "RequiresFinalSpawnsComplete": true,
+    "RequiresNoNormalEnemies": true,
+    "RequiresBothFinalBossesDead": true,
+    "HuntBlocksVictory": false,
+    "HardRequiresDungeonComplete": true
+  },
+  "Timing": {
+    "DamageAtDeadlineCounts": true,
+    "Order": "CommandsThenDueDamageThenDeathsAndRewardsThenSpawnsAndCountDefeatThenDeadlinesThenVictoryThenNextWave",
+    "CommandsSerial": true,
+    "RequestDedupKey": "MatchId+PlayerId+ConnectionEpoch+RequestId",
+    "RewardDedupKey": "MatchId+EventId+RecipientId",
+    "RejectedRequestConsumesRng": false
+  },
   "Economy": {
-    "StartingGold": 140,
+    "StartingGold": 100,
     "StartingStars": 0,
-    "GoldPerTeamNormalKillPerPlayer": 1,
-    "GoldPerBossKill": 0,
+    "NormalKillGoldPerPlayer": 1,
+    "NormalKillGoldFromWave21": 2,
+    "KillRateUsesSpawnWave": true,
+    "RewardsToBothPlayers": true,
+    "BossKillGoldPerPlayer": 100,
+    "BossKillStarsPerPlayer": 2,
+    "FastBossKillSeconds": 30,
+    "FastBossBonusStarsPerPlayer": 1,
+    "FastBossBonusPerBoss": true,
+    "HuntKillStarsPerPlayer": 2,
+    "WaveEntryGold": 0,
+    "WaveEndGold": 0,
+    "WaveBaseRewardsEnabled": false,
     "SummonBaseGold": 20,
     "SummonIncrementGold": 2,
-    "SummonMaxGold": 60,
-    "RequireEmptyCellForAnySummon": true,
+    "SummonMaxGold": null,
+    "FreeSummonIncrementsPaidCounter": false,
+    "SummonAdmission": "BeforeRngRequirePopulationAndCapacityForEveryPossibleUnit",
+    "CommonSaleFractionOfNextPaidPrice": 0.5,
+    "CommonSaleRounding": "Floor",
+    "RareSaleStars": 1,
+    "EpicSaleStars": 2,
+    "LegendarySaleStars": 4,
     "GoldProfile": "Gold_Default",
-    "StarProfile": "Star_Default",
-    "ExchangeEpicGold": 100,
-    "ExchangeLegendaryGold": 200,
-    "ExchangeLimitPerPlayer": 2
+    "RouletteProfiles": [
+      "Roulette_Rare",
+      "Roulette_Epic",
+      "Roulette_Legendary"
+    ],
+    "RouletteFailureConsumesCost": true
   },
   "Combat": {
-    "MinimumAttackIntervalSeconds": 0.25,
+    "MaximumAttacksPerSecond": 8,
     "AuraRefreshSeconds": 0.25,
-    "NormalSlowCap": 0.5,
-    "BossSlowCap": 0.25,
+    "SlowCap": 0.8,
+    "ArmorFloor": -50,
     "ResistanceCap": 0.75,
-    "ArmorFloor": 0,
     "CritEnabled": false,
     "RoundMode": "PositiveHalfUp",
+    "StunStacking": "LatestEndTime",
+    "SlowStacking": "SumDistinctSourcesAfterDifficultyThenCap",
+    "ArmorBreakStacking": "SumDistinctSourcesRefreshSameSource",
+    "BuffStacking": "SumDistinctInstancesRefreshSameSource",
+    "DamageOrder": [
+      "BaseAndPermanentGrowth",
+      "BattleUpgrade",
+      "AttackBuff",
+      "SkillCoefficient",
+      "TargetMitigation"
+    ],
+    "HPPercentUsesAttackOrCrit": false,
+    "DefaultManaCap": 100,
+    "DefaultManaPerSecond": 2,
+    "DefaultManaPerBasicAttack": 1,
+    "ManaPerTargetHit": false,
+    "MaxCooldownReduction": 0.5,
+    "HasteAffectsSkillCooldown": false,
+    "DotSameSource": "Refresh",
+    "DotDistinctSources": "Coexist",
     "SupportsTargetPriorityBoss": true
+  },
+  "Difficulty": {
+    "Normal": {
+      "StunDurationFactor": 1,
+      "SlowStrengthFactor": 1,
+      "HPPercentDamageFactor": 1
+    },
+    "Hard": {
+      "StunDurationFactor": 0.5,
+      "SlowStrengthFactor": 0.5,
+      "HPPercentDamageFactor": 0.7
+    },
+    "Dungeon": {
+      "HPPercentDamageFactor": 0.3,
+      "ReplacesHardHPPercentFactor": true
+    }
+  },
+  "Hunt": {
+    "FirstAvailableWave": 6,
+    "FirstAvailableWaveOffsetSeconds": 10,
+    "TimeoutSeconds": 60,
+    "RetryFromSummonSeconds": 90,
+    "MaxActivePerPlayer": 1,
+    "SuccessAdvancesStage": true,
+    "FailureKeepsStage": true
+  },
+  "Dungeon": {
+    "EnabledIn": "Hard",
+    "CellsPerPlayer": 3,
+    "MaxStack": 3,
+    "EnterCount": 1,
+    "ReturnUnit": "WholeCell",
+    "ReturnAllButton": true,
+    "ReturnTransaction": "AllOrNothing",
+    "PopulationIncludesFieldAndDungeon": true,
+    "GlobalPassiveScope": "OwnerFieldAndDungeon",
+    "LocalAuraScope": "SameArea",
+    "BossStatsAndRewardsStatus": "PendingContent"
+  },
+  "Missions": {
+    "Repeatable": false,
+    "AutoClaim": true,
+    "Reset": "NewMatch",
+    "HoldingsScope": "OwnerFieldAndDungeon",
+    "CompletionLatched": true,
+    "Entries": [
+      {
+        "Id": "CollectCommon",
+        "Metric": "CurrentAllDistinctCommon",
+        "Target": 4,
+        "Gold": 100,
+        "Stars": 0,
+        "Scope": "Player"
+      },
+      {
+        "Id": "CollectRare",
+        "Metric": "CurrentAllDistinctRare",
+        "Target": 4,
+        "Gold": 100,
+        "Stars": 0,
+        "Scope": "Player"
+      },
+      {
+        "Id": "CollectEpic",
+        "Metric": "CurrentAllDistinctEpic",
+        "Target": 4,
+        "Gold": 0,
+        "Stars": 1,
+        "Scope": "Player"
+      },
+      {
+        "Id": "HoldLegendary",
+        "Metric": "CurrentLegendaryCount",
+        "Target": 3,
+        "Gold": 0,
+        "Stars": 2,
+        "Scope": "Player"
+      },
+      {
+        "Id": "TeamKills40",
+        "Metric": "CumulativeNormalKills",
+        "Target": 40,
+        "Gold": 100,
+        "Stars": 0,
+        "Scope": "TeamEachPlayer"
+      },
+      {
+        "Id": "Sell5",
+        "Metric": "CumulativeIndividualsSold",
+        "Target": 5,
+        "Gold": 50,
+        "Stars": 0,
+        "Scope": "Player"
+      },
+      {
+        "Id": "Roulette20",
+        "Metric": "CumulativePaidRouletteAttempts",
+        "Target": 20,
+        "Gold": 0,
+        "Stars": 1,
+        "Scope": "Player"
+      },
+      {
+        "Id": "Upgrade2",
+        "Metric": "CumulativeSuccessfulUpgrades",
+        "Target": 2,
+        "Gold": 50,
+        "Stars": 0,
+        "Scope": "Player"
+      }
+    ]
+  },
+  "Meta": {
+    "Phase": "P1",
+    "Systems": [
+      "Treasure",
+      "Relic",
+      "Pet"
+    ],
+    "Acquisition": true,
+    "Inventory": true,
+    "Growth": true,
+    "DuplicateConversion": true,
+    "Persistence": "VersionedLocalSave",
+    "CatalogAndCostsStatus": "PendingContent",
+    "ServerAuthorityPhase": "P2"
   },
   "Connectivity": {
     "BotStartAfterDisconnectSeconds": 5,
@@ -119,23 +392,51 @@
     "XPPerCompletedWave": 10,
     "WinBonusXP": 100,
     "PracticeXP": 0,
-    "TutorialXP": 0
+    "TutorialXP": 0,
+    "DesignStatus": "ProvisionalLegacyNotActiveP0"
   },
+  "TestProfiles": [
+    {
+      "Id": "Baseline",
+      "EnemyLimit": 100,
+      "PopulationPerPlayer": 20,
+      "MetaEffects": false
+    },
+    {
+      "Id": "AdjustedFixture",
+      "EnemyLimit": 113,
+      "PopulationPerPlayer": 26,
+      "MetaEffects": false
+    }
+  ],
   "P0Overrides": {
     "FinalWave": 10,
     "AllowedGrades": [
       "Common",
-      "Rare"
+      "Rare",
+      "Epic",
+      "Legendary"
     ],
     "AllowedNormalEnemyIds": [
       "N01"
     ],
     "NormalSpawnProfileId": "Early",
-    "GoldProfile": "P0_Gold_Default",
-    "AllowRareMerge": false,
-    "EnableStars": false,
+    "GoldProfile": "Gold_Default",
+    "MergeInputGrades": [
+      "Common",
+      "Rare",
+      "Epic"
+    ],
+    "EnableStars": true,
+    "EnableSkills": false,
+    "EnableRoulette": false,
+    "EnableUpgrades": false,
     "EnableCraft": false,
     "EnableExchange": false,
-    "EnableAccountXP": false
+    "EnableAccountXP": false,
+    "EnableHunt": false,
+    "EnableDungeon": false,
+    "EnableMissions": false,
+    "EnableMeta": false
   }
 }

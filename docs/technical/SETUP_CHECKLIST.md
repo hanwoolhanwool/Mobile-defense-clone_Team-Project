@@ -1,9 +1,9 @@
 ---
 id: TECH-CHECKLIST
-version: 0.1.0
+version: 0.1.1
 status: Draft
 owner: Codex
-updated: 2026-09-14
+updated: 2026-09-17
 reviewed: 2026-09-14
 review_run: RUN-20260914-01
 applies_to: UE 5.8.2 후보 / 플랫폼별 준비 현황
@@ -63,7 +63,7 @@ verification_scope: 기존 Windows 기본 빌드·실행 기록 대조; Android 
 | Windows 컴파일러 | Compiler=VisualStudio2026, CompilerVersion=14.50.35717 | Config 적용·실제 빌드 확인 |
 | Windows SDK 선택 | WindowsSDKVersion=10.0.26100.0 | Config 적용·실제 빌드 확인 |
 | 모바일 렌더링 | Mobile Forward·베이크 조명, Lumen·Nanite·VSM 사용 안 함 | 목표 결정, 적용·모바일 검증 대기 |
-| 화면·입력 | 세로, UI 설계 기준 1080×1920, DPI·SafeArea 대응, 터치 | 목표 결정, 실제 화면·입력 검증 대기 |
+| 화면·입력 | 세로, [UI v2 설계 기준](../design/BOARD_UI.md#ingame-ui-v2) 1080×2340·정사각형 칸·동일 폭 통로, DPI·SafeArea·터치 | 목표 결정, 실제 화면·입력 검증 대기 |
 | 개발 패키지 | Development APK, 게임 데이터 포함 | 목표 결정, 패키징 대기 |
 | ABI·텍스처 | ARM64 단일 ABI, ETC2 단일 쿠킹 | 목표 결정, 패키징 결과 검사 대기 |
 | 그래픽 | OpenGL ES 3.2, Vulkan Off, Mobile HDR On, MSAA 2x | 목표 결정, 실제 적용 검증 대기 |

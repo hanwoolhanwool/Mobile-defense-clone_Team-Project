@@ -1,18 +1,18 @@
 ---
 id: DOC-WORKFLOW
-version: 0.4.0
+version: 0.4.4
 status: Baseline
 owner: Codex
-updated: 2026-09-14
-reviewed: 2026-09-14
-review_run: RUN-20260914-04
-applies_to: 문서·Git·검증 운영
-baseline_basis: DEC-023 문서 운영, DEC-024 main 보호 및 DEC-025 코드 규약·자동 검사 도입 지시
+updated: 2026-09-17
+reviewed: 2026-09-16
+review_run: RUN-20260916-01
+applies_to: 브랜치 명명·원격 추적·현재 PR 안내와 기존 Git 운영 기준의 정합성
+baseline_basis: DEC-023~027 운영·규약·역할 지시 및 2026-09-16 사용자 커밋 사용 표시 제외·기존 이력과 브랜치 변경 지시
 ---
 
 # 기획 문서 관리 방식
 
-[기획 허브](README.md) · 운영 기준 0.4 · 2026-09-14
+[기획 허브](README.md) · 운영 기준 0.4 · 2026-09-16
 
 ## 1. 이 프로젝트의 운영 방식
 
@@ -36,11 +36,16 @@ baseline_basis: DEC-023 문서 운영, DEC-024 main 보호 및 DEC-025 코드 �
 | 데이터 구조 | DATA_SCHEMA.md | 개발+기획 |
 | 초기 수치·생성 공식 | tools/build-design-data.mjs | 밸런스 담당, 현재는 개발 협업 |
 | 작업 진행 상태·실제 담당자 | production/BOARD.md | 작업 담당자 |
+| 2인 역할·학습·공통 코드 책임 | production/TEAM_ROLES.md | A/B 공동 검토, 문서 유지 Codex |
 | 전체 진행 상황 요약·주요 진행 이력 | production/PROJECT_STATUS.md | 원본을 갱신한 작업 수행자 |
 | 테스트 실행·증거 | production/TEST_RUNS.md | 실행자 |
 | 결정 근거 | DECISIONS.md | 결정을 내린 책임자 |
 
 담당자가 정해지지 않은 곳은 `unassigned`/`미지정`으로 남깁니다. 예시 역할명을 실제로 배정된 사람처럼 표시하지 않습니다. 한 사람이 여러 역할을 맡아도 됩니다. 코드 경로와 데이터 경로는 별도 표시가 없으면 프로젝트 루트 기준입니다.
+
+DEC-027로 **A 전투·웨이브 / B 경제·보드** 역할을 채택했습니다. [2인 역할 문서](production/TEAM_ROLES.md)는 공통 코드·Blueprint·UI·네트워크·빌드 책임과 학습 운영을 정하고, 작업별 A/B 계획 역할은 보드의 별도 열에서 관리합니다. 실제 팀원이 어느 역할을 맡는지는 OPEN-001에서 확인해 담당자 열에 기록합니다. 역할 확정만으로 실제 사람을 배정하거나 작업을 착수 처리하지 않습니다.
+
+각자 기능 전체를 구현하고 상대가 PR 리뷰·실패 상황 재현을 맡습니다. 기능별 설계 설명과 주간 공수 점검을 통해 학습을 공유하며, B에게 집중된 명령·경제·보드·HUD 연결 부담도 점검합니다. 미착수 독립 작업을 재배정할 때 보드의 계획 역할을 갱신하고 실제 구현·검수 상태는 별도로 유지합니다. Android 빌드는 A, PC 2인 검수는 B가 주관하되 오류 수정은 기능 담당자가 책임집니다.
 
 ## 3. 문서 상태와 작업 상태
 
@@ -103,16 +108,24 @@ baseline_basis: DEC-023 문서 운영, DEC-024 main 보호 및 DEC-025 코드 �
 
 ## 6. 버전과 Git
 
-파일명은 고정합니다. 기능 문서는 현재 버전이며 과거 상태는 Git 커밋으로 조회합니다. 새 문서 체계 버전은0.2, 게임 데이터 RulesVersion은 현재0.1.0으로 서로 별개입니다. 문서 재정리만으로 전투 규칙 버전을 올리지 않습니다.
+파일명은 고정합니다. 기능 문서는 현재 버전이며 과거 상태는 Git 커밋으로 조회합니다. 문서 체계 버전과 게임 데이터 RulesVersion은 서로 별개이며, 현재 데이터의 RulesVersion·SchemaVersion은 [GameRules.json](../data/GameRules.json)과 [데이터 명세](DATA_SCHEMA.md)를 확인합니다. 문서 재정리만으로 전투 규칙 버전을 올리지 않습니다.
 
 - 의도·동작이 바뀌면 해당 명세 version과 updated, CHANGELOG를 갱신합니다.
 - 오탈자·링크 정리는 updated 또는 커밋 설명만으로 충분합니다.
 - 데이터 계약·수치가 바뀌면 RulesVersion과 관련 검증 기준도 함께 검토합니다.
 - 진행 중 매치에 다른 데이터 버전을 섞지 않습니다.
 
-권장 브랜치명 예시는 `codex/docs-summon-pity` 또는 `codex/ECON-01-summon`입니다. 커밋·PR 설명에 작업 ID와 변경 이유를 넣습니다. 예: `docs(SPEC-SUMMON): 보장 발동 조건 명확화`.
+브랜치명은 작성 도구 표시 없이 용도/내용으로 정합니다. 예: `docs/summon-pity`, `feature/econ-01-summon`, `learn/p0-a`, `reference/p0-a`. [커밋 규약](../COMMIT_CONVENTION.md)의 사용 표시 제외 기준을 따르고 커밋·PR 설명에는 작업 ID와 변경 이유를 넣습니다. 예: `docs(SPEC-SUMMON): 보장 발동 조건 명확화`.
 
-기준 커밋에는 프로젝트·Source·Content(기존 맵 조명 데이터 포함)·공유 Config·문서·생성 데이터·검사 도구를 포함합니다. 커밋 전 diff·파일 목록을 검토하고 캐시·빌드 산출물·개인 설정·토큰은 제외합니다. 2026-09-14 사용자 후속 요청으로 `codex/docs-operations-baseline`을 원격에 push하고 [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)을 생성했습니다. 이어서 DEC-024의 main 보호 규칙을 적용했습니다. 실제 main 병합은 PR 상태를 따릅니다. 사용 중인 저장소가 GitHub라면 동봉한 이슈/PR 템플릿을 사용할 수 있습니다. 템플릿은 GitHub 기본 브랜치에 반영된 이후 웹 UI에서 적용됩니다. [GitHub 템플릿 안내](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
+기준 커밋에는 프로젝트·Source·Content(기존 맵 조명 데이터 포함)·공유 Config·문서·생성 데이터·검사 도구를 포함합니다. 커밋 전 diff·파일 목록을 검토하고 캐시·빌드 산출물·개인 설정·토큰은 제외합니다. 2026-09-14 최초 PR 생성과 DEC-024의 main 보호 적용 후, 2026-09-16 작업 브랜치를 `docs/operations-baseline`으로 변경했습니다. 현재 [초안 PR #2](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/2)가 기존 PR #1의 동일 커밋을 이어가며 실제 main 병합 여부는 PR 상태를 따릅니다. 사용 중인 저장소가 GitHub라면 동봉한 이슈/PR 템플릿을 사용할 수 있습니다. 템플릿은 GitHub 기본 브랜치에 반영된 이후 웹 UI에서 적용됩니다. [GitHub 템플릿 안내](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests)
+
+2026-09-16 이름 변경 당시의 역할별 로컬 브랜치는 `learn/p0-base`, `learn/p0-a`, `learn/p0-b`, `learn/p0-integration`과 `reference/p0-common`, `reference/p0-a`, `reference/p0-b`, `reference/p0-integration`입니다. 당시 8개는 로컬 브랜치이며 이름 변경만으로 원격에 게시하지 않았습니다. 이후 DEC-035의 [P0 초기화](production/P0_RESET.md)에서 삭제됐으므로 현행 브랜치 목록으로 사용하지 않습니다. 새 브랜치와 기준 SHA는 재구현 착수 시 기록합니다. 이전 이름이 포함된 과거 검증 증거는 당시 실행 기록으로 보존합니다. 이름 변경과 커밋·작업 내용 보존 검사는 [RUN-20260916-01](production/TEST_RUNS.md)을 따릅니다.
+
+### 6.1 개발 중 병합 시점
+
+[개발 계획서의 병합 기준](production/DEVELOPMENT_PLAN.md#merge-cadence)에 따라 반나절~2일의 작은 변경이 검토·빌드 가능한 상태가 되면 같은 과정의 통합 브랜치에 병합합니다. 수요일은 최소 통합, 금요일은 공동 실행/남은 공수 확인이며 정해진 날까지 병합을 미루는 규칙은 아닙니다. 공통 타입/API를 먼저 연결하고 양쪽 소비 기능을 순차 반영합니다.
+
+main은 통합 검증된 제품 변경을 PR로 반영합니다. 최신 main·필수 CI·상호 리뷰와 영향 범위의 UE 빌드/실행 증거를 확인합니다. 참고 구현과 실제 학습 통합은 서로 분리하며, 단계 완료는 해당 단계의 모든 검수 통과로 별도 판정합니다. 이 문서 갱신은 실제 브랜치 생성·커밋·push·병합을 실행한 기록이 아닙니다.
 
 ## 7. 생성과 검사
 
@@ -149,7 +162,7 @@ PR이 없는 작업 브랜치에 push하는 것만으로는 실행되지 않습�
 | 리뷰 대화 | 미해결 대화 해소 필수 |
 | 필수 승인 인원 | 현재 0명. 별도 리뷰 담당자를 배정하면 1명 이상으로 재검토 |
 
-필수 승인 0명은 사람의 코드 리뷰를 완료했다는 의미가 아닙니다. 현재 미배정 상태에서 승인 대기로 모든 작업을 막지 않도록 한 운영 선택입니다. 코드 리뷰 담당자가 정해지면 담당 범위·승인 수·CODEOWNERS 도입을 함께 정합니다. 보호 규칙의 기본 동작은 [GitHub 보호 브랜치 안내](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)를 따릅니다. 워크플로 권한은 contents 읽기로 한정합니다.
+필수 승인 0명은 사람의 코드 리뷰를 완료했다는 의미가 아닙니다. 실제 리뷰 담당자 미배정 상태에서 승인 대기로 모든 작업을 막지 않도록 한 운영 선택입니다. DEC-027의 A/B 상호 리뷰는 작업 운영 기준이며 원격 보호 설정을 자동 변경하지 않습니다. 실제 팀원·리뷰 계정이 연결되면 담당 범위·필수 승인 수·CODEOWNERS 도입을 함께 재검토합니다. 보호 규칙의 기본 동작은 [GitHub 보호 브랜치 안내](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches)를 따릅니다. 워크플로 권한은 contents 읽기로 한정합니다.
 
 
 기능별 기획을 수정했다면:
@@ -202,8 +215,11 @@ DEC-025로 다음 규약과 설정을 도입했다. 도입 전 보유 현황은 
 |---|---|
 | Git 커밋 규약 | [COMMIT_CONVENTION.md](../COMMIT_CONVENTION.md). 메시지·변경 단위·PR 지침 |
 | C++·Blueprint 작성 | [코드 작성 규약](technical/CODING_STANDARD.md). 헤더·수명·노출·권한·오류·그래프·리뷰 |
+| 구현 설계 | [아키텍처 15.5~15.7](technical/ARCHITECTURE.md#implementation-rules). 책임·의존·상태·공동 확정·수명·첫 기능 검수 |
 | 이름·폴더·데이터 | [이름·구조 규칙](technical/NAMING_AND_STRUCTURE.md). 새 타입·파일·에셋·ID와 호환성 |
 | 포맷 설정 | [.editorconfig](../.editorconfig), [.clang-format](../.clang-format). clang-format 20.1.8 고정 |
 | 자동 검사 | [설치·검사 안내](technical/CODE_STYLE.md). 새/변경 C++ 파일 전체 검사, 기존 48개는 경로·내용이 그대로일 때만 기존 서식 허용 |
 
 Blueprint 그래프·에셋 참조·클래스 책임은 PR 및 Unreal 에디터에서 검수한다. 현재 필수 CI가 코드 의미·UE 빌드까지 자동 보장하는 것으로 표시하지 않는다. 규약 예외와 도구 버전 변경에는 이유·영향·검증을 남기고 관련 문서와 설정을 함께 수정한다.
+
+DEC-026으로 구현 설계 규약을 보완했다. 새 책임·상태·호출 관계를 만드는 작업은 [짧은 설계 메모](TEMPLATES.md#implementation-note)를 작업/PR에 연결하고, 변경에 맞는 실패·중복·종료 검수 결과를 남긴다. 기존 아키텍처의 미확인 게임 규칙은 Draft로 유지하며, 원작 확인 후 첫 P0 기능에 규약을 적용하고 구현 결과로 원본을 보완한다. 문서·포맷 검사를 통과한 것으로 기능 간 의존 관계가 검증됐다고 판단하지 않는다.

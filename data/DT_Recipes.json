@@ -8,7 +8,9 @@
     "LegendaryCount": 1,
     "EpicCount": 1,
     "RareCount": 1,
-    "GoldCost": 0
+    "GoldCost": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "Recipe_M02",
@@ -19,7 +21,9 @@
     "LegendaryCount": 1,
     "EpicCount": 1,
     "RareCount": 1,
-    "GoldCost": 0
+    "GoldCost": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "Recipe_M03",
@@ -30,7 +34,9 @@
     "LegendaryCount": 1,
     "EpicCount": 1,
     "RareCount": 1,
-    "GoldCost": 0
+    "GoldCost": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   },
   {
     "Name": "Recipe_M04",
@@ -41,6 +47,8 @@
     "LegendaryCount": 1,
     "EpicCount": 1,
     "RareCount": 1,
-    "GoldCost": 0
+    "GoldCost": 0,
+    "Enabled": false,
+    "DesignStatus": "DeferredConcept"
   }
 ]

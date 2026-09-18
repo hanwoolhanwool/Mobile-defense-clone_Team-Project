@@ -1,0 +1,28 @@
+{
+  "RemovedWorktrees": [
+    "C:\\Users\\iam12\\Mobile_defense_reference_p0",
+    "C:\\Users\\iam12\\Mobile_defense_learn_p0_a",
+    "C:\\Users\\iam12\\Mobile_defense_learn_p0_b",
+    "C:\\Users\\iam12\\Mobile_defense_learn_p0_integration"
+  ],
+  "RemovedBranches": [
+    "reference/p0-a",
+    "reference/p0-b",
+    "reference/p0-common",
+    "reference/p0-integration",
+    "learn/p0-a",
+    "learn/p0-b",
+    "learn/p0-base",
+    "learn/p0-integration"
+  ],
+  "P0LearningRemoved": true,
+  "PreservedFiles": 558,
+  "RemainingWorktrees": [
+    "worktree C:/Users/iam12/Mobile_defense_clone"
+  ],
+  "FinalUnchangedRuntimeTemplateAndDataFiles": 549,
+  "NoLDSourceOrContent": true,
+  "RecentProjects": {
+    "RemovedRecentProjectEntries": 1
+  }
+}

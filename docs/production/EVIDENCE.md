@@ -1,9 +1,9 @@
 ---
 id: OPS-EVIDENCE
-version: 0.1.0
+version: 0.1.1
 status: Baseline
 owner: Codex
-updated: 2026-09-14
+updated: 2026-09-15
 reviewed: 2026-09-14
 review_run: RUN-20260914-01
 applies_to: 문서·빌드·검수 증거 보관
@@ -27,7 +27,7 @@ baseline_basis: DEC-023 사용자 보완 진행 지시
 
 ## 이번에 보존한 증거
 
-2026-09-13의 Windows 빌드·실행에 필요한 명령, 환경, 입력 파일 목록, 상세 로그, 원래 Fail 결과, 산출물 재검사, 실행 관찰을 복사했다. [보관 목록·원본 경로·해시](evidence/archive-manifest.json)는 29개 파일을 식별한다. 원본 바이트를 유지했으며 Git 개행 변환도 끈다.
+2026-09-13의 Windows 빌드·실행에 필요한 명령, 환경, 입력 파일 목록, 상세 로그, 원래 Fail 결과, 산출물 재검사, 실행 관찰 29개 파일을 복사했다. 이후 Run의 보관 증거도 [보관 목록·원본 경로·해시](evidence/archive-manifest.json)에 추가한다. 원본 바이트를 유지했으며 Git 개행 변환도 끈다.
 
 패키지와 전체 Input/Workspace 스냅샷은 원래 Saved/BuildRuns에 남긴다. 실행 파일은 [기존 산출물 해시](evidence/RUN-20260913-03-artifacts.json)로 식별한다. 로컬 기준 커밋은 현재 공유 입력이며 9월 13일의 토큰 포함 전체 스냅샷과 동일하다고 주장하지 않는다. 과거 입력 목록과 토큰 분리 변경을 함께 보존한다.
 

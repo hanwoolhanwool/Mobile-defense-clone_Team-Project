@@ -1,0 +1,55 @@
+RUN-20260914-05
+Scope: DEC-026 implementation design rules and local document checks
+Input: uncommitted documentation and PR template changes
+Started: 2026-09-14T20:08:01.7283217+09:00
+Base commit: a93138791dba9854f8be42a9480c652c03b926d6
+No gameplay implementation, engine run, or remote CI verification is claimed.
+
+> node tools/check-project.mjs
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21483,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 4297,
+  "markdownFiles": 39,
+  "metadataDocuments": 25,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+> node tools/check-code-style.mjs
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+Exit code: 0
+> git diff --check
+Exit code: 0
+> git diff --exit-code -- Source Content Config data tools .github/workflows .editorconfig .clang-format
+Exit code: 0 (0 means no tracked changes in gameplay/data/tooling scope)
+Manual review: ARCH-01..06 mapped to coding standard and PR review.
+Manual review: authoritative economy state and replicated/UI snapshots are distinct.
+Manual review: preparation failure, request replay, replication ordering, and UI recreation retain the existing command contract.
+Manual review: first-feature tests are requirements, not implemented or passing gameplay tests.
+Validation scope excludes engine/Blueprint/Android execution and remote GitHub Actions.
+> Final documentation check after recording results: node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 4297,
+  "markdownFiles": 39,
+  "metadataDocuments": 25,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+Exit code: 0

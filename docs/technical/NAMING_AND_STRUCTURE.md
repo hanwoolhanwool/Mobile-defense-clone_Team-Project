@@ -1,13 +1,13 @@
 ---
 id: TECH-NAMING
-version: 0.1.0
+version: 0.1.1
 status: Baseline
 owner: Codex
 updated: 2026-09-14
 reviewed: 2026-09-14
-review_run: RUN-20260914-04
+review_run: RUN-20260914-05
 applies_to: 신규 클래스·소스·콘텐츠·데이터 이름과 배치
-baseline_basis: DEC-025 사용자 코드 규약·포맷 설정·자동 검사 작성 지시
+baseline_basis: DEC-025 코드 규약·자동 검사 및 DEC-026 구현 설계 규약 보완 지시
 ---
 
 # 클래스·폴더·데이터 규칙
@@ -40,10 +40,10 @@ baseline_basis: DEC-025 사용자 코드 규약·포맷 설정·자동 검사 �
 
 | 경로 | 책임 |
 |---|---|
-| `Source/Mobile_defense_clone/Core/` | GameMode·GameState·Controller·CameraPawn, 게임 흐름 |
+| `Source/Mobile_defense_clone/Core/` | GameMode·GameState·Controller·CameraPawn, CommandProcessor의 기능 간 처리 조정·초기 연결 |
 | `.../Battle/` | 전투·웨이브·유닛·적·효과 |
 | `.../Board/` | 보드 상태·배치·좌표 변환 |
-| `.../Economy/` | 소환·소비·재화·강화 계산 |
+| `.../Economy/` | EconomyService의 참가자별 경제 원본·소환/소비/강화 계산 |
 | `.../Network/` | 요청/응답 계약·네트워크 검증 보조 |
 | `.../Data/` | 행 struct·데이터 접근·검증 |
 | `.../Save/` | 저장 형식·버전·로드/복구 |
@@ -51,6 +51,8 @@ baseline_basis: DEC-025 사용자 코드 규약·포맷 설정·자동 검사 �
 | `tools/style/` | 포맷 버전·기존 파일 기준·서식 샘플 |
 
 `Variant_Strategy`, `Variant_TwinStick`, 기존 TopDown 코드는 참고 템플릿이다. 새 디펜스 로직은 담당 기능 폴더에 넣는다. 같은 모듈 안에서는 현재의 헤더/구현 인접 배치를 유지한다. 모듈을 분리하거나 Public/Private 구조를 도입할 때는 include 경로와 Build.cs 의존성을 함께 변경한다.
+
+폴더 배치는 호출 권한을 뜻하지 않는다. 실제 의존 관계·상태 소유·생성/종료는 [구현 설계 규약](ARCHITECTURE.md#implementation-rules)을 따른다. 기능 간 조정은 Core의 CommandProcessor, 비용·추첨 계산은 Economy, 배치 판단은 Board에 두며 파일 이름만 나누고 내부 상태를 서로 수정하지 않는다.
 
 폴더만으로 런타임/Editor 코드가 분리되지는 않는다. 새 Editor 전용 API는 런타임 패키징에 포함되지 않도록 Editor 모듈 또는 적절한 빌드 조건을 설계한다. 플러그인·새 소스 루트를 추가하는 PR에는 포맷 검사 대상 확장도 포함한다.
 

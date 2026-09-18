@@ -1,0 +1,25 @@
+RUN-20260917-05
+Date: 2026-09-17
+Scope: Rectangle-based mission UI on the existing v2 in-game screen.
+Result: PASS (local structure, bounds, visual inspection, preservation, Figma SVG upload).
+
+Build: node outputs/ui-wireframe/mission-v1/build-mission.cjs
+Frame: 1080x2340. Panel: x60 y900 w960 h880, below 888px maximum height.
+Rectangles 118; text nodes 96; unique IDs 261; embedded images 0.
+Grid: 36 cells at 120x120. All 7 route strips measured width 120.
+Panel elements checked: 102. Existing design/data files: 56 SHA-256 hashes unchanged.
+Visual review: mission-panel.png and mission-screen.png inspected, PASS.
+References: CAP-11 (menu entry), CAP-12 (collection/count conditions, reward and completion layout).
+
+Upload response:
+{"success":true,"imageHash":"433309bd77ec39b75cbf80a8621894e4daa1fa77","sizeBytes":39451,"contentType":"image/svg+xml","placedOnNodeId":"28:2"}
+
+Original nodes 2:2 / 15:2 / 22:2 were not mutation targets. New SVG uploaded as editable vectors.
+Remote screenshot/readback NotRun under previously confirmed Starter MCP call quota.
+Reward values, owned-vs-cumulative counting, claiming method and repeatability are not specified by this UI.
+No new UE/UMG runtime implementation, gameplay rule/data changes, or PC/Android execution.
+
+Final checks:
+node tools/build-planning.mjs: Generated 10 topic documents / 20 GDD chapters.
+node tools/check-project.mjs: PASS. Data checks 21496, planning checks 6642, errors 0; tasks 38 / QA 94 unchanged; code style errors 0.
+git diff --check: Exit 0, no output.

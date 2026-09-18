@@ -1,0 +1,84 @@
+RUN-20260917-01
+Geometry, original hashes and rendered pixel comparison:
+{
+  "version": 2,
+  "cellSizePx": 120,
+  "allRouteWidthsPx": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+  ],
+  "originalFigmaNode": "2:2",
+  "width": 3520,
+  "height": 2620,
+  "screens": 2,
+  "gridColumns": 6,
+  "gridRows": 3,
+  "cellsPerScreen": 36,
+  "totalCellRectangles": 72,
+  "rectangles": 222,
+  "textNodes": 162,
+  "uniqueIds": 525,
+  "embeddedImages": 0,
+  "nonRectangularShapes": 0,
+  "source": "SVG rect/text/group only",
+  "figmaFile": "w50Z6dSdg76QxF3ilaRpqB",
+  "geometryVerified": {
+    "squareCellCount": 72,
+    "pathSegments": 14,
+    "equalPathWidth": 120,
+    "noRegionGapsOrOverlaps": true
+  },
+  "originalPreservation": {
+    "fileCount": 13,
+    "hashesUnchanged": true,
+    "figmaOriginalNode": "2:2",
+    "pixelComparisons": [
+      {
+        "screen": "01-ingame-default",
+        "changedPixels": 320817,
+        "changedOutsideBattlefield": 0
+      },
+      {
+        "screen": "02-ingame-selection",
+        "changedPixels": 333889,
+        "changedOutsideBattlefield": 0
+      }
+    ]
+  },
+  "figmaReadback": "Unavailable: Starter MCP tool limit on 2026-09-17.",
+  "figma": {
+    "url": "https://www.figma.com/design/w50Z6dSdg76QxF3ilaRpqB?node-id=15-2",
+    "nodeId": "15:2",
+    "originalNodeId": "2:2",
+    "uploadSuccess": true,
+    "contentType": "image/svg+xml",
+    "screenshotVerified": false
+  },
+  "localVisualReview": true
+}
+
+Figma upload response:
+{"success":true,"imageHash":"d47ddd892bebc7d7839faf4aaaba683bce37b0a3","sizeBytes":74758,"contentType":"image/svg+xml","placedOnNodeId":"15:2"}
+Original node 2:2 was never passed to any mutation. New SVG was uploaded without a target node.
+Figma readback: Starter MCP quota; NotRun. Local overview and selection preview visually inspected.
+
+Final documentation validation:
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 6333,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 94,
+  "errors": []
+}
+Exit: 0
+> git diff --check
+Exit: 0

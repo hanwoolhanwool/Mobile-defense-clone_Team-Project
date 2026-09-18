@@ -1,13 +1,13 @@
 ---
 id: DOC-TEMPLATES
-version: 0.2.0
+version: 0.3.0
 status: Baseline
 owner: Codex
 updated: 2026-09-14
 reviewed: 2026-09-14
-review_run: RUN-20260914-01
+review_run: RUN-20260914-05
 applies_to: 문서·작업·검수 작성 양식
-baseline_basis: DEC-023 사용자 보완 진행 지시
+baseline_basis: DEC-023 문서 운영 및 DEC-026 구현 설계 규약 보완 지시
 ---
 
 # 실무 템플릿
@@ -82,6 +82,25 @@ TASK-ECON-01의 작성 양식이다. 경제·확률·빈 칸 처리·보장은 D
 Done 판정 시 verification.json의 조건별 Pass·실행·증거 연결:
 남은 문제:
 ```
+
+<a id="implementation-note"></a>
+
+## 구현 설계 메모 — 책임·상태·호출 관계가 바뀌는 작업
+
+[구현 설계 규약](technical/ARCHITECTURE.md#implementation-rules)을 적용하는 짧은 메모다. 작업 이슈나 PR에 작성하고 같은 내용을 별도 문서로 복제하지 않는다. 기존 경계를 그대로 따르면 해당 절과 실제 코드 경로만 연결한다. 단순 서식·문구 변경에는 작성하지 않는다.
+
+```markdown
+연결 작업·기능 / 기존 설계 절:
+책임과 코드 경로: 요청 진입 → 처리 조정 → 규칙·상태 → 표시
+상태: 원본 보관 위치 / 변경 담당·API / 조회·복제본
+호출 관계: 추가되는 의존 방향 / 생성·연결 주체
+실패: 함께 확정할 상태 / 준비 취소·부분 변경 복구 / 중복 요청
+수명: 초기화·종료 / 재연결·화면 재생성 / 구독·타이머·늦은 콜백
+검증: 계산 테스트 / 통합·실패 주입 / 실제 실행 중 필요한 항목
+기존 설계와 다른 점·이유: 해당할 때만 작성
+```
+
+소환 작업에서는 [15.6의 처리 흐름](technical/ARCHITECTURE.md#summon-example)을 출발점으로 삼는다. 예를 들어 배치 준비 실패 시 재화·RNG가 그대로이고 임시 액터가 정리되는지, 동일 요청의 재전송에 소비가 한 번만 발생하는지를 [15.7의 검수 사례](technical/ARCHITECTURE.md#implementation-review)와 실제 테스트 경로로 연결한다. 이 양식을 채운 것과 구현·검수 완료는 구분한다.
 
 ## 기획 변경 제안
 

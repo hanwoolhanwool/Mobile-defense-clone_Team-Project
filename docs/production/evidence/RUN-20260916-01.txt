@@ -1,0 +1,182 @@
+RUN-20260916-01
+Recorded: 2026-09-16T06:12:24.6659004+09:00
+Scope: branch names, commit metadata inspection, working-copy preservation, documentation references
+No commit content was rewritten. Existing uncommitted changes were not committed.
+
+> node Saved/GitMaintenance/verify-branch-rename.mjs
+file:///C:/Users/iam12/Mobile_defense_clone/Saved/GitMaintenance/verify-branch-rename.mjs:35
+      if (!allowed.has(file)) throw new Error(`Unexpected linked-worktree change: ${worktree.cwd}/${file}`);
+                                    ^
+
+Error: Unexpected linked-worktree change: C:/Users/iam12/Mobile_defense_reference_p0/Source/Mobile_defense_clone/Battle/LDBattleSubsystem.cpp
+    at file:///C:/Users/iam12/Mobile_defense_clone/Saved/GitMaintenance/verify-branch-rename.mjs:35:37
+    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+    at async node:internal/modules/esm/loader:639:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.15.0
+
+During final verification, Source changes appeared in the reference worktree after the rename snapshot.
+These files were not modified by this operation and are left untouched. Verification below separates them from the 34 intended learning-document edits.
+> node Saved/GitMaintenance/verify-branch-rename.mjs
+{
+  "result": "PASS",
+  "preservedBranchTips": 9,
+  "preservedWorktreeHeads": 5,
+  "learningReferenceOnlyEdits": 34,
+  "unchangedOtherPreexistingWork": true,
+  "toolMarkersInCommitMetadata": 0,
+  "toolMarkersInBranchNames": 0,
+  "unrelatedNewChangesObservedAndLeftUntouched": [
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Battle/LDBattleSubsystem.cpp"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Battle/LDEnemyActor.cpp"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Battle/LDEnemyActor.h"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Battle/LDWaveDirector.cpp"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Battle/LDWaveDirector.h"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Board/LDBoardManager.cpp"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Board/LDBoardManager.h"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Data/LDGameRules.cpp"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Data/LDGameRules.h"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "Source/Mobile_defense_clone/Tests/LDCombatTests.cpp"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "tools/Create-ReferenceWorkshop.py"
+    },
+    {
+      "worktree": "C:/Users/iam12/Mobile_defense_reference_p0",
+      "file": "tools/build-design-data.mjs"
+    }
+  ]
+}
+> git branch -avv
+* docs/operations-baseline                a931387 [origin/docs/operations-baseline] docs(style): 코드 규약 CI 성공 증거 기록
++ learn/p0-a                              8e54b7f (C:/Users/iam12/Mobile_defense_learn_p0_a) fix(tooling): keep generated Unreal token in local override
++ learn/p0-b                              8e54b7f (C:/Users/iam12/Mobile_defense_learn_p0_b) fix(tooling): keep generated Unreal token in local override
+  learn/p0-base                           8e54b7f fix(tooling): keep generated Unreal token in local override
++ learn/p0-integration                    8e54b7f (C:/Users/iam12/Mobile_defense_learn_p0_integration) fix(tooling): keep generated Unreal token in local override
+  main                                    c366829 [origin/main] Initial commit
+  reference/p0-a                          a09615f feat(combat): implement A reference match combat waves and learning steps
+  reference/p0-b                          c3c3bea feat(reference): integrate P0 board economy commands and touch HUD
+  reference/p0-common                     27c879f chore(android): pin P0 reference tools and preserve learning baseline
++ reference/p0-integration                4b03bb9 (C:/Users/iam12/Mobile_defense_reference_p0) docs(learning): adopt parallel P0 foundation implementation and handoffs
+  remotes/origin/HEAD                     -> origin/main
+  remotes/origin/docs/operations-baseline a931387 docs(style): 코드 규약 CI 성공 증거 기록
+  remotes/origin/main                     c366829 Initial commit
+> node tools/check-project.mjs
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21483,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 4956,
+  "markdownFiles": 44,
+  "metadataDocuments": 29,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+> node tools/check-code-style.mjs
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+> gh pr checks 2
+documentation	pass	14s	https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/actions/runs/35023776132/job/104565711252	
+Worktree: C:/Users/iam12/Mobile_defense_learn_p0_a
+> node learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 3,
+  "markdownFiles": 23,
+  "localLinks": 170,
+  "errors": []
+}
+> git diff --check -- learning
+Exit code: 0
+
+Worktree: C:/Users/iam12/Mobile_defense_learn_p0_b
+> node learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 3,
+  "markdownFiles": 23,
+  "localLinks": 170,
+  "errors": []
+}
+> git diff --check -- learning
+Exit code: 0
+
+Worktree: C:/Users/iam12/Mobile_defense_learn_p0_integration
+> node learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 3,
+  "markdownFiles": 23,
+  "localLinks": 170,
+  "errors": []
+}
+> git diff --check -- learning
+Exit code: 0
+
+Worktree: C:/Users/iam12/Mobile_defense_reference_p0
+> node learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 3,
+  "markdownFiles": 36,
+  "localLinks": 309,
+  "errors": []
+}
+> git diff --check -- learning
+Exit code: 0
+
+> Final node tools/validate-planning.mjs after updating the run record
+{
+  "result": "PASS",
+  "checks": 4956,
+  "markdownFiles": 44,
+  "metadataDocuments": 29,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+Final git diff --check: PASS

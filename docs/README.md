@@ -1,20 +1,46 @@
 # 기획 허브
 
+**현재 상태:** [기존 P0 구현·A/B 학습 초기화 완료](production/P0_RESET.md). 기본 프로젝트와 최신 기획에서 새로 시작하며 P0 기능·수업은 미착수다.
+
+**단계 반영 확인:** [P0·P1·P2 로드맵](production/ROADMAP.md#phase-plan) · [초기화 전 단계 반영 점검 이력](production/PHASE_ALIGNMENT.md).
+
+**현재 규칙:** DEC-043~047, P0 일반~전설16종·기본100/20·보스2/60초, P1 보통/어려움80웨이브·사냥/미션/던전·보물/유물/펫 실제 시스템. [확정표와 남은 일](design/P0_REPLAN.md), 데이터 Schema2/Rules0.3.0. UI 원본은 보존하고 수치/조건은 최신 규칙에 연결한다.
+
+**지금의 시작점:** [촬영본 분석 18종](product/CAPTURE_ANALYSIS_20260916.md) → [P0 재기획·A/B 동시 개발·검수](design/P0_REPLAN.md). 2.0.12 촬영본을 기준으로 구도를 다시 맞추며, 이전 프로토타입의 4×3·경제 수치는 새 확정값이 아니다.
+
+**현재 UI 디자인:** [v2 도안·요소별 좌표/비율](design/BOARD_UI.md#ingame-ui-v2) · [Figma 수정본](https://www.figma.com/design/w50Z6dSdg76QxF3ilaRpqB?node-id=15-2). 1080×2340 기준, 개인 6열×3행·칸 120×120px·모든 이동 통로 폭 120px. 원본 v1은 보존하고 v2를 현재 기준으로 적용한다(DEC-040).
+
+**상세 패널 디자인:** [신화·강화·룰렛·설정 명세/개별 이미지](design/BOARD_UI.md#ingame-ui-panels) · [Figma 4개 화면](https://www.figma.com/design/w50Z6dSdg76QxF3ilaRpqB?node-id=22-2). DEC-041로 화면 배치·구성을 채택했으며 개발/QA 기준에 연결했다. 비용·확률·레벨·설정 기본값은 확인된 데이터로 연결한다.
+
+**미션 디자인:** [현재 미션 UI 명세/이미지](design/BOARD_UI.md#mission-ui) · [Figma](https://www.figma.com/design/w50Z6dSdg76QxF3ilaRpqB?node-id=28-2). DEC-042로 조건·수집/수량 진척·보상·완료 표시·스크롤/닫기 구성을 문서 기준으로 반영했다. 집계와 보상 지급 규칙은 별도로 확인한다.
+
 **이 페이지를 시작점으로 사용합니다.** 제품 방향, 기능별 규칙, 개발 작업, 결정 기록을 여기서 찾을 수 있습니다.
 
-모바일 우선 · UE5 · 3D 협동 디펜스 · 문서 체계 0.2 · 정리일 2026-09-13
+모바일 우선 · UE5 · 3D 협동 디펜스 · 문서 체계 0.2 · 정리일 2026-09-15
+
+**완료 목표:** [개발 계획서](production/DEVELOPMENT_PLAN.md). 9/21 시작 · P0 10/16 · P1 핵심11/13/전체11/20 · 외부2인 최소 전투11/6 · P2 기능12/4 · 최종 검수12/11 · 인수12/22. 하루8시간은 계획 가정이며 P2 선행과 P1 마무리 각2일 교환으로 총 공수를 유지한다.
 
 ## 지금 볼 곳
 
 | 하려는 일 | 문서 |
 |---|---|
+| 전체 범위·일정·공수 확인 | [개발 계획서](production/DEVELOPMENT_PLAN.md) |
+| A의 P0~P2 작업·주별 산출물·검수 확인 | [A 개발 문서 — 전투·웨이브·서버](production/DEVELOPMENT_A.md) |
+| B의 P0~P2 작업·주별 산출물·검수 확인 | [B 개발 문서 — 경제·보드·계정/로비](production/DEVELOPMENT_B.md) |
+| 처음 참여해서 초기 설정 후 A안·B안으로 개발 시작 | [처음 시작하기 — 공통 설정·역할별 첫 작업·통합](GETTING_STARTED.md) |
 | 전체 개발 과정과 현재 위치를 한눈에 확인 | [전체 개발 과정과 현재 진행 상황](production/PROJECT_STATUS.md) |
+| A/B 담당 범위·Blueprint 사용·학습과 통합 책임 확인 | [2인 개발 역할과 협업](production/TEAM_ROLES.md) |
+| A 담당 코드·Unreal 설정·단계별 검수 설계 | [A 구현 설계 — 전투·웨이브](technical/IMPLEMENTATION_A.md) |
+| B 담당 코드·Unreal 설정·단계별 검수 설계 | [B 구현 설계 — 경제·보드](technical/IMPLEMENTATION_B.md) |
+| 함께 사용할 API·초기화·통합·학습 산출물 확인 | [A/B 공통 구현 계약](technical/IMPLEMENTATION_SHARED.md) |
 | 개발 전 도구·프로젝트·Android 세팅 확인 | [사전 준비·세팅 한눈에 보기](technical/SETUP_CHECKLIST.md) |
 | 개발 착수 가능 범위와 남은 선행 조건 확인 | [개발 전 문서 검토 종합](production/DEVELOPMENT_READINESS.md) |
 | 어떤 게임인지, MVP에 무엇이 포함되는지 확인 | [제품 방향과 범위](product/OVERVIEW.md) |
+| 현재 인게임 UI 도안·치수·정사각형/통로 비율 확인 | [전장·모바일 UI v2 명세](design/BOARD_UI.md#ingame-ui-v2) |
 | 원작 재현 근거와 미확인 동작 확인 | [원작 대조 기록](product/ORIGINAL_REFERENCE.md) |
 | 현재 프로젝트에서 개발 시작 | [개발 환경과 프로젝트 시작 안내](technical/DEVELOPMENT_SETUP.md) |
 | C++·Blueprint 작성·리뷰 | [코드 작성 규약](technical/CODING_STANDARD.md) · [클래스·폴더·데이터 규칙](technical/NAMING_AND_STRUCTURE.md) |
+| 기능의 책임·호출 관계·상태 소유권 설계 | [구현 설계 규약·소환 예시·검수 기준](technical/ARCHITECTURE.md#implementation-rules) · [설계 메모 양식](TEMPLATES.md#implementation-note) |
 | 코드 포맷 설치·자동 검사 | [코드 스타일 설정과 검사](technical/CODE_STYLE.md) |
 | 빌드·실행 명령과 로그 확인 | [PowerShell 빌드·실행 절차](technical/BUILD_RUN.md) |
 | 언리얼 내부 콘솔·MCP 서버·성능 명령 확인 | [언리얼 내부 콘솔 주요 명령어](technical/UNREAL_CONSOLE_COMMANDS.md) |
@@ -28,17 +54,23 @@
 
 ## 현재 기준
 
-2026-09-14 문서 운영 보완과 main 보호 규칙을 적용했습니다. [초안 PR #1](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/1)에서 GitHub CI를 사용합니다. DEC-025로 C++·Blueprint 작성 규약, 클래스·폴더·데이터 규칙, .editorconfig·.clang-format과 새 코드·수정 코드 포맷 검사를 추가했습니다. 사용 명령과 기존 템플릿 이행 범위는 [코드 스타일 안내](technical/CODE_STYLE.md), 실제 검증은 [실행 기록](production/TEST_RUNS.md)을 확인합니다.
+DEC-030/031의 전장은 두 참가자 화면 모두 **좌측 상단·좌측 하단에서 생성**하고 중앙에서 **왼쪽→오른쪽으로 합류**한다. 자기 보드는 아래쪽에 유지한다. [전장·카메라 명세](design/BOARD_UI.md)와 [2인 PIE 검수 절차](technical/EDITOR_TOOLS.md#pie-spawn-check)를 따른다.
+
+DEC-027에 따라 학습 목적의 2인 개발은 **A 전투·웨이브 / B 경제·보드**로 진행합니다. 두 사람 모두 C++·Blueprint·UI·네트워크·검수를 맡으며 Android 빌드는 A, PC 2인 검수는 B가 주관합니다. [역할·협업 기준](production/TEAM_ROLES.md)과 [작업별 계획 역할](production/BOARD.md)을 반영했습니다. 주 5일 병행은 DEC-038로 확정했으며 A/B에 대응하는 실제 팀원·하루 가용 시간은 미정입니다. 개발 작업 상태는 유지합니다.
+
+DEC-026으로 구현 설계 규약을 보완했습니다. 클래스 책임, 허용 의존 관계, 상태 원본과 변경 경로, 공동 확정·종료 규칙을 [아키텍처 15.5~15.7](technical/ARCHITECTURE.md#implementation-rules)에 두고 코드 규약·PR 검수에 연결했습니다. 소환 흐름과 테스트 사례는 첫 기능 구현 기준이며 실제 구현·검증 완료를 뜻하지 않습니다.
+
+2026-09-14 문서 운영 보완과 main 보호 규칙을 적용했습니다. 2026-09-16 브랜치명 변경 후 현재 [초안 PR #2](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/pull/2)에서 GitHub CI를 사용합니다. DEC-025로 C++·Blueprint 작성 규약, 클래스·폴더·데이터 규칙, .editorconfig·.clang-format과 새 코드·수정 코드 포맷 검사를 추가했습니다. 사용 명령과 기존 템플릿 이행 범위는 [코드 스타일 안내](technical/CODE_STYLE.md), 실제 검증은 [실행 기록](production/TEST_RUNS.md)을 확인합니다.
 
 2026-09-13 TASK-CORE-01의 Windows 기반 검증을 완료했습니다. VS 2026·MSVC·SDK를 적용하고 별도 복사본의 빌드·패키징·기본 맵 입력/종료를 확인했습니다. 한국어 Editor의 엔진 시작 검사 문제와 Android 미검증은 [실행 기록](production/TEST_RUNS.md)에 남겼으며 엔진 최종 고정·P0 완료는 아직입니다.
 
 6개 문서 검토 항목의 [종합 결과](production/DEVELOPMENT_READINESS.md)를 정리했습니다. Windows 준비 이후 Android 도구·패키징 준비로 이어갈 수 있으며, 원작 규칙 확정·기기 선정·실행 검증의 남은 조건은 영향을 받는 작업별로 연결했습니다. 문서 정리 완료가 게임 전체의 구현 준비·빌드 성공을 뜻하지 않습니다.
 
-DEC-022로 원작 대조 대상은 공식 스토어에서 확인한 Android 2.0.11 · 보통 모드로 정했습니다. 해당 버전의 실제 동작 검증과 남은 입력 조건은 OPEN-009에서 관리합니다. 영상으로 확인한 합성·판매·배치 사례는 원작 대조 기록의 OBS-06~09를 참조합니다.
+DEC-032로 이번 화면 대조에는 사용자 촬영본의 2.0.12 · 보통 모드를 적용합니다. [18종 분석](product/CAPTURE_ANALYSIS_20260916.md)에서 확인된 화면과 미확인 규칙을 구분했습니다. DEC-022의 2.0.11과 과거 영상 OBS-06~09는 이전 조사 이력으로 보존하며, 현재 버전에서의 실제 입력·결과 검증은 OPEN-009로 관리합니다.
 
 DEC-021에 따라 게임 규칙·조작은 원작 재현을 우선합니다. 기존 자체 수치·편의 기능은 원작 대조 전까지 구현 기준으로 확정하지 않습니다. 개발 환경과 P0 중간 검증 범위에 대한 기존 사용자 결정은 유지합니다.
 
-사용자가 확정한 조건은 UE5, 3D 에셋, 원작을 참고한 디펜스, 모바일 우선입니다. 세로 화면, Android→iOS 검증 순서, 2인·30웨이브·수치·일정은 작업용 설계 기준입니다. 확정 근거와 가정은 [DEC-LOG](DECISIONS.md)에서 관리합니다.
+사용자가 확정한 조건은 UE5, 3D 에셋, 원작을 참고한 디펜스, 모바일 우선입니다. 세로 화면·2인 협동·P0 10/P1 80웨이브와 확정 규칙을 따릅니다. Android→iOS 검증 순서·실전 수치·공수는 작업용 기준이며 실제 검수가 필요합니다. 확정 근거와 가정은 [DEC-LOG](DECISIONS.md)에서 관리합니다.
 
 현재 `Mobile_defense_clone` 프로젝트·모듈을 유지하고 디펜스 전용 구조를 추가하는 방향을 사용자와 확정했습니다(DEC-008). 소스는 기존 모듈 안에, 전용 콘텐츠는 `Content/LD/` 아래에 구성합니다. 설치 환경과 후속 결정은 개발 시작 안내에서 관리합니다. 기존 게임 기능을 전수 검증하지 않았으며, 기획 문서가 있다고 구현이 완료된 것으로 표시하지 않습니다.
 
@@ -73,6 +105,7 @@ DEC-021에 따라 게임 규칙·조작은 원작 재현을 우선합니다. 기
 | 항목 | 원본과 역할 |
 |---|---|
 | 작업 상태·실제 담당자 | [작업 보드](production/BOARD.md). 현재 유일한 진행 상태 원본 |
+| 역할별 책임·학습·통합 기준 | [2인 개발 역할](production/TEAM_ROLES.md). 작업별 계획 역할은 보드, A/B에 대응하는 실명·가용 시간은 OPEN-001에서 확인 |
 | 작업 정의·선행 조건·완료 기준 | [백로그와 QA 명세](BACKLOG_QA.md). 작업은 `TASK-` 접두사로 인용 |
 | QA 기대 결과 | [백로그와 QA 명세](BACKLOG_QA.md). 테스트는 `QA-` 접두사로 구분 |
 | 테스트 실행 결과·증거 | [검수 기록](production/TEST_RUNS.md). 시나리오 목록과 실제 통과를 구분 |

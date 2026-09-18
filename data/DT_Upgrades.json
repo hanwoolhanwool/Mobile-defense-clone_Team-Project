@@ -1,18 +1,46 @@
 [
   {
-    "Name": "AttackTraining",
-    "MaxLevel": 8,
-    "BaseCost": 60,
-    "CostIncrement": 40,
-    "Stat": "AttackPct",
-    "ValuePerLevel": 0.1
+    "Name": "Attack_CommonRare",
+    "Currency": "Gold",
+    "Grades": "Common,Rare",
+    "MaxLevel": 10,
+    "BaseCost": 50,
+    "CostIncrement": 25,
+    "Stat": "BaseAttackPct",
+    "ValuePerLevel": 0.5,
+    "SuccessWeight": 10000
   },
   {
-    "Name": "DeviceHaste",
-    "MaxLevel": 5,
-    "BaseCost": 80,
-    "CostIncrement": 60,
-    "Stat": "AttackSpeedPct",
-    "ValuePerLevel": 0.05
+    "Name": "Attack_Epic",
+    "Currency": "Gold",
+    "Grades": "Epic",
+    "MaxLevel": 10,
+    "BaseCost": 100,
+    "CostIncrement": 50,
+    "Stat": "BaseAttackPct",
+    "ValuePerLevel": 0.5,
+    "SuccessWeight": 10000
+  },
+  {
+    "Name": "Attack_LegendaryMythic",
+    "Currency": "Stars",
+    "Grades": "Legendary,Mythic",
+    "MaxLevel": 10,
+    "BaseCost": 2,
+    "CostIncrement": 1,
+    "Stat": "BaseAttackPct",
+    "ValuePerLevel": 0.5,
+    "SuccessWeight": 10000
+  },
+  {
+    "Name": "SummonOdds",
+    "Currency": "Gold",
+    "Grades": "AllSummonable",
+    "MaxLevel": 10,
+    "BaseCost": 100,
+    "CostIncrement": 50,
+    "Stat": "SummonProfileLevel",
+    "ValuePerLevel": 1,
+    "SuccessWeight": 10000
   }
 ]

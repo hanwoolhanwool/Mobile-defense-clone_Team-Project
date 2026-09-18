@@ -1,0 +1,108 @@
+RUN-20260917-08 · 2026-09-17 · Codex
+Scope: development planning and schedule documentation.
+Start changed to 2026-09-21 Monday; existing 2026-12-22 completion target retained.
+No game rules, generated data, UE runtime, UI assets or task completion states changed in this update.
+
+Calendar arithmetic and weekly row comparison across development plan / A / B
+Exit code: 0
+{
+  "result": "PASS",
+  "start": "2026-09-21 Monday",
+  "endTarget": "2026-12-22 Tuesday",
+  "weeklyRows": 14,
+  "roleTablesMatch": true,
+  "weekdaysPerPerson": 67,
+  "leaveReserve": 5,
+  "finalBuffer": 7,
+  "mainWorkdays": 55,
+  "p0MainWorkdays": 16,
+  "mainHoursPerPerson": 440,
+  "teamMainHours": 880
+}
+
+node tools/validate-planning.mjs
+Exit code: 0
+{
+  "result": "PASS",
+  "checks": 6552,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 102,
+  "errors": []
+}
+
+node --test tools/validate-planning.test.mjs
+Exit code: 0
+✔ a clean checkout of validation inputs passes (729.4893ms)
+✔ a new technical document without metadata fails (662.2793ms)
+✔ metadata is checked outside the GDD source list (618.0049ms)
+✔ a fabricated run cannot complete a task (646.2601ms)
+✔ a failing run cannot justify Done (622.2716ms)
+✔ the run result must match the execution record (619.2656ms)
+✔ an unexecuted acceptance criterion cannot justify Done (602.8861ms)
+✔ Done requires a completion record (603.3384ms)
+✔ missing evidence fails (622.9983ms)
+✔ altered archived evidence fails its hash (613.0725ms)
+✔ a stale status summary fails (612.5115ms)
+✔ a completed task cannot be the next action (627.1558ms)
+✔ a stale GDD reading copy fails (631.989ms)
+✔ check-only data detects drift without repairing the file (390.1917ms)
+✔ check-only report detects drift without repairing the file (412.0595ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9110.4051
+
+node tools/build-design-data.mjs --check
+Exit code: 0
+Checked 8 DataTables and GameRules.json
+
+git diff --check
+Exit code: 0
+
+
+Calendar verification script (executed inline; no permanent test added):
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const base='docs/production/';
+const read=f=>fs.readFileSync(base+f,'utf8');
+const rows=s=>s.split(/\r?\n/).filter(l=>/^\| W\d{2} · /.test(l)).map(l=>l.split('|').slice(1,-1).map(v=>v.trim()));
+const all=rows(read('DEVELOPMENT_PLAN.md')),a=rows(read('DEVELOPMENT_A.md')),b=rows(read('DEVELOPMENT_B.md'));
+assert.equal(all.length,14);assert.equal(a.length,14);assert.equal(b.length,14);
+const date=s=>{const[m,d]=s.split('/').map(Number);return new Date(Date.UTC(2026,m-1,d));};
+const weekdays=(start,end)=>{let n=0;for(let t=+start;t<=+end;t+=86400000){const day=new Date(t).getUTCDay();if(day!==0&&day!==6)n++;}return n;};
+let calendar=0,reserve=0,buffer=0,previousEnd;
+for(let i=0;i<all.length;i++){
+ const row=all[i];
+ assert.match(row[0],new RegExp('^W'+String(i+1).padStart(2,'0')+' · '));
+ assert.deepEqual(a[i],[row[0],row[1],row[2],row[4]]);
+ assert.deepEqual(b[i],[row[0],row[1],row[3],row[4]]);
+ const [start,end]=row[0].split(' · ')[1].split('~').map(date);
+ assert.equal(start.getUTCDay(),1);
+ assert.ok(!previousEnd||start>previousEnd);
+ if(previousEnd)assert.equal((+start-previousEnd)/86400000,3);
+ previousEnd=+end;
+ const count=weekdays(start,end);
+ assert.equal(Number(row[1].match(/\d+/)[0]),count);
+ calendar+=count;reserve+=Number(row[1].match(/휴무 예비(\d+)/)?.[1]??0);
+ if(row[1].startsWith('수정 여유'))buffer+=count;
+}
+assert.equal(+date(all[0][0].split(' · ')[1].split('~')[0]),Date.UTC(2026,8,21));
+assert.equal(previousEnd,Date.UTC(2026,11,22));
+assert.equal(calendar,67);assert.equal(reserve,5);assert.equal(buffer,7);
+assert.equal(calendar-reserve-buffer,55);
+const stageRanges=[['9/21','10/16',20,4,16],['10/19','11/13',20,1,19],['11/16','12/4',15,0,15],['12/7','12/11',5,0,5],['12/14','12/22',7,0,7]];
+for(const[start,end,gross,leave,net]of stageRanges){assert.equal(weekdays(date(start),date(end)),gross);assert.equal(gross-leave,net);}
+const plans=['DEVELOPMENT_PLAN.md','DEVELOPMENT_A.md','DEVELOPMENT_B.md'].map(read);
+for(const p of plans){
+ assert.ok(p.includes('2026-09-21'));assert.ok(p.includes('P0 핵심 기획')||p.includes('P0 구현을 시작하는 데 필요한 핵심 기획'));
+ assert.ok(p.includes('밸런스'));assert.ok(p.includes('실기기'));
+ assert.ok(!/9\/16~|2026-09-16\(수\)|W15/.test(p));
+}
+console.log(JSON.stringify({result:'PASS',start:'2026-09-21 Monday',endTarget:'2026-12-22 Tuesday',weeklyRows:14,roleTablesMatch:true,weekdaysPerPerson:calendar,leaveReserve:reserve,finalBuffer:buffer,mainWorkdays:55,p0MainWorkdays:16,mainHoursPerPerson:440,teamMainHours:880},null,2));

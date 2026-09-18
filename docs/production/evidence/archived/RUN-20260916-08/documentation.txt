@@ -1,0 +1,30 @@
+RUN-20260916-08 — unit stack and selection planning, 2026-09-16
+GDD generated successfully with node tools/build-planning.mjs.
+No game runtime, generated data, or map changes.
+Source photo copied byte-for-byte: 958674 bytes; SHA256 6ac36dc40eacb331e5deaeb6acdda3d0d1727c20b85811262ca88e98fc6cf735.
+
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 5891,
+  "markdownFiles": 48,
+  "metadataDocuments": 31,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 94,
+  "errors": []
+}
+exit=0
+
+> node learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 2,
+  "markdownFiles": 15,
+  "localLinks": 115,
+  "errors": []
+}
+exit=0
+
+> git diff --check
+exit=0

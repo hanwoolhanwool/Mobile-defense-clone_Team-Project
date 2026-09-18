@@ -12,9 +12,11 @@
 | DT_EnemyTypes.json | 일반 적·보스 스탯 |
 | DT_Waves.json | 웨이브 생성·보상 |
 | DT_SpawnProfiles.json | 적 유형 수량 배분 |
-| DT_SummonProfiles.json | 기본·보장·P0 확률 |
+| DT_SummonProfiles.json | 유료소환11단계·룰렛3종·P0공통0단계 |
 | DT_Upgrades.json | 강화 비용·효과 |
 | GameRules.json | 공용 설정과 P0 오버라이드 |
+
+현재 GameRules는 SchemaVersion=2 / RulesVersion=0.3.0입니다. P0 활성16종·100/20 기본·113/26 시험,80웨이브(현재 P0는10까지),두 중앙공유 경로·칸기준 사거리·단계별 확률/강화·무웨이브보상을 반영했습니다. 고유스킬/신화/레시피는 DeferredConcept 비활성입니다. UE 로더/구현은 새 스키마로 작성해야 하며 정적 검사가 실행 검수를 대신하지 않습니다.
 
 수치를 변경하면 관련 기능 명세의 설명·예시, QA 기대 결과, RulesVersion을 함께 검토합니다. 생성 뒤 validate-design-data를 실행합니다. 데이터 검증 보고서는 자동 생성되며 직접 수정하지 않습니다.
 

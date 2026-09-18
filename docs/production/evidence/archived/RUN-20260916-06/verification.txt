@@ -1,0 +1,33 @@
+RUN-20260916-06 — local P0 reset verification, 2026-09-16
+
+User authorization: delete existing P0/reference A/B implementation and P0 learning work, restart from revised planning.
+Deleted: 4 P0 worktrees, 8 local P0 branches, main learning/P0 directory.
+Old P0 editor PID 34400 closed. Removed 1 Unreal recent-project entry.
+Only C:/Users/iam12/Mobile_defense_clone remains registered as a worktree.
+Existing Git commit history was not rewritten. No matching remote reference/p0* or learn/p0* heads were returned by git ls-remote.
+
+Observed command results after documentation cleanup:
+> node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+exit=0
+
+> node tools/check-project.mjs
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+checks=21483, errors=[]
+> node tools/validate-planning.mjs
+PASS, checks=5694, markdownFiles=48, metadataDocuments=31, editableTopicDocuments=10, tasks=37, qaCases=88, errors=[]
+> node tools/check-code-style.mjs
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+exit=0
+
+> node learning/tools/validate.mjs
+PASS, phases=2, markdownFiles=15, localLinks=114, errors=[]
+exit=0
+
+> git diff --check
+No output, exit=0
+
+These are deletion/integrity/static documentation checks, not new P0 gameplay validation.
+Final SHA-256 comparison: 549 Source/Content/Config/data files unchanged. No LD game source or Content/LD remains in the active project.

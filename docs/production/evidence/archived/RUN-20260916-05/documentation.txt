@@ -1,0 +1,35 @@
+RUN-20260916-05: documentation only; no runtime changes or game execution.
+> C:\Users\iam12\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+
+
+exit=0
+> C:\Users\iam12\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 5625,
+  "markdownFiles": 47,
+  "metadataDocuments": 31,
+  "editableTopicDocuments": 10,
+  "tasks": 37,
+  "qaCases": 88,
+  "errors": []
+}
+
+
+exit=0
+> C:\Users\iam12\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 3,
+  "markdownFiles": 20,
+  "localLinks": 190,
+  "errors": []
+}
+
+
+exit=0
+> git diff --check
+
+
+exit=0

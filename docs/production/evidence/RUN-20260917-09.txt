@@ -1,0 +1,255 @@
+RUN-20260917-09 | 2026-09-17 | Executor: Codex
+Scope: schedule rebalance and merge cadence documentation. No Git merge, commit, push, or Unreal execution.
+Initial planning validation: FAIL, 6600 checks, 4 missing heading anchors for the new merge section.
+Correction: added explicit merge-cadence anchor and updated all 4 links.
+Final checks: build-planning; planning validator; learning validator; weekly projection/calendar/capacity assertions; input SHA-256 preservation; git diff --check.
+The work-capacity calculation does not verify actual implementation effort or delivery feasibility.
+
+{
+  "result": "PASS",
+  "scope": "Documentation, schedule arithmetic, row consistency, and preservation only. No Git merges or UE execution.",
+  "weeklyRows": 14,
+  "roleRowsMatch": true,
+  "perPerson": {
+    "p0": 16,
+    "p1": 19,
+    "p2": 15,
+    "qa": 5,
+    "buffer": 7,
+    "reserve": 5
+  },
+  "teamMainHours": 880,
+  "allocation": [
+    {
+      "week": 1,
+      "p0": 3,
+      "p1": 0,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 2,
+      "capacity": 5
+    },
+    {
+      "week": 2,
+      "p0": 5,
+      "p1": 0,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 3,
+      "p0": 3,
+      "p1": 0,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 2,
+      "capacity": 5
+    },
+    {
+      "week": 4,
+      "p0": 5,
+      "p1": 0,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 5,
+      "p0": 0,
+      "p1": 5,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 6,
+      "p0": 0,
+      "p1": 5,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 7,
+      "p0": 0,
+      "p1": 3,
+      "p2": 2,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 8,
+      "p0": 0,
+      "p1": 4,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 1,
+      "capacity": 5
+    },
+    {
+      "week": 9,
+      "p0": 0,
+      "p1": 2,
+      "p2": 3,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 10,
+      "p0": 0,
+      "p1": 0,
+      "p2": 5,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 11,
+      "p0": 0,
+      "p1": 0,
+      "p2": 5,
+      "qa": 0,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 12,
+      "p0": 0,
+      "p1": 0,
+      "p2": 0,
+      "qa": 5,
+      "buffer": 0,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 13,
+      "p0": 0,
+      "p1": 0,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 5,
+      "reserve": 0,
+      "capacity": 5
+    },
+    {
+      "week": 14,
+      "p0": 0,
+      "p1": 0,
+      "p2": 0,
+      "qa": 0,
+      "buffer": 2,
+      "reserve": 0,
+      "capacity": 2
+    }
+  ],
+  "planning": {
+    "result": "PASS",
+    "checks": 6601,
+    "markdownFiles": 51,
+    "metadataDocuments": 34,
+    "editableTopicDocuments": 10,
+    "tasks": 38,
+    "qaCases": 102,
+    "errors": []
+  },
+  "learning": "{\n  \"result\": \"PASS\",\n  \"phases\": 2,\n  \"markdownFiles\": 15,\n  \"localLinks\": 127,\n  \"errors\": []\n}",
+  "changedFiles": [
+    "docs/production/DEVELOPMENT_A.md",
+    "docs/production/DEVELOPMENT_B.md",
+    "docs/production/DEVELOPMENT_PLAN.md",
+    "docs/production/TEAM_ROLES.md",
+    "learning/WORKFLOW.md",
+    "docs/CHANGELOG.md",
+    "docs/DECISIONS.md",
+    "docs/GDD_행운공방디펜스_UE5.md",
+    "docs/README.md",
+    "docs/WORKFLOW.md",
+    "docs/production/PROJECT_STATUS.md",
+    "docs/production/ROADMAP.md",
+    "docs/production/TEST_RUNS.md"
+  ],
+  "newFiles": [
+    "docs/production/evidence/RUN-20260917-09.txt"
+  ],
+  "unchangedInputFiles": 767,
+  "diffCheck": "PASS"
+}
+
+One-off verification source (run with node outputs/schedule-rebalance/verify.mjs):
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {validatePlanning} from '../../tools/planning-checks.mjs';
+
+const read=f=>fs.readFileSync(f,'utf8').replaceAll('\r\n','\n');
+const rows=f=>read(f).split('\n').filter(l=>/^\| W\d\d /.test(l)).map(l=>l.split('|').slice(1,-1).map(x=>x.trim()));
+const plan='docs/production/DEVELOPMENT_PLAN.md';
+const a='docs/production/DEVELOPMENT_A.md',b='docs/production/DEVELOPMENT_B.md';
+const main=rows(plan),ar=rows(a),br=rows(b);
+assert.equal(main.length,14);
+assert.deepEqual(ar,main.map(r=>[r[0],r[1],r[2],r[4]]));
+assert.deepEqual(br,main.map(r=>[r[0],r[1],r[3],r[4]]));
+function date(s){const [m,d]=s.split('/').map(Number);return new Date(Date.UTC(2026,m-1,d));}
+function weekdays(start,end){let total=0;for(let d=date(start);d<=date(end);d.setUTCDate(d.getUTCDate()+1))if(d.getUTCDay()!==0&&d.getUTCDay()!==6)total++;return total;}
+const weeks=main.map((r,i)=>{
+  const [,n,start,end]=r[0].match(/^W(\d+) · (\d+\/\d+)~(\d+\/\d+)$/);
+  assert.equal(Number(n),i+1);
+  const days=weekdays(start,end);
+  assert.equal(days,Number(r[1].match(/\d+/)[0]));
+  return {week:Number(n),start,end,days,reserve:Number(r[1].match(/휴무 예비(\d+)/)?.[1]??0)};
+});
+assert.equal(weekdays('9/21','12/22'),67);
+assert.equal(date('9/21').getUTCDay(),1);
+assert.equal(date('12/22').getUTCDay(),2);
+assert.equal(weeks.reduce((n,w)=>n+w.days,0),67);
+assert.equal(weeks.reduce((n,w)=>n+w.reserve,0),5);
+assert.equal(weeks.slice(0,4).reduce((n,w)=>n+w.days-w.reserve,0),16);
+assert.equal(weeks.slice(4,8).reduce((n,w)=>n+w.days-w.reserve,0),19);
+assert.equal(weeks.slice(8,11).reduce((n,w)=>n+w.days-w.reserve,0),15);
+assert.equal(weeks[11].days,5);
+assert.equal(weeks.slice(12).reduce((n,w)=>n+w.days,0),7);
+// Calendar usage is counted once per person; P1 allocation retains old service prep.
+const allocation=weeks.map(w=>({week:w.week,p0:w.week<=4?w.days-w.reserve:0,p1:w.week===5?5:w.week===6?5:w.week===7?3:w.week===8?4:w.week===9?2:0,p2:w.week===7?2:w.week===9?3:[10,11].includes(w.week)?5:0,qa:w.week===12?5:0,buffer:w.week>=13?w.days:0,reserve:w.reserve,capacity:w.days}));
+for(const w of allocation)assert.equal(w.p0+w.p1+w.p2+w.qa+w.buffer+w.reserve,w.capacity,`Capacity W${w.week}`);
+const totals=Object.fromEntries(['p0','p1','p2','qa','buffer','reserve'].map(k=>[k,allocation.reduce((n,w)=>n+w[k],0)]));
+assert.deepEqual(totals,{p0:16,p1:19,p2:15,qa:5,buffer:7,reserve:5});
+assert.equal((totals.p0+totals.p1+totals.p2+totals.qa)*8*2,880);
+for(const file of [plan,a,b])for(const token of ['11/6','11/13','11/20','12/4','12/11','12/22'])assert.ok(read(file).includes(token),`${file}: ${token}`);
+for(const file of [plan,a,b])assert.ok(read(file).includes('2일'),'Exchange is documented');
+const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const before=JSON.parse(read('outputs/schedule-rebalance/before-hashes.json'));
+const allowed=new Set([...JSON.parse(read('outputs/schedule-rebalance/changed-files.json')),'docs/GDD_행운공방디펜스_UE5.md','docs/production/TEST_RUNS.md','docs/production/evidence/RUN-20260917-09.txt']);
+const changed=before.filter(x=>!fs.existsSync(x.path)||hash(x.path)!==x.sha256).map(x=>x.path);
+assert.deepEqual(changed.filter(f=>!allowed.has(f)),[],'Unexpected existing-file changes');
+const current=[...new Set(execFileSync('git',['ls-files','-c','-o','--exclude-standard','-z'],{encoding:'utf8'}).split('\0').filter(Boolean))];
+const oldPaths=new Set(before.map(x=>x.path));
+const added=current.filter(f=>!oldPaths.has(f)&&fs.existsSync(f));
+assert.deepEqual(added.filter(f=>!allowed.has(f)),[],'Unexpected new files');
+const planning=validatePlanning();
+assert.equal(planning.result,'PASS',JSON.stringify(planning.errors));
+const learning=execFileSync(process.execPath,['learning/tools/validate.mjs'],{encoding:'utf8'}).trim();
+const diff=execFileSync('git',['diff','--check'],{encoding:'utf8'});
+assert.equal(diff.trim(),'');
+const report={result:'PASS',scope:'Documentation, schedule arithmetic, row consistency, and preservation only. No Git merges or UE execution.',weeklyRows:14,roleRowsMatch:true,perPerson:totals,teamMainHours:880,allocation,planning,learning,changedFiles:changed,newFiles:added,unchangedInputFiles:before.length-changed.length,diffCheck:'PASS'};
+fs.writeFileSync('outputs/schedule-rebalance/verification.json',JSON.stringify(report,null,2));
+console.log(JSON.stringify(report,null,2));

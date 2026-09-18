@@ -1,0 +1,29 @@
+RUN-20260917-03
+Date: 2026-09-17
+Scope: Four new editable rectangle UI screens and PNG previews based on existing v2.
+Result: PASS (local structure, dimensions, visual review, Figma SVG upload).
+
+Primary artifact: outputs/ui-wireframe/panels-v1/four-screens-editable.svg
+Figma node: 22:2
+References: CAP-04, CAP-05, CAP-06, CAP-13, CAP-16; existing BOARD_UI settings options.
+
+Build: node outputs/ui-wireframe/panels-v1/build-panels.cjs
+Screens: 4 at 1080x2340; separate panel PNG previews: 4.
+Cell rectangles: 144, all 120x120; base v2 path geometry retained at width 120.
+Rectangles: 401; text nodes: 249; unique IDs: 866; embedded images: 0.
+Panel heights: 880, 620, 620, 880; max allowed 888 (40% of 2220).
+Panel element coordinate/bounds checks: 194 passed.
+Existing v1/v2 files: 28 SHA-256 hashes unchanged.
+Visual review: four-panels-preview.png and four-screens-preview.png inspected, PASS.
+
+Upload response:
+{"success":true,"imageHash":"ec9cb9a47be2a9d5bd7f8d8e4a0f10fc65c32fd4","sizeBytes":124539,"contentType":"image/svg+xml","placedOnNodeId":"22:2"}
+
+Remote Figma metadata/screenshot: NotRun; Starter MCP call limit confirmed by get_metadata.
+Original Figma nodes 2:2 and 15:2 were not mutation targets; SVG uploaded as a new vector node tree.
+Game data, UE world dimensions, gameplay rules, task state, and implementation were not changed.
+
+Final documentation checks:
+node tools/build-planning.mjs: Generated 10 editable topic documents / 20 chapters.
+node tools/check-project.mjs: PASS. Data generation check passed; data checks 21496, errors 0; planning checks 6520, errors 0, tasks 38, QA cases 94; code style errors 0.
+git diff --check: Exit 0, no output.

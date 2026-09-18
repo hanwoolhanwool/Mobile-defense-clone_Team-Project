@@ -1,9 +1,21 @@
 {
   "schemaVersion": 1,
-  "archived": "2026-09-14",
+  "archived": "2026-09-16",
   "archivedBy": "Codex",
   "policy": "docs/production/EVIDENCE.md",
   "files": [
+    {
+      "path": "docs/production/evidence/archived/RUN-20260915-04/documentation.txt",
+      "source": "Saved/DocumentationRuns/RUN-20260915-04/documentation.txt",
+      "bytes": 3816,
+      "sha256": "ec4eaa58e409f8536be12ec1367fbfcbfb6e18724b4a305ce5aae32e4398af72"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260915-03/documentation.txt",
+      "source": "Saved/DocumentationRuns/RUN-20260915-03/documentation.txt",
+      "bytes": 1484,
+      "sha256": "b92cadf38e81004d8cae63141349a7df90ad4b63e076e6cfc45c6d480db41673"
+    },
     {
       "path": "docs/production/evidence/archived/RUN-20260913-02/android-devices.txt",
       "source": "Saved/BuildRuns/RUN-20260913-02/android-devices.txt",
@@ -177,6 +189,294 @@
       "source": "Saved/BuildRuns/20260913-030434-725/runtime-observations.json",
       "bytes": 651,
       "sha256": "061c0c48a14ab5070a1ed706323cdb21af8beec97eddd004ba100af69c296e14"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/documentation.txt",
+      "source": "Saved/verify-capture-replan.py command outputs",
+      "bytes": 1389,
+      "sha256": "8d010ca8de1bb8e3471c3472c512ac94949fb75dae1a110b33744c89ea53576b"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/manifest.json",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진",
+      "bytes": 12845,
+      "sha256": "5e38d4930418d751e278070d731c2d7c33268eb684e6440a4a81a4b6bba5e1d2"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-00.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770.jpg",
+      "bytes": 946425,
+      "sha256": "7e9d0ec95213fcc96fef72a84a8320ca13e5d5eda6610bf5be2cd28c3bcfcbf6"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-00.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770.jpg",
+      "bytes": 440030,
+      "sha256": "88c959b081b4676e6e3db5660ee6503a7ed8ad361b3ca5155838a4b9e5335d31"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-01.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_01.jpg",
+      "bytes": 353926,
+      "sha256": "7c2f971cf3ceca18cfe11adb8affa66a763a4950240eebc98dded5bd6876ff9c"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-01.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_01.jpg",
+      "bytes": 353926,
+      "sha256": "7c2f971cf3ceca18cfe11adb8affa66a763a4950240eebc98dded5bd6876ff9c"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-02.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_02.jpg",
+      "bytes": 675820,
+      "sha256": "a583a8d7ebcf5bde996366097b1fea627cc8955d9bed2d1022fb8dba555d0e99"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-02.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_02.jpg",
+      "bytes": 248084,
+      "sha256": "5f422ca6f725fa83596b3f0fdd351ba9c46f781145079606539ee83b6723f3ca"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-03.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_03.jpg",
+      "bytes": 1021037,
+      "sha256": "dcc86216447409ee717a26d4c1ceba80aa80d193161adfb1858ef73eee939c21"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-03.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_03.jpg",
+      "bytes": 1021037,
+      "sha256": "dcc86216447409ee717a26d4c1ceba80aa80d193161adfb1858ef73eee939c21"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-04.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_04.jpg",
+      "bytes": 1014715,
+      "sha256": "e7902c67fcc0ba98231cf7cfb2625264e01938aa6cdd48903994c87081f25f07"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-04.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_04.jpg",
+      "bytes": 453106,
+      "sha256": "d72d621e2a2c1cf13a3d8d85c08ce9a9e4ba93257ec265b2ad9265850b161122"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-05.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_05.jpg",
+      "bytes": 998785,
+      "sha256": "f2e02b46301c46eb7aba087ed1dff4130e6083eea0e09b1b4aed41d950251e60"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-05.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_05.jpg",
+      "bytes": 405017,
+      "sha256": "814cbe896eb51a023e1f6e2c905ecac6b6bbd50e4cfd6260a47e6c536abc11d7"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-06.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_06.jpg",
+      "bytes": 1062552,
+      "sha256": "c0bf9299dfe0510aa964b71800f5ef15ee0425755561e84b420b3074692d0ee3"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-06.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_06.jpg",
+      "bytes": 446573,
+      "sha256": "3e988812b03a52e08aad85d030db6ca2a3af3492c7fc0694f359ba58a62fb447"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-07.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_07.jpg",
+      "bytes": 1197869,
+      "sha256": "8edd088cdd4ff4fb21b9d3dafc64bac1b84478b78407bc2777e1fdb66ff3e323"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-07.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_07.jpg",
+      "bytes": 478013,
+      "sha256": "75820c17d7dd658b251b322de45a9c7961726c76be579b49ad01ac3e69c4df52"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-08.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_08.jpg",
+      "bytes": 1227040,
+      "sha256": "0613186a42e13d5130aeae1a2b827afa37023666333c8273c42e105d9c84434e"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-08.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_08.jpg",
+      "bytes": 502118,
+      "sha256": "2f5355b077a6f85c9d008bc7a034ab9b784808985b5d7dc1a580bd62325d55c9"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-09.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_09.jpg",
+      "bytes": 746453,
+      "sha256": "ac65f9fec15fc760156f7783f1ff5c7d540723097744154f097894d4a18c642a"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-09.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_09.jpg",
+      "bytes": 746453,
+      "sha256": "ac65f9fec15fc760156f7783f1ff5c7d540723097744154f097894d4a18c642a"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-10.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_10.jpg",
+      "bytes": 839726,
+      "sha256": "83b0ef10d27d0ab7c53e7e28a053fd2c7792d376886484d3793cb5eb8622723c"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-10.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_10.jpg",
+      "bytes": 391840,
+      "sha256": "db3a7b86f2fc0f59e19416bb1e118e164c596dd717389c140a506c8c1a7edd6d"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-11.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_11.jpg",
+      "bytes": 1228335,
+      "sha256": "c79594ed97be0c3ca4d4c3ca62d0f683e71d4e0277dcd60f3845b5b2e0ef722a"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-11.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_11.jpg",
+      "bytes": 501900,
+      "sha256": "25856452acac41ccd6fc9e91488767681b8fc8e60d6145edb6da9a60066e56bd"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-12.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_12.jpg",
+      "bytes": 961243,
+      "sha256": "18c630ecbb706ffe50f15fd9aea41bad376fbf73a347629fc573a48012cf60ce"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-12.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_12.jpg",
+      "bytes": 432024,
+      "sha256": "6571edbfcb525c02aaa50f5cf9cac7742ce7f9cc0f512ad98b1fb56f733a27bb"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-13.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_13.jpg",
+      "bytes": 863066,
+      "sha256": "c7243a2a2268f36ca033b6f7fea056bae1286de7c9549ff59bd6ad0beb991633"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-13.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_13.jpg",
+      "bytes": 394237,
+      "sha256": "48248ffff3d7d823ed924aeb2336d96b4824f08601f7abe8fca20c217109b2de"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-14.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_14.jpg",
+      "bytes": 666705,
+      "sha256": "47f9066c59ab1af839370df885834486c8ec494dfbf249941d8cb8b2489958c8"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-14.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_14.jpg",
+      "bytes": 320311,
+      "sha256": "1e1fcf4d274be525a153a3c363b5f8b8dd70bd0c90dcd7e869f15ccccb84340b"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-15.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_15.jpg",
+      "bytes": 1077640,
+      "sha256": "5a88946a24825c72e90e862254432cd39b5fa8df2de11bd9afe37bb0d3e4a6b3"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-15.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_15.jpg",
+      "bytes": 1077640,
+      "sha256": "5a88946a24825c72e90e862254432cd39b5fa8df2de11bd9afe37bb0d3e4a6b3"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-16.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_16.jpg",
+      "bytes": 1192535,
+      "sha256": "19f61fc8613d38108ced43bea3a12a9129bb2b3303bc7f7359c92f35d98e0b43"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-16.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_16.jpg",
+      "bytes": 1192535,
+      "sha256": "19f61fc8613d38108ced43bea3a12a9129bb2b3303bc7f7359c92f35d98e0b43"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/original/CAP-17.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\원본\\KakaoTalk_20260916_115356770_17.jpg",
+      "bytes": 1264264,
+      "sha256": "372e69eb330db5cbd7a1bf58899ab60adc9563e2f0207f932499cb9b86e95b27"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/captures/annotated/CAP-17.jpg",
+      "source": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진\\설명\\KakaoTalk_20260916_115356770_17.jpg",
+      "bytes": 532097,
+      "sha256": "52174e58df3ca248ed2ff42a1a9c67749f5d1c9c3907a2f2f873bdda984821c5"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-02/documentation-final.txt",
+      "source": "Saved/verify-capture-replan.py command outputs",
+      "bytes": 1553,
+      "sha256": "41ee959fef05aebb061312ec22bc2b628e86df501c0bd32481a9889bddb272c3"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-03/documentation.txt",
+      "source": "Saved/verify-3d-loops.py command outputs",
+      "bytes": 831,
+      "sha256": "5a94302659b2eabef8be8766b1ff07b856cec514575960d2e83fbfba68f39df7"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-04/documentation.txt",
+      "source": "Saved/verify-defeat-boss.py command outputs",
+      "bytes": 831,
+      "sha256": "98b4ef552a1103201578f677d33609957c372e9e8b73e49f58b74383dfc4b815"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-05/documentation.txt",
+      "source": "Saved/verify-phase-alignment.py command outputs",
+      "bytes": 831,
+      "sha256": "44305feed0793e0f41afdc454bd505ee8d0c82ee3d6d56199f016269f247a4d4"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-05/documentation-final.txt",
+      "source": "Saved/verify-phase-alignment-final.py command outputs",
+      "bytes": 938,
+      "sha256": "021096f78c7da4313e479b11bbba9a3bfa0a9f3e8b8ca3d0efa3be57ba36fa89"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-06/reset-result.json",
+      "source": "P0 reset commands and final integrity verification, 2026-09-16",
+      "bytes": 773,
+      "sha256": "c0aa360c44b36892346e311c344578af3aeeb18d68d3eb9049c0f59da255762e"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-06/verification.txt",
+      "source": "P0 reset commands and final integrity verification, 2026-09-16",
+      "bytes": 1539,
+      "sha256": "1269199f88948bb288b9ea8e51025fa0df57c89036474a9fe168880811f9e4dc"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-07/documentation.txt",
+      "source": "Planning, learning, and diff command outputs, 2026-09-16",
+      "bytes": 548,
+      "sha256": "773a23a49a3bcb1768c707239e240213735fd72e501987f5293c6654480efa76"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-08/stack-selection.jpg",
+      "source": "C:/Users/iam12/Downloads/KakaoTalk_20260916_142545892_02.jpg",
+      "bytes": 958674,
+      "sha256": "6ac36dc40eacb331e5deaeb6acdda3d0d1727c20b85811262ca88e98fc6cf735"
+    },
+    {
+      "path": "docs/production/evidence/archived/RUN-20260916-08/documentation.txt",
+      "source": "Planning, learning and diff command outputs, 2026-09-16",
+      "bytes": 682,
+      "sha256": "d9e9c841bc44025215488642831d77f7761be6b2c9fbfc310aed0cd2007595e3"
     }
   ]
 }

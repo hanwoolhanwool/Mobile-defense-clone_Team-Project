@@ -1,0 +1,53 @@
+RUN-20260917-04
+Date: 2026-09-17
+Scope: Adopt existing mythic/upgrade/roulette/settings UI as the current documented design (DEC-041).
+Result: PASS
+
+> node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+
+> node tools/check-project.mjs
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21496,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 6602,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 94,
+  "errors": []
+}
+> node tools/check-code-style.mjs
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+
+> git diff --check
+Exit 0, no output.
+
+> Current panel design, coordinate, copy, and preservation audit
+{
+  "result": "PASS",
+  "preservedFiles": 63,
+  "copiedPngHashesMatched": 4,
+  "panelCoordinateRowsMatched": 4,
+  "currentDesignDecision": "DEC-041",
+  "tasks": 38,
+  "backlog": 37,
+  "done": 1
+}
+
+Compared 63 pre-edit hashes covering original/revised/panel artifacts, existing doc design snapshots, GameRules.json, design data generator, and completion records.
+Compared four copied PNGs byte-for-byte with delivered originals and all four documented panel rectangles with layout-spec.json.
+The current-design section uses DEC-041; historical draft creation records were retained. No runtime implementation or remote Figma write was performed.

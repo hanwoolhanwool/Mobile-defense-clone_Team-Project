@@ -1,0 +1,29 @@
+RUN-20260916-07 — lobby minigames planning only, 2026-09-16
+Generated GDD with node tools/build-planning.mjs (exit 0).
+No game implementation or runtime execution.
+
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 5806,
+  "markdownFiles": 48,
+  "metadataDocuments": 31,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 91,
+  "errors": []
+}
+exit=0
+
+> node learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 2,
+  "markdownFiles": 15,
+  "localLinks": 115,
+  "errors": []
+}
+exit=0
+
+> git diff --check
+exit=0

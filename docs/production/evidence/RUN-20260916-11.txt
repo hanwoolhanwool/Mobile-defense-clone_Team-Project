@@ -1,0 +1,217 @@
+> node tools/build-design-data.mjs
+Generated 8 DataTables and GameRules.json
+Exit: 0
+
+> node tools/validate-design-data.mjs
+{
+  "checks": 21495,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+Exit: 0
+
+> node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Exit: 0
+
+> node tools/check-project.mjs
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21496,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 6314,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 94,
+  "errors": []
+}
+> node tools/check-code-style.mjs
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+Exit: 0
+
+> node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs
+✔ unchanged legacy is exempt; Unreal macro sample is always checked (245.0145ms)
+✔ new malformed code fails read-only; explicit formatting repairs it (907.8883ms)
+✔ editing an inherited file removes its exemption (342.3463ms)
+✔ renaming an inherited file does not carry its exemption (336.8734ms)
+✔ Git CRLF checkout preserves the unchanged legacy exemption (232.9457ms)
+✔ the sample cannot be hidden by a baseline entry (117.9831ms)
+✔ new code cannot disable the formatter (353.7103ms)
+✔ UTF-8 BOM and CRLF in new files fail and are fixed explicitly (941.1321ms)
+✔ fix validates all paths before writing, and rejects outside paths (124.3281ms)
+✔ missing and mismatched formatters fail instead of skipping (33.1381ms)
+✔ a clean checkout of validation inputs passes (655.4404ms)
+✔ a new technical document without metadata fails (607.1533ms)
+✔ metadata is checked outside the GDD source list (604.9981ms)
+✔ a fabricated run cannot complete a task (626.7941ms)
+✔ a failing run cannot justify Done (687.1301ms)
+✔ the run result must match the execution record (599.0232ms)
+✔ an unexecuted acceptance criterion cannot justify Done (554.0931ms)
+✔ Done requires a completion record (531.0597ms)
+✔ missing evidence fails (532.4354ms)
+✔ altered archived evidence fails its hash (531.8162ms)
+✔ a stale status summary fails (535.2221ms)
+✖ a completed task cannot be the next action (531.725ms)
+✔ a stale GDD reading copy fails (534.7217ms)
+✖ check-only data detects drift without repairing the file (332.8126ms)
+✔ check-only report detects drift without repairing the file (384.9491ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 23
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8345.9564
+
+✖ failing tests:
+
+test at tools\validate-planning.test.mjs:40:40
+✖ a completed task cannot be the next action (531.725ms)
+  AssertionError [ERR_ASSERTION]: Expected rejection: next task TASK-CORE-01
+      at file:///C:/Users/iam12/Mobile_defense_clone/tools/validate-planning.test.mjs:42:9
+      at fixture (file:///C:/Users/iam12/Mobile_defense_clone/tools/validate-planning.test.mjs:27:3)
+      at TestContext.<anonymous> (file:///C:/Users/iam12/Mobile_defense_clone/tools/validate-planning.test.mjs:40:54)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tools\validate-planning.test.mjs:85:2
+✖ check-only data detects drift without repairing the file (332.8126ms)
+  AssertionError [ERR_ASSERTION]: Checked 8 DataTables and GameRules.json
+  
+  
+  0 !== 1
+  
+      at file:///C:/Users/iam12/Mobile_defense_clone/tools/validate-planning.test.mjs:89:10
+      at fixture (file:///C:/Users/iam12/Mobile_defense_clone/tools/validate-planning.test.mjs:27:3)
+      at TestContext.<anonymous> (file:///C:/Users/iam12/Mobile_defense_clone/tools/validate-planning.test.mjs:85:74)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+Exit: 1
+
+Follow-up: updated stale test fixtures and verified board data mutations.
+PASS: 6 columns, 3 rows and 18 cells
+PASS: independent population 26 is accepted
+PASS: old 12-cell count is rejected
+PASS: transposed dimensions are rejected
+PASS: missing sixth column is rejected
+PASS: duplicate column centers are rejected
+PASS: stale path length is rejected
+PASS: old path intersecting new columns is rejected
+> node --test tools/validate-planning.test.mjs tools/check-code-style.test.mjs
+✔ unchanged legacy is exempt; Unreal macro sample is always checked (251.9445ms)
+✔ new malformed code fails read-only; explicit formatting repairs it (946.9117ms)
+✔ editing an inherited file removes its exemption (346.8251ms)
+✔ renaming an inherited file does not carry its exemption (339.7736ms)
+✔ Git CRLF checkout preserves the unchanged legacy exemption (226.5182ms)
+✔ the sample cannot be hidden by a baseline entry (115.0933ms)
+✔ new code cannot disable the formatter (336.9838ms)
+✔ UTF-8 BOM and CRLF in new files fail and are fixed explicitly (920.153ms)
+✔ fix validates all paths before writing, and rejects outside paths (111.4114ms)
+✔ missing and mismatched formatters fail instead of skipping (30.2965ms)
+✔ a clean checkout of validation inputs passes (669.857ms)
+✔ a new technical document without metadata fails (614.8578ms)
+✔ metadata is checked outside the GDD source list (600.4811ms)
+✔ a fabricated run cannot complete a task (608.2781ms)
+✔ a failing run cannot justify Done (596.3672ms)
+✔ the run result must match the execution record (611.6373ms)
+✔ an unexecuted acceptance criterion cannot justify Done (544.5332ms)
+✔ Done requires a completion record (550.1292ms)
+✔ missing evidence fails (536.1942ms)
+✔ altered archived evidence fails its hash (535.8358ms)
+✔ a stale status summary fails (550.5493ms)
+✔ a completed task cannot be the next action (531.5217ms)
+✔ a stale GDD reading copy fails (537.1005ms)
+✔ check-only data detects drift without repairing the file (339.935ms)
+✔ check-only report detects drift without repairing the file (360.1094ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8276.8732
+Exit: 0
+> node learning/tools/validate.mjs
+{
+  "result": "PASS",
+  "phases": 2,
+  "markdownFiles": 15,
+  "localLinks": 125,
+  "errors": []
+}
+Exit: 0
+
+Final documentation/evidence consistency checks:
+> node tools/build-planning.mjs
+Generated GDD reading copy from 10 editable topic documents / 20 chapters.
+Exit: 0
+> node tools/check-project.mjs
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 21496,
+  "errors": [],
+  "totalNormalEnemies": 882,
+  "totalGoldPerPlayer": 3017,
+  "preFinalGoldPerPlayer": 2907,
+  "usableStars": 22,
+  "preFinalSummonsOnly": 55
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 6317,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 94,
+  "errors": []
+}
+> node tools/check-code-style.mjs
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+Exit: 0
+> git diff --check
+Exit: 0

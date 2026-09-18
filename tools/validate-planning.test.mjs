@@ -72,7 +72,7 @@ rejected('a stale status summary fails',({edit})=>{
  edit('docs/production/PROJECT_STATUS.md',text=>text.replace('| P0 | 11 | 10 |','| P0 | 11 | 9 |'));
 },'P0 counts differ from board');
 rejected('a completed task cannot be the next action',({edit})=>{
- edit('docs/production/PROJECT_STATUS.md',text=>text.replace('| 다음 착수 후보 | TASK-MOB-01','| 다음 착수 후보 | TASK-CORE-01'));
+ edit('docs/production/PROJECT_STATUS.md',text=>text.replace(/^\| 다음 착수 후보 \|.*$/m,'| 다음 착수 후보 | TASK-CORE-01 |'));
 },'next task TASK-CORE-01');
 rejected('a stale GDD reading copy fails',({edit})=>{
  edit('docs/GDD_행운공방디펜스_UE5.md',text=>text+'stale\n');
@@ -82,8 +82,9 @@ for(const [label,file,script] of [
  ['data','data/GameRules.json','tools/build-design-data.mjs'],
  ['report','docs/VALIDATION_REPORT.md','tools/validate-design-data.mjs'],
 ]){
- test(`check-only ${label} detects drift without repairing the file`,()=>fixture(({dir,edit})=>{
-  edit(file,text=>file.endsWith('.json')?text.replace('"RulesVersion": "0.1.0"','"RulesVersion": "stale"'):text+'stale\n');
+ test(`check-only ${label} detects drift without repairing the file`,()=>fixture(({dir,edit,json})=>{
+  if(file.endsWith('.json'))json(file,value=>{value.RulesVersion='stale';});
+  else edit(file,text=>text+'stale\n');
   const before=fs.readFileSync(path.join(dir,file));
   const result=spawnSync(process.execPath,[script,'--check'],{cwd:dir,encoding:'utf8'});
   assert.equal(result.status,1,result.stdout+result.stderr);

@@ -1,0 +1,83 @@
+RUN-20260917-07 · 2026-09-17 · Codex
+Scope: planning / generated design data only.
+RulesVersion=0.3.0; SchemaVersion=2.
+No UE runtime, UMG, PC multiplayer, Android device or gameplay balance validation was performed.
+Existing task completion states and UI artifacts were not modified by this rule update.
+
+node tools/validate-planning.mjs
+Exit code: 0
+{
+  "result": "PASS",
+  "checks": 6538,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 102,
+  "errors": []
+}
+
+node --test tools/validate-design-data.test.mjs tools/validate-planning.test.mjs tools/check-code-style.test.mjs
+Exit code: 0
+✔ unchanged legacy is exempt; Unreal macro sample is always checked (459.5215ms)
+✔ new malformed code fails read-only; explicit formatting repairs it (932.2307ms)
+✔ editing an inherited file removes its exemption (347.5706ms)
+✔ renaming an inherited file does not carry its exemption (346.902ms)
+✔ Git CRLF checkout preserves the unchanged legacy exemption (230.5657ms)
+✔ the sample cannot be hidden by a baseline entry (117.7723ms)
+✔ new code cannot disable the formatter (334.1923ms)
+✔ UTF-8 BOM and CRLF in new files fail and are fixed explicitly (931.2007ms)
+✔ fix validates all paths before writing, and rejects outside paths (128.1225ms)
+✔ missing and mismatched formatters fail instead of skipping (33.3899ms)
+✔ accepted design tables satisfy static contracts (33.7444ms)
+✔ rejects probability mass (27.6328ms)
+✔ rejects wave-entry reward regression (32.0148ms)
+✔ rejects old legendary stack capacity (30.1299ms)
+✔ rejects deadline equality regression (30.6491ms)
+✔ rejects partial dungeon return regression (29.982ms)
+✔ rejects selected-cell merge regression (30.5189ms)
+✔ rejects wave spawn overflow (28.9379ms)
+✔ rejects reversed central route (28.7274ms)
+✔ rejects accidental concept skill activation (30.1254ms)
+✔ a clean checkout of validation inputs passes (774.953ms)
+✔ a new technical document without metadata fails (647.5855ms)
+✔ metadata is checked outside the GDD source list (643.9474ms)
+✔ a fabricated run cannot complete a task (642.5911ms)
+✔ a failing run cannot justify Done (684.5191ms)
+✔ the run result must match the execution record (688.51ms)
+✔ an unexecuted acceptance criterion cannot justify Done (592.1802ms)
+✔ Done requires a completion record (586.5622ms)
+✔ missing evidence fails (601.7494ms)
+✔ altered archived evidence fails its hash (577.5717ms)
+✔ a stale status summary fails (605.6906ms)
+✔ a completed task cannot be the next action (630.159ms)
+✔ a stale GDD reading copy fails (585.8805ms)
+✔ check-only data detects drift without repairing the file (367.1926ms)
+✔ check-only report detects drift without repairing the file (406.2649ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9161.6416
+
+node tools/check-code-style.mjs / git diff --check
+Exit code: 0
+Code style: 1 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
+
+node tools/build-design-data.mjs --check / node tools/validate-design-data.mjs --check
+Exit code: 0
+Checked 8 DataTables and GameRules.json
+{
+  "checks": 2689,
+  "errors": [],
+  "totalNormalEnemies": 2880,
+  "totalBosses": 16,
+  "totalKillGoldPerPlayer": 5040
+}
+
+An earlier intermediate planning check found missing DATA_SCHEMA frontmatter; the metadata was restored before the PASS results above.
+Later edits clarify historical supersession and remove unused seed columns; generated data byte freshness was checked again successfully.
+

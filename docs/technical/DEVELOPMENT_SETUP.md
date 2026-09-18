@@ -1,9 +1,9 @@
 ---
 id: TECH-SETUP
-version: 0.1.13
+version: 0.1.14
 status: Draft
 owner: Codex
-updated: 2026-09-14
+updated: 2026-09-17
 reviewed: 2026-09-14
 review_run: RUN-20260914-01
 applies_to: UE 5.8.2 후보 / Windows Development·Android 준비
@@ -189,12 +189,12 @@ PC 에디터 화면만으로 모바일 표시·성능을 판정하지 않는다.
 
 ## 6. 화면·입력 기준과 적용 대기 항목
 
-DEC-014로 세로 고정, 다양한 세로 화면비·SafeArea 대응, 터치 우선을 확정했다. 1080×1920은 UI 설계 기준이다. 카메라·HUD·입력 동작의 원본은 [전장·모바일 UI 명세](../design/BOARD_UI.md)이며, 실제 렌더링 해상도나 DPI 곡선의 숫자를 이번 결정으로 고정하지 않는다.
+DEC-014로 세로 고정, 다양한 세로 화면비·SafeArea 대응, 터치 우선을 확정했다. DEC-040의 현재 UI 설계 기준은 1080×2340이다. 카메라·HUD·입력 동작의 원본은 [전장·모바일 UI v2 명세](../design/BOARD_UI.md#ingame-ui-v2)이며, 전장 확대/축소 시 정사각형 칸·동일 폭 통로를 유지한다. 실제 렌더링 해상도나 DPI 곡선의 숫자를 이 결정으로 고정하지 않는다.
 
 | 대상 | 현재 관찰 | 적용·검증 기준 |
 |---|---|---|
 | Android 화면 방향 | 프로젝트 Config에 Orientation 명시 없음. 최종 생성 Manifest·기기 동작 미확인 | AndroidRuntimeSettings 섹션에 Orientation=Portrait를 적용하고 패키지의 실제 방향·기기 실행 확인 |
-| 설계 해상도·DPI | 실제 UMG 위젯 구성·스케일 적용 미검증 | 1080×1920 설계 기준, 실제 뷰포트·DPI에 맞춘 배치와 터치 영역 확인 |
+| 설계 해상도·DPI | 실제 UMG 위젯 구성·스케일 적용 미검증 | 1080×2340 v2 설계 기준, 실제 뷰포트·DPI에 맞춘 배치와 터치 영역 확인 |
 | SafeArea | 위젯 계층·기기별 안전 영역 미검증 | 핵심 HUD·버튼·패널 조작을 UMG Safe Zone 안에 배치, 노치·시스템 영역과 겹치지 않는지 확인 |
 | 카메라 | 디펜스 전용 카메라의 화면비 대응 미검증 | 실제 전장 영역에 경로 네 모서리와 두 보드를 맞추고 화면 변화 후 입력 역투영 일치 확인 |
 | 터치 | DefaultInput.ini에 bUseMouseForTouch=False, DefaultTouchInterface=None | 전용 버튼·터치 액션 연결 및 전체 핵심 흐름의 실기기 조작 확인. 이 두 값만으로 터치 지원 여부를 판정하지 않음 |

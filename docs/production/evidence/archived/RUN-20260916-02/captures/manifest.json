@@ -1,0 +1,442 @@
+{
+  "source_directory": "C:\\Users\\iam12\\Downloads\\운빨 존많겜 사진",
+  "collected": "2026-09-16",
+  "file_count": 36,
+  "pair_count": 18,
+  "unique_sha256_count": 31,
+  "scope": "User-supplied still images; no video or interaction capture. Copies preserve source bytes.",
+  "files": [
+    {
+      "id": "CAP-00",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770.jpg",
+      "archive_file": "original/CAP-00.jpg",
+      "bytes": 946425,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "7e9d0ec95213fcc96fef72a84a8320ca13e5d5eda6610bf5be2cd28c3bcfcbf6"
+    },
+    {
+      "id": "CAP-00",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770.jpg",
+      "archive_file": "annotated/CAP-00.jpg",
+      "bytes": 440030,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "88c959b081b4676e6e3db5660ee6503a7ed8ad361b3ca5155838a4b9e5335d31"
+    },
+    {
+      "id": "CAP-01",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_01.jpg",
+      "archive_file": "original/CAP-01.jpg",
+      "bytes": 353926,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "7c2f971cf3ceca18cfe11adb8affa66a763a4950240eebc98dded5bd6876ff9c"
+    },
+    {
+      "id": "CAP-01",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_01.jpg",
+      "archive_file": "annotated/CAP-01.jpg",
+      "bytes": 353926,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "7c2f971cf3ceca18cfe11adb8affa66a763a4950240eebc98dded5bd6876ff9c"
+    },
+    {
+      "id": "CAP-02",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_02.jpg",
+      "archive_file": "original/CAP-02.jpg",
+      "bytes": 675820,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "a583a8d7ebcf5bde996366097b1fea627cc8955d9bed2d1022fb8dba555d0e99"
+    },
+    {
+      "id": "CAP-02",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_02.jpg",
+      "archive_file": "annotated/CAP-02.jpg",
+      "bytes": 248084,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "5f422ca6f725fa83596b3f0fdd351ba9c46f781145079606539ee83b6723f3ca"
+    },
+    {
+      "id": "CAP-03",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_03.jpg",
+      "archive_file": "original/CAP-03.jpg",
+      "bytes": 1021037,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "dcc86216447409ee717a26d4c1ceba80aa80d193161adfb1858ef73eee939c21"
+    },
+    {
+      "id": "CAP-03",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_03.jpg",
+      "archive_file": "annotated/CAP-03.jpg",
+      "bytes": 1021037,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "dcc86216447409ee717a26d4c1ceba80aa80d193161adfb1858ef73eee939c21"
+    },
+    {
+      "id": "CAP-04",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_04.jpg",
+      "archive_file": "original/CAP-04.jpg",
+      "bytes": 1014715,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "e7902c67fcc0ba98231cf7cfb2625264e01938aa6cdd48903994c87081f25f07"
+    },
+    {
+      "id": "CAP-04",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_04.jpg",
+      "archive_file": "annotated/CAP-04.jpg",
+      "bytes": 453106,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "d72d621e2a2c1cf13a3d8d85c08ce9a9e4ba93257ec265b2ad9265850b161122"
+    },
+    {
+      "id": "CAP-05",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_05.jpg",
+      "archive_file": "original/CAP-05.jpg",
+      "bytes": 998785,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "f2e02b46301c46eb7aba087ed1dff4130e6083eea0e09b1b4aed41d950251e60"
+    },
+    {
+      "id": "CAP-05",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_05.jpg",
+      "archive_file": "annotated/CAP-05.jpg",
+      "bytes": 405017,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "814cbe896eb51a023e1f6e2c905ecac6b6bbd50e4cfd6260a47e6c536abc11d7"
+    },
+    {
+      "id": "CAP-06",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_06.jpg",
+      "archive_file": "original/CAP-06.jpg",
+      "bytes": 1062552,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "c0bf9299dfe0510aa964b71800f5ef15ee0425755561e84b420b3074692d0ee3"
+    },
+    {
+      "id": "CAP-06",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_06.jpg",
+      "archive_file": "annotated/CAP-06.jpg",
+      "bytes": 446573,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "3e988812b03a52e08aad85d030db6ca2a3af3492c7fc0694f359ba58a62fb447"
+    },
+    {
+      "id": "CAP-07",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_07.jpg",
+      "archive_file": "original/CAP-07.jpg",
+      "bytes": 1197869,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "8edd088cdd4ff4fb21b9d3dafc64bac1b84478b78407bc2777e1fdb66ff3e323"
+    },
+    {
+      "id": "CAP-07",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_07.jpg",
+      "archive_file": "annotated/CAP-07.jpg",
+      "bytes": 478013,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "75820c17d7dd658b251b322de45a9c7961726c76be579b49ad01ac3e69c4df52"
+    },
+    {
+      "id": "CAP-08",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_08.jpg",
+      "archive_file": "original/CAP-08.jpg",
+      "bytes": 1227040,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "0613186a42e13d5130aeae1a2b827afa37023666333c8273c42e105d9c84434e"
+    },
+    {
+      "id": "CAP-08",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_08.jpg",
+      "archive_file": "annotated/CAP-08.jpg",
+      "bytes": 502118,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "2f5355b077a6f85c9d008bc7a034ab9b784808985b5d7dc1a580bd62325d55c9"
+    },
+    {
+      "id": "CAP-09",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_09.jpg",
+      "archive_file": "original/CAP-09.jpg",
+      "bytes": 746453,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "ac65f9fec15fc760156f7783f1ff5c7d540723097744154f097894d4a18c642a"
+    },
+    {
+      "id": "CAP-09",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_09.jpg",
+      "archive_file": "annotated/CAP-09.jpg",
+      "bytes": 746453,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "ac65f9fec15fc760156f7783f1ff5c7d540723097744154f097894d4a18c642a"
+    },
+    {
+      "id": "CAP-10",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_10.jpg",
+      "archive_file": "original/CAP-10.jpg",
+      "bytes": 839726,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "83b0ef10d27d0ab7c53e7e28a053fd2c7792d376886484d3793cb5eb8622723c"
+    },
+    {
+      "id": "CAP-10",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_10.jpg",
+      "archive_file": "annotated/CAP-10.jpg",
+      "bytes": 391840,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "db3a7b86f2fc0f59e19416bb1e118e164c596dd717389c140a506c8c1a7edd6d"
+    },
+    {
+      "id": "CAP-11",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_11.jpg",
+      "archive_file": "original/CAP-11.jpg",
+      "bytes": 1228335,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "c79594ed97be0c3ca4d4c3ca62d0f683e71d4e0277dcd60f3845b5b2e0ef722a"
+    },
+    {
+      "id": "CAP-11",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_11.jpg",
+      "archive_file": "annotated/CAP-11.jpg",
+      "bytes": 501900,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "25856452acac41ccd6fc9e91488767681b8fc8e60d6145edb6da9a60066e56bd"
+    },
+    {
+      "id": "CAP-12",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_12.jpg",
+      "archive_file": "original/CAP-12.jpg",
+      "bytes": 961243,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "18c630ecbb706ffe50f15fd9aea41bad376fbf73a347629fc573a48012cf60ce"
+    },
+    {
+      "id": "CAP-12",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_12.jpg",
+      "archive_file": "annotated/CAP-12.jpg",
+      "bytes": 432024,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "6571edbfcb525c02aaa50f5cf9cac7742ce7f9cc0f512ad98b1fb56f733a27bb"
+    },
+    {
+      "id": "CAP-13",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_13.jpg",
+      "archive_file": "original/CAP-13.jpg",
+      "bytes": 863066,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "c7243a2a2268f36ca033b6f7fea056bae1286de7c9549ff59bd6ad0beb991633"
+    },
+    {
+      "id": "CAP-13",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_13.jpg",
+      "archive_file": "annotated/CAP-13.jpg",
+      "bytes": 394237,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "48248ffff3d7d823ed924aeb2336d96b4824f08601f7abe8fca20c217109b2de"
+    },
+    {
+      "id": "CAP-14",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_14.jpg",
+      "archive_file": "original/CAP-14.jpg",
+      "bytes": 666705,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "47f9066c59ab1af839370df885834486c8ec494dfbf249941d8cb8b2489958c8"
+    },
+    {
+      "id": "CAP-14",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_14.jpg",
+      "archive_file": "annotated/CAP-14.jpg",
+      "bytes": 320311,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "1e1fcf4d274be525a153a3c363b5f8b8dd70bd0c90dcd7e869f15ccccb84340b"
+    },
+    {
+      "id": "CAP-15",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_15.jpg",
+      "archive_file": "original/CAP-15.jpg",
+      "bytes": 1077640,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "5a88946a24825c72e90e862254432cd39b5fa8df2de11bd9afe37bb0d3e4a6b3"
+    },
+    {
+      "id": "CAP-15",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_15.jpg",
+      "archive_file": "annotated/CAP-15.jpg",
+      "bytes": 1077640,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "5a88946a24825c72e90e862254432cd39b5fa8df2de11bd9afe37bb0d3e4a6b3"
+    },
+    {
+      "id": "CAP-16",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_16.jpg",
+      "archive_file": "original/CAP-16.jpg",
+      "bytes": 1192535,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "19f61fc8613d38108ced43bea3a12a9129bb2b3303bc7f7359c92f35d98e0b43"
+    },
+    {
+      "id": "CAP-16",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_16.jpg",
+      "archive_file": "annotated/CAP-16.jpg",
+      "bytes": 1192535,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "19f61fc8613d38108ced43bea3a12a9129bb2b3303bc7f7359c92f35d98e0b43"
+    },
+    {
+      "id": "CAP-17",
+      "role": "original",
+      "original_file": "원본/KakaoTalk_20260916_115356770_17.jpg",
+      "archive_file": "original/CAP-17.jpg",
+      "bytes": 1264264,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "372e69eb330db5cbd7a1bf58899ab60adc9563e2f0207f932499cb9b86e95b27"
+    },
+    {
+      "id": "CAP-17",
+      "role": "annotated",
+      "original_file": "설명/KakaoTalk_20260916_115356770_17.jpg",
+      "archive_file": "annotated/CAP-17.jpg",
+      "bytes": 532097,
+      "pixels": [
+        1080,
+        2340
+      ],
+      "sha256": "52174e58df3ca248ed2ff42a1a9c67749f5d1c9c3907a2f2f873bdda984821c5"
+    }
+  ]
+}

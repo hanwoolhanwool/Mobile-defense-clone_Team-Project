@@ -1,0 +1,72 @@
+RUN-20260916-12
+Local SVG geometry/structure validation:
+{
+  "width": 3520,
+  "height": 2620,
+  "screens": 2,
+  "gridColumns": 6,
+  "gridRows": 3,
+  "cellsPerScreen": 36,
+  "totalCellRectangles": 72,
+  "rectangles": 222,
+  "textNodes": 162,
+  "uniqueIds": 525,
+  "embeddedImages": 0,
+  "nonRectangularShapes": 0,
+  "source": "SVG rect/text/group only",
+  "figmaFile": "w50Z6dSdg76QxF3ilaRpqB",
+  "figma": {
+    "url": "https://www.figma.com/design/w50Z6dSdg76QxF3ilaRpqB?node-id=2-2",
+    "nodeId": "2:2",
+    "uploaded": true,
+    "uploadContentType": "image/svg+xml",
+    "importBehavior": "Figma upload_assets contract: SVG imported as an editable vector node tree",
+    "screenshotVerified": false,
+    "limitation": "Starter MCP quota blocks use_figma and download_assets; browser requires login. Visual QA performed on local SVG renders."
+  },
+  "validation": {
+    "normalizedRatiosChecked": true,
+    "cellDimensionsChecked": true,
+    "localVisualReview": true,
+    "notes": [
+      "상대 필드: 6 columns × 3 rows = 18 independent rects, 132 × 110 per cell.",
+      "내 필드: 6 columns × 3 rows = 18 independent rects, 132 × 110 per cell."
+    ]
+  }
+}
+
+Figma multipart SVG upload response:
+{"success":true,"imageHash":"e8f4f42b93206064c3d31cd3936ddc0fbb198a16","sizeBytes":74667,"contentType":"image/svg+xml","placedOnNodeId":"2:2"}
+Local preview images inspected: ingame-wireframe-preview.png, 01-ingame-default.png.
+Figma post-upload read: NotRun due to Starter MCP call limit.
+
+> node tools/validate-planning.mjs
+{
+  "result": "FAIL",
+  "checks": 6325,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 94,
+  "errors": [
+    "docs/production/TEST_RUNS.md: missing link evidence/RUN-20260916-12.txt"
+  ]
+}
+Exit: 1
+
+Final check after evidence file creation:
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 6325,
+  "markdownFiles": 51,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 94,
+  "errors": []
+}
+Exit: 0
+> git diff --check
+Exit: 0
