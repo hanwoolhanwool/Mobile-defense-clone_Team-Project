@@ -37,6 +37,7 @@ public:
 	void ApplyCommittedPlacement(const FLDPlacedUnit& Unit, const FTransform& Transform);
 	void DeactivateCommitted();
 	bool SetLocalViewPlayerIndex(int32 PlayerIndex);
+	void SetPresentationSlot(int32 SlotIndex, double VisualMoveSeconds);
 	void PresentCommittedAttack(uint64 DamageEventId, const FVector& TargetCanonical, double ServerSeconds);
 	const FLDPlacedUnit& GetPlacement() const;
 	const FLDUnitRow& GetUnitRow() const;
@@ -76,7 +77,16 @@ private:
 	FLinearColor UnitColor = FLinearColor::White;
 	UPROPERTY(Replicated)
 	FLDUnitAttackCue LastAttackCue;
+	UPROPERTY(Replicated)
+	int32 PresentationSlot = 0;
+	UPROPERTY(Replicated)
+	double MovePresentationSeconds = 0.15;
 	FLDUnitRow UnitRow;
+	FVector VisualCanonical = FVector::ZeroVector;
+	FVector VisualMoveStart = FVector::ZeroVector;
+	FVector VisualMoveTarget = FVector::ZeroVector;
+	double VisualMoveStartedSeconds = 0;
+	bool bVisualInitialized = false;
 	int32 LocalPlayerIndex = INDEX_NONE;
 	bool bPrepared = false;
 	bool bEnding = false;

@@ -87,6 +87,8 @@ void ALDUnitActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	DOREPLIFETIME(ALDUnitActor, RangeCm);
 	DOREPLIFETIME(ALDUnitActor, UnitColor);
 	DOREPLIFETIME(ALDUnitActor, LastAttackCue);
+	DOREPLIFETIME(ALDUnitActor, PresentationSlot);
+	DOREPLIFETIME(ALDUnitActor, MovePresentationSeconds);
 }
 
 bool ALDUnitActor::InitializePrepared(const FLDPlacedUnit& Unit, const FLDUnitRow& Row, const FTransform& Transform)
@@ -170,6 +172,19 @@ void ALDUnitActor::PresentCommittedAttack(uint64 DamageEventId, const FVector& T
 	RefreshPresentation();
 }
 
+void ALDUnitActor::SetPresentationSlot(int32 SlotIndex, double VisualMoveSeconds)
+{
+	if (!HasAuthority() || bEnding || SlotIndex < 0 || SlotIndex > 2 || !FMath::IsFinite(VisualMoveSeconds) ||
+	    VisualMoveSeconds <= 0)
+	{
+		return;
+	}
+	PresentationSlot = SlotIndex;
+	MovePresentationSeconds = VisualMoveSeconds;
+	ForceNetUpdate();
+	RefreshPresentation();
+}
+
 const FLDPlacedUnit& ALDUnitActor::GetPlacement() const
 {
 	return Placement;
@@ -217,10 +232,27 @@ void ALDUnitActor::RefreshPresentation()
 	{
 		return;
 	}
-	const FVector Origin = FLDViewTransform::ToPresentation(CanonicalPosition, LocalPlayerIndex) + FVector(0, 0, 35);
+	const double Now = GetPresentationSeconds();
+	if (!bVisualInitialized)
+	{
+		VisualCanonical = VisualMoveTarget = VisualMoveStart = CanonicalPosition;
+		bVisualInitialized = true;
+	}
+	if (VisualMoveTarget != CanonicalPosition)
+	{
+		VisualMoveStart = VisualCanonical;
+		VisualMoveTarget = CanonicalPosition;
+		VisualMoveStartedSeconds = Now;
+	}
+	const double Fraction = FMath::Clamp((Now - VisualMoveStartedSeconds) / MovePresentationSeconds, 0.0, 1.0);
+	VisualCanonical = FMath::Lerp(VisualMoveStart, VisualMoveTarget, Fraction);
+	const FVector Slots[] = {FVector(-28, 0, 0), FVector(28, 0, 0), FVector(0, 50, 0)};
+	const FVector Origin = FLDViewTransform::ToPresentation(
+	                           VisualCanonical + Slots[FMath::Clamp(PresentationSlot, 0, 2)], LocalPlayerIndex) +
+	                       FVector(0, 0, 35);
 	const FVector Target =
 	    FLDViewTransform::ToPresentation(LastAttackCue.TargetCanonical, LocalPlayerIndex) + FVector(0, 0, 35);
-	const double Age = GetPresentationSeconds() - LastAttackCue.ServerSeconds;
+	const double Age = Now - LastAttackCue.ServerSeconds;
 	FVector UnitPosition = Origin;
 	// Cosmetic durations do not delay authoritative damage and never have a completion gameplay callback.
 	if (LastAttackCue.DamageEventId != 0 && Age >= 0 && Age < 0.18)
