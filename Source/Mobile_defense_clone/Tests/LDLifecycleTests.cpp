@@ -10,6 +10,7 @@
 #include "Core/LDGameMode.h"
 #include "Core/LDPlayerController.h"
 #include "Data/LDGameData.h"
+#include "Engine/Engine.h"
 #include "Engine/Player.h"
 #include "Engine/World.h"
 #include "Misc/AutomationTest.h"
@@ -20,12 +21,18 @@ namespace
 	{
 		UWorld* World = nullptr;
 		ALDGameMode* Mode = nullptr;
+		bool bHasWorldContext = false;
 
 		FServerLifecycleFixture()
 		{
 			World = UWorld::CreateWorld(EWorldType::Game, false);
 			if (World)
 			{
+				if (GEngine)
+				{
+					GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(World);
+					bHasWorldContext = true;
+				}
 				Mode = World->SpawnActor<ALDGameMode>();
 				if (Mode)
 				{
@@ -40,6 +47,10 @@ namespace
 			if (World)
 			{
 				World->DestroyWorld(false);
+				if (GEngine && bHasWorldContext)
+				{
+					GEngine->DestroyWorldContext(World);
+				}
 			}
 		}
 

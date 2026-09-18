@@ -50,8 +50,8 @@ ARCH-01/02는 순수 규칙→서버 서비스→actor 사실/표현으로 나�
 | SharedTargetRemovalAndStop | 양쪽 유닛이 Route1 중앙 적 공격, 판매 예약 취소, Stop 후 피해0 | 최초 통합 Pass |
 | UnitPresentationPreservesCanonical | 슬롯·.15 보간은 canonical/타이머를 바꾸지 않음 | 최초 통합 Pass |
 | ExactDuePositionAndNoBackdating | due.275 거리175/step.30 거리177.5는 .275 인정; 반대175.001→172.501은 .30부터 | 최초 통합 Pass |
-| CommandClockOrdersEarlierHitAndSameTimeSale | hit10.025는 sale10.04보다 먼저; sale10.025는 타격 취소 | 후속 NotRun |
-| EarlierKillFundsExternalPurchase | 명령 전 금27/가격28에서 hit10.025 보상+1→10.04 구매 성공·잔액0 | 후속 NotRun |
+| CommandClockOrdersEarlierHitAndSameTimeSale | hit10.025는 sale10.04보다 먼저; sale10.025는 타격 취소 | A 역할 후속 Pass, 무경고 |
+| EarlierKillFundsExternalPurchase | 명령 전 금27/가격28에서 hit10.025 보상+1→10.04 구매 성공·잔액0 | A 역할 후속 Pass, 무경고 |
 | 소스 스타일/공백 | 오류0 | Pass,50파일; Unreal 실행 증거 아님 |
 
 실행 SHA·원본 로그와 후속 재검증 상태는 [A 공통 G2 증거](G2_EVIDENCE.md)를 따른다. 독립 정적 리뷰는 최초 서비스가 스텝 끝 위치로 과거 예정 타격을 판정하고, target 교체 시 사거리 진입 전으로 소급할 수 있음을 발견했다. `28ead1bc`는 정확 예정 시각의 경로 sample과 새 관찰 시각을 분리했고 첫7개 Unreal 자동화가 통과했다. 후속 조립 리뷰의 RPC 시각 결함은 `eafc378`에서 strict-before hook과 전역 예정 순서로 수정했다. 첫7개 Pass는 그 후속 코드의 검수 Pass로 재사용하지 않는다.
