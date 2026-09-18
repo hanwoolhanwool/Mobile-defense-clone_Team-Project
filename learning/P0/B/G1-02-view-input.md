@@ -5,7 +5,7 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-MAP-01·TASK-NET-01, [전장 UI](../../../docs/design/BOARD_UI.md), [B 구현 설계](../../../docs/technical/IMPLEMENTATION_B.md) |
-| 참고 자료 제작 상태 | Draft — 역할 Editor/계산 Pass, 실제 화면·수업 재현 검증 전 |
+| 참고 자료 제작 상태 | Draft — 역할 Editor/계산 Pass, 첫 실제 화면 검사 Fail·카메라 수정 재검증 전 |
 | 실제 개발 상태 | Planned |
 | 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 구현 `82cf174cab14746c4fc57867efd5c4522903ca2c`, 수정·검증 `d5274dccdc11e1736e59239e558e8fb2ace7ee14` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
@@ -37,7 +37,7 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 | 1 | `/Game/LD/Maps/L_P0` | 제공 BP_LDGameMode의 ControllerClass=LDPlayerController | G0 로그인/준비 경로 유지 |
 | 2 | `/Game/LD/Materials/M_P0Flat` | Unlit/Opaque, VectorParameter Color → EmissiveColor | root 제공 공통 에셋, 동시 편집 금지 |
 | 3 | `/Engine/BasicShapes/Cube` | 셀140×140cm, 경로 포함1120×1260cm, NoCollision/CastShadow=false | Native Actor가 Runtime component 생성 |
-| 4 | BoardPresentation.Camera | Orthographic, Pitch=-90, Yaw=90, Z2400, ConstrainAspectRatio=false, near1/far10000 | 양쪽 화면 right=-WorldX |
+| 4 | BoardPresentation.Camera | Orthographic, Pitch=-90, Yaw=90, Z2400, ConstrainAspectRatio=false, OverrideAspectRatioAxisConstraint=true, AspectRatioAxisConstraint=MaintainXFOV, near1/far10000 | 양쪽 화면 right=-WorldX, OrthoWidth를 실제 가로 폭으로 해석 |
 | 5 | 1080×2340 기준 카메라 | OrthoWidth1260cm, 위치(0,-128.333,2400), 전장(60,520)~(1020,1600)px | 이 값은 layout 계산 결과. 고정 해상도 강제값이 아님 |
 | 6 | Native UMG | SafeZone → CanvasPanel, 제목·상대 보드·내 보드·선택·거절 TextBlock, 전체 HitTestInvisible | 전장 입력을 차단하지 않는 G1 최소 표시 |
 | 7 | Controller InputComponent | LeftMouseButton Press / Touch1 Press → 공통 InputScreenPosition | 추가 Blueprint 입력 그래프 없음 |
@@ -52,7 +52,8 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
 | 1080×2340 기본 화면 | field60,520,960,1080·셀120px | 계산 Pass, 실화면 결과 미확정 | ViewportAndSafeAreaFit + 실제 probe 별도 |
-| 540×1170·720×1280·800×1280·1280×720 | 전체 field fit·정사각형 셀·입력 일치 | fit 계산 Pass, 실입력 결과 미확정 | root 실제 창 크기 변경 probe 진행 중 |
+| 540×1170 첫 별도 프로세스 실행 | 셀60px·field480×540px가 창 안에 표시 | Fail: 셀130px, 가로 보드 잘림. 카메라 축 수정 후 재검증 전 | root 실제 화면/projection 관찰, 아래 실패 분석 |
+| 720×1280·800×1280·1280×720 | 전체 field fit·정사각형 셀·입력 일치 | fit 계산 Pass, 실제 수정본 결과 미확정 | root 실제 창 크기 변경 probe 진행 중 |
 | 비대칭 안전영역20/44/12/32 | field가 안전영역 안에 동일 배율 fit | Pass, 계산 검사 | 실기기 SafeArea는 별도 미검증 |
 | 양쪽 화면36중심 | 자기18 Selected·상대18 NotOwner | 결과 미확정 | 실제 Project/Deproject + 공통 InputScreenPosition |
 | 자기18셀 내부4모서리±62cm | 실제 보이는 셀과 같은 CellId | 결과 미확정 | root 독립 예상값 probe |
@@ -64,7 +65,11 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 | UE 보드 자동화 | 3Pass/0Fail/0NotRun | Pass | [결과](evidence/G1-build-tests/automation-result.json), [세부 요약](evidence/G1-build-tests/automation-summary.json) |
 | 실제 네트워크/패키지/Android | 각 범위의 검수 근거 확보 | 네트워크 화면 결과 미확정, 패키지/Android NotRun | 계산·컴파일 Pass와 구분 |
 
-현재까지 실제 게임 실패를 관찰한 기록은 없다. 구성상 피한 문제는 (1) 화면마다 서버 좌표 변경, (2) 화면비별 X/Y 별도 확대, (3) visual과 다른 좌표의 입력 검사, (4) 터치 뒤 합성 mouse 입력의 중복 전달이다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다. 실제 실패가 발견되면 원인·수정 SHA·재검증을 추가한다.
+첫 실제 두 프로세스 검사에서 카메라 확대 실패를 발견했다. 540×1170 화면에서 기대한 셀60px 대신130px로 투영되었고, 셀0/5의 화면X가595/-55여서 보드가 좌우로 잘렸다. `FLDBoardViewportLayout` 계산은 맞았지만 CameraComponent가 축 제약을 재정의하지 않아 LocalPlayer의 MaintainYFOV 설정을 상속했다. UE5.8의 `Engine/Source/Runtime/Engine/Private/Camera/CameraStackTypes.cpp` 284~307행은 이 경우 XAxisMultiplier=1170/540을 적용하고, OrthoWidth를 그 값으로 나눈다. 따라서 실제 확대율도130/60=1170/540이 되었다. 계산 fixture에는 이 엔진 투영 단계가 없어서 검사3개가 Pass여도 실제 화면 실패를 잡지 못했다.
+
+수정은 `ALDBoardPresentation` 생성자의 `bOverrideAspectRatioAxisConstraint=true`, `AspectRatioAxisConstraint=AspectRatio_MaintainXFOV` 두 설정이다. 기대값은540×1170에서 셀60×60px, 전장(30,260)~(510,800)px, 셀0/5 중심X420/120이다. 실제 Project/Deproject·전체셀 공통 입력·양쪽 화면을 다시 검사해야 한다. 이 수정의 Editor/실행 결과는 아직 NotRun이며 기존 d5274 빌드 Pass를 수정본의 근거로 재사용하지 않는다. 해당 수정 SHA는 이 수업 변경과 같은 커밋의 `git log -- Source/Mobile_defense_clone/Board/LDBoardPresentation.cpp`로 확인한다.
+
+표시와 입력의 서버 좌표 불변, 동일 배율 확대, 터치 뒤 합성 mouse 입력 억제도 별도로 유지한다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다.
 
 최초 Unreal Editor 컴파일에서 AddLabel의 지역변수 `Slot`이 UWidget의 동일 이름 멤버를 가려 MSVC C4458 오류가 발생했다. `d5274dccdc11e1736e59239e558e8fb2ace7ee14`에서 지역변수를 `CanvasSlot`으로 바꿨다. 2026-09-18 14:13 KST의 실제 재빌드는 Pass, 14:15 KST `LD.P0.G1.Board`는 3Pass/0Fail/0NotRun이다. root는 같은 Windows11·UE5.8.2·MSVC 환경에서 직렬 실행했다. 실행 명령·SHA·시간은 위 JSON에 보존했고 전체 로그는 `Saved/P0Runs/G1-B-editor-fix1`, `G1-B-tests`에 있다. UBT14.66초는 빌드 시간이며 게임 프레임 성능이 아니다.
 
@@ -80,6 +85,7 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 - 물리 viewport pixel과 UMG DPI 좌표를 섞으면 어떤 위치 오차가 생기는가?
 - 카메라가 가로 화면에 맞춰 멀어져도 서버 사거리·경로 길이를 바꾸지 않는 이유는 무엇인가?
+- OrthoWidth 계산 검사가 Pass인데 실제 셀이130px가 된 원인은 무엇이며, 실제 카메라 투영 검사가 왜 별도로 필요한가?
 - 작은 변형: 안전영역 위쪽을44px 늘린 계산 fixture를 만들고 모든 field 모서리가 여전히 안에 들어가는지 확인한다.
 - 작은 변형: 선택한 셀 뒤 상대 셀을 누르고 선택색이 유지되는지 확인한다.
 - G2 진입 조건은 두 참가자의 전체셀 실제 입력과 양쪽2바퀴·동일 EnemyId/RouteIndex 검증 및 G1 통합 리뷰 통과다.

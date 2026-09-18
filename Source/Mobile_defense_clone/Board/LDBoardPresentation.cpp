@@ -29,6 +29,8 @@ ALDBoardPresentation::ALDBoardPresentation()
 	Camera->SetRelativeRotation(FRotator(-90, 90, 0));
 	Camera->SetRelativeLocation(FVector(0, 0, 2400));
 	Camera->bConstrainAspectRatio = false;
+	Camera->bOverrideAspectRatioAxisConstraint = true;
+	Camera->AspectRatioAxisConstraint = AspectRatio_MaintainXFOV;
 	Camera->bAutoCalculateOrthoPlanes = false;
 	Camera->OrthoNearClipPlane = 1;
 	Camera->OrthoFarClipPlane = 10000;
