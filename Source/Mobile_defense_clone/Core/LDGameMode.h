@@ -5,6 +5,7 @@
 #include "LDGameMode.generated.h"
 
 class ULDGameData;
+class ULDCommandProcessor;
 
 UCLASS()
 class MOBILE_DEFENSE_CLONE_API ALDGameMode : public AGameModeBase
@@ -30,6 +31,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<ULDGameData> GameData = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<ULDCommandProcessor> CommandProcessor = nullptr;
 
 	TArray<TWeakObjectPtr<APlayerController>> Participants;
 	uint64 NextConnectionEpoch = 1;

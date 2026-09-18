@@ -1,10 +1,12 @@
 #include "Core/LDGameMode.h"
 
 #include "Core/LDGameState.h"
+#include "Core/LDPlayerController.h"
 #include "Core/LDPlayerState.h"
 #include "Data/LDGameData.h"
 #include "GameFramework/GameSession.h"
 #include "GameFramework/PlayerController.h"
+#include "Network/LDCommandProcessor.h"
 #include "TimerManager.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDMatch, Log, All);
@@ -14,6 +16,7 @@ ALDGameMode::ALDGameMode()
 	PrimaryActorTick.bCanEverTick = false;
 	GameStateClass = ALDGameState::StaticClass();
 	PlayerStateClass = ALDPlayerState::StaticClass();
+	PlayerControllerClass = ALDPlayerController::StaticClass();
 	DefaultPawnClass = nullptr;
 	Participants.SetNum(2);
 }
@@ -41,6 +44,12 @@ void ALDGameMode::InitGameState()
 		AbortMatch(TEXT("GameState refused initial match context"));
 		return;
 	}
+	CommandProcessor = NewObject<ULDCommandProcessor>(this);
+	if (!CommandProcessor->Initialize(Context, GameData->GetRules()))
+	{
+		AbortMatch(TEXT("Command processor refused match contract"));
+		return;
+	}
 	UE_LOG(LogLDMatch, Display,
 	       TEXT("G0 match %s rules=%s units=%d waves=%d; role services are explicit Stub"), *Context.MatchId.ToString(),
 	            *Context.RulesVersion.ToString(), GameData->GetUnits().Num(), GameData->GetWaves().Num());
@@ -58,7 +67,8 @@ void ALDGameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 	ALDGameState* State = GetGameState<ALDGameState>();
 	ALDPlayerState* Player = NewPlayer ? NewPlayer->GetPlayerState<ALDPlayerState>() : nullptr;
-	if (!State || !Player || bEnding || State->GetPhase() == ELDMatchPhase::Aborted)
+	ALDPlayerController* Controller = Cast<ALDPlayerController>(NewPlayer);
+	if (!State || !Player || !Controller || !CommandProcessor || bEnding || State->GetPhase() == ELDMatchPhase::Aborted)
 	{
 		return;
 	}
@@ -90,14 +100,15 @@ void ALDGameMode::PostLogin(APlayerController* NewPlayer)
 	Context.MatchId = State->GetMatchContext().MatchId;
 	Context.PlayerIndex = PlayerIndex;
 	Context.ConnectionEpoch = NextConnectionEpoch++;
-	if (!Player->InitializeParticipant(Context))
+	if (!Player->InitializeParticipant(Context) || !CommandProcessor->RegisterParticipant(Context))
 	{
 		AbortMatch(TEXT("PlayerState refused server participant context"));
 		return;
 	}
 	Participants[PlayerIndex] = NewPlayer;
+	Controller->InitializeServerSession(Context, *CommandProcessor);
 	UE_LOG(LogLDMatch, Display,
-	       TEXT("Participant index=%d epoch=%llu registered; B session Stub remains closed"), PlayerIndex,
+	       TEXT("Participant index=%d epoch=%llu registered; board/economy Stub keeps admission closed"), PlayerIndex,
 	            Context.ConnectionEpoch);
 	RefreshReadiness();
 }
@@ -108,6 +119,10 @@ void ALDGameMode::Logout(AController* Exiting)
 	{
 		if (Participant.Get() == Exiting)
 		{
+			if (ALDPlayerController* Controller = Cast<ALDPlayerController>(Exiting))
+			{
+				Controller->ShutdownServerSession();
+			}
 			Participant.Reset();
 		}
 	}
@@ -144,7 +159,8 @@ void ALDGameMode::RefreshReadiness()
 	{
 		ConnectedCount += Participant.IsValid() ? 1 : 0;
 	}
-	State->SetReadinessReason(FString::Printf(TEXT("Preparing: %d/2 participants; Stub: Board/Economy/Command/Route services not connected"), ConnectedCount));
+	State->SetReadinessReason(FString::Printf(
+	    TEXT("Preparing: %d/2 participants; Stub: Board/Economy/Route services not connected"), ConnectedCount));
 }
 
 void ALDGameMode::AbortMatch(const FString& Reason)
@@ -170,6 +186,17 @@ void ALDGameMode::StopMatchServices()
 	}
 	bEnding = true;
 	GetWorldTimerManager().ClearAllTimersForObject(this);
+	if (CommandProcessor)
+	{
+		CommandProcessor->Close();
+	}
+	for (const TWeakObjectPtr<APlayerController>& Participant : Participants)
+	{
+		if (ALDPlayerController* Controller = Cast<ALDPlayerController>(Participant.Get()))
+		{
+			Controller->ShutdownServerSession();
+		}
+	}
 	Participants.Reset();
-	// No B service, combat subscription or spawn reservation exists at this G0 boundary.
+	// G0 has no combat subscription or spawn reservation yet.
 }
