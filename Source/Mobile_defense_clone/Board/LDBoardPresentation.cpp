@@ -32,6 +32,7 @@ ALDBoardPresentation::ALDBoardPresentation()
 	Camera->bOverrideAspectRatioAxisConstraint = true;
 	Camera->AspectRatioAxisConstraint = AspectRatio_MaintainXFOV;
 	Camera->bAutoCalculateOrthoPlanes = false;
+	Camera->bUseCameraHeightAsViewTarget = false;
 	Camera->OrthoNearClipPlane = 1;
 	Camera->OrthoFarClipPlane = 10000;
 	Camera->PostProcessBlendWeight = 0;

@@ -5,7 +5,7 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-MAP-01·TASK-NET-01, [전장 UI](../../../docs/design/BOARD_UI.md), [B 구현 설계](../../../docs/technical/IMPLEMENTATION_B.md) |
-| 참고 자료 제작 상태 | Draft — 역할 Editor/계산 Pass, 첫 실제 화면 검사 Fail·카메라 수정 재검증 전 |
+| 참고 자료 제작 상태 | Draft — 역할 Editor/계산 Pass, 두 번째 실제 실행에서 세로6종 Pass·가로 Fail, 카메라 높이 수정 재검증 전 |
 | 실제 개발 상태 | Planned |
 | 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 구현 `82cf174cab14746c4fc57867efd5c4522903ca2c`, 수정·검증 `d5274dccdc11e1736e59239e558e8fb2ace7ee14` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
@@ -37,7 +37,7 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 | 1 | `/Game/LD/Maps/L_P0` | 제공 BP_LDGameMode의 ControllerClass=LDPlayerController | G0 로그인/준비 경로 유지 |
 | 2 | `/Game/LD/Materials/M_P0Flat` | Unlit/Opaque, VectorParameter Color → EmissiveColor | root 제공 공통 에셋, 동시 편집 금지 |
 | 3 | `/Engine/BasicShapes/Cube` | 셀140×140cm, 경로 포함1120×1260cm, NoCollision/CastShadow=false | Native Actor가 Runtime component 생성 |
-| 4 | BoardPresentation.Camera | Orthographic, Pitch=-90, Yaw=90, Z2400, ConstrainAspectRatio=false, OverrideAspectRatioAxisConstraint=true, AspectRatioAxisConstraint=MaintainXFOV, near1/far10000 | 양쪽 화면 right=-WorldX, OrthoWidth를 실제 가로 폭으로 해석 |
+| 4 | BoardPresentation.Camera | Orthographic, Pitch=-90, Yaw=90, Z2400, ConstrainAspectRatio=false, OverrideAspectRatioAxisConstraint=true, AspectRatioAxisConstraint=MaintainXFOV, UseCameraHeightAsViewTarget=false, near1/far10000 | 양쪽 화면 right=-WorldX, OrthoWidth를 실제 가로 폭으로 해석하고 카메라 높이의 자동 투영 보정 방지 |
 | 5 | 1080×2340 기준 카메라 | OrthoWidth1260cm, 위치(0,-128.333,2400), 전장(60,520)~(1020,1600)px | 이 값은 layout 계산 결과. 고정 해상도 강제값이 아님 |
 | 6 | Native UMG | SafeZone → CanvasPanel, 제목·상대 보드·내 보드·선택·거절 TextBlock, 전체 HitTestInvisible | 전장 입력을 차단하지 않는 G1 최소 표시 |
 | 7 | Controller InputComponent | LeftMouseButton Press / Touch1 Press → 공통 InputScreenPosition | 추가 Blueprint 입력 그래프 없음 |
@@ -51,12 +51,13 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
-| 1080×2340 기본 화면 | field60,520,960,1080·셀120px | 계산 Pass, 실화면 결과 미확정 | ViewportAndSafeAreaFit + 실제 probe 별도 |
-| 540×1170 첫 별도 프로세스 실행 | 셀60px·field480×540px가 창 안에 표시 | Fail: 셀130px, 가로 보드 잘림. 카메라 축 수정 후 재검증 전 | root 실제 화면/projection 관찰, 아래 실패 분석 |
-| 720×1280·800×1280·1280×720 | 전체 field fit·정사각형 셀·입력 일치 | fit 계산 Pass, 실제 수정본 결과 미확정 | root 실제 창 크기 변경 probe 진행 중 |
+| 1080×2340 기본 화면 | field60,520,960,1080·셀120px | 실제 두 번째 실행 Pass | 통합 G1-two-process-fix1의 view-1 |
+| 540×1170 첫 별도 프로세스 실행 | 셀60px·field480×540px가 창 안에 표시 | 최초 Fail: 셀130px, 가로 보드 잘림 → 축 수정 후 두 번째 실행 Pass | root 실제 화면/projection 관찰, 아래 실패 분석 |
+| 두 번째 실행의 세로6종 | 540×1170·1080×2340·720×1280·720×1600·768×1024·800×1280, 표시/36중심/72모서리/EngineTouch | 양쪽 Pass | 통합 G1-two-process-fix1 view-0~5 |
+| 두 번째 실행의1280×720 | 전체 field fit·셀 표시·실입력 일치 | 양쪽 각107 Fail, 셀 표시 소실 | [실패 요약](evidence/G1-build-tests/landscape-failure-summary.json), height 수정 재검증 전 |
 | 비대칭 안전영역20/44/12/32 | field가 안전영역 안에 동일 배율 fit | Pass, 계산 검사 | 실기기 SafeArea는 별도 미검증 |
-| 양쪽 화면36중심 | 자기18 Selected·상대18 NotOwner | 결과 미확정 | 실제 Project/Deproject + 공통 InputScreenPosition |
-| 자기18셀 내부4모서리±62cm | 실제 보이는 셀과 같은 CellId | 결과 미확정 | root 독립 예상값 probe |
+| 양쪽 화면36중심 | 자기18 Selected·상대18 NotOwner | 세로6종 Pass, 가로 Fail | 실제 Project/Deproject + 공통 InputScreenPosition |
+| 자기18셀 내부4모서리±62cm | 실제 보이는 셀과 같은 CellId | 세로6종 Pass, 가로 Fail | root 독립 예상값 probe |
 | 상대/경로/화면밖 누르기 | 선택 불변·구체적인 거절문구 | NotRun | 직접 실행 검수 |
 | 연결 세대 변경/종료 | 위젯·로컬 Actor·선택 정리 | NotRun | 실제 UI 재생성/다음 매치 후속 |
 | source style/diff | 오류0 | Pass | `Saved/P0Evidence/G1-B/style.log` |
@@ -67,7 +68,11 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 첫 실제 두 프로세스 검사에서 카메라 확대 실패를 발견했다. 540×1170 화면에서 기대한 셀60px 대신130px로 투영되었고, 셀0/5의 화면X가595/-55여서 보드가 좌우로 잘렸다. `FLDBoardViewportLayout` 계산은 맞았지만 CameraComponent가 축 제약을 재정의하지 않아 LocalPlayer의 MaintainYFOV 설정을 상속했다. UE5.8의 `Engine/Source/Runtime/Engine/Private/Camera/CameraStackTypes.cpp` 284~307행은 이 경우 XAxisMultiplier=1170/540을 적용하고, OrthoWidth를 그 값으로 나눈다. 따라서 실제 확대율도130/60=1170/540이 되었다. 계산 fixture에는 이 엔진 투영 단계가 없어서 검사3개가 Pass여도 실제 화면 실패를 잡지 못했다.
 
-수정은 `ALDBoardPresentation` 생성자의 `bOverrideAspectRatioAxisConstraint=true`, `AspectRatioAxisConstraint=AspectRatio_MaintainXFOV` 두 설정이다. 기대값은540×1170에서 셀60×60px, 전장(30,260)~(510,800)px, 셀0/5 중심X420/120이다. 실제 Project/Deproject·전체셀 공통 입력·양쪽 화면을 다시 검사해야 한다. 이 수정의 Editor/실행 결과는 아직 NotRun이며 기존 d5274 빌드 Pass를 수정본의 근거로 재사용하지 않는다. 해당 수정 SHA는 이 수업 변경과 같은 커밋의 `git log -- Source/Mobile_defense_clone/Board/LDBoardPresentation.cpp`로 확인한다.
+첫 카메라 수정 `cf3f61072ebb3fc5502c051cca62d1c5e23a9c04`는 생성자의 `bOverrideAspectRatioAxisConstraint=true`, `AspectRatioAxisConstraint=AspectRatio_MaintainXFOV` 두 설정이다. 기대값은540×1170에서 셀60×60px, 전장(30,260)~(510,800)px, 셀0/5 중심X420/120이다. 두 번째 별도 프로세스 실행에서 이 화면과 세로/태블릿6종의 투영·전체셀 입력이 양쪽 Pass였다. 실제 pair SHA는 `ceac593614e40548bcac6c5322faff2929d22568`, 2026-09-18 14:24~14:25 KST다. `UnrealEditor -game -RenderOffscreen` 실제 렌더링 두 프로세스이며 PIE·최종 패키지·물리 터치 검수가 아니다.
+
+그러나1280×720만 양쪽 각107개 검사가 실패했다. host의 `view-6.png`를 직접 확인하면 전장 바탕만 남고 베이지 셀/적 표시가 사라졌다. 입력도 Z0 교차 거리가 음수여서 거절됐다. UE5.8 `CameraStackTypes.cpp::CalculateProjectionMatrixGivenViewRectangle`의 unconstrained 직교 경로는 `UpdateOrthoPlanes`를 호출한다. `SceneView.cpp::FSceneViewProjectionData::UpdateOrthoPlanes`는 UseCameraHeightAsViewTarget이 켜져 있으면 min(CameraZ, HalfOrthoWidth)를 추가로 전진시킨다. 이 가로 화면은 HalfOrthoWidth=2426.6667cm가 CameraZ=2400cm보다 커서 투영 원점이 Z−1로 이동했다. `bUpdateOrthoPlanes=false`만으로는 이 직접 호출을 막지 못한다.
+
+두 번째 수정은 생성자의 `bUseCameraHeightAsViewTarget=false`다. 전장/입력 평면을 카메라 앞에 유지하며 정상 near-plane 보정만 허용한다. `LD.P0.G1.Board.EngineOrthoProjection` 회귀 검사는 실제 BoardPresentation의 CalcCamera와 UE 투영/역투영 함수를 통과시킨다. 독립 기대값은540×1170 셀60px,1280×720 셀36.9230769px, 입력 ray 원점이 Z7보다 높고 아래로 향함, Z0/Z7 표면이 clip 깊이[0,1] 안에 있음이다. 자체 레이아웃 계산을 다시 기대값으로 쓰지 않으며 첫 축 보정과 이번 높이 보정의 회귀를 함께 검출한다. 이 수정/새 검사의 Unreal 빌드·실행은 아직 NotRun이다. root 재빌드와 양쪽7화면 재검증 후 결과를 연결한다. 수정 SHA는 이 기록과 함께 변경한 BoardPresentation/Tests의 커밋으로 추적한다.
 
 표시와 입력의 서버 좌표 불변, 동일 배율 확대, 터치 뒤 합성 mouse 입력 억제도 별도로 유지한다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다.
 
