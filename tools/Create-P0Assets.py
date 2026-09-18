@@ -11,6 +11,24 @@ import unreal
 def main():
     root = unreal.SystemLibrary.get_project_directory()
     asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
+    material_path = "/Game/LD/Materials/M_P0Flat"
+    if not unreal.EditorAssetLibrary.does_asset_exist(material_path):
+        material = asset_tools.create_asset(
+            "M_P0Flat", "/Game/LD/Materials", unreal.Material, unreal.MaterialFactoryNew()
+        )
+        if not material:
+            raise RuntimeError("M_P0Flat creation failed")
+        material.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
+        color = unreal.MaterialEditingLibrary.create_material_expression(
+            material, unreal.MaterialExpressionVectorParameter, -300, 0
+        )
+        color.set_editor_property("parameter_name", "Color")
+        color.set_editor_property("default_value", unreal.LinearColor(0.55, 0.48, 0.32, 1.0))
+        unreal.MaterialEditingLibrary.connect_material_property(
+            color, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR
+        )
+        unreal.MaterialEditingLibrary.recompile_material(material)
+        unreal.EditorAssetLibrary.save_loaded_asset(material)
     game_mode_path = "/Game/LD/Core/BP_LDGameMode"
     if not unreal.EditorAssetLibrary.does_asset_exist(game_mode_path):
         factory = unreal.BlueprintFactory()
@@ -39,6 +57,7 @@ def main():
     os.makedirs(os.path.dirname(output), exist_ok=True)
     with open(output, "w", encoding="utf-8") as stream:
         json.dump({"result": "Pass", "map": level_path, "game_mode": game_mode_path,
+                   "material": material_path,
                    "scope": "Asset creation and save only; runtime not verified"}, stream, indent=2)
     unreal.log("P0_ASSETS_SAVED " + output)
 
