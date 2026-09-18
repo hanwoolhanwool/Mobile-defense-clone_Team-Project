@@ -556,3 +556,12 @@
 - 미실행: PIE, PC 패키지·지연/손실, 전투/경제/10웨이브, 물리 터치/Android. G1 Pass, P0 전체 InProgress. 전체 로그·14PNG는 `C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-*`에 보존했다.
 
 - 후속 PC 기반 패키지 검수: G1 코드의 Win64 Development BuildCookRun [158.70초 Pass](evidence/RUN-20260918-G1/package-foundation.json). 내부 실행 파일을 별도2프로세스로 실행해 [host1338/client1336 Pass](evidence/RUN-20260918-G1/package-pair-summary.json), [명령](evidence/RUN-20260918-G1/package-pair.json). 양쪽 세로 PNG를 열어 한글·보드·재질·경로가 로드됐음을 확인했다. 빌드 HEAD4861b98과 실행 HEAD81bde4e의 Source/Content/Config diff0을 확인했다. 이 추가 검수는 G1의 패키지 데이터/에셋 로딩 증거이며 G2/G3 완성 패키지·지연·10웨이브 검수는 여전히 NotRun이다.
+
+## RUN-20260918-03 · G2 전투·경제·조작·수업 재현
+
+- 참고 제작자 Codex, 실제 학습자 Planned. G1시작4861b987→제품5baa960→검사기최종ae6be1b0b06ed733425e01632a341fb4db4cad59. 새 detached G1에서56파일 blob 대조·조립, Editor122.13초Pass.
+- NullRHI 자동화39개 무경고Pass, 보충 변경영역12개 무경고Pass(7중복, 총44종). 별도 역할 Editor A/B Pass 및 당시 fixture 경고는 [검수 요약](evidence/RUN-20260918-G2/SUMMARY.md)에서 구분한다.
+- 실제 GPU Editor-game 두 프로세스20단계 host213/client57 Pass. Slate 소환/합성/판매, EngineTouch 드래그, 첫 처치/양쪽 보상, 실패 불변·중복·기존Actor/타이머·소유권·HUD 재생성 검증. [최종 명령](evidence/RUN-20260918-G2/review-pair.json)·[검사와PNG해시](evidence/RUN-20260918-G2/review-pair-summary.json).
+- 직접 화면 확인: host골드2/인구5/다음36, client159/2/24; 거절시9/4/28불변과 붉은버튼/문구. 양쪽 자기보드 아래.
+- [실패/수정](evidence/RUN-20260918-G2/REVIEW_FINDINGS.md) 및 [독립 구조 리뷰](evidence/RUN-20260918-G2/FINAL_REVIEW.md): 차단 결함0, ARCH-01~06 실제 경로 대조. 명령 현재시각 개방·처치 시각·epoch 캐시·검사 누락 보완.
+- 성능:60FPS 제한·구매자금용HP1적100(최대동시12) 픽스처의 P95양쪽16.667ms. 대표 부하/밸런스 증거 아님. PIE·최종 PC 패키지·지연/손실·10웨이브5판·음향청취·Android는 후속 미검증. G2 Pass, P0 InProgress.

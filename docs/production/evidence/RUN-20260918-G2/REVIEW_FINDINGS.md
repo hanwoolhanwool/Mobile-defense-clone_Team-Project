@@ -40,4 +40,16 @@
 
 `64acff6`의 HUD 제거 후 재생성은 Controller 요청 추적을 유지하며 NativeDestruct에서 버튼 delegate를 제거한다. 자동 재확인3회 후 수동 버튼은 새 ID를 만들지 않고 같은 PendingCommand를 보낸다. 이는 정적 수명·중복 검토이며 위젯 재생성 실제 실행 증거는 아직 별도 필요하다.
 
-후속 실행 증거는 검토자가 엔진을 실행한 결과가 아니라 root가 직렬 실행한 파일을 직접 읽은 것이다. `Saved/P0Runs/G2-ui-clock-editor-fix1/result.json`은 `0399649484` Editor **Pass**, `Saved/P0Runs/G2-ui-clock-automation-fix1/result.json`·`report/index.json`은 동일 SHA Unreal NullRHI **33 Pass / 0 Fail / 0 NotRun**이다. 여기에는 A-01/A-02의 정확한 예정시각·신규 표적 경계, B-01의 실제 Board 게시 중 epoch 교체, 이전 타격 보상 후 구매가 포함된다. 초기 `dba8afa` 자동화30 Pass/1 Fail은 G0 준비 문구 기대값이 오래되어 실패한 기록이며 eaf에서 수정 후 통과했다. 이33개 성공은 f00f8fb의 신규 만료 회귀나 실제 두 프로세스 UI·RPC·부하·패키지·Android를 통과로 표시하지 않는다.
+후속 실행 증거는 검토자가 엔진을 실행한 결과가 아니라 root가 직렬 실행한 파일을 직접 읽은 것이다. `Saved/P0Runs/G2-ui-clock-editor-fix1/result.json`은 `0399649484` Editor **Pass**, 같은 SHA `G2-ui-clock-automation-fix1/report/index.json`은 **36 Pass(33무경고+3경고) / 0 Fail / 0 NotRun**이다. 초기 요약 도구가 succeededWithWarnings를 합계에 더하지 않아 이 문서도33으로 기록했던 오류를 정정한다. 초기 `dba8afa` 역시 **33 Pass(30무경고+3경고)/1 Fail**이며 G0 준비 문구 기대값이 오래되어 실패했다. 다음 `G2-ui-review-automation-fix2`는37 Pass(34무경고+3경고)다. 원본 로그/옛 result.json을 덮어쓰지 않고 [집계 감사](automation-count-audit.json)로 연결한다. 이 과거 성공을 후속 수정·실제 화면·패키지·Android 증거로 재사용하지 않는다.
+
+## 최종 재현과 남은 검수
+
+위 표의 실행 대기는 각 수정 리뷰 당시 상태다. 이후 `5baa96059e94a142d45206290010b373cf39ea19`를 G1 출발점에서56파일 조립한 `C:/Users/iam12/P0_lesson_replay_g2/Saved/P0Runs/Replay-G2-*`를 직접 확인했다. 조립 blob 불일치0, Editor Pass, 전체39개 Unreal 자동화 무경고 Pass/0 Fail/0 NotRun이다. A-01~03·B-01~04·I-01의 해당 회귀와 실제 Controller의 응답/스냅샷4순서가 포함된다. 기존 처리 중 Pending/Conflict 분기의 모든 재진입 조합까지 실행했다는 뜻은 아니다.
+
+20단계 실제 GPU 두 프로세스는 host212/client57 검사 모두 Pass다. V-02/V-03의 미응답 필수 검사·정확 ID 집합, HUD 제거 후 재생성과 양쪽 버튼1회 효과가 포함된다. root는 양쪽 stage19와 host stage6 거절 PNG를 직접 열어 HUD·금액/인구/가격·붉은 실패 표시를 확인했다. V-01~03은 해당 범위의 실행 증거로 해소됐다. `-nosound`이므로 실제 소리 재생, 물리 입력, PC 최종 패키지와 Android는 미검증이다.
+
+추가 검수 `c7ed2da`는11 Pass/1 Fail이었다. `PreparedIsolationAndIdReservation`이 실제 메시의 비표시/무충돌 대신 Actor 전역 플래그를 기대한 오류를 발견하여 `ebdf6f4`에서 비어 있지 않은 모든 PrimitiveComponent의 Visibility/NoCollision/Overlap 상태로 검사했다. 제품 구현은 변경하지 않았다. 드래그 검수기도 Controller 직접 Move 대신 여러 프레임의 Engine InputTouch 경로로 바꿨고, UE5.8 FTouchId 인수형 수정의 컴파일 실패·수정 기록을 보존했다.
+
+최종 검증 소스 `ae6be1b0b06ed733425e01632a341fb4db4cad59`는5baa960 대비 Tests1파일·Verification2파일만 변경됐다. 기존 재현을 보존한 `Replay-G2-review-fix1-assembly/assembly.json`의56개 blob 일치, 후속 Editor Pass, `Replay-G2-review-commands`의12개 무경고 Pass/0 Fail/0 NotRun, `Replay-G2-review-pair` host213/client57개 Pass를 확인했다. 추가 교환·등급 판매/전설 거절·준비 격리/취소·실패 뒤ID1·두 빠른 보스 각10회 중복 검사를 실제 실행했고, 터치 drag binding→명령 성공→개체/타이머/양쪽 배치까지 이어졌다. 물리 터치로 주입한 것은 아니다.
+
+최종 독립 대조에서 제품 코드의 새로운 차단 결함은 발견하지 않았고 G2 승인에 필요한 보완 검증도 통과했다. 정확한24항목·ARCH-01~06·남은 G3/G4 및 방어 조합의 검증 한계는 [최종 리뷰](FINAL_REVIEW.md)에 관리한다. G2 승인은 P0 최종 완료나 실기기·10웨이브·대표 부하 통과를 뜻하지 않는다.

@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-COMBAT-01, TASK-ECON-01, TASK-BOARD-01, TASK-NET-01; [공통 구현 계약](../../docs/technical/IMPLEMENTATION_SHARED.md), [독립 기대값](../../docs/production/evidence/RUN-20260918-G2/REVIEW_PLAN.md) |
-| 참고 자료 제작 상태 | Draft |
+| 참고 자료 제작 상태 | Verified — 아래 재현 절차·명시 실행 범위 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | 4861b987f3e2fe78bcc159d1b6a85008543a938b / 실행·재현 완료 후 고정 |
+| 참고 시작/완료 SHA | 4861b987f3e2fe78bcc159d1b6a85008543a938b / ae6be1b0b06ed733425e01632a341fb4db4cad59 (제품 런타임5baa960, 이후 검사기만 변경) |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | Schema2/Rules0.3.0, G1 카메라·경로 통과; A Unit/Combat/Mode와 B Board/Economy/Processor/Controller/HUD |
 | 제공 코드 / 직접 작성할 코드 | 제공: G1 공통 기반·기존 UI v2·JSON·단색 재질·검사기·100ms 알림음. 직접 작성: A/B 역할 수업의 런타임 코드·독립 기대 검사. 완성 참고본 복원은 학습자 직접 구현 완료가 아님 |
@@ -53,15 +53,53 @@ G2 실행 픽스처는 정지 HP70 N01 한 마리와 구매 자금을 얻기 위
 | 예정 타격·명령 순서 | 10.025 타격/보상은10.04 명령 앞,10.025 명령은 동시 타격 앞 | 정밀 `<t`/`<=t` 분리 후36Pass(무경고33+경고3)/0Fail | Saved/P0Runs/G2-ui-clock-automation-fix1; 화면 검사 아님 |
 | UI Editor 빌드 | native UMG 컴파일 | 부모 Visibility를 숨긴 지역 변수 C4458; OverlayVisibility로 변경 후 Pass | Saved/P0Runs/G2-ui-editor, G2-ui-clock-editor-fix1 |
 | 첫 소환→처치, 뭉치·판매·합성 | 실제 버튼·RPC·개체·경제가 일치 | 첫 두 프로세스17단계 Pass. HUD 제외 캡처와 응답/추가 Actor 검사 누락을 발견해 증거 범위를 제한하고 검사기를 보완 | Saved/P0Runs/G2-two-process-initial; HUD 최종 증거로 사용하지 않음 |
-| 보완 후 HUD·만료·재생성 | HUD 포함 PNG, 누락 응답/유령 Actor 검출, 양쪽 새 HUD 클릭 한 번 | 재검증 중 | 최종 고정 후 증거 연결 |
+| 보완 후 HUD·만료·재생성 | HUD 포함 PNG, 누락 응답/유령 Actor 검출, 양쪽 새 HUD 클릭 한 번 | 최종20단계 host213/client57 Pass, 실제 EngineTouch 이동 포함 | [재현 증거](evidence/G2_REPLAY/README.md) |
 
 전체 실패 분석·파일/함수·리뷰 상태는 [REVIEW_FINDINGS](../../docs/production/evidence/RUN-20260918-G2/REVIEW_FINDINGS.md)에서 관리한다. 전체 로그는 Saved/P0Runs에 보존하며 정적 검사, Editor 컴파일, NullRHI 자동화, 실제 GPU 실행을 섞지 않는다.
 
 ## 상대에게 전달하고 통합하기
 
-시작점은 G1 통합 `4861b987`이다. A/B 수업 순서로 파일을 조립하고 공통 DTO를 비교한 뒤 최종 통합 소스를 하나로 사용한다. learn 브랜치는 `8c6856d`를 유지하며 이 완성본을 병합하지 않는다. 역할 완료 SHA·통합 완료 SHA·재현 helper 명령은 최종 검증 후 여기에 고정한다.
+시작점은 G1 통합 `4861b987`이다. A/B 수업 순서로 파일을 조립하고 공통 DTO를 비교한 뒤 최종 통합 소스를 하나로 사용한다. learn 브랜치는 `8c6856d`를 유지하며 이 완성본을 병합하지 않는다. 역할 Editor 검수는 A `ca5b672`, B `4a69fe9`이며 이후 테스트 WorldContext 정리는 통합 재현에서 검증한다.
+
+[재현 도구](../tools/Replay-P0G2.ps1)는 새 detached G1 worktree만 생성하고 56개 파일의 SHA/blob·제공/직접 작성 구분을 기록한다. 수업은 현재 참고 폴더에서 읽고 재현 폴더의 옛 G1 문서를 따라가지 않는다. 중간 기능 파일은 상호 선언을 사용하므로 모든 수업 파일 조립 후 빌드한다.
+
+```powershell
+$ReferenceRoot = 'C:/Users/iam12/P0_reference_integration'
+$ReplayRoot = 'C:/Users/iam12/P0_lesson_replay_g2' # 이미 있으면 다른 새 경로
+pwsh -NoProfile -File "$ReferenceRoot/learning/tools/Replay-P0G2.ps1" `
+    -RepositoryRoot $ReferenceRoot -ReplayRoot $ReplayRoot `
+    -SourceSha 5baa96059e94a142d45206290010b373cf39ea19 -RunId Replay-G2-assembly
+if ($LASTEXITCODE -ne 0) { throw '조립 실패: 부분 파일과 로그를 보존하세요.' }
+pwsh -NoProfile -File "$ReplayRoot/tools/Build-P0Editor.ps1" -ProjectRoot $ReplayRoot -RunId Replay-G2-editor
+if ($LASTEXITCODE -ne 0) { throw 'Editor 실패' }
+pwsh -NoProfile -File "$ReplayRoot/tools/Test-P0Automation.ps1" -ProjectRoot $ReplayRoot -Filter LD.P0 -RunId Replay-G2-automation
+if ($LASTEXITCODE -ne 0) { throw '자동화 실패' }
+pwsh -NoProfile -File "$ReplayRoot/tools/Run-P0Pair.ps1" -Probe G2 -RenderOffscreen -RunId Replay-G2-pair
+if ($LASTEXITCODE -ne 0) { throw '두 프로세스 검사 실패' }
+```
+
+재현 HEAD는 G1 SHA이고 소스는 조립된 미커밋 파일이므로 result.json의 HEAD만으로 완료 코드를 식별하지 않는다. assembly.json의 SourceSha·파일별 blob과 빌드/실행 결과를 함께 사용한다. 기존 재현 worktree는 지우지 않는다.
 
 통합 폴더에서 `pwsh -File tools/Build-P0Editor.ps1 -RunId <새이름>`, `pwsh -File tools/Test-P0Automation.ps1 -Filter LD.P0 -RunId <새이름>`, `pwsh -File tools/Run-P0Pair.ps1 -Probe G2 -RenderOffscreen -RunId <새이름>` 순으로 실행한다. RunId가 이미 있으면 다른 이름을 쓰며 이전 증거를 삭제하지 않는다. 실제 창 조작은 마지막 명령의 RenderOffscreen을 생략한다. 픽스처는 완료 후 자신이 만든 프로세스만 종료한다.
+
+## 보충 리뷰의 재현
+
+최초39검사 재현 뒤 같은 파일을 검토해 준비 Actor 격리·동종/이종 교환·등급별 판매·전설 합성 거절·처치10중복과 보스 보상·실패 RNG 검사를 보강했다. 실제 EngineTouch로 드래그도 수행했다. 제품 코드는 바뀌지 않았다.
+
+```powershell
+pwsh -NoProfile -File "$ReferenceRoot/learning/tools/Apply-P0G2Review.ps1" `
+    -ReplayRoot $ReplayRoot -SourceSha ae6be1b0b06ed733425e01632a341fb4db4cad59 `
+    -PreviousManifest Saved/P0Runs/Replay-G2-assembly/assembly.json -RunId Replay-G2-review-assembly
+if ($LASTEXITCODE -ne 0) { throw '기존56파일 hash 또는 보충 조립 실패' }
+pwsh -NoProfile -File "$ReplayRoot/tools/Build-P0Editor.ps1" -ProjectRoot $ReplayRoot -RunId Replay-G2-review-editor
+if ($LASTEXITCODE -ne 0) { throw '보충 Editor 실패' }
+pwsh -NoProfile -File "$ReplayRoot/tools/Test-P0Automation.ps1" -ProjectRoot $ReplayRoot -Filter LD.P0.G2.Commands -RunId Replay-G2-review-commands
+if ($LASTEXITCODE -ne 0) { throw '보충 자동화 실패' }
+pwsh -NoProfile -File "$ReplayRoot/tools/Run-P0Pair.ps1" -Probe G2 -RenderOffscreen -RunId Replay-G2-review-pair
+if ($LASTEXITCODE -ne 0) { throw '보충 두 프로세스 실패' }
+```
+
+실제 제작 재현은 중간063a5c3에서 Touch 인수의 C2665를 만나 FTouchId로 수정한 뒤 ae6be1b를 적용했다. 따라서 최종 로그 이름은 review-fix1-editor이고 두 단계 manifest/before 사본을 모두 보존한다. 준비 격리 검사는 Actor 전체 플래그가 아니라 실제 PrimitiveComponent의 가시성·충돌·overlap을 확인하도록 수정했다. 최종12검사 무경고Pass이며 앞선39개와 중복7개를 제외한 총44종 검사다. 단일44개 전체 실행이라고 기록하지 않는다.
 
 ## 이해 확인
 
@@ -73,10 +111,10 @@ G2 실행 픽스처는 정지 HP70 N01 한 마리와 구매 자금을 얻기 위
 
 ## 단계 완료
 
-- [ ] 수업 순서의 새 G1 출발점 조립·빌드·실행 재현을 확인했다.
-- [ ] 실제 화면·명령 결과·시작/완료 SHA를 연결했다.
-- [ ] 코드·학습 자료·보드·검수 기록과 독립 리뷰를 동기화했다.
+- [x] 수업 순서의 새 G1 출발점 조립·빌드·실행 재현을 확인했다.
+- [x] 실제 화면·명령 결과·시작/완료 SHA를 연결했다.
+- [x] 코드·학습 자료·보드·검수 기록과 독립 리뷰를 동기화했다.
 - [x] 실제 학습자 진행은 Planned이며 참고 제작과 분리했다.
 - [x] G3의10웨이브·보스·PC 최종 패키지·지연·반복 플레이와 G4 실기기는 별도 미검증이다.
 
-G2 차단 결함 수정과 재현 통과 전 G3 전투/웨이브 확장을 시작하지 않는다.
+G2 차단 결함 수정·재현·독립 리뷰 통과 후 G3에 진입한다. P0 전체 완료는 G3/G4 검수까지 보류한다.

@@ -1,0 +1,27 @@
+{
+  "Scope": "Unreal automation with NullRHI; not PIE or visual gameplay",
+  "Filter": "LD.P0.G2.Commands",
+  "Started": "2026-09-18T16:05:12.7878431+09:00",
+  "Head": "4861b987f3e2fe78bcc159d1b6a85008543a938b",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe",
+  "Arguments": [
+    "C:\\Users\\iam12\\P0_lesson_replay_g2\\Mobile_defense_clone.uproject",
+    "-unattended",
+    "-NullRHI",
+    "-nosound",
+    "-nosplash",
+    "-culture=en",
+    "-ExecCmds=Automation RunTests LD.P0.G2.Commands",
+    "-TestExit=Automation Test Queue Empty",
+    "-ReportExportPath=C:\\Users\\iam12\\P0_lesson_replay_g2\\Saved\\P0Runs\\Replay-G2-review-commands/report",
+    "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g2\\Saved\\P0Runs\\Replay-G2-review-commands/engine.log"
+  ],
+  "ExitCode": 0,
+  "SucceededWithoutWarnings": 12,
+  "SucceededWithWarnings": 0,
+  "Succeeded": 12,
+  "Failed": 0,
+  "NotRun": 0,
+  "Result": "Pass",
+  "Finished": "2026-09-18T16:05:28.9844906+09:00"
+}

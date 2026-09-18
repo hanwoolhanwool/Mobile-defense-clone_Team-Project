@@ -1,0 +1,1686 @@
+{
+  "SourceSha": "5baa96059e94a142d45206290010b373cf39ea19",
+  "BaseSha": "4861b987f3e2fe78bcc159d1b6a85008543a938b",
+  "Result": "Pass",
+  "Scope": "Actual GPU UnrealEditor -game two-process fixture; real Slate input injection; not PIE, physical input, packaged execution, or 10-wave balance",
+  "Roles": [
+    {
+      "Role": "host",
+      "Result": "Pass",
+      "Checks": 212,
+      "Failures": 0,
+      "FrameCount": 5093,
+      "FrameMsP95": 16.666900634765625,
+      "ChecksDetail": [
+        {
+          "name": "stage-1-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 4.933075993263628
+        },
+        {
+          "name": "stage0-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 5.099946292990353
+        },
+        {
+          "name": "stage0-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 5.099946292990353
+        },
+        {
+          "name": "stage0-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 5.099946292990353
+        },
+        {
+          "name": "first-summon-80-gold-C01-cell17",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 5.450275092327502
+        },
+        {
+          "name": "stage0-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 5.450275092327502
+        },
+        {
+          "name": "stage0-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 5.466941895836499
+        },
+        {
+          "name": "first-enemy-initialized",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 7.15028940414777
+        },
+        {
+          "name": "stage0-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 7.166956103348639
+        },
+        {
+          "name": "first-kill-both-reward-once",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 11.183663303905632
+        },
+        {
+          "name": "stage1-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 11.183663303905632
+        },
+        {
+          "name": "stage1-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 11.200330204272177
+        },
+        {
+          "name": "stage1-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 13.217010102176573
+        },
+        {
+          "name": "remote-summon-retry-single-commit",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 13.717014002555516
+        },
+        {
+          "name": "stage2-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 13.717014002555516
+        },
+        {
+          "name": "stage2-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 13.733680802339222
+        },
+        {
+          "name": "stage2-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 15.733734301233198
+        },
+        {
+          "name": "stage3-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 15.883734802657273
+        },
+        {
+          "name": "stage3-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 15.883734802657273
+        },
+        {
+          "name": "stage3-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 15.883734802657273
+        },
+        {
+          "name": "stage3-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 16.23373720323434
+        },
+        {
+          "name": "stage3-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 16.250404003018048
+        },
+        {
+          "name": "stage3-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 18.250419302785303
+        },
+        {
+          "name": "stage4-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 18.417086902016308
+        },
+        {
+          "name": "stage4-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 18.417086902016308
+        },
+        {
+          "name": "stage4-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 18.417086902016308
+        },
+        {
+          "name": "stage4-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 18.733755602443125
+        },
+        {
+          "name": "stage4-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 18.75042240222683
+        },
+        {
+          "name": "stage4-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 20.767101402336266
+        },
+        {
+          "name": "stage5-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 20.91710240294924
+        },
+        {
+          "name": "stage5-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 20.91710240294924
+        },
+        {
+          "name": "stage5-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 20.91710240294924
+        },
+        {
+          "name": "four-summons-after-one-reward",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 21.25044420262566
+        },
+        {
+          "name": "stage5-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 21.25044420262566
+        },
+        {
+          "name": "stage5-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 21.267110901826527
+        },
+        {
+          "name": "stage5-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 23.267153902852442
+        },
+        {
+          "name": "stage6-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 23.417155100905802
+        },
+        {
+          "name": "stage6-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 23.417155100905802
+        },
+        {
+          "name": "stage6-result",
+          "pass": true,
+          "detail": "actual=17 expected=17",
+          "worldSeconds": 23.417155100905802
+        },
+        {
+          "name": "stage6-failure-or-retry-all-state-unchanged-p0",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 23.75213310396066
+        },
+        {
+          "name": "stage6-failure-or-retry-all-state-unchanged-p1",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 23.75213310396066
+        },
+        {
+          "name": "stage6-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 23.75213310396066
+        },
+        {
+          "name": "stage6-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 23.768799803161528
+        },
+        {
+          "name": "stage6-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 25.785482703649905
+        },
+        {
+          "name": "100-fixture-kills-both-reward",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 51.08614570175996
+        },
+        {
+          "name": "stage7-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 51.08614570175996
+        },
+        {
+          "name": "stage7-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 51.10281240096083
+        },
+        {
+          "name": "stage7-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.10282410209766
+        },
+        {
+          "name": "stage8-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.26949210366001
+        },
+        {
+          "name": "stage8-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.26949210366001
+        },
+        {
+          "name": "stage8-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 53.26949210366001
+        },
+        {
+          "name": "stage8-preserve-id1-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.60284270247212
+        },
+        {
+          "name": "stage8-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.60284270247212
+        },
+        {
+          "name": "stage8-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.60284270247212
+        },
+        {
+          "name": "stage8-preserve-id5-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.60284270247212
+        },
+        {
+          "name": "stage8-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.60284270247212
+        },
+        {
+          "name": "stage8-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.60284270247212
+        },
+        {
+          "name": "stage8-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.619509401672985
+        },
+        {
+          "name": "stage8-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 55.63620790367713
+        },
+        {
+          "name": "stage9-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 55.80287580093136
+        },
+        {
+          "name": "stage9-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 55.80287580093136
+        },
+        {
+          "name": "stage9-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 55.80287580093136
+        },
+        {
+          "name": "stage9-preserve-id1-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.11966900428524
+        },
+        {
+          "name": "stage9-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.11966900428524
+        },
+        {
+          "name": "stage9-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.11966900428524
+        },
+        {
+          "name": "stage9-preserve-id5-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.11966900428524
+        },
+        {
+          "name": "stage9-preserve-id6-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.11966900428524
+        },
+        {
+          "name": "stage9-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.11966900428524
+        },
+        {
+          "name": "stage9-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.11966900428524
+        },
+        {
+          "name": "stage9-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.13633580406895
+        },
+        {
+          "name": "stage9-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.15303170209518
+        },
+        {
+          "name": "stage10-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.31969900330296
+        },
+        {
+          "name": "stage10-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.31969900330296
+        },
+        {
+          "name": "stage10-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 58.31969900330296
+        },
+        {
+          "name": "seven-C01-stacks-3-3-1",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-preserve-id1-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-preserve-id5-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-preserve-id6-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-preserve-id7-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.636377702408936
+        },
+        {
+          "name": "stage10-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.65304460277548
+        },
+        {
+          "name": "stage10-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 60.65945240383735
+        },
+        {
+          "name": "select-action-stack",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 60.65945240383735
+        },
+        {
+          "name": "stage11-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 60.809453303867485
+        },
+        {
+          "name": "stage11-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 60.809453303867485
+        },
+        {
+          "name": "stage11-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 60.809453303867485
+        },
+        {
+          "name": "sell-refund17-refill-existing-donor",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-preserve-id5-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-preserve-id6-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-preserve-id7-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.1507885036408
+        },
+        {
+          "name": "stage11-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.167455303424504
+        },
+        {
+          "name": "stage11-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.16755200078478
+        },
+        {
+          "name": "stage12-submit-owned-controller",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.334219603741076
+        },
+        {
+          "name": "stage12-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 63.334219603741076
+        },
+        {
+          "name": "whole-stack-move",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-preserve-id5-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-preserve-id6-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-preserve-id7-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.66755950351944
+        },
+        {
+          "name": "stage12-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.68422630330315
+        },
+        {
+          "name": "stage12-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 65.68423900281778
+        },
+        {
+          "name": "stage13-failure-or-retry-all-state-unchanged-p0",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-failure-or-retry-all-state-unchanged-p1",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-preserve-id5-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-preserve-id6-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-preserve-id7-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.18424190109363
+        },
+        {
+          "name": "stage13-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.20090870087733
+        },
+        {
+          "name": "stage13-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.20093560119858
+        },
+        {
+          "name": "stage14-submit-owned-controller",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.35103380208602
+        },
+        {
+          "name": "stage14-result",
+          "pass": true,
+          "detail": "actual=12 expected=12",
+          "worldSeconds": 68.35103380208602
+        },
+        {
+          "name": "stage14-failure-or-retry-all-state-unchanged-p0",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-failure-or-retry-all-state-unchanged-p1",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-preserve-id5-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-preserve-id6-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-preserve-id7-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.68436980148545
+        },
+        {
+          "name": "stage14-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.70103670185199
+        },
+        {
+          "name": "stage14-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 70.70114270126214
+        },
+        {
+          "name": "select-action-stack",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 70.70114270126214
+        },
+        {
+          "name": "stage15-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 70.85114410420647
+        },
+        {
+          "name": "stage15-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 70.85114410420647
+        },
+        {
+          "name": "stage15-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 70.85114410420647
+        },
+        {
+          "name": "merge-three-to-one-rare-first-empty17",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.2011464042007
+        },
+        {
+          "name": "stage15-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.2011464042007
+        },
+        {
+          "name": "stage15-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.2011464042007
+        },
+        {
+          "name": "stage15-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.2011464042007
+        },
+        {
+          "name": "stage15-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.2011464042007
+        },
+        {
+          "name": "stage15-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.2011464042007
+        },
+        {
+          "name": "stage15-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.2178132039844
+        },
+        {
+          "name": "stage15-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 73.22382270073285
+        },
+        {
+          "name": "completed-retransmit-uses-observed-result",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 73.22382270073285
+        },
+        {
+          "name": "completed-replay-has-original-request",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "server-replay-api-original-result",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "server-replay-api-conflict",
+          "pass": true,
+          "detail": "actual=3",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-failure-or-retry-all-state-unchanged-p0",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-failure-or-retry-all-state-unchanged-p1",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-preserve-id9-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.22383930062642
+        },
+        {
+          "name": "stage16-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.24050600355258
+        },
+        {
+          "name": "stage16-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 76.24052610149374
+        },
+        {
+          "name": "remove-live-hud-for-lifecycle-check",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 76.24052610149374
+        },
+        {
+          "name": "new-hud-restored-after-remove",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 76.25719290127745
+        },
+        {
+          "name": "stage17-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.24062850227347
+        },
+        {
+          "name": "stage17-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.24062850227347
+        },
+        {
+          "name": "stage17-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.24062850227347
+        },
+        {
+          "name": "stage17-preserve-id9-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.24062850227347
+        },
+        {
+          "name": "stage17-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.24062850227347
+        },
+        {
+          "name": "stage17-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.24062850227347
+        },
+        {
+          "name": "stage17-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.25729540264001
+        },
+        {
+          "name": "stage17-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.27397550171008
+        },
+        {
+          "name": "stage18-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.44064310094109
+        },
+        {
+          "name": "stage18-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.44064310094109
+        },
+        {
+          "name": "stage18-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 79.44064310094109
+        },
+        {
+          "name": "recreated-hud-single-command-p0",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.77397820254555
+        },
+        {
+          "name": "stage18-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.77397820254555
+        },
+        {
+          "name": "stage18-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.77397820254555
+        },
+        {
+          "name": "stage18-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.77397820254555
+        },
+        {
+          "name": "stage18-preserve-id9-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.77397820254555
+        },
+        {
+          "name": "stage18-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.77397820254555
+        },
+        {
+          "name": "stage18-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.77397820254555
+        },
+        {
+          "name": "stage18-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.79064500232926
+        },
+        {
+          "name": "stage18-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 81.80734160071006
+        },
+        {
+          "name": "recreated-hud-single-command-p1",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-preserve-id3-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-preserve-id4-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-preserve-id8-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-preserve-id9-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-preserve-id10-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-preserve-id2-actor-and-timer",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-registration-count",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.29067790409317
+        },
+        {
+          "name": "stage19-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 82.30734470387688
+        },
+        {
+          "name": "stage19-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 84.31693700229516
+        },
+        {
+          "name": "all-stages-complete",
+          "pass": true,
+          "detail": "inspected=20/20",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "hud-recreation-observed",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage0",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage3",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage4",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage5",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage6",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage8",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage9",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage10",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage11",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage12",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage14",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage15",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        },
+        {
+          "name": "required-command-result-stage18",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 90.30034210061422
+        }
+      ]
+    },
+    {
+      "Role": "client",
+      "Result": "Pass",
+      "Checks": 57,
+      "Failures": 0,
+      "FrameCount": 4731,
+      "FrameMsP95": 16.666900634765625,
+      "ChecksDetail": [
+        {
+          "name": "stage-1-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 0.12947139889001846
+        },
+        {
+          "name": "stage0-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 0.5961417965590954
+        },
+        {
+          "name": "stage0-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 2.2797602005302906
+        },
+        {
+          "name": "stage1-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 6.3138523027300835
+        },
+        {
+          "name": "stage1-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 8.330988802015781
+        },
+        {
+          "name": "stage2-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 8.497656803578138
+        },
+        {
+          "name": "stage2-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 8.497656803578138
+        },
+        {
+          "name": "remote-pending-retransmit",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 8.497656803578138
+        },
+        {
+          "name": "stage2-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 8.514323603361845
+        },
+        {
+          "name": "stage2-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 8.847659200429916
+        },
+        {
+          "name": "stage2-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 10.847736302763224
+        },
+        {
+          "name": "stage3-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 11.364409003406763
+        },
+        {
+          "name": "stage3-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 13.364464301615953
+        },
+        {
+          "name": "stage4-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 13.8645852021873
+        },
+        {
+          "name": "stage4-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 15.881283402442932
+        },
+        {
+          "name": "stage5-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 16.381286703050137
+        },
+        {
+          "name": "stage5-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 18.381342601031065
+        },
+        {
+          "name": "stage6-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 18.88153240084648
+        },
+        {
+          "name": "stage6-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 20.898427601903677
+        },
+        {
+          "name": "stage7-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 46.21745700016618
+        },
+        {
+          "name": "stage7-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 48.217539101839066
+        },
+        {
+          "name": "stage8-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 48.73422100022435
+        },
+        {
+          "name": "stage8-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 50.750904101878405
+        },
+        {
+          "name": "stage9-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 51.250907100737095
+        },
+        {
+          "name": "stage9-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.267638102173805
+        },
+        {
+          "name": "stage10-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 53.767641201615334
+        },
+        {
+          "name": "stage10-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 55.77826660126448
+        },
+        {
+          "name": "stage11-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 56.29494130238891
+        },
+        {
+          "name": "stage11-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.29504820331931
+        },
+        {
+          "name": "stage12-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 58.811718702316284
+        },
+        {
+          "name": "stage12-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 60.81176060065627
+        },
+        {
+          "name": "stage13-submit-owned-controller",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 60.96830220147967
+        },
+        {
+          "name": "stage13-result",
+          "pass": true,
+          "detail": "actual=13 expected=13",
+          "worldSeconds": 60.98496900126338
+        },
+        {
+          "name": "stage13-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 61.318307001143694
+        },
+        {
+          "name": "stage13-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.31834680214524
+        },
+        {
+          "name": "stage14-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 63.81835260242224
+        },
+        {
+          "name": "stage14-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 65.81837540119886
+        },
+        {
+          "name": "stage15-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 66.33504470065236
+        },
+        {
+          "name": "stage15-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 68.34420530125499
+        },
+        {
+          "name": "stage16-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 69.36087880283594
+        },
+        {
+          "name": "stage16-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.36100330203772
+        },
+        {
+          "name": "remove-live-hud-for-lifecycle-check",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.36100330203772
+        },
+        {
+          "name": "new-hud-restored-after-remove",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 71.37767010182142
+        },
+        {
+          "name": "stage17-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 72.377676602453
+        },
+        {
+          "name": "stage17-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.39436060190201
+        },
+        {
+          "name": "stage18-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 74.91103080287576
+        },
+        {
+          "name": "stage18-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 76.9277189001441
+        },
+        {
+          "name": "stage19-hud-click-does-not-select-board",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.0943865031004
+        },
+        {
+          "name": "stage19-submit-slate-button",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.0943865031004
+        },
+        {
+          "name": "stage19-result",
+          "pass": true,
+          "detail": "actual=0 expected=0",
+          "worldSeconds": 77.1110533028841
+        },
+        {
+          "name": "stage19-owner-snapshot-and-both-boards-agree",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 77.42772260308266
+        },
+        {
+          "name": "stage19-response-completed-before-transition",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.44189220294356
+        },
+        {
+          "name": "all-stages-complete",
+          "pass": true,
+          "detail": "inspected=20/20",
+          "worldSeconds": 79.44189220294356
+        },
+        {
+          "name": "hud-recreation-observed",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.44189220294356
+        },
+        {
+          "name": "required-command-result-stage2",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.44189220294356
+        },
+        {
+          "name": "required-command-result-stage13",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.44189220294356
+        },
+        {
+          "name": "required-command-result-stage19",
+          "pass": true,
+          "detail": "",
+          "worldSeconds": 79.44189220294356
+        }
+      ]
+    }
+  ],
+  "Screenshots": [
+    {
+      "File": "host/stage-0.png",
+      "SHA256": "6E19D9657ED202FEB6722BB0B4487C37854FFB03FF24FE34462D550EF8131F00"
+    },
+    {
+      "File": "host/stage-10.png",
+      "SHA256": "2B4B8B889431E8F4E7AFD36DA6A82FDE5B686697F803526C19A25A656BA46610"
+    },
+    {
+      "File": "host/stage-15.png",
+      "SHA256": "900CC81BBDF22532AA7AEB5E61D8CCCE217E5D6CC4713AFD4EA4837106932B7E"
+    },
+    {
+      "File": "host/stage-19.png",
+      "SHA256": "0A6706E1BB779879EF0CA5D9A90C703B4CDA5264A199665A4B55A64813EDB699"
+    },
+    {
+      "File": "host/stage-6-rejected.png",
+      "SHA256": "A1E83B8334616134A4176D287223BF54E43E04C848C8064C3E817D0BA20A9B70"
+    },
+    {
+      "File": "client/stage-0.png",
+      "SHA256": "A960AC26C66E983A7872962872223EB7112D302986BB8764B96769850E45680A"
+    },
+    {
+      "File": "client/stage-10.png",
+      "SHA256": "3932EF443D930430F44CCFDDBBA674C22335098CF1F45272278CF7192B991790"
+    },
+    {
+      "File": "client/stage-15.png",
+      "SHA256": "39EF8C9301522239ED387AD14BBA1FAD787E97917D485D65735096BA569CB989"
+    },
+    {
+      "File": "client/stage-19.png",
+      "SHA256": "7DD54EFFF3B7C94C0FACF7C12A34DEB83853DE134A6980CFBC18033E9B44141C"
+    }
+  ],
+  "VisuallyReviewed": [
+    "host/stage-19.png",
+    "client/stage-19.png",
+    "host/stage-6-rejected.png"
+  ],
+  "Audio": "NotRun: pair uses -nosound"
+}

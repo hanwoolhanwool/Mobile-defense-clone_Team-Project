@@ -35,7 +35,7 @@
 | 출발 문서·데이터·스타일 | Pass | 원본 Saved/P0Runs/20260918-start/check-project.log; 문서6601 checks. 게임 실행 증거 아님 |
 | G0 | Pass | A/B/통합 Editor Pass, A4/B4/통합12 자동화 Pass. 초기화·종료 2건 a02efc1 수정·재리뷰 완료. 실제 RPC/PIE는 G1~G3 검수 |
 | G1 | Pass | 소스 df8a2f2. 새 G0 재현 Editor·22자동화·실제2프로세스7화면비·전체 셀·2바퀴 Pass. 카메라/표시/검사기 실패 수정·리뷰 완료 |
-| G2 | InProgress | 공통 시작4861b987. 전투·경제·보드·HUD 통합 중. 첫 실제 UE34검사33Pass/1옛문구 Fail→후속37Pass(무경고34+경고3). 실제17단계2프로세스 Pass 후 검사기·현재 시각 경계·HUD 재생성 보강 재검증 중 |
+| G2 | Pass | 시작4861b987→제품5baa960/검사포함ae6be1b. 새56파일 조립·Editor·39+보충12 무경고Pass(44종); 실제GPU20단계 host213/client57 Pass. 독립 리뷰 차단0; [증거](evidence/RUN-20260918-G2/SUMMARY.md) |
 | G3 | NotRun | G2 의존, PC 패키지 별도 두 프로세스·5판 필요 |
 | G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018/JDK21.0.3 준비. Android 실제 빌드 exit6: UE Android 선택 구성 요소 누락. 사용자가 설치 진행, adb 장치0 |
 
@@ -61,6 +61,7 @@
 - 에셋 생성: `/Game/LD/Maps/L_P0`, `/Game/LD/Core/BP_LDGameMode`(native LDGameMode 부모). 시작/기본 맵·GameMode를 연결했다. 에디터 생성·저장만 확인했으며 실제 화면은 G1에서 검수한다.
 - 구성 이유: 런타임 JSON은 `Content/LD/Data`의 UFS로 패키징한다. AndroidFileServer는 내장 APK+adb 경로에 필요 없어 비활성화했고 자동 토큰 생성을 차단한다.
 
+<a id="측정-환경과-한계"></a>
 ## 측정 환경과 한계
 
 Windows11 Pro 10.0.26200, Ryzen5 7500F(6C/12T), RAM32GiB, RTX4060Ti(driver32.0.15.9186), UE5.8.2 CL56702186, MSVC14.50.35738, WindowsSDK10.0.26100. 컴파일·NullRHI 자동화 시간은 게임 프레임 성능이 아니다. 대표 부하의 렌더링·네트워크·Android 성능은 아직 측정하지 않았다.
