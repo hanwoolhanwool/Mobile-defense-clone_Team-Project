@@ -138,7 +138,7 @@ bool ALDEnemyActor::AdvanceRouteTo(double ServerSeconds)
 	RouteSnapshot.TotalDistanceCm = CandidateDistance;
 	RouteSnapshot.SampleServerSeconds = ServerSeconds;
 	SetActorLocation(Position);
-	RefreshPresentation(ServerSeconds);
+	RefreshPresentation(GetPresentationServerSeconds());
 	return true;
 }
 
