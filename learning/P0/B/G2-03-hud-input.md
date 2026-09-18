@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-UI-01·TASK-INPUT-01, [UI v2](../../../docs/design/BOARD_UI.md#ingame-ui-v2), [layout-spec](../../../docs/design/assets/ingame-ui-v2/layout-spec.json) |
-| 참고 자료 제작 상태 | Draft — 코드·설정 기록, 실제 화면/입력 및 수업 조립 재현 전 |
+| 참고 자료 제작 상태 | Verified — 별도 조립·실제 GPU/Slate·EngineTouch·HUD 재생성 범위 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | G1 `4861b987f3e2fe78bcc159d1b6a85008543a938b` + 앞 두 수업 / UI 초안 `22f31513f0e0b836200f2b161847e15e37410075`, 수정 최신 `f00f8fb27c514d9a44fddecaf624f7b378416662` |
+| 참고 시작/완료 SHA | G1 `4861b987f3e2fe78bcc159d1b6a85008543a938b` + 앞 두 수업 / 완료 `ae6be1b0b06ed733425e01632a341fb4db4cad59` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A 확정 UnitActor의 배치·RangeCm·슬롯 표시, B 원자 서비스/개인 Snapshot, 공통 실패 SoundWave |
 | 제공 코드 / 직접 작성할 코드 | 제공: G1 map/camera/재료·A UnitActor·root 실패음. 직접 작성: LDGameplayWidget, Controller intent/drag/pending, 사거리 표시 |
@@ -46,23 +46,23 @@ ARCH-01~03: 위젯은 조회/intent, Controller는 입력과 소유 RPC, Present
 | 7 | root 실패음 제공 | SoundWave, 48kHz mono,220Hz,100ms; 생성기 `tools/Create-P0FeedbackAudio.py` | import/load는 root 확인, 실제 청취 별도 |
 | 8 | PC 키 | S 소환, M 합성, X 판매 | 버튼과 같은 intent/API |
 
-예상 첫 화면은 인구0/20·골드100·돌0·소환20, 성공 후 인구1/20·골드80·소환22다. 같은 종류3개는 A 슬롯 표시로 세 개체가 구분되고 선택 원의 반지름은 실제 데이터 사거리다. 완성 화면 캡처는 실제 GPU 검수 후 연결한다.
+예상 첫 화면은 인구0/20·골드100·돌0·소환20, 성공 후 인구1/20·골드80·소환22다. 같은 종류3개는 A 슬롯 표시로 세 개체가 구분되고 선택 원의 반지름은 실제 데이터 사거리다. 실제 완성 화면·거절 화면은 [공통 재현 자료](../evidence/G2_REPLAY/README.md)에 연결한다. 최종 호스트는 골드2·인구5·다음36, 클라이언트는 골드159·인구2·다음24였고, 부족 거절 화면은 골드9·인구4·다음28 그대로이며 소환 버튼 붉은 반응과 한국어 이유가 나타났다.
 
 ## 실행·실패·수정 기록
 
 | 입력/조건 | 기대 결과 | 실제 결과·수정 |
 |---|---|---|
-| 첫 UI Editor 빌드 | C++/UHT 통과 | Fail: LDG1BoardWidget.cpp 지역 Visibility가 UWidget 멤버 숨김(C4458). [실패 발췌](evidence/G2-initial/ui-build-failure.txt), `0d6c0160c87a54e0fd11594ee06c3dcc6ec09e7b`에서 OverlayVisibility로 변경, 재빌드 대기 |
+| 첫 UI Editor 빌드 | C++/UHT 통과 | Fail: LDG1BoardWidget.cpp 지역 Visibility가 UWidget 멤버 숨김(C4458). [실패 발췌](evidence/G2-initial/ui-build-failure.txt), `0d6c0160c87a54e0fd11594ee06c3dcc6ec09e7b`에서 OverlayVisibility로 변경, 이후 재현 Editor Pass |
 | 3개 파일 수정 후 소스 검사 | 규약·포맷 오류0 | Pass:48checked/0errors, 게임 실행 증거 아님 |
-| 실제 Slate 버튼 click/touch | 해당 요청1회, 보드 선택 불변 | NotRun, root 검수 fixture 준비 |
-| UI RemoveFromParent 후 재생성 | 버튼 구독1개·현재 값 유지 | 누락 정적 발견: 포인터만 확인하면 재생성 안 됨. `64acff687b7b31ca39abb69bc99819016cacc75c` IsInViewport 확인 추가, 실행 대기 |
-| 실패 소환 | 재화/RNG 불변, 빨간 .25초·이유·실패음 | 서버 불변은 G2-01 검사 Pass, 실제 UI/소리는 NotRun |
-| 개인 상태보다 응답 선도착 | 두 Revision 도착 전 조작 대기 | 구현 완료, 실제 네트워크 도착순서 검수 대기 |
+| 실제 Slate 버튼·EngineTouch 보드 이동 | 해당 요청1회, UI 클릭의 보드 선택 불변 | Pass, 새 두 프로세스20단계·EngineTouch 이동. 물리 입력/실기기 터치는 미검증 |
+| UI RemoveFromParent 후 재생성 | 버튼 구독1개·현재 값 유지 | 포인터만 확인하면 재생성 안 되는 누락을 `64acff687b7b31ca39abb69bc99819016cacc75c` IsInViewport 확인으로 수정. 양쪽 새 HUD 클릭이 각각명령1회 발생 Pass |
+| 실패 소환 | 재화/RNG 불변, 빨간 .25초·이유·실패음 | 원본 불변·버튼/한국어 이유 Pass. -nosound 실행이므로 소리 청취 NotRun |
+| 개인 상태보다 응답 선도착 | 두 Revision 도착 전 조작 대기 | 실제 PC public handler 순서 검사 Pass. 인위적 네트워크 지연은 G3 범위 |
 | 화면 회전·다른 비율 | 보드/버튼 좌표·range 일치 | G1 좌표 Pass와 구별하여 G2 UI는 NotRun |
 
 사운드 원본은 root `5536803`에서 생성/import/load했다는 제공 기록이며 이 역할 브랜치가 직접 새 에셋을 만든 것이 아니다. 소리 출력·Android 터치·SafeArea는 실제 기기/출력 검수 전까지 미검증이다.
 
-후속 통합 `cb6c631`은 실제 Editor Pass와 전체 UE 자동화37성공(34무경고+3경고)/0Fail/0NotRun을 확인했다. [선별 결과](evidence/G2-initial/commands-final-review-summary.json)에 버전·범위를 남겼으며 harness의 경고 포함 성공 누락을 정정했다. 위 C4458 수정의 재빌드는 통과했다. B 역할 Editor도25.06초 Pass이며 역할 검사에서 제공 실패음 미수신 경고1건은 root의 에셋 전달 후 재검증할 사항이다. 실제 HUD 생성/재생성·Slate 클릭·캡처는 root의 별도 GPU 실행에서 검수 중이다. 자동화 통과로 화면 결과를 앞당겨 표시하지 않는다.
+초기 통합 `cb6c631`은 실제 Editor Pass와 전체 UE 자동화37성공(34무경고+3경고)/0Fail/0NotRun이었다. [선별 결과](evidence/G2-initial/commands-final-review-summary.json)에 버전·범위를 남기고 harness의 경고 포함 성공 누락을 정정했다. 이후 새 G1 출발점에서 전체39무경고 Pass와 보완 명령12무경고 Pass를 확인했다. 위 C4458와 WorldContext/제공 사운드 누락을 정리한 상태에서 실제 GPU 두 프로세스20단계 host213/client57검사 Pass 및 양쪽 HUD 재생성·재클릭을 확인했다. [최종 선별 결과](evidence/G2-final-summary.json), [공통 재현 절차](../evidence/G2_REPLAY/README.md), [정식 G2 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md)가 Verified 근거다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -73,12 +73,13 @@ G2-01/02 서비스와 A 실제 UnitActor를 연결한 뒤 UI 소스22f→0d6→6
 - 위젯에서 소환 비용을 먼저 빼면 응답 재전달·거절에 어떤 문제가 생기는가?
 - 같은 Touch가 mouse로도 전달될 때 RequestId 중복 방지와 입력 중복 소비 방지는 왜 둘 다 필요한가?
 - 작은 변형: HUD를 제거하고 다음 프레임에 재생성한 뒤 클릭1회가 n을1만 증가시키는지 확인한다. 서버 상태/수업 출발 브랜치를 초기화하지 않는다.
-- 다음 조건: 실제 두 프로세스 UI·사거리·지연/중복·반복 UI 검수와 A 전투 결합 Pass 후 수업 조립을 재현한다. Android는 G4의 별도 실기기 검수다.
+- 다음 조건: G2 수업의 A 전투·조작·UI 재생성 결합과 새 조립 재현은 통과했다. 패키지2인10웨이브·인위적 지연/유실은 G3, Android는 G4의 별도 검수다.
 
 ## 단계 완료
 
 - [x] 파일 순서·UMG 계층·값·입력/API·실패 원인을 기록했다.
 - [x] 참고 코드와 제공 에셋·픽스처 범위를 구분했다.
-- [ ] 수정 후 Editor·실제 GPU 화면·Slate/EngineTouch 입력을 통과했다.
-- [ ] 수업 시작점의 별도 조립 재현을 마쳤다.
+- [x] 수정 후 Editor·실제 GPU 화면·Slate/EngineTouch 입력을 통과했다.
+- [x] 수업 시작점의 별도 조립 재현을 마쳤다.
+- [ ] 실제 하드웨어 입력·사운드 청취·Android·G2 HUD의 모든 종횡비를 검수했다. 이번540×1170 실행 밖이다.
 - [x] 미검증을 이전 G1/서버 계산 통과와 구분했다.

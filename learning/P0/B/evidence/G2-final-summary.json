@@ -1,0 +1,126 @@
+{
+  "Scope": "Separate lesson reconstruction; native UE automation plus actual two Editor-game processes. Not PIE/package/physical-input/Android.",
+  "StartedFrom": "4861b987f3e2fe78bcc159d1b6a85008543a938b",
+  "FinalSourceSha": "ae6be1b0b06ed733425e01632a341fb4db4cad59",
+  "AssemblyFileCount": 56,
+  "ReplayDirectory": "C:/Users/iam12/P0_lesson_replay_g2",
+  "Editor": {
+    "SupplementalResult": "Pass",
+    "InitialResult": "Pass",
+    "InitialUBTSeconds": 122.13
+  },
+  "FullAutomation": {
+    "Fail": 0,
+    "Pass": 39,
+    "Warnings": 0,
+    "NotRun": 0
+  },
+  "SupplementalCommands": {
+    "Fail": 0,
+    "Pass": 12,
+    "Warnings": 0,
+    "Tests": [
+      {
+        "fullTestPath": "LD.P0.G2.Commands.AtomicSummonAndFailure",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.ControllerResponseSnapshotOrders",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.DefensivePlacementFailure",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.EpochReplacementDuringPublication",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.ExpiredRequiresCurrentRevisions",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.GradeSalesAndLegendaryMerge",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.PopulationOwnershipAndPreparedIsolation",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.PreparedIsolationAndIdReservation",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.RewardsAndPreparedRevision",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.StackMoveMergeAndRefill",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.TenfoldDeathAndTwoFastBosses",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      },
+      {
+        "fullTestPath": "LD.P0.G2.Commands.WholeStackSwapKinds",
+        "state": "Success",
+        "warnings": 0,
+        "errors": 0
+      }
+    ],
+    "NotRun": 0
+  },
+  "ActualPair": {
+    "ClientPass": 57,
+    "ClientP95Ms": 16.666900634765625,
+    "Limit": "60FPS limited; HP70 stationary target plus100 funding targets, concurrent maximum12; not representative P0 load",
+    "Input": "Actual Slate button routes and EngineTouch drag; not hardware input",
+    "HostPass": 213,
+    "Engine": "5.8.2-56702186+++UE5+Release-5.8",
+    "HostP95Ms": 16.666900634765625,
+    "HostFail": 0,
+    "Audio": "-nosound; import/load only, no audible playback verification",
+    "Stages": 20,
+    "ClientFail": 0
+  },
+  "EvidenceRuns": [
+    "Replay-G2-editor",
+    "Replay-G2-automation",
+    "Replay-G2-review-fix1-assembly",
+    "Replay-G2-review-fix1-editor",
+    "Replay-G2-review-commands",
+    "Replay-G2-review-pair"
+  ],
+  "Unverified": [
+    "G3 packaged two-player ten-wave match and artificial network latency/loss",
+    "PIE",
+    "OS hardware mouse/touch and audible sound",
+    "Android physical device",
+    "Representative P0 performance"
+  ]
+}
