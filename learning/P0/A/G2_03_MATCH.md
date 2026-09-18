@@ -5,8 +5,8 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-BATTLE-01 / [공통 수명 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md#lifecycle) |
-| 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작/코드 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / 조립 `8356a211`, 시각 순서 `eafc378`, 현재 시각 경계 `198f7a25194f5b4f98d96556e8267e6697c391dd` |
+| 참고 자료 제작 / 실제 개발 상태 | Verified — 파일 조립·Editor·자동화·G2 두 프로세스 재현 범위 / Planned |
+| 참고 재현 시작/완료 소스 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / `ae6be1b0b06ed733425e01632a341fb4db4cad59` |
 | 실제 개발 시작/완료 SHA | 자기 G1 통합 결과 / 미생성 |
 | 상대 산출물 | B Board/Economy/Processor/Controller `84389ce`(A 수신 `f800d70`), A CombatService `28ead1bc` |
 | 제공 / 직접 작성 | 제공: G0 매치/참가자 수명, G1 맵. 직접 작성: Core/LDGameMode.*의 서비스 조립·통지·20Hz 호출 |
@@ -42,18 +42,20 @@ ARCH-01~06: GameMode는 서비스 구성·수명·통지만 맡고 피해/배치
 
 | 조건 | 기대 결과 | 실제 결과 |
 |---|---|---|
-| 준비·두 참가자 | 정상 G2만 Running/명령 수락 | 소스 연결 완료, 실제 실행 NotRun |
-| 같은 보드 commit | revision 중복 무시, 기존 공격 타이머 보존 | 소스 검토, 통합 자동화 대기 |
-| 죽음/중복 보상 | 양쪽 개인에게1회, 다음 외부 명령 전 반영 | B 중복 방지에 연결, 실제 한 사이클 NotRun |
-| 종료/이탈·반복 정리 | 새 공격/명령 거절, 예약·구독·보드 actor 정리 | 소스 연결 완료, 실제 반복 매치 NotRun |
-| G1 회귀 | Preparing/명령 닫힘·양쪽 경로 유지 | 명시적 분기 작성, 재실행 대기 |
-| 타이머 뒤 같은 WorldTime의 판매 | 현재 시각.25를 닫지 않고 PC판매 우선; 다음.30에도 HP1·상대 보상0 | A 역할 실제 `TimerBeforeSameWorldTimeSale` Pass, fixture 경고1 |
+| 준비·두 참가자 | 정상 G2만 Running/명령 수락 | 새 재현 실제 두 프로세스 Pass |
+| 같은 보드 commit | revision 중복 무시, 기존 공격 타이머 보존 | 재현 자동화·실제 보충/이동 타이머 검사 Pass |
+| 죽음/중복 보상 | 양쪽 개인에게1회, 다음 외부 명령 전 반영 | 재현 자동화와 실제 첫 소환→처치→양쪽 보상 Pass |
+| 종료/이탈·반복 정리 | 새 공격/명령 거절, 예약·구독·보드 actor 정리 | 수명 자동화 Pass; 실제 반복10웨이브 매치는 G3 미실행 |
+| G1 회귀 | 기존 경로·수명 계약 유지 | 새 재현 전체39자동화에 G0/G1 포함 Pass; G1 화면 검수 범위는 G1 증거 참조 |
+| 타이머 뒤 같은 WorldTime의 판매 | 현재 시각.25를 닫지 않고 PC판매 우선; 다음.30에도 HP1·상대 보상0 | 최초 역할 Pass/fixture 경고1 → WorldContext 수정 후 최종 재현 무경고 Pass |
 | 동일 fixture에서 판매 없음 | 다음.30에 예약.25 타격·HP0·상대101, 피해 유실0 | 같은 실제 자동화의 대조 Pass |
 | 스타일/공백 | 오류0 | Pass,50파일; Unreal 실행 증거 아님 |
 
 개발 중 상대 서비스가 없던 G0는 명시적 Stub이었다. 이번에는 B 실제 서비스 헤더·구현을 받은 뒤 연결했으며 성공을 흉내 내는 Stub을 넣지 않았다. 정식 런타임 생성/웨이브는 G3의 후속 의존성이며 G2 probe의 정지 적은 별도 검증 fixture로 기록한다.
 
 최초 통합 Editor와 A 전투7자동화는 통과했지만 전체 검사는 G0의 낡은 Stub 문구 기대값1개로 실패했다. 문구 전체 비교 대신 준비 Phase/참가자 수를 확인하도록 바꿨다. 독립 리뷰는10.04초 RPC 판매가10.025초 예약 공격보다 먼저 적용되는 시각 결함도 발견했으며 위 hook으로 수정했다. 실행 근거·첫 실패·후속 재검증 상태는 [공통 G2 증거](G2_EVIDENCE.md)에서 관리한다.
+
+최종 Verified 근거는 [공통 재현](../evidence/G2_REPLAY/README.md)의56파일 조립·Editor122.13초 Pass·전체39개 무경고 Pass, 후속 검사기 보완 Editor/12개 무경고 Pass와 실제 GPU 두 프로세스20단계(host213/client57 Pass)다. HUD를 양쪽에서 제거/재생성한 뒤 새 명령이 각각1회만 발생한 결과도 포함한다. 파일 조립 순서·실행 인자·실제 화면·미검증 범위는 공통 문서와 [정식 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md)를 따른다. 이 수업은 참고 파일 조립 재현이며 학습자가 구현했다고 기록하지 않는다.
 
 추가 리뷰는 타이머가 현재 WorldTime을 먼저 inclusive 확정한 뒤 동일 시각 명령이 들어오는 경우를 지적했다. 로컬 UE5.8 소스를 직접 확인했다. `Engine/Source/Runtime/Launch/Private/LaunchEngineLoop.cpp`의5859줄 GEngine Tick 뒤5921줄 Slate PlatformAndInput이 있고, `Engine/Source/Runtime/Engine/Private/LevelTick.cpp`의1574줄 네트워크 TickDispatch는1610줄 TimeSeconds 증가보다 앞선다. 호스트의 늦은 입력과 다음 프레임 수신이 같은 서버 WorldTime을 사용할 수 있으므로 엔진 호출 순서에 기대어 불가능하다고 가정하지 않는다.
 
@@ -72,6 +74,6 @@ ARCH-01~06: GameMode는 서비스 구성·수명·통지만 맡고 피해/배치
 ## 단계 완료
 
 - [x] 시작점·파일·서버 연결·상대 계약을 기록했다.
-- [ ] 새 작업 경로에서 수업을 재현했다.
-- [ ] Editor·자동화·실제 두 프로세스 실행과 SHA를 연결했다.
-- [x] 미검증은 위 모든 실행·반복 매치·패키지·성능·Android다. G2 통과와 수업 재현 뒤에만 Verified/다음 게이트를 기록한다.
+- [x] 새 detached 경로에서 수업 순서로 참고 파일을 조립하여 재현했다.
+- [x] Editor·자동화·실제 두 프로세스 실행과 완료 소스 manifest를 연결했다.
+- [x] 실제 반복10웨이브 매치·지연망·패키지·대표 부하·물리 입력·Android는 미검증이다. G2 참고 재현만 Verified이며 G3는 별도 지시·구현·검증 단계다.
