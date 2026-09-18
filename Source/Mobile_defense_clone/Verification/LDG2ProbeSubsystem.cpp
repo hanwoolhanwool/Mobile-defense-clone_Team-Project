@@ -246,14 +246,16 @@ void ULDG2ProbeSubsystem::Checkpoint(ALDGameMode& Mode)
 		{
 			const FLDCommandResult Replay = Owner->SubmitServerCommand(LastMerge);
 			FLDCommand Conflict = LastMerge;
-			Conflict.InstanceId += 10000;
+			++Conflict.ExpectedBoardRevision;
 			Check(TEXT("server-replay-api-original-result"),
 			           Replay.ResultCode == LastMergeResult.ResultCode && Replay.EventId == LastMergeResult.EventId &&
 			               Replay.NewBoardRevision == LastMergeResult.NewBoardRevision &&
 			               Replay.CreatedInstanceIds == LastMergeResult.CreatedInstanceIds &&
 			               Replay.RemovedInstanceIds == LastMergeResult.RemovedInstanceIds);
+			const ELDCommandResultCode ConflictResult = Owner->SubmitServerCommand(Conflict).ResultCode;
 			Check(TEXT("server-replay-api-conflict"),
-			           Owner->SubmitServerCommand(Conflict).ResultCode == ELDCommandResultCode::RequestIdConflict);
+			           Conflict.IsValidPayload() && ConflictResult == ELDCommandResultCode::RequestIdConflict,
+			           FString::Printf(TEXT("actual=%d"), static_cast<int32>(ConflictResult)));
 		}
 	}
 	if (Stage == 0)
@@ -464,7 +466,7 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 				           ResultStages.Contains(15) && LastMerge.RequestId > 0);
 				Controller.ServerRequestCommand(LastMerge);
 				FLDCommand Conflict = LastMerge;
-				Conflict.InstanceId += 10000;
+				++Conflict.ExpectedBoardRevision;
 				Controller.ServerRequestCommand(Conflict);
 			}
 			else
@@ -521,6 +523,10 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 		Check(FString::Printf(TEXT("stage%d-result"), LocalStage), Result.ResultCode == Expected,
 		                      FString::Printf(TEXT("actual=%d expected=%d"), static_cast<int32>(Result.ResultCode),
 		                                           static_cast<int32>(Expected)));
+		if (LocalStage == 6)
+		{
+			FScreenshotRequest::RequestScreenshot(OutputDirectory / TEXT("stage-6-rejected.png"), true, false);
+		}
 		if (LocalStage == 15)
 		{
 			LastMerge = LastSent;
