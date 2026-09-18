@@ -33,10 +33,24 @@
 | 구분 | 결과 | 증거 / 남은 의존성 |
 |---|---|---|
 | 출발 문서·데이터·스타일 | Pass | 원본 Saved/P0Runs/20260918-start/check-project.log; 문서6601 checks. 게임 실행 증거 아님 |
-| G0 | InProgress | A/B 공통 기반 독립 구현, 통합 비교·3개 Editor 빌드 대기 |
+| G0 | InProgress | A/B/통합 Editor Pass, UE 자동화 A4/B4/통합9 Pass. 독립 리뷰의 초기화·종료 2건 수정 및 회귀 검사 중 |
 | G1 | NotRun | G0 의존 |
 | G2 | NotRun | G1 실제 실행/양쪽 화면 통과 의존 |
 | G3 | NotRun | G2 의존, PC 패키지 별도 두 프로세스·5판 필요 |
-| G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018 설치 확인, adb 장치0. 사용자 USB 디버깅 연결 요청 |
+| G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018/JDK21.0.3 준비. Android 실제 빌드 exit6: UE Android 선택 구성 요소 누락. 사용자가 설치 진행, adb 장치0 |
 
 원격 push/PR 병합/외부 배포/기존 작업 삭제는 수행하지 않는다. 전체 로그는 Saved/P0Runs에 저장하고 핵심 결과는 이 기록과 정식 검수 기록에 연결한다.
+
+## G0 실행·리뷰 관찰
+
+- A 독립 구현 `0bab1ad` → 컴파일 실패(C++ 문자열 포인터 덧셈) 수정 `4cc3e0f`: Editor Pass, 데이터 자동화4 Pass. 증거: A worktree `Saved/P0Runs/G0-A-editor-fix1`, `G0-A-tests`.
+- B 독립 구현 `18b1ace` → W10 보스 전용 행의 일반 생성 간격0을 거절하던 결함 수정 `03acb67`: Editor Pass, 명령·데이터 자동화4 Pass. 증거: B worktree `Saved/P0Runs/G0-B-editor-fix1`, `G0-B-tests-fix1`.
+- 통합 `3b4105e`: Editor Pass(26.89초), NullRHI 자동화9 Pass. 증거: 통합 `Saved/P0Runs/G0-integration-editor`, `G0-integration-tests`. 화면·입력·네트워크 실행 증거가 아니다.
+- 독립 리뷰: GameMode.StopMatchServices가 Controller 문맥까지 해제하여 같은 연결의 종료 후 재전송에 캐시 원응답 대신 PhaseNotAllowed를 반환. 접수 종료와 연결 해제를 분리하고 Mode/Controller 경로 회귀 추가 중.
+- 독립 리뷰: 서비스 준비 전 PostLogin 참가자가 누락됨. 약한 대기 목록과 준비 완료 재연결로 순서 독립·중복 초기화 방지를 검사 중.
+- 에셋 생성: `/Game/LD/Maps/L_P0`, `/Game/LD/Core/BP_LDGameMode`(native LDGameMode 부모). 시작/기본 맵·GameMode를 연결했다. 에디터 생성·저장만 확인했으며 실제 화면은 G1에서 검수한다.
+- 구성 이유: 런타임 JSON은 `Content/LD/Data`의 UFS로 패키징한다. AndroidFileServer는 내장 APK+adb 경로에 필요 없어 비활성화했고 자동 토큰 생성을 차단한다.
+
+## 측정 환경과 한계
+
+Windows11 Pro 10.0.26200, Ryzen5 7500F(6C/12T), RAM32GiB, RTX4060Ti(driver32.0.15.9186), UE5.8.2 CL56702186, MSVC14.50.35738, WindowsSDK10.0.26100. 컴파일·NullRHI 자동화 시간은 게임 프레임 성능이 아니다. 대표 부하의 렌더링·네트워크·Android 성능은 아직 측정하지 않았다.

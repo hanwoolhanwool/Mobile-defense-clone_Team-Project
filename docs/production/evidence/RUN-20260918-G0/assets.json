@@ -1,0 +1,6 @@
+{
+  "result": "Pass",
+  "map": "/Game/LD/Maps/L_P0",
+  "game_mode": "/Game/LD/Core/BP_LDGameMode",
+  "scope": "Asset creation and save only; runtime not verified"
+}
