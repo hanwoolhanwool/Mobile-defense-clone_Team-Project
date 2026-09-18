@@ -1,6 +1,6 @@
 # P0 A 참고 구현 수업
 
-참고 자료 제작은 A-01과 G1-A-01/02 **Verified**, A-02 **Draft**이며 실제 학습자 진행은 모두 **Planned**다. Verified는 아래 재현 증거의 범위이며 전투·경제·웨이브 완료를 뜻하지 않는다.
+참고 자료 제작은 A-01, G1-A-01/02, G2-A-01/02/03 **Verified**, A-02 **Draft**이며 실제 학습자 진행은 모두 **Planned**다. Verified는 아래 재현 증거의 범위이며10웨이브·패키지·Android를 포함한 P0 완료를 뜻하지 않는다.
 
 공통 출발점은 `8c6856d235de87cc28c12b49ca775bd0937334a5`, A의 G0 코드 기준은 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`다. 최초 구현 `0bab1ad7241444fa73ce2ca41dbd8863046351dd`에서 Editor 빌드가 실패하여 오류 경로 문자열 연결을 수정했다. `reference/p0-a`는 비교용이고 `learn/p0-a`는 출발점에서 직접 작성한다. 참고 코드를 학습 브랜치에 병합하지 않는다.
 
@@ -12,7 +12,7 @@
 6. [G2-A-02: 예정 공격과 단일 사망](G2_02_COMBAT.md)
 7. [G2-A-03: 서버 서비스 연결](G2_03_MATCH.md)
 
-G2 세 수업은 **Draft**, 실제 학습자는 **Planned**다. 시작점은 G1 완료 `4861b987f3e2fe78bcc159d1b6a85008543a938b`이며 실제 실행·수업 재현 전까지 Verified로 표시하지 않는다.
+G2 세 수업은 G1 완료 `4861b987f3e2fe78bcc159d1b6a85008543a938b`에서 수업 순서로56파일을 조립하고 최종 소스 `ae6be1b0b06ed733425e01632a341fb4db4cad59`까지 재현한 범위에서 **Verified**다. [공통 재현 절차·증거](../evidence/G2_REPLAY/README.md), [정식 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md), [A 역할 경고와 최종 결과 구분](G2_EVIDENCE.md)을 따른다. Editor·39개 무경고 자동화·후속12개 무경고 검사·실제 두 프로세스20단계를 확인했다. 실제 학습자는 **Planned**이며 학습 브랜치에는 완성 코드를 병합하지 않았다.
 
 공통 규칙·권한·호출 계약은 [공통 구현 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [데이터 명세](../../../docs/DATA_SCHEMA.md), [제작 및 실제 학습 분리](../../WORKFLOW.md)를 읽는다. 수업은 해당 기능의 차이와 재현 절차만 기록한다.
 

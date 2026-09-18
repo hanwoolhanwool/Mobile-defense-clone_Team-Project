@@ -5,8 +5,8 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-UNIT-01 / [A 구현](../../../docs/technical/IMPLEMENTATION_A.md), [공통 거래 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
-| 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작/코드 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / `932bf449641b3c28d56f708a1ea90c9b38ac2596`, 표시 보완 `5880ce91a75c3eb6adbaefbfc940bded18914308` |
+| 참고 자료 제작 / 실제 개발 상태 | Verified — 파일 조립·Editor·자동화·G2 두 프로세스 재현 범위 / Planned |
+| 참고 재현 시작/완료 소스 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / `ae6be1b0b06ed733425e01632a341fb4db4cad59` |
 | 실제 개발 시작/완료 SHA | 자기 G1 통합 결과 / 미생성 |
 | 상대 산출물 | B BoardTypes `9658c55`, BoardManager `84389ce`; Schema2 / Rules0.3.0 |
 | 제공 / 직접 작성 | 제공: G1 맵·M_P0Flat·Engine Cube/Sphere, B 배치 계약. 직접 작성: Battle/LDUnitActor.h/.cpp와 해당 자동화 |
@@ -43,14 +43,14 @@ ARCH-01~06의 적용: 표시 actor와 보드/경제/전투 원본을 분리했�
 
 | 조건 | 독립 기대 결과 | 실제 결과·범위 |
 |---|---|---|
-| 준비 성공/취소 | 확정 전 복제·표시·전투등록0 | 소스 구현; B 공동 확정 검수와 함께 확인 필요 |
+| 준비 성공/취소 | 확정 전 복제·표시·전투등록0 | 최종 재현 자동화의 B 공동 확정·실패 검사 Pass |
 | 동일 셀 슬롯 변경 | mesh만 이동, canonical 중심 불변 | 최초 통합 `UnitPresentationPreservesCanonical` Pass |
 | canonical X0→140 이동 | 논리 즉시140, mesh .075초70/.15초140 이동량 | 같은 자동화 Pass |
 | 표시와 중복 등록 | NextAttackAt 유지 | 최초 통합 자동화 Pass |
 | EndPlay 후 로컬 표시 | false, 공격 불가 | 최초 통합 자동화 Pass |
 | 소스 스타일 | 오류0 | 50파일 검사 Pass; Unreal 컴파일 증거가 아님 |
 
-실행 SHA·원본 로그·전체 검사 실패와 후속 재검증 상태는 [A 공통 G2 증거](G2_EVIDENCE.md)에서 관리한다. 최초 최소 구현은 셀 중심에 mesh를 겹쳐 그렸다. 통합 사전 리뷰가3명 뭉치 식별과 .15초 이동 보간 누락을 발견해 `5880ce9`에서 수정했다. 실제 화면 실패를 재현한 기록은 아니다. 실제 조작·2인·패키지 검수 결과는 별도로 추가해야 한다.
+실행 SHA·원본 로그·초기 경고와 최종 무경고 결과는 [A 공통 G2 증거](G2_EVIDENCE.md)에서 관리한다. 최초 최소 구현은 셀 중심에 mesh를 겹쳐 그렸다. 통합 사전 리뷰가3명 뭉치 식별과 .15초 이동 보간 누락을 발견해 `5880ce9`에서 수정했다. 최종 재현에서는 실제 두 프로세스에서 판매 보충·EngineTouch 이동·합성 뒤 남은 Actor/InstanceId/공격 타이머 보존을 확인했다. 실제 화면과 입력·재현 파일 순서는 [공통 증거](../evidence/G2_REPLAY/README.md), 범위와 한계는 [정식 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md)를 따른다. 패키지·물리 터치·Android는 별도다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -65,6 +65,6 @@ B는 헤더를 받은 뒤 준비 actor에 InitializePrepared를 호출하고 실
 ## 단계 완료
 
 - [x] 파일·설정·제공 범위와 연결 계약을 기록했다.
-- [ ] 시작점에서 수업을 재현하고 실제 결과와 SHA를 연결했다.
-- [ ] B 보드·실제 두 프로세스와 합쳐 표시·조작을 확인했다.
-- [x] 미검증은 후속 코드 재검증·수업 재현·실제 화면·패키지·Android이며 다음 수업은 서버 전투다. Verified가 아니다.
+- [x] 새 detached 경로에서 수업 순서로 참고 파일을 조립하고 manifest·실제 결과·완료 소스를 연결했다. 학습자 작성 이력은 아니다.
+- [x] B 보드·실제 두 프로세스와 합쳐 표시·조작·기존 개체 보존을 확인했다.
+- [x] 패키지·물리 입력·Android와 대표 부하는 미검증이다. 다음 수업은 서버 전투이며 공통 Verified 범위를 확장해 해석하지 않는다.

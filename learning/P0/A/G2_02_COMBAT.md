@@ -5,8 +5,8 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-BATTLE-01 / [전투8.1·5.3](../../../docs/design/BATTLE.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
-| 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작/코드 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / 최초 `19aa7e1`, 예정 위치 수정 `28ead1bc530bef05cc9c06330238b9185a213a6b`, 명령 시각 수정 `eafc378163f3d9ed939821d153228f9b9d29943e` |
+| 참고 자료 제작 / 실제 개발 상태 | Verified — 파일 조립·Editor·자동화·G2 두 프로세스 재현 범위 / Planned |
+| 참고 재현 시작/완료 소스 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / `ae6be1b0b06ed733425e01632a341fb4db4cad59` |
 | 실제 개발 시작/완료 SHA | 자기 G1 통합 결과 / 미생성 |
 | 상대 산출물 | A UnitActor, B 확정 배치·잠금 통지; 보상은 B 내부 큐 |
 | 제공 / 직접 작성 | 제공: 검증된16행·G1 RouteModel. 직접 작성: CombatEvents/Rules/Service, EnemyActor HP 추가, Tests/LDCombatTests.cpp |
@@ -56,6 +56,8 @@ ARCH-01/02는 순수 규칙→서버 서비스→actor 사실/표현으로 나�
 
 실행 SHA·원본 로그와 후속 재검증 상태는 [A 공통 G2 증거](G2_EVIDENCE.md)를 따른다. 독립 정적 리뷰는 최초 서비스가 스텝 끝 위치로 과거 예정 타격을 판정하고, target 교체 시 사거리 진입 전으로 소급할 수 있음을 발견했다. `28ead1bc`는 정확 예정 시각의 경로 sample과 새 관찰 시각을 분리했고 첫7개 Unreal 자동화가 통과했다. 후속 조립 리뷰의 RPC 시각 결함은 `eafc378`에서 strict-before hook과 전역 예정 순서로 수정했다. 첫7개 Pass는 그 후속 코드의 검수 Pass로 재사용하지 않는다.
 
+새 시작점의 최종 재현에서는 위 전투9개와 동일 WorldTime 조립 회귀가 모두 무경고 Pass였다. 실제 GPU 두 프로세스20단계에서는 첫 소환→HP70 처치→양쪽 보상1회와 보충/이동 후 개체·타이머 유지가 Pass였다. [공통 재현](../evidence/G2_REPLAY/README.md)의 manifest·원본 로그를 사용하고, 정지 표적/자금용 HP1 적은 [정식 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md)에 명시된 fixture다. 이를10웨이브 밸런스·대표 부하 결과로 사용하지 않는다.
+
 ## 상대에게 전달하고 통합하기
 
 CombatService의 공개 API와 Enemy HP 조회는 각 헤더 한 곳에서 관리한다. GameMode가 보드 확정으로 등록/제거하고 사망을 Processor.EnqueueCombatReward에 연결한다. B는 한 스텝 끝이나 다음 외부 명령 전에 보상을 Drain한다. fixture의 고정 UnitId/정지 적/직접 시각 주입을 정상 소환·이동 규칙으로 복사하지 않는다.
@@ -69,6 +71,6 @@ CombatService의 공개 API와 Enemy HP 조회는 각 헤더 한 곳에서 관�
 ## 단계 완료
 
 - [x] 소스·상태·호출·독립 기대값을 기록했다.
-- [ ] 시작점 재현·Editor/자동화와 SHA를 연결했다.
-- [ ] B 실제 첫 소환→처치→양쪽 보상을 두 프로세스에서 검수했다.
-- [x] 미검증은 자동화 실행·실게임·패키지·부하·Android다. G3 마감/웨이브/승패는 구현하지 않았으며 G2 통과 후 별도 검증한다.
+- [x] 새 시작점 참고 파일 조립·Editor/자동화와 완료 소스 manifest를 연결했다. 실제 학습자 진행은 Planned다.
+- [x] B 실제 첫 소환→처치→양쪽 보상을 별도 두 프로세스에서 검수했다.
+- [x] 패키지·대표 부하·Android는 미검증이다. G3 마감/웨이브/승패는 이번 검수 범위가 아니며 다음 게이트에서 별도 구현·검증한다.
