@@ -22,6 +22,8 @@ public:
 	bool RetryPendingCommand();
 	bool HasPendingCommand() const;
 	const FLDCommandResult& GetLastResult() const;
+	// Shared authority-checked submission boundary used by the owning Controller's Server RPC.
+	FLDCommandResult SubmitServerCommand(const FLDCommand& Command);
 	FLDCommandCompleted OnCommandCompleted;
 
 	UFUNCTION(Server, Reliable)

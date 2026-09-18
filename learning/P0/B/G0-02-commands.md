@@ -20,6 +20,8 @@
 
 ## 코드 작성 순서
 
+[공통 재현 절차](../COMMON.md#g0-replay)의 `-Role B`를 사용한다. G0-01의 MatchTypes/데이터/상태 → 이 수업의 Network/Controller → G0-01의 GameMode → LDCommandTests 순서로 모든 소스를 조립한 뒤 Editor 빌드는 한 번이다. 같은 커밋의 한 테스트 파일에 로더1개와 명령3개가 있으므로 `LD.P0.G0.Commands` 전체4개 결과에서 부분 결과를 구분한다.
+
 1. `Network/LDCommandTypes.h/.cpp`: enum·요청·결과를 작성한다. 응답에는 MatchId를 포함한다. `IsValidPayload`는 형식만 검사하고, 게임 규칙은 향후 경제/보드에 맡긴다. `Normalized`는 합성 재료 순서만 정렬하며 선택 InstanceId를 바꾸지 않는다.
 2. `Network/LDCommandProcessor.h/.cpp`: Initialize → RegisterParticipant → Submit 순서로 연결한다. 세대별 최고 번호·최근256개 결과·순서를 서버 객체에 둔다. 처리 순서는 서버 신원/세대 → 구조 → 캐시/충돌/만료 → 새 번호 등록 → 한도 → 준비 여부 → 명시 Stub이다.
 3. `SubmitAtTime`에 명시 시각을 전달해 12개 burst·초당8개 경계를 테스트한다. 실제 Submit은 FPlatformTime의 단조 시각을 사용한다. 캐시는 Prepare/Result 변경보다 먼저 검사한다.
@@ -40,9 +42,11 @@ ARCH-01~03: Controller는 입력/응답 추적, Processor는 중복/접수 원�
 | 4 | UI/Blueprint | G0 신규 에셋 없음, 바인딩 없음 | 실패 결과 표시 HUD는 G2 이후. 현재 기대는 응답 코드 관찰 |
 | 5 | 이후 G1/G2 연결 | Board/경제 준비 완료 후 SetAcceptingCommands 호출, 실제 executor 추가 | G0 Stub 제거 후 기능 검수 재실행 |
 
-실제 G0 화면·PIE 관찰은 아직 없다. 헤더·C++ 포맷과 소스의 기대 흐름만 확인됐다.
+실제 G0 화면·PIE 관찰은 아직 없다. 헤더·C++ 포맷·Editor 컴파일과 아래 명령3종의 UE 자동화 결과를 확보했다. 실제 RPC 화면 관찰과 출발점 재현은 별도 미검증이다.
 
 ## 실행·실패·수정 기록
+
+아래 Pass는 B 역할 작성본에서의 실행 결과다. 새 detached 출발점 수업 재현은 NotRun이며 [공통 재현 절차](../COMMON.md#g0-replay)의 assembly manifest 및 새 Editor/자동화 결과를 연결해야 한다. 참고 파일 조립은 학습자가 Network/Controller를 직접 구현했다는 뜻이 아니다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
@@ -68,7 +72,7 @@ ARCH-01~03: Controller는 입력/응답 추적, Processor는 중복/접수 원�
 
 ## 상대에게 전달하고 통합하기
 
-커밋 `18b1ace8cb24bd915cf4a2d660047538fd7ab0c6`. 통합 순서는 공통 Match/Data 선언 확정 → B Network/Controller 반영 → GameMode가 UPROPERTY로 Processor 보관 → 참가자 등록과 종료 호출 연결 → 동일 통합 SHA에서 Editor 및 LD.P0.G0.Commands 실행이다. A에는 `InitializeServerSession`, `ShutdownServerSession`, Processor `Initialize/RegisterParticipant/Close`를 전달한다. G0의 SetAcceptingCommands(true)는 경제/보드 기능 완료를 뜻하지 않는다. 새 UObject Processor로 다음 매치를 시작하며 기존 인스턴스를 재초기화하지 않는다.
+최초 전달 커밋 `18b1ace8cb24bd915cf4a2d660047538fd7ab0c6`, 이 수업 재현의 완료 소스는 로더 수정까지 포함한 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92`다. 통합 순서는 A Match/Data·공용 상태 채택 → B Network/Controller 반영 → GameMode가 UPROPERTY로 Processor 보관 → 참가자 등록과 종료 호출 연결 → 동일 통합 SHA에서 Editor 및 LD.P0.G0.Commands 실행이다. A에는 `InitializeServerSession`, `ShutdownServerSession`, Processor `Initialize/RegisterParticipant/Close`를 전달한다. 매치 종료 시 Close로 새 접수를 닫되 캐시 응답에 필요한 연결은 유지하고 Logout/EndPlay에서 최종 해제해야 한다. 단독 Close 테스트만으로 Controller 경유 종료 검사를 대신할 수 없다. 통합 수정과 재검증은 [통합 기록](../INTEGRATION.md)에서 분리한다. G0의 SetAcceptingCommands(true)는 경제/보드 기능 완료를 뜻하지 않는다. 새 UObject Processor로 다음 매치를 시작하며 기존 인스턴스를 재초기화하지 않는다.
 
 통합 참고 완료 SHA는 아직 없고, 실제 학습 통합 커밋도 없다. 학습자 작업은 공통 출발점에서 직접 작성한다.
 

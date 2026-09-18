@@ -20,12 +20,11 @@ public class Mobile_defense_clone : ModuleRules
 			"GameplayStateTreeModule",
 			"Niagara",
 			"UMG",
-			"Slate",
-			"Json",
-			"JsonUtilities"
+			"Slate"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { });
+		// Strict runtime P0 JSON loading; no editor-only importer dependency.
+		PrivateDependencyModuleNames.AddRange(new string[] { "Json" });
 
 		PublicIncludePaths.AddRange(new string[] {
 			"Mobile_defense_clone",

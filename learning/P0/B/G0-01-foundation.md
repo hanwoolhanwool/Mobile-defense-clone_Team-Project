@@ -22,6 +22,8 @@ Content의 P0 JSON을 읽으면 16 활성 유닛·10웨이브·6×3 보드 규�
 
 소스 루트는 `Source/Mobile_defense_clone/`이다.
 
+[공통 재현 절차](../COMMON.md#g0-replay)의 `-Role B`로 출발점에 제공 파일과 이 수업/G0-02 소스만 조립한다. 고정 소스는 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92`이며 A나 통합 로더로 대체하지 않는다. 실제 작성은 아래1~4 → G0-02의 Network/Controller → 아래5~7 순서다. GameMode와 테스트 파일이 명령 코드에 의존하므로 두 수업을 합쳐 한 번 빌드한다.
+
 1. `Data/LDMatchTypes.h`: 매치·참가자 식별과 Phase. 참가자 신원은 서버 발급 문맥이며 명령 payload에는 넣지 않는다.
 2. `Data/LDGameData.h`: 읽기 전용 값 구조체와 조회 API를 A와 합의한다. `Data/LDGameData.cpp`: ReadFile → 타입 검사 → P0 추출 → ID·범위 검사 → 한 번의 스냅샷 교체 순으로 작성한다. 오류는 `OutError`로 반환하며 로드 실패를 기본값 성공으로 바꾸지 않는다.
 3. `Core/LDGameState.*`: 서버만 MatchContext와 Phase를 바꾼다. Phase 전이 목록을 한 함수에서 검사한다. 클라이언트는 복제된 값을 읽는다.
@@ -38,7 +40,7 @@ ARCH-01~03: GameMode 연결·GameState 공용 복제·로더 규칙·Processor �
 
 | 순서 | 에디터 위치·에셋 | 부모/프로퍼티/연결과 값 | 이유·기대 화면 |
 |---|---|---|---|
-| 1 | 프로젝트 Content/LD/Data | GameRules, DT_Units, DT_Waves, DT_EnemyTypes, DT_SummonProfiles JSON 5개. 기본 data 원본과 동일 | 학습 폴더에 런타임 의존 없음 |
+| 1 | 프로젝트 Content/LD/Data | B 로더가 읽는 GameRules, DT_Units, DT_Waves, DT_EnemyTypes, DT_SummonProfiles 5개; 공통 제공 입력은 DT_SpawnProfiles까지 6개 | B 소비 범위5개와 최종 canonical 제공 범위6개를 구분. 모두 data 원본과 동일 |
 | 2 | Project Settings → Packaging | Additional Non-Asset Directories to Package에 LD/Data | 패키지의 UFS 경로 로딩. 공통 설정은 통합 담당자가 반영 |
 | 3 | 기존 `/Game/TopDown/Lvl_TopDown` | 별도 검증 세션에서 World Settings → GameMode Override=`LDGameMode` | 기존 맵을 저장 변경하지 않고 G0 초기화 확인 |
 | 4 | C++ GameMode 기본값 | GameStateClass=LDGameState, PlayerStateClass=LDPlayerState, PlayerControllerClass=LDPlayerController, DefaultPawnClass=None | G0는 카메라·플레이 가능한 유닛이 없다 |
@@ -48,6 +50,8 @@ ARCH-01~03: GameMode 연결·GameState 공용 복제·로더 규칙·Processor �
 Blueprint·UMG 생성/연결은 G0에 없다. 이 단계의 예상 관찰값은 Output Log의 `G0 B ready: 16 units, 10 waves; board/economy Stub keeps admission closed`와 GameState Phase=Preparing이다. 아직 실제 화면·PIE 관찰값은 없다.
 
 ## 실행·실패·수정 기록
+
+새 detached 출발점의 수업 재현은 NotRun이다. 공통 절차의 assembly/editor/tests 결과를 실제 생성한 뒤 기존 제작 실행과 분리해 남긴다. B 필터 전체4개 중 `BIndependentLoader` 1개가 이 수업의 부분 검사이며 나머지3개는 G0-02다. 네 테스트를 통과해도 B GameMode 초기화/종료·PIE·RPC를 검증한 것으로 표시하지 않는다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
@@ -67,7 +71,7 @@ Blueprint·UMG 생성/연결은 G0에 없다. 이 단계의 예상 관찰값은 
 
 ## 상대에게 전달하고 통합하기
 
-전달 커밋 `18b1ace8cb24bd915cf4a2d660047538fd7ab0c6`, 로더 수정 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92`. A/B 공통 Data/Core 구현을 비교하고 한 원본을 선택한다. 이 수업의 B 로더를 통합 원본으로 반드시 사용해야 하는 것은 아니다. A의 데이터 검증·매치 초기화와 B의 서버 Controller 연결을 비교한 뒤 동일 선언과 단일 상태 원본을 유지한다. B 전용 Controller·Network·Tests는 다음 수업 순서로 통합한다. 필수 콘텐츠는 JSON 5개뿐이며 Blueprint 에셋은 이번 커밋에 없다. 통합 참고 SHA와 실행 증거는 통합 담당자가 기록한다. 실제 학습 통합 SHA는 아직 없다.
+전달 커밋 `18b1ace8cb24bd915cf4a2d660047538fd7ab0c6`, 로더 수정 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92`. A/B 공통 Data/Core 구현을 비교하고 한 원본을 선택한다. B 로더의 파일 소비는5개이며 DT_SpawnProfiles의 Early 행을 별도 검증하지 않는다. 통합은 명시적 정책·참조·좌표 검증과6개 입력을 갖춘 A 로더를 채택했다([선택 비교](../INTEGRATION.md)). 따라서 B 단독4Pass는 최종 통합 로더/데이터 검사를 대신하지 않는다. B 전용 Controller·Network·Tests는 다음 수업 순서로 통합한다. Blueprint 에셋은 이번 커밋에 없다. 통합 참고 SHA와 새 실행 증거는 통합 담당자가 기록한다. 실제 학습 통합 SHA는 아직 없다.
 
 ## 이해 확인
 

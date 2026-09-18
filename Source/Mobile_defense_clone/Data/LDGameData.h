@@ -4,6 +4,7 @@
 #include "UObject/Object.h"
 #include "LDGameData.generated.h"
 
+// Plain value snapshots: JSON Name becomes UnitId, not a second reflected DataTable row key.
 struct MOBILE_DEFENSE_CLONE_API FLDUnitRow
 {
 	FName UnitId = NAME_None;
@@ -108,6 +109,7 @@ public:
 	bool TryGetEnemyRow(FName EnemyTypeId, FLDEnemyRow& OutRow) const;
 
 private:
+	// Replaced together only after all required files and references pass validation.
 	FLDGameRules Rules;
 	TMap<FName, FLDUnitRow> Units;
 	TMap<FName, FLDEnemyRow> Enemies;

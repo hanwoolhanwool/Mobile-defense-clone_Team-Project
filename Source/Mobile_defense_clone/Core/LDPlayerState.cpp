@@ -2,6 +2,13 @@
 
 #include "Net/UnrealNetwork.h"
 
+void ALDPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME_CONDITION(ALDPlayerState, ParticipantContext, COND_OwnerOnly);
+	DOREPLIFETIME(ALDPlayerState, PublicPlayerIndex);
+}
+
 bool ALDPlayerState::InitializeParticipant(const FLDParticipantContext& Context)
 {
 	if (!HasAuthority() || !Context.IsValid())
@@ -14,6 +21,7 @@ bool ALDPlayerState::InitializeParticipant(const FLDParticipantContext& Context)
 		       ParticipantContext.ConnectionEpoch == Context.ConnectionEpoch;
 	}
 	ParticipantContext = Context;
+	PublicPlayerIndex = Context.PlayerIndex;
 	ForceNetUpdate();
 	return true;
 }
@@ -23,8 +31,7 @@ const FLDParticipantContext& ALDPlayerState::GetParticipantContext() const
 	return ParticipantContext;
 }
 
-void ALDPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+int32 ALDPlayerState::GetPlayerIndex() const
 {
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(ALDPlayerState, ParticipantContext);
+	return PublicPlayerIndex;
 }

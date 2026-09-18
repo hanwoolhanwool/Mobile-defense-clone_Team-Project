@@ -5,21 +5,34 @@
 #include "GameFramework/GameStateBase.h"
 #include "LDGameState.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnLDMatchStateChanged);
+
 UCLASS()
 class MOBILE_DEFENSE_CLONE_API ALDGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
 public:
+	ALDGameState();
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	bool InitializeMatch(const FLDMatchContext& Context);
 	bool SetPhase(ELDMatchPhase NewPhase);
-	ELDMatchPhase GetPhase() const;
+	void SetReadinessReason(const FString& Reason);
 	const FLDMatchContext& GetMatchContext() const;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	ELDMatchPhase GetPhase() const;
+	const FString& GetReadinessReason() const;
+	FOnLDMatchStateChanged OnMatchStateChanged;
 
 private:
-	UPROPERTY(Replicated)
+	UFUNCTION()
+	void OnRep_CommonState();
+
+	UPROPERTY(ReplicatedUsing = OnRep_CommonState)
 	FLDMatchContext MatchContext;
-	UPROPERTY(Replicated)
+
+	UPROPERTY(ReplicatedUsing = OnRep_CommonState)
 	ELDMatchPhase Phase = ELDMatchPhase::Loading;
+
+	UPROPERTY(ReplicatedUsing = OnRep_CommonState)
+	FString ReadinessReason = TEXT("Loading required P0 data");
 };

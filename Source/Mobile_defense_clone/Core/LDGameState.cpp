@@ -2,44 +2,10 @@
 
 #include "Net/UnrealNetwork.h"
 
-bool ALDGameState::InitializeMatch(const FLDMatchContext& Context)
+ALDGameState::ALDGameState()
 {
-	if (!HasAuthority() || !Context.IsValid() || MatchContext.IsValid())
-	{
-		return false;
-	}
-	MatchContext = Context;
-	return true;
-}
-
-bool ALDGameState::SetPhase(ELDMatchPhase NewPhase)
-{
-	if (!HasAuthority() || NewPhase == Phase)
-	{
-		return false;
-	}
-	const bool bAllowed =
-	    (Phase == ELDMatchPhase::Loading &&
-	     (NewPhase == ELDMatchPhase::Preparing || NewPhase == ELDMatchPhase::Aborted)) ||
-	    (Phase == ELDMatchPhase::Preparing &&
-	     (NewPhase == ELDMatchPhase::Running || NewPhase == ELDMatchPhase::Aborted)) ||
-	    (Phase == ELDMatchPhase::Running && (NewPhase == ELDMatchPhase::Result || NewPhase == ELDMatchPhase::Aborted));
-	if (bAllowed)
-	{
-		Phase = NewPhase;
-		ForceNetUpdate();
-	}
-	return bAllowed;
-}
-
-ELDMatchPhase ALDGameState::GetPhase() const
-{
-	return Phase;
-}
-
-const FLDMatchContext& ALDGameState::GetMatchContext() const
-{
-	return MatchContext;
+	PrimaryActorTick.bCanEverTick = false;
+	bReplicates = true;
 }
 
 void ALDGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -47,4 +13,77 @@ void ALDGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ALDGameState, MatchContext);
 	DOREPLIFETIME(ALDGameState, Phase);
+	DOREPLIFETIME(ALDGameState, ReadinessReason);
+}
+
+bool ALDGameState::InitializeMatch(const FLDMatchContext& Context)
+{
+	if (!HasAuthority() || !Context.IsValid())
+	{
+		return false;
+	}
+	if (MatchContext.IsValid())
+	{
+		return MatchContext.MatchId == Context.MatchId && MatchContext.RulesVersion == Context.RulesVersion;
+	}
+	MatchContext = Context;
+	OnRep_CommonState();
+	ForceNetUpdate();
+	return true;
+}
+
+bool ALDGameState::SetPhase(ELDMatchPhase NewPhase)
+{
+	if (!HasAuthority())
+	{
+		return false;
+	}
+	if (Phase == NewPhase)
+	{
+		return true;
+	}
+	const bool bTerminal = Phase == ELDMatchPhase::Result || Phase == ELDMatchPhase::Aborted;
+	const bool bValidTransition =
+	    !bTerminal && (NewPhase == ELDMatchPhase::Aborted ||
+	                   (Phase == ELDMatchPhase::Loading && NewPhase == ELDMatchPhase::Preparing) ||
+	                   (Phase == ELDMatchPhase::Preparing && NewPhase == ELDMatchPhase::Running) ||
+	                   (Phase == ELDMatchPhase::Running && NewPhase == ELDMatchPhase::Result));
+	if (!bValidTransition || (!MatchContext.IsValid() && NewPhase != ELDMatchPhase::Aborted))
+	{
+		return false;
+	}
+	Phase = NewPhase;
+	OnRep_CommonState();
+	ForceNetUpdate();
+	return true;
+}
+
+void ALDGameState::SetReadinessReason(const FString& Reason)
+{
+	if (HasAuthority() && ReadinessReason != Reason)
+	{
+		ReadinessReason = Reason;
+		OnRep_CommonState();
+		ForceNetUpdate();
+	}
+}
+
+const FLDMatchContext& ALDGameState::GetMatchContext() const
+{
+	return MatchContext;
+}
+
+ELDMatchPhase ALDGameState::GetPhase() const
+{
+	return Phase;
+}
+
+const FString& ALDGameState::GetReadinessReason() const
+{
+	return ReadinessReason;
+}
+
+void ALDGameState::OnRep_CommonState()
+{
+	OnMatchStateChanged.Broadcast();
 }

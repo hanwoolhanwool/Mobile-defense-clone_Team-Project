@@ -1,0 +1,8 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" Mobile_defense_clone Android Development -Project=C:/Users/iam12/P0_reference_integration/Mobile_defense_clone.uproject -WaitMutex -NoHotReloadFromIDE -MaxParallelActions=4
+Log file: C:\Users\iam12\AppData\Local\UnrealBuildTool\Log.txt
+Missing files required to build Android targets. Enable Android as an optional download component in the Epic Games Launcher.
+
+Result: Failed (OtherCompilationError)
+Total execution time: 0.70 seconds
+Trace written to file C:\Users\iam12\AppData\Local\UnrealBuildTool\Trace.uba with size 400b

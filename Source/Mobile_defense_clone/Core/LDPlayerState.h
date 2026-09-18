@@ -11,11 +11,15 @@ class MOBILE_DEFENSE_CLONE_API ALDPlayerState : public APlayerState
 	GENERATED_BODY()
 
 public:
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	bool InitializeParticipant(const FLDParticipantContext& Context);
 	const FLDParticipantContext& GetParticipantContext() const;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	int32 GetPlayerIndex() const;
 
 private:
 	UPROPERTY(Replicated)
 	FLDParticipantContext ParticipantContext;
+
+	UPROPERTY(Replicated)
+	int32 PublicPlayerIndex = INDEX_NONE;
 };

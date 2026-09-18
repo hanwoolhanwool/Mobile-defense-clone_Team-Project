@@ -25,7 +25,13 @@ void ALDPlayerController::ShutdownServerSession()
 {
 	CommandProcessor = nullptr;
 	ServerContext = {};
-	PendingCommand.Reset();
+	CurrentMatchId.Invalidate();
+	ConnectionEpoch = 0;
+	OnRep_ConnectionEpoch();
+	if (HasAuthority())
+	{
+		ForceNetUpdate();
+	}
 }
 
 void ALDPlayerController::OnRep_ConnectionEpoch()
@@ -65,21 +71,25 @@ bool ALDPlayerController::RetryPendingCommand()
 	return true;
 }
 
-void ALDPlayerController::ServerRequestCommand_Implementation(const FLDCommand& Command)
+FLDCommandResult ALDPlayerController::SubmitServerCommand(const FLDCommand& Command)
 {
-	if (!CommandProcessor || !ServerContext.IsValid())
+	if (!HasAuthority() || !CommandProcessor || !ServerContext.IsValid())
 	{
 		FLDCommandResult Result;
 		Result.MatchId = CurrentMatchId;
 		Result.ConnectionEpoch = Command.ConnectionEpoch;
 		Result.RequestId = Command.RequestId;
 		Result.ResultCode = ELDCommandResultCode::PhaseNotAllowed;
-		ClientCommandResult(Result);
-		return;
+		return Result;
 	}
-	const FLDCommandResult Result = CommandProcessor->Submit(ServerContext, Command);
+	return CommandProcessor->Submit(ServerContext, Command);
+}
+
+void ALDPlayerController::ServerRequestCommand_Implementation(const FLDCommand& Command)
+{
+	const FLDCommandResult Result = SubmitServerCommand(Command);
 	// A flood may delay a response, but must never replace an already cached outcome.
-	if (CommandProcessor->CanSendResponse(ServerContext, FPlatformTime::Seconds()))
+	if (!CommandProcessor || CommandProcessor->CanSendResponse(ServerContext, FPlatformTime::Seconds()))
 	{
 		ClientCommandResult(Result);
 	}

@@ -20,6 +20,7 @@ struct MOBILE_DEFENSE_CLONE_API FLDMatchContext
 
 	UPROPERTY(BlueprintReadOnly, Category = "LD|Match")
 	FGuid MatchId;
+
 	UPROPERTY(BlueprintReadOnly, Category = "LD|Match")
 	FName RulesVersion = NAME_None;
 
@@ -29,6 +30,7 @@ struct MOBILE_DEFENSE_CLONE_API FLDMatchContext
 	}
 };
 
+// The connection identity is assigned by the server, never inferred from command payloads.
 USTRUCT()
 struct MOBILE_DEFENSE_CLONE_API FLDParticipantContext
 {
@@ -36,8 +38,10 @@ struct MOBILE_DEFENSE_CLONE_API FLDParticipantContext
 
 	UPROPERTY()
 	FGuid MatchId;
+
 	UPROPERTY()
 	int32 PlayerIndex = INDEX_NONE;
+
 	UPROPERTY()
 	uint64 ConnectionEpoch = 0;
 
