@@ -1,7 +1,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Battle/LDCombatEvents.h"
 #include "Battle/LDRouteModel.h"
+#include "Data/LDGameData.h"
 #include "GameFramework/Actor.h"
 #include "LDEnemyActor.generated.h"
 
@@ -36,7 +38,27 @@ struct MOBILE_DEFENSE_CLONE_API FLDEnemyRouteSnapshot
 	bool bActive = false;
 };
 
-// G1 path participant only. Combat, HP, damage and death rewards are deliberately absent at this gate.
+USTRUCT()
+struct MOBILE_DEFENSE_CLONE_API FLDEnemyCombatSnapshot
+{
+	GENERATED_BODY()
+	UPROPERTY()
+	FName EnemyTypeId = NAME_None;
+	UPROPERTY()
+	uint64 SpawnSerial = 0;
+	UPROPERTY()
+	int32 SpawnWaveIndex = 0;
+	UPROPERTY()
+	double SpawnedServerSeconds = 0;
+	UPROPERTY()
+	double MaxHP = 0;
+	UPROPERTY()
+	double HP = 0;
+	UPROPERTY()
+	bool bAlive = false;
+};
+
+// Route identity survives laps. Combat initialization is separate so the explicit G1 fixture remains unchanged.
 UCLASS()
 class MOBILE_DEFENSE_CLONE_API ALDEnemyActor : public AActor
 {
@@ -57,6 +79,13 @@ public:
 	const FLDEnemyRouteSnapshot& GetRouteSnapshot() const;
 	FVector GetPresentationLocation() const;
 	bool IsPresentationVisible() const;
+	bool InitializeCombat(const FLDEnemyRow& Row, double MaxHP, uint64 SpawnSerial, int32 SpawnWaveIndex,
+	                      double SpawnedServerSeconds);
+	ELDDamageResult TryApplyDamage(const FLDDamageEvent& Event, FLDCombatDeath& OutDeath);
+	void StopCombat();
+	bool IsCombatAlive() const;
+	const FLDEnemyCombatSnapshot& GetCombatSnapshot() const;
+	const FLDEnemyRow& GetEnemyRow() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -67,6 +96,8 @@ private:
 
 	UFUNCTION()
 	void OnRep_RouteSnapshot();
+	UFUNCTION()
+	void OnRep_CombatSnapshot();
 
 	void ApplyCanonicalSnapshot();
 	void RefreshColor();
@@ -86,6 +117,11 @@ private:
 
 	UPROPERTY(ReplicatedUsing = OnRep_RouteSnapshot)
 	FLDEnemyRouteSnapshot RouteSnapshot;
+	UPROPERTY(ReplicatedUsing = OnRep_CombatSnapshot)
+	FLDEnemyCombatSnapshot CombatSnapshot;
+	FLDEnemyRow EnemyRow;
+	TSet<uint64> AppliedDamageEvents;
+	bool bCombatClosed = false;
 
 	FLDRouteModel RouteModel;
 	double InitialServerSeconds = 0;

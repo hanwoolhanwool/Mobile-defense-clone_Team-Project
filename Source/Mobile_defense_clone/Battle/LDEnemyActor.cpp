@@ -66,6 +66,7 @@ void ALDEnemyActor::Tick(float DeltaSeconds)
 void ALDEnemyActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	StopRoute();
+	StopCombat();
 	bEnding = true;
 	SetActorTickEnabled(false);
 	PresentationMesh->SetVisibility(false);
@@ -78,13 +79,14 @@ void ALDEnemyActor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME_CONDITION(ALDEnemyActor, RoutePoints, COND_InitialOnly);
 	DOREPLIFETIME(ALDEnemyActor, RouteSnapshot);
+	DOREPLIFETIME(ALDEnemyActor, CombatSnapshot);
 }
 
 bool ALDEnemyActor::InitializeRoute(const FGuid& MatchId, uint64 EnemyId, int32 RouteIndex,
                                     const TArray<FVector>& Points, double SpeedCmPerSecond, double StartServerSeconds)
 {
 	if (!HasAuthority() || bEnding || bRouteStopped || !MatchId.IsValid() || EnemyId == 0 || RouteIndex < 0 ||
-	    RouteIndex > 1 || !FMath::IsFinite(SpeedCmPerSecond) || SpeedCmPerSecond <= 0 ||
+	    RouteIndex > 1 || !FMath::IsFinite(SpeedCmPerSecond) || SpeedCmPerSecond < 0 ||
 	    !FMath::IsFinite(StartServerSeconds) || StartServerSeconds < 0)
 	{
 		return false;
@@ -169,7 +171,8 @@ bool ALDEnemyActor::SetLocalViewPlayerIndex(int32 PlayerIndex)
 
 bool ALDEnemyActor::RefreshPresentation(double ViewServerSeconds)
 {
-	if (bEnding || LocalViewPlayerIndex == INDEX_NONE || RouteSnapshot.EnemyId == 0 || !RouteModel.IsInitialized())
+	if (bEnding || LocalViewPlayerIndex == INDEX_NONE || RouteSnapshot.EnemyId == 0 || !RouteModel.IsInitialized() ||
+	    (CombatSnapshot.SpawnSerial != 0 && !CombatSnapshot.bAlive))
 	{
 		PresentationMesh->SetVisibility(false);
 		return false;
@@ -264,4 +267,90 @@ double ALDEnemyActor::GetPresentationServerSeconds() const
 		}
 	}
 	return RouteSnapshot.SampleServerSeconds;
+}
+
+bool ALDEnemyActor::InitializeCombat(const FLDEnemyRow& Row, double MaxHP, uint64 SpawnSerial, int32 SpawnWaveIndex,
+                                     double SpawnedServerSeconds)
+{
+	if (!HasAuthority() || bEnding || bCombatClosed || RouteSnapshot.EnemyId == 0 || CombatSnapshot.SpawnSerial != 0 ||
+	    Row.EnemyTypeId.IsNone() || !FMath::IsFinite(MaxHP) || MaxHP <= 0 || SpawnSerial == 0 || SpawnWaveIndex < 1 ||
+	    !FMath::IsFinite(SpawnedServerSeconds) || SpawnedServerSeconds < 0 || !FMath::IsFinite(Row.Armor) ||
+	    !FMath::IsFinite(Row.MagicResistance))
+	{
+		return false;
+	}
+	EnemyRow = Row;
+	CombatSnapshot.EnemyTypeId = Row.EnemyTypeId;
+	CombatSnapshot.SpawnSerial = SpawnSerial;
+	CombatSnapshot.SpawnWaveIndex = SpawnWaveIndex;
+	CombatSnapshot.SpawnedServerSeconds = SpawnedServerSeconds;
+	CombatSnapshot.MaxHP = MaxHP;
+	CombatSnapshot.HP = MaxHP;
+	CombatSnapshot.bAlive = true;
+	ForceNetUpdate();
+	return true;
+}
+
+ELDDamageResult ALDEnemyActor::TryApplyDamage(const FLDDamageEvent& Event, FLDCombatDeath& OutDeath)
+{
+	if (!HasAuthority() || bEnding || bCombatClosed || Event.MatchId != RouteSnapshot.MatchId ||
+	    Event.EnemyId != RouteSnapshot.EnemyId || Event.DamageEventId == 0 || Event.SourceInstanceId == 0 ||
+	    Event.Amount < 0 || !FMath::IsFinite(Event.AttackServerSeconds) ||
+	    Event.AttackServerSeconds < CombatSnapshot.SpawnedServerSeconds)
+	{
+		return ELDDamageResult::Rejected;
+	}
+	if (AppliedDamageEvents.Contains(Event.DamageEventId))
+	{
+		return ELDDamageResult::Duplicate;
+	}
+	if (!IsCombatAlive())
+	{
+		return ELDDamageResult::Rejected;
+	}
+	AppliedDamageEvents.Add(Event.DamageEventId);
+	CombatSnapshot.HP = FMath::Max(0.0, CombatSnapshot.HP - Event.Amount);
+	ForceNetUpdate();
+	if (CombatSnapshot.HP > 0)
+	{
+		return ELDDamageResult::Applied;
+	}
+	CombatSnapshot.bAlive = false;
+	StopRoute();
+	// EnemyId is match-unique and this transition occurs once, so it also forms a stable death event key.
+	OutDeath.MatchId = RouteSnapshot.MatchId;
+	OutDeath.DeathEventId = RouteSnapshot.EnemyId;
+	OutDeath.EnemyId = RouteSnapshot.EnemyId;
+	OutDeath.SpawnSerial = CombatSnapshot.SpawnSerial;
+	OutDeath.EnemyTypeId = CombatSnapshot.EnemyTypeId;
+	OutDeath.SpawnWaveIndex = CombatSnapshot.SpawnWaveIndex;
+	OutDeath.SpawnedServerSeconds = CombatSnapshot.SpawnedServerSeconds;
+	OutDeath.DeathServerSeconds = Event.AttackServerSeconds;
+	RefreshPresentation(GetPresentationServerSeconds());
+	return ELDDamageResult::Killed;
+}
+
+void ALDEnemyActor::StopCombat()
+{
+	bCombatClosed = true;
+	AppliedDamageEvents.Reset();
+}
+
+bool ALDEnemyActor::IsCombatAlive() const
+{
+	return !bEnding && !bCombatClosed && !IsActorBeingDestroyed() && CombatSnapshot.bAlive && CombatSnapshot.HP > 0;
+}
+
+const FLDEnemyCombatSnapshot& ALDEnemyActor::GetCombatSnapshot() const
+{
+	return CombatSnapshot;
+}
+const FLDEnemyRow& ALDEnemyActor::GetEnemyRow() const
+{
+	return EnemyRow;
+}
+
+void ALDEnemyActor::OnRep_CombatSnapshot()
+{
+	RefreshPresentation(GetPresentationServerSeconds());
 }
