@@ -6,7 +6,7 @@
 |---|---|
 | 상위 TASK·정식 설계 | TASK-BATTLE-01 / [공통 수명 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md#lifecycle) |
 | 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작/코드 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / 조립 `8356a211c1cbbec29ed04a7694e9325e3e2111a7`, 시각 수정 `eafc378163f3d9ed939821d153228f9b9d29943e` |
+| 참고 시작/코드 SHA | `4861b987f3e2fe78bcc159d1b6a85008543a938b` / 조립 `8356a211`, 시각 순서 `eafc378`, 현재 시각 경계 `198f7a25194f5b4f98d96556e8267e6697c391dd` |
 | 실제 개발 시작/완료 SHA | 자기 G1 통합 결과 / 미생성 |
 | 상대 산출물 | B Board/Economy/Processor/Controller `84389ce`(A 수신 `f800d70`), A CombatService `28ead1bc` |
 | 제공 / 직접 작성 | 제공: G0 매치/참가자 수명, G1 맵. 직접 작성: Core/LDGameMode.*의 서비스 조립·통지·20Hz 호출 |
@@ -20,7 +20,7 @@
 1. GameMode.h에 세 서비스 UPROPERTY와 delegate handle·LogicTimer를 선언한다. GameState/PlayerState에 경제 원본을 중복 추가하지 않는다. 개인 복제는 B Controller owner-only snapshot이다.
 2. InitGameState에서 기존 데이터/문맥/Processor 초기화 뒤 Board/Economy/Combat을 생성하고 Initialize/BindServices를 모두 확인한다. 실패하면 Aborted로 정리한다. 서버 `-P0Seed=<int>`가 있으면 재현 seed로 사용하고 없으면 MatchId에서 seed를 만든다. seed는 서버 로그에만 남긴다.
 3. RegisterParticipant는 세션을 연결한 뒤 Board/Economy snapshot을 소유 Controller에 게시한다. BeginPlay와 두 참가자·서비스 준비가 모두 끝나야 Running/명령 접수가 열린다.
-4. RefreshReadiness에서 명시적 `-P0Probe=G1`은 준비 상태로 유지한다. G2에서는 GameRules.LogicHz=20 타이머를 연결한다. 정수 LogicStep으로 누락된 .05초 시각을 순서대로 계산하여 누적 오차를 피한다.
+4. RefreshReadiness에서 명시적 `-P0Probe=G1`은 준비 상태로 유지한다. G2에서는 GameRules.LogicHz=20 타이머를 연결한다. 정수 LogicStep으로 누락된 .05초 시각을 순서대로 계산하되 **격자 시각<현재 WorldTime**인 사건만 inclusive 처리한다. 현재 WorldTime의 입력은 아직 도착할 수 있으므로 같은 경계는 다음 시각까지 열어 둔다.
 5. HandleBoardCommitted는 MatchId/PlayerIndex/Revision과 현재 Board snapshot을 확인한다. 제거를 먼저 Combat에서 해제하고 추가/갱신 ID는 Board의 확정 actor 조회를 거쳐 등록한다. 별도 actor 검색이나 원점 fallback을 쓰지 않는다.
 6. Processor.BeforeExternalCommand를 AdvanceBeforeExternalCommand에 연결한다. 명령시각보다 이른 전투 사건을 처리한 뒤 Processor가 재진입 guard를 해제하고 보상을 Drain하여 재화/보드 검증보다 먼저 반영한다. 동일 시각 사건은 남겨 명령 우선 순서를 지킨다. 타이머의 오래된 스텝은 전투 시계를 되감지 않는다.
 7. HandleEnemyDeath는 Processor.EnqueueCombatReward로 사실만 전달한다. AdvanceLogic의 각 스텝 말에도 DrainCombatRewards한다. EconomyChanged는 소유 Controller snapshot을 다시 게시한다.
@@ -47,11 +47,17 @@ ARCH-01~06: GameMode는 서비스 구성·수명·통지만 맡고 피해/배치
 | 죽음/중복 보상 | 양쪽 개인에게1회, 다음 외부 명령 전 반영 | B 중복 방지에 연결, 실제 한 사이클 NotRun |
 | 종료/이탈·반복 정리 | 새 공격/명령 거절, 예약·구독·보드 actor 정리 | 소스 연결 완료, 실제 반복 매치 NotRun |
 | G1 회귀 | Preparing/명령 닫힘·양쪽 경로 유지 | 명시적 분기 작성, 재실행 대기 |
+| 타이머 뒤 같은 WorldTime의 판매 | 현재 시각.25를 닫지 않고 PC판매 우선; 다음.30에도 HP1·상대 보상0 | `TimerBeforeSameWorldTimeSale` 추가, NotRun |
+| 동일 fixture에서 판매 없음 | 다음.30에 예약.25 타격·HP0·상대101, 피해 유실0 | 같은 자동화 대조, NotRun |
 | 스타일/공백 | 오류0 | Pass,50파일; Unreal 실행 증거 아님 |
 
 개발 중 상대 서비스가 없던 G0는 명시적 Stub이었다. 이번에는 B 실제 서비스 헤더·구현을 받은 뒤 연결했으며 성공을 흉내 내는 Stub을 넣지 않았다. 정식 런타임 생성/웨이브는 G3의 후속 의존성이며 G2 probe의 정지 적은 별도 검증 fixture로 기록한다.
 
 최초 통합 Editor와 A 전투7자동화는 통과했지만 전체 검사는 G0의 낡은 Stub 문구 기대값1개로 실패했다. 문구 전체 비교 대신 준비 Phase/참가자 수를 확인하도록 바꿨다. 독립 리뷰는10.04초 RPC 판매가10.025초 예약 공격보다 먼저 적용되는 시각 결함도 발견했으며 위 hook으로 수정했다. 실행 근거·첫 실패·후속 재검증 상태는 [공통 G2 증거](G2_EVIDENCE.md)에서 관리한다.
+
+추가 리뷰는 타이머가 현재 WorldTime을 먼저 inclusive 확정한 뒤 동일 시각 명령이 들어오는 경우를 지적했다. 로컬 UE5.8 소스를 직접 확인했다. `Engine/Source/Runtime/Launch/Private/LaunchEngineLoop.cpp`의5859줄 GEngine Tick 뒤5921줄 Slate PlatformAndInput이 있고, `Engine/Source/Runtime/Engine/Private/LevelTick.cpp`의1574줄 네트워크 TickDispatch는1610줄 TimeSeconds 증가보다 앞선다. 호스트의 늦은 입력과 다음 프레임 수신이 같은 서버 WorldTime을 사용할 수 있으므로 엔진 호출 순서에 기대어 불가능하다고 가정하지 않는다.
+
+`198f7a2`는 AdvanceLogic의 `<=Now`를 `<Now`로 바꿨다. 확정 피해를 취소하거나 클라이언트 시각을 새로 받아들이지 않는다. 재현 절차는 실제 GameMode 초기화/두 Controller/실제 유료소환→명시적 HP1 정지 적 등록→WorldTime.20/.25에 실제 타이머 delegate 본문 호출→WorldTime을 바꾸지 않고 소유 Controller 판매→WorldTime.30 처리다. 기존 조건이면 .25 타이머가 먼저 적을 죽이는 반례이며 수정 기대값은 HP1이다. 판매를 생략한 대조에서는 .30에 HP0이어야 한다. 자동화는 실제 서비스·생산 타이머 본문·Controller 진입점을 쓰지만 WorldTime 직접 주입 fixture이며 실제 OS/Slate 메시지 타이밍을 발생시킨 검사는 아니다. 글로벌 프레임 카운터나 엔진 파일은 변경하지 않는다. 현재 경계 사건은 다음 WorldTime에서 확정되며 G3 마감 처리도 이 경계를 따라야 한다.
 
 ## 상대에게 전달하고 통합하기
 
