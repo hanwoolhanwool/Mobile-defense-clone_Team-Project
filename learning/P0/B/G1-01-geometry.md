@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-MAP-01, [전장·UI v2](../../../docs/design/BOARD_UI.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
-| 참고 자료 제작 상태 | Draft — 실제 화면·수업 재현 검증 전 |
+| 참고 자료 제작 상태 | Verified — 수업 조립·Editor/자동화·실제 두 프로세스 G1 좌표/입력 범위 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 구현 `82cf174cab14746c4fc57867efd5c4522903ca2c`, 검증 소스 `d5274dccdc11e1736e59239e558e8fb2ace7ee14` |
+| 참고 시작/완료 SHA | 재현 시작 canonical G0 `649c1dedd6832c41089a76b59bc76518cd262296` / 최종 G1 소스 `df8a2f27dd962a4d9f9f4051e51f3332245ba40a` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성, 실제 학습자는 자기 G0 통과 후 진입 |
 | 필요한 상대 산출물·버전 | Schema2/Rules0.3.0 좌표, A의 EnemyId·RouteIndex 불변 계약 |
 | 제공 코드 / 직접 작성할 코드 | 제공: canonical G0·JSON. 직접 작성: LDBoardGeometry와 LDViewTransform, 독립 기대값 테스트 |
@@ -53,15 +53,15 @@ ARCH-01~03: 순수 좌표 계산은 보드 경제·Controller·위젯을 호출�
 | Rows를4로 바꾼 교체 | 실패·이전 좌표 유지 | Pass | 같은 자동화 |
 | 양쪽 생성점 변환 | 둘 다 표시좌표(490,-560), 역변환 원본 복원 | Pass, 계산 검사 | LocalReflectionContract |
 | 소스 스타일·diff 공백 | 오류0 | Pass | `Saved/P0Evidence/G1-B/style.log`:27checked/0errors |
-| 실제 화면·입력·두 바퀴 식별자 | 다음 수업·통합에서 확인 | 결과 미확정, 루트 별도 프로세스 검수 중 | 계산 Pass로 대체하지 않음 |
+| 실제 화면·입력·두 바퀴 식별자 | 양쪽7화면에서 좌표/입력 일치·같은 ID 유지 | Pass | [공통 재현 근거](../evidence/G1_REPLAY/SUMMARY.md), 최종 host1338/client1336검사 Pass |
 
 설계 중 제거한 오류 가능성: player1을 180도 돌리면 생성점의 X도 반전돼 오른쪽 생성이 된다. Y반사만 로컬 표시와 입력 역변환에 사용하도록 계약을 확정했다. 구현 후 실패·수정이 생기면 실제 로그와 함께 이 표를 갱신한다.
 
-2026-09-18 역할 B 실제 검증: 수정 후 [Editor 결과](evidence/G1-build-tests/editor-fixed-result.json)는 Pass(UBT14.66초), [UE 자동화 결과](evidence/G1-build-tests/automation-result.json)는 `LD.P0.G1.Board` 3Pass/0Fail/0NotRun이다. [테스트별 요약](evidence/G1-build-tests/automation-summary.json)과 [성공 로그 발췌](evidence/G1-build-tests/automation-pass-excerpt.txt)를 보존했다. Windows11·UE5.8.2·Win64 Development/NullRHI 실행이며 실제 렌더링·터치·네트워크·실기기 성능 검증이 아니다. 첫 컴파일 실패와 수정은 다음 수업에 기록했다. 수업 시작점에서의 별도 재현은 아직 미실행이다.
+2026-09-18 역할 B 초기 검증은 [Editor 결과](evidence/G1-build-tests/editor-fixed-result.json) Pass(UBT14.66초), [UE 자동화 결과](evidence/G1-build-tests/automation-result.json) `LD.P0.G1.Board` 3Pass였다. [테스트별 요약](evidence/G1-build-tests/automation-summary.json)과 [성공 로그 발췌](evidence/G1-build-tests/automation-pass-excerpt.txt)를 보존했다. 이후 수정된 최종 소스를 새 detached `P0_lesson_replay_g1`에서 G0부터36파일 수업 순서로 조립해 Editor Pass(88.39초), 전체 `LD.P0` 22Pass/0Fail/0NotRun, 실제 두 프로세스7화면의 전체셀·EngineTouch·ID 두 바퀴를 확인했다. [공통 재현 절차](../evidence/G1_REPLAY/README.md)와 [결과/manifest](../evidence/G1_REPLAY/SUMMARY.md)가 재현 근거다. 컴파일 시간은 게임 성능이 아니며 PIE·최종 PC 패키지·OS 입력/물리 터치·Android·실제 명령 RPC는 이 수업의 Verified 범위에 포함하지 않는다.
 
 ## 상대에게 전달하고 통합하기
 
-커밋 `82cf174cab14746c4fc57867efd5c4522903ca2c`. A에게 순수 `FLDViewTransform` 두 API를 전달한다. A는 적 root·복제 snapshot을 canonical로 유지하고 visual mesh에만 변환을 사용한다. root 연결부는 로컬 Controller의 준비된 PlayerIndex를 A의 `SetLocalViewPlayerIndex`에 전달한다. 먼저 공통 변환 헤더 → B 표시/입력 → A 적 표시 → 실제 두 화면 순서로 통합한다. G1 통합 SHA와 실행 증거는 아직 없다. 실제 학습자 통합 기록도 아직 없다.
+최초 역할 구현은 `82cf174cab14746c4fc57867efd5c4522903ca2c`, 최종 통합은 `df8a2f27dd962a4d9f9f4051e51f3332245ba40a`다. A에게 순수 `FLDViewTransform` 두 API를 전달한다. A는 적 root·복제 snapshot을 canonical로 유지하고 visual mesh에만 변환을 사용한다. `LDLocalPresentationSubsystem`이 로컬 Controller의 준비된 PlayerIndex를 A의 `SetLocalViewPlayerIndex`에 전달한다. 공통 변환 헤더 → B 표시/입력 → A 적 표시 → 실제 두 화면 순서로 통합했다. B 참고 브랜치 병합 `3bbd4c624b7768fd28c1b37b60e7212b4c006fb5`에서 최종 통합과 Source/Config/Content diff0을 확인했다. 실제 학습자 통합 기록은 미생성이며 learn 브랜치는 출발점 그대로다.
 
 ## 이해 확인
 
@@ -74,6 +74,6 @@ ARCH-01~03: 순수 좌표 계산은 보드 경제·Controller·위젯을 호출�
 
 - [x] 제공 입력과 직접 작성할 코드·소유권·호출 순서를 기록했다.
 - [x] 실제 UE 계산 검사와 검증 소스 SHA·증거를 연결했다.
-- [ ] 수업 시작점에서 별도로 재현했다.
-- [ ] A의 실제 적 표시와 두 화면에서 확인했다.
+- [x] 수업 시작점에서 별도로 재현했다.
+- [x] A의 실제 적 표시와 두 화면에서 확인했다.
 - [x] 실화면 검증과 G2 진입 의존성을 명시했다.

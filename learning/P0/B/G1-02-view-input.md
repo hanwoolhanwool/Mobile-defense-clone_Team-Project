@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-MAP-01·TASK-NET-01, [전장 UI](../../../docs/design/BOARD_UI.md), [B 구현 설계](../../../docs/technical/IMPLEMENTATION_B.md) |
-| 참고 자료 제작 상태 | Draft — 역할 Editor/계산 Pass, 두 번째 실제 실행에서 세로6종 Pass·가로 Fail, 카메라 높이 수정 재검증 전 |
+| 참고 자료 제작 상태 | Verified — 수업 조립·Editor/자동화·실제 두 프로세스7화면/전체셀/EngineTouch 범위 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1` / 구현 `82cf174cab14746c4fc57867efd5c4522903ca2c`, 수정·검증 `d5274dccdc11e1736e59239e558e8fb2ace7ee14` |
+| 참고 시작/완료 SHA | 재현 시작 canonical G0 `649c1dedd6832c41089a76b59bc76518cd262296` / 최종 G1 소스 `df8a2f27dd962a4d9f9f4051e51f3332245ba40a` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | [G1-01](G1-01-geometry.md), G0 참가자 PlayerIndex, root 제공 M_P0Flat/기본 맵, A 경로 표시 |
 | 제공 코드 / 직접 작성할 코드 | 제공: 공통 맵·Unlit 재료·엔진 Cube, root 실행 probe. 직접 작성: BoardPresentation·Native UMG·Controller 로컬 입력·ViewportFit 테스트 |
@@ -45,7 +45,7 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 별도 BP_Camera·BP_Board·WBP 생성은 이 구현에 필요하지 않다. 네이티브 표시 클래스가 위 값을 생성한다. 공통 Build.cs의 SlateCore 의존성은 통합 담당자가 반영한다. 구현 이유는 필수 화면/입력 계약을 코드로 재현하고 바이너리 편집 충돌을 줄이기 위해서다.
 
-기준 화면 예상: 셀120×120px, 내 필드720×360px, 생성점표시(120,1540)px, 중앙(120,1060)→(960,1060)px. 플레이어0/1 모두 같은 화면 위치이며 canonical Y가 다르다. 선택 셀은 녹청색, 상대 선택 실패는 `상대 보드는 조작할 수 없습니다` 문구다. 위 값은 기대값이며 실제 캡처는 아직 미등록이다.
+기준 화면 예상: 셀120×120px, 내 필드720×360px, 생성점표시(120,1540)px, 중앙(120,1060)→(960,1060)px. 플레이어0/1 모두 같은 화면 위치이며 canonical Y가 다르다. 선택 셀은 녹청색, 상대 선택 실패는 `상대 보드는 조작할 수 없습니다` 문구다. 실제7화면의 동일 방향·전체셀 입력과 가로 화면의6×3 모든 경계선을 확인했으며 [재현 요약/화면 근거](../evidence/G1_REPLAY/SUMMARY.md)에 연결했다.
 
 ## 실행·실패·수정 기록
 
@@ -54,17 +54,19 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 | 1080×2340 기본 화면 | field60,520,960,1080·셀120px | 실제 두 번째 실행 Pass | 통합 G1-two-process-fix1의 view-1 |
 | 540×1170 첫 별도 프로세스 실행 | 셀60px·field480×540px가 창 안에 표시 | 최초 Fail: 셀130px, 가로 보드 잘림 → 축 수정 후 두 번째 실행 Pass | root 실제 화면/projection 관찰, 아래 실패 분석 |
 | 두 번째 실행의 세로6종 | 540×1170·1080×2340·720×1280·720×1600·768×1024·800×1280, 표시/36중심/72모서리/EngineTouch | 양쪽 Pass | 통합 G1-two-process-fix1 view-0~5 |
-| 두 번째 실행의1280×720 | 전체 field fit·셀 표시·실입력 일치 | 양쪽 각107 Fail, 셀 표시 소실 | [실패 요약](evidence/G1-build-tests/landscape-failure-summary.json), height 수정 재검증 전 |
+| 두 번째 실행의1280×720 | 전체 field fit·셀 표시·실입력 일치 | 당시 양쪽 각107 Fail → 높이/선 보정 후 최종 Pass | [실패 요약](evidence/G1-build-tests/landscape-failure-summary.json), [최종 재현](../evidence/G1_REPLAY/SUMMARY.md) |
 | 비대칭 안전영역20/44/12/32 | field가 안전영역 안에 동일 배율 fit | Pass, 계산 검사 | 실기기 SafeArea는 별도 미검증 |
-| 양쪽 화면36중심 | 자기18 Selected·상대18 NotOwner | 세로6종 Pass, 가로 Fail | 실제 Project/Deproject + 공통 InputScreenPosition |
-| 자기18셀 내부4모서리±62cm | 실제 보이는 셀과 같은 CellId | 세로6종 Pass, 가로 Fail | root 독립 예상값 probe |
+| 양쪽 화면36중심 | 자기18 Selected·상대18 NotOwner | 최종7화면 모두 Pass | 실제 Project/Deproject + 공통 InputScreenPosition |
+| 자기18셀 내부4모서리±62cm | 실제 보이는 셀과 같은 CellId | 최종7화면 모두 Pass | root 독립 예상값 probe |
 | 상대/경로/화면밖 누르기 | 선택 불변·구체적인 거절문구 | NotRun | 직접 실행 검수 |
 | 연결 세대 변경/종료 | 위젯·로컬 Actor·선택 정리 | NotRun | 실제 UI 재생성/다음 매치 후속 |
 | source style/diff | 오류0 | Pass | `Saved/P0Evidence/G1-B/style.log` |
 | Editor 최초 빌드 | C++/UHT 컴파일 성공 | Fail: C4458 | [최초 결과](evidence/G1-build-tests/editor-initial-result.json), [실패 발췌](evidence/G1-build-tests/compiler-failure-excerpt.txt) |
 | Editor 수정 후 재빌드 | C++/UHT 컴파일 성공 | Pass, UBT14.66초 | [수정 후 결과](evidence/G1-build-tests/editor-fixed-result.json) |
 | UE 보드 자동화 | 3Pass/0Fail/0NotRun | Pass | [결과](evidence/G1-build-tests/automation-result.json), [세부 요약](evidence/G1-build-tests/automation-summary.json) |
-| 실제 네트워크/패키지/Android | 각 범위의 검수 근거 확보 | 네트워크 화면 결과 미확정, 패키지/Android NotRun | 계산·컴파일 Pass와 구분 |
+| 새 detached 수업 재현 | 36파일 조립→Editor→LD.P0→실제 두 프로세스 | Editor88.39초 Pass,22Pass/0Fail/0NotRun, host1338/client1336검사 Pass | [공통 재현 근거](../evidence/G1_REPLAY/SUMMARY.md) |
+| 최종 가로 PNG·Engine InputTouch | 모든6×3 경계 표시, 같은 입력 경로 | 양쪽 Pass | root의 실제 화면 시각 검토와 EngineTouch 입력 검사 |
+| 실제 네트워크/패키지/Android | 각 범위의 검수 근거 확보 | G1 경로 복제/두 화면 Pass, 명령 RPC·패키지·Android NotRun | Editor -game 렌더링은 PIE/최종 패키지가 아님 |
 
 첫 실제 두 프로세스 검사에서 카메라 확대 실패를 발견했다. 540×1170 화면에서 기대한 셀60px 대신130px로 투영되었고, 셀0/5의 화면X가595/-55여서 보드가 좌우로 잘렸다. `FLDBoardViewportLayout` 계산은 맞았지만 CameraComponent가 축 제약을 재정의하지 않아 LocalPlayer의 MaintainYFOV 설정을 상속했다. UE5.8의 `Engine/Source/Runtime/Engine/Private/Camera/CameraStackTypes.cpp` 284~307행은 이 경우 XAxisMultiplier=1170/540을 적용하고, OrthoWidth를 그 값으로 나눈다. 따라서 실제 확대율도130/60=1170/540이 되었다. 계산 fixture에는 이 엔진 투영 단계가 없어서 검사3개가 Pass여도 실제 화면 실패를 잡지 못했다.
 
@@ -72,25 +74,25 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 그러나1280×720만 양쪽 각107개 검사가 실패했다. host의 `view-6.png`를 직접 확인하면 전장 바탕만 남고 베이지 셀/적 표시가 사라졌다. 입력도 Z0 교차 거리가 음수여서 거절됐다. UE5.8 `CameraStackTypes.cpp::CalculateProjectionMatrixGivenViewRectangle`의 unconstrained 직교 경로는 `UpdateOrthoPlanes`를 호출한다. `SceneView.cpp::FSceneViewProjectionData::UpdateOrthoPlanes`는 UseCameraHeightAsViewTarget이 켜져 있으면 min(CameraZ, HalfOrthoWidth)를 추가로 전진시킨다. 이 가로 화면은 HalfOrthoWidth=2426.6667cm가 CameraZ=2400cm보다 커서 투영 원점이 Z−1로 이동했다. `bUpdateOrthoPlanes=false`만으로는 이 직접 호출을 막지 못한다.
 
-두 번째 수정은 생성자의 `bUseCameraHeightAsViewTarget=false`다. 전장/입력 평면을 카메라 앞에 유지하며 정상 near-plane 보정만 허용한다. `LD.P0.G1.Board.EngineOrthoProjection` 회귀 검사는 실제 BoardPresentation의 CalcCamera와 UE 투영/역투영 함수를 통과시킨다. 독립 기대값은540×1170 셀60px,1280×720 셀36.9230769px, 입력 ray 원점이 Z7보다 높고 아래로 향함, Z0/Z7 표면이 clip 깊이[0,1] 안에 있음이다. 자체 레이아웃 계산을 다시 기대값으로 쓰지 않으며 첫 축 보정과 이번 높이 보정의 회귀를 함께 검출한다. 이 수정/새 검사의 Unreal 빌드·실행은 아직 NotRun이다. root 재빌드와 양쪽7화면 재검증 후 결과를 연결한다. 수정 SHA는 이 기록과 함께 변경한 BoardPresentation/Tests의 커밋으로 추적한다.
+두 번째 수정은 생성자의 `bUseCameraHeightAsViewTarget=false`다. 전장/입력 평면을 카메라 앞에 유지하며 정상 near-plane 보정만 허용한다. `LD.P0.G1.Board.EngineOrthoProjection` 회귀 검사는 실제 BoardPresentation의 CalcCamera와 UE 투영/역투영 함수를 통과시킨다. 독립 기대값은540×1170 셀60px,1280×720 셀36.9230769px, 입력 ray 원점이 Z7보다 높고 아래로 향함, Z0/Z7 표면이 clip 깊이[0,1] 안에 있음이다. 자체 레이아웃 계산을 다시 기대값으로 쓰지 않으며 첫 축 보정과 이번 높이 보정의 회귀를 함께 검출한다. 높이 수정 커밋은 `5a46b30313894557344e647a8d116ac7f1dfaa1c`다. 후속 fixture 수정을 거쳐 최종 수업 재현의 Editor/자동화/양쪽7화면 검사가 Pass였다.
 
-이후 통합 `efa2aa9`의 Editor 빌드는 Pass였지만 `Saved/P0Runs/G1-integration-tests-fix2`의 새 EngineOrthoProjection만 Fail(기존9개 Pass)이었다. 두 화면 모두 ProjectWorldToScreen이 false여서 셀 폭·ray·clip 검사도 이어서 실패했다. 엔진 `AActor::CalcCamera`는 활성 카메라만 고르며 없으면 Actor eyes의 원점/기본 perspective로 돌아간다. 최초 fixture는 CreateWorld 후 Actor의 play 초기화 단계를 생략했다. CreateWorld 자체는 InitializeNewWorld를 이미 호출하므로 이를 중복 호출하지 않고 `InitializeActorsForPlay(FURL())`와 카메라 Activate를 fixture에 추가했다. 계산 전에 World actors 초기화·카메라 등록/활성·View가 Orthographic·Location.Z=2400임을 명시적으로 검사해 전제 실패를 투영 실패와 구분한다. 제품의 카메라 설정은 덮어쓰지 않는다. 수정 fixture의 실제 재실행 결과는 아직 NotRun이며 이 실패를 실제 제품 가로 화면 재검증과 혼동하지 않는다.
+이후 통합 `efa2aa9`의 Editor 빌드는 Pass였지만 `Saved/P0Runs/G1-integration-tests-fix2`의 새 EngineOrthoProjection만 Fail(기존9개 Pass)이었다. 두 화면 모두 ProjectWorldToScreen이 false여서 셀 폭·ray·clip 검사도 이어서 실패했다. 엔진 `AActor::CalcCamera`는 활성 카메라만 고르며 없으면 Actor eyes의 원점/기본 perspective로 돌아간다. 최초 fixture는 CreateWorld 후 Actor의 play 초기화 단계를 생략했다. CreateWorld 자체는 InitializeNewWorld를 이미 호출하므로 이를 중복 호출하지 않고 `InitializeActorsForPlay(FURL())`와 카메라 Activate를 fixture에 추가했다. 계산 전에 World actors 초기화·카메라 등록/활성·View가 Orthographic·Location.Z=2400임을 명시적으로 검사해 전제 실패를 투영 실패와 구분한다. 제품의 카메라 설정은 덮어쓰지 않는다. fixture 수정 `d7daeb62d865576450d69aa3f44ff3144fb9556b`를 포함한 최종 수업 재현에서 EngineOrthoProjection도 Pass였다. 이 fixture 실패를 실제 제품 가로 화면 실패와 구분한다.
 
 제품의 두 번째 카메라 수정 후 root의 `G1-two-process-fix2` 실제 검사는 양쪽1338/1338 Pass였다. 다만14개 PNG의 시각 검토에서1280×720 화면의 세로 셀 경계4개가 거의 사라졌다. 기존 내부 셀 크기137cm와 논리140cm 사이의3cm 간격이 이 화면에서는0.79px뿐이라 안티앨리어싱 표본에 따라 선이 소실됐다. 입력 검사의 성공만으로6×3 구분이 충분하다고 판단할 수 없다.
 
-표시 수정은 `CellVisuals` 배열에 내부 메시를 명시적으로 보관하고 `ApplyViewportLayout`에서 XY scale만 갱신한다. 간격은 max(기존3cm,1.5px/현재PixelsPerCm), 상한은 셀 크기의20%로 하여 극단적으로 작은 viewport에서도 내부가 음수/0 크기가 되지 않게 한다. invalid/0 픽셀 밀도는 크기 계산에 쓰지 않는다.1280×720 기대 간격은5.6875cm=1.5px, 내부134.3125cm다. 논리 셀140cm·전체셀 입력·카메라·높이·선택 상태는 바꾸지 않는다. 이 표시 수정 후 빌드/PNG 시각 재검증은 아직 NotRun이며 최종 G1 통과 전에 확인한다.
+표시 수정은 `CellVisuals` 배열에 내부 메시를 명시적으로 보관하고 `ApplyViewportLayout`에서 XY scale만 갱신한다. 간격은 max(기존3cm,1.5px/현재PixelsPerCm), 상한은 셀 크기의20%로 하여 극단적으로 작은 viewport에서도 내부가 음수/0 크기가 되지 않게 한다. invalid/0 픽셀 밀도는 크기 계산에 쓰지 않는다.1280×720 기대 간격은5.6875cm=1.5px, 내부134.3125cm다. 논리 셀140cm·전체셀 입력·카메라·높이·선택 상태는 바꾸지 않는다. 표시 수정 `bac0077d08d7d09b8ee3a71034cb270fcf6c462a` 후 최종 수업 재현 빌드와 입력 검사가 Pass였고 root가 최종 가로 양쪽 PNG의6×3 모든 선을 직접 확인했다.
 
 표시와 입력의 서버 좌표 불변, 동일 배율 확대, 터치 뒤 합성 mouse 입력 억제도 별도로 유지한다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다.
 
 최초 Unreal Editor 컴파일에서 AddLabel의 지역변수 `Slot`이 UWidget의 동일 이름 멤버를 가려 MSVC C4458 오류가 발생했다. `d5274dccdc11e1736e59239e558e8fb2ace7ee14`에서 지역변수를 `CanvasSlot`으로 바꿨다. 2026-09-18 14:13 KST의 실제 재빌드는 Pass, 14:15 KST `LD.P0.G1.Board`는 3Pass/0Fail/0NotRun이다. root는 같은 Windows11·UE5.8.2·MSVC 환경에서 직렬 실행했다. 실행 명령·SHA·시간은 위 JSON에 보존했고 전체 로그는 `Saved/P0Runs/G1-B-editor-fix1`, `G1-B-tests`에 있다. UBT14.66초는 빌드 시간이며 게임 프레임 성능이 아니다.
 
-지금 보존한 검수 증거는 compact JSON과 성공/실패 구간뿐이다. 큰 engine.log는 학습 폴더에 복사하지 않았다. 실제 화면 캡처·양쪽 공통 입력·경로 두 바퀴·반복 UI 수명·패키지·Android는 별도 관찰 결과가 확보되기 전 미검증으로 유지한다. 수업 전체를 Verified로 바꾸지 않는다.
+최종 재현은 canonical G0에서 새 detached `C:/Users/iam12/P0_lesson_replay_g1`을 만들고 수업 순서의36파일을 조립한 뒤 수행했다. [절차](../evidence/G1_REPLAY/README.md)와 [조립 manifest·실제 결과](../evidence/G1_REPLAY/SUMMARY.md)가 Verified 근거다. SourceSha는 최종 df8a2f27이며 재현 worktree HEAD는 출발 G0이므로 manifest와 실행 결과를 함께 읽는다. host1338/client1336 차이는 서버 전용 spawn2검사 때문이며 누락 검사가 아니다. Windows11·UE5.8.2 환경의 실제 GPU 두 프로세스 결과이며88.39초는 빌드 시간이다. 큰 로그와14개 원본 PNG는 재현 Saved/P0Runs에 보존한다. 반복 매치/UI 재생성·PIE·실제 명령 RPC·최종 패키지·OS 입력/물리 터치·Android는 미검증이며 이번 Verified 범위에 포함하지 않는다.
 
 ## 상대에게 전달하고 통합하기
 
 커밋 `82cf174cab14746c4fc57867efd5c4522903ca2c`. root에 `IsLocalBoardReady`, `GetLocalParticipantIndex`, `InputScreenPosition`, `ProjectCellToScreen`, `GetSelectedCellId`, `GetLastHitCellId`, `GetLastCellInputResult`, `GetBoardViewportLayout`를 전달한다. A에는 `FLDViewTransform`과 `OnLocalViewReady(int32)`를 전달한다. root fixture가 A 적의 `SetLocalViewPlayerIndex`를 연결하고 서버에서 두 경로를 진행한다. 실제 G1 통합은 A/B Editor → 계산 → 두 별도 프로세스 화면/입력/경로2바퀴 → 수정 → 재검증 → 리뷰 순서다. 별도 패키지 PC 한 판은 G3 검수다.
 
-완료 코드가 실제 학습자의 구현이라는 뜻은 아니다. 학습자는 자신의 G0 통합본에서 위 순서로 작성하고 자기 실행/통합 SHA를 남긴다. 수업 전체 재현이 아직 없으므로 Verified로 표시하지 않는다.
+최종 통합 소스는 `df8a2f27dd962a4d9f9f4051e51f3332245ba40a`, B 참고 병합은 `3bbd4c624b7768fd28c1b37b60e7212b4c006fb5`이며 Source/Config/Content diff0을 확인했다. 참고 파일 조립 재현은 학습자가 직접 구현했다는 뜻이 아니다. 실제 학습자는 자신의 G0 통합본에서 위 순서로 작성하고 자기 실행/통합 SHA를 남긴다. 실제 학습자 상태는 Planned, learn 브랜치는 공통 출발점 그대로다.
 
 ## 이해 확인
 
@@ -105,6 +107,6 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 - [x] 제공 에셋·Native UMG·카메라·입력 연결 순서를 기록했다.
 - [x] 역할 Editor/계산 실행과 수정 SHA·compact 증거를 연결했다.
-- [ ] 통합 실제 화면 캡처·입력·두 바퀴 증거를 연결했다.
-- [ ] 시작점으로부터 수업을 재현했다.
+- [x] 통합 실제 화면 캡처·입력·두 바퀴 증거를 연결했다.
+- [x] 시작점으로부터 수업을 재현했다.
 - [x] G2·패키지·실기기의 별도 의존성과 미검증 범위를 명시했다.
