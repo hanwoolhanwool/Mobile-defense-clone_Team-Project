@@ -27,7 +27,7 @@ bool ULDCombatService::Initialize(const FLDMatchContext& Context, const FLDGameR
 
 void ULDCombatService::RegisterCommittedUnit(ALDUnitActor& Unit, double CommitServerSeconds)
 {
-	if (!bInitialized || bStopped || !Unit.HasAuthority() || !Unit.IsCommitted() ||
+	if (!bInitialized || bStopped || !Unit.HasAuthority() || Unit.GetWorld() != GetWorld() || !Unit.IsCommitted() ||
 	    !FMath::IsFinite(CommitServerSeconds) || CommitServerSeconds < 0)
 	{
 		return;
@@ -51,8 +51,8 @@ void ULDCombatService::UnregisterUnit(uint64 InstanceId)
 
 bool ULDCombatService::RegisterEnemy(ALDEnemyActor& Enemy)
 {
-	if (!bInitialized || bStopped || !Enemy.HasAuthority() || !Enemy.IsCombatAlive() ||
-	    Enemy.GetRouteSnapshot().MatchId != MatchContext.MatchId)
+	if (!bInitialized || bStopped || !Enemy.HasAuthority() || Enemy.GetWorld() != GetWorld() ||
+	    !Enemy.IsCombatAlive() || Enemy.GetRouteSnapshot().MatchId != MatchContext.MatchId)
 	{
 		return false;
 	}
@@ -70,18 +70,20 @@ void ULDCombatService::UnregisterEnemy(uint64 EnemyId)
 	Enemies.Remove(EnemyId);
 }
 
-ALDEnemyActor* ULDCombatService::SelectTarget(const ALDUnitActor& Unit) const
+ALDEnemyActor* ULDCombatService::SelectTarget(const ALDUnitActor& Unit, double SampleSeconds) const
 {
 	TArray<FLDTargetCandidate> Candidates;
 	TArray<ALDEnemyActor*> Actors;
 	for (const auto& Entry : Enemies)
 	{
 		ALDEnemyActor* Enemy = Entry.Value.Get();
+		FVector Position;
 		if (Enemy && Enemy->GetRouteSnapshot().MatchId == MatchContext.MatchId &&
-		    Enemy->GetCombatSnapshot().SpawnedServerSeconds <= LastAdvanceSeconds)
+		    Enemy->GetCombatSnapshot().SpawnedServerSeconds <= SampleSeconds &&
+		    Enemy->TryGetCanonicalPositionAt(SampleSeconds, Position))
 		{
-			Candidates.Add({Enemy->GetRouteSnapshot().EnemyId, Enemy->GetCombatSnapshot().SpawnSerial,
-			                Enemy->GetActorLocation(), Enemy->IsCombatAlive()});
+			Candidates.Add({Enemy->GetRouteSnapshot().EnemyId, Enemy->GetCombatSnapshot().SpawnSerial, Position,
+			                Enemy->IsCombatAlive()});
 			Actors.Add(Enemy);
 		}
 	}
@@ -89,13 +91,16 @@ ALDEnemyActor* ULDCombatService::SelectTarget(const ALDUnitActor& Unit) const
 	return Actors.IsValidIndex(Selected) ? Actors[Selected] : nullptr;
 }
 
-bool ULDCombatService::IsValidTarget(const ALDUnitActor& Unit, const ALDEnemyActor& Enemy) const
+bool ULDCombatService::IsValidTarget(const ALDUnitActor& Unit, const ALDEnemyActor& Enemy, double SampleSeconds) const
 {
 	const TWeakObjectPtr<ALDEnemyActor>* Registered = Enemies.Find(Enemy.GetRouteSnapshot().EnemyId);
-	return Unit.IsCommitted() && Enemy.IsCombatAlive() && Registered && Registered->Get() == &Enemy &&
+	FVector Position;
+	return Unit.IsCommitted() && Unit.GetWorld() == GetWorld() && Enemy.GetWorld() == GetWorld() &&
+	       Enemy.IsCombatAlive() && Registered && Registered->Get() == &Enemy &&
 	       Enemy.GetRouteSnapshot().MatchId == MatchContext.MatchId &&
-	       FVector::DistSquaredXY(Unit.GetActorLocation(), Enemy.GetActorLocation()) <=
-	           FMath::Square(Unit.GetUnitRow().RangeCm);
+	       Enemy.GetCombatSnapshot().SpawnedServerSeconds <= SampleSeconds &&
+	       Enemy.TryGetCanonicalPositionAt(SampleSeconds, Position) &&
+	       FVector::DistSquaredXY(Unit.GetActorLocation(), Position) <= FMath::Square(Unit.GetUnitRow().RangeCm);
 }
 
 bool ULDCombatService::AdvanceCombatTo(double ServerSeconds)
@@ -135,32 +140,21 @@ bool ULDCombatService::AdvanceCombatTo(double ServerSeconds)
 		}
 		const double Earliest = FMath::Max(State.NextAttackAt, Unit->GetPlacement().MoveBlockedUntilServerSeconds);
 		ALDEnemyActor* Target = State.ReservedTarget.Get();
-		if (Target && !IsValidTarget(*Unit, *Target))
+		if (Target)
 		{
-			State.ReservedTarget.Reset();
-			Target = nullptr;
+			State.ReservedAttackAt = FMath::Max(State.ReservedAttackAt, Earliest);
+			// An existing scheduled attack samples its exact due time; root actors never rewind.
+			Target = SelectTarget(*Unit, FMath::Min(State.ReservedAttackAt, ServerSeconds));
+			State.ReservedTarget = Target;
 		}
 		if (!Target)
 		{
-			Target = SelectTarget(*Unit);
+			Target = SelectTarget(*Unit, ServerSeconds);
 			if (Target)
 			{
 				State.ReservedTarget = Target;
 				// A newly observed target cannot receive an attack backdated into a targetless interval.
 				State.ReservedAttackAt = FMath::Max(Earliest, ServerSeconds);
-			}
-		}
-		else
-		{
-			State.ReservedAttackAt = FMath::Max(State.ReservedAttackAt, Earliest);
-			// Re-evaluate nearest on the current canonical positions rather than locking an old target indefinitely.
-			ALDEnemyActor* Nearest = SelectTarget(*Unit);
-			if (Nearest && Nearest != Target)
-			{
-				Target = Nearest;
-				State.ReservedTarget = Target;
-				State.ReservedAttackAt =
-				    FMath::Max(State.ReservedAttackAt, Target->GetCombatSnapshot().SpawnedServerSeconds);
 			}
 		}
 		if (Target && State.ReservedAttackAt <= ServerSeconds)
@@ -181,7 +175,8 @@ bool ULDCombatService::AdvanceCombatTo(double ServerSeconds)
 		ALDUnitActor* Unit = State->Unit.Get();
 		ALDEnemyActor* Target = State->ReservedTarget.Get();
 		State->ReservedTarget.Reset();
-		if (!Unit || !Target || !IsValidTarget(*Unit, *Target) ||
+		if (!Unit || !Target || Unit->GetPlacement().InstanceId != Due.InstanceId ||
+		    !IsValidTarget(*Unit, *Target, Due.DueSeconds) ||
 		    Due.DueSeconds < Unit->GetPlacement().MoveBlockedUntilServerSeconds)
 		{
 			continue;
@@ -206,7 +201,14 @@ bool ULDCombatService::AdvanceCombatTo(double ServerSeconds)
 			continue;
 		}
 		State->NextAttackAt = Due.DueSeconds + Unit->GetUnitRow().AttackIntervalSeconds;
-		Unit->PresentCommittedAttack(Event.DamageEventId, Target->GetActorLocation(), Due.DueSeconds);
+		if (Target->IsCombatAlive())
+		{
+			State->ReservedTarget = Target;
+			State->ReservedAttackAt = State->NextAttackAt;
+		}
+		FVector HitPosition;
+		Target->TryGetCanonicalPositionAt(Due.DueSeconds, HitPosition);
+		Unit->PresentCommittedAttack(Event.DamageEventId, HitPosition, Due.DueSeconds);
 		if (Result == ELDDamageResult::Killed)
 		{
 			// State references must not be used after a delegate: the owner may remove units or end the match.

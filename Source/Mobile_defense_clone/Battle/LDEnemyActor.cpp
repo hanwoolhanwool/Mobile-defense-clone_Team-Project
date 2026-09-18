@@ -354,3 +354,15 @@ void ALDEnemyActor::OnRep_CombatSnapshot()
 {
 	RefreshPresentation(GetPresentationServerSeconds());
 }
+
+bool ALDEnemyActor::TryGetCanonicalPositionAt(double ServerSeconds, FVector& OutPosition) const
+{
+	if (!FMath::IsFinite(ServerSeconds) || ServerSeconds < InitialServerSeconds || RouteSnapshot.EnemyId == 0)
+	{
+		return false;
+	}
+	FVector Tangent;
+	uint64 Lap = 0;
+	return RouteModel.TrySample((ServerSeconds - InitialServerSeconds) * RouteSnapshot.SpeedCmPerSecond, OutPosition,
+	                            Tangent, Lap);
+}

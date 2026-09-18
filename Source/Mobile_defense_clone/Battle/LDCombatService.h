@@ -40,8 +40,8 @@ private:
 		double NextAttackAt = 0;
 		double ReservedAttackAt = 0;
 	};
-	ALDEnemyActor* SelectTarget(const ALDUnitActor& Unit) const;
-	bool IsValidTarget(const ALDUnitActor& Unit, const ALDEnemyActor& Enemy) const;
+	ALDEnemyActor* SelectTarget(const ALDUnitActor& Unit, double SampleSeconds) const;
+	bool IsValidTarget(const ALDUnitActor& Unit, const ALDEnemyActor& Enemy, double SampleSeconds) const;
 	FLDMatchContext MatchContext;
 	TMap<uint64, FUnitAttackState> Units;
 	TMap<uint64, TWeakObjectPtr<ALDEnemyActor>> Enemies;
