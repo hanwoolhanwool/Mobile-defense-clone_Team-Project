@@ -74,6 +74,8 @@ ARCH-01/02: 표시 Actor는 Controller·경제를 찾지 않으며 위젯도 명
 
 두 번째 수정은 생성자의 `bUseCameraHeightAsViewTarget=false`다. 전장/입력 평면을 카메라 앞에 유지하며 정상 near-plane 보정만 허용한다. `LD.P0.G1.Board.EngineOrthoProjection` 회귀 검사는 실제 BoardPresentation의 CalcCamera와 UE 투영/역투영 함수를 통과시킨다. 독립 기대값은540×1170 셀60px,1280×720 셀36.9230769px, 입력 ray 원점이 Z7보다 높고 아래로 향함, Z0/Z7 표면이 clip 깊이[0,1] 안에 있음이다. 자체 레이아웃 계산을 다시 기대값으로 쓰지 않으며 첫 축 보정과 이번 높이 보정의 회귀를 함께 검출한다. 이 수정/새 검사의 Unreal 빌드·실행은 아직 NotRun이다. root 재빌드와 양쪽7화면 재검증 후 결과를 연결한다. 수정 SHA는 이 기록과 함께 변경한 BoardPresentation/Tests의 커밋으로 추적한다.
 
+이후 통합 `efa2aa9`의 Editor 빌드는 Pass였지만 `Saved/P0Runs/G1-integration-tests-fix2`의 새 EngineOrthoProjection만 Fail(기존9개 Pass)이었다. 두 화면 모두 ProjectWorldToScreen이 false여서 셀 폭·ray·clip 검사도 이어서 실패했다. 엔진 `AActor::CalcCamera`는 활성 카메라만 고르며 없으면 Actor eyes의 원점/기본 perspective로 돌아간다. 최초 fixture는 CreateWorld 후 Actor의 play 초기화 단계를 생략했다. CreateWorld 자체는 InitializeNewWorld를 이미 호출하므로 이를 중복 호출하지 않고 `InitializeActorsForPlay(FURL())`와 카메라 Activate를 fixture에 추가했다. 계산 전에 World actors 초기화·카메라 등록/활성·View가 Orthographic·Location.Z=2400임을 명시적으로 검사해 전제 실패를 투영 실패와 구분한다. 제품의 카메라 설정은 덮어쓰지 않는다. 수정 fixture의 실제 재실행 결과는 아직 NotRun이며 이 실패를 실제 제품 가로 화면 재검증과 혼동하지 않는다.
+
 표시와 입력의 서버 좌표 불변, 동일 배율 확대, 터치 뒤 합성 mouse 입력 억제도 별도로 유지한다. 터치 발생 직후0.15초의 mouse 경로만 억제하며 직접 touch/probe는 같은 선택 경로를 유지한다.
 
 최초 Unreal Editor 컴파일에서 AddLabel의 지역변수 `Slot`이 UWidget의 동일 이름 멤버를 가려 MSVC C4458 오류가 발생했다. `d5274dccdc11e1736e59239e558e8fb2ace7ee14`에서 지역변수를 `CanvasSlot`으로 바꿨다. 2026-09-18 14:13 KST의 실제 재빌드는 Pass, 14:15 KST `LD.P0.G1.Board`는 3Pass/0Fail/0NotRun이다. root는 같은 Windows11·UE5.8.2·MSVC 환경에서 직렬 실행했다. 실행 명령·SHA·시간은 위 JSON에 보존했고 전체 로그는 `Saved/P0Runs/G1-B-editor-fix1`, `G1-B-tests`에 있다. UBT14.66초는 빌드 시간이며 게임 프레임 성능이 아니다.

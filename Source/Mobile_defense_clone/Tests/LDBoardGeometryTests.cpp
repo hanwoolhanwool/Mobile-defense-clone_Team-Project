@@ -4,8 +4,10 @@
 
 #include "Board/LDViewTransform.h"
 #include "Board/LDBoardPresentation.h"
+#include "Camera/CameraComponent.h"
 #include "Camera/CameraTypes.h"
 #include "Data/LDGameData.h"
+#include "Engine/EngineBaseTypes.h"
 #include "Engine/World.h"
 #include "Misc/AutomationTest.h"
 #include "SceneView.h"
@@ -150,6 +152,25 @@ bool FLDP0EngineOrthoProjectionTest::RunTest(const FString& Parameters)
 		World->DestroyWorld(false);
 		return false;
 	}
+	UCameraComponent* Camera = Board->FindComponentByClass<UCameraComponent>();
+	if (!TestNotNull(TEXT("Production camera component exists"), Camera))
+	{
+		World->DestroyWorld(false);
+		return false;
+	}
+	const bool bActiveBeforePlayInitialization = Camera->IsActive();
+	// CreateWorld initializes the world itself; game actors still need their play initialization phase.
+	World->InitializeActorsForPlay(FURL());
+	Camera->Activate(true);
+	AddInfo(FString::Printf(TEXT("Camera active before/after fixture play initialization: %d/%d"),
+	                             bActiveBeforePlayInitialization, Camera->IsActive()));
+	if (!TestTrue(TEXT("World actors initialized for camera selection"), World->AreActorsInitialized()) ||
+	              !TestTrue(TEXT("Camera registered and active for Actor CalcCamera"),
+	                             Camera->IsRegistered() && Camera->IsActive()))
+	{
+		World->DestroyWorld(false);
+		return false;
+	}
 	const FIntPoint Sizes[] = {FIntPoint(540, 1170), FIntPoint(1280, 720)};
 	const double ExpectedCellPixels[] = {60.0, 36.923076923};
 	for (int32 Case = 0; Case < UE_ARRAY_COUNT(Sizes); ++Case)
@@ -161,6 +182,14 @@ bool FLDP0EngineOrthoProjectionTest::RunTest(const FString& Parameters)
 		Board->ApplyViewportLayout(Layout);
 		FMinimalViewInfo View;
 		Board->CalcCamera(0, View);
+		const bool bOrthographic = TestTrue(TEXT("Actor CalcCamera selected the production orthographic component"),
+		                                         View.ProjectionMode == ECameraProjectionMode::Orthographic);
+		const bool bExpectedHeight = TestTrue(TEXT("Production camera starts at Z2400 before UE projection correction"),
+		                                           FMath::IsNearlyEqual(View.Location.Z, 2400.0, 0.01));
+		if (!bOrthographic || !bExpectedHeight)
+		{
+			continue;
+		}
 		const FIntRect ViewRect(FIntPoint::ZeroValue, Sizes[Case]);
 		FSceneViewProjectionData Projection;
 		Projection.SetViewRectangle(ViewRect);
