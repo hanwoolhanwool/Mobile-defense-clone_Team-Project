@@ -99,7 +99,7 @@ bool FLDRouteModel::TryPredictPresentationDistance(double SampleDistanceCm, doub
                                                    double& OutDistanceCm)
 {
 	if (!FMath::IsFinite(SampleDistanceCm) || SampleDistanceCm < 0 || !FMath::IsFinite(SampleServerSeconds) ||
-	    !FMath::IsFinite(ViewServerSeconds) || !FMath::IsFinite(SpeedCmPerSecond) || SpeedCmPerSecond <= 0)
+	    !FMath::IsFinite(ViewServerSeconds) || !FMath::IsFinite(SpeedCmPerSecond) || SpeedCmPerSecond < 0)
 	{
 		return false;
 	}

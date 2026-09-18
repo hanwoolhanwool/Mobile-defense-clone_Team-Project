@@ -1,6 +1,9 @@
 #include "Network/LDCommandProcessor.h"
 
 #include "Data/LDGameData.h"
+#include "Board/LDBoardManager.h"
+#include "Economy/LDEconomyService.h"
+#include "Engine/World.h"
 #include "HAL/PlatformTime.h"
 
 bool ULDCommandProcessor::Initialize(const FLDMatchContext& Context, const FLDGameRules& Rules)
@@ -50,6 +53,13 @@ void ULDCommandProcessor::Close()
 	// Retain deduplication history through Result/EndPlay. New admissions cannot execute.
 	bAcceptingCommands = false;
 	bClosed = true;
+	RewardQueue.Reset();
+	QueuedDeathIds.Reset();
+	if (BoardManager)
+	{
+		BoardManager->Close();
+		EconomyService->Close();
+	}
 }
 
 ULDCommandProcessor::FSession* ULDCommandProcessor::FindSession(const FLDParticipantContext& Context)
@@ -85,7 +95,8 @@ bool ULDCommandProcessor::CanSendResponse(const FLDParticipantContext& Context, 
 
 FLDCommandResult ULDCommandProcessor::Submit(const FLDParticipantContext& Context, const FLDCommand& Command)
 {
-	return SubmitAtTime(Context, Command, FPlatformTime::Seconds());
+	const UWorld* World = GetOuter() ? GetOuter()->GetWorld() : nullptr;
+	return SubmitAtTime(Context, Command, World ? World->GetTimeSeconds() : FPlatformTime::Seconds());
 }
 
 void ULDCommandProcessor::CacheResult(FSession& Session, const FLDCommand& Command, const FLDCommandResult& Result)
@@ -126,11 +137,21 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 		Result.ResultCode = ELDCommandResultCode::RequestIdConflict;
 		return Result;
 	}
+	if (bProcessing)
+	{
+		Result.ResultCode = ExecutingPlayer == Context.PlayerIndex && ExecutingCommand.IsSet() &&
+		                            ExecutingCommand->RequestId == Command.RequestId &&
+		                            ExecutingCommand->HasSameContent(Normalized)
+		                        ? ELDCommandResultCode::Pending
+		                        : ELDCommandResultCode::Busy;
+		return Result;
+	}
 	if (Command.RequestId <= Session->HighestAdmittedRequestId)
 	{
 		Result.ResultCode = ELDCommandResultCode::RequestExpired;
 		return Result;
 	}
+	DrainCombatRewards();
 	Session->HighestAdmittedRequestId = Command.RequestId;
 	if (!ConsumeToken(Session->Tokens, Session->LastSeconds, NowSeconds))
 	{
@@ -142,11 +163,111 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 	}
 	else
 	{
-		// G0 Stub: Board and Economy do not exist yet. Never synthesize a success.
-		Result.ResultCode = ELDCommandResultCode::FeatureDisabled;
+		TGuardValue<bool> Processing(bProcessing, true);
+		ExecutingPlayer = Context.PlayerIndex;
+		ExecutingCommand = Normalized;
+		ExecuteCommand(Context, Normalized, NowSeconds, Result);
+		ExecutingCommand.Reset();
+		ExecutingPlayer = INDEX_NONE;
 	}
 	CacheResult(*Session, Normalized, Result);
 	return Result;
+}
+
+bool ULDCommandProcessor::BindServices(ULDBoardManager& Board, ULDEconomyService& Economy)
+{
+	if (!bInitialized || bClosed || BoardManager || Board.GetSnapshot(0).MatchId != MatchContext.MatchId ||
+	    Economy.GetSnapshot(0).MatchId != MatchContext.MatchId)
+	{
+		return false;
+	}
+	BoardManager = &Board;
+	EconomyService = &Economy;
+	return true;
+}
+
+void ULDCommandProcessor::ExecuteCommand(const FLDParticipantContext& Context, const FLDCommand& Command,
+                                         double ServerSeconds, FLDCommandResult& Result)
+{
+	if (!BoardManager || !EconomyService)
+	{
+		// Explicit G0/isolated-role fixture boundary before gameplay services are bound.
+		Result.ResultCode = ELDCommandResultCode::FeatureDisabled;
+		return;
+	}
+	Result.NewBoardRevision = BoardManager->GetSnapshot(Context.PlayerIndex).BoardRevision;
+	Result.EconomyRevision = EconomyService->GetSnapshot(Context.PlayerIndex).EconomyRevision;
+	Result.ResultCode = BoardManager->ValidateCommand(Context, Command, ServerSeconds);
+	if (Result.ResultCode != ELDCommandResultCode::Success)
+	{
+		return;
+	}
+	FLDPlacedUnit Source;
+	BoardManager->TryGetUnit(Command.InstanceId, Source);
+	FLDEconomyPlan EconomyPlan;
+	Result.ResultCode = EconomyService->TryPrepare(Context.PlayerIndex, Command, Source.UnitId, EconomyPlan);
+	if (Result.ResultCode != ELDCommandResultCode::Success)
+	{
+		return;
+	}
+	FLDBoardPlan BoardPlan;
+	Result.ResultCode = BoardManager->TryPrepare(Context, Command, EconomyPlan.ResultUnitId, ServerSeconds, BoardPlan);
+	if (Result.ResultCode != ELDCommandResultCode::Success || !BoardManager->ValidatePrepared(BoardPlan) ||
+	    !EconomyService->ValidatePrepared(EconomyPlan))
+	{
+		if (Result.ResultCode == ELDCommandResultCode::Success)
+		{
+			Result.ResultCode = ELDCommandResultCode::StaleBoard;
+		}
+		BoardManager->CancelPrepared(BoardPlan);
+		return;
+	}
+	// Both plans are valid. No fallible external work or callbacks may occur until both sources are committed.
+	BoardManager->CommitPrepared(BoardPlan);
+	EconomyService->CommitPrepared(EconomyPlan);
+	Result.NewBoardRevision = BoardPlan.After.BoardRevision;
+	Result.EconomyRevision = EconomyPlan.After.EconomyRevision;
+	Result.EventId = NextEventId++;
+	Result.RemovedInstanceIds = BoardPlan.Commit.RemovedInstanceIds;
+	for (const FLDPlacedUnit& Unit : BoardPlan.Commit.AddedOrUpdatedUnits)
+	{
+		if (Unit.InstanceId >= BoardPlan.ExpectedNextInstanceId)
+		{
+			Result.CreatedInstanceIds.Add(Unit.InstanceId);
+		}
+		else
+		{
+			Result.MovedInstanceIds.Add(Unit.InstanceId);
+		}
+	}
+	BoardManager->PublishPrepared(BoardPlan);
+	EconomyService->PublishPrepared(EconomyPlan);
+}
+
+void ULDCommandProcessor::EnqueueCombatReward(const FLDCombatDeath& Death)
+{
+	if (!bClosed && bInitialized && Death.MatchId == MatchContext.MatchId && Death.DeathEventId != 0 &&
+	    !QueuedDeathIds.Contains(Death.DeathEventId))
+	{
+		QueuedDeathIds.Add(Death.DeathEventId);
+		RewardQueue.Add(Death);
+	}
+}
+
+void ULDCommandProcessor::DrainCombatRewards()
+{
+	if (bProcessing || bClosed || !EconomyService || RewardQueue.IsEmpty())
+	{
+		return;
+	}
+	TGuardValue<bool> Processing(bProcessing, true);
+	TArray<FLDCombatDeath> Batch = MoveTemp(RewardQueue);
+	RewardQueue.Reset();
+	QueuedDeathIds.Reset();
+	for (const FLDCombatDeath& Death : Batch)
+	{
+		EconomyService->ApplyCombatReward(Death);
+	}
 }
 
 int32 ULDCommandProcessor::GetCachedResultCount(int32 PlayerIndex) const
