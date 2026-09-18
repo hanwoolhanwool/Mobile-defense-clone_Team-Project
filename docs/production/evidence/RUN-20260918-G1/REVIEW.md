@@ -1,11 +1,11 @@
 # G1 실행 및 독립 구조 리뷰
 
-대상: A `bce4b7b`, B `82cf174`, 최초 통합 실행 `73b872b`. 실제 실패를 보존하고 수정본을 재검증한다.
+대상: A `bce4b7b`, B `82cf174`, 최초 통합 실행 `73b872b`. 실제 실패를 보존했고 최종 소스 df8a2f27의 재현·실행 검증을 완료했다.
 
 | ID | 파일·함수·재현 | 영향·수정 | 상태 |
 |---|---|---|---|
 | R-G1-01 | Board/LDBoardPresentation.cpp 생성자. 실제540×1170에서 셀60px 대신130px, cell0 X595·cell5 X-55 | UE의 기본 Y축 FOV 유지가 OrthoWidth를 높이 기준으로 해석. Camera.bOverrideAspectRatioAxisConstraint=true, MaintainXFOV 명시 | `cf3f610` 수정, 실제 재검증 Pass |
-| R-G1-02 | Battle/LDEnemyActor.cpp AdvanceRouteTo. actor tick 후 subsystem이 과거20Hz 단계시각으로 mesh 덮어씀 | host 표시가 최대7.5cm 뒤로 이동. canonical은 단계시각 유지, mesh는 현재 view clock 사용 | `bb1d100` 수정, HostStepKeepsCurrentViewClock 회귀 추가. 최초 host2실패/client0 |
+| R-G1-02 | Battle/LDEnemyActor.cpp AdvanceRouteTo. actor tick 후 subsystem이 과거20Hz 단계시각으로 mesh 덮어씀 | host 표시가 최대7.5cm 뒤로 이동. canonical은 단계시각 유지, mesh는 현재 view clock 사용 | `bb1d100` 수정, HostStepKeepsCurrentViewClock 회귀 추가. 최초 host2실패/client0, 최종 양쪽0실패 |
 | R-G1-03 | Verification/LDG1ProbeSubsystem.cpp 고정 벽시계 화면 전환 | 첫 스크린샷에서 프레임 정지 후 resize가 반영되기 전 검사·이전 터치 중 덮어쓰기. 실제 게임 결함과 검사기 결함을 구분 | 실제 크기·터치 종료·PNG 완료 후 다음 단계로 변경 |
 | R-G1-04 | Run-P0Pair.ps1 예외/리뷰 | 둘째 프로세스 생성 실패 시 첫 프로세스 잔류 위험 | 생성한 Process 객체만 finally에서 종료, 결과/예외 보존 |
 | R-G1-05 | 화면비·표시 검사 범위 리뷰 | 9:20·세로3:4 누락, 메시 가시성은 로그만 기록 | 7화면비·메시 좌표/가시성·Engine InputTouch 추가. OS 창의1440px 한도는 offscreen 실제 렌더링으로 별도 검증 |
@@ -26,3 +26,5 @@
 빌드 실패: B UMG의 지역 Slot이 UWidget::Slot을 가림(C4458) → CanvasSlot. 통합 fixture의 bInitialized 이름 숨김·Min int32/size_t 불일치 → 지역 이름·명시적 정수 타입 수정. [통합 컴파일 실패 구간](integration-build-errors.log). A 경로5·B 보드3·G0포함통합20 계산 검사는 최초 Pass였으나 실제 화면 실패를 대체하지 않는다.
 
 한계: same-world Controller 교체 시 로컬 표시 subsystem의 재탐색은 아직 없다. 현재 매치는 새 world를 사용하는 범위이며 G3 재경기/종료에서 확인한다. 합성 Engine touch는 OS 마우스·실제 Android 손가락 입력과 다르다. 화면 PNG의 시각 검토는 숫자 검사와 별도로 수행한다. G1의 적2개 성능은 P0 대표 부하 성능이 아니다.
+
+최종 G1 판정: Pass. [최종 실행](final-pair-summary.json)은 새 G0 재현 프로젝트에서 양쪽 전체7화면비·입력·두 바퀴를 통과했다. root는 수정된 세로/가로 화면과 셀 경계를 직접 확인했다. 정적 리뷰와 숫자 검사를 실제 화면 검토로 대체하지 않았으며 세 증거를 함께 사용했다.

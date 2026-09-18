@@ -2,7 +2,7 @@
 
 [기획 허브](../README.md) · [2인 개발 역할](TEAM_ROLES.md) · [작업 정의·완료 기준](../BACKLOG_QA.md) · [로드맵](ROADMAP.md) · [검수 기록](TEST_RUNS.md)
 
-**현재 상태:** 2026-09-18 공통 출발점을 보존하고 A/B 독립 G0 및 참고 통합을 구현했다. DATA/NET/TEST/MOB/MAP/UI 6개는 참고 제작 InProgress이며 실제 학습자는 Planned다. G0 코드 게이트 통과 후 G1 경로·보드·입력 통합 검수 중이다. TASK-CORE-01의 기존 환경 기록은 이번 게임 검수 증거로 재사용하지 않는다. [이번 작업](P0_REFERENCE_RUN.md).
+**현재 상태:** 2026-09-18 공통 출발점을 보존하고 A/B 독립 G0 및 참고 통합을 구현했다. DATA/NET/TEST/MOB/MAP/UI 6개는 참고 제작 InProgress이며 실제 학습자는 Planned다. G0·G1 게이트를 통과했고 G2 전투·경제 착수를 준비한다. TASK-CORE-01의 기존 환경 기록은 이번 게임 검수 증거로 재사용하지 않는다. [이번 작업](P0_REFERENCE_RUN.md).
 
 **DEC-037 반영:** P0 TASK-ECON-01/BOARD-01/UI-01에 최대 3 뭉치·소환 자동 추가·합성/판매/사거리 UI를 포함한다. [QA-BOARD-11](../BACKLOG_QA.md#QA-BOARD-11)·[QA-BOARD-12](../BACKLOG_QA.md#QA-BOARD-12)·[QA-BOARD-13](../BACKLOG_QA.md#QA-BOARD-13)을 새 구현에서 검수한다. 작업 수·상태는 유지한다.
 
