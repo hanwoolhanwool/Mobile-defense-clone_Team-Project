@@ -1,0 +1,8 @@
+[1/4] Compile [x64] Module.Mobile_defense_clone.cpp
+C:\Users\iam12\P0_reference_b\Source\Mobile_defense_clone\UI\LDG1BoardWidget.cpp(42,20): error C4458: 'Slot' 선언은 클래스 멤버를 숨깁니다.
+	UCanvasPanelSlot* Slot = SafeCanvas->AddChildToCanvas(Label);
+	                  ^
+C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\UMG\Public\Components\Widget.h(264,25): note: 'UWidget::Slot' 선언을 참조하십시오.
+	TObjectPtr<UPanelSlot> Slot;
+	                       ^
+Total time in Unreal Build Accelerator local executor: 17.29 seconds

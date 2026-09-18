@@ -1,0 +1,42 @@
+{
+  "Scope": "Actual UE automation / NullRHI, not rendered gameplay",
+  "Head": "d5274dccdc11e1736e59239e558e8fb2ace7ee14",
+  "ReportCreatedOn": "2026.09.18-05.15.49",
+  "Succeeded": 3,
+  "Failed": 0,
+  "NotRun": 0,
+  "TestDurationSeconds": 0.02424899861216545,
+  "Devices": [
+    {
+      "deviceName": "DESKTOP-E7TEUA0",
+      "instance": "192D3082459E966C4B822C96C9E5355D",
+      "instanceName": "DESKTOP-E7TEUA0-76368",
+      "platform": "WindowsEditor",
+      "oSVersion": "Windows 11 (25H2) [10.0.26200.9457] ",
+      "model": "Default",
+      "gPU": "NVIDIA GeForce RTX 4060 Ti",
+      "cPUModel": "AMD Ryzen 5 7500F 6-Core Processor             ",
+      "rAMInGB": 32,
+      "renderMode": "SM6",
+      "rHI": "",
+      "appInstanceLog": ""
+    }
+  ],
+  "Tests": [
+    {
+      "fullTestPath": "LD.P0.G1.Board.CanonicalCellsAndOwnership",
+      "state": "Success",
+      "duration": 0.007905200123786926
+    },
+    {
+      "fullTestPath": "LD.P0.G1.Board.LocalReflectionContract",
+      "state": "Success",
+      "duration": 0.008430399000644684
+    },
+    {
+      "fullTestPath": "LD.P0.G1.Board.ViewportAndSafeAreaFit",
+      "state": "Success",
+      "duration": 0.007913399487733841
+    }
+  ]
+}
