@@ -164,6 +164,9 @@ bool FLDBDataContractTest::RunTest(const FString& Parameters)
 	}
 	TestEqual(TEXT("P0 active roster count"), Data->GetUnits().Num(), 16);
 	TestEqual(TEXT("P0 cap overrides 80-wave source"), Data->GetWaves().Num(), 10);
+	TestEqual(TEXT("Boss-only final wave has no normal spawning"), Data->GetWaves().Last().NormalCountPerGate, 0);
+	TestEqual(TEXT("No normal spawning permits a zero normal interval"), Data->GetWaves().Last().SpawnIntervalSeconds,
+	               0.0);
 	TestEqual(TEXT("Personal board contains 18 cells"), Data->GetRules().CellsPerPlayer, 18);
 	TestEqual(TEXT("Population is independent of 18 x 3 capacity"), Data->GetRules().MaxUnitsPerPlayer, 20);
 	TestFalse(

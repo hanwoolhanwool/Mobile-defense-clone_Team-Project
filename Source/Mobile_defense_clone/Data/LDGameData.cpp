@@ -351,9 +351,9 @@ bool ULDGameData::LoadP0FromDirectory(const FString& Directory, FString& OutErro
 		Wave.BossCountPerGate = Reader.Integer(Object, TEXT("BossCountPerGate"));
 		Wave.BossDeadlineSeconds = Reader.Number(Object, TEXT("BossDeadlineSeconds"));
 		Wave.PostBossDelaySeconds = Reader.Number(Object, TEXT("PostBossDelaySeconds"));
-		if (Index != NextWaves.Num() + 1 || Wave.DurationSeconds <= 0 || Wave.SpawnIntervalSeconds <= 0 ||
-		    Wave.NormalCountPerGate < 0 || Wave.NormalBaseHP <= 0 ||
-		    (!Wave.BossId.IsNone() && !NextEnemies.Contains(Wave.BossId)))
+		if (Index != NextWaves.Num() + 1 || Wave.DurationSeconds <= 0 || Wave.SpawnIntervalSeconds < 0 ||
+		    (Wave.NormalCountPerGate > 0 && Wave.SpawnIntervalSeconds == 0) || Wave.NormalCountPerGate < 0 ||
+		    Wave.NormalBaseHP <= 0 || (!Wave.BossId.IsNone() && !NextEnemies.Contains(Wave.BossId)))
 		{
 			Reader.Fail(TEXT("ordered waves and references"));
 		}
