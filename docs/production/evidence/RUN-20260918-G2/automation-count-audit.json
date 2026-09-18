@@ -1,0 +1,53 @@
+{
+  "Finding": "Original summary helper omitted succeededWithWarnings from Succeeded. Original Saved results preserved. Corrected helper reports both categories and their sum.",
+  "Runs": [
+    {
+      "Run": "G2-composed-automation-initial",
+      "SucceededWithoutWarnings": 30,
+      "SucceededWithWarnings": 3,
+      "Failed": 1,
+      "NotRun": 0,
+      "TotalPassed": 33,
+      "Warnings": [
+        "LD.P0.G2.Commands.AtomicSummonAndFailure : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_34.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.RewardsAndPreparedRevision : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_38.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_39.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_39.Untitled:PersistentLevel.LDUnitActor_1",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_39.Untitled:PersistentLevel.LDUnitActor_2",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_39.Untitled:PersistentLevel.LDUnitActor_6"
+      ]
+    },
+    {
+      "Run": "G2-ui-clock-automation-fix1",
+      "SucceededWithoutWarnings": 33,
+      "SucceededWithWarnings": 3,
+      "Failed": 0,
+      "NotRun": 0,
+      "TotalPassed": 36,
+      "Warnings": [
+        "LD.P0.G2.Commands.AtomicSummonAndFailure : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_37.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.RewardsAndPreparedRevision : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_41.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_42.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_42.Untitled:PersistentLevel.LDUnitActor_1",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_42.Untitled:PersistentLevel.LDUnitActor_2",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_42.Untitled:PersistentLevel.LDUnitActor_6"
+      ]
+    },
+    {
+      "Run": "G2-ui-review-automation-fix2",
+      "SucceededWithoutWarnings": 34,
+      "SucceededWithWarnings": 3,
+      "Failed": 0,
+      "NotRun": 0,
+      "TotalPassed": 37,
+      "Warnings": [
+        "LD.P0.G2.Commands.AtomicSummonAndFailure : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_37.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.RewardsAndPreparedRevision : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_42.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_0",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_1",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_2",
+        "LD.P0.G2.Commands.StackMoveMergeAndRefill : LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_6"
+      ]
+    }
+  ]
+}

@@ -16,7 +16,9 @@ $Result.ExitCode = $LASTEXITCODE
 $ReportFile = Join-Path $RunRoot 'report/index.json'
 if (Test-Path -LiteralPath $ReportFile) {
     $Report = Get-Content -LiteralPath $ReportFile -Raw | ConvertFrom-Json
-    $Result.Succeeded = $Report.succeeded
+    $Result.SucceededWithoutWarnings = [int]$Report.succeeded
+    $Result.SucceededWithWarnings = [int]$Report.succeededWithWarnings
+    $Result.Succeeded = $Result.SucceededWithoutWarnings + $Result.SucceededWithWarnings
     $Result.Failed = $Report.failed
     $Result.NotRun = $Report.notRun
     $Result.Result = if ($Result.ExitCode -eq 0 -and $Result.Succeeded -gt 0 -and $Result.Failed -eq 0 -and $Result.NotRun -eq 0) {'Pass'} else {'Fail'}

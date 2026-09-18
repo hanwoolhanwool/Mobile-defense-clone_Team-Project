@@ -49,8 +49,8 @@ G2 실행 픽스처는 정지 HP70 N01 한 마리와 구매 자금을 얻기 위
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
 | A/B 공용 UnitActor 병합 | 같은 파일 선택 후 빌드 | 동일 blob 확인 후 해결. 최초 shell이 Git 오류 뒤 빌드를 계속해 conflict marker 컴파일 실패; 이후 exit code guard 적용 | Saved/P0Runs/G2-services-editor-initial, G2-services-editor-fix1 |
-| 첫 통합 자동화 | 전투·명령·기존 게이트 모두 통과 | 31중30Pass, G0의 옛 Stub 문구 기대1Fail. 참가자·Phase 의미 검사로 수정 | [첫 자동화 요약](../../docs/production/evidence/RUN-20260918-G2/automation-initial.json) |
-| 예정 타격·명령 순서 | 10.025 타격/보상은10.04 명령 앞,10.025 명령은 동시 타격 앞 | 정밀 `<t`/`<=t` 분리 후33Pass/0Fail | Saved/P0Runs/G2-ui-clock-automation-fix1; 화면 검사 아님 |
+| 첫 통합 자동화 | 전투·명령·기존 게이트 모두 통과 | 34중33Pass(무경고30+경고3), G0의 옛 Stub 문구 기대1Fail. 참가자·Phase 의미 검사로 수정 | [첫 자동화 요약](../../docs/production/evidence/RUN-20260918-G2/automation-initial.json) |
+| 예정 타격·명령 순서 | 10.025 타격/보상은10.04 명령 앞,10.025 명령은 동시 타격 앞 | 정밀 `<t`/`<=t` 분리 후36Pass(무경고33+경고3)/0Fail | Saved/P0Runs/G2-ui-clock-automation-fix1; 화면 검사 아님 |
 | UI Editor 빌드 | native UMG 컴파일 | 부모 Visibility를 숨긴 지역 변수 C4458; OverlayVisibility로 변경 후 Pass | Saved/P0Runs/G2-ui-editor, G2-ui-clock-editor-fix1 |
 | 첫 소환→처치, 뭉치·판매·합성 | 실제 버튼·RPC·개체·경제가 일치 | 첫 두 프로세스17단계 Pass. HUD 제외 캡처와 응답/추가 Actor 검사 누락을 발견해 증거 범위를 제한하고 검사기를 보완 | Saved/P0Runs/G2-two-process-initial; HUD 최종 증거로 사용하지 않음 |
 | 보완 후 HUD·만료·재생성 | HUD 포함 PNG, 누락 응답/유령 Actor 검출, 양쪽 새 HUD 클릭 한 번 | 재검증 중 | 최종 고정 후 증거 연결 |
