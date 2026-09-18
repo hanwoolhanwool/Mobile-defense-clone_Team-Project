@@ -116,16 +116,19 @@ void ULDGameplayWidget::NativeTick(const FGeometry& MyGeometry, float DeltaSecon
 	}
 	const bool bReady = Controller->IsGameplaySnapshotReady();
 	const bool bPending = Controller->HasPendingCommand();
+	const bool bRetry = Controller->CanRetryPendingCommand();
 	const FLDEconomySnapshot& Economy = Controller->GetEconomySnapshot();
 	const int32 Population = Controller->GetBoardSnapshot().Population;
-	Summon->SetIsEnabled(bReady && !bPending);
+	Summon->SetIsEnabled(bReady && (!bPending || bRetry));
 	Sell->SetIsEnabled(bReady && !bPending && Controller->GetSelectedInstanceId() != 0);
 	Merge->SetIsEnabled(bReady && !bPending && Controller->CanMergeSelection());
 	Resources->SetText(FText::Format(NSLOCTEXT("LD", "Resources", "골드 {0}   ◆ {1}   인구 {2}/20"), Economy.Gold,
 	                                           Economy.Stars, Population));
-	SummonText->SetText(
-	    bPending             ? NSLOCTEXT("LD", "RequestWaiting", "처리 중…")
-	                         : FText::Format(NSLOCTEXT("LD", "SummonPrice", "소환\n{0} 골드"), Economy.NextSummonGold));
+	SummonText->SetText(bRetry             ? NSLOCTEXT("LD", "RetryRequest", "응답 재확인")
+	                                       : bPending
+	                                       ? NSLOCTEXT("LD", "RequestWaiting", "처리 중…")
+	                                                   : FText::Format(NSLOCTEXT("LD", "SummonPrice", "소환\n{0} 골드"),
+	                                                                             Economy.NextSummonGold));
 	Selection->SetText(Controller->GetSelectionText());
 	Feedback->SetText(!bReady             ? NSLOCTEXT("LD", "SnapshotWaiting", "참가자와 보드 정보를 기다리고 있습니다")
 	                                      : Controller->GetCommandFeedback());

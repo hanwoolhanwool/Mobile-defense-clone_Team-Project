@@ -42,6 +42,7 @@ public:
 	void ShutdownServerSession();
 	bool SubmitLocalCommand(FLDCommand Command);
 	bool RetryPendingCommand();
+	bool CanRetryPendingCommand() const;
 	bool HasPendingCommand() const;
 	const FLDCommandResult& GetLastResult() const;
 	void PublishSnapshots(const FLDBoardSnapshot& Board, const FLDEconomySnapshot& Economy);
