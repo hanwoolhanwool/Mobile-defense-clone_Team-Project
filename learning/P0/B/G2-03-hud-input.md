@@ -62,7 +62,7 @@ ARCH-01~03: 위젯은 조회/intent, Controller는 입력과 소유 RPC, Present
 
 사운드 원본은 root `5536803`에서 생성/import/load했다는 제공 기록이며 이 역할 브랜치가 직접 새 에셋을 만든 것이 아니다. 소리 출력·Android 터치·SafeArea는 실제 기기/출력 검수 전까지 미검증이다.
 
-후속 통합 `cb6c631`은 실제 Editor Pass와 전체 UE 자동화34Pass/0Fail/0NotRun을 확인했다. [선별 결과](evidence/G2-initial/commands-final-review-summary.json)에 버전·범위를 남겼다. 위 C4458 수정의 재빌드는 통과했으며 실제 HUD 생성/재생성·Slate 클릭·캡처는 root의 별도 GPU 실행에서 검수 중이다. 자동화 통과로 화면 결과를 앞당겨 표시하지 않는다.
+후속 통합 `cb6c631`은 실제 Editor Pass와 전체 UE 자동화37성공(34무경고+3경고)/0Fail/0NotRun을 확인했다. [선별 결과](evidence/G2-initial/commands-final-review-summary.json)에 버전·범위를 남겼으며 harness의 경고 포함 성공 누락을 정정했다. 위 C4458 수정의 재빌드는 통과했다. B 역할 Editor도25.06초 Pass이며 역할 검사에서 제공 실패음 미수신 경고1건은 root의 에셋 전달 후 재검증할 사항이다. 실제 HUD 생성/재생성·Slate 클릭·캡처는 root의 별도 GPU 실행에서 검수 중이다. 자동화 통과로 화면 결과를 앞당겨 표시하지 않는다.
 
 ## 상대에게 전달하고 통합하기
 

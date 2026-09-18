@@ -3,43 +3,68 @@
   "Head": "cb6c6312b66942adf65a97685139a639fca02dae",
   "Started": "2026-09-18T15:31:30.5394605+09:00",
   "AllTests": {
-    "Succeeded": 34,
+    "SucceededTotal": 37,
+    "SucceededWithoutWarnings": 34,
     "NotRun": 0,
-    "Result": "Pass",
-    "Failed": 0
+    "Failed": 0,
+    "SucceededWithWarnings": 3
   },
   "SelectedTests": [
     {
       "fullTestPath": "LD.P0.G2.Commands.AtomicSummonAndFailure",
       "state": "Success",
-      "duration": 0.02197900041937828
+      "warnings": 1,
+      "errors": 0,
+      "duration": 0.02197900041937828,
+      "WarningMessages": "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_37.Untitled:PersistentLevel.LDUnitActor_0"
     },
     {
       "fullTestPath": "LD.P0.G2.Commands.EpochReplacementDuringPublication",
       "state": "Success",
-      "duration": 0.010652400553226471
+      "warnings": 0,
+      "errors": 0,
+      "duration": 0.010652400553226471,
+      "WarningMessages": null
     },
     {
       "fullTestPath": "LD.P0.G2.Commands.ExpiredRequiresCurrentRevisions",
       "state": "Success",
-      "duration": 0.012082699686288834
+      "warnings": 0,
+      "errors": 0,
+      "duration": 0.012082699686288834,
+      "WarningMessages": null
     },
     {
       "fullTestPath": "LD.P0.G2.Commands.PopulationOwnershipAndPreparedIsolation",
       "state": "Success",
-      "duration": 0.015224400907754898
+      "warnings": 0,
+      "errors": 0,
+      "duration": 0.015224400907754898,
+      "WarningMessages": null
     },
     {
       "fullTestPath": "LD.P0.G2.Commands.RewardsAndPreparedRevision",
       "state": "Success",
-      "duration": 0.015994101762771606
+      "warnings": 1,
+      "errors": 0,
+      "duration": 0.015994101762771606,
+      "WarningMessages": "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_42.Untitled:PersistentLevel.LDUnitActor_0"
     },
     {
       "fullTestPath": "LD.P0.G2.Commands.StackMoveMergeAndRefill",
       "state": "Success",
-      "duration": 0.017027702182531357
+      "warnings": 4,
+      "errors": 0,
+      "duration": 0.017027702182531357,
+      "WarningMessages": [
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_0",
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_1",
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_2",
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_43.Untitled:PersistentLevel.LDUnitActor_6"
+      ]
     }
   ],
-  "Source": "Saved/P0Runs/G2-ui-review-automation-fix2/report/index.json",
-  "Limitations": "NullRHI only; no delayed PC snapshot order or visual/RPC/package/Android pass inferred."
+  "Source": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G2-ui-review-automation-fix2/report/index.json",
+  "Correction": "Counts use original report succeeded + succeededWithWarnings; earlier harness summaries omitted warning successes.",
+  "Limitations": "NullRHI command fixtures only; no visual/network/package/Android pass inferred."
 }
