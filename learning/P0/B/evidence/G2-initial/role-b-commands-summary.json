@@ -1,0 +1,78 @@
+{
+  "Scope": "Unreal automation with NullRHI; not PIE or visual gameplay",
+  "Head": "4a69fe90655d7fe8d0fd373ff18b4e996f820c41",
+  "Started": "2026-09-18T15:40:17.0191269+09:00",
+  "AllTests": {
+    "SucceededTotal": 7,
+    "SucceededWithoutWarnings": 3,
+    "NotRun": 0,
+    "Failed": 0,
+    "SucceededWithWarnings": 4
+  },
+  "SelectedTests": [
+    {
+      "fullTestPath": "LD.P0.G2.Commands.AtomicSummonAndFailure",
+      "state": "Success",
+      "warnings": 1,
+      "errors": 0,
+      "duration": 0.04771309718489647,
+      "WarningMessages": "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_1.Untitled:PersistentLevel.LDUnitActor_0"
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.ControllerResponseSnapshotOrders",
+      "state": "Success",
+      "warnings": 1,
+      "errors": 0,
+      "duration": 0.031783800572156906,
+      "WarningMessages": "LogUObjectGlobals: Failed to find object 'Object /Game/LD/Audio/S_P0Rejected.S_P0Rejected'"
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.EpochReplacementDuringPublication",
+      "state": "Success",
+      "warnings": 0,
+      "errors": 0,
+      "duration": 0.012151598930358887,
+      "WarningMessages": null
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.ExpiredRequiresCurrentRevisions",
+      "state": "Success",
+      "warnings": 0,
+      "errors": 0,
+      "duration": 0.010213300585746765,
+      "WarningMessages": null
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.PopulationOwnershipAndPreparedIsolation",
+      "state": "Success",
+      "warnings": 0,
+      "errors": 0,
+      "duration": 0.015528298914432526,
+      "WarningMessages": null
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.RewardsAndPreparedRevision",
+      "state": "Success",
+      "warnings": 1,
+      "errors": 0,
+      "duration": 0.011808298528194427,
+      "WarningMessages": "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_10.Untitled:PersistentLevel.LDUnitActor_0"
+    },
+    {
+      "fullTestPath": "LD.P0.G2.Commands.StackMoveMergeAndRefill",
+      "state": "Success",
+      "warnings": 4,
+      "errors": 0,
+      "duration": 0.013221502304077148,
+      "WarningMessages": [
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_11.Untitled:PersistentLevel.LDUnitActor_0",
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_11.Untitled:PersistentLevel.LDUnitActor_1",
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_11.Untitled:PersistentLevel.LDUnitActor_2",
+        "LogSpawn: UWorld::DestroyActor: World has no context! World: Untitled, Actor: /Temp/Untitled_11.Untitled:PersistentLevel.LDUnitActor_6"
+      ]
+    }
+  ],
+  "Source": "C:/Users/iam12/P0_reference_b/Saved/P0Runs/G2-B-commands/report/index.json",
+  "Correction": "Counts use original report succeeded + succeededWithWarnings; earlier harness summaries omitted warning successes.",
+  "Limitations": "NullRHI command fixtures only; no visual/network/package/Android pass inferred."
+}

@@ -49,7 +49,7 @@ UE 자동화의 FGameplayFixture는 CreateWorld 뒤 `GEngine->CreateNewWorldCont
 
 ## 실행·실패·수정 기록
 
-2026-09-18 통합 `dba8afa521c68dc48cc07207d22b7f72c06c4283`의 UE NullRHI 명령 자동화 5개가 Pass였다. [선별 요약](evidence/G2-initial/commands-summary.json)은 전체 실행이30Pass/1Fail이었다는 사실도 보존한다. 그 한 건은 A G0의 옛 Stub 기대 문구이며 전체 검수 Pass로 바꾸지 않는다. 픽스처 시간은 게임 FPS/성능 측정이 아니다.
+2026-09-18 통합 `dba8afa521c68dc48cc07207d22b7f72c06c4283`의 UE NullRHI 명령 자동화 5개가 성공했다(2건 무경고·3건 Actor 정리 경고). [선별 요약](evidence/G2-initial/commands-summary.json)은 전체33성공(30무경고+3경고)/1Fail을 보존한다. 처음 harness가 succeededWithWarnings를 합산하지 않아 성공을30개로 보고했으며 원본 report로 정정했다. 실패1건은 A G0의 옛 Stub 기대 문구로 전체 검수 Pass가 아니다. 픽스처 시간은 게임 FPS/성능 측정이 아니다.
 
 | 입력/조건 | 독립 기대 결과 | 실제 결과 | 실행 범위 |
 |---|---|---|---|

@@ -56,7 +56,7 @@ ARCH-03/04: Processor는 Board/Economy의 명시 API만 조립하고 GameMode가
 | 캐시에서 요청1 축출 뒤 재조회 | 응답 Revision0과 즉시 UI 해제는 최신 상태를 보장 못함. 두 Revision 포함·동기화 후 재선택; `f00f8fb27c514d9a44fddecaf624f7b378416662` | 새 서버 회귀 추가, 실행 대기; 지연 Snapshot PC 검수 별도 |
 | 응답 세 번 재시도 후 여전히 미확정 | UI가 영구 잠긴 채 끝나지 않도록 같은 Pending 수동 재확인; `64acff687b7b31ca39abb69bc99819016cacc75c` | 실제 UI 검수 대기 |
 
-초기 근거는 [통합5개 명령 검사](evidence/G2-initial/commands-summary.json)다. 후속 통합 `cb6c631`의 [실제 UE 검사](evidence/G2-initial/commands-final-review-summary.json)는 전체34Pass/0Fail/0NotRun이며 명령6건에 새 ExpiredRequiresCurrentRevisions를 포함한다. 위 표에서 실행 대기로 기록한 서버 만료 회귀는 이 후속 실행에서 Pass로 갱신한다. 실제 PC의 응답/스냅샷 도착순서 및 사용자 입력·소리 결과는 이 NullRHI 검사가 보증하지 않는다. PIE, 응답 유실, logout/반복 매치의 새 결합 검수는 미실행이다.
+초기 근거는 [통합5개 명령 검사](evidence/G2-initial/commands-summary.json)다. 후속 통합 `cb6c631`의 [실제 UE 검사](evidence/G2-initial/commands-final-review-summary.json)는 전체37성공(34무경고+3경고)/0Fail/0NotRun이며 명령6건에 새 ExpiredRequiresCurrentRevisions를 포함한다. harness의 succeededWithWarnings 누락을 원본 report로 정정했다. 서버 만료 회귀는 이 후속 실행에서 Pass로 갱신한다. 이후 B 역할 Editor25.06초 Pass와 [명령7개 결과](evidence/G2-initial/role-b-commands-summary.json)는 ControllerResponseSnapshotOrders도 성공했다. 역할 결과는3무경고+4경고이며, Actor 정리 WorldContext 누락과 역할 트리의 제공 실패음 미수신을 수정 후 재검증해야 한다. 렌더링 없는 PC handler 검사이므로 사용자 입력·소리·네트워크 패킷을 보증하지 않는다. PIE, 응답 유실, logout/반복 매치의 새 결합 검수는 미실행이다.
 
 ## 상대에게 전달하고 통합하기
 
