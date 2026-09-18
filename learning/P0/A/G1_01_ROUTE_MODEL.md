@@ -31,24 +31,24 @@
 
 | 순서 | 위치 | 값·연결 | 관찰 |
 |---|---|---|---|
-| 1 | C++ Editor 타깃 | 기존 모듈에 두 모델 파일 추가, Build.cs 추가 의존성 없음 | compile 필요 |
-| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 경로 계산/actor 포함5개 등록 예정 |
+| 1 | C++ Editor 타깃 | 기존 모듈에 두 모델 파일 추가, Build.cs 추가 의존성 없음 | 실제 Editor compile Pass |
+| 2 | Tools → Test Automation | `LD.P0.G1.Route` | 경로 계산/actor 포함5개 등록·실행 Pass |
 | 3 | Blueprint·UMG·맵 | 이 수업에서 변경 없음 | World 없는 경로 계산이므로 화면 캡처를 생성하지 않음 |
 
 ## 실행·실패·수정 기록
 
 | 사례 | 독립 기대 결과 | 실제 결과·증거 |
 |---|---|---|
-| 0/560/1540/2100/3080/6160cm | 지정 코너·원래 보드 복귀, Lap0/1/2 | Unreal NotRun, `PolylineCornersAndTwoLaps` |
-| 코너 전후0.001cm | 점프 없이 연속, 정확 코너는 다음 구간 접선 | Unreal NotRun, 같은 테스트 |
-| 음수/NaN/무한거리·범위 초과Lap | false, 호출자 출력 불변 | Unreal NotRun, `InvalidInputPreservesOutput` |
-| 점 부족·중복 인접점 | false, 이전 정상 경로 보존 | Unreal NotRun, 같은 테스트 |
-| 100ms 지연, 속도150 | 표시거리+15cm | Unreal NotRun, `DelayedPresentationClock` |
-| 긴 지연/역행 시각/정지 | 최대+37.5cm / 추가예측0 / 추가예측0 | Unreal NotRun, 같은 테스트 |
+| 0/560/1540/2100/3080/6160cm | 지정 코너·원래 보드 복귀, Lap0/1/2 | Pass, `PolylineCornersAndTwoLaps` |
+| 코너 전후0.001cm | 점프 없이 연속, 정확 코너는 다음 구간 접선 | Pass, 같은 테스트 |
+| 음수/NaN/무한거리·범위 초과Lap | false, 호출자 출력 불변 | Pass, `InvalidInputPreservesOutput` |
+| 점 부족·중복 인접점 | false, 이전 정상 경로 보존 | Pass, 같은 테스트 |
+| 100ms 지연, 속도150 | 표시거리+15cm | Pass, `DelayedPresentationClock` |
+| 긴 지연/역행 시각/정지 | 최대+37.5cm / 추가예측0 / 추가예측0 | Pass, 같은 테스트 |
 | clang-format20.1.8 검사 | 오류0 | Pass: 24 checked,48 legacy,0 errors; 코드 커밋 전 실행 |
 | git diff --check | 공백 오류0 | Pass |
 
-실행된 빌드 실패/성공·게임 화면은 아직 없다. 기대값 표를 읽고 계획만 검토한 것을 실행 검수로 표시하지 않는다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 이 선택의 실제 화면 품질과 지연 보정은 통합 네트워크 검수 대상이다.
+Editor 빌드 Pass(20.25초), Unreal NullRHI 자동화5개 Pass/0Fail/0NotRun을 직접 로그에서 확인했다. [결과·실행 SHA·로그](G1_EVIDENCE/README.md). 실제 게임 화면은 아직 없다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 이 선택의 실제 화면 품질과 지연 보정은 통합 네트워크 검수 대상이다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -64,6 +64,6 @@
 ## 단계 완료
 
 - [ ] 시작점과 설명만으로 직접 재현했다.
-- [ ] 실제 Unreal 실행 결과와 SHA를 연결했다.
+- [x] 실제 Unreal 컴파일·NullRHI 자동화 결과와 SHA를 연결했다. 게임 화면은 미실행이다.
 - [ ] 상대 전장과 통합하여 경로를 확인했다.
 - [x] 미검증 범위와 다음 진입 조건을 명시했다.

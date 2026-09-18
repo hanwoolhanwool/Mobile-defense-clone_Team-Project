@@ -45,17 +45,18 @@ ARCH-01/02: 모델/권위 actor/로컬 bootstrap을 분리하고 actor에서 Con
 
 | 사례 | 기대 결과 | 실제 결과·증거 |
 |---|---|---|
-| 두 actor를6440cm까지 진행 | 총actor2, 같은ID/RouteIndex, 원래 보드 복귀 | NotRun, `ActorIdentityTwoLapsAndStop` |
-| 같은초기화/같은시각 | 거리·개체 보존 | NotRun, 같은 테스트 |
-| 다른ID/경로·역행·NaN | false, 원본 불변 | NotRun, 같은 테스트 |
-| Stop 두 번·종료후진행·준비취소뒤초기화 | 추가진행0, 재시작0 | NotRun, 같은 테스트 |
-| Player1 view/예측 | mesh만Y반사, canonical root·누적거리 불변 | NotRun, `LocalViewDoesNotMutateCanonicalState` |
-| simulated proxy의 초기화/진행 | 서버권한 거절 | NotRun, 같은 테스트; 실제 네트워크 검수는 별도 |
-| EndPlay 후 표시 콜백 | mesh숨김, 표시재개거절 | NotRun, 같은 테스트 |
+| 두 actor를6440cm까지 진행 | 총actor2, 같은ID/RouteIndex, 원래 보드 복귀 | Pass, `ActorIdentityTwoLapsAndStop` |
+| 같은초기화/같은시각 | 거리·개체 보존 | Pass, 같은 테스트 |
+| 다른ID/경로·역행·NaN | false, 원본 불변 | Pass, 같은 테스트 |
+| Stop 두 번·종료후진행·준비취소뒤초기화 | 추가진행0, 재시작0 | Pass, 같은 테스트 |
+| Player1 view/예측 | mesh만Y반사, canonical root·누적거리 불변 | Pass, `LocalViewDoesNotMutateCanonicalState` |
+| simulated proxy의 초기화/진행 | 서버권한 거절 | Pass, 같은 테스트; 실제 네트워크 검수는 별도 |
+| EndPlay 후 표시 콜백 | mesh숨김, 표시재개거절 | Pass, 같은 테스트 |
 | 스타일/공백 | 오류0 | Pass,24 checked/48 legacy/0 errors, git diff --check |
-| Editor·PIE·PC2인·화면비·Android | 각각 필수 검수 | 모두 NotRun |
+| Editor | 컴파일/UHT/링크 성공 | Pass,20.25초; [실제 증거](G1_EVIDENCE/README.md) |
+| PIE·PC2인·화면비·Android | 각각 필수 검수 | 모두 NotRun |
 
-작성 중 수명 검토에서 초기 경로점이 빈 채 먼저 복제될 위험을 확인하여 준비 완료 후 복제를 활성화했다. 실제 실패를 재현했다고 기록하지 않으며 actor 자동화에서 준비 전복제false/준비후true를 확인하도록 했다. 표시예측 상한은 계산 테스트 기대값만 있으며 실제 지연 상태의 화면 품질·오차·성능은 미측정이다.
+작성 중 수명 검토에서 초기 경로점이 빈 채 먼저 복제될 위험을 확인하여 준비 완료 후 복제를 활성화했다. 실제 실패를 재현했다고 기록하지 않으며 actor 자동화에서 준비 전복제false/준비후true가 Pass였다. 표시예측 상한은 계산 테스트가 통과했지만 실제 지연 상태의 화면 품질·오차·성능은 미측정이다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -73,6 +74,6 @@ ARCH-01/02: 모델/권위 actor/로컬 bootstrap을 분리하고 actor에서 Con
 ## 단계 완료
 
 - [ ] 시작점에서 수업 설명대로 재현했다.
-- [ ] 실제 Unreal/화면 결과와 SHA를 연결했다.
+- [x] 실제 Unreal 컴파일·NullRHI 자동화와 SHA를 연결했다. 양쪽 화면은 미실행이다.
 - [ ] B 전장과 통합하여2바퀴를 확인했다.
 - [x] 미검증 범위·표시fixture 제거지점·다음 진입 조건을 명시했다.
