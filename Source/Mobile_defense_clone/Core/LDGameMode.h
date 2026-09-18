@@ -39,6 +39,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+#if WITH_DEV_AUTOMATION_TESTS
+	friend class FLDP0OpenFrameBoundaryTest;
+#endif
 	void RefreshReadiness();
 	void RegisterPendingParticipants();
 	bool RegisterParticipant(ALDPlayerController& Controller);

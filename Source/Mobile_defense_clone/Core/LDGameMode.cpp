@@ -364,8 +364,9 @@ void ALDGameMode::AdvanceLogic()
 	}
 	const double Now = GetWorld()->GetTimeSeconds();
 	const double StepSeconds = 1.0 / GameData->GetRules().LogicHz;
+	// Slate input and next-frame network dispatch can still submit this WorldTime. Close only older times.
 	// Integer step index avoids accumulating interval drift and retains missed logical steps.
-	while (LogicOriginSeconds + (LogicStep + 1) * StepSeconds <= Now && CanAcceptCommands())
+	while (LogicOriginSeconds + (LogicStep + 1) * StepSeconds < Now && CanAcceptCommands())
 	{
 		++LogicStep;
 		CombatService->AdvanceCombatTo(LogicOriginSeconds + LogicStep * StepSeconds);
