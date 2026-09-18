@@ -110,9 +110,11 @@ void ULDCommandProcessor::CacheResult(FSession& Session, const FLDCommand& Comma
 	Session.Results.Add(Command.RequestId, {Command, Result});
 }
 
-FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& Context, const FLDCommand& Command,
-                                                   double NowSeconds)
+FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& IncomingContext,
+                                                   const FLDCommand& IncomingCommand, double NowSeconds)
 {
+	const FLDParticipantContext Context = IncomingContext;
+	const FLDCommand Command = IncomingCommand;
 	FLDCommandResult Result;
 	Result.MatchId = MatchContext.MatchId;
 	Result.ConnectionEpoch = Command.ConnectionEpoch;
@@ -140,6 +142,7 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 	if (bProcessing)
 	{
 		const bool bSameKey = ExecutingPlayer == Context.PlayerIndex && ExecutingCommand.IsSet() &&
+		                      ExecutingCommand->ConnectionEpoch == Command.ConnectionEpoch &&
 		                      ExecutingCommand->RequestId == Command.RequestId;
 		Result.ResultCode =
 		    bSameKey ? (ExecutingCommand->HasSameContent(Normalized) ? ELDCommandResultCode::Pending
@@ -153,6 +156,13 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 		return Result;
 	}
 	DrainCombatRewards();
+	// Reward publication may replace or rehash Sessions. Never keep a pointer across an external callback.
+	Session = FindSession(Context);
+	if (!Session)
+	{
+		Result.ResultCode = ELDCommandResultCode::InvalidEpoch;
+		return Result;
+	}
 	Session->HighestAdmittedRequestId = Command.RequestId;
 	if (!ConsumeToken(Session->Tokens, Session->LastSeconds, NowSeconds))
 	{
@@ -171,7 +181,11 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 		ExecutingCommand.Reset();
 		ExecutingPlayer = INDEX_NONE;
 	}
-	CacheResult(*Session, Normalized, Result);
+	Session = FindSession(Context);
+	if (Session && !Session->Results.Contains(Command.RequestId))
+	{
+		CacheResult(*Session, Normalized, Result);
+	}
 	return Result;
 }
 
@@ -214,11 +228,12 @@ void ULDCommandProcessor::ExecuteCommand(const FLDParticipantContext& Context, c
 	FLDBoardPlan BoardPlan;
 	Result.ResultCode = BoardManager->TryPrepare(Context, Command, EconomyPlan.ResultUnitId, ServerSeconds, BoardPlan);
 	if (Result.ResultCode != ELDCommandResultCode::Success || !BoardManager->ValidatePrepared(BoardPlan) ||
-	    !EconomyService->ValidatePrepared(EconomyPlan))
+	    !EconomyService->ValidatePrepared(EconomyPlan) || !FindSession(Context) || bClosed || !bAcceptingCommands)
 	{
 		if (Result.ResultCode == ELDCommandResultCode::Success)
 		{
-			Result.ResultCode = ELDCommandResultCode::StaleBoard;
+			Result.ResultCode =
+			    !FindSession(Context) ? ELDCommandResultCode::InvalidEpoch : ELDCommandResultCode::StaleBoard;
 		}
 		BoardManager->CancelPrepared(BoardPlan);
 		return;
@@ -240,6 +255,11 @@ void ULDCommandProcessor::ExecuteCommand(const FLDParticipantContext& Context, c
 		{
 			Result.MovedInstanceIds.Add(Unit.InstanceId);
 		}
+	}
+	// Store the old session's terminal outcome before publication can log it out or replace its epoch.
+	if (FSession* CommittedSession = FindSession(Context))
+	{
+		CacheResult(*CommittedSession, Command, Result);
 	}
 	BoardManager->PublishPrepared(BoardPlan);
 	EconomyService->PublishPrepared(EconomyPlan);

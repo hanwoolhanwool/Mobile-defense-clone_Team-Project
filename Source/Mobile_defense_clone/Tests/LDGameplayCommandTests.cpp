@@ -127,9 +127,9 @@ bool FLDP0EconomyAtomicTest::RunTest(const FString& Parameters)
 		    {
 			    bObservedJointCommit =
 			        Fixture.Economy->GetSnapshot(0).Gold == 80 && Fixture.Board->GetSnapshot(0).Population == 1;
-			    TestEqual(TEXT("Reentrant same request remains pending until its first publication finishes"),
+			    TestEqual(TEXT("Published joint commit already has a terminal cached outcome"),
 			                   Fixture.Processor->SubmitAtTime(Fixture.Players[0], First, Fixture.Now).ResultCode,
-			                   ELDCommandResultCode::Pending);
+			                   ELDCommandResultCode::Success);
 		    }
 	    });
 	const FLDCommandResult FirstResult = Fixture.Run(First);
@@ -324,6 +324,42 @@ bool FLDP0PopulationOwnershipTest::RunTest(const FString& Parameters)
 	               ELDCommandResultCode::NotOwner);
 	TestEqual(TEXT("Owner mismatch leaves requester state untouched"), Fixture.Signature(), OwnBefore);
 	TestEqual(TEXT("Owner mismatch leaves actual owner state untouched"), Fixture.Signature(1), FullState);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0EpochDuringPublicationTest, "LD.P0.G2.Commands.EpochReplacementDuringPublication",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0EpochDuringPublicationTest::RunTest(const FString& Parameters)
+{
+	FGameplayFixture Fixture;
+	if (!TestTrue(TEXT("Services initialize"), Fixture.bReady))
+	{
+		return false;
+	}
+	Fixture.Board->OnBoardCommitted.AddLambda(
+	    [&](const FLDBoardCommit& Commit)
+	    {
+		    if (Commit.BoardRevision == 1)
+		    {
+			    Fixture.Players[0].ConnectionEpoch = 2;
+			    TestTrue(TEXT("Real publish callback can replace the server connection epoch"),
+			                  Fixture.Processor->RegisterParticipant(Fixture.Players[0]));
+		    }
+	    });
+	const FLDCommandResult OldResult = Fixture.Run(Fixture.Make());
+	TestEqual(TEXT("Original response retains its admitted epoch despite caller context mutation"),
+	               OldResult.ConnectionEpoch, uint64(1));
+	FLDCommand Fresh;
+	Fresh.ConnectionEpoch = 2;
+	Fresh.RequestId = 1;
+	Fresh.ExpectedBoardRevision = 1;
+	const FLDCommandResult NewResult = Fixture.Run(Fresh);
+	TestEqual(TEXT("New epoch request1 executes instead of seeing old epoch cached result"), NewResult.ConnectionEpoch,
+	               uint64(2));
+	TestEqual(TEXT("Fresh epoch purchase commits"), NewResult.ResultCode, ELDCommandResultCode::Success);
+	TestEqual(TEXT("Only two real purchases are reflected"), Fixture.Board->GetSnapshot(0).Population, 2);
+	TestEqual(TEXT("Second purchase uses next price22"), Fixture.Economy->GetSnapshot(0).Gold, 58);
 	return true;
 }
 
