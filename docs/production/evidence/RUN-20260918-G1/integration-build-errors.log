@@ -1,0 +1,3 @@
+C:\Users\iam12\P0_reference_integration\Source\Mobile_defense_clone\Verification\LDG1ProbeSubsystem.cpp(127,14): error C4458: 'bInitialized' 선언은 클래스 멤버를 숨깁니다.
+C:\Users\iam12\P0_reference_integration\Source\Mobile_defense_clone\Verification\LDG1ProbeSubsystem.cpp(409,29): error C2672: 'FGenericPlatformMath::Min': 일치하는 오버로드된 함수가 없습니다.
+C:\Users\iam12\P0_reference_integration\Source\Mobile_defense_clone\Verification\LDG1ProbeSubsystem.cpp(409,14): error C2737: 'Stage': const 개체를 초기화해야 합니다

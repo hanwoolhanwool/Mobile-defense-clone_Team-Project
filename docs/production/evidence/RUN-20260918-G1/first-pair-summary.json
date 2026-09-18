@@ -1,0 +1,238 @@
+[
+  {
+    "Role": "host",
+    "Result": "Fail",
+    "Failed": 374,
+    "Examples": [
+      {
+        "case": "view-0-projection-0",
+        "pass": false,
+        "detail": "X=595.000 Y=855.833"
+      },
+      {
+        "case": "view-0-input-0",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=-1"
+      },
+      {
+        "case": "view-0-cell-0-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-0-cell-0-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-0-cell-0-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-0-cell-0-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-0-input-1",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=-1"
+      },
+      {
+        "case": "view-0-cell-1-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-0-cell-1-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      }
+    ],
+    "TwoLaps": [
+      {
+        "case": "route-0-two-laps",
+        "pass": true,
+        "detail": "distance=6165.000"
+      },
+      {
+        "case": "route-1-two-laps",
+        "pass": true,
+        "detail": "distance=6165.000"
+      },
+      {
+        "case": "final-two-laps-0",
+        "pass": true,
+        "detail": "Observed persistent actor past 6160cm"
+      },
+      {
+        "case": "final-two-laps-1",
+        "pass": true,
+        "detail": "Observed persistent actor past 6160cm"
+      }
+    ],
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 130.00003051757812,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/host/view-0.png"
+      },
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 130.00003051757812,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/host/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 116.69512939453125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/host/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1440,
+        "cellPixels": 147.6922607421875,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/host/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 70.01708984375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/host/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 105.02557373046875,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/host/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 20.76922607421875,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/host/view-6.png"
+      }
+    ]
+  },
+  {
+    "Role": "client",
+    "Result": "Fail",
+    "Failed": 372,
+    "Examples": [
+      {
+        "case": "view-0-projection-0",
+        "pass": false,
+        "detail": "X=595.000 Y=75.833"
+      },
+      {
+        "case": "view-0-projection-5",
+        "pass": false,
+        "detail": "X=-55.000 Y=75.833"
+      },
+      {
+        "case": "view-0-projection-6",
+        "pass": false,
+        "detail": "X=595.000 Y=205.833"
+      },
+      {
+        "case": "view-0-projection-11",
+        "pass": false,
+        "detail": "X=-55.000 Y=205.833"
+      },
+      {
+        "case": "view-0-projection-12",
+        "pass": false,
+        "detail": "X=595.000 Y=335.833"
+      },
+      {
+        "case": "view-0-projection-17",
+        "pass": false,
+        "detail": "X=-55.000 Y=335.833"
+      },
+      {
+        "case": "view-0-projection-18",
+        "pass": false,
+        "detail": "X=595.000 Y=595.833"
+      },
+      {
+        "case": "view-0-input-18",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=-1"
+      },
+      {
+        "case": "view-0-cell-18-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      }
+    ],
+    "TwoLaps": [
+      {
+        "case": "route-0-two-laps",
+        "pass": true,
+        "detail": "distance=6165.000"
+      },
+      {
+        "case": "route-1-two-laps",
+        "pass": true,
+        "detail": "distance=6165.000"
+      },
+      {
+        "case": "final-two-laps-0",
+        "pass": true,
+        "detail": "Observed persistent actor past 6160cm"
+      },
+      {
+        "case": "final-two-laps-1",
+        "pass": true,
+        "detail": "Observed persistent actor past 6160cm"
+      }
+    ],
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 130,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/client/view-0.png"
+      },
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 130,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/client/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 116.6951904296875,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/client/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1440,
+        "cellPixels": 147.69232177734375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/client/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 70.01708984375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/client/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 105.02557373046875,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/client/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 20.76922607421875,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-first/client/view-6.png"
+      }
+    ]
+  }
+]

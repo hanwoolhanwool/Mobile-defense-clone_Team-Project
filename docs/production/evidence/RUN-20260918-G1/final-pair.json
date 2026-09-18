@@ -1,0 +1,61 @@
+{
+  "Scope": "Two separate UnrealEditor -game processes; not PIE or packaged execution",
+  "Probe": "G1",
+  "Started": "2026-09-18T14:44:19.6365230+09:00",
+  "Head": "649c1dedd6832c41089a76b59bc76518cd262296",
+  "Executable": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+  "RenderOffscreen": true,
+  "Port": 17777,
+  "Processes": [
+    {
+      "Id": 66996,
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_lesson_replay_g1\\Mobile_defense_clone.uproject",
+        "/Game/LD/Maps/L_P0?listen",
+        "-game",
+        "-ModelContextProtocolPort=17877",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G1",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g1\\Saved\\P0Runs\\Replay-G1-pair\\host",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g1\\Saved\\P0Runs\\Replay-G1-pair\\host/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-RenderOffscreen"
+      ],
+      "Role": "host"
+    },
+    {
+      "Id": 37772,
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_lesson_replay_g1\\Mobile_defense_clone.uproject",
+        "127.0.0.1:17777",
+        "-game",
+        "-ModelContextProtocolPort=17878",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G1",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g1\\Saved\\P0Runs\\Replay-G1-pair\\client",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g1\\Saved\\P0Runs\\Replay-G1-pair\\client/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-RenderOffscreen"
+      ],
+      "Role": "client"
+    }
+  ],
+  "Result": "Pass",
+  "Finished": "2026-09-18T14:45:32.3530487+09:00"
+}
