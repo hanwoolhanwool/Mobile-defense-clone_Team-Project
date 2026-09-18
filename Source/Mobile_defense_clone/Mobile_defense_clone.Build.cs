@@ -24,7 +24,7 @@ public class Mobile_defense_clone : ModuleRules
 		});
 
 		// Strict runtime P0 JSON loading; no editor-only importer dependency.
-		PrivateDependencyModuleNames.AddRange(new string[] { "Json" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Json", "SlateCore" });
 
 		PublicIncludePaths.AddRange(new string[] {
 			"Mobile_defense_clone",
