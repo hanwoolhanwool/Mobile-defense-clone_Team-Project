@@ -194,4 +194,3 @@ finally {
 Write-Output "Reference assembly ready: $RunRoot/assembly.json"
 Write-Output 'No build/editor/game was launched. All existing worktrees and branches are preserved; no cleanup or commit is performed.'
 Write-Output 'The replay HEAD remains G1. Pair every subsequent build/test result with this assembly manifest and SourceSha.'
-
