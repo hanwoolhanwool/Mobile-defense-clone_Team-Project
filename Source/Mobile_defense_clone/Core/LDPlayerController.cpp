@@ -150,6 +150,11 @@ bool ALDPlayerController::HasPendingCommand() const
 	return PendingCommand.IsSet() || bAwaitingCommittedSnapshot;
 }
 
+bool ALDPlayerController::CanRetryPendingCommand() const
+{
+	return PendingCommand.IsSet() && RetryCount >= 3;
+}
+
 const FLDCommandResult& ALDPlayerController::GetLastResult() const
 {
 	return LastResult;
@@ -213,6 +218,13 @@ void ALDPlayerController::OnRep_GameplaySnapshot()
 
 bool ALDPlayerController::RequestSummon()
 {
+	if (CanRetryPendingCommand())
+	{
+		// An uncertain outcome must retain its original request identity, even after a user retry.
+		RetryCount = 0;
+		LastRequestSeconds = FPlatformTime::Seconds();
+		return RetryPendingCommand();
+	}
 	if (!IsGameplaySnapshotReady())
 	{
 		return false;
@@ -337,8 +349,9 @@ FText ALDPlayerController::GetCommandFeedback() const
 	}
 	if (PendingCommand.IsSet())
 	{
-		return RetryCount >= 3             ? NSLOCTEXT("LD", "RequestUncertain", "응답을 기다리고 있습니다. 같은 요청만 재확인합니다")
-		                                   : NSLOCTEXT("LD", "RequestPending", "요청을 처리하고 있습니다");
+		return RetryCount >= 3
+		    ? NSLOCTEXT("LD", "RequestUncertain", "응답을 기다리고 있습니다. 아래 버튼으로 같은 요청을 재확인하세요")
+		                : NSLOCTEXT("LD", "RequestPending", "요청을 처리하고 있습니다");
 	}
 	if (LastResult.RequestId == 0)
 	{
@@ -383,6 +396,12 @@ void ALDPlayerController::UpdateGameplayView()
 	    GetEconomySnapshot().EconomyRevision >= LastResult.EconomyRevision)
 	{
 		bAwaitingCommittedSnapshot = false;
+	}
+	if (GameplayWidget && !GameplayWidget->IsInViewport())
+	{
+		// A removed UI has already unbound its click delegates in NativeDestruct.
+		// Rebuild the view from current replicated snapshots without changing gameplay state.
+		GameplayWidget = nullptr;
 	}
 	if (IsGameplaySnapshotReady() && !GameplayWidget)
 	{
