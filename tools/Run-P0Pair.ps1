@@ -5,7 +5,7 @@ param(
     [int]$Port = 17777,
     [int]$Width = 540,
     [int]$Height = 1170,
-    [int]$TimeoutSeconds = 110,
+    [int]$TimeoutSeconds = 220,
     [switch]$RenderOffscreen,
     [string]$EngineRoot = 'C:/Program Files/Epic Games/UE_5.8'
 )

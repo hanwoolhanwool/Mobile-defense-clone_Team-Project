@@ -275,6 +275,10 @@ void ULDG1ProbeSubsystem::InspectViewport(ALDPlayerController& Controller, int32
 	Check(Prefix + TEXT("own-bottom"), Centers[Own + 9].Y > Centers[Other + 9].Y, TEXT("Owner board below peer board"));
 	const double ColumnPixels = (Centers[Own + 1] - Centers[Own]).Size();
 	const double RowPixels = (Centers[Own + 6] - Centers[Own]).Size();
+	const FVector2D SafeSize = Controller.GetBoardViewportLayout().SafeRectPixels.GetSize();
+	const double ExpectedCellPixels = 120 * FMath::Min(SafeSize.X / 1080.0, SafeSize.Y / 2340.0);
+	Check(Prefix + TEXT("reference-cell-size"), FMath::Abs(ColumnPixels - ExpectedCellPixels) < 1,
+	                    FString::Printf(TEXT("actual=%.3f expected=%.3f"), ColumnPixels, ExpectedCellPixels));
 	Check(Prefix + TEXT("square-cells"), FMath::Abs(ColumnPixels - RowPixels) < 1,
 	                    FString::Printf(TEXT("column=%.3f row=%.3f"), ColumnPixels, RowPixels));
 	FVector2D Spawn;
@@ -296,14 +300,14 @@ void ULDG1ProbeSubsystem::InspectViewport(ALDPlayerController& Controller, int32
 	const FString Screenshot = OutputDirectory / FString::Printf(TEXT("view-%d.png"), AspectIndex);
 	View->SetStringField(TEXT("screenshot"), Screenshot);
 	Views.Add(MakeShared<FJsonValueObject>(View));
-	FScreenshotRequest::RequestScreenshot(Screenshot, true, false, false, FIntRect(), true);
+	// Capture after the asynchronous input sequence has completed.
 	Check(Prefix + TEXT("previous-touch-queue-finished"), TouchCell == INDEX_NONE,
 	                    TEXT("No input sequence crosses a viewport change"));
 	TouchCell = 0;
 	TouchPhase = 0;
 	TouchAspect = AspectIndex;
 	UE_LOG(LogLDP0Probe, Display,
-	       TEXT("Viewport %d: %dx%d player=%d; screenshot requested"), AspectIndex, Width, Height, LocalPlayerIndex);
+	       TEXT("Viewport %d: %dx%d player=%d; input sequence started"), AspectIndex, Width, Height, LocalPlayerIndex);
 }
 
 void ULDG1ProbeSubsystem::PumpTouchInput(ALDPlayerController& Controller)
@@ -358,10 +362,10 @@ void ULDG1ProbeSubsystem::Tick(float DeltaTime)
 			return;
 		}
 	}
-	if (Now - CreatedAt > 90)
+	if (Now - CreatedAt > 180)
 	{
 		Check(TEXT("readiness-timeout"), false,
-		           TEXT("Required participant/view/route readiness did not finish in 90s"));
+		           TEXT("Required participant/view/route readiness did not finish in 180s"));
 		Finish();
 		return;
 	}
@@ -401,23 +405,44 @@ void ULDG1ProbeSubsystem::Tick(float DeltaTime)
 			return;
 		}
 		ReadyAt = Now;
-		FinishAt = Now + (GetWorld()->GetNetMode() == NM_Client ? 61 : 68);
+		// Completion depends on all viewports and two actual route laps.
 	}
 	FrameMilliseconds.Add(DeltaTime * 1000);
-	const double Elapsed = Now - ReadyAt;
 	PumpTouchInput(*Controller);
-	const int32 Stage = FMath::Min(static_cast<int32>(Elapsed / 7), static_cast<int32>(UE_ARRAY_COUNT(Viewports)) - 1);
-	if (ResizeStage != Stage)
+	const bool bPreviousCaptured =
+	    CapturedStage == ResizeStage && CapturedStage >= 0 && TouchCell == INDEX_NONE &&
+	    Now - ScreenshotRequestedAt > 0.5 &&
+	    IFileManager::Get().FileSize(*(OutputDirectory / FString::Printf(TEXT("view-%d.png"), CapturedStage))) > 1024;
+	if ((ResizeStage == -1 || bPreviousCaptured) && ResizeStage + 1 < UE_ARRAY_COUNT(Viewports))
 	{
-		ResizeStage = Stage;
-		Controller->ConsoleCommand(FString::Printf(TEXT("r.SetRes %dx%dw"), Viewports[Stage].X, Viewports[Stage].Y));
+		++ResizeStage;
+		ViewportRequestedAt = Now;
+		Controller->ConsoleCommand(
+		    FString::Printf(TEXT("r.SetRes %dx%dw"), Viewports[ResizeStage].X, Viewports[ResizeStage].Y));
 	}
-	if (InspectedStage < Stage && Elapsed >= Stage * 7 + 2)
+	int32 Width = 0;
+	int32 Height = 0;
+	Controller->GetViewportSize(Width, Height);
+	const bool bSizeReady = ResizeStage >= 0 && Width == Viewports[ResizeStage].X && Height == Viewports[ResizeStage].Y;
+	if (InspectedStage < ResizeStage && Now - ViewportRequestedAt > 1 && (bSizeReady || Now - ViewportRequestedAt > 12))
 	{
-		InspectedStage = Stage;
-		InspectViewport(*Controller, Stage);
+		InspectedStage = ResizeStage;
+		InspectViewport(*Controller, ResizeStage);
 	}
-	if (Now >= FinishAt)
+	if (InspectedStage == ResizeStage && TouchCell == INDEX_NONE && CapturedStage < ResizeStage)
+	{
+		CapturedStage = ResizeStage;
+		ScreenshotRequestedAt = Now;
+		FScreenshotRequest::RequestScreenshot(OutputDirectory / FString::Printf(TEXT("view-%d.png"), CapturedStage),
+		                                                                        true, false, false, FIntRect(), true);
+	}
+	if (FinishAt < 0 && CapturedStage + 1 == UE_ARRAY_COUNT(Viewports) && bPreviousCaptured &&
+	    RecordedChecks.Contains(TEXT("route-0-two-laps:pass")) &&
+	                            RecordedChecks.Contains(TEXT("route-1-two-laps:pass")))
+	{
+		FinishAt = Now + (GetWorld()->GetNetMode() == NM_Client ? 2 : 15);
+	}
+	if (FinishAt > 0 && Now >= FinishAt)
 	{
 		Finish();
 	}

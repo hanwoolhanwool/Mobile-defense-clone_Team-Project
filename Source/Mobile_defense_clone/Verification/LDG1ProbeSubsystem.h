@@ -35,8 +35,11 @@ private:
 	double NextRouteStep = 0;
 	double NextRouteSample = 0;
 	double FinishAt = -1;
+	double ViewportRequestedAt = 0;
+	double ScreenshotRequestedAt = 0;
 	int32 ResizeStage = -1;
 	int32 InspectedStage = -1;
+	int32 CapturedStage = -1;
 	int32 LocalPlayerIndex = INDEX_NONE;
 	int32 TouchCell = INDEX_NONE;
 	int32 TouchPhase = 0;
