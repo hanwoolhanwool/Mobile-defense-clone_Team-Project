@@ -14,3 +14,5 @@
 그 후 독립 조립 리뷰가 비정렬 RPC 명령 시각에 더 이른 공격/보상이 뒤로 밀리는 결함을 발견했다. `eafc378163f3d9ed939821d153228f9b9d29943e`는 전투 strict-before hook과 전역 예정 순서를 수정하고 CommandClockOrdersEarlierHitAndSameTimeSale/EarlierKillFundsExternalPurchase를 추가했다. **이 후속 코드의 Unreal 재빌드/9개 전투 자동화는 아직 대기**다. 이전7개 Pass를 수정 후 코드의 Pass로 재사용하지 않는다.
 
 이번에 확인하지 않은 범위: PIE, G2 실제 첫 소환→처치→보상 두 프로세스, G2 패키지, 지연·동시 명령, 반복 매치·UI 수명, 대표 부하, Android. G1 패키지 결과가 존재해도 G2 성공으로 대체하지 않는다.
+
+현재 WorldTime이 타이머 뒤 입력과 공유될 수 있다는 후속 엔진 소스 검토는 [연결 수업의 재현·기대·한계](G2_03_MATCH.md)에 기록했다. 수정 `198f7a25194f5b4f98d96556e8267e6697c391dd`와 신규 `LD.P0.G2.Integration.TimerBeforeSameWorldTimeSale`은 소스 스타일/공백 Pass이며 Unreal 실행은 대기 중이다. 독립 리뷰의 엔진 호출 순서 확인을 실제 OS 입력 재현으로 표시하지 않는다.
