@@ -2,9 +2,14 @@
 
 #if WITH_DEV_AUTOMATION_TESTS
 
+#include "Battle/LDCombatService.h"
+#include "Battle/LDEnemyActor.h"
+#include "Battle/LDUnitActor.h"
+#include "Board/LDBoardManager.h"
 #include "Core/LDPlayerState.h"
 #include "Core/LDGameMode.h"
 #include "Core/LDPlayerController.h"
+#include "Data/LDGameData.h"
 #include "Engine/Player.h"
 #include "Engine/World.h"
 #include "Misc/AutomationTest.h"
@@ -260,6 +265,94 @@ bool FLDP0PendingLogoutTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("Remaining connection receives available first slot"),
 	               Staying->GetPlayerState<ALDPlayerState>()->GetPlayerIndex(), 0);
 	Fixture.Mode->EndPlay(EEndPlayReason::EndPlayInEditor);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0OpenFrameBoundaryTest, "LD.P0.G2.Integration.TimerBeforeSameWorldTimeSale",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0OpenFrameBoundaryTest::RunTest(const FString& Parameters)
+{
+	for (bool bSellAtBoundary : {true, false})
+	{
+		FServerLifecycleFixture Fixture;
+		if (!TestNotNull(TEXT("Actual GameMode"), Fixture.Mode))
+		{
+			return false;
+		}
+		Fixture.PrepareServices();
+		ALDPlayerController* First = Fixture.CreateController();
+		ALDPlayerController* Second = Fixture.CreateController();
+		if (!TestNotNull(TEXT("Host controller"), First) || !TestNotNull(TEXT("Peer controller"), Second))
+		{
+			return false;
+		}
+		Fixture.World->TimeSeconds = 0;
+		Fixture.Mode->PostLogin(First);
+		Fixture.Mode->PostLogin(Second);
+		Fixture.Mode->DispatchBeginPlay();
+		if (!TestTrue(TEXT("Real readiness opens commands"), Fixture.Mode->CanAcceptCommands()))
+		{
+			return false;
+		}
+		const FLDCommandResult Summoned = First->SubmitServerCommand(CommandFor(*First, 1));
+		if (!TestEqual(TEXT("Real first paid summon"), Summoned.ResultCode, ELDCommandResultCode::Success) ||
+		               !TestEqual(TEXT("One actual created unit"), Summoned.CreatedInstanceIds.Num(), 1))
+		{
+			return false;
+		}
+		ALDUnitActor* Unit = nullptr;
+		if (!TestTrue(TEXT("Board committed actor"), Fixture.Mode->GetBoardManager()->TryGetCommittedUnitActor(
+		                                                 Summoned.CreatedInstanceIds[0], Unit)) ||
+		              !TestNotNull(TEXT("Committed unit"), Unit))
+		{
+			return false;
+		}
+		ALDEnemyActor* Enemy = Fixture.World->SpawnActor<ALDEnemyActor>();
+		FLDEnemyRow Row;
+		Fixture.Mode->GetGameData()->TryGetEnemyRow(TEXT("N01"), Row);
+		const FVector Position = Unit->GetActorLocation() + FVector(100, 0, 0);
+		const TArray<FVector> Route = {Position, Position + FVector(500, 0, 0), Position + FVector(500, 500, 0),
+		                               Position + FVector(0, 500, 0)};
+		const FGuid MatchId = Fixture.World->GetGameState<ALDGameState>()->GetMatchContext().MatchId;
+		if (!TestNotNull(TEXT("Explicit one-HP timing fixture"), Enemy) ||
+		                 !TestTrue(TEXT("Fixture route"), Enemy->InitializeRoute(MatchId, 9001, 0, Route, 0, 0)) ||
+		                           !TestTrue(TEXT("Fixture HP"), Enemy->InitializeCombat(Row, 1, 9001, 1, 0)) ||
+		                                     !TestTrue(TEXT("Actual combat registration"),
+		                                                    Fixture.Mode->GetCombatService()->RegisterEnemy(*Enemy)))
+		{
+			return false;
+		}
+		Fixture.World->TimeSeconds = .20;
+		// Invoke the exact production timer delegate body. No test calls AdvanceCombatBefore/To to choose its order.
+		Fixture.Mode->AdvanceLogic();
+		double Due = 0;
+		Fixture.Mode->GetCombatService()->TryGetUnitAttackState(Unit->GetPlacement().InstanceId, Due);
+		TestEqual(TEXT("Initial attack is scheduled at .25"), Due, .25);
+		Fixture.World->TimeSeconds = .25;
+		Fixture.Mode->AdvanceLogic();
+		TestEqual(TEXT("Timer does not close the current WorldTime before late input"), Enemy->GetCombatSnapshot().HP,
+		               1.0);
+		// Same WorldTime after the timer: this models late host Slate input or next-frame pre-time-update RPC dispatch.
+		FLDCommand Sell = CommandFor(*First, 2);
+		Sell.CommandType = ELDCommandType::Sell;
+		Sell.InstanceId = Summoned.CreatedInstanceIds[0];
+		Sell.ExpectedBoardRevision = Fixture.Mode->GetBoardManager()->GetSnapshot(0).BoardRevision;
+		if (bSellAtBoundary)
+		{
+			TestEqual(TEXT("Actual controller sale succeeds at unchanged .25 WorldTime"),
+			               First->SubmitServerCommand(Sell).ResultCode, ELDCommandResultCode::Success);
+			TestEqual(TEXT("Sale unregisters actual combat source"),
+			               Fixture.Mode->GetCombatService()->GetRegisteredUnitCount(), 0);
+		}
+		Fixture.World->TimeSeconds = .30;
+		Fixture.Mode->AdvanceLogic();
+		TestEqual(TEXT("Next frame cancels a sold attack or resolves the retained attack exactly once"),
+		               Enemy->GetCombatSnapshot().HP, bSellAtBoundary ? 1.0 : 0.0);
+		TestEqual(TEXT("Peer reward follows actual death only"), Second->GetEconomySnapshot().Gold,
+		               bSellAtBoundary ? 100 : 101);
+		Fixture.Mode->EndPlay(EEndPlayReason::EndPlayInEditor);
+	}
 	return true;
 }
 
