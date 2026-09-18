@@ -7,7 +7,7 @@
 | 상위 TASK·정식 설계 | TASK-NET-01 중 A / [A-02 설계](../../../docs/technical/IMPLEMENTATION_A.md#a02) |
 | 참고 자료 제작 상태 | Draft |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6` (검증 완료 아님) |
+| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`; 실행 HEAD `0efd2bb8c32f99e5814d6aa4d4891ee9d5e96c69` (수업 재현 미완료) |
 | 실제 개발 시작/완료 SHA | 출발점만 준비 / 미생성 |
 | 필요한 상대 산출물·버전 | A-01 규칙 로더, B Controller·CommandProcessor 선언 및 구현 |
 | 제공 코드 / 직접 작성할 코드 | 제공: 기본 UE 프로젝트·A-01 직접 작성 결과. 직접 작성: Data/LDMatchTypes.h, Core/LDGameMode.*, Core/LDGameState.*, Core/LDPlayerState.* |
@@ -59,16 +59,16 @@
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
 | 정상 로드 + 두 접속 | 동일 MatchId, PlayerIndex0/1, Preparing, 요청 비활성 | NotRun | PIE 2인 예정 |
-| 빈 문맥·PlayerIndex=-1/2·epoch0 | IsValid=false | NotRun | `LD.P0.G0.Data.ParticipantIdentity` |
+| 빈 문맥·PlayerIndex=-1/2·epoch0 | IsValid=false | Pass | `LD.P0.G0.Data.ParticipantIdentity`; [실제 증거](evidence/G0_RUNTIME.md) |
 | 동일 초기화/동일 PostLogin 재호출 | ID·세대·구독 중복 없음 | 코드 경로 검토, 실제 실행 NotRun | GameState/PlayerState Initialize, GameMode PostLogin |
 | 데이터 누락 | 구체적 오류와 Aborted, 새 접수0 | NotRun | A-01 실패 픽스처 + 매치 실행 필요 |
 | 세 번째 참가자 | 슬롯을 덮어쓰지 않고 거절 | NotRun | 세 접속 실행 필요 |
 | Result/Aborted 뒤 재진입·반복 EndPlay | 상태 되돌림0, 예약/구독 없음 | 정적 경로 검토, 실제 실행 NotRun | SetPhase/StopMatchServices |
 | C++ 서식/공백 | 오류0 | Pass | [정적 기록](evidence/G0_STATIC.md) |
-| Editor 컴파일 | UHT/C++/링크 성공 | 첫 빌드 Fail; 로더 문자열 오류 수정 후 재검증 대기 | [A-01 실패 기록](G0_01_DATA.md) |
+| Editor 컴파일 | UHT/C++/링크 성공 | 첫 빌드 Fail; 로더 문자열 오류 수정 후 재빌드 Pass | [A-01 실패 기록](G0_01_DATA.md), [실제 증거](evidence/G0_RUNTIME.md) |
 | 네트워크·패키지·Android | 각 검수 성공 | NotRun | 통합 담당자가 직렬 실행 예정 |
 
-실제 컴파일 실패와 문자열 연결 수정은 A-01에 기록했다. 게임 실행 화면이나 수정 재빌드 성공을 만들어 기록하지 않는다. 정적 리뷰 수정도 A-01의 정책/좌표 검증에 기록했다.
+실제 컴파일 실패와 문자열 연결 수정 후 재빌드 Pass는 A-01에 기록했다. 게임 실행 화면은 아직 없다. 정적 리뷰 수정도 A-01의 정책/좌표 검증에 기록했으며 해당 변조 입력이 실제 UE 자동화에서 거절되는 것을 확인했다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -89,6 +89,6 @@ GameState API는 `InitializeMatch`, `SetPhase`, `GetPhase`, `GetMatchContext`, `
 ## 단계 완료
 
 - [ ] 코드·에디터 설정·제공 파일 범위가 재현 가능하다.
-- [ ] 실제 실행 결과와 시작/완료 커밋을 연결했다.
+- [x] Unreal 컴파일·신원 자동화 결과와 시작/코드/실행 커밋을 연결했다. PIE·연결 수명 실행은 미완료다.
 - [ ] 필요한 상대 기능을 합쳐 확인했다.
 - [x] 미검증 범위와 다음 단계의 의존성을 명시했다.

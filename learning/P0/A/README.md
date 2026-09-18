@@ -9,4 +9,4 @@
 
 공통 규칙·권한·호출 계약은 [공통 구현 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [데이터 명세](../../../docs/DATA_SCHEMA.md), [제작 및 실제 학습 분리](../../WORKFLOW.md)를 읽는다. 수업은 해당 기능의 차이와 재현 절차만 기록한다.
 
-G0 Editor 빌드/자동화·공통 통합 검수가 끝나야 G1 경로 수업으로 진행한다. 이 수업의 문서 재현은 아직 수행하지 않았으므로 Verified가 아니다. 최종 실행 증거는 통합 담당자가 기록한 실제 실행 SHA·로그를 확인해야 한다.
+2026-09-18 A Editor 재빌드 Pass, Unreal NullRHI 자동화4개 Pass/0Fail/0NotRun을 확인했다. [실제 증거](evidence/G0_RUNTIME.md). 공통 통합 검수가 끝나야 G1 경로 수업으로 진행한다. 이 수업의 문서 재현은 아직 수행하지 않았으므로 Verified가 아니다. PIE·패키지·네트워크·Android는 미실행이다.
