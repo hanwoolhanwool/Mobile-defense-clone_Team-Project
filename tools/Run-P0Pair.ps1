@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory = $true)][string]$RunId,
     [string]$GameExecutable = '',
-    [ValidateSet('G1')][string]$Probe = 'G1',
+    [ValidateSet('G1','G2')][string]$Probe = 'G1',
+    [int]$Seed = 1776,
     [int]$Port = 17777,
     [int]$Width = 540,
     [int]$Height = 1170,
@@ -36,6 +37,7 @@ foreach ($Role in @('host','client')) {
     $Arguments += "-ModelContextProtocolPort=$ToolPort"
     $Arguments += @('-windowed','-ForceRes',"-ResX=$Width", "-ResY=$Height", "-port=$Port", '-nosplash', '-nosound', '-unattended', '-culture=ko', "-P0Probe=$Probe", "-P0ProbeOutput=$Output", "-abslog=$Output/engine.log", '-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0')
     if ($RenderOffscreen) { $Arguments += '-RenderOffscreen' }
+    if ($Probe -eq 'G2') { $Arguments += "-P0Seed=$Seed" }
     $QuotedArguments = ($Arguments | ForEach-Object { '"' + $_.Replace('"','\"') + '"' }) -join ' '
     $Process = Start-Process -FilePath $GameExecutable -ArgumentList $QuotedArguments -PassThru -WindowStyle Hidden -RedirectStandardOutput "$Output/stdout.log" -RedirectStandardError "$Output/stderr.log"
     $Pairs += [pscustomobject]@{Role=$Role; Process=$Process; Arguments=$Arguments; Output=$Output}
