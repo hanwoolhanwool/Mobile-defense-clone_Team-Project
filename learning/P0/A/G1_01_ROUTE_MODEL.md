@@ -48,7 +48,7 @@
 | clang-format20.1.8 검사 | 오류0 | Pass: 24 checked,48 legacy,0 errors; 코드 커밋 전 실행 |
 | git diff --check | 공백 오류0 | Pass |
 
-Editor 빌드 Pass(20.25초), Unreal NullRHI 자동화5개 Pass/0Fail/0NotRun을 직접 로그에서 확인했다. [결과·실행 SHA·로그](G1_EVIDENCE/README.md). 실제 게임 화면은 아직 없다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 이 선택의 실제 화면 품질과 지연 보정은 통합 네트워크 검수 대상이다.
+Editor 빌드 Pass(20.25초), Unreal NullRHI 자동화5개 Pass/0Fail/0NotRun을 직접 로그에서 확인했다. [결과·실행 SHA·로그](G1_EVIDENCE/README.md). 후속 통합2프로세스의 호스트 표시 시각 문제와 수정은 [actor 수업](G1_02_ENEMY_ACTOR.md)에 기록했으며 화면 검수는 미통과다. 0.25초 넘는 지연에서는 표시가 마지막 sample 앞으로37.5cm까지 진행한 뒤 새 sample을 기다린다. 이 선택의 실제 화면 품질과 지연 보정은 통합 네트워크 검수 대상이다.
 
 ## 상대에게 전달하고 통합하기
 

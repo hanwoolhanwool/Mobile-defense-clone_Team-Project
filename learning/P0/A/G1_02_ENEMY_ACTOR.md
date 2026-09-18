@@ -6,7 +6,7 @@
 |---|---|
 | 상위 TASK·설계 | TASK-MAP-01, PLAN-ROUTE-01/PLAN-VIS-02 / [A-04 설계](../../../docs/technical/IMPLEMENTATION_A.md#a04) |
 | 참고 자료 제작 상태 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작/코드 SHA | `4787bf1a3a0d866aa206d148586594b3c710f957` / `bce4b7b0abe7787e1efe54e9af8805612bdffe5d` |
+| 참고 시작/코드 SHA | `4787bf1a3a0d866aa206d148586594b3c710f957` / 초기 코드 `bce4b7b0abe7787e1efe54e9af8805612bdffe5d`, 호스트 표시 수정 `bb1d100abbf0a16bba88683685ae56b1a9b01fd2` |
 | 실제 개발 시작/완료 SHA | 자기 G0 통합 결과 사용 / 미생성 |
 | 필요한 상대 산출물 | 경로 모델, B 로컬 참가자 준비 통지·전장/카메라, 루트의 명시적 G1 시연 fixture |
 | 제공 / 직접 작성 | 제공: Engine Sphere, `/Game/LD/Materials/M_P0Flat` Color 머티리얼. 직접 작성: Battle/LDEnemyActor.h/.cpp, Tests/LDRouteTests.cpp의 Actor/View 테스트 |
@@ -20,7 +20,7 @@
 1. `Battle/LDEnemyActor.h`: FLDEnemyRouteSnapshot에 MatchId/EnemyId/RouteIndex/TotalDistanceCm/SampleServerSeconds/SpeedCmPerSecond/bActive를 선언한다. actor API는 InitializeRoute, AdvanceRouteTo, StopRoute, SetLocalViewPlayerIndex, const snapshot 조회다.
 2. 생성자에 CanonicalRoot와 PresentationMesh를 만든다. collision/overlap은 비활성, ReplicateMovement=false다. 경로점은 초기 복제, snapshot은 갱신 복제다. 표시 Tick이 권위 이동을 계산하지 않는다.
 3. InitializeRoute는 서버 권한/식별자/경로/속도/시각을 검증한다. 초기화 실패 전까지 복제를 끄고, 모든 필드와 모델이 준비된 뒤 SetReplicates(true)를 호출한다. 이는 initial-only 경로점이 빈 배열로 먼저 전송되는 수명 결함을 막는다.
-4. AdvanceRouteTo는 외부20Hz 연결부만 호출한다. `현재시각-초기시각`에서 누적거리를 구하여 한 번의 늦은 호출도 여러 구간·바퀴를 넘을 수 있다. 같은 시각은 no-op, 이전/비유한 시각은 거절한다. 재초기화는 같은 값일 때만 현재상태를 유지하고 다른 ID·경로는 거절한다.
+4. AdvanceRouteTo는 외부20Hz 연결부만 호출한다. `현재시각-초기시각`에서 누적거리를 구하여 한 번의 늦은 호출도 여러 구간·바퀴를 넘을 수 있다. 같은 시각은 no-op, 이전/비유한 시각은 거절한다. 재초기화는 같은 값일 때만 현재상태를 유지하고 다른 ID·경로는 거절한다. 논리 스텝 완료 후 표시는 `GetPresentationServerSeconds()`의 현재 view clock으로 갱신해야 한다. 논리 스텝의 과거 시각을 표시 시각으로 쓰면 호스트만 짧게 되감길 수 있다.
 5. OnRep_RoutePoints/OnRep_RouteSnapshot은 도착 순서가 달라도 두 입력이 준비되면 canonical root와 표시를 갱신한다. 클라이언트는 권위 이동을 호출하지 못한다.
 6. SetLocalViewPlayerIndex를 루트 bootstrap에서 호출한다. 준비 전 mesh를 숨긴다. RefreshPresentation에서 예측 raw 위치를 계산하고 표시mesh만 Y반사·높이35cm로 이동한다. A 역할은 명시적 identity/Y반사 fixture이며 통합에서는 B의 `FLDViewTransform::ToPresentation`으로 같은 결과를 연결한다.
 7. StopRoute는 활성상태를 내리고 이후 초기화/진행을 막는다. 정지는 사망이 아니며 마지막 위치를 표시한다. EndPlay는 tick과 표시를 끄고 material 참조를 해제한다. actor 자체 타이머·전투 이벤트·Controller 구독은 없다.
@@ -54,9 +54,17 @@ ARCH-01/02: 모델/권위 actor/로컬 bootstrap을 분리하고 actor에서 Con
 | EndPlay 후 표시 콜백 | mesh숨김, 표시재개거절 | Pass, 같은 테스트 |
 | 스타일/공백 | 오류0 | Pass,24 checked/48 legacy/0 errors, git diff --check |
 | Editor | 컴파일/UHT/링크 성공 | Pass,20.25초; [실제 증거](G1_EVIDENCE/README.md) |
-| PIE·PC2인·화면비·Android | 각각 필수 검수 | 모두 NotRun |
+| 최초 통합 PC2프로세스 | 양쪽 표시와 raw 좌표 일치 | 통합 담당자가 호스트 presentation assertFail2/client0 보고. canonical·두 바퀴는 정상; 아래 수정 재검증 대기 |
+| 호스트 표시 회귀 테스트 | Tick 뒤 과거 논리 스텝이 실행되어도 현재 mesh 위치 유지 | NotRun, 신규 `HostStepKeepsCurrentViewClock` |
+| 수정 후 Editor·PC2인·화면비·Android | 각각 필수 검수 | 수정 코드 재검증 대기; Android NotRun |
 
 작성 중 수명 검토에서 초기 경로점이 빈 채 먼저 복제될 위험을 확인하여 준비 완료 후 복제를 활성화했다. 실제 실패를 재현했다고 기록하지 않으며 actor 자동화에서 준비 전복제false/준비후true가 Pass였다. 표시예측 상한은 계산 테스트가 통과했지만 실제 지연 상태의 화면 품질·오차·성능은 미측정이다.
+
+최초 실제 PC2프로세스 실행에서 호스트 표시만 실패했다. 통합 담당자가 확인한 원인은 actor Tick이 현재 서버시각으로 예측 mesh를 표시한 뒤 외부20Hz fixture가 `AdvanceRouteTo`를 호출하면서 mesh를 논리 스텝 시각으로 다시 그린 순서였다. 클라이언트는 권위 Advance를 실행하지 않아 이 문제가 없었고 canonical 위치·EnemyId·RouteIndex·두 바퀴 도달도 유지됐다.
+
+수정은 AdvanceRouteTo 마지막 줄의 `RefreshPresentation(ServerSeconds)`를 `RefreshPresentation(GetPresentationServerSeconds())`로 바꾸는 것이다. 논리 snapshot의 시간/거리는20Hz 원본 그대로다. 회귀 기대값은 초기100초·속도150에서 view clock100.125초의 표시거리18.75cm, 늦게 처리한 논리100.10초의 canonical 거리15cm로 독립 고정했다. 논리 갱신 후에도 mesh는18.75cm에 있어야 한다. 기존 테스트는 world clock이 sample보다 뒤인 fixture라 이 실행순서를 포함하지 못했다.
+
+이 원인과 호스트 실패 수는 통합 담당자의 실제 실행 관찰을 전달받아 기록한 것이다. 실행 SHA·원본 증거 링크는 확보 후 보완한다. 신규 회귀 테스트와 수정 후2프로세스는 아직 실행하지 않았으므로 Pass로 기록하지 않는다. A 역할 fixture의 Y반사와 통합의 공통 view transform 부분은 이번 수정에서 바꾸지 않았다.
 
 ## 상대에게 전달하고 통합하기
 

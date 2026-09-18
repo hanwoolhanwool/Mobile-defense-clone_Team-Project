@@ -13,4 +13,4 @@
 
 2026-09-18 A Editor 재빌드 Pass, Unreal NullRHI 자동화4개 Pass/0Fail/0NotRun을 확인했다. [실제 증거](evidence/G0_RUNTIME.md). 공통 통합 검수가 끝나야 G1 경로 수업으로 진행한다. 이 수업의 문서 재현은 아직 수행하지 않았으므로 Verified가 아니다. PIE·패키지·네트워크·Android는 미실행이다.
 
-G0 통합을 받은 G1 공통 시작은 `4787bf1a3a0d866aa206d148586594b3c710f957`이다. G1-A 코드 `bce4b7b0abe7787e1efe54e9af8805612bdffe5d`는 경로 계산·적 이동·표시만 포함한다. G1 A Editor Pass, NullRHI 자동화5Pass/0Fail/0NotRun을 [실제 증거](G1_EVIDENCE/README.md)에서 확인했다. 양쪽 실제 화면은 아직 NotRun이며 참고 수업 Draft/실제 학습 Planned를 유지한다.
+G0 통합을 받은 G1 공통 시작은 `4787bf1a3a0d866aa206d148586594b3c710f957`이다. G1-A 코드 `bce4b7b0abe7787e1efe54e9af8805612bdffe5d`는 경로 계산·적 이동·표시만 포함한다. G1 A Editor Pass, NullRHI 자동화5Pass/0Fail/0NotRun을 [실제 증거](G1_EVIDENCE/README.md)에서 확인했다. 최초 통합2프로세스에서 호스트 표시 시각 문제가 발견되어 `bb1d100`으로 수정하고 [수업에 실패 원인](G1_02_ENEMY_ACTOR.md)을 기록했다. 수정 후 화면·신규 회귀 테스트 재검증 대기이며 참고 수업 Draft/실제 학습 Planned를 유지한다.
