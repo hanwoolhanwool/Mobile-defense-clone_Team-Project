@@ -1,0 +1,18 @@
+{
+  "scope": "Rendered UnrealEditor -game two-process fixture, not PIE/package/physical-touch verification",
+  "head": "ceac593614e40548bcac6c5322faff2929d22568",
+  "source": "P0_reference_integration/Saved/P0Runs/G1-two-process-fix1",
+  "started": "2026-09-18T14:24:44.8066469+09:00",
+  "finished": "2026-09-18T14:25:57.9270509+09:00",
+  "result": "Fail",
+  "host": { "checks": 1338, "failed": 107 },
+  "client": { "checks": 1336, "failed": 107 },
+  "passingActualSizes": ["540x1170", "1080x2340", "720x1280", "720x1600", "768x1024", "800x1280"],
+  "failedActualSize": "1280x720",
+  "firstHostFailure": "view-6-input-0: owned=1 accepted=0 selected=17",
+  "firstClientFailure": "view-6-input-18: owned=1 accepted=0 selected=35",
+  "observedImage": "host/view-6.png: field background visible, cell meshes absent",
+  "cause": "UE orthographic camera-height correction shifts projection origin below board at half-width 2426.6667cm and camera Z2400cm",
+  "fix": "Camera.bUseCameraHeightAsViewTarget=false",
+  "fixBuildAndRuntime": "NotRun"
+}

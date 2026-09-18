@@ -3,8 +3,12 @@
 #if WITH_DEV_AUTOMATION_TESTS
 
 #include "Board/LDViewTransform.h"
+#include "Board/LDBoardPresentation.h"
+#include "Camera/CameraTypes.h"
 #include "Data/LDGameData.h"
+#include "Engine/World.h"
 #include "Misc/AutomationTest.h"
+#include "SceneView.h"
 
 namespace
 {
@@ -127,6 +131,68 @@ bool FLDP0ViewportFitTest::RunTest(const FString& Parameters)
 	TestFalse(TEXT("A minimized viewport must not create an invalid camera"),
 	               Reference.Initialize(FVector2D::ZeroVector, FBox2D(FVector2D::ZeroVector, FVector2D::ZeroVector),
 	                                    FVector2D(1120, 1260)));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0EngineOrthoProjectionTest, "LD.P0.G1.Board.EngineOrthoProjection",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0EngineOrthoProjectionTest::RunTest(const FString& Parameters)
+{
+	UWorld* World = UWorld::CreateWorld(EWorldType::Game, false);
+	if (!TestNotNull(TEXT("Camera fixture world exists"), World))
+	{
+		return false;
+	}
+	ALDBoardPresentation* Board = World->SpawnActor<ALDBoardPresentation>();
+	if (!TestNotNull(TEXT("Production camera actor exists"), Board))
+	{
+		World->DestroyWorld(false);
+		return false;
+	}
+	const FIntPoint Sizes[] = {FIntPoint(540, 1170), FIntPoint(1280, 720)};
+	const double ExpectedCellPixels[] = {60.0, 36.923076923};
+	for (int32 Case = 0; Case < UE_ARRAY_COUNT(Sizes); ++Case)
+	{
+		const FVector2D Size(Sizes[Case].X, Sizes[Case].Y);
+		FLDBoardViewportLayout Layout;
+		TestTrue(TEXT("Regression viewport layout is valid"),
+		              Layout.Initialize(Size, FBox2D(FVector2D::ZeroVector, Size), FVector2D(1120, 1260)));
+		Board->ApplyViewportLayout(Layout);
+		FMinimalViewInfo View;
+		Board->CalcCamera(0, View);
+		const FIntRect ViewRect(FIntPoint::ZeroValue, Sizes[Case]);
+		FSceneViewProjectionData Projection;
+		Projection.SetViewRectangle(ViewRect);
+		Projection.ViewOrigin = View.Location;
+		Projection.ViewRotationMatrix =
+		    FInverseRotationMatrix(View.Rotation) *
+		    FMatrix(FPlane(0, 0, 1, 0), FPlane(1, 0, 0, 0), FPlane(0, 1, 0, 0), FPlane(0, 0, 0, 1));
+		// Exercise UE's unconstrained orthographic corrections, not a duplicate of the layout formula.
+		FMinimalViewInfo::CalculateProjectionMatrixGivenViewRectangle(View, AspectRatio_MaintainYFOV, ViewRect,
+		                                                              Projection);
+		const FMatrix ViewProjection = Projection.ComputeViewProjectionMatrix();
+		FVector2D Start;
+		FVector2D End;
+		TestTrue(TEXT("First grid point projects"),
+		              FSceneView::ProjectWorldToScreen(FVector::ZeroVector, ViewRect, ViewProjection, Start));
+		TestTrue(TEXT("Next grid point projects"),
+		              FSceneView::ProjectWorldToScreen(FVector(-140, 0, 0), ViewRect, ViewProjection, End));
+		TestTrue(TEXT("UE projection preserves independently expected cell width"),
+		              FMath::IsNearlyEqual(End.X - Start.X, ExpectedCellPixels[Case], 0.01));
+		FVector RayOrigin;
+		FVector RayDirection;
+		FSceneView::DeprojectScreenToWorld(Start, ViewRect, ViewProjection.Inverse(), RayOrigin, RayDirection);
+		TestTrue(TEXT("Input ray starts above visible board and points toward it"),
+		              RayOrigin.Z > 7.0 && RayDirection.Z < -0.99);
+		for (double MeshZ : {0.0, 7.0})
+		{
+			const FVector4 Clip = ViewProjection.TransformFVector4(FVector4(0, 0, MeshZ, 1));
+			TestTrue(TEXT("Board plane and raised cell surface are inside the clip depth interval"),
+			              Clip.W > 0 && Clip.Z >= 0 && Clip.Z <= Clip.W);
+		}
+	}
+	World->DestroyWorld(false);
 	return true;
 }
 
