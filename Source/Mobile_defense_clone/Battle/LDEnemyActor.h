@@ -86,6 +86,7 @@ public:
 	bool IsCombatAlive() const;
 	const FLDEnemyCombatSnapshot& GetCombatSnapshot() const;
 	const FLDEnemyRow& GetEnemyRow() const;
+	bool TryGetCanonicalPositionAt(double ServerSeconds, FVector& OutPosition) const;
 
 protected:
 	virtual void BeginPlay() override;
