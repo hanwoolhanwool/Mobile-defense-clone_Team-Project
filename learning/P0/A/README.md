@@ -8,6 +8,11 @@
 2. [A-02: 서버 매치와 참가자 수명](G0_02_MATCH.md)
 3. [G1-A-01: 닫힌 선형 경로 계산](G1_01_ROUTE_MODEL.md)
 4. [G1-A-02: 영속 적 개체와 로컬 표시](G1_02_ENEMY_ACTOR.md)
+5. [G2-A-01: 준비된 유닛과 표시](G2_01_UNIT.md)
+6. [G2-A-02: 예정 공격과 단일 사망](G2_02_COMBAT.md)
+7. [G2-A-03: 서버 서비스 연결](G2_03_MATCH.md)
+
+G2 세 수업은 **Draft**, 실제 학습자는 **Planned**다. 시작점은 G1 완료 `4861b987f3e2fe78bcc159d1b6a85008543a938b`이며 실제 실행·수업 재현 전까지 Verified로 표시하지 않는다.
 
 공통 규칙·권한·호출 계약은 [공통 구현 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [데이터 명세](../../../docs/DATA_SCHEMA.md), [제작 및 실제 학습 분리](../../WORKFLOW.md)를 읽는다. 수업은 해당 기능의 차이와 재현 절차만 기록한다.
 
