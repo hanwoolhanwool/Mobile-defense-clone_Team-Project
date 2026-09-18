@@ -12,7 +12,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = Split-Path $PSScriptRoot -Parent
 if ($RunId -notmatch '^[A-Za-z0-9_-]+$') { throw 'Use a simple new RunId.' }
-if ($Port -lt 1024 -or $Port -gt 65535 -or $Width -lt 320 -or $Height -lt 320) { throw 'Invalid port or viewport.' }
+if ($Port -lt 1024 -or $Port -gt 65400 -or $Width -lt 320 -or $Height -lt 320) { throw 'Invalid port or viewport.' }
 if (Get-NetUDPEndpoint -LocalPort $Port -ErrorAction SilentlyContinue) { throw "Port $Port is in use." }
 $RunRoot = Join-Path $ProjectRoot "Saved/P0Runs/$RunId"
 if (Test-Path -LiteralPath $RunRoot) { throw 'RunId already exists; preserve it and choose a new one.' }
@@ -31,6 +31,9 @@ foreach ($Role in @('host','client')) {
     if ($UsingEditor) { $Arguments += (Join-Path $ProjectRoot 'Mobile_defense_clone.uproject') }
     $Arguments += $(if ($Role -eq 'host') { '/Game/LD/Maps/L_P0?listen' } else { "127.0.0.1:$Port" })
     if ($UsingEditor) { $Arguments += '-game' }
+    $ToolPort = $Port + $(if ($Role -eq 'host') {100} else {101})
+    if (Get-NetTCPConnection -LocalPort $ToolPort -State Listen -ErrorAction SilentlyContinue) { throw "Tool port $ToolPort is in use." }
+    $Arguments += "-ModelContextProtocolPort=$ToolPort"
     $Arguments += @('-windowed','-ForceRes',"-ResX=$Width", "-ResY=$Height", "-port=$Port", '-nosplash', '-nosound', '-unattended', '-culture=ko', "-P0Probe=$Probe", "-P0ProbeOutput=$Output", "-abslog=$Output/engine.log", '-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0')
     if ($RenderOffscreen) { $Arguments += '-RenderOffscreen' }
     $QuotedArguments = ($Arguments | ForEach-Object { '"' + $_.Replace('"','\"') + '"' }) -join ' '
