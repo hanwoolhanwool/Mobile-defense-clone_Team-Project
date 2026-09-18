@@ -5,9 +5,12 @@
 #include "Battle/LDCombatService.h"
 #include "Battle/LDEnemyActor.h"
 #include "Battle/LDUnitActor.h"
+#include "Board/LDBoardManager.h"
 #include "Data/LDGameData.h"
+#include "Economy/LDEconomyService.h"
 #include "Engine/World.h"
 #include "Misc/AutomationTest.h"
+#include "Network/LDCommandProcessor.h"
 #include <limits>
 
 namespace
@@ -441,6 +444,137 @@ bool FLDCombatDuePositionTest::RunTest(const FString& Parameters)
 	}
 	A.Combat->RegisterCommittedUnit(*Foreign, 0);
 	TestEqual(TEXT("Cross-world committed unit refused"), A.Combat->GetRegisteredUnitCount(), 0);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDCombatCommandClockTest,
+                                 "LD.P0.G2.Combat.CommandClockOrdersEarlierHitAndSameTimeSale",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FLDCombatCommandClockTest::RunTest(const FString& Parameters)
+{
+	for (double CommandTime : {10.025, 10.04})
+	{
+		FCombatFixture Fixture;
+		FString Error;
+		if (!TestTrue(TEXT("Fixture initializes"), Fixture.Initialize(Error)))
+		{
+			return false;
+		}
+		ALDUnitActor* Unit = Fixture.Unit(TEXT("C01"), 1, 0, FVector::ZeroVector, 9.775);
+		ALDEnemyActor* Enemy = Fixture.Enemy(15);
+		if (!TestNotNull(TEXT("Unit"), Unit) || !TestNotNull(TEXT("Enemy"), Enemy))
+		{
+			return false;
+		}
+		int32 DeathCount = 0;
+		double DeathTime = 0;
+		Fixture.Combat->OnEnemyDeathCommitted.AddLambda(
+		    [&](const FLDCombatDeath& Death)
+		    {
+			    ++DeathCount;
+			    DeathTime = Death.DeathServerSeconds;
+		    });
+		Fixture.Combat->AdvanceCombatTo(10.0);
+		TestTrue(TEXT("External command flushes strictly earlier hits"),
+		              Fixture.Combat->AdvanceCombatBefore(CommandTime));
+		TestEqual(TEXT("Equal timestamp command wins, later command follows hit"), DeathCount,
+		               CommandTime == 10.025 ? 0 : 1);
+		Fixture.Combat->UnregisterUnit(
+		    1); // Explicit sale boundary fixture: command takes effect after the strict flush.
+		Unit->DeactivateCommitted();
+		TestTrue(TEXT("Inclusive same-time finalization follows command"),
+		              Fixture.Combat->AdvanceCombatTo(CommandTime));
+		Fixture.Combat->AdvanceCombatTo(10.05);
+		TestEqual(TEXT("Sale prevents any remaining same-time attack"), DeathCount, CommandTime == 10.025 ? 0 : 1);
+		if (CommandTime > 10.025)
+		{
+			TestTrue(TEXT("Earlier hit keeps 10.025 precise death time"),
+			              FMath::IsNearlyEqual(DeathTime, 10.025, 1.e-9));
+		}
+	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDCombatRewardBeforePurchaseTest, "LD.P0.G2.Combat.EarlierKillFundsExternalPurchase",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FLDCombatRewardBeforePurchaseTest::RunTest(const FString& Parameters)
+{
+	FCombatFixture Fixture;
+	FString Error;
+	if (!TestTrue(TEXT("Fixture initializes"), Fixture.Initialize(Error)))
+	{
+		return false;
+	}
+	ULDBoardManager* Board = NewObject<ULDBoardManager>(Fixture.World);
+	ULDEconomyService* Economy = NewObject<ULDEconomyService>(Fixture.World);
+	ULDCommandProcessor* Processor = NewObject<ULDCommandProcessor>(Fixture.World);
+	if (!TestTrue(TEXT("Real board initializes"), Board->Initialize(*Fixture.World, Fixture.Context, *Fixture.Data)) ||
+	              !TestTrue(TEXT("Real economy initializes"), Economy->Initialize(Fixture.Context, *Fixture.Data, 1)) ||
+	                        !TestTrue(TEXT("Processor initializes"),
+	                                       Processor->Initialize(Fixture.Context, Fixture.Data->GetRules())) ||
+	                                  !TestTrue(TEXT("Real services bind"), Processor->BindServices(*Board, *Economy)))
+	{
+		return false;
+	}
+	FLDParticipantContext Participant;
+	Participant.MatchId = Fixture.Context.MatchId;
+	Participant.PlayerIndex = 0;
+	Participant.ConnectionEpoch = 1;
+	Processor->RegisterParticipant(Participant);
+	Participant.PlayerIndex = 1;
+	Processor->RegisterParticipant(Participant);
+	Participant.PlayerIndex = 0;
+	Processor->SetAcceptingCommands(true);
+	Processor->BeforeExternalCommand.BindLambda([&](double Time) { Fixture.Combat->AdvanceCombatBefore(Time); });
+	Fixture.Combat->OnEnemyDeathCommitted.AddLambda([&](const FLDCombatDeath& Death)
+	                                                { Processor->EnqueueCombatReward(Death); });
+	for (uint32 Request = 1; Request <= 4; ++Request)
+	{
+		FLDCommand Summon;
+		Summon.RequestId = Request;
+		Summon.ConnectionEpoch = 1;
+		Summon.ExpectedBoardRevision = Board->GetSnapshot(0).BoardRevision;
+		TestTrue(TEXT("Setup four real paid purchases"),
+		              Processor->SubmitAtTime(Participant, Summon, Request * .2).ResultCode ==
+		                  ELDCommandResultCode::Success);
+	}
+	TestEqual(TEXT("100-20-22-24-26 leaves8"), Economy->GetSnapshot(0).Gold, 8);
+	// Explicit reward-history fixture primes gold27. The twentieth death below comes from actual combat.
+	for (uint64 Id = 1000; Id < 1019; ++Id)
+	{
+		FLDCombatDeath Fact;
+		Fact.MatchId = Fixture.Context.MatchId;
+		Fact.DeathEventId = Fact.EnemyId = Fact.SpawnSerial = Id;
+		Fact.EnemyTypeId = TEXT("N01");
+		Fact.SpawnWaveIndex = 1;
+		Fact.DeathServerSeconds = 1;
+		Processor->EnqueueCombatReward(Fact);
+	}
+	Processor->DrainCombatRewards();
+	TestEqual(TEXT("Precondition one gold short"), Economy->GetSnapshot(0).Gold, 27);
+	TestEqual(TEXT("Fifth paid price28"), Economy->GetSnapshot(0).NextSummonGold, 28);
+	ALDUnitActor* Unit = Fixture.Unit(TEXT("C01"), 100, 0, FVector::ZeroVector, 9.775);
+	ALDEnemyActor* Enemy = Fixture.Enemy(15);
+	if (!TestNotNull(TEXT("Combat fixture unit"), Unit) || !TestNotNull(TEXT("Actual kill target"), Enemy))
+	{
+		return false;
+	}
+	Fixture.Combat->AdvanceCombatTo(10);
+	FLDCommand Purchase;
+	Purchase.RequestId = 5;
+	Purchase.ConnectionEpoch = 1;
+	Purchase.ExpectedBoardRevision = Board->GetSnapshot(0).BoardRevision;
+	const FLDCommandResult Result = Processor->SubmitAtTime(Participant, Purchase, 10.04);
+	TestTrue(TEXT("10.025 kill funds 10.04 purchase before validation"),
+	              Result.ResultCode == ELDCommandResultCode::Success);
+	TestEqual(TEXT("27+1-28 equals0"), Economy->GetSnapshot(0).Gold, 0);
+	TestEqual(TEXT("Other participant receives twentieth kill once"), Economy->GetSnapshot(1).Gold, 120);
+	TestEqual(TEXT("Fifth purchase commits once"), Economy->GetSnapshot(0).PaidSummonCount, 5);
+	Processor->SubmitAtTime(Participant, Purchase, 10.05);
+	TestEqual(TEXT("Duplicate response does not repeat kill or purchase"), Economy->GetSnapshot(0).Gold, 0);
+	Processor->Close();
+	Board->Close();
+	Economy->Close();
 	return true;
 }
 

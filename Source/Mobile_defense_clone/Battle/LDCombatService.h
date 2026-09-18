@@ -26,6 +26,7 @@ public:
 	bool RegisterEnemy(ALDEnemyActor& Enemy);
 	void UnregisterEnemy(uint64 EnemyId);
 	bool AdvanceCombatTo(double ServerSeconds);
+	bool AdvanceCombatBefore(double ServerSeconds);
 	void Stop();
 	bool TryGetUnitAttackState(uint64 InstanceId, double& OutNextAttackAt) const;
 	int32 GetRegisteredUnitCount() const;
@@ -42,11 +43,14 @@ private:
 	};
 	ALDEnemyActor* SelectTarget(const ALDUnitActor& Unit, double SampleSeconds) const;
 	bool IsValidTarget(const ALDUnitActor& Unit, const ALDEnemyActor& Enemy, double SampleSeconds) const;
+	bool AdvanceCombatInternal(double ServerSeconds, bool bIncludeBoundary);
+	void ResolveScheduledAttacks(double ServerSeconds, bool bIncludeBoundary);
 	FLDMatchContext MatchContext;
 	TMap<uint64, FUnitAttackState> Units;
 	TMap<uint64, TWeakObjectPtr<ALDEnemyActor>> Enemies;
 	double InitialAttackDelaySeconds = 0;
 	double LastAdvanceSeconds = -1;
+	bool bLastAdvanceIncludedBoundary = false;
 	uint64 NextDamageEventId = 1;
 	bool bInitialized = false;
 	bool bStopped = false;

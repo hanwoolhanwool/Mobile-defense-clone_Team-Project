@@ -87,6 +87,7 @@ void ALDGameMode::InitGameState()
 	BoardCommitHandle = BoardManager->OnBoardCommitted.AddUObject(this, &ALDGameMode::HandleBoardCommitted);
 	EconomyChangedHandle = EconomyService->OnEconomyChanged.AddUObject(this, &ALDGameMode::HandleEconomyChanged);
 	EnemyDeathHandle = CombatService->OnEnemyDeathCommitted.AddUObject(this, &ALDGameMode::HandleEnemyDeath);
+	CommandProcessor->BeforeExternalCommand.BindUObject(this, &ALDGameMode::AdvanceBeforeExternalCommand);
 	bServicesReady = true;
 	UE_LOG(LogLDMatch, Display,
 	       TEXT("G2 match %s rules=%s seed=%d units=%d; G1Probe=%d"), *Context.MatchId.ToString(),
@@ -369,6 +370,15 @@ void ALDGameMode::AdvanceLogic()
 		++LogicStep;
 		CombatService->AdvanceCombatTo(LogicOriginSeconds + LogicStep * StepSeconds);
 		CommandProcessor->DrainCombatRewards();
+	}
+}
+
+void ALDGameMode::AdvanceBeforeExternalCommand(double ServerSeconds)
+{
+	if (CanAcceptCommands())
+	{
+		// The processor drains queued deaths after releasing its reentrancy guard, before reading money/board.
+		CombatService->AdvanceCombatBefore(ServerSeconds);
 	}
 }
 

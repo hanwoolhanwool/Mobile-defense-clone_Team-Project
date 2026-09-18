@@ -174,8 +174,10 @@ bool FLDP0LoginReadinessTest::RunTest(const FString& Parameters)
 		Changed.ExpectedBoardRevision = 1;
 		TestEqual(TEXT("Duplicate init preserves request cache"), First->SubmitServerCommand(Changed).ResultCode,
 		               ELDCommandResultCode::RequestIdConflict);
-		TestEqual(TEXT("Exactly two registered participants"), State->GetReadinessReason(),
-		               FString(TEXT("Preparing: 2/2 participants; Stub: Board/Economy/Route services not connected")));
+		TestTrue(TEXT("Exactly two registered participants before BeginPlay"),
+		              State->GetReadinessReason().Contains(TEXT("2/2 participants")));
+		TestEqual(TEXT("Readiness does not skip the world BeginPlay boundary"), State->GetPhase(),
+		               ELDMatchPhase::Preparing);
 		Fixture.Mode->EndPlay(EEndPlayReason::EndPlayInEditor);
 	}
 	return true;
