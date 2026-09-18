@@ -145,6 +145,44 @@ void ALDPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME_CONDITION(ALDPlayerController, CurrentMatchId, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(ALDPlayerController, ConnectionEpoch, COND_OwnerOnly);
+	DOREPLIFETIME_CONDITION(ALDPlayerController, BoardSnapshot, COND_OwnerOnly);
+	DOREPLIFETIME_CONDITION(ALDPlayerController, EconomySnapshot, COND_OwnerOnly);
+}
+
+void ALDPlayerController::PublishSnapshots(const FLDBoardSnapshot& Board, const FLDEconomySnapshot& Economy)
+{
+	if (!HasAuthority() || Board.MatchId != ServerContext.MatchId || Economy.MatchId != ServerContext.MatchId ||
+	    Board.PlayerIndex != ServerContext.PlayerIndex || Economy.PlayerIndex != ServerContext.PlayerIndex)
+	{
+		return;
+	}
+	BoardSnapshot = Board;
+	EconomySnapshot = Economy;
+	OnRep_GameplaySnapshot();
+	ForceNetUpdate();
+}
+
+const FLDBoardSnapshot& ALDPlayerController::GetBoardSnapshot() const
+{
+	return BoardSnapshot;
+}
+
+const FLDEconomySnapshot& ALDPlayerController::GetEconomySnapshot() const
+{
+	return EconomySnapshot;
+}
+
+bool ALDPlayerController::IsGameplaySnapshotReady() const
+{
+	return CurrentMatchId.IsValid() && ConnectionEpoch != 0 && LocalParticipantIndex != INDEX_NONE &&
+	       BoardSnapshot.MatchId == CurrentMatchId && EconomySnapshot.MatchId == CurrentMatchId &&
+	       BoardSnapshot.PlayerIndex == LocalParticipantIndex && EconomySnapshot.PlayerIndex == LocalParticipantIndex;
+}
+
+void ALDPlayerController::OnRep_GameplaySnapshot()
+{
+	// Snapshot arrival order is independent from session and local presentation initialization.
+	// UI observes the combined readiness predicate; it never creates a replacement source state.
 }
 
 void ALDPlayerController::BeginPlay()

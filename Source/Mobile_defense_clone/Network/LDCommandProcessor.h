@@ -1,14 +1,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Battle/LDCombatEvents.h"
 #include "Data/LDMatchTypes.h"
 #include "Network/LDCommandTypes.h"
 #include "UObject/Object.h"
 #include "LDCommandProcessor.generated.h"
 
 struct FLDGameRules;
+class ULDBoardManager;
+class ULDEconomyService;
 
-/** Server-owned admission and deduplication. G0 board/economy execution is explicitly disabled. */
+/** Server-owned admission, replay cache and atomic board/economy coordination. */
 UCLASS()
 class MOBILE_DEFENSE_CLONE_API ULDCommandProcessor : public UObject
 {
@@ -17,6 +20,9 @@ class MOBILE_DEFENSE_CLONE_API ULDCommandProcessor : public UObject
 public:
 	bool Initialize(const FLDMatchContext& Context, const FLDGameRules& Rules);
 	bool RegisterParticipant(const FLDParticipantContext& Context);
+	bool BindServices(ULDBoardManager& Board, ULDEconomyService& Economy);
+	void EnqueueCombatReward(const FLDCombatDeath& Death);
+	void DrainCombatRewards();
 	void SetAcceptingCommands(bool bAccept);
 	void Close();
 	FLDCommandResult Submit(const FLDParticipantContext& Context, const FLDCommand& Command);
@@ -46,6 +52,18 @@ private:
 	FSession* FindSession(const FLDParticipantContext& Context);
 	bool ConsumeToken(double& Tokens, double& LastSeconds, double NowSeconds) const;
 	void CacheResult(FSession& Session, const FLDCommand& Command, const FLDCommandResult& Result);
+	void ExecuteCommand(const FLDParticipantContext& Context, const FLDCommand& Command, double ServerSeconds,
+	                    FLDCommandResult& Result);
+	UPROPERTY()
+	TObjectPtr<ULDBoardManager> BoardManager;
+	UPROPERTY()
+	TObjectPtr<ULDEconomyService> EconomyService;
+	TArray<FLDCombatDeath> RewardQueue;
+	TSet<uint64> QueuedDeathIds;
+	TOptional<FLDCommand> ExecutingCommand;
+	int32 ExecutingPlayer = INDEX_NONE;
+	uint64 NextEventId = 1;
+	bool bProcessing = false;
 	FLDMatchContext MatchContext;
 	TMap<int32, FSession> Sessions;
 	int32 CacheCapacity = 256;
