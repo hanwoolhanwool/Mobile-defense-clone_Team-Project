@@ -4,12 +4,15 @@
 #include "Battle/LDEnemyActor.h"
 #include "Battle/LDUnitActor.h"
 #include "Board/LDBoardManager.h"
+#include "Blueprint/SlateBlueprintLibrary.h"
 #include "Core/LDGameMode.h"
 #include "Core/LDGameState.h"
 #include "Core/LDPlayerController.h"
 #include "Economy/LDEconomyService.h"
 #include "Engine/World.h"
+#include "Engine/GameViewportClient.h"
 #include "EngineUtils.h"
+#include "Framework/Application/SlateApplication.h"
 #include "HAL/FileManager.h"
 #include "HAL/PlatformTime.h"
 #include "Misc/CommandLine.h"
@@ -20,6 +23,7 @@
 #include "Network/LDCommandProcessor.h"
 #include "Serialization/JsonSerializer.h"
 #include "UnrealClient.h"
+#include "Widgets/SWindow.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDG2Probe, Log, All);
 
@@ -74,7 +78,7 @@ ALDG2ProbeState::ALDG2ProbeState()
 {
 	bReplicates = true;
 	bAlwaysRelevant = true;
-	NetUpdateFrequency = 20;
+	SetNetUpdateFrequency(20);
 }
 
 void ALDG2ProbeState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -389,6 +393,7 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 	{
 		LocalStage = Probe.Stage;
 		bWaitingResult = false;
+		bActionPending = false;
 		if (IsCommandStage(LocalStage) && LocalPlayer == Probe.ActingPlayer)
 		{
 			if (LocalStage == 16)
@@ -402,14 +407,29 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 			{
 				LastSent = Probe.Command;
 				PreviousResultId = Controller.GetLastResult().RequestId;
-				Check(FString::Printf(TEXT("stage%d-submit-through-owned-controller"), LocalStage),
-				                      Controller.SubmitLocalCommand(LastSent));
-				bWaitingResult = true;
-				if (LocalStage == 2)
+				bActionPending = true;
+				LocalActionAt = FPlatformTime::Seconds() + .15;
+				if (LocalStage == 11 || LocalStage == 15)
 				{
-					Check(TEXT("remote-pending-retransmit"), Controller.RetryPendingCommand());
+					FVector2D CellPosition;
+					Check(TEXT("select-action-stack"),
+					           Controller.ProjectCellToScreen(LocalStage == 11 ? 17 : 11, CellPosition) &&
+					               Controller.InputScreenPosition(CellPosition));
 				}
 			}
+		}
+	}
+	if (bActionPending && FPlatformTime::Seconds() >= LocalActionAt)
+	{
+		bActionPending = false;
+		const bool bThroughUI = LastSent.CommandType == ELDCommandType::Summon || LocalStage == 11 || LocalStage == 15;
+		Check(FString::Printf(
+		    TEXT("stage%d-submit-%s"), LocalStage, bThroughUI ? TEXT("slate-button") : TEXT("owned-controller")),
+		         bThroughUI ? ClickAction(Controller, LastSent.CommandType) : Controller.SubmitLocalCommand(LastSent));
+		bWaitingResult = true;
+		if (LocalStage == 2)
+		{
+			Check(TEXT("remote-pending-retransmit"), Controller.RetryPendingCommand());
 		}
 	}
 	if (bWaitingResult && !Controller.HasPendingCommand() && Controller.GetLastResult().RequestId != PreviousResultId)
@@ -468,6 +488,29 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 	{
 		Finish();
 	}
+}
+
+bool ULDG2ProbeSubsystem::ClickAction(ALDPlayerController& Controller, ELDCommandType Type)
+{
+	FBox2D Rect;
+	if (!Controller.GetActionScreenRect(Type, Rect) || !FSlateApplication::IsInitialized() ||
+	    !GetWorld()->GetGameViewport() || !GetWorld()->GetGameViewport()->GetWindow())
+	{
+		return false;
+	}
+	FVector2D Absolute;
+	USlateBlueprintLibrary::ScreenToWidgetAbsolute(this, Rect.GetCenter(), Absolute);
+	const TSet<FKey> Pressed = {EKeys::LeftMouseButton};
+	const FPointerEvent Down(0, Absolute, Absolute, Pressed, EKeys::LeftMouseButton, 0, FModifierKeysState());
+	const FPointerEvent Up(0, Absolute, Absolute, TSet<FKey>(), EKeys::LeftMouseButton, 0, FModifierKeysState());
+	const int32 SelectionBefore = Controller.GetSelectedCellId();
+	FSlateApplication& Slate = FSlateApplication::Get();
+	Slate.ProcessMouseMoveEvent(Down, true);
+	Slate.ProcessMouseButtonDownEvent(GetWorld()->GetGameViewport()->GetWindow()->GetNativeWindow(), Down);
+	Slate.ProcessMouseButtonUpEvent(Up);
+	Check(FString::Printf(TEXT("stage%d-hud-click-does-not-select-board"), LocalStage),
+	                      Controller.GetSelectedCellId() == SelectionBefore);
+	return Controller.HasPendingCommand() || Controller.GetLastResult().RequestId != PreviousResultId;
 }
 
 void ULDG2ProbeSubsystem::Tick(float DeltaTime)

@@ -51,6 +51,7 @@ private:
 	void BeginStage(ALDGameMode& Mode, int32 Stage);
 	void TickAuthority(ALDGameMode& Mode);
 	void TickLocal(ALDPlayerController& Controller);
+	bool ClickAction(ALDPlayerController& Controller, ELDCommandType Type);
 	void Checkpoint(ALDGameMode& Mode);
 	void Check(const FString& Name, bool bPass, const FString& Detail = TEXT(""));
 	void Finish();
@@ -75,6 +76,8 @@ private:
 	FLDCommand LastMerge;
 	uint32 PreviousResultId = 0;
 	bool bWaitingResult = false;
+	bool bActionPending = false;
+	double LocalActionAt = 0;
 	bool bFailed = false;
 	bool bFinished = false;
 	TWeakObjectPtr<ALDG2ProbeState> State;
