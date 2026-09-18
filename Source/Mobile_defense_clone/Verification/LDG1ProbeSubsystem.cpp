@@ -124,10 +124,10 @@ bool ULDG1ProbeSubsystem::StartRoutes()
 	for (int32 Route = 0; Route < 2; ++Route)
 	{
 		ALDEnemyActor* Enemy = GetWorld()->SpawnActor<ALDEnemyActor>();
-		const bool bInitialized =
+		const bool bRouteInitialized =
 		    Enemy && Enemy->InitializeRoute(State->GetMatchContext().MatchId, 1001 + Route, Route,
 		                                    Mode->GetGameData()->GetRules().PointsByGateCm[Route], 150, RouteStartedAt);
-		Check(FString::Printf(TEXT("spawn-route-%d"), Route), bInitialized,
+		Check(FString::Printf(TEXT("spawn-route-%d"), Route), bRouteInitialized,
 		                      TEXT("Real server actor with fixed fixture ID"));
 		if (Enemy)
 		{
@@ -406,7 +406,7 @@ void ULDG1ProbeSubsystem::Tick(float DeltaTime)
 	FrameMilliseconds.Add(DeltaTime * 1000);
 	const double Elapsed = Now - ReadyAt;
 	PumpTouchInput(*Controller);
-	const int32 Stage = FMath::Min(static_cast<int32>(Elapsed / 7), UE_ARRAY_COUNT(Viewports) - 1);
+	const int32 Stage = FMath::Min(static_cast<int32>(Elapsed / 7), static_cast<int32>(UE_ARRAY_COUNT(Viewports)) - 1);
 	if (ResizeStage != Stage)
 	{
 		ResizeStage = Stage;
