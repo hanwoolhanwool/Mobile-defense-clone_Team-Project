@@ -540,3 +540,5 @@
 - 구조 리뷰: [R-G0-01/02](evidence/RUN-20260918-G0/REVIEW.md) 초기화 순서·종료 응답 캐시 2건 수정 및 Mode/Controller 회귀 검사 중. 자동화9 Pass를 G0 최종 통과로 간주하지 않는다.
 - Android: SDK36/BuildTools36.0.0/NDK27.2.12479018·JDK21.0.3 준비. 실제 Android 타깃 빌드 exit6(UE Android 플랫폼 파일 누락); 사용자가 Launcher 구성 요소 설치 진행. 연결된 adb 장치0. 이 결과는 환경 차단이며 APK/실기기 Pass가 아니다.
 - 미실행: PIE 양쪽 화면·입력, PC 패키지 2인·지연, 10웨이브·5판 밸런스, Android 설치·터치·완주·성능. P0 전체 InProgress.
+
+- G0 최종 갱신: 수명2건 `a02efc1` 수정, `3797517` Editor 재빌드 Pass·통합 자동화12 Pass/0Fail/0NotRun, 독립 재리뷰 차단 결함0. G0 코드 게이트 Pass. [최종 빌드](evidence/RUN-20260918-G0/integration-editor-final.json)·[최종 자동화](evidence/RUN-20260918-G0/integration-tests-final.json). 실제 RPC/PIE·G1~G4 검수는 포함하지 않는다.

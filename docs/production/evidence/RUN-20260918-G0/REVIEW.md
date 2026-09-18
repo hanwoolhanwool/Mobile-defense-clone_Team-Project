@@ -11,3 +11,9 @@
 검토에서 확인한 구조: GameMode 구성, GameState 매치 원본, PlayerState 참가자 복제, Controller 입력/RPC, Processor 명령 기록, Data 불변 스냅샷을 분리했다. UObject 서비스는 UPROPERTY로 보존하고 참가자는 Weak로 참조한다. 권한 가드와 MatchId/Epoch 응답 필터가 있다. G0 Stub은 기능 성공을 만들지 않는다.
 
 한계: R-G0-01/02 수정·새 회귀가 통과하기 전 G0 완료 아님. G0 검토는 아직 없는 보드/경제 공동 확정·전투·실제 네트워크·패키지 수명을 검증하지 않는다.
+
+## 수정 후 판정
+
+`a02efc1`에서 R-G0-01/02를 수정했다. 같은 Source인 `3797517`에서 Editor 재빌드 Pass와 UE 자동화12 Pass/0Fail/0NotRun을 확인했다. 새 LoginReadinessOrders·TerminalSessionReplay·PendingLoginLogout은 실제 UWorld/GameMode/Controller와 엔진 PreInitializeComponents→InitGameState를 통과한다. 내용 충돌 응답까지 확인해 단순 PhaseNotAllowed 반환을 통과시키지 않는다.
+
+구현자와 구분된 재리뷰에서 기존 차단2건 해소·추가 G0 차단 결함 없음으로 판정했다. G0 코드 게이트 Pass. [빌드](integration-editor-final.json)·[자동화](integration-tests-final.json)·[세부 결과](integration-report-final.json). 테스트는 실제 RPC 전송/owner 복제·PIE 화면까지 포함하지 않으므로 G1~G3 검수를 계속한다.

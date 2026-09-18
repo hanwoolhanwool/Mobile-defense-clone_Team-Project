@@ -16,7 +16,7 @@
 | 갱신자 | Codex |
 | 현재 주 단계 | ③ P0 참고 구현 / ④ G0 통합 검수 |
 | 현재 상황 한 문장 | A/B 독립 G0와 통합 Editor·자동화 통과, 초기화/종료 리뷰 수정 중. 실제 학습자는 Planned이며 G1~G4 실행은 남아 있다. |
-| 진행 중 작업 | 참고 제작 DATA/NET/TEST/MOB 4개 InProgress |
+| 진행 중 작업 | 참고 제작 DATA/NET/TEST/MOB — InProgress 4개 |
 | 다음 착수 후보 | G0 수명 회귀·수업 재현 → G1 양쪽 전장/입력. UE Android 구성 요소 설치·기기 연결 대기 |
 | 이번 갱신 내용 | [P0 참고 작업 기록](P0_REFERENCE_RUN.md): 출발 SHA·보존 입력·별도 worktree·실행 증거·리뷰 결함. P1/P2 구현 범위 변경 없음 |
 

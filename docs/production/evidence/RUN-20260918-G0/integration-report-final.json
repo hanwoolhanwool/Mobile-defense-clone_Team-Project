@@ -1,0 +1,378 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-E7TEUA0",
+			"instance": "2B7177D34B4781142539F88904C7A8C4",
+			"instanceName": "DESKTOP-E7TEUA0-66556",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (25H2) [10.0.26200.9457] ",
+			"model": "Default",
+			"gPU": "NVIDIA GeForce RTX 4060 Ti",
+			"cPUModel": "AMD Ryzen 5 7500F 6-Core Processor             ",
+			"rAMInGB": 32,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.09.18-04.53.41",
+	"succeeded": 12,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.31385058164596558,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "AdmissionAndReplay",
+			"fullTestPath": "LD.P0.G0.Commands.AdmissionAndReplay",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.007718302309513092,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "BIndependentLoader",
+			"fullTestPath": "LD.P0.G0.Commands.BIndependentLoader",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.0078830979764461517,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "LimitsAndExpiry",
+			"fullTestPath": "LD.P0.G0.Commands.LimitsAndExpiry",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.0083301998674869537,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "PayloadNormalization",
+			"fullTestPath": "LD.P0.G0.Commands.PayloadNormalization",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.0085676014423370361,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "InvalidRowsAndMissingFiles",
+			"fullTestPath": "LD.P0.G0.Data.InvalidRowsAndMissingFiles",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.022782400250434875,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ParticipantIdentity",
+			"fullTestPath": "LD.P0.G0.Data.ParticipantIdentity",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.0078287012875080109,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "RejectChangedContractsAtomically",
+			"fullTestPath": "LD.P0.G0.Data.RejectChangedContractsAtomically",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.18264420330524445,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "SchemaVersion => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/5B56EE0649784ADA9EB0AF86B40E5360/GameRules.json.SchemaVersion: required finite number outside allowed range; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/5B56EE0649784ADA9EB0AF86B40E5360",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "RulesVersion => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/D684EF7D49C5B119421BB3909565DA48/GameRules.json.RulesVersion: requires SchemaVersion 2 / RulesVersion 0.3.0; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/D684EF7D49C5B119421BB3909565DA48",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "EnableSkills => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/7EEA995F41E5A430D2ACD3AB288F2FDA/GameRules.json.P0Overrides.EnableSkills: unsupported P0 policy; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/7EEA995F41E5A430D2ACD3AB288F2FDA",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "ContinuousSeconds => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/68B12E104A57D9B981EC51A0C55984CC/GameRules.json.Defeat.ContinuousSeconds: required finite number outside allowed range; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/68B12E104A57D9B981EC51A0C55984CC",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Timing.Order => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/2A446B854D8ED5403D1FBFB8E3202AC9/GameRules.json.Timing.Order: unsupported P0 policy; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/2A446B854D8ED5403D1FBFB8E3202AC9",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "MergeUsesSelectedCell => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/191A9BB74FB3073907460ABAD63559B5/GameRules.json.Board.MergeUsesSelectedCell: unsupported P0 policy; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/191A9BB74FB3073907460ABAD63559B5",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "MaxPartialStacksPerUnitPerArea => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/53085A8144F4FF7F339B1E99E696C85A/GameRules.json.Board.MaxPartialStacksPerUnitPerArea: required finite number outside allowed range; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/53085A8144F4FF7F339B1E99E696C85A",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "AllowedGrades => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/175C2FAE46C06890E3D68691DE100379/GameRules.json.P0Overrides.AllowedGrades: unsupported P0 list; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/175C2FAE46C06890E3D68691DE100379",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "MergeInputGrades => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/47A86FDD47509E72DD61ADA54C28E32D/GameRules.json.P0Overrides.MergeInputGrades: unsupported P0 list; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/47A86FDD47509E72DD61ADA54C28E32D",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "AllowedNormalEnemyIds => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/688AD47C4E81FD175CC38CB0D643E49B/GameRules.json.P0Overrides.AllowedNormalEnemyIds: unsupported P0 list; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/688AD47C4E81FD175CC38CB0D643E49B",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "CountedEnemyKinds => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/96ED39BE455B0A3AD6427CA77810B101/GameRules.json.Defeat.CountedEnemyKinds: unsupported P0 list; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/96ED39BE455B0A3AD6427CA77810B101",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "XCentersCm duplicate => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/E6C592C640793941390030823C95EFF4/GameRules.json.Board.XCentersCm: columns must be centered and one CellSizeCm apart; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/E6C592C640793941390030823C95EFF4",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "YCentersByPlayer overlap => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/C0F1B06B41B8366334AFBE904DE20FFC/GameRules.json.Board.YCentersByPlayer: boards must be separated by their shared central path; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/C0F1B06B41B8366334AFBE904DE20FFC",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Missing required Economy => C:/Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/8F8D926D4351C28EF776978D9ADF555A/GameRules.json.Economy: required object; fixture=../../../../../../Users/iam12/P0_reference_integration/Saved/Automation/LD/P0/G0/8F8D926D4351C28EF776978D9ADF555A",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.18-04.53.40"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ValidP0Snapshot",
+			"fullTestPath": "LD.P0.G0.Data.ValidP0Snapshot",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.0081830993294715881,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "LoginReadinessOrders",
+			"fullTestPath": "LD.P0.G0.Integration.LoginReadinessOrders",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.022263001650571823,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "MatchLifecycle",
+			"fullTestPath": "LD.P0.G0.Integration.MatchLifecycle",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.013291899114847183,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "PendingLoginLogout",
+			"fullTestPath": "LD.P0.G0.Integration.PendingLoginLogout",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.011791698634624481,
+			"dateTime": "2026.09.18-04.53.40",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "TerminalSessionReplay",
+			"fullTestPath": "LD.P0.G0.Integration.TerminalSessionReplay",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"2B7177D34B4781142539F88904C7A8C4"
+			],
+			"duration": 0.012566398829221725,
+			"dateTime": "2026.09.18-04.53.41",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}
