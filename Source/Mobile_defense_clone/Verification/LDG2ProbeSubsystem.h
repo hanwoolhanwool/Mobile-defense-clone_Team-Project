@@ -81,6 +81,9 @@ private:
 	bool bWaitingResult = false;
 	bool bActionPending = false;
 	double LocalActionAt = 0;
+	int32 DragPhase = 0;
+	double DragStepAt = 0;
+	FVector2D DragDestination = FVector2D::ZeroVector;
 	bool bFailed = false;
 	bool bFinished = false;
 	TWeakObjectPtr<ALDG2ProbeState> State;

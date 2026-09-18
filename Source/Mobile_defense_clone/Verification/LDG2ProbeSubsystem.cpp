@@ -502,13 +502,40 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 	{
 		bActionPending = false;
 		const bool bThroughUI = LastSent.CommandType == ELDCommandType::Summon || LocalStage == 11 || LocalStage == 15;
-		Check(FString::Printf(
-		    TEXT("stage%d-submit-%s"), LocalStage, bThroughUI ? TEXT("slate-button") : TEXT("owned-controller")),
-		         bThroughUI ? ClickAction(Controller, LastSent.CommandType) : Controller.SubmitLocalCommand(LastSent));
+		if (LocalStage == 12)
+		{
+			FVector2D SourcePosition;
+			Check(TEXT("engine-touch-drag-projection"),
+			           Controller.ProjectCellToScreen(17, SourcePosition) &&
+			               Controller.ProjectCellToScreen(LastSent.DestinationCellId, DragDestination));
+			Controller.InputTouch(0, ETouchType::Began, SourcePosition, 1, FPlatformTime::Cycles64());
+			DragPhase = 1;
+			DragStepAt = FPlatformTime::Seconds() + .1;
+		}
+		else
+		{
+			Check(FString::Printf(TEXT("stage%d-submit-%s"), LocalStage, bThroughUI ? TEXT("slate-button") : TEXT("owned-controller")),
+			    bThroughUI ? ClickAction(Controller, LastSent.CommandType) : Controller.SubmitLocalCommand(LastSent));
+		}
 		bWaitingResult = true;
 		if (LocalStage == 2)
 		{
 			Check(TEXT("remote-pending-retransmit"), Controller.RetryPendingCommand());
+		}
+	}
+	if (DragPhase > 0 && FPlatformTime::Seconds() >= DragStepAt)
+	{
+		if (DragPhase == 1)
+		{
+			Check(TEXT("engine-touch-drag-source-selected"), Controller.GetSelectedCellId() == 17);
+			Controller.InputTouch(0, ETouchType::Moved, DragDestination, 1, FPlatformTime::Cycles64());
+			DragPhase = 2;
+			DragStepAt = FPlatformTime::Seconds() + .1;
+		}
+		else
+		{
+			Controller.InputTouch(0, ETouchType::Ended, DragDestination, 0, FPlatformTime::Cycles64());
+			DragPhase = 0;
 		}
 	}
 	if (bWaitingResult && !Controller.HasPendingCommand() && Controller.GetLastResult().RequestId != PreviousResultId)
