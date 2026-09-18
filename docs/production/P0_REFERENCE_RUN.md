@@ -49,6 +49,7 @@
 - 최종 실제 별도2프로세스: host1338/client1336 Pass, 차이2개는 서버 생성 검사. 양쪽7해상도·자기18칸/상대18칸·72내부모서리·EngineTouch·ID/RouteIndex2바퀴를 확인했다. [요약·PNG 해시](evidence/RUN-20260918-G1/final-pair-summary.json). NullRHI 자동화22Pass와 GPU 화면 검사를 구분했다.
 - 수업 재현은 참고 제작이며 실제 학습자는 Planned. 전체 로그/14PNG는 재현폴더 Saved/P0Runs/Replay-G1-*. PIE·PC 패키지·전투·경제·물리 터치·Android는 이 통과 범위가 아니다.
 - 적2개 fixture의60FPS 제한 P95는 양쪽16.667ms. 측정 환경은 아래와 같으며 대표 부하 측정은 G3에서 수행한다.
+- 후속 Win64 Development 패키지158.70초 Pass, 실제 패키지 별도2프로세스 G1 host1338/client1336 Pass. [에셋/데이터 기반 패키지 결과](evidence/RUN-20260918-G1/package-pair-summary.json). G2/G3 코드가 추가되기 전 G1 기반만 검증했으며 최종10웨이브 패키지는 후속이다.
 
 ## G0 실행·리뷰 관찰
 

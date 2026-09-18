@@ -1,0 +1,110 @@
+[
+  {
+    "Role": "host",
+    "Result": "Pass",
+    "Checks": 1338,
+    "Failed": 0,
+    "Scope": "Rendered two-process G1 fixture; actual projection and mouse/touch shared input boundary; no physical input or combat/economy",
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 60,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/host/view-0.png"
+      },
+      {
+        "width": 1080,
+        "height": 2340,
+        "cellPixels": 120,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/host/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/host/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1600,
+        "cellPixels": 80,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/host/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 52.5128173828125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/host/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/host/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 36.923095703125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/host/view-6.png"
+      }
+    ],
+    "FrameP50Ms": 16.666900634765625,
+    "FrameP95Ms": 29.743000030517578,
+    "ResultSHA256": "ACFE09A775F6417673ED09E69664488A76BCB136F5DBADC0E56BBC188E182A50"
+  },
+  {
+    "Role": "client",
+    "Result": "Pass",
+    "Checks": 1336,
+    "Failed": 0,
+    "Scope": "Rendered two-process G1 fixture; actual projection and mouse/touch shared input boundary; no physical input or combat/economy",
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 60,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/client/view-0.png"
+      },
+      {
+        "width": 1080,
+        "height": 2340,
+        "cellPixels": 120,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/client/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/client/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1600,
+        "cellPixels": 80,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/client/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 52.5128173828125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/client/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/client/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 36.923095703125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-package-pair/client/view-6.png"
+      }
+    ],
+    "FrameP50Ms": 16.667499542236328,
+    "FrameP95Ms": 29.741498947143555,
+    "ResultSHA256": "1BB47536807A860399B34383BFECA1439A825C0FC389FE7A84B93DA477B5846A"
+  }
+]

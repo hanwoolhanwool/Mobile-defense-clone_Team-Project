@@ -554,3 +554,5 @@
 - 정적 검사: [문서/데이터/스타일](evidence/RUN-20260918-G1/project-check.log), [학습 링크](evidence/RUN-20260918-G1/learning-check.log) Pass. 최종 게이트 동기화 후 문서 검사는 추가 갱신한다.
 - 성능 범위:60FPS 제한·적2개·화면 전환/캡처 포함 P95 host16.6670/client16.6669ms. P0 대표 부하가 아니며 G3에서 별도로 측정한다. [환경](P0_REFERENCE_RUN.md).
 - 미실행: PIE, PC 패키지·지연/손실, 전투/경제/10웨이브, 물리 터치/Android. G1 Pass, P0 전체 InProgress. 전체 로그·14PNG는 `C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-*`에 보존했다.
+
+- 후속 PC 기반 패키지 검수: G1 코드의 Win64 Development BuildCookRun [158.70초 Pass](evidence/RUN-20260918-G1/package-foundation.json). 내부 실행 파일을 별도2프로세스로 실행해 [host1338/client1336 Pass](evidence/RUN-20260918-G1/package-pair-summary.json), [명령](evidence/RUN-20260918-G1/package-pair.json). 양쪽 세로 PNG를 열어 한글·보드·재질·경로가 로드됐음을 확인했다. 빌드 HEAD4861b98과 실행 HEAD81bde4e의 Source/Content/Config diff0을 확인했다. 이 추가 검수는 G1의 패키지 데이터/에셋 로딩 증거이며 G2/G3 완성 패키지·지연·10웨이브 검수는 여전히 NotRun이다.

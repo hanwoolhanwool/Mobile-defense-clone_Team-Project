@@ -1,0 +1,28 @@
+{
+  "Scope": "Compile/cook/package only; installation and gameplay separate",
+  "Platform": "Win64",
+  "Started": "2026-09-18T14:54:27.9797041+09:00",
+  "Head": "4861b987f3e2fe78bcc159d1b6a85008543a938b",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Build\\BatchFiles\\RunUAT.bat",
+  "Arguments": [
+    "BuildCookRun",
+    "-project=C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+    "-noP4",
+    "-unattended",
+    "-utf8output",
+    "-target=Mobile_defense_clone",
+    "-platform=Win64",
+    "-clientconfig=Development",
+    "-build",
+    "-cook",
+    "-stage",
+    "-pak",
+    "-package",
+    "-archive",
+    "-map=/Game/LD/Maps/L_P0",
+    "-archivedirectory=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G1-package-foundation/Package"
+  ],
+  "ExitCode": 0,
+  "Finished": "2026-09-18T14:57:08.3210770+09:00",
+  "Result": "Pass"
+}
