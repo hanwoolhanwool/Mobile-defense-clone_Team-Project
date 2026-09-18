@@ -23,10 +23,19 @@ ALDGameMode::ALDGameMode()
 
 void ALDGameMode::InitGameState()
 {
+	if (!HasAuthority() || bEnding)
+	{
+		return;
+	}
 	Super::InitGameState();
 	ALDGameState* State = GetGameState<ALDGameState>();
-	if (!State || GameData)
+	if (!State)
 	{
+		return;
+	}
+	if (GameData)
+	{
+		RefreshReadiness();
 		return;
 	}
 	GameData = NewObject<ULDGameData>(this);
@@ -64,11 +73,8 @@ void ALDGameMode::BeginPlay()
 
 void ALDGameMode::PostLogin(APlayerController* NewPlayer)
 {
-	Super::PostLogin(NewPlayer);
-	ALDGameState* State = GetGameState<ALDGameState>();
-	ALDPlayerState* Player = NewPlayer ? NewPlayer->GetPlayerState<ALDPlayerState>() : nullptr;
 	ALDPlayerController* Controller = Cast<ALDPlayerController>(NewPlayer);
-	if (!State || !Player || !Controller || !CommandProcessor || bEnding || State->GetPhase() == ELDMatchPhase::Aborted)
+	if (!HasAuthority() || !Controller || bEnding)
 	{
 		return;
 	}
@@ -77,6 +83,56 @@ void ALDGameMode::PostLogin(APlayerController* NewPlayer)
 		if (Participant.Get() == NewPlayer)
 		{
 			return;
+		}
+	}
+	if (PendingParticipants.Contains(Controller))
+	{
+		return;
+	}
+	Super::PostLogin(NewPlayer);
+	// Login and service readiness are independent events. Retain identity until both have happened.
+	PendingParticipants.Add(Controller);
+	RefreshReadiness();
+}
+
+void ALDGameMode::RegisterPendingParticipants()
+{
+	ALDGameState* State = GetGameState<ALDGameState>();
+	if (!HasAuthority() || bEnding || !GameData || !GameData->IsLoaded() || !CommandProcessor || !State ||
+	    !State->GetMatchContext().IsValid())
+	{
+		return;
+	}
+	// A rejected extra participant can synchronously Logout through GameSession. Iterate a detached snapshot.
+	TArray<TWeakObjectPtr<ALDPlayerController>> Waiting = MoveTemp(PendingParticipants);
+	PendingParticipants.Reset();
+	for (const TWeakObjectPtr<ALDPlayerController>& Pending : Waiting)
+	{
+		ALDPlayerController* Controller = Pending.Get();
+		if (Controller && !RegisterParticipant(*Controller))
+		{
+			PendingParticipants.AddUnique(Controller);
+		}
+		if (bEnding)
+		{
+			return;
+		}
+	}
+}
+
+bool ALDGameMode::RegisterParticipant(ALDPlayerController& Controller)
+{
+	ALDGameState* State = GetGameState<ALDGameState>();
+	ALDPlayerState* Player = Controller.GetPlayerState<ALDPlayerState>();
+	if (!State || !Player)
+	{
+		return false;
+	}
+	for (const TWeakObjectPtr<APlayerController>& Participant : Participants)
+	{
+		if (Participant.Get() == &Controller)
+		{
+			return true;
 		}
 	}
 	int32 PlayerIndex = INDEX_NONE;
@@ -92,9 +148,9 @@ void ALDGameMode::PostLogin(APlayerController* NewPlayer)
 	{
 		if (GameSession)
 		{
-			GameSession->KickPlayer(NewPlayer, NSLOCTEXT("LD", "P0SessionFull", "P0 requires exactly two players."));
+			GameSession->KickPlayer(&Controller, NSLOCTEXT("LD", "P0SessionFull", "P0 requires exactly two players."));
 		}
-		return;
+		return true;
 	}
 	FLDParticipantContext Context;
 	Context.MatchId = State->GetMatchContext().MatchId;
@@ -103,26 +159,28 @@ void ALDGameMode::PostLogin(APlayerController* NewPlayer)
 	if (!Player->InitializeParticipant(Context) || !CommandProcessor->RegisterParticipant(Context))
 	{
 		AbortMatch(TEXT("PlayerState refused server participant context"));
-		return;
+		return false;
 	}
-	Participants[PlayerIndex] = NewPlayer;
-	Controller->InitializeServerSession(Context, *CommandProcessor);
+	Participants[PlayerIndex] = &Controller;
+	Controller.InitializeServerSession(Context, *CommandProcessor);
 	UE_LOG(LogLDMatch, Display,
 	       TEXT("Participant index=%d epoch=%llu registered; board/economy Stub keeps admission closed"), PlayerIndex,
 	            Context.ConnectionEpoch);
-	RefreshReadiness();
+	return true;
 }
 
 void ALDGameMode::Logout(AController* Exiting)
 {
+	PendingParticipants.RemoveAll([Exiting](const TWeakObjectPtr<ALDPlayerController>& Pending)
+	                              { return !Pending.IsValid() || Pending.Get() == Exiting; });
+	if (ALDPlayerController* Controller = Cast<ALDPlayerController>(Exiting))
+	{
+		Controller->ShutdownServerSession();
+	}
 	for (TWeakObjectPtr<APlayerController>& Participant : Participants)
 	{
 		if (Participant.Get() == Exiting)
 		{
-			if (ALDPlayerController* Controller = Cast<ALDPlayerController>(Exiting))
-			{
-				Controller->ShutdownServerSession();
-			}
 			Participant.Reset();
 		}
 	}
@@ -133,6 +191,7 @@ void ALDGameMode::Logout(AController* Exiting)
 void ALDGameMode::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	StopMatchServices();
+	ReleasePlayerSessions();
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -149,6 +208,7 @@ bool ALDGameMode::CanAcceptCommands() const
 
 void ALDGameMode::RefreshReadiness()
 {
+	RegisterPendingParticipants();
 	ALDGameState* State = GetGameState<ALDGameState>();
 	if (bEnding || !State || State->GetPhase() != ELDMatchPhase::Preparing)
 	{
@@ -165,10 +225,15 @@ void ALDGameMode::RefreshReadiness()
 
 void ALDGameMode::AbortMatch(const FString& Reason)
 {
+	if (!HasAuthority() || bEnding)
+	{
+		return;
+	}
 	if (ALDGameState* State = GetGameState<ALDGameState>())
 	{
 		if (State->GetPhase() == ELDMatchPhase::Aborted || State->GetPhase() == ELDMatchPhase::Result)
 		{
+			StopMatchServices();
 			return;
 		}
 		State->SetReadinessReason(Reason);
@@ -190,6 +255,12 @@ void ALDGameMode::StopMatchServices()
 	{
 		CommandProcessor->Close();
 	}
+	// Terminal phase is not a disconnected session: keep Controller -> Processor and finalized result history.
+	// G0 has no combat subscription or spawn reservation yet.
+}
+
+void ALDGameMode::ReleasePlayerSessions()
+{
 	for (const TWeakObjectPtr<APlayerController>& Participant : Participants)
 	{
 		if (ALDPlayerController* Controller = Cast<ALDPlayerController>(Participant.Get()))
@@ -197,6 +268,13 @@ void ALDGameMode::StopMatchServices()
 			Controller->ShutdownServerSession();
 		}
 	}
-	Participants.Reset();
-	// G0 has no combat subscription or spawn reservation yet.
+	for (const TWeakObjectPtr<ALDPlayerController>& Pending : PendingParticipants)
+	{
+		if (Pending.IsValid())
+		{
+			Pending->ShutdownServerSession();
+		}
+	}
+	Participants.Empty();
+	PendingParticipants.Empty();
 }
