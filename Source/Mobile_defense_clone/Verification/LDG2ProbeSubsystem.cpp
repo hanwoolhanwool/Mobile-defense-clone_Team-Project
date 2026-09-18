@@ -438,6 +438,7 @@ void ULDG2ProbeSubsystem::TickAuthority(ALDGameMode& Mode)
 void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 {
 	ALDG2ProbeState& Probe = *State.Get();
+	const FTouchId Finger(FInputDeviceId::CreateFromInternalId(0), ETouchIndex::Touch1);
 	if (LocalStage != Probe.Stage)
 	{
 		Check(FString::Printf(TEXT("stage%d-response-completed-before-transition"), LocalStage),
@@ -508,7 +509,7 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 			Check(TEXT("engine-touch-drag-projection"),
 			           Controller.ProjectCellToScreen(17, SourcePosition) &&
 			               Controller.ProjectCellToScreen(LastSent.DestinationCellId, DragDestination));
-			Controller.InputTouch(0, ETouchType::Began, SourcePosition, 1, FPlatformTime::Cycles64());
+			Controller.InputTouch(Finger, ETouchType::Began, SourcePosition, 1, FPlatformTime::Cycles64());
 			DragPhase = 1;
 			DragStepAt = FPlatformTime::Seconds() + .1;
 		}
@@ -528,13 +529,13 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 		if (DragPhase == 1)
 		{
 			Check(TEXT("engine-touch-drag-source-selected"), Controller.GetSelectedCellId() == 17);
-			Controller.InputTouch(0, ETouchType::Moved, DragDestination, 1, FPlatformTime::Cycles64());
+			Controller.InputTouch(Finger, ETouchType::Moved, DragDestination, 1, FPlatformTime::Cycles64());
 			DragPhase = 2;
 			DragStepAt = FPlatformTime::Seconds() + .1;
 		}
 		else
 		{
-			Controller.InputTouch(0, ETouchType::Ended, DragDestination, 0, FPlatformTime::Cycles64());
+			Controller.InputTouch(Finger, ETouchType::Ended, DragDestination, 0, FPlatformTime::Cycles64());
 			DragPhase = 0;
 		}
 	}

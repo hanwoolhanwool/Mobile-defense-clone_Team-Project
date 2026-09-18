@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$ReplayRoot,
     [Parameter(Mandatory=$true)][ValidatePattern('^[0-9a-f]{40}$')][string]$SourceSha,
+    [ValidatePattern('^Saved/P0Runs/[A-Za-z0-9_-]+/assembly.json$')][string]$PreviousManifest='Saved/P0Runs/Replay-G2-assembly/assembly.json',
     [ValidatePattern('^[A-Za-z0-9_-]+$')][string]$RunId='Replay-G2-review-assembly'
 )
 $ErrorActionPreference='Stop'
@@ -8,7 +9,7 @@ Set-StrictMode -Version Latest
 $ReplayRoot=(Resolve-Path -LiteralPath $ReplayRoot).Path
 $InitialSource='5baa96059e94a142d45206290010b373cf39ea19'
 $Base='4861b987f3e2fe78bcc159d1b6a85008543a938b'
-$OriginalManifest=Join-Path $ReplayRoot 'Saved/P0Runs/Replay-G2-assembly/assembly.json'
+$OriginalManifest=Join-Path $ReplayRoot $PreviousManifest
 $RunRoot=Join-Path $ReplayRoot "Saved/P0Runs/$RunId"
 if (Test-Path -LiteralPath $RunRoot) { throw 'Preserve the existing review run and choose a new RunId.' }
 function Invoke-ReviewGit([string[]]$Arguments) {
@@ -20,17 +21,20 @@ if ((Invoke-ReviewGit @('rev-parse','HEAD')).Trim() -ne $Base) { throw 'Expected
 & git -C $ReplayRoot symbolic-ref --quiet HEAD *> $null
 if ($LASTEXITCODE -eq 0) { throw 'Only the detached reference replay can be amended.' }
 $Manifest=Get-Content -LiteralPath $OriginalManifest -Raw | ConvertFrom-Json
-if ($Manifest.Result -ne 'Pass' -or $Manifest.SourceSha -ne $InitialSource) { throw 'Expected the verified 5baa960 assembly manifest.' }
+if ($Manifest.Result -ne 'Pass' -or $Manifest.Files.Count -ne 56) { throw 'Expected a verified 56-file assembly manifest.' }
 if ((Invoke-ReviewGit @('rev-parse',"${SourceSha}^{commit}")).Trim() -ne $SourceSha) { throw 'Use a full commit SHA.' }
 & git -C $ReplayRoot merge-base --is-ancestor $InitialSource $SourceSha
 if ($LASTEXITCODE -ne 0) { throw 'The review source must descend from the initial assembly.' }
+& git -C $ReplayRoot merge-base --is-ancestor $Manifest.SourceSha $SourceSha
+if ($LASTEXITCODE -ne 0) { throw 'The review source must descend from the prior manifest source.' }
 $Allowed=@(
     'Source/Mobile_defense_clone/Tests/LDGameplayCommandTests.cpp',
     'Source/Mobile_defense_clone/Verification/LDG2ProbeSubsystem.h',
     'Source/Mobile_defense_clone/Verification/LDG2ProbeSubsystem.cpp'
 )
-$Changed=@(Invoke-ReviewGit @('diff','--name-only',$InitialSource,$SourceSha,'--','Source','Config','Content','tools','Build','Plugins','Mobile_defense_clone.uproject'))
-if (@($Changed | Where-Object {$_ -notin $Allowed}).Count -gt 0) { throw 'Unexpected product change: use a fresh full replay instead.' }
+$AllChanges=@(Invoke-ReviewGit @('diff','--name-only',$InitialSource,$SourceSha,'--','Source','Config','Content','tools','Build','Plugins','Mobile_defense_clone.uproject'))
+if (@($AllChanges | Where-Object {$_ -notin $Allowed}).Count -gt 0) { throw 'Unexpected product change: use a fresh full replay instead.' }
+$Changed=@(Invoke-ReviewGit @('diff','--name-only',$Manifest.SourceSha,$SourceSha,'--','Source','Config','Content','tools','Build','Plugins','Mobile_defense_clone.uproject'))
 foreach($File in $Manifest.Files) {
     $Actual=(Invoke-ReviewGit @('hash-object','--',$File.Path)).Trim()
     if ($Actual -ne $File.ActualBlob) { throw "Existing replay file changed; preserve it: $($File.Path)" }
@@ -50,7 +54,7 @@ foreach($File in $Manifest.Files) {
 }
 [ordered]@{
     Scope='Guarded supplementary tests and engine drag input; no product runtime change, learner branch edit, cleanup, build or game execution'
-    Result='Pass';StartedFrom=$Base;PreviousSourceSha=$InitialSource;SourceSha=$SourceSha
+    Result='Pass';StartedFrom=$Base;PreviousSourceSha=$Manifest.SourceSha;SourceSha=$SourceSha
     PreviousManifestSHA256=(Get-FileHash -LiteralPath $OriginalManifest -Algorithm SHA256).Hash
     ChangedPaths=$Changed;Files=$Files;ReplayHead=(Invoke-ReviewGit @('rev-parse','HEAD')).Trim();Created=(Get-Date).ToString('o')
 } | ConvertTo-Json -Depth 7 | Set-Content "$RunRoot/assembly.json" -Encoding utf8
