@@ -33,6 +33,7 @@ namespace
 		explicit FGameplayFixture(FLDPrepareUnit Prepare = {})
 		{
 			World = UWorld::CreateWorld(EWorldType::Game, false);
+			GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(World);
 			World->InitializeActorsForPlay(FURL());
 			Data = NewObject<ULDGameData>(World);
 			if (!Data->LoadP0(Error))
@@ -62,6 +63,7 @@ namespace
 			if (World)
 			{
 				World->DestroyWorld(false);
+				GEngine->DestroyWorldContext(World);
 			}
 		}
 
