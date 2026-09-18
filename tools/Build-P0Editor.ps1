@@ -1,9 +1,9 @@
 param(
+    [string]$ProjectRoot = (Split-Path $PSScriptRoot -Parent),
     [string]$RunId = ('G0-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string]$EngineRoot = 'C:/Program Files/Epic Games/UE_5.8'
 )
 $ErrorActionPreference = 'Stop'
-$ProjectRoot = Split-Path $PSScriptRoot -Parent
 $ProjectFile = Join-Path $ProjectRoot 'Mobile_defense_clone.uproject'
 $RunRoot = Join-Path $ProjectRoot "Saved/P0Runs/$RunId"
 New-Item -ItemType Directory -Force -Path $RunRoot | Out-Null

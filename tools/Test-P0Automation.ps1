@@ -1,10 +1,10 @@
 param(
+    [string]$ProjectRoot = (Split-Path $PSScriptRoot -Parent),
     [string]$Filter = 'LD.P0.G0',
     [string]$RunId = ('Tests-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string]$EngineRoot = 'C:/Program Files/Epic Games/UE_5.8'
 )
 $ErrorActionPreference = 'Stop'
-$ProjectRoot = Split-Path $PSScriptRoot -Parent
 $RunRoot = Join-Path $ProjectRoot "Saved/P0Runs/$RunId"
 New-Item -ItemType Directory -Force -Path $RunRoot | Out-Null
 $Editor = Join-Path $EngineRoot 'Engine/Binaries/Win64/UnrealEditor-Cmd.exe'
