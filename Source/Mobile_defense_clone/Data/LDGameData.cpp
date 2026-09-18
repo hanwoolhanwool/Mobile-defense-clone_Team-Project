@@ -551,8 +551,8 @@ namespace
 		TMap<FName, int32> GradeCounts;
 		for (const TSharedPtr<FJsonObject>& Object : Rows)
 		{
-			FCheckedObject Checked(Object, TEXT("DT_Units.json") + TEXT("[") + Object->GetStringField(TEXT("Name")) +
-			                                                                                          TEXT("]"), Error);
+			FCheckedObject Checked(Object, FString(TEXT("DT_Units.json[")) + Object->GetStringField(TEXT("Name")) +
+			                                                                                        TEXT("]"), Error);
 			FLDUnitRow Row;
 			if (!Checked.Boolean(TEXT("EnabledInP0"), Row.bEnabledInP0))
 			{
