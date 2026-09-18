@@ -203,11 +203,14 @@ const FLDEconomySnapshot& ALDPlayerController::GetEconomySnapshot() const
 
 bool ALDPlayerController::IsGameplaySnapshotReady() const
 {
-	return CurrentMatchId.IsValid() && ConnectionEpoch != 0 && LocalParticipantIndex != INDEX_NONE &&
+	const ALDPlayerState* State = GetPlayerState<ALDPlayerState>();
+	const FLDParticipantContext Participant = State ? State->GetParticipantContext() : FLDParticipantContext();
+	return CurrentMatchId.IsValid() && ConnectionEpoch != 0 && Participant.IsValid() &&
+	       Participant.MatchId == CurrentMatchId && Participant.ConnectionEpoch == ConnectionEpoch &&
 	       GameplaySnapshot.ConnectionEpoch == ConnectionEpoch && GameplaySnapshot.Board.MatchId == CurrentMatchId &&
 	       GameplaySnapshot.Economy.MatchId == CurrentMatchId &&
-	       GameplaySnapshot.Board.PlayerIndex == LocalParticipantIndex &&
-	       GameplaySnapshot.Economy.PlayerIndex == LocalParticipantIndex;
+	       GameplaySnapshot.Board.PlayerIndex == Participant.PlayerIndex &&
+	       GameplaySnapshot.Economy.PlayerIndex == Participant.PlayerIndex;
 }
 
 void ALDPlayerController::OnRep_GameplaySnapshot()
@@ -226,7 +229,7 @@ bool ALDPlayerController::RequestSummon()
 		LastRequestSeconds = FPlatformTime::Seconds();
 		return RetryPendingCommand();
 	}
-	if (!IsGameplaySnapshotReady())
+	if (!IsGameplaySnapshotReady() || !IsLocalBoardReady())
 	{
 		return false;
 	}
@@ -266,7 +269,7 @@ bool ALDPlayerController::CanMergeSelection() const
 
 bool ALDPlayerController::RequestMergeSelection()
 {
-	if (!IsGameplaySnapshotReady() || !CanMergeSelection())
+	if (!IsGameplaySnapshotReady() || !IsLocalBoardReady() || !CanMergeSelection())
 	{
 		return false;
 	}
@@ -291,7 +294,7 @@ bool ALDPlayerController::RequestMergeSelection()
 
 bool ALDPlayerController::RequestSellSelection()
 {
-	if (!IsGameplaySnapshotReady() || GetSelectedInstanceId() == 0)
+	if (!IsGameplaySnapshotReady() || !IsLocalBoardReady() || GetSelectedInstanceId() == 0)
 	{
 		return false;
 	}
@@ -304,7 +307,7 @@ bool ALDPlayerController::RequestSellSelection()
 
 bool ALDPlayerController::RequestMove(uint64 InstanceId, int32 DestinationCellId)
 {
-	if (!IsGameplaySnapshotReady())
+	if (!IsGameplaySnapshotReady() || !IsLocalBoardReady())
 	{
 		return false;
 	}
@@ -415,7 +418,7 @@ void ALDPlayerController::UpdateGameplayView()
 		// Rebuild the view from current replicated snapshots without changing gameplay state.
 		GameplayWidget = nullptr;
 	}
-	if (IsGameplaySnapshotReady() && !GameplayWidget)
+	if (IsGameplaySnapshotReady() && IsLocalBoardReady() && !GameplayWidget)
 	{
 		GameplayWidget = CreateWidget<ULDGameplayWidget>(this, ULDGameplayWidget::StaticClass());
 		if (GameplayWidget)

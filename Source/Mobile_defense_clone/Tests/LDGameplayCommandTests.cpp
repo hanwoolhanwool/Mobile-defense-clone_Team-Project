@@ -3,9 +3,14 @@
 #if WITH_DEV_AUTOMATION_TESTS
 
 #include "Battle/LDUnitActor.h"
+#include "Core/LDPlayerController.h"
+#include "Core/LDPlayerState.h"
 #include "Economy/LDEconomyService.h"
+#include "Engine/Engine.h"
 #include "Engine/EngineBaseTypes.h"
+#include "Engine/LocalPlayer.h"
 #include "Engine/World.h"
+#include "HAL/PlatformTime.h"
 #include "Misc/AutomationTest.h"
 #include "Network/LDCommandProcessor.h"
 
@@ -391,6 +396,105 @@ bool FLDP0ExpiredSnapshotTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("Expired response requires board revision of the existing purchase"), Expired.NewBoardRevision, 1);
 	TestEqual(TEXT("Expired response includes economic revision after the later reward"), Expired.EconomyRevision, 2);
 	TestEqual(TEXT("History expiry mutates no gameplay source"), Fixture.Signature(), BeforeExpired);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0ControllerSnapshotOrderTest, "LD.P0.G2.Commands.ControllerResponseSnapshotOrders",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0ControllerSnapshotOrderTest::RunTest(const FString& Parameters)
+{
+	for (bool bExpired : {false, true})
+	{
+		for (bool bSnapshotFirst : {false, true})
+		{
+			FGameplayFixture Fixture;
+			if (!TestTrue(TEXT("Real services initialize"), Fixture.bReady))
+			{
+				return false;
+			}
+			const FLDBoardSnapshot InitialBoard = Fixture.Board->GetSnapshot(0);
+			const FLDEconomySnapshot InitialEconomy = Fixture.Economy->GetSnapshot(0);
+			FLDCommand Original;
+			Original.ConnectionEpoch = 1;
+			Original.RequestId = 1;
+			if (bExpired)
+			{
+				Fixture.Run(Fixture.Make());
+				for (int32 Index = 0; Index < 256; ++Index)
+				{
+					FLDCommand Stale = Fixture.Make();
+					Stale.ExpectedBoardRevision = 0;
+					Fixture.Run(Stale);
+				}
+				Fixture.Reward(1, TEXT("N01"));
+			}
+			ALDPlayerController* Controller = Fixture.World->SpawnActor<ALDPlayerController>();
+			ALDPlayerState* State = Fixture.World->SpawnActor<ALDPlayerState>();
+			if (!TestNotNull(TEXT("Actual Controller"), Controller) || !TestNotNull(TEXT("Actual PlayerState"), State))
+			{
+				return false;
+			}
+			// An explicit local owner without a viewport exercises actual PC handlers, not a copied UI state model.
+			Controller->SetPlayer(NewObject<ULocalPlayer>(GEngine));
+			State->InitializeParticipant(Fixture.Players[0]);
+			Controller->SetPlayerState(State);
+			Controller->InitializeServerSession(Fixture.Players[0], *Fixture.Processor);
+			Controller->PublishSnapshots(InitialBoard, InitialEconomy);
+			TestTrue(TEXT("Session participant and owner envelope are coherent without rendering"),
+			              Controller->IsGameplaySnapshotReady());
+			TestFalse(TEXT("A headless owner cannot issue a visual summon intent"), Controller->RequestSummon());
+			// Advance only the existing response bucket clock to suppress the automatic synchronous response.
+			// The test then delivers that real result through the public client handler in a chosen arrival order.
+			const double DelayedResponseClock = FPlatformTime::Seconds() + 60;
+			for (int32 Index = 0; Index < 12; ++Index)
+			{
+				Fixture.Processor->CanSendResponse(Fixture.Players[0], DelayedResponseClock);
+			}
+			TestTrue(TEXT("Actual local command path admits one request"), Controller->SubmitLocalCommand(Original));
+			TestTrue(TEXT("Suppressed response leaves the original request pending"), Controller->HasPendingCommand());
+			const FLDCommandResult Result = Fixture.Run(Original);
+			TestEqual(TEXT("The real server result has the selected success or expiry outcome"), Result.ResultCode,
+			               bExpired ? ELDCommandResultCode::RequestExpired : ELDCommandResultCode::Success);
+			const FLDBoardSnapshot CurrentBoard = Fixture.Board->GetSnapshot(0);
+			const FLDEconomySnapshot CurrentEconomy = Fixture.Economy->GetSnapshot(0);
+			if (bSnapshotFirst)
+			{
+				Controller->PublishSnapshots(CurrentBoard, CurrentEconomy);
+				TestTrue(TEXT("Snapshot cannot complete an unanswered request"), Controller->HasPendingCommand());
+			}
+			Controller->ClientCommandResult_Implementation(Result);
+			if (!bSnapshotFirst)
+			{
+				TestTrue(TEXT("Response alone waits for both source revisions"), Controller->HasPendingCommand());
+				TestFalse(TEXT("A new request is rejected while response state is missing"),
+				               Controller->SubmitLocalCommand(Original));
+				Controller->PublishSnapshots(CurrentBoard, InitialEconomy);
+				TestTrue(TEXT("Board revision alone does not open input"), Controller->HasPendingCommand());
+				Controller->PublishSnapshots(InitialBoard, CurrentEconomy);
+				TestTrue(TEXT("Economy revision alone does not open input"), Controller->HasPendingCommand());
+				Controller->PublishSnapshots(CurrentBoard, CurrentEconomy);
+			}
+			TestFalse(TEXT("Both revisions and response release the pending gate in either order"),
+			               Controller->HasPendingCommand());
+			TestEqual(TEXT("Response handling never repeats the original purchase"),
+			               Fixture.Board->GetSnapshot(0).Population, 1);
+			FLDParticipantContext NextEpoch = Fixture.Players[0];
+			NextEpoch.ConnectionEpoch = 2;
+			Fixture.Processor->RegisterParticipant(NextEpoch);
+			Controller->InitializeServerSession(NextEpoch, *Fixture.Processor);
+			TestFalse(TEXT("New session cannot reuse the old participant or snapshot epoch"),
+			               Controller->IsGameplaySnapshotReady());
+			ALDPlayerState* NextState = Fixture.World->SpawnActor<ALDPlayerState>();
+			NextState->InitializeParticipant(NextEpoch);
+			Controller->SetPlayerState(NextState);
+			TestFalse(TEXT("New participant alone cannot reuse the old owner envelope"),
+			               Controller->IsGameplaySnapshotReady());
+			Controller->PublishSnapshots(CurrentBoard, CurrentEconomy);
+			TestTrue(TEXT("Current participant session and envelope open the snapshot gate"),
+			              Controller->IsGameplaySnapshotReady());
+		}
+	}
 	return true;
 }
 

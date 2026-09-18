@@ -30,6 +30,8 @@
 8. 응답 미확정 시 1초 간격 세 번만 자동 재확인한다. 이후 HUD의 같은 버튼은 `응답 재확인`으로 바뀌며 기존 Pending만 다시 보낸다. 비용 환불·실패·새 소환으로 단정하지 않는다.
 9. `Tests/LDGameplayCommandTests.cpp`의 실제 게시 delegate에서 epoch를 바꿔 검증한다. 서버 캐시 만료 검사는 성공 요청 뒤 256개 후속 요청으로 실제 캐시를 축출하고 다음 보상 이후 Revision을 확인한다.
 
+후속 `ControllerResponseSnapshotOrders`는 실제 PC/PlayerState와 명시적 ULocalPlayer를 만들고 public API만 사용한다. 기존 응답 bucket의 시각을 앞으로 진행시켜 자동 응답을 보류한 뒤, 실제 서버 결과를 PC의 공개 client handler에 전달한다. 성공/만료 × 응답/스냅샷 선도착4조합, 둘 중 한 Revision만 도착, 새 epoch 세션/PlayerState/envelope의 순서를 검사한다. 렌더링 없는 fixture이므로 화면 선택 초기화는 실제 GPU 입력 검수에서 별도로 확인한다. `IsGameplaySnapshotReady`는 렌더링과 분리하여 ParticipantContext까지 검증하고, 사용자 intent와 HUD 생성은 `IsLocalBoardReady`도 요구한다. 제품에 테스트 전용 setter/분기는 추가하지 않는다. 이 추가 검사는 아직 실행 대기다.
+
 ARCH-03/04: Processor는 Board/Economy의 명시 API만 조립하고 GameMode가 A와의 의존성을 연결한다. ARCH-05: callback 전에 캐시가 확정돼야 하며 세션 주소를 수명 보장으로 오해하지 않는다. ARCH-06: 실제 delegate 재진입 검사와 별도 프로세스 네트워크를 구분한다.
 
 ## Unreal 설정 순서
