@@ -7,7 +7,7 @@
 | 상위 TASK·정식 설계 | TASK-DATA-01 / [A-01 설계](../../../docs/technical/IMPLEMENTATION_A.md#a01) |
 | 참고 자료 제작 상태 | Draft |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6` (검증 완료 아님) |
+| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`; 실행 HEAD `0efd2bb8c32f99e5814d6aa4d4891ee9d5e96c69` (수업 재현 미완료) |
 | 실제 개발 시작/완료 SHA | 출발점만 준비 / 미생성 |
 | 필요한 상대 산출물·버전 | B의 독립 공통 기반, Schema2 / Rules0.3.0 |
 | 제공 코드 / 직접 작성할 코드 | 제공: `data/` 기획 JSON, 스타일 도구. 직접 작성: Data/LDGameData.h/.cpp, Tests/LDDataTests.cpp, Build.cs의 Json 의존성 |
@@ -50,19 +50,19 @@ DataTable 에디터 임포트 대신 네이티브 JSON 로더를 선택했다. �
 |---|---|---|---|
 | C++ 스타일 검사 | 신규10개+샘플1개 오류0 | Pass, 11 checked / 48 unchanged legacy / 0 errors | `node tools/check-code-style.mjs`, clang-format20.1.8; [기록](evidence/G0_STATIC.md) |
 | git diff --check | 공백 오류0 | Pass | [기록](evidence/G0_STATIC.md) |
-| 정상 런타임 JSON | 유닛16·웨이브10·P1 제외 | NotRun | `LD.P0.G0.Data.ValidP0Snapshot` |
-| 같은 LoadP0 재호출 | 고정 snapshot 유지 | NotRun | 위 테스트의 idempotent assertion |
-| Schema/Rules 불일치·필수 Economy 누락·P1 활성 | false, 구체적 오류, 원본 미게시 | NotRun | `RejectChangedContractsAtomically` |
-| 유예 패배3초·변경된 이벤트 순서·잘못된 허용 목록 | false | 정적 리뷰 후 검증을 추가, 실행 NotRun | 같은 mutation 테스트; 당시 테스트 대신 로더를 통과시켰다는 주장은 없음 |
-| X 좌표 중복·보드 Y 중첩 | false | 정적 리뷰에서 유한수 검사만으로 부족함 발견; 간격/분리/둘레 검사 추가. 실행 NotRun | 같은 mutation 테스트 |
-| B01→MISSING_BOSS, 없는 디렉터리 | false, 유닛/웨이브 부분 게시0; 올바른 경로로 재시도 가능 | NotRun | `InvalidRowsAndMissingFiles` |
+| 정상 런타임 JSON | 유닛16·웨이브10·P1 제외 | Pass | `LD.P0.G0.Data.ValidP0Snapshot`; [실제 증거](evidence/G0_RUNTIME.md) |
+| 같은 LoadP0 재호출 | 고정 snapshot 유지 | Pass | 위 테스트의 idempotent assertion |
+| Schema/Rules 불일치·필수 Economy 누락·P1 활성 | false, 구체적 오류, 원본 미게시 | Pass | `RejectChangedContractsAtomically` |
+| 유예 패배3초·변경된 이벤트 순서·잘못된 허용 목록 | false | 정적 리뷰 후 검증 추가, 실제 UE 자동화 Pass | 같은 mutation 테스트; 변경 정책이 필드별 오류와 함께 거절됨 |
+| X 좌표 중복·보드 Y 중첩 | false | 간격/분리/둘레 검사 추가 후 UE 자동화 Pass | 같은 mutation 테스트; 각각 XCentersCm/YCentersByPlayer 오류 |
+| B01→MISSING_BOSS, 없는 디렉터리 | false, 유닛/웨이브 부분 게시0; 올바른 경로로 재시도 가능 | Pass | `InvalidRowsAndMissingFiles` |
 | 첫 Editor 빌드 | UHT/C++/링크 성공 | Fail: LDGameData.cpp554 C2110/C2661 | `Saved/P0Runs/G0-A-editor/build.log`; 전체 실패 로그 보존, 통합 담당자가 실제 실행 |
-| 오류 문자열 연결 수정 후 Editor 재빌드 | 컴파일 성공 | 재검증 대기 | `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6` |
+| 오류 문자열 연결 수정 후 Editor 재빌드 | 컴파일 성공 | Pass, exit0, 19.26초 | `G0-A-editor-fix1`; [실제 증거](evidence/G0_RUNTIME.md) |
 | PIE·PC 패키지·네트워크·Android | 각각 별도 검수 | 모두 NotRun | 통합 담당자가 직렬 실행 예정 |
 
 자동화에서 변조한 입력은 `Saved/Automation/LD/P0/G0/<GUID>/`에 보존된다. 실패 로그의 fixture 경로를 LoadP0FromDirectory에 넣어 재현하며, 원본 data/와 Content 입력은 변경하지 않는다. 스냅샷 검사는 게임 실행·패키지 로딩의 대체 증거가 아니다.
 
-실제 첫 빌드에서 `TEXT("DT_Units.json") + TEXT("[")`는 두 문자열 포인터를 더하므로 C2110이 발생했다. 뒤의 FCheckedObject 생성 오류는 연쇄 오류였다. 왼쪽을 `FString(TEXT("DT_Units.json["))`으로 만들어 값 문자열 연결로 고쳤다. 포맷/정적 검사는 C++ 타입 검사를 대신하지 못한다는 사례다. 수정 후 실제 빌드 결과를 받기 전에는 컴파일 통과로 기록하지 않는다.
+실제 첫 빌드에서 `TEXT("DT_Units.json") + TEXT("[")`는 두 문자열 포인터를 더하므로 C2110이 발생했다. 뒤의 FCheckedObject 생성 오류는 연쇄 오류였다. 왼쪽을 `FString(TEXT("DT_Units.json["))`으로 만들어 값 문자열 연결로 고쳤다. 포맷/정적 검사는 C++ 타입 검사를 대신하지 못한다는 사례다. 수정 후 실제 Editor 재빌드가 성공했고 NullRHI 자동화4개가 모두 통과했다. 게임 실행 화면과 패키지 데이터 로딩은 아직 검증하지 않았다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -80,6 +80,6 @@ B의 독립 로더와 타입을 먼저 비교하고 공통 타입·런타임 로
 ## 단계 완료
 
 - [ ] 코드·에디터 설정·제공 파일 범위가 재현 가능하다.
-- [ ] 실제 실행 결과와 시작/완료 커밋을 연결했다.
+- [x] Unreal 컴파일·자동화 결과와 시작/코드/실행 커밋을 연결했다. PIE·패키지 실행은 미완료다.
 - [ ] 필요한 상대 기능을 합쳐 확인했다.
 - [x] 미검증 범위와 다음 단계의 의존성을 명시했다.
