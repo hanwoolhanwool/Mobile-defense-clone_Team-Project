@@ -45,6 +45,8 @@ ARCH-01~06 적용 경로: 값 계약(Types), 단일 원본(두 Service), 명시 
 
 이 수업에서 새 Blueprint·UMG를 작성하지 않는다. 실제 표시와 입력 연결은 G2-03에서 수행한다.
 
+UE 자동화의 FGameplayFixture는 CreateWorld 뒤 `GEngine->CreateNewWorldContext(...).SetCurrentWorld(World)`를 등록하고, 종료 시 DestroyWorld 뒤 DestroyWorldContext를 호출한다. 처음에는 이 엔진 문맥이 없어 판매/준비 취소/합성에서 DestroyActor 경고가 발생했다. 제품 Actor 수명 코드를 숨기거나 경고를 무시하는 대신 fixture를 실제 엔진 정리 조건에 맞췄다. 경고가 있는 성공과 무경고 성공을 선별 요약에서 구분한다.
+
 ## 실행·실패·수정 기록
 
 2026-09-18 통합 `dba8afa521c68dc48cc07207d22b7f72c06c4283`의 UE NullRHI 명령 자동화 5개가 Pass였다. [선별 요약](evidence/G2-initial/commands-summary.json)은 전체 실행이30Pass/1Fail이었다는 사실도 보존한다. 그 한 건은 A G0의 옛 Stub 기대 문구이며 전체 검수 Pass로 바꾸지 않는다. 픽스처 시간은 게임 FPS/성능 측정이 아니다.
