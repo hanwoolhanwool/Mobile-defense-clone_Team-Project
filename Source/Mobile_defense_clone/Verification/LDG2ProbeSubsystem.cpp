@@ -22,6 +22,7 @@
 #include "Net/UnrealNetwork.h"
 #include "Network/LDCommandProcessor.h"
 #include "Serialization/JsonSerializer.h"
+#include "UI/LDGameplayWidget.h"
 #include "UnrealClient.h"
 #include "Widgets/SWindow.h"
 
@@ -70,7 +71,7 @@ namespace
 	}
 	bool IsCommandStage(int32 Stage)
 	{
-		return Stage != 1 && Stage != 7 && Stage < 17;
+		return Stage != 1 && Stage != 7 && Stage != 17 && Stage < 20;
 	}
 } // namespace
 
@@ -136,7 +137,7 @@ void ULDG2ProbeSubsystem::BeginStage(ALDGameMode& Mode, int32 Stage)
 	ALDG2ProbeState& Probe = *State.Get();
 	Probe.Stage = Stage;
 	Probe.bCheckpoint = false;
-	Probe.ActingPlayer = Stage == 2 || Stage == 13 ? 1 : 0;
+	Probe.ActingPlayer = Stage == 2 || Stage == 13 || Stage == 19 ? 1 : 0;
 	Probe.Command = FLDCommand();
 	StageStartedAt = FPlatformTime::Seconds();
 	CheckpointAt = -1;
@@ -188,6 +189,17 @@ void ULDG2ProbeSubsystem::BeginStage(ALDGameMode& Mode, int32 Stage)
 	{
 		FirstEnemy = SpawnEnemy(Mode, 70);
 		Check(TEXT("first-enemy-initialized"), FirstEnemy.IsValid());
+		DuplicateDeathHandle = Mode.GetCombatService()->OnEnemyDeathCommitted.AddWeakLambda(
+		    this,
+		    [this, WeakMode = TWeakObjectPtr<ALDGameMode>(&Mode)](const FLDCombatDeath& Death)
+		    {
+			    if (WeakMode.IsValid() && FirstEnemy.IsValid() &&
+			        Death.EnemyId == FirstEnemy->GetRouteSnapshot().EnemyId)
+			    {
+				    WeakMode->GetCommandProcessor()->EnqueueCombatReward(Death);
+				    WeakMode->GetCommandProcessor()->EnqueueCombatReward(Death);
+			    }
+		    });
 	}
 	Probe.ForceNetUpdate();
 	UE_LOG(LogLDG2Probe, Display, TEXT("STAGE %d player=%d"), Stage, Probe.ActingPlayer);
@@ -226,6 +238,24 @@ void ULDG2ProbeSubsystem::Checkpoint(ALDGameMode& Mode)
 	const FLDBoardSnapshot& Board = Probe.Boards[0];
 	const FLDEconomySnapshot& Economy = Probe.Economies[0];
 	const int32 Stage = Probe.Stage;
+	if (Stage == 16)
+	{
+		ALDPlayerController* Owner = Cast<ALDPlayerController>(GetWorld()->GetFirstPlayerController());
+		Check(TEXT("completed-replay-has-original-request"), ResultStages.Contains(15) && LastMerge.RequestId > 0);
+		if (Owner && ResultStages.Contains(15))
+		{
+			const FLDCommandResult Replay = Owner->SubmitServerCommand(LastMerge);
+			FLDCommand Conflict = LastMerge;
+			Conflict.InstanceId += 10000;
+			Check(TEXT("server-replay-api-original-result"),
+			           Replay.ResultCode == LastMergeResult.ResultCode && Replay.EventId == LastMergeResult.EventId &&
+			               Replay.NewBoardRevision == LastMergeResult.NewBoardRevision &&
+			               Replay.CreatedInstanceIds == LastMergeResult.CreatedInstanceIds &&
+			               Replay.RemovedInstanceIds == LastMergeResult.RemovedInstanceIds);
+			Check(TEXT("server-replay-api-conflict"),
+			           Owner->SubmitServerCommand(Conflict).ResultCode == ELDCommandResultCode::RequestIdConflict);
+		}
+	}
 	if (Stage == 0)
 	{
 		Check(TEXT("first-summon-80-gold-C01-cell17"),
@@ -291,6 +321,15 @@ void ULDG2ProbeSubsystem::Checkpoint(ALDGameMode& Mode)
 		               Mode.GetGameData()->TryGetUnitRow(Result->UnitId, Row) &&
 		               Row.Grade == TEXT("Rare") && Economy.PaidSummonCount == 7 && Economy.Gold == 36);
 	}
+	if (Stage == 18 || Stage == 19)
+	{
+		const int32 Player = Probe.ActingPlayer;
+		Check(FString::Printf(
+		    TEXT("recreated-hud-single-command-p%d"), Player),
+		    Probe.Boards[Player].Population == BeforeBoards[Player].Population + 1 &&
+		        Probe.Economies[Player].Gold == BeforeEconomies[Player].Gold - BeforeEconomies[Player].NextSummonGold &&
+		        Probe.Economies[Player].PaidSummonCount == BeforeEconomies[Player].PaidSummonCount + 1);
+	}
 	if (Stage >= 8)
 	{
 		for (const FLDBoardSnapshot& Current : Probe.Boards)
@@ -335,11 +374,19 @@ void ULDG2ProbeSubsystem::TickAuthority(ALDGameMode& Mode)
 		}
 		return;
 	}
-	if (Probe.Stage == 17)
+	if (Probe.Stage == 20)
 	{
 		if (FPlatformTime::Seconds() - StageStartedAt > 6)
 		{
 			Finish();
+		}
+		return;
+	}
+	if (Probe.Stage == 17)
+	{
+		if (FPlatformTime::Seconds() - StageStartedAt > 1)
+		{
+			Checkpoint(Mode);
 		}
 		return;
 	}
@@ -391,13 +438,30 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 	ALDG2ProbeState& Probe = *State.Get();
 	if (LocalStage != Probe.Stage)
 	{
+		Check(FString::Printf(TEXT("stage%d-response-completed-before-transition"), LocalStage),
+		                      !bWaitingResult && !bActionPending);
 		LocalStage = Probe.Stage;
 		bWaitingResult = false;
 		bActionPending = false;
+		if (LocalStage == 17)
+		{
+			for (TObjectIterator<ULDGameplayWidget> It; It; ++It)
+			{
+				if (It->GetWorld() == GetWorld() && It->GetOwningPlayer() == &Controller && It->IsInViewport())
+				{
+					RemovedWidget = *It;
+					It->RemoveFromParent();
+					break;
+				}
+			}
+			Check(TEXT("remove-live-hud-for-lifecycle-check"), RemovedWidget.IsValid());
+		}
 		if (IsCommandStage(LocalStage) && LocalPlayer == Probe.ActingPlayer)
 		{
 			if (LocalStage == 16)
 			{
+				Check(TEXT("completed-retransmit-uses-observed-result"),
+				           ResultStages.Contains(15) && LastMerge.RequestId > 0);
 				Controller.ServerRequestCommand(LastMerge);
 				FLDCommand Conflict = LastMerge;
 				Conflict.InstanceId += 10000;
@@ -419,6 +483,19 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 			}
 		}
 	}
+	if (LocalStage == 17 && !bWidgetRecreated)
+	{
+		for (TObjectIterator<ULDGameplayWidget> It; It; ++It)
+		{
+			if (It->GetWorld() == GetWorld() && It->GetOwningPlayer() == &Controller && It->IsInViewport() &&
+			    *It != RemovedWidget.Get())
+			{
+				bWidgetRecreated = true;
+				Check(TEXT("new-hud-restored-after-remove"), true);
+				break;
+			}
+		}
+	}
 	if (bActionPending && FPlatformTime::Seconds() >= LocalActionAt)
 	{
 		bActionPending = false;
@@ -435,6 +512,7 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 	if (bWaitingResult && !Controller.HasPendingCommand() && Controller.GetLastResult().RequestId != PreviousResultId)
 	{
 		bWaitingResult = false;
+		ResultStages.Add(LocalStage);
 		const FLDCommandResult& Result = Controller.GetLastResult();
 		const ELDCommandResultCode Expected = LocalStage == 6    ? ELDCommandResultCode::InsufficientResource
 		                                      : LocalStage == 13 ? ELDCommandResultCode::NotOwner
@@ -448,6 +526,7 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 			LastMerge = LastSent;
 			LastMerge.ConnectionEpoch = Result.ConnectionEpoch;
 			LastMerge.RequestId = Result.RequestId;
+			LastMergeResult = Result;
 		}
 	}
 	if (Probe.bCheckpoint && InspectedStage != LocalStage && Probe.Boards.Num() == 2 && Probe.Economies.Num() == 2 &&
@@ -455,10 +534,12 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 	    Controller.GetEconomySnapshot().EconomyRevision == Probe.Economies[LocalPlayer].EconomyRevision)
 	{
 		bool bActorsAgree = true;
+		TSet<uint64> ExpectedIDs;
 		for (const FLDBoardSnapshot& Board : Probe.Boards)
 		{
 			for (const FLDPlacedUnit& Expected : Board.Units)
 			{
+				ExpectedIDs.Add(Expected.InstanceId);
 				bool bFound = false;
 				for (TActorIterator<ALDUnitActor> It(GetWorld()); It; ++It)
 				{
@@ -469,6 +550,21 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 				bActorsAgree &= bFound;
 			}
 		}
+		int32 CommittedCount = 0;
+		TSet<uint64> ActualIDs;
+		for (TActorIterator<ALDUnitActor> It(GetWorld()); It; ++It)
+		{
+			if (It->IsCommitted())
+			{
+				++CommittedCount;
+				ActualIDs.Add(It->GetPlacement().InstanceId);
+			}
+		}
+		bActorsAgree &= CommittedCount == ExpectedIDs.Num() && ActualIDs.Num() == ExpectedIDs.Num();
+		for (uint64 ID : ActualIDs)
+		{
+			bActorsAgree &= ExpectedIDs.Contains(ID);
+		}
 		// Actor replication and the owner snapshot may arrive in either order; wait for agreement until timeout.
 		if (bActorsAgree)
 		{
@@ -477,14 +573,14 @@ void ULDG2ProbeSubsystem::TickLocal(ALDPlayerController& Controller)
 			Check(FString::Printf(TEXT("stage%d-owner-snapshot-and-both-boards-agree"), LocalStage),
 			                      SameBoard(Controller.GetBoardSnapshot(), Probe.Boards[LocalPlayer]) &&
 			                          SameEconomy(Controller.GetEconomySnapshot(), Probe.Economies[LocalPlayer]));
-			if (LocalStage == 0 || LocalStage == 10 || LocalStage == 15)
+			if (LocalStage == 0 || LocalStage == 10 || LocalStage == 15 || LocalStage == 19)
 			{
 				FScreenshotRequest::RequestScreenshot(OutputDirectory /
-				                                      FString::Printf(TEXT("stage-%d.png"), LocalStage), false, false);
+				                                      FString::Printf(TEXT("stage-%d.png"), LocalStage), true, false);
 			}
 		}
 	}
-	if (LocalStage == 17 && GetWorld()->GetNetMode() == NM_Client)
+	if (LocalStage == 20 && GetWorld()->GetNetMode() == NM_Client)
 	{
 		Finish();
 	}
@@ -563,8 +659,17 @@ void ULDG2ProbeSubsystem::Finish()
 		return;
 	}
 	bFinished = true;
-	Check(TEXT("all-stages-complete"), LocalStage == 17 && InspectedStage == 16 && InspectedStages.Num() == 17,
-	           FString::Printf(TEXT("inspected=%d/17"), InspectedStages.Num()));
+	Check(TEXT("all-stages-complete"), LocalStage == 20 && InspectedStage == 19 && InspectedStages.Num() == 20,
+	           FString::Printf(TEXT("inspected=%d/20"), InspectedStages.Num()));
+	Check(TEXT("hud-recreation-observed"), bWidgetRecreated);
+	for (int32 Stage = 0; Stage < 20; ++Stage)
+	{
+		const int32 Player = Stage == 2 || Stage == 13 || Stage == 19 ? 1 : 0;
+		if (IsCommandStage(Stage) && Stage != 16 && Player == LocalPlayer)
+		{
+			Check(FString::Printf(TEXT("required-command-result-stage%d"), Stage), ResultStages.Contains(Stage));
+		}
+	}
 	TSharedPtr<FJsonObject> Result = MakeShared<FJsonObject>();
 	Result->SetStringField(TEXT("result"), bFailed ? TEXT("Fail") : TEXT("Pass"));
 	Result->SetStringField(TEXT("scope"),
@@ -587,6 +692,10 @@ void ULDG2ProbeSubsystem::Finish()
 
 void ULDG2ProbeSubsystem::Deinitialize()
 {
+	if (ALDGameMode* Mode = GetWorld()->GetAuthGameMode<ALDGameMode>(); Mode && Mode->GetCombatService())
+	{
+		Mode->GetCombatService()->OnEnemyDeathCommitted.Remove(DuplicateDeathHandle);
+	}
 	State.Reset();
 	FirstEnemy.Reset();
 	FarmEnemies.Reset();

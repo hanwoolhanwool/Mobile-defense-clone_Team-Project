@@ -12,6 +12,7 @@ class ALDGameMode;
 class ALDPlayerController;
 class ALDEnemyActor;
 class ALDUnitActor;
+class ULDGameplayWidget;
 
 // Read-only fixture coordination, spawned only by the explicit non-Shipping G2 probe.
 // It never accepts client RPCs and is not a gameplay state owner.
@@ -74,6 +75,8 @@ private:
 	TMap<uint64, TWeakObjectPtr<ALDUnitActor>> UnitIdentities;
 	FLDCommand LastSent;
 	FLDCommand LastMerge;
+	FLDCommandResult LastMergeResult;
+	TSet<int32> ResultStages;
 	uint32 PreviousResultId = 0;
 	bool bWaitingResult = false;
 	bool bActionPending = false;
@@ -82,6 +85,9 @@ private:
 	bool bFinished = false;
 	TWeakObjectPtr<ALDG2ProbeState> State;
 	TWeakObjectPtr<ALDEnemyActor> FirstEnemy;
+	TWeakObjectPtr<ULDGameplayWidget> RemovedWidget;
+	bool bWidgetRecreated = false;
+	FDelegateHandle DuplicateDeathHandle;
 	TArray<TWeakObjectPtr<ALDEnemyActor>> FarmEnemies;
 	TArray<TSharedPtr<class FJsonValue>> Checks;
 	TSet<int32> InspectedStages;

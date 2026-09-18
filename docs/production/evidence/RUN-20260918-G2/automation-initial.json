@@ -1,0 +1,183 @@
+{
+  "Scope": "Unreal NullRHI automation, not rendered game",
+  "Source": "dba8afa",
+  "Run": "Saved/P0Runs/G2-composed-automation-initial",
+  "Succeeded": 30,
+  "Failed": 1,
+  "NotRun": 0,
+  "Tests": [
+    {
+      "Name": "LD.P0.G0.Commands.AdmissionAndReplay",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Commands.BIndependentLoader",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Commands.LimitsAndExpiry",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Commands.PayloadNormalization",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Data.InvalidRowsAndMissingFiles",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Data.ParticipantIdentity",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Data.RejectChangedContractsAtomically",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Data.ValidP0Snapshot",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Integration.LoginReadinessOrders",
+      "State": "Fail",
+      "Errors": [
+        "Expected 'Exactly two registered participants' to be \"Preparing: 2/2 participants; Stub: Board/Economy/Route services not connected\", but it was \"Preparing: 2/2 participants; services=1\".",
+        "Expected 'Exactly two registered participants' to be \"Preparing: 2/2 participants; Stub: Board/Economy/Route services not connected\", but it was \"Preparing: 2/2 participants; services=1\"."
+      ]
+    },
+    {
+      "Name": "LD.P0.G0.Integration.MatchLifecycle",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Integration.PendingLoginLogout",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G0.Integration.TerminalSessionReplay",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Board.CanonicalCellsAndOwnership",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Board.EngineOrthoProjection",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Board.LocalReflectionContract",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Board.ViewportAndSafeAreaFit",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Route.ActorIdentityTwoLapsAndStop",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Route.DelayedPresentationClock",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Route.HostStepKeepsCurrentViewClock",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Route.InvalidInputPreservesOutput",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Route.LocalViewDoesNotMutateCanonicalState",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G1.Route.PolylineCornersAndTwoLaps",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Combat.AllSixteenBasicAttacks",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Combat.DamageAndTargetBoundaries",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Combat.DuplicateDamageAndSingleDeath",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Combat.ExactDuePositionAndNoBackdating",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Combat.InitialCadenceMoveAndReplenishment",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Combat.SharedTargetRemovalAndStop",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Combat.UnitPresentationPreservesCanonical",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Commands.AtomicSummonAndFailure",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Commands.EpochReplacementDuringPublication",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Commands.PopulationOwnershipAndPreparedIsolation",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Commands.RewardsAndPreparedRevision",
+      "State": "Success",
+      "Errors": []
+    },
+    {
+      "Name": "LD.P0.G2.Commands.StackMoveMergeAndRefill",
+      "State": "Success",
+      "Errors": []
+    }
+  ]
+}
