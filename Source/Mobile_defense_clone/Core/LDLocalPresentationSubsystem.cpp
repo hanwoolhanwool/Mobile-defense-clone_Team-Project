@@ -1,6 +1,7 @@
 #include "Core/LDLocalPresentationSubsystem.h"
 
 #include "Battle/LDEnemyActor.h"
+#include "Battle/LDUnitActor.h"
 #include "Core/LDPlayerController.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
@@ -48,6 +49,10 @@ void ULDLocalPresentationSubsystem::OnViewReady(int32 PlayerIndex)
 	{
 		It->SetLocalViewPlayerIndex(PlayerIndex);
 	}
+	for (TActorIterator<ALDUnitActor> It(GetWorld()); It; ++It)
+	{
+		It->SetLocalViewPlayerIndex(PlayerIndex);
+	}
 	GetWorld()->GetTimerManager().ClearTimer(ReadinessTimer);
 }
 
@@ -58,6 +63,10 @@ void ULDLocalPresentationSubsystem::OnActorSpawned(AActor* Actor)
 		if (ALDEnemyActor* Enemy = Cast<ALDEnemyActor>(Actor))
 		{
 			Enemy->SetLocalViewPlayerIndex(LocalPlayerIndex);
+		}
+		else if (ALDUnitActor* Unit = Cast<ALDUnitActor>(Actor))
+		{
+			Unit->SetLocalViewPlayerIndex(LocalPlayerIndex);
 		}
 	}
 }
