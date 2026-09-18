@@ -49,7 +49,7 @@ def main():
             raise RuntimeError("L_P0 creation failed")
     elif not levels.load_level(level_path):
         raise RuntimeError("L_P0 loading failed")
-    world = unreal.EditorLevelLibrary.get_editor_world()
+    world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
     world.get_world_settings().set_editor_property("default_game_mode", mode_class)
     if not levels.save_current_level():
         raise RuntimeError("L_P0 save failed")
