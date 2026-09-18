@@ -2,7 +2,7 @@ param([switch]$Check)
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = Split-Path $PSScriptRoot -Parent
 $TargetRoot = Join-Path $ProjectRoot 'Content/LD/Data'
-$Names = @('GameRules.json','DT_Units.json','DT_EnemyTypes.json','DT_Waves.json','DT_SummonProfiles.json')
+$Names = @('GameRules.json','DT_Units.json','DT_EnemyTypes.json','DT_Waves.json','DT_SummonProfiles.json','DT_SpawnProfiles.json')
 if (!$Check) { New-Item -ItemType Directory -Force -Path $TargetRoot | Out-Null }
 foreach ($Name in $Names) {
     $Source = Join-Path (Join-Path $ProjectRoot 'data') $Name
