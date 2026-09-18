@@ -5,7 +5,7 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-DATA-01, TASK-NET-01, [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [ARCH-01~06](../../../docs/technical/CODING_STANDARD.md) |
-| 참고 자료 제작 상태 | Draft — 수업 시작점에서 설명대로 별도 재현 전 |
+| 참고 자료 제작 상태 | Draft — 출발점 조립·합친 컴파일·로더 재현 Pass, PIE 준비/접속 미검증 |
 | 실제 개발 상태 | Planned |
 | 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 소스 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92` |
 | 실제 개발 시작/완료 SHA | 공통 출발점 / 미생성 |
@@ -51,7 +51,7 @@ Blueprint·UMG 생성/연결은 G0에 없다. 이 단계의 예상 관찰값은 
 
 ## 실행·실패·수정 기록
 
-새 detached 출발점의 수업 재현은 NotRun이다. 공통 절차의 assembly/editor/tests 결과를 실제 생성한 뒤 기존 제작 실행과 분리해 남긴다. B 필터 전체4개 중 `BIndependentLoader` 1개가 이 수업의 부분 검사이며 나머지3개는 G0-02다. 네 테스트를 통과해도 B GameMode 초기화/종료·PIE·RPC를 검증한 것으로 표시하지 않는다.
+새 detached 출발점에서 B-01/02를 합친 재현은 Pass다. 소스·제공 파일27개 blob 일치, Editor Pass(73.28초), LD.P0.G0.Commands4Success/0Fail/0NotRun을 새 [조립 manifest](../evidence/G0_REPLAY/b-assembly.json)·[빌드](../evidence/G0_REPLAY/b-editor-result.json)·[자동화](../evidence/G0_REPLAY/b-tests-result.json)로 확인했다. 전체4개 중 `BIndependentLoader` 1개가 이 수업의 부분 검사이며 나머지3개는 G0-02다. B GameMode의 실제 PIE 준비/접속·복제는 미검증이므로 Draft를 유지한다. [재현 환경·전체 로그 위치](../evidence/G0_REPLAY/SUMMARY.md).
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
@@ -83,6 +83,6 @@ Blueprint·UMG 생성/연결은 G0에 없다. 이 단계의 예상 관찰값은 
 ## 단계 완료
 
 - [x] 제공 파일과 직접 작성할 파일·설계 경계를 기록했다.
-- [ ] 시작점에서 본 절차를 재현하고 실제 실행 결과를 연결했다.
-- [ ] A 공통 구현과 비교·통합하고 Editor 검사를 통과했다.
+- [x] 시작점에서 B-01/02 파일 조립·합친 Editor·로더/명령 자동화를 재현하고 새 결과를 연결했다.
+- [x] A 공통 구현과 비교하여 canonical으로 통합했고 Editor/자동화12개를 통과했다. 독립 B 로더 결과와 구분한다.
 - [x] G1·실기기와 구분한 미검증 범위를 명시했다.

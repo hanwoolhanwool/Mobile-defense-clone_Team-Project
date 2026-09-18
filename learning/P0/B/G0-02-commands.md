@@ -5,7 +5,7 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-NET-01, [명령 계약 16.2](../../../docs/technical/ARCHITECTURE.md), [B 구현 설계](../../../docs/technical/IMPLEMENTATION_B.md) |
-| 참고 자료 제작 상태 | Draft |
+| 참고 자료 제작 상태 | Draft — 출발점 조립·합친 컴파일·명령 자동화 재현 Pass, 실제 RPC 미검증 |
 | 실제 개발 상태 | Planned |
 | 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 소스 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92` |
 | 실제 개발 시작/완료 SHA | 공통 출발점 / 미생성 |
@@ -42,11 +42,11 @@ ARCH-01~03: Controller는 입력/응답 추적, Processor는 중복/접수 원�
 | 4 | UI/Blueprint | G0 신규 에셋 없음, 바인딩 없음 | 실패 결과 표시 HUD는 G2 이후. 현재 기대는 응답 코드 관찰 |
 | 5 | 이후 G1/G2 연결 | Board/경제 준비 완료 후 SetAcceptingCommands 호출, 실제 executor 추가 | G0 Stub 제거 후 기능 검수 재실행 |
 
-실제 G0 화면·PIE 관찰은 아직 없다. 헤더·C++ 포맷·Editor 컴파일과 아래 명령3종의 UE 자동화 결과를 확보했다. 실제 RPC 화면 관찰과 출발점 재현은 별도 미검증이다.
+실제 G0 화면·PIE 관찰은 아직 없다. 헤더·C++ 포맷·Editor 컴파일과 아래 명령3종의 UE 자동화, 별도 출발점의 동일 결과 재현을 확보했다. 실제 소유 RPC 전송·복제·화면 관찰은 별도 미검증이다.
 
 ## 실행·실패·수정 기록
 
-아래 Pass는 B 역할 작성본에서의 실행 결과다. 새 detached 출발점 수업 재현은 NotRun이며 [공통 재현 절차](../COMMON.md#g0-replay)의 assembly manifest 및 새 Editor/자동화 결과를 연결해야 한다. 참고 파일 조립은 학습자가 Network/Controller를 직접 구현했다는 뜻이 아니다.
+아래 표는 최초 B 역할 작성본의 실행 결과다. 새 detached 출발점에서도 B-01/02 합친 조립·Editor 및 명령3개/로더1개 자동화가 Pass였다([재현 요약](../evidence/G0_REPLAY/SUMMARY.md), [자동화 결과](../evidence/G0_REPLAY/b-tests-result.json)). 참고 파일 조립은 학습자가 Network/Controller를 직접 구현했다는 뜻이 아니다. 실제 소유 RPC 전송·owner 복제·응답 제한/유실 검사는 남아 있어 Draft를 유지한다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
@@ -74,7 +74,7 @@ ARCH-01~03: Controller는 입력/응답 추적, Processor는 중복/접수 원�
 
 최초 전달 커밋 `18b1ace8cb24bd915cf4a2d660047538fd7ab0c6`, 이 수업 재현의 완료 소스는 로더 수정까지 포함한 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92`다. 통합 순서는 A Match/Data·공용 상태 채택 → B Network/Controller 반영 → GameMode가 UPROPERTY로 Processor 보관 → 참가자 등록과 종료 호출 연결 → 동일 통합 SHA에서 Editor 및 LD.P0.G0.Commands 실행이다. A에는 `InitializeServerSession`, `ShutdownServerSession`, Processor `Initialize/RegisterParticipant/Close`를 전달한다. 매치 종료 시 Close로 새 접수를 닫되 캐시 응답에 필요한 연결은 유지하고 Logout/EndPlay에서 최종 해제해야 한다. 단독 Close 테스트만으로 Controller 경유 종료 검사를 대신할 수 없다. 통합 수정과 재검증은 [통합 기록](../INTEGRATION.md)에서 분리한다. G0의 SetAcceptingCommands(true)는 경제/보드 기능 완료를 뜻하지 않는다. 새 UObject Processor로 다음 매치를 시작하며 기존 인스턴스를 재초기화하지 않는다.
 
-통합 참고 완료 SHA는 아직 없고, 실제 학습 통합 커밋도 없다. 학습자 작업은 공통 출발점에서 직접 작성한다.
+G0 canonical은 `649c1dedd6832c41089a76b59bc76518cd262296`이며 종료·준비 순서 수정과 실제 Mode/Controller 회귀12개 결과는 [통합 기록](../INTEGRATION.md)에 있다. 실제 학습 통합 커밋은 없고 세 learn 브랜치는 공통 출발점에 유지한다.
 
 ## 이해 확인
 
@@ -87,6 +87,6 @@ ARCH-01~03: Controller는 입력/응답 추적, Processor는 중복/접수 원�
 ## 단계 완료
 
 - [x] 고정 크기 payload·키·상태 소유권·명시 Stub 범위를 기록했다.
-- [ ] 설명대로 재현한 Editor/자동화 실행 증거를 확보했다.
+- [x] 설명대로 새 출발점에서 B-01/02를 합친 Editor/자동화 재현 증거를 확보했다.
 - [ ] 통합 Controller와 네트워크에서 양쪽 응답을 확인했다.
 - [x] Pending 재시도·최신 Revision 동기화·공동 확정의 후속 의존성을 명시했다.

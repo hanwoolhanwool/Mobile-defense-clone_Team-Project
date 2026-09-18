@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-NET-01 중 A / [A-02 설계](../../../docs/technical/IMPLEMENTATION_A.md#a02) |
-| 참고 자료 제작 상태 | Draft |
+| 참고 자료 제작 상태 | Draft — 출발점 조립·합친 컴파일 재현 Pass, PIE 접속·복제 미검증 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`; 실행 HEAD `0efd2bb8c32f99e5814d6aa4d4891ee9d5e96c69` (수업 재현 미완료) |
+| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 독립 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`; 출발 HEAD의 [조립 manifest](../evidence/G0_REPLAY/a-assembly.json)로 재현 |
 | 실제 개발 시작/완료 SHA | 출발점만 준비 / 미생성 |
 | 필요한 상대 산출물·버전 | A-01 규칙 로더, B Controller·CommandProcessor 선언 및 구현 |
 | 제공 코드 / 직접 작성할 코드 | 제공: 기본 UE 프로젝트·A-01 직접 작성 결과. 직접 작성: Data/LDMatchTypes.h, Core/LDGameMode.*, Core/LDGameState.*, Core/LDPlayerState.* |
@@ -58,7 +58,7 @@
 
 ## 실행·실패·수정 기록
 
-새 출발점 재현은 NotRun이다. [공통 재현 절차](../COMMON.md#g0-replay)로 A-01/02를 함께 조립·빌드하고 `LD.P0.G0.Data`의 ParticipantIdentity 부분 결과를 이 수업에 연결한다. 이 결과는 GameMode의 InitGameState/PostLogin/종료 실행이나 네트워크 복제의 Pass가 아니다. 아래 접속·종료 관찰은 native LDGameMode를 지정한 별도 실제 실행으로 보완해야 한다.
+새 출발점의 조립·컴파일 재현은 Pass다. [공통 재현 절차](../COMMON.md#g0-replay)로 A-01/02를 함께 조립·빌드했고 `LD.P0.G0.Data`4Success 중 ParticipantIdentity가 이 수업의 값 경계 부분 검사다([새 증거](../evidence/G0_REPLAY/SUMMARY.md)). 이 결과는 A 독립 GameMode의 접속·종료 실행이나 네트워크 복제의 Pass가 아니다. 별도로 수정한 canonical 통합은 실제 UWorld/GameMode/Controller 수명4개를 포함한12개 자동화가 Pass지만 실제 PIE 두 화면/RPC는 남아 있어 수업 상태를 Draft로 유지한다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
@@ -80,7 +80,7 @@ GameState API는 `InitializeMatch`, `SetPhase`, `GetPhase`, `GetMatchContext`, `
 
 통합 순서: A/B 독립 공통 구현 차이 비교 → 하나의 GameState/PlayerState/로더 선택 → GameMode에 B Processor 소유 참조 생성 → 참가자 등록과 `Controller.InitializeServerSession` 연결 → 필수 실제 서비스 준비 전 접수 닫힘 유지 → 종료 시 접수·진행을 닫고 동일 연결의 캐시 응답 경로 유지 → Logout/EndPlay에서 최종 session/구독 해제 → G0 통합 빌드/실행. Board/Economy는 G0에 없는 Stub이며 실제 구현 단계에서 소유 참조를 추가한다. A의 하드 false Stub은 실제 서비스 검증과 함께 교체해야 한다. 통합에서 드러난 초기화 순서·종료 경계 수정은 [통합 기록](../INTEGRATION.md)에 따로 남기며 A 단독 완료 SHA의 검수 결과로 소급하지 않는다.
 
-현재 코드 기준은 위 표의 A 커밋이며 통합 참고 SHA·실제 학습 통합 SHA는 미확정이다. B가 작성한 공통 파일을 참고 A 파일로 덮어써 독립 구현한 것으로 기록하지 않는다.
+독립 재현 기준은 위 표의 A 커밋이고, G0 canonical `649c1dedd6832c41089a76b59bc76518cd262296` 및 역할 반영점은 [통합 기록](../INTEGRATION.md)에 있다. 실제 학습 통합 SHA는 미생성이다. canonical 반영을 A/B가 그 코드를 각각 독립 작성한 것으로 기록하지 않는다.
 
 ## 이해 확인
 
@@ -92,7 +92,7 @@ GameState API는 `InitializeMatch`, `SetPhase`, `GetPhase`, `GetMatchContext`, `
 
 ## 단계 완료
 
-- [ ] 코드·에디터 설정·제공 파일 범위가 재현 가능하다.
-- [x] Unreal 컴파일·신원 자동화 결과와 시작/코드/실행 커밋을 연결했다. PIE·연결 수명 실행은 미완료다.
+- [x] 출발점의 A-01/02 파일 조립·UFS 설정·합친 Editor 빌드를 재현했다. 독립 PIE 설정/실행은 남아 있다.
+- [x] Unreal 컴파일·신원 자동화 결과와 시작/코드/실행 커밋을 연결했다. 통합 수명 회귀는 Pass, A 독립 PIE 접속·복제는 미완료다.
 - [ ] 필요한 상대 기능을 합쳐 확인했다.
 - [x] 미검증 범위와 다음 단계의 의존성을 명시했다.

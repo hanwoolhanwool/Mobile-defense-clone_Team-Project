@@ -19,7 +19,7 @@
 
 ## G0 출발점부터 참고 파일 조립하기
 
-이 절차는 **참고 수업에 적힌 입력과 파일 목록으로 빌드 가능한 참고본을 재현하는 검사**다. 학습자의 직접 구현·이해 확인·수업 이수 증거가 아니다. 참고 제작 상태는 Draft, 실제 학습 상태는 Planned로 유지한다. `learn/p0-*`에 적용하지 않으며 전체 참고 브랜치 병합도 하지 않는다.
+이 절차는 **참고 수업에 적힌 입력과 파일 목록으로 빌드 가능한 참고본을 재현하는 검사**다. 학습자의 직접 구현·이해 확인·수업 이수 증거가 아니다. 2026-09-18 A/B 각각 실제 조립·Editor·자동화를 통과했다. A-01 데이터 수업의 참고 제작만 해당 범위에서 Verified이며 PIE/RPC가 남은 A-02·B-01·B-02는 Draft, 실제 학습은 모두 Planned다. `learn/p0-*`에 적용하지 않으며 전체 참고 브랜치 병합도 하지 않는다. [결과·환경·한계](evidence/G0_REPLAY/SUMMARY.md).
 
 | 입력 | 고정 SHA | 필요한 범위 |
 |---|---|---|
@@ -65,6 +65,15 @@ git -C $ReplayRoot rev-parse HEAD
 G0-01과 G0-02는 같은 모듈로 컴파일한다. A의 로더 테스트가 G0-02의 MatchTypes를 사용하고, B의 GameMode가 G0-02의 Controller/Processor를 참조한다. 따라서 **각 역할의 두 수업 파일을 모두 작성한 뒤 Editor 빌드는 한 번** 수행한다. A 필터4개는 데이터·참가자 값 계약 검사이고 Core 매치 실행 검사가 아니다. B 필터4개 중 BIndependentLoader 1개는 G0-01, AdmissionAndReplay/LimitsAndExpiry/PayloadNormalization 3개는 G0-02의 부분 검사다. 각 수업 이름에 따라 동일 빌드를 반복하거나 부분 Pass를 역할 전체·네트워크 Pass로 올리지 않는다.
 
 수업 재현을 완료한 담당자는 원본 SHA/조립 manifest, 실제 새 로그 경로, 실행 환경, 기대값과 결과, 미검증을 각 수업에 연결한다. 참고 조립·Editor·자동화의 재현을 통과했어도 A-02의 PIE 수명/접속, B-02의 RPC 양방향, 통합 종료/준비 경계 관찰이 없으면 해당 수업 전체를 Verified로 표시하지 않는다. 실제 학습자는 제공 도구/JSON만 받아 수업 순서로 소스를 직접 작성하고 자기 커밋·실행·변형 과제·상대 리뷰를 따로 남긴다.
+
+## 이번 재현 결과
+
+| 역할 | 조립·Editor·자동화 | 증거 |
+|---|---|---|
+| A | 21개 파일 blob 일치, Editor Pass(64.39초), LD.P0.G0.Data4Success/0Fail/0NotRun | [manifest](evidence/G0_REPLAY/a-assembly.json), [빌드](evidence/G0_REPLAY/a-editor-result.json), [테스트](evidence/G0_REPLAY/a-tests-result.json) |
+| B | 27개 파일 blob 일치, Editor Pass(73.28초), LD.P0.G0.Commands4Success/0Fail/0NotRun | [manifest](evidence/G0_REPLAY/b-assembly.json), [빌드](evidence/G0_REPLAY/b-editor-result.json), [테스트](evidence/G0_REPLAY/b-tests-result.json) |
+
+실행 후 조립 대상 blob 불일치도0이다. 엔진이 manifest 밖의 DefaultEngine.ini에 로컬 AndroidFileServer 토큰을 생성한 부수효과와 전체 로그 위치는 [재현 요약](evidence/G0_REPLAY/SUMMARY.md)에 기록했다. 토큰 값은 증거에 복사하지 않았다. G0 canonical 통합·역할 반영 SHA는 [통합 기록](INTEGRATION.md)에 관리하며 세 learn 브랜치는 출발점에 그대로 유지됐다.
 
 ## 확인 문제
 
