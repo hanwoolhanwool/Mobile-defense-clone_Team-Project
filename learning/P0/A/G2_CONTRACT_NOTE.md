@@ -1,6 +1,6 @@
 # G2 A/B 연결 계약 준비 메모
 
-**계획 메모만 작성했다. G2 소스·에셋·빌드·위젯 구현은 시작하지 않았다.** G1 실제 양쪽 화면 통과 후 루트의 착수 지시와 동일 통합 SHA를 받아 적용한다. 이 문서는 수업 Verified나 기능 완료 증거가 아니다.
+이 문서는 **착수 전 합의한 독립 기대값·계약 메모**다. G1 통과 후 `4861b987f3e2fe78bcc159d1b6a85008543a938b`에서 G2를 시작했고 실제 코드/검증 상태는 [G2 전투 수업](G2_02_COMBAT.md)과 [서버 연결 수업](G2_03_MATCH.md)에서 관리한다. 이 준비 메모 자체는 기능 완료 증거가 아니다.
 
 근거: [공통 계약·초기화·확정 순서](../../../docs/technical/IMPLEMENTATION_SHARED.md), [A-03/04](../../../docs/technical/IMPLEMENTATION_A.md), [보드4.3/4.4](../../../docs/design/BOARD_UI.md#unit-stacks), [전투5.3/8.1/8.2](../../../docs/design/BATTLE.md), [경제6.1/6.2](../../../docs/design/SUMMON_ECONOMY.md), Schema2/Rules0.3.0의 GameRules·Units·EnemyTypes. 공통 문서의 전투5.4 참조는 현재 명세의5.3 경계 순서로 읽는다.
 
