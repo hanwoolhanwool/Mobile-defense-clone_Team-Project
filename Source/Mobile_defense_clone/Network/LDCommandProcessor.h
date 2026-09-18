@@ -11,6 +11,8 @@ struct FLDGameRules;
 class ULDBoardManager;
 class ULDEconomyService;
 
+DECLARE_DELEGATE_OneParam(FLDBeforeExternalCommand, double);
+
 /** Server-owned admission, replay cache and atomic board/economy coordination. */
 UCLASS()
 class MOBILE_DEFENSE_CLONE_API ULDCommandProcessor : public UObject
@@ -23,6 +25,7 @@ public:
 	bool BindServices(ULDBoardManager& Board, ULDEconomyService& Economy);
 	void EnqueueCombatReward(const FLDCombatDeath& Death);
 	void DrainCombatRewards();
+	FLDBeforeExternalCommand BeforeExternalCommand;
 	void SetAcceptingCommands(bool bAccept);
 	void Close();
 	FLDCommandResult Submit(const FLDParticipantContext& Context, const FLDCommand& Command);
