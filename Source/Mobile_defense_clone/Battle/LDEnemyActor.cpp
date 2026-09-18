@@ -1,5 +1,7 @@
 #include "Battle/LDEnemyActor.h"
 
+#include "Board/LDViewTransform.h"
+
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
@@ -183,10 +185,9 @@ bool ALDEnemyActor::RefreshPresentation(double ViewServerSeconds)
 	{
 		return false;
 	}
-	// Identity/Y-reflection fixture until the shared stateless view transform is integrated.
-	const double YSign = LocalViewPlayerIndex == 1 ? -1.0 : 1.0;
-	const FVector DisplayPosition(RawPosition.X, RawPosition.Y * YSign, RawPosition.Z + PresentationHeightCm);
-	const FVector DisplayTangent(RawTangent.X, RawTangent.Y * YSign, RawTangent.Z);
+	const FVector DisplayPosition =
+	    FLDViewTransform::ToPresentation(RawPosition, LocalViewPlayerIndex) + FVector(0, 0, PresentationHeightCm);
+	const FVector DisplayTangent = FLDViewTransform::ToPresentation(RawTangent, LocalViewPlayerIndex);
 	PresentationMesh->SetWorldLocationAndRotation(DisplayPosition, DisplayTangent.Rotation());
 	PresentationMesh->SetVisibility(true);
 	return true;

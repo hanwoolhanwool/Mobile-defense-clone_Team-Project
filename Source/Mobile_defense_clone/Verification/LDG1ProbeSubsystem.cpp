@@ -23,7 +23,8 @@ DEFINE_LOG_CATEGORY_STATIC(LogLDP0Probe, Log, All);
 
 namespace
 {
-	const FIntPoint Viewports[] = {{540, 1170}, {1080, 2340}, {720, 1280}, {800, 1280}, {1280, 720}};
+	const FIntPoint Viewports[] = {{540, 1170}, {1080, 2340}, {720, 1280}, {720, 1600},
+	                               {768, 1024}, {800, 1280},  {1280, 720}};
 
 	FVector ExpectedCellCenter(int32 CellId)
 	{
@@ -170,7 +171,6 @@ void ULDG1ProbeSubsystem::InspectRoutes(ALDPlayerController& Controller)
 			continue;
 		}
 		++Count;
-		Enemy->SetLocalViewPlayerIndex(LocalPlayerIndex);
 		const int32 Route = static_cast<int32>(Snapshot.EnemyId - 1001);
 		const FString Label = FString::Printf(TEXT("route-%d"), Route);
 		if (!ObservedActors.Contains(Snapshot.EnemyId))
@@ -182,6 +182,22 @@ void ULDG1ProbeSubsystem::InspectRoutes(ALDPlayerController& Controller)
 		Check(Label + TEXT("-canonical"),
 		                   Enemy->GetActorLocation().Equals(ExpectedRoutePoint(Route, Snapshot.TotalDistanceCm), 0.5),
 		                   TEXT("Canonical root agrees with independent 560/980/560/980 rectangle"));
+		const AGameStateBase* State = GetWorld()->GetGameState();
+		const double Prediction =
+		    State && Snapshot.bActive
+		        ? FMath::Clamp(State->GetServerWorldTimeSeconds() - Snapshot.SampleServerSeconds, 0.0, 0.25)
+		        : 0;
+		const FVector Display =
+		    ExpectedPresentation(
+		        ExpectedRoutePoint(Route, Snapshot.TotalDistanceCm + Prediction * Snapshot.SpeedCmPerSecond),
+		        LocalPlayerIndex) +
+		    FVector(0, 0, 35);
+		if (ReadyAt > 0 && Now - ReadyAt > 0.5)
+		{
+			Check(Label + TEXT("-presentation"),
+			                   Enemy->IsPresentationVisible() && Enemy->GetPresentationLocation().Equals(Display, 0.5),
+			                   TEXT("Normal view composition produces visible mesh with reflection, capped prediction and 35cm height"));
+		}
 		if (Snapshot.TotalDistanceCm >= 6160)
 		{
 			Check(Label + TEXT("-two-laps"), true, FString::Printf(TEXT("distance=%.3f"), Snapshot.TotalDistanceCm));
@@ -281,8 +297,49 @@ void ULDG1ProbeSubsystem::InspectViewport(ALDPlayerController& Controller, int32
 	View->SetStringField(TEXT("screenshot"), Screenshot);
 	Views.Add(MakeShared<FJsonValueObject>(View));
 	FScreenshotRequest::RequestScreenshot(Screenshot, true, false, false, FIntRect(), true);
+	Check(Prefix + TEXT("previous-touch-queue-finished"), TouchCell == INDEX_NONE,
+	                    TEXT("No input sequence crosses a viewport change"));
+	TouchCell = 0;
+	TouchPhase = 0;
+	TouchAspect = AspectIndex;
 	UE_LOG(LogLDP0Probe, Display,
 	       TEXT("Viewport %d: %dx%d player=%d; screenshot requested"), AspectIndex, Width, Height, LocalPlayerIndex);
+}
+
+void ULDG1ProbeSubsystem::PumpTouchInput(ALDPlayerController& Controller)
+{
+	if (TouchCell == INDEX_NONE)
+	{
+		return;
+	}
+	const FTouchId Finger(FInputDeviceId::CreateFromInternalId(0), ETouchIndex::Touch1);
+	if (TouchPhase == 0)
+	{
+		Controller.ProjectWorldLocationToScreen(ExpectedPresentation(ExpectedCellCenter(TouchCell), LocalPlayerIndex),
+		                                        TouchPosition);
+		TouchExpectedSelection = TouchCell / 18 == LocalPlayerIndex ? TouchCell : Controller.GetSelectedCellId();
+		Controller.InputTouch(Finger, ETouchType::Began, TouchPosition, 1, FPlatformTime::Cycles64());
+		TouchPhase = 1;
+	}
+	else if (TouchPhase == 1)
+	{
+		TouchPhase = 2;
+	}
+	else
+	{
+		Check(FString::Printf(
+		    TEXT("view-%d-engine-touch-%d"), TouchAspect, TouchCell),
+		    Controller.GetSelectedCellId() == TouchExpectedSelection,
+		    FString::Printf(TEXT("Engine InputTouch -> PlayerInput -> bound callback; expected=%d actual=%d"),
+		                         TouchExpectedSelection, Controller.GetSelectedCellId()));
+		Controller.InputTouch(Finger, ETouchType::Ended, TouchPosition, 0, FPlatformTime::Cycles64());
+		TouchPhase = 0;
+		++TouchCell;
+		if (TouchCell == 36)
+		{
+			TouchCell = INDEX_NONE;
+		}
+	}
 }
 
 void ULDG1ProbeSubsystem::Tick(float DeltaTime)
@@ -292,6 +349,15 @@ void ULDG1ProbeSubsystem::Tick(float DeltaTime)
 		return;
 	}
 	const double Now = FPlatformTime::Seconds();
+	if (const ALDGameState* State = GetWorld()->GetGameState<ALDGameState>())
+	{
+		if (State->GetPhase() == ELDMatchPhase::Aborted || State->GetPhase() == ELDMatchPhase::Result)
+		{
+			Check(TEXT("fixture-terminal-phase"), false, TEXT("Match ended before G1 fixture completed"));
+			Finish();
+			return;
+		}
+	}
 	if (Now - CreatedAt > 90)
 	{
 		Check(TEXT("readiness-timeout"), false,
@@ -335,17 +401,18 @@ void ULDG1ProbeSubsystem::Tick(float DeltaTime)
 			return;
 		}
 		ReadyAt = Now;
-		FinishAt = Now + (GetWorld()->GetNetMode() == NM_Client ? 49 : 56);
+		FinishAt = Now + (GetWorld()->GetNetMode() == NM_Client ? 61 : 68);
 	}
 	FrameMilliseconds.Add(DeltaTime * 1000);
 	const double Elapsed = Now - ReadyAt;
-	const int32 Stage = FMath::Min(static_cast<int32>(Elapsed / 5), UE_ARRAY_COUNT(Viewports) - 1);
+	PumpTouchInput(*Controller);
+	const int32 Stage = FMath::Min(static_cast<int32>(Elapsed / 7), UE_ARRAY_COUNT(Viewports) - 1);
 	if (ResizeStage != Stage)
 	{
 		ResizeStage = Stage;
 		Controller->ConsoleCommand(FString::Printf(TEXT("r.SetRes %dx%dw"), Viewports[Stage].X, Viewports[Stage].Y));
 	}
-	if (InspectedStage < Stage && Elapsed >= Stage * 5 + 2)
+	if (InspectedStage < Stage && Elapsed >= Stage * 7 + 2)
 	{
 		InspectedStage = Stage;
 		InspectViewport(*Controller, Stage);
@@ -363,7 +430,9 @@ void ULDG1ProbeSubsystem::Finish()
 		return;
 	}
 	bFinished = true;
-	Check(TEXT("five-aspects-observed"), Views.Num() == 5, FString::FromInt(Views.Num()));
+	Check(TEXT("required-aspects-observed"), Views.Num() == UE_ARRAY_COUNT(Viewports), FString::FromInt(Views.Num()));
+	Check(TEXT("all-engine-touch-sequences-finished"), TouchCell == INDEX_NONE,
+	           TEXT("Every viewport completed all 36 engine touch events"));
 	for (int32 Route = 0; Route < 2; ++Route)
 	{
 		Check(FString::Printf(TEXT("final-two-laps-%d"), Route),

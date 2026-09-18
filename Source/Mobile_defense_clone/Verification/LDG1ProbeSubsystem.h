@@ -25,6 +25,7 @@ private:
 	bool StartRoutes();
 	void InspectRoutes(ALDPlayerController& Controller);
 	void InspectViewport(ALDPlayerController& Controller, int32 AspectIndex);
+	void PumpTouchInput(ALDPlayerController& Controller);
 	void Check(const FString& Name, bool bPassed, const FString& Detail);
 	void Finish();
 	FString OutputDirectory;
@@ -37,6 +38,11 @@ private:
 	int32 ResizeStage = -1;
 	int32 InspectedStage = -1;
 	int32 LocalPlayerIndex = INDEX_NONE;
+	int32 TouchCell = INDEX_NONE;
+	int32 TouchPhase = 0;
+	int32 TouchExpectedSelection = INDEX_NONE;
+	int32 TouchAspect = INDEX_NONE;
+	FVector2D TouchPosition = FVector2D::ZeroVector;
 	bool bFinished = false;
 	bool bFailed = false;
 	bool bRoutesStarted = false;
