@@ -1,0 +1,142 @@
+{
+  "Scope": "Reference file assembly only; not learner implementation or build/gameplay validation",
+  "Role": "A",
+  "StartedFrom": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+  "ProvidedFrom": "81ba665adff6c60ef95f79319b3115050937a1c1",
+  "RoleSourceFrom": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+  "ProjectRoot": "C:\\Users\\iam12\\P0_lesson_replay_a",
+  "Created": "2026-09-18T13:51:07.8128226+09:00",
+  "Files": [
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "tools/Sync-P0Data.ps1",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "dcf5372ce00507dfea6c85addabefe75c1787128"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "tools/Build-P0Editor.ps1",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "2ed3bba9b6486274cacd1535efc236a33e3be28a"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "tools/Test-P0Automation.ps1",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "16c8a8839daee8f8adb1e59b3c118a4d79e00a6a"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Config/DefaultGame.ini",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "e3683f5dc3a1c094fd34ab38d613b1c23bb831f4"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/GameRules.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "a7bec044262d4d4cb4bdb09fa5890383d1273f40"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_Units.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "c623de80eb01499dee969658153d8166a6485860"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_EnemyTypes.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "ddf9d88f1bd265aa3203b3699d5e2576218164ff"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_Waves.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "f464316e7117c539d8b71ad973c4a4951c7cdade"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_SummonProfiles.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "7724b35d045ef2004bed86a2a1b5547ce07d0d8e"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_SpawnProfiles.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "4486ad8ff89f7b3553164e590c2ed312c4a000dd"
+    },
+    {
+      "Step": "01 shared identity and module dependencies",
+      "Path": "Source/Mobile_defense_clone/Data/LDMatchTypes.h",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "b6ed46ff3023cc478dc68d0c5af1ab31f2309d2c"
+    },
+    {
+      "Step": "01 shared identity and module dependencies",
+      "Path": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "7493a2e9006071749e7d19ed1d66400dfdcbb55a"
+    },
+    {
+      "Step": "02 role-specific data declarations and loader",
+      "Path": "Source/Mobile_defense_clone/Data/LDGameData.h",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "84f33e3e4a72f09b6741c566f6a2a4e50539a370"
+    },
+    {
+      "Step": "02 role-specific data declarations and loader",
+      "Path": "Source/Mobile_defense_clone/Data/LDGameData.cpp",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "4960dd992646fd6f117247a18e5e2ca345ac15fa"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameState.h",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "287269ff729b08e9f00d5de69c1f2c76c06149c7"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameState.cpp",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "4da966e7e75cca0f3341ca090e8e2dd5f8dc0eed"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerState.h",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "80798a7a1d34ddcf48dfa7b8493d5aeac6652eba"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerState.cpp",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "76866046f6b192658cfa4f14a9522bb21815bb5f"
+    },
+    {
+      "Step": "06 role-specific composition and lifecycle",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameMode.h",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "dd249da087c231e3c1ca697d54a8a8282bb1f9de"
+    },
+    {
+      "Step": "06 role-specific composition and lifecycle",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameMode.cpp",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "efa3dfc180a95d80d8028e4357e0666a8baaef6c"
+    },
+    {
+      "Step": "07 role-specific automation expectations",
+      "Path": "Source/Mobile_defense_clone/Tests/LDDataTests.cpp",
+      "SourceSha": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "Blob": "8e1416580bdd4359581a65d09ed75ab32d281950"
+    }
+  ],
+  "Build": "NotRun",
+  "Automation": "NotRun",
+  "PIE": "NotRun",
+  "Package": "NotRun",
+  "Android": "NotRun"
+}

@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-DATA-01 / [A-01 설계](../../../docs/technical/IMPLEMENTATION_A.md#a01) |
-| 참고 자료 제작 상태 | Draft |
+| 참고 자료 제작 상태 | Verified — 2026-09-18 출발점 파일 조립·Editor·실제 로더 NullRHI 재현 범위 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`; 실행 HEAD `0efd2bb8c32f99e5814d6aa4d4891ee9d5e96c69` (수업 재현 미완료) |
+| 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 수정 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`; 재현 HEAD는 출발점이며 [manifest](../evidence/G0_REPLAY/a-assembly.json)로 조립 코드를 식별 |
 | 실제 개발 시작/완료 SHA | 출발점만 준비 / 미생성 |
 | 필요한 상대 산출물·버전 | B의 독립 공통 기반, Schema2 / Rules0.3.0 |
 | 제공 코드 / 직접 작성할 코드 | 제공: `data/` 기획 JSON, 스타일 도구. 직접 작성: Data/LDGameData.h/.cpp, Tests/LDDataTests.cpp, Build.cs의 Json 의존성 |
@@ -48,7 +48,7 @@ DataTable 에디터 임포트 대신 네이티브 JSON 로더를 선택했다. �
 
 ## 실행·실패·수정 기록
 
-아래 Pass는 기존 A 참고 제작 실행 결과다. 새 detached 출발점에서의 **수업 재현 결과는 NotRun**이며 공통 절차의 `Replay-G0-A-assembly/assembly.json`, `Replay-G0-A-editor/result.json`, `Replay-G0-A-tests/result.json`을 실제 생성한 후 별도로 기록한다. 원본 테스트4개 중 ParticipantIdentity는 A-02와 공유하는 값 계약 부분 검사다. 재현 명령이 적혀 있다는 이유만으로 아래 결과를 재현 Pass로 복사하지 않는다.
+아래 표는 최초 A 참고 제작의 실패·수정 이력이다. 별도 detached 출발점의 수업 재현은 2026-09-18 **Pass**: A-01/02 소스·제공 파일21개 조립 blob 일치, 합친 Editor Pass(64.39초), NullRHI4Success/0Fail/0NotRun을 실제 새 로그로 확인했다. [재현 결과와 범위](../evidence/G0_REPLAY/SUMMARY.md), [Editor](../evidence/G0_REPLAY/a-editor-result.json), [자동화](../evidence/G0_REPLAY/a-tests-result.json). 원본 테스트4개 중 ParticipantIdentity는 A-02와 공유하는 값 계약 부분 검사다. 이 데이터 수업은 화면을 만들지 않으므로 실제 화면 대신 필드별 오류·조회 결과·원자 게시 관찰을 증거로 쓴다. 패키지 UFS 로딩은 후속 게이트의 미검증 범위다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
@@ -72,18 +72,18 @@ DataTable 에디터 임포트 대신 네이티브 JSON 로더를 선택했다. �
 
 API: `LoadP0`, `LoadP0FromDirectory`, `IsLoaded`, `GetRules`, `GetUnits`, `GetWaves`, `TryGetUnitRow`, `TryGetEnemyRow`. `Data/LDGameData.h`가 실제 선언 원본이다. 규칙의 RulesVersion은 FName, 시간·거리는 double, 셀 순서는 `TArray<TArray<int32>>`다.
 
-B의 독립 로더와 타입을 먼저 비교하고 공통 타입·런타임 로더를 하나만 선택한다. A/B Editor 빌드를 각각 확인한 후 통합 Editor 빌드와 네 테스트를 다시 실행한다. 통합 시 Content JSON 여섯 개와 UFS 설정도 함께 받아야 한다. A 코드 커밋은 위 표에 고정했다. 통합 참고 SHA·실제 학습 통합 SHA는 아직 미확정이다.
+B의 독립 로더와 타입을 비교하여 A 로더를 통합 원본으로 선택했다. 역할별 Editor/재현4개 검사와 통합 Editor/12개 검사를 각각 확인했다. 통합 시 Content JSON 여섯 개와 UFS 설정도 함께 받는다. A 단독 코드 커밋은 위 표에 고정했으며 G0 통합 canonical과 A/B 반영 SHA는 [통합 기록](../INTEGRATION.md)에 있다. 실제 학습 통합 SHA는 미생성이다.
 
 ## 이해 확인
 
 - 후보 Units를 멤버에 먼저 채운 뒤 Wave 검증에 실패하면 어떤 상태가 관찰되는가?
 - SummonMaxGold=null을 0으로 해석하면 왜 소환 가격이 달라지는가?
 - 작은 변형: Saved 픽스처의 DT_Units에 중복 Name과 잘못된 Grade를 각각 넣고 오류 위치를 확인한다. 제품 데이터는 바꾸지 않는다.
-- G1 진입 조건: 실제 Editor 빌드 및 테스트, 공통 계약 비교, 패키징 경로 설정 확인. 이 수업을 출발점부터 재현하지 않았으므로 Verified로 올리지 않는다.
+- G1 진입 조건인 Editor/데이터 테스트·공통 계약 비교·패키징 경로 설정을 확인했다. Verified는 이 수업의 데이터 코드 재현 범위이며 실제 패키지 로딩·양쪽 게임 화면·Android를 포함하지 않는다. A-02의 접속·복제와 G1 검수는 계속한다.
 
 ## 단계 완료
 
-- [ ] 코드·에디터 설정·제공 파일 범위가 재현 가능하다.
+- [x] 출발점에서 코드·UFS 설정·제공 JSON을 명시 목록으로 조립하고 재현했다.
 - [x] Unreal 컴파일·자동화 결과와 시작/코드/실행 커밋을 연결했다. PIE·패키지 실행은 미완료다.
-- [ ] 필요한 상대 기능을 합쳐 확인했다.
+- [x] B와 공통 계약을 비교하고 채택한 로더로 통합 자동화12개를 확인했다. 보드·경제는 G0 Stub이다.
 - [x] 미검증 범위와 다음 단계의 의존성을 명시했다.

@@ -1,0 +1,178 @@
+{
+  "Scope": "Reference file assembly only; not learner implementation or build/gameplay validation",
+  "Role": "B",
+  "StartedFrom": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+  "ProvidedFrom": "81ba665adff6c60ef95f79319b3115050937a1c1",
+  "RoleSourceFrom": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+  "ProjectRoot": "C:\\Users\\iam12\\P0_lesson_replay_b",
+  "Created": "2026-09-18T13:51:12.5068690+09:00",
+  "Files": [
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "tools/Sync-P0Data.ps1",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "dcf5372ce00507dfea6c85addabefe75c1787128"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "tools/Build-P0Editor.ps1",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "2ed3bba9b6486274cacd1535efc236a33e3be28a"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "tools/Test-P0Automation.ps1",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "16c8a8839daee8f8adb1e59b3c118a4d79e00a6a"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Config/DefaultGame.ini",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "e3683f5dc3a1c094fd34ab38d613b1c23bb831f4"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/GameRules.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "a7bec044262d4d4cb4bdb09fa5890383d1273f40"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_Units.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "c623de80eb01499dee969658153d8166a6485860"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_EnemyTypes.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "ddf9d88f1bd265aa3203b3699d5e2576218164ff"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_Waves.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "f464316e7117c539d8b71ad973c4a4951c7cdade"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_SummonProfiles.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "7724b35d045ef2004bed86a2a1b5547ce07d0d8e"
+    },
+    {
+      "Step": "Provided tools, UFS configuration and canonical six JSON files",
+      "Path": "Content/LD/Data/DT_SpawnProfiles.json",
+      "SourceSha": "81ba665adff6c60ef95f79319b3115050937a1c1",
+      "Blob": "4486ad8ff89f7b3553164e590c2ed312c4a000dd"
+    },
+    {
+      "Step": "01 shared identity and module dependencies",
+      "Path": "Source/Mobile_defense_clone/Data/LDMatchTypes.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "7d03853cf10099505dbe5442064c87203775beb1"
+    },
+    {
+      "Step": "01 shared identity and module dependencies",
+      "Path": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "c7c6fb866cd399655bfaf22ad13c2399871b690d"
+    },
+    {
+      "Step": "02 role-specific data declarations and loader",
+      "Path": "Source/Mobile_defense_clone/Data/LDGameData.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "37fde2d341b12e8e8980a1b1d65683d5f2a222b3"
+    },
+    {
+      "Step": "02 role-specific data declarations and loader",
+      "Path": "Source/Mobile_defense_clone/Data/LDGameData.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "857af8cbf586a0c12c85a87798ec2ab400f41faf"
+    },
+    {
+      "Step": "03 B command value types and server admission",
+      "Path": "Source/Mobile_defense_clone/Network/LDCommandTypes.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "1786c3ac7650a898f879532b516548eda39d9940"
+    },
+    {
+      "Step": "03 B command value types and server admission",
+      "Path": "Source/Mobile_defense_clone/Network/LDCommandTypes.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "1e89368c232207d816fc7439f6f15b35d5340095"
+    },
+    {
+      "Step": "03 B command value types and server admission",
+      "Path": "Source/Mobile_defense_clone/Network/LDCommandProcessor.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "c4c55c42e9f84515ace60446c9304b90c9fcf561"
+    },
+    {
+      "Step": "03 B command value types and server admission",
+      "Path": "Source/Mobile_defense_clone/Network/LDCommandProcessor.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "a13268613b09c5b0d3683c814a90597022091086"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameState.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "e9d66a54e2ea1ea4f6bc5d25c62bb50713165036"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameState.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "691da252ae215cf02ac57e6c174650db70ab8108"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerState.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "3a1ac3a985c30231712045a83f2d1ede37fca0e6"
+    },
+    {
+      "Step": "04 common state and participant state",
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerState.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "aeae494bd90526a6e9b6b5ce9092685a3fd0f387"
+    },
+    {
+      "Step": "05 B owned command RPC controller",
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerController.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "640bc67fcdfa0f60553aa5fc9e8fd94d9926eadb"
+    },
+    {
+      "Step": "05 B owned command RPC controller",
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerController.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "78be94797804c0d1786024adde925c3b278ce871"
+    },
+    {
+      "Step": "06 role-specific composition and lifecycle",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameMode.h",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "651af63452285fa94bd66c0c93daffdf20ed9d94"
+    },
+    {
+      "Step": "06 role-specific composition and lifecycle",
+      "Path": "Source/Mobile_defense_clone/Core/LDGameMode.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "8053791e738131d9245207010d3d9d96b2735768"
+    },
+    {
+      "Step": "07 role-specific automation expectations",
+      "Path": "Source/Mobile_defense_clone/Tests/LDCommandTests.cpp",
+      "SourceSha": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "Blob": "22ae88ad3766bef774d11129e73b8d4b54079a68"
+    }
+  ],
+  "Build": "NotRun",
+  "Automation": "NotRun",
+  "PIE": "NotRun",
+  "Package": "NotRun",
+  "Android": "NotRun"
+}

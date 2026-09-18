@@ -1,0 +1,56 @@
+[
+  {
+    "Role": "A",
+    "ProjectRoot": "C:/Users/iam12/P0_lesson_replay_a",
+    "ManifestFileCount": 21,
+    "PostRunBlobMismatchCount": 0,
+    "Tests": [
+      {
+        "fullTestPath": "LD.P0.G0.Data.InvalidRowsAndMissingFiles",
+        "state": "Success"
+      },
+      {
+        "fullTestPath": "LD.P0.G0.Data.ParticipantIdentity",
+        "state": "Success"
+      },
+      {
+        "fullTestPath": "LD.P0.G0.Data.RejectChangedContractsAtomically",
+        "state": "Success"
+      },
+      {
+        "fullTestPath": "LD.P0.G0.Data.ValidP0Snapshot",
+        "state": "Success"
+      }
+    ],
+    "Scope": "Reference assembly and Editor/NullRHI automation reproduction; not learner implementation or visual/network gameplay",
+    "UnlistedConfigChange": "Editor generated a local AndroidFileServer SecurityToken in Config/DefaultEngine.ini; value intentionally not copied",
+    "FullLogsRoot": "C:\\Users\\iam12\\P0_lesson_replay_a\\Saved\\P0Runs"
+  },
+  {
+    "Role": "B",
+    "ProjectRoot": "C:/Users/iam12/P0_lesson_replay_b",
+    "ManifestFileCount": 27,
+    "PostRunBlobMismatchCount": 0,
+    "Tests": [
+      {
+        "fullTestPath": "LD.P0.G0.Commands.AdmissionAndReplay",
+        "state": "Success"
+      },
+      {
+        "fullTestPath": "LD.P0.G0.Commands.BIndependentLoader",
+        "state": "Success"
+      },
+      {
+        "fullTestPath": "LD.P0.G0.Commands.LimitsAndExpiry",
+        "state": "Success"
+      },
+      {
+        "fullTestPath": "LD.P0.G0.Commands.PayloadNormalization",
+        "state": "Success"
+      }
+    ],
+    "Scope": "Reference assembly and Editor/NullRHI automation reproduction; not learner implementation or visual/network gameplay",
+    "UnlistedConfigChange": "Editor generated a local AndroidFileServer SecurityToken in Config/DefaultEngine.ini; value intentionally not copied",
+    "FullLogsRoot": "C:\\Users\\iam12\\P0_lesson_replay_b\\Saved\\P0Runs"
+  }
+]

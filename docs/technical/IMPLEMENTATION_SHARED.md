@@ -75,9 +75,9 @@ applies_to: A/B 구현 설계의 공통 계약·통합 순서·단계 제출 기
 |---|---|---|
 | `FLDMatchContext` | `FGuid MatchId`, `FName RulesVersion` | A가 매치 생성 시 고정. FGuid는 이번 C++ 설계안 |
 | `FLDParticipantContext` | MatchId, `int32 PlayerIndex`, `uint64 ConnectionEpoch` | 서버 참가자 등록/연결 정보. 클라이언트 payload에서 신원을 받지 않음 |
-| `FLDPlacedUnit` | `uint64 InstanceId`, `FName UnitId`, `int32 PlayerIndex`, `int32 CellId` | B의 확정된 유닛 배치 값. InstanceId는 매치 내 유일 |
-| `FLDBoardCommit` | MatchId, PlayerIndex, BoardRevision, 추가/갱신된 FLDPlacedUnit 목록, 제거된 InstanceId 목록 | B가 공동 확정 후 게시. 수신자가 임의 보드 변경에 사용하지 않음 |
-| `FLDCombatDeath` | MatchId, `uint64 DeathEventId`, EnemyId, SpawnSerial, EnemyTypeId, 서버 전투 시각 | A가 살아 있음→사망 전이에서 1회 생성. 재전달해도 동일 ID |
+| `FLDPlacedUnit` | `uint64 InstanceId`, `FName UnitId`, `int32 PlayerIndex`, `int32 CellId`, `double MoveBlockedUntilServerSeconds` | B의 확정된 유닛 배치·이동 잠금 값. InstanceId는 매치 내 유일 |
+| `FLDBoardCommit` | MatchId, `int32 PlayerIndex/BoardRevision`, `double CommitServerSeconds`, 변경 사유 Summon/Move/Merge/Sell, 추가/갱신된 FLDPlacedUnit 목록, 제거된 InstanceId 목록 | B가 공동 확정 후 게시. 수신자가 임의 보드 변경에 사용하지 않음 |
+| `FLDCombatDeath` | MatchId, `uint64 DeathEventId/EnemyId/SpawnSerial`, `FName EnemyTypeId`, `int32 SpawnWaveIndex`, `double SpawnedServerSeconds/DeathServerSeconds` | A가 살아 있음→사망 전이에서 1회 생성. 재전달해도 동일 ID. 보상 금액·수혜자는 포함하지 않음 |
 | `FLDCommand` / `FLDCommandResult` | 연결 세대·요청 번호·명령별 payload / 결과·두 Revision·생성/제거 ID·EventId | 기존 ARCHITECTURE 16.2 그대로. 서버 내부 보상과 구분 |
 
 `CellId`는 두 보드를 통틀어 유일한 논리 칸 번호다. DEC-039의 인코딩에 따라 보드 0은 0~17, 보드 1은 18~35를 사용하며 보드 내부의 0~17 번호와 혼용하지 않는다. 서버 조회는 참가자와 CellId를 함께 받아 전체 범위와 해당 참가자의 보드 소유권을 검사한다. 카메라를 180도 돌려도 CellId·InstanceId를 재발급하지 않는다. 신규 struct의 필드 표기는 구현 시 고정하며 기존 JSON/명령 필드와 같은 의미의 별칭을 여러 개 만들지 않는다.
@@ -91,13 +91,17 @@ applies_to: A/B 구현 설계의 공통 계약·통합 순서·단계 제출 기
 | B · BoardManager | `OnBoardCommitted(const FLDBoardCommit& Commit)` | A의 연결부가 추가/이동/제거를 구분해 전투 참가 상태에 반영 |
 | A · UnitActor | `bool InitializePrepared(const FLDPlacedUnit& Unit, const FLDUnitRow& Row, const FTransform& Transform)` | B의 액터 준비 경로. 초기화만 하고 전투·충돌·복제·연출에 참여하지 않음 |
 | A · UnitActor | `void ApplyCommittedPlacement(const FLDPlacedUnit& Unit, const FTransform& Transform)` | B의 확정/게시 경로. 기존 개체 이동은 공격 쿨다운을 초기화하지 않음 |
-| A · BattleSubsystem | `void RegisterCommittedUnit(ALDUnitActor& Unit)` / `void UnregisterUnit(uint64 InstanceId)` | A의 연결부에서 호출. 동일 ID 중복 등록/제거에 안전 |
-| A · BattleSubsystem | `OnEnemyDeathCommitted(const FLDCombatDeath& Death)` | A의 연결부가 B의 내부 보상 진입점에 전달 |
+| A · CombatService | `void RegisterCommittedUnit(ALDUnitActor& Unit, double CommitServerSeconds)` / `void UnregisterUnit(uint64 InstanceId)` | A의 연결부에서 호출. 동일 ID 중복 등록/제거에 안전, 재등록은 기존 공격 타이머 보존 |
+| A · CombatService | `AdvanceCombatTo(double ServerSeconds)`, `Stop()`, `OnEnemyDeathCommitted(const FLDCombatDeath& Death)` | GameMode가20Hz 논리 시각을 전달하고 확정 사망을 B의 내부 보상 진입점에 연결 |
 | B · CommandProcessor | `void EnqueueCombatReward(const FLDCombatDeath& Death)` | 서버 연결부만 호출. 클라이언트 RPC 없음. 금액·대상은 서버 규칙으로 결정 |
 
 최종 응답은 `(MatchId, 참가자, ConnectionEpoch, RequestId)`에 묶는다. 연결부가 해당 Controller의 소유 클라이언트 응답과 개인 복제 스냅샷 게시를 연결한다. 큐에 넣은 요청의 `Pending`은 실패나 환불이 아니다. Controller 교체 후 이전 세대 응답을 새 요청에 적용하지 않는다.
 
-월드 경로는 B가 맵의 닫힌 Spline을 제공하고 A의 초기화 경로가 유효성을 확인해 EnemyActor 이동에 연결한다. 경제 계산이 경로 액터를 참조하거나 전투 계산이 EconomyService를 찾아가는 의존 관계는 만들지 않는다.
+P0 월드 경로는 검증된 `GameRules.Paths.PointsByGateCm`의 닫힌 polyline을 A의 RouteModel/EnemyActor가 사용하고 B의 전장 표시가 같은 좌표를 사용한다. 맵 Spline 편집값을 별도 경로 원본으로 두지 않는다. 경제 계산이 경로 액터를 참조하거나 전투 계산이 EconomyService를 찾아가는 의존 관계는 만들지 않는다.
+
+G2 연결은 GameMode가 UPROPERTY로 소유하는 `ULDCombatService`를 사용한다. 기존 BattleSubsystem 초안의 역할을 유지하면서 서버 수명과 고정 단계 호출을 명시한다. BoardManager가 존재·배치·이동 잠금의 원본이며 CombatService는 InstanceId별 `NextAttackAt`의 원본이다. 처음 등록한 개체만 확정 시각+.25로 초기화한다. 수동 이동은 B가 `max(기존 잠금, 확정 시각+.30)`을 적용하고 A는 `max(NextAttackAt, 이동 잠금)`부터 공격한다. 판매 보충은 기존 ID·잠금·공격 타이머를 유지하며 새 초기 지연을 넣지 않는다.
+
+현행 P0 데이터에는 게임 판정용 투사체 비행시간이 없다. 기본 피해는 서버 예정 공격 시각에 확정하고 근접·투사체 연출은 그 사실을 표현한다. 표현 완료 콜백은 피해나 처치 보상을 다시 발생시키지 않는다. 이는 P0 기본 공격의 표현과 판정을 분리하는 구현이며 별도 비행시간 규칙을 추가하지 않는다.
 
 <a id="lifecycle"></a>
 
@@ -130,7 +134,7 @@ DEC-037의 소환 변경안은 동일 소유/UnitId의 기존 여유 뭉치 추�
 
 A는 한 적에 대한 사망을 한 번 확정하고 식별 가능한 결과를 보낸다. B는 `(MatchId, DeathEventId, 보상 대상 참가자)`로 중복 적용을 막고 해당 참가자의 소환·판매와 같은 처리 순서에 넣는다. 보상량과 수혜자는 서버 규칙에서 읽고 클라이언트나 시각 VFX에서 받지 않는다.
 
-한 전투 스텝에서 확정된 처치 보상은 다음 외부 명령 처리/최종 결과 게시 전에 정해진 내부 처리 단계에서 반영한다. 승패 판정 순서는 유지하고, 그 판정에서 승인된 최종 웨이브 보상까지 내부 확정 경로로 처리한 뒤 종료 결과를 게시한다. 두 사람은 구현 시 [전투 명세 5.4](../design/BATTLE.md)의 경계 순서와 대조한다. Result 이후 도착한 새 사망 통지로 재보상하지 않는다.
+한 전투 스텝에서 확정된 처치 보상은 다음 외부 명령 처리/최종 결과 게시 전에 정해진 내부 처리 단계에서 반영한다. 승패 판정 순서는 유지하고, 그 판정에서 승인된 최종 웨이브 보상까지 내부 확정 경로로 처리한 뒤 종료 결과를 게시한다. 두 사람은 구현 시 [전투 명세 5.3](../design/BATTLE.md)의 경계 순서와 대조한다. Result 이후 도착한 새 사망 통지로 재보상하지 않는다.
 
 종료 시 A는 전투·스폰 예약을 멈추고 서버 연결을 해제한다. B는 새 명령 접수를 닫고 준비 작업·입력·UI 구독을 정리한다. 이미 확정된 동일 요청은 ARCHITECTURE 16.2의 캐시 규칙에 따라 원래 결과를 재전달한다. UI 제거는 이미 접수한 명령의 취소가 아니다.
 

@@ -1,0 +1,18 @@
+{
+  "Scope": "Unreal Editor compile only",
+  "Started": "2026-09-18T13:55:30.8871887+09:00",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Build\\BatchFiles\\Build.bat",
+  "Arguments": [
+    "Mobile_defense_cloneEditor",
+    "Win64",
+    "Development",
+    "-Project=C:\\Users\\iam12\\P0_lesson_replay_b\\Mobile_defense_clone.uproject",
+    "-WaitMutex",
+    "-NoHotReloadFromIDE",
+    "-MaxParallelActions=4"
+  ],
+  "Head": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+  "Result": "Pass",
+  "ExitCode": 0,
+  "Finished": "2026-09-18T13:56:44.7094981+09:00"
+}
