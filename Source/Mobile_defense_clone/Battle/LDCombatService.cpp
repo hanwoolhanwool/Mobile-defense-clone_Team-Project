@@ -105,30 +105,34 @@ bool ULDCombatService::IsValidTarget(const ALDUnitActor& Unit, const ALDEnemyAct
 
 bool ULDCombatService::AdvanceCombatTo(double ServerSeconds)
 {
+	return AdvanceCombatInternal(ServerSeconds, true);
+}
+
+bool ULDCombatService::AdvanceCombatBefore(double ServerSeconds)
+{
+	return AdvanceCombatInternal(ServerSeconds, false);
+}
+
+bool ULDCombatService::AdvanceCombatInternal(double ServerSeconds, bool bIncludeBoundary)
+{
 	if (!bInitialized || bStopped || bAdvancing || !FMath::IsFinite(ServerSeconds) || ServerSeconds < 0 ||
 	    ServerSeconds < LastAdvanceSeconds)
 	{
 		return false;
 	}
-	if (ServerSeconds == LastAdvanceSeconds)
+	if (ServerSeconds == LastAdvanceSeconds && (bLastAdvanceIncludedBoundary || !bIncludeBoundary))
 	{
 		return true;
 	}
 	TGuardValue<bool> AdvancingGuard(bAdvancing, true);
 	LastAdvanceSeconds = ServerSeconds;
-	for (const auto& Entry : Enemies)
+	bLastAdvanceIncludedBoundary = bIncludeBoundary;
+	// Existing events retain their exact times and are resolved globally before observing a new target.
+	ResolveScheduledAttacks(ServerSeconds, bIncludeBoundary);
+	if (bStopped)
 	{
-		if (ALDEnemyActor* Enemy = Entry.Value.Get())
-		{
-			Enemy->AdvanceRouteTo(ServerSeconds);
-		}
+		return true;
 	}
-	struct FDueAttack
-	{
-		uint64 InstanceId;
-		double DueSeconds;
-	};
-	TArray<FDueAttack> DueAttacks;
 	for (auto& Entry : Units)
 	{
 		FUnitAttackState& State = Entry.Value;
@@ -138,46 +142,76 @@ bool ULDCombatService::AdvanceCombatTo(double ServerSeconds)
 			State.ReservedTarget.Reset();
 			continue;
 		}
-		const double Earliest = FMath::Max(State.NextAttackAt, Unit->GetPlacement().MoveBlockedUntilServerSeconds);
-		ALDEnemyActor* Target = State.ReservedTarget.Get();
-		if (Target)
-		{
-			State.ReservedAttackAt = FMath::Max(State.ReservedAttackAt, Earliest);
-			// An existing scheduled attack samples its exact due time; root actors never rewind.
-			Target = SelectTarget(*Unit, FMath::Min(State.ReservedAttackAt, ServerSeconds));
-			State.ReservedTarget = Target;
-		}
+		ALDEnemyActor* Target = SelectTarget(*Unit, ServerSeconds);
 		if (!Target)
 		{
-			Target = SelectTarget(*Unit, ServerSeconds);
-			if (Target)
-			{
-				State.ReservedTarget = Target;
-				// A newly observed target cannot receive an attack backdated into a targetless interval.
-				State.ReservedAttackAt = FMath::Max(Earliest, ServerSeconds);
-			}
+			State.ReservedTarget.Reset();
+			continue;
 		}
-		if (Target && State.ReservedAttackAt <= ServerSeconds)
+		const double Earliest = FMath::Max(State.NextAttackAt, Unit->GetPlacement().MoveBlockedUntilServerSeconds);
+		if (!State.ReservedTarget.IsValid())
 		{
-			DueAttacks.Add({Entry.Key, State.ReservedAttackAt});
+			// Newly observed targets cannot inherit an attack in a previously targetless interval.
+			State.ReservedAttackAt = FMath::Max(Earliest, ServerSeconds);
+		}
+		else
+		{
+			State.ReservedAttackAt = FMath::Max(State.ReservedAttackAt, Earliest);
+		}
+		State.ReservedTarget = Target;
+	}
+	ResolveScheduledAttacks(ServerSeconds, bIncludeBoundary);
+	for (const auto& Entry : Enemies)
+	{
+		if (ALDEnemyActor* Enemy = Entry.Value.Get())
+		{
+			Enemy->AdvanceRouteTo(ServerSeconds);
 		}
 	}
-	DueAttacks.Sort(
-	    [](const FDueAttack& A, const FDueAttack& B)
-	    { return A.DueSeconds == B.DueSeconds ? A.InstanceId < B.InstanceId : A.DueSeconds < B.DueSeconds; });
-	for (const FDueAttack& Due : DueAttacks)
+	return true;
+}
+
+void ULDCombatService::ResolveScheduledAttacks(double ServerSeconds, bool bIncludeBoundary)
+{
+	while (!bStopped)
 	{
-		FUnitAttackState* State = Units.Find(Due.InstanceId);
-		if (bStopped || !State)
+		uint64 SelectedId = 0;
+		double DueSeconds = 0;
+		for (auto& Entry : Units)
+		{
+			FUnitAttackState& State = Entry.Value;
+			ALDUnitActor* Unit = State.Unit.Get();
+			if (!Unit || !Unit->IsCommitted() || !State.ReservedTarget.IsValid())
+			{
+				continue;
+			}
+			State.ReservedAttackAt =
+			    FMath::Max(State.ReservedAttackAt,
+			               FMath::Max(State.NextAttackAt, Unit->GetPlacement().MoveBlockedUntilServerSeconds));
+			const double Due = State.ReservedAttackAt;
+			if (Due > ServerSeconds || (!bIncludeBoundary && Due == ServerSeconds))
+			{
+				continue;
+			}
+			if (SelectedId == 0 || Due < DueSeconds || (Due == DueSeconds && Entry.Key < SelectedId))
+			{
+				SelectedId = Entry.Key;
+				DueSeconds = Due;
+			}
+		}
+		if (SelectedId == 0)
+		{
+			return;
+		}
+		FUnitAttackState* State = Units.Find(SelectedId);
+		ALDUnitActor* Unit = State ? State->Unit.Get() : nullptr;
+		if (!State || !Unit)
 		{
 			continue;
 		}
-		ALDUnitActor* Unit = State->Unit.Get();
-		ALDEnemyActor* Target = State->ReservedTarget.Get();
 		State->ReservedTarget.Reset();
-		if (!Unit || !Target || Unit->GetPlacement().InstanceId != Due.InstanceId ||
-		    !IsValidTarget(*Unit, *Target, Due.DueSeconds) ||
-		    Due.DueSeconds < Unit->GetPlacement().MoveBlockedUntilServerSeconds)
+		ALDEnemyActor* Target = SelectTarget(*Unit, DueSeconds);
+		if (!Target || Unit->GetPlacement().InstanceId != SelectedId || !IsValidTarget(*Unit, *Target, DueSeconds))
 		{
 			continue;
 		}
@@ -190,34 +224,34 @@ bool ULDCombatService::AdvanceCombatTo(double ServerSeconds)
 		FLDDamageEvent Event;
 		Event.MatchId = MatchContext.MatchId;
 		Event.DamageEventId = NextDamageEventId++;
-		Event.SourceInstanceId = Due.InstanceId;
+		Event.SourceInstanceId = SelectedId;
 		Event.EnemyId = Target->GetRouteSnapshot().EnemyId;
 		Event.Amount = Damage;
-		Event.AttackServerSeconds = Due.DueSeconds;
+		Event.AttackServerSeconds = DueSeconds;
+		FVector HitPosition;
+		Target->TryGetCanonicalPositionAt(DueSeconds, HitPosition);
+		// The event timeline is monotonic. Advancing the victim before death preserves its exact final location.
+		Target->AdvanceRouteTo(DueSeconds);
 		FLDCombatDeath Death;
 		const ELDDamageResult Result = Target->TryApplyDamage(Event, Death);
 		if (Result != ELDDamageResult::Applied && Result != ELDDamageResult::Killed)
 		{
 			continue;
 		}
-		State->NextAttackAt = Due.DueSeconds + Unit->GetUnitRow().AttackIntervalSeconds;
+		State->NextAttackAt = DueSeconds + Unit->GetUnitRow().AttackIntervalSeconds;
 		if (Target->IsCombatAlive())
 		{
 			State->ReservedTarget = Target;
 			State->ReservedAttackAt = State->NextAttackAt;
 		}
-		FVector HitPosition;
-		Target->TryGetCanonicalPositionAt(Due.DueSeconds, HitPosition);
-		Unit->PresentCommittedAttack(Event.DamageEventId, HitPosition, Due.DueSeconds);
+		Unit->PresentCommittedAttack(Event.DamageEventId, HitPosition, DueSeconds);
 		if (Result == ELDDamageResult::Killed)
 		{
-			// State references must not be used after a delegate: the owner may remove units or end the match.
+			// The subscriber may mutate Units or stop the match; do not retain map references across this call.
 			OnEnemyDeathCommitted.Broadcast(Death);
 		}
 	}
-	return true;
 }
-
 void ULDCombatService::Stop()
 {
 	if (bStopped)

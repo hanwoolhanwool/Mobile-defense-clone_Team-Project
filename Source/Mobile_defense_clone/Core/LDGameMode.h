@@ -45,6 +45,7 @@ private:
 	void StopMatchServices();
 	void ReleasePlayerSessions();
 	void AdvanceLogic();
+	void AdvanceBeforeExternalCommand(double ServerSeconds);
 	void HandleBoardCommitted(const FLDBoardCommit& Commit);
 	void HandleEconomyChanged(const FLDEconomySnapshot& Snapshot);
 	void HandleEnemyDeath(const FLDCombatDeath& Death);
