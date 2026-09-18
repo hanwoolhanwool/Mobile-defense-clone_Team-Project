@@ -23,6 +23,7 @@ public:
 	bool Initialize(const FLDBoardGeometry& InGeometry, int32 InLocalPlayerIndex, FString& OutError);
 	void ApplyViewportLayout(const FLDBoardViewportLayout& Layout);
 	void SetSelectedCell(int32 CellId);
+	void SetRangePresentation(const FVector& CanonicalCenter, double RadiusCm);
 	const FLDBoardGeometry& GetGeometry() const;
 
 private:
@@ -41,6 +42,11 @@ private:
 	TArray<TObjectPtr<UStaticMeshComponent>> CellVisuals;
 	UPROPERTY()
 	TArray<TObjectPtr<UMaterialInstanceDynamic>> CellMaterials;
+	UPROPERTY()
+	TArray<TObjectPtr<UStaticMeshComponent>> RangeVisuals;
+	FVector RangeCenter = FVector::ZeroVector;
+	double RangeRadiusCm = -1;
+	double PixelsPerCm = 1;
 	FLDBoardGeometry Geometry;
 	int32 LocalPlayerIndex = INDEX_NONE;
 	int32 SelectedCellId = INDEX_NONE;

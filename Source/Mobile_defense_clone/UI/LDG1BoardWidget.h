@@ -17,6 +17,7 @@ class MOBILE_DEFENSE_CLONE_API ULDG1BoardWidget : public UUserWidget
 public:
 	void SetViewState(int32 PlayerIndex, int32 SelectedCell, ELDCellInputResult Result);
 	bool TryGetSafeRectPixels(FBox2D& OutRect) const;
+	void SetGameplayOverlayVisible(bool bVisible);
 
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;

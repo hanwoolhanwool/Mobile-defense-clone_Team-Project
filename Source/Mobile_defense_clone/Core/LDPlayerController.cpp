@@ -2,16 +2,21 @@
 
 #include "Board/LDBoardPresentation.h"
 #include "Board/LDViewTransform.h"
+#include "Battle/LDUnitActor.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Components/InputComponent.h"
 #include "Core/LDPlayerState.h"
 #include "Data/LDGameData.h"
 #include "Engine/World.h"
+#include "EngineUtils.h"
 #include "HAL/PlatformTime.h"
 #include "InputCoreTypes.h"
 #include "Net/UnrealNetwork.h"
 #include "Network/LDCommandProcessor.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
 #include "UI/LDG1BoardWidget.h"
+#include "UI/LDGameplayWidget.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDBoardInput, Log, All);
 
@@ -51,12 +56,14 @@ void ALDPlayerController::OnRep_ConnectionEpoch()
 	PendingCommand.Reset();
 	NextRequestId = 1;
 	LastResult = {};
+	bAwaitingCommittedSnapshot = false;
+	RetryCount = 0;
 	ReleaseLocalBoard();
 }
 
 bool ALDPlayerController::SubmitLocalCommand(FLDCommand Command)
 {
-	if (!IsLocalController() || !CurrentMatchId.IsValid() || ConnectionEpoch == 0 || PendingCommand.IsSet() ||
+	if (!IsLocalController() || !CurrentMatchId.IsValid() || ConnectionEpoch == 0 || HasPendingCommand() ||
 	    NextRequestId == MAX_uint32)
 	{
 		return false;
@@ -68,7 +75,10 @@ bool ALDPlayerController::SubmitLocalCommand(FLDCommand Command)
 		return false;
 	}
 	++NextRequestId;
+	LastCellInputResult = ELDCellInputResult::None;
 	PendingCommand = Command;
+	LastRequestSeconds = FPlatformTime::Seconds();
+	RetryCount = 0;
 	ServerRequestCommand(Command);
 	return true;
 }
@@ -118,13 +128,26 @@ void ALDPlayerController::ClientCommandResult_Implementation(const FLDCommandRes
 	if (Result.ResultCode != ELDCommandResultCode::Pending)
 	{
 		PendingCommand.Reset();
+		bAwaitingCommittedSnapshot = Result.ResultCode == ELDCommandResultCode::Success;
+		if (Result.ResultCode != ELDCommandResultCode::Success && Result.ResultCode != ELDCommandResultCode::NoChange)
+		{
+			if (GameplayWidget)
+			{
+				GameplayWidget->ShowRejected();
+			}
+			if (USoundBase* Sound = RejectedSound.LoadSynchronous())
+			{
+				UGameplayStatics::PlaySound2D(this, Sound);
+			}
+		}
 	}
+	UpdateGameplayView();
 	OnCommandCompleted.Broadcast(Result);
 }
 
 bool ALDPlayerController::HasPendingCommand() const
 {
-	return PendingCommand.IsSet();
+	return PendingCommand.IsSet() || bAwaitingCommittedSnapshot;
 }
 
 const FLDCommandResult& ALDPlayerController::GetLastResult() const
@@ -145,8 +168,7 @@ void ALDPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME_CONDITION(ALDPlayerController, CurrentMatchId, COND_OwnerOnly);
 	DOREPLIFETIME_CONDITION(ALDPlayerController, ConnectionEpoch, COND_OwnerOnly);
-	DOREPLIFETIME_CONDITION(ALDPlayerController, BoardSnapshot, COND_OwnerOnly);
-	DOREPLIFETIME_CONDITION(ALDPlayerController, EconomySnapshot, COND_OwnerOnly);
+	DOREPLIFETIME_CONDITION(ALDPlayerController, GameplaySnapshot, COND_OwnerOnly);
 }
 
 void ALDPlayerController::PublishSnapshots(const FLDBoardSnapshot& Board, const FLDEconomySnapshot& Economy)
@@ -156,33 +178,320 @@ void ALDPlayerController::PublishSnapshots(const FLDBoardSnapshot& Board, const 
 	{
 		return;
 	}
-	BoardSnapshot = Board;
-	EconomySnapshot = Economy;
+	GameplaySnapshot.ConnectionEpoch = ServerContext.ConnectionEpoch;
+	GameplaySnapshot.Board = Board;
+	GameplaySnapshot.Economy = Economy;
 	OnRep_GameplaySnapshot();
 	ForceNetUpdate();
 }
 
 const FLDBoardSnapshot& ALDPlayerController::GetBoardSnapshot() const
 {
-	return BoardSnapshot;
+	return GameplaySnapshot.Board;
 }
 
 const FLDEconomySnapshot& ALDPlayerController::GetEconomySnapshot() const
 {
-	return EconomySnapshot;
+	return GameplaySnapshot.Economy;
 }
 
 bool ALDPlayerController::IsGameplaySnapshotReady() const
 {
 	return CurrentMatchId.IsValid() && ConnectionEpoch != 0 && LocalParticipantIndex != INDEX_NONE &&
-	       BoardSnapshot.MatchId == CurrentMatchId && EconomySnapshot.MatchId == CurrentMatchId &&
-	       BoardSnapshot.PlayerIndex == LocalParticipantIndex && EconomySnapshot.PlayerIndex == LocalParticipantIndex;
+	       GameplaySnapshot.ConnectionEpoch == ConnectionEpoch && GameplaySnapshot.Board.MatchId == CurrentMatchId &&
+	       GameplaySnapshot.Economy.MatchId == CurrentMatchId &&
+	       GameplaySnapshot.Board.PlayerIndex == LocalParticipantIndex &&
+	       GameplaySnapshot.Economy.PlayerIndex == LocalParticipantIndex;
 }
 
 void ALDPlayerController::OnRep_GameplaySnapshot()
 {
 	// Snapshot arrival order is independent from session and local presentation initialization.
 	// UI observes the combined readiness predicate; it never creates a replacement source state.
+	UpdateGameplayView();
+}
+
+bool ALDPlayerController::RequestSummon()
+{
+	if (!IsGameplaySnapshotReady())
+	{
+		return false;
+	}
+	FLDCommand Command;
+	Command.ExpectedBoardRevision = GetBoardSnapshot().BoardRevision;
+	return SubmitLocalCommand(Command);
+}
+
+uint64 ALDPlayerController::GetSelectedInstanceId() const
+{
+	uint64 Selected = 0;
+	for (const FLDPlacedUnit& Unit : GetBoardSnapshot().Units)
+	{
+		if (Unit.CellId == SelectedCellId && (Selected == 0 || Unit.InstanceId < Selected))
+		{
+			Selected = Unit.InstanceId;
+		}
+	}
+	return Selected;
+}
+
+bool ALDPlayerController::CanMergeSelection() const
+{
+	int32 Count = 0;
+	FName UnitId;
+	for (const FLDPlacedUnit& Unit : GetBoardSnapshot().Units)
+	{
+		if (Unit.CellId == SelectedCellId)
+		{
+			++Count;
+			UnitId = Unit.UnitId;
+		}
+	}
+	FLDUnitRow Row;
+	return Count == 3 && LocalGameData && LocalGameData->TryGetUnitRow(UnitId, Row) && Row.Grade != TEXT("Legendary");
+}
+
+bool ALDPlayerController::RequestMergeSelection()
+{
+	if (!IsGameplaySnapshotReady() || !CanMergeSelection())
+	{
+		return false;
+	}
+	TArray<uint64> Ids;
+	for (const FLDPlacedUnit& Unit : GetBoardSnapshot().Units)
+	{
+		if (Unit.CellId == SelectedCellId)
+		{
+			Ids.Add(Unit.InstanceId);
+		}
+	}
+	Ids.Sort();
+	FLDCommand Command;
+	Command.CommandType = ELDCommandType::Merge;
+	Command.ExpectedBoardRevision = GetBoardSnapshot().BoardRevision;
+	Command.InstanceId = Ids[0];
+	Command.ConsumedInstanceId0 = Ids[0];
+	Command.ConsumedInstanceId1 = Ids[1];
+	Command.ConsumedInstanceId2 = Ids[2];
+	return SubmitLocalCommand(Command);
+}
+
+bool ALDPlayerController::RequestSellSelection()
+{
+	if (!IsGameplaySnapshotReady() || GetSelectedInstanceId() == 0)
+	{
+		return false;
+	}
+	FLDCommand Command;
+	Command.CommandType = ELDCommandType::Sell;
+	Command.ExpectedBoardRevision = GetBoardSnapshot().BoardRevision;
+	Command.InstanceId = GetSelectedInstanceId();
+	return SubmitLocalCommand(Command);
+}
+
+bool ALDPlayerController::RequestMove(uint64 InstanceId, int32 DestinationCellId)
+{
+	if (!IsGameplaySnapshotReady())
+	{
+		return false;
+	}
+	FLDCommand Command;
+	Command.CommandType = ELDCommandType::Move;
+	Command.ExpectedBoardRevision = GetBoardSnapshot().BoardRevision;
+	Command.InstanceId = InstanceId;
+	Command.DestinationCellId = DestinationCellId;
+	return SubmitLocalCommand(Command);
+}
+
+FText ALDPlayerController::GetSelectionText() const
+{
+	FName UnitId;
+	int32 Count = 0;
+	for (const FLDPlacedUnit& Unit : GetBoardSnapshot().Units)
+	{
+		if (Unit.CellId == SelectedCellId)
+		{
+			UnitId = Unit.UnitId;
+			++Count;
+		}
+	}
+	FLDUnitRow Row;
+	if (!LocalGameData || !LocalGameData->TryGetUnitRow(UnitId, Row))
+	{
+		return NSLOCTEXT("LD", "SelectStack", "유닛을 선택하거나 뭉치를 끌어 이동하세요");
+	}
+	return FText::Format(NSLOCTEXT("LD", "SelectedStack", "{0} × {1}  ·  사거리 {2}칸"),
+	                               FText::FromString(Row.DisplayName), Count,
+	                               Row.RangeCm / LocalGameData->GetRules().CellSizeCm);
+}
+
+FText ALDPlayerController::GetCommandFeedback() const
+{
+	if (LastCellInputResult == ELDCellInputResult::NotOwner)
+	{
+		return NSLOCTEXT("LD", "GameplayForeignCell", "상대 보드는 조작할 수 없습니다");
+	}
+	if (bAwaitingCommittedSnapshot)
+	{
+		return NSLOCTEXT("LD", "AwaitSnapshot", "확정된 보드와 재화를 동기화하고 있습니다");
+	}
+	if (PendingCommand.IsSet())
+	{
+		return RetryCount >= 3             ? NSLOCTEXT("LD", "RequestUncertain", "응답을 기다리고 있습니다. 같은 요청만 재확인합니다")
+		                                   : NSLOCTEXT("LD", "RequestPending", "요청을 처리하고 있습니다");
+	}
+	if (LastResult.RequestId == 0)
+	{
+		return NSLOCTEXT("LD", "GameplayHint", "소환 · 뭉치 이동 · 같은 유닛 3마리 합성 · 한 마리 판매");
+	}
+	switch (LastResult.ResultCode)
+	{
+	case ELDCommandResultCode::Success:
+		return NSLOCTEXT("LD", "CommandSuccess", "완료했습니다");
+	case ELDCommandResultCode::InsufficientResource:
+		return NSLOCTEXT("LD", "InsufficientGold", "골드가 부족합니다");
+	case ELDCommandResultCode::LimitReached:
+		return NSLOCTEXT("LD", "PopulationLimit", "인구 상한에 도달했습니다");
+	case ELDCommandResultCode::NotOwner:
+		return NSLOCTEXT("LD", "ForeignUnit", "상대 보드는 조작할 수 없습니다");
+	case ELDCommandResultCode::Locked:
+		return NSLOCTEXT("LD", "MoveLocked", "이동 직후입니다. 잠시 뒤 다시 이동하세요");
+	case ELDCommandResultCode::StaleBoard:
+	case ELDCommandResultCode::MissingInstance:
+		return NSLOCTEXT("LD", "BoardChanged", "보드가 바뀌었습니다. 다시 선택해 주세요");
+	case ELDCommandResultCode::NoSpace:
+		return NSLOCTEXT("LD", "NoSpace", "소환할 공간이 없습니다");
+	case ELDCommandResultCode::RateLimited:
+		return NSLOCTEXT("LD", "TooManyCommands", "요청이 너무 빠릅니다. 잠시 뒤 다시 눌러 주세요");
+	case ELDCommandResultCode::NoChange:
+		return NSLOCTEXT("LD", "NoChange", "같은 칸입니다");
+	case ELDCommandResultCode::PhaseNotAllowed:
+		return NSLOCTEXT("LD", "MatchClosed", "지금은 조작할 수 없습니다");
+	default:
+		return NSLOCTEXT("LD", "CommandRejected", "요청이 거절되었습니다. 상태를 확인한 뒤 다시 선택해 주세요");
+	}
+}
+
+void ALDPlayerController::UpdateGameplayView()
+{
+	if (!IsLocalController())
+	{
+		return;
+	}
+	if (IsGameplaySnapshotReady() && bAwaitingCommittedSnapshot &&
+	    GetBoardSnapshot().BoardRevision >= LastResult.NewBoardRevision &&
+	    GetEconomySnapshot().EconomyRevision >= LastResult.EconomyRevision)
+	{
+		bAwaitingCommittedSnapshot = false;
+	}
+	if (IsGameplaySnapshotReady() && !GameplayWidget)
+	{
+		GameplayWidget = CreateWidget<ULDGameplayWidget>(this, ULDGameplayWidget::StaticClass());
+		if (GameplayWidget)
+		{
+			GameplayWidget->AddToViewport(20);
+			if (LocalBoardWidget)
+			{
+				LocalBoardWidget->SetGameplayOverlayVisible(true);
+			}
+		}
+	}
+	if (!LocalBoard)
+	{
+		return;
+	}
+	if (!IsGameplaySnapshotReady())
+	{
+		LocalBoard->SetRangePresentation(FVector::ZeroVector, 0);
+		return;
+	}
+	const uint64 Selected = GetSelectedInstanceId();
+	if (Selected == 0)
+	{
+		LocalBoard->SetRangePresentation(FVector::ZeroVector, 0);
+		RangeInstanceId = 0;
+		RangeCellId = INDEX_NONE;
+	}
+	else if (RangeInstanceId != Selected || RangeCellId != SelectedCellId)
+	{
+		for (TActorIterator<ALDUnitActor> It(GetWorld()); It; ++It)
+		{
+			if (It->IsCommitted() && It->GetPlacement().InstanceId == Selected &&
+			    It->GetPlacement().CellId == SelectedCellId)
+			{
+				LocalBoard->SetRangePresentation(It->GetActorLocation(), It->GetRangeCm());
+				RangeInstanceId = Selected;
+				RangeCellId = SelectedCellId;
+				break;
+			}
+		}
+	}
+}
+
+bool ALDPlayerController::GetActionScreenRect(ELDCommandType Type, FBox2D& OutRect) const
+{
+	return GameplayWidget && GameplayWidget->GetActionScreenRect(Type, OutRect);
+}
+
+void ALDPlayerController::HandleSummonKey()
+{
+	RequestSummon();
+}
+void ALDPlayerController::HandleMergeKey()
+{
+	RequestMergeSelection();
+}
+void ALDPlayerController::HandleSellKey()
+{
+	RequestSellSelection();
+}
+
+void ALDPlayerController::BeginBoardPointer(const FVector2D& ScreenPixels)
+{
+	DragSourceInstanceId = 0;
+	if (GameplayWidget && GameplayWidget->IsOverAction(ScreenPixels))
+	{
+		return;
+	}
+	if (InputScreenPosition(ScreenPixels) && IsGameplaySnapshotReady() && !HasPendingCommand())
+	{
+		DragSourceInstanceId = GetSelectedInstanceId();
+		DragStartPixels = ScreenPixels;
+	}
+}
+
+void ALDPlayerController::EndBoardPointer(const FVector2D& ScreenPixels)
+{
+	const uint64 SourceId = DragSourceInstanceId;
+	DragSourceInstanceId = 0;
+	if (SourceId == 0 || FVector2D::Distance(DragStartPixels, ScreenPixels) < 12 ||
+	    (GameplayWidget && GameplayWidget->IsOverAction(ScreenPixels)))
+	{
+		return;
+	}
+	if (InputScreenPosition(ScreenPixels))
+	{
+		RequestMove(SourceId, SelectedCellId);
+	}
+}
+
+void ALDPlayerController::HandleBoardMouseReleased()
+{
+	float X = 0;
+	float Y = 0;
+	if (FPlatformTime::Seconds() - LastTouchSeconds >= .15 && GetMousePosition(X, Y))
+	{
+		EndBoardPointer(FVector2D(X, Y));
+	}
+}
+
+void ALDPlayerController::HandleBoardTouchReleased(ETouchIndex::Type FingerIndex, FVector ScreenPosition)
+{
+	if (FingerIndex == ETouchIndex::Touch1)
+	{
+		LastTouchSeconds = FPlatformTime::Seconds();
+		EndBoardPointer(FVector2D(ScreenPosition.X, ScreenPosition.Y));
+	}
 }
 
 void ALDPlayerController::BeginPlay()
@@ -206,6 +515,12 @@ void ALDPlayerController::SetupInputComponent()
 		InputComponent->BindKey(EKeys::LeftMouseButton, IE_Pressed, this,
 		                        &ALDPlayerController::HandleBoardMousePressed);
 		InputComponent->BindTouch(IE_Pressed, this, &ALDPlayerController::HandleBoardTouchPressed);
+		InputComponent->BindKey(EKeys::LeftMouseButton, IE_Released, this,
+		                        &ALDPlayerController::HandleBoardMouseReleased);
+		InputComponent->BindTouch(IE_Released, this, &ALDPlayerController::HandleBoardTouchReleased);
+		InputComponent->BindKey(EKeys::S, IE_Pressed, this, &ALDPlayerController::HandleSummonKey);
+		InputComponent->BindKey(EKeys::M, IE_Pressed, this, &ALDPlayerController::HandleMergeKey);
+		InputComponent->BindKey(EKeys::X, IE_Pressed, this, &ALDPlayerController::HandleSellKey);
 	}
 }
 
@@ -218,6 +533,13 @@ void ALDPlayerController::PlayerTick(float DeltaSeconds)
 	}
 	TryInitializeLocalBoard();
 	RefreshBoardViewport();
+	UpdateGameplayView();
+	if (PendingCommand.IsSet() && RetryCount < 3 && FPlatformTime::Seconds() - LastRequestSeconds >= 1.0)
+	{
+		++RetryCount;
+		LastRequestSeconds = FPlatformTime::Seconds();
+		RetryPendingCommand();
+	}
 }
 
 void ALDPlayerController::TryInitializeLocalBoard()
@@ -406,7 +728,7 @@ void ALDPlayerController::HandleBoardMousePressed()
 	float Y = 0;
 	if (GetMousePosition(X, Y))
 	{
-		InputScreenPosition(FVector2D(X, Y));
+		BeginBoardPointer(FVector2D(X, Y));
 	}
 }
 
@@ -415,7 +737,7 @@ void ALDPlayerController::HandleBoardTouchPressed(ETouchIndex::Type FingerIndex,
 	if (FingerIndex == ETouchIndex::Touch1)
 	{
 		LastTouchSeconds = FPlatformTime::Seconds();
-		InputScreenPosition(FVector2D(ScreenPosition.X, ScreenPosition.Y));
+		BeginBoardPointer(FVector2D(ScreenPosition.X, ScreenPosition.Y));
 	}
 }
 
@@ -429,6 +751,14 @@ void ALDPlayerController::PublishCellFeedback()
 
 void ALDPlayerController::ReleaseLocalBoard()
 {
+	if (GameplayWidget)
+	{
+		GameplayWidget->RemoveFromParent();
+		GameplayWidget = nullptr;
+	}
+	DragSourceInstanceId = 0;
+	RangeInstanceId = 0;
+	RangeCellId = INDEX_NONE;
 	if (LocalBoardWidget)
 	{
 		LocalBoardWidget->RemoveFromParent();

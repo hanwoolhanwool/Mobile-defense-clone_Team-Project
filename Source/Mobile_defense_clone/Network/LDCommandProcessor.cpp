@@ -53,6 +53,7 @@ void ULDCommandProcessor::Close()
 	// Retain deduplication history through Result/EndPlay. New admissions cannot execute.
 	bAcceptingCommands = false;
 	bClosed = true;
+	BeforeExternalCommand.Unbind();
 	RewardQueue.Reset();
 	QueuedDeathIds.Reset();
 	if (BoardManager)
@@ -155,6 +156,12 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 		Result.ResultCode = ELDCommandResultCode::RequestExpired;
 		return Result;
 	}
+	if (bAcceptingCommands && FMath::IsFinite(NowSeconds))
+	{
+		TGuardValue<bool> Processing(bProcessing, true);
+		BeforeExternalCommand.ExecuteIfBound(NowSeconds);
+	}
+	// The clock hook queues earlier deaths while guarded; drain them before this command reads either source.
 	DrainCombatRewards();
 	// Reward publication may replace or rehash Sessions. Never keep a pointer across an external callback.
 	Session = FindSession(Context);
