@@ -6,8 +6,11 @@
 |---|---|---|---|
 | 1 | [B-G0-01 독립 공통 기반](G0-01-foundation.md) | 공통 출발 커밋·Schema2/Rules0.3.0 자료 확보 | Draft |
 | 2 | [B-G0-02 명령 입구와 중복 방지](G0-02-commands.md) | 첫 수업 타입·로더·매치 문맥 | Draft |
-| 3 | G1 전장·로컬 변환·전체 셀 입력 | 통합 G0 Editor 빌드와 리뷰 | Planned, 아직 코드 없음 |
+| 3 | [B-G1-01 좌표와 로컬 변환](G1-01-geometry.md) | 통합 G0 Editor 빌드와 리뷰 | Draft |
+| 4 | [B-G1-02 카메라와 전체 셀 입력](G1-02-view-input.md) | G1 좌표·A 경로 계약·공통 표시 재료 | Draft |
 
 공통 규칙 원본은 [공통 구현 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), 수업 제작·실제 학습 구분은 [학습 운영](../../WORKFLOW.md)이다. 참고 소스 완료 SHA는 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92`, 시작 SHA는 `8c6856d235de87cc28c12b49ca775bd0937334a5`다. Editor/UHT와 UE 자동화4종은 수정 후 Pass지만, 수업 시작점에서 별도 재현 및 PIE·화면 검수는 미실행이다. 학습자의 `learn/p0-b`에는 참고 완성 코드를 병합하지 않는다.
 
 G1 설계 메모: 두 화면 모두 오른쪽은 `-WorldX` 방향이고 자기 보드는 아래에 있어야 한다. 참가자 1에는 논리 Y를 로컬 표시에서 반사하는 변환을 적용하고, 같은 변환의 역변환으로 입력을 검사한다. 180도 회전만으로는 생성점이 오른쪽이 된다. 서버 Actor root·RouteIndex·CellId는 바꾸지 않는다. 실제 카메라·화면비·입력 검증 전에는 이 설계를 통과로 표시하지 않는다.
+
+G1 참고 소스는 canonical G0 `9129c016efd4a652501f93658fd2831a830c8ab1`에서 시작해 `82cf174cab14746c4fc57867efd5c4522903ca2c`에 작성했다. 모든 mouse/touch/검수 입력은 같은 API를 사용한다. 역할·통합 실제 결과는 해당 G1 수업에서 별도로 기록하며 G0의 Pass를 G1 실행 증거로 사용하지 않는다.
