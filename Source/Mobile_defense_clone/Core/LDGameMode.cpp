@@ -1,12 +1,19 @@
 #include "Core/LDGameMode.h"
 
+#include "Battle/LDCombatService.h"
+#include "Battle/LDUnitActor.h"
+#include "Board/LDBoardManager.h"
 #include "Core/LDGameState.h"
 #include "Core/LDPlayerController.h"
 #include "Core/LDPlayerState.h"
 #include "Data/LDGameData.h"
+#include "Economy/LDEconomyService.h"
+#include "Engine/World.h"
 #include "GameFramework/GameSession.h"
 #include "GameFramework/PlayerController.h"
 #include "Network/LDCommandProcessor.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
 #include "TimerManager.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDMatch, Log, All);
@@ -59,15 +66,38 @@ void ALDGameMode::InitGameState()
 		AbortMatch(TEXT("Command processor refused match contract"));
 		return;
 	}
+	BoardManager = NewObject<ULDBoardManager>(this);
+	EconomyService = NewObject<ULDEconomyService>(this);
+	CombatService = NewObject<ULDCombatService>(this);
+	int32 Seed = static_cast<int32>(Context.MatchId.A);
+	FParse::Value(FCommandLine::Get(), TEXT("P0Seed="), Seed);
+#if !UE_BUILD_SHIPPING
+	FString Probe;
+	FParse::Value(FCommandLine::Get(), TEXT("P0Probe="), Probe);
+	bG1Probe = Probe.Equals(TEXT("G1"), ESearchCase::IgnoreCase);
+#endif
+	if (!BoardManager->Initialize(*GetWorld(), Context, *GameData) ||
+	    !EconomyService->Initialize(Context, *GameData, Seed) ||
+	    !CombatService->Initialize(Context, GameData->GetRules()) ||
+	    !CommandProcessor->BindServices(*BoardManager, *EconomyService))
+	{
+		AbortMatch(TEXT("G2 board/economy/combat service initialization failed"));
+		return;
+	}
+	BoardCommitHandle = BoardManager->OnBoardCommitted.AddUObject(this, &ALDGameMode::HandleBoardCommitted);
+	EconomyChangedHandle = EconomyService->OnEconomyChanged.AddUObject(this, &ALDGameMode::HandleEconomyChanged);
+	EnemyDeathHandle = CombatService->OnEnemyDeathCommitted.AddUObject(this, &ALDGameMode::HandleEnemyDeath);
+	bServicesReady = true;
 	UE_LOG(LogLDMatch, Display,
-	       TEXT("G0 match %s rules=%s units=%d waves=%d; role services are explicit Stub"), *Context.MatchId.ToString(),
-	            *Context.RulesVersion.ToString(), GameData->GetUnits().Num(), GameData->GetWaves().Num());
+	       TEXT("G2 match %s rules=%s seed=%d units=%d; G1Probe=%d"), *Context.MatchId.ToString(),
+	            *Context.RulesVersion.ToString(), Seed, GameData->GetUnits().Num(), bG1Probe);
 	RefreshReadiness();
 }
 
 void ALDGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	bPlayStarted = true;
 	RefreshReadiness();
 }
 
@@ -163,14 +193,15 @@ bool ALDGameMode::RegisterParticipant(ALDPlayerController& Controller)
 	}
 	Participants[PlayerIndex] = &Controller;
 	Controller.InitializeServerSession(Context, *CommandProcessor);
+	PublishPlayerSnapshots(PlayerIndex);
 	UE_LOG(LogLDMatch, Display,
-	       TEXT("Participant index=%d epoch=%llu registered; board/economy Stub keeps admission closed"), PlayerIndex,
-	            Context.ConnectionEpoch);
+	       TEXT("Participant index=%d epoch=%llu registered"), PlayerIndex, Context.ConnectionEpoch);
 	return true;
 }
 
 void ALDGameMode::Logout(AController* Exiting)
 {
+	bool bLostParticipant = false;
 	PendingParticipants.RemoveAll([Exiting](const TWeakObjectPtr<ALDPlayerController>& Pending)
 	                              { return !Pending.IsValid() || Pending.Get() == Exiting; });
 	if (ALDPlayerController* Controller = Cast<ALDPlayerController>(Exiting))
@@ -181,10 +212,16 @@ void ALDGameMode::Logout(AController* Exiting)
 	{
 		if (Participant.Get() == Exiting)
 		{
+			bLostParticipant = true;
 			Participant.Reset();
 		}
 	}
 	Super::Logout(Exiting);
+	if (bLostParticipant && !bEnding && GetGameState<ALDGameState>() &&
+	    GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Running)
+	{
+		AbortMatch(TEXT("Participant disconnected during active match"));
+	}
 	RefreshReadiness();
 }
 
@@ -202,8 +239,9 @@ const ULDGameData* ALDGameMode::GetGameData() const
 
 bool ALDGameMode::CanAcceptCommands() const
 {
-	// G0 deliberately has no successful service substitute. G1/G2 integration replaces this boundary.
-	return false;
+	const ALDGameState* State = GetGameState<ALDGameState>();
+	return HasAuthority() && !bEnding && !bG1Probe && bServicesReady && State &&
+	       State->GetPhase() == ELDMatchPhase::Running;
 }
 
 void ALDGameMode::RefreshReadiness()
@@ -219,8 +257,29 @@ void ALDGameMode::RefreshReadiness()
 	{
 		ConnectedCount += Participant.IsValid() ? 1 : 0;
 	}
-	State->SetReadinessReason(FString::Printf(
-	    TEXT("Preparing: %d/2 participants; Stub: Board/Economy/Route services not connected"), ConnectedCount));
+	if (bG1Probe)
+	{
+		State->SetReadinessReason(
+		    FString::Printf(TEXT("G1 fixture: %d/2 participants; combat and commands closed"), ConnectedCount));
+		return;
+	}
+	if (ConnectedCount != 2 || !bServicesReady || !bPlayStarted)
+	{
+		State->SetReadinessReason(
+		    FString::Printf(TEXT("Preparing: %d/2 participants; services=%d"), ConnectedCount, bServicesReady));
+		return;
+	}
+	if (!State->SetPhase(ELDMatchPhase::Running))
+	{
+		AbortMatch(TEXT("GameState refused ready match transition"));
+		return;
+	}
+	State->SetReadinessReason(TEXT("G2 running: board/economy/combat ready; waves are a later gate"));
+	LogicOriginSeconds = GetWorld()->GetTimeSeconds();
+	LogicStep = 0;
+	CommandProcessor->SetAcceptingCommands(true);
+	GetWorldTimerManager().SetTimer(LogicTimer, this, &ALDGameMode::AdvanceLogic, 1.0f / GameData->GetRules().LogicHz,
+	                                true);
 }
 
 void ALDGameMode::AbortMatch(const FString& Reason)
@@ -250,13 +309,30 @@ void ALDGameMode::StopMatchServices()
 		return;
 	}
 	bEnding = true;
+	bServicesReady = false;
 	GetWorldTimerManager().ClearAllTimersForObject(this);
 	if (CommandProcessor)
 	{
+		CommandProcessor->SetAcceptingCommands(false);
+		CommandProcessor->DrainCombatRewards();
 		CommandProcessor->Close();
 	}
+	if (CombatService)
+	{
+		CombatService->OnEnemyDeathCommitted.Remove(EnemyDeathHandle);
+		CombatService->Stop();
+	}
+	if (BoardManager)
+	{
+		BoardManager->OnBoardCommitted.Remove(BoardCommitHandle);
+		BoardManager->Close();
+	}
+	if (EconomyService)
+	{
+		EconomyService->OnEconomyChanged.Remove(EconomyChangedHandle);
+		EconomyService->Close();
+	}
 	// Terminal phase is not a disconnected session: keep Controller -> Processor and finalized result history.
-	// G0 has no combat subscription or spawn reservation yet.
 }
 
 void ALDGameMode::ReleasePlayerSessions()
@@ -277,4 +353,95 @@ void ALDGameMode::ReleasePlayerSessions()
 	}
 	Participants.Empty();
 	PendingParticipants.Empty();
+}
+
+void ALDGameMode::AdvanceLogic()
+{
+	if (!CanAcceptCommands())
+	{
+		return;
+	}
+	const double Now = GetWorld()->GetTimeSeconds();
+	const double StepSeconds = 1.0 / GameData->GetRules().LogicHz;
+	// Integer step index avoids accumulating interval drift and retains missed logical steps.
+	while (LogicOriginSeconds + (LogicStep + 1) * StepSeconds <= Now && CanAcceptCommands())
+	{
+		++LogicStep;
+		CombatService->AdvanceCombatTo(LogicOriginSeconds + LogicStep * StepSeconds);
+		CommandProcessor->DrainCombatRewards();
+	}
+}
+
+void ALDGameMode::HandleBoardCommitted(const FLDBoardCommit& Commit)
+{
+	const ALDGameState* State = GetGameState<ALDGameState>();
+	if (bEnding || !State || !BoardManager || !CombatService || Commit.MatchId != State->GetMatchContext().MatchId ||
+	    Commit.PlayerIndex < 0 || Commit.PlayerIndex > 1 ||
+	    Commit.BoardRevision <= LastBoardRevisions[Commit.PlayerIndex] ||
+	    BoardManager->GetSnapshot(Commit.PlayerIndex).BoardRevision != Commit.BoardRevision)
+	{
+		return;
+	}
+	LastBoardRevisions[Commit.PlayerIndex] = Commit.BoardRevision;
+	for (uint64 Removed : Commit.RemovedInstanceIds)
+	{
+		CombatService->UnregisterUnit(Removed);
+	}
+	for (const FLDPlacedUnit& Added : Commit.AddedOrUpdatedUnits)
+	{
+		ALDUnitActor* Unit = nullptr;
+		if (BoardManager->TryGetCommittedUnitActor(Added.InstanceId, Unit) && Unit &&
+		    Unit->GetPlacement().PlayerIndex == Commit.PlayerIndex && Unit->GetPlacement().UnitId == Added.UnitId &&
+		    Unit->GetPlacement().CellId == Added.CellId)
+		{
+			CombatService->RegisterCommittedUnit(*Unit, Commit.CommitServerSeconds);
+		}
+	}
+	PublishPlayerSnapshots(Commit.PlayerIndex);
+}
+
+void ALDGameMode::HandleEconomyChanged(const FLDEconomySnapshot& Snapshot)
+{
+	const ALDGameState* State = GetGameState<ALDGameState>();
+	if (State && Snapshot.MatchId == State->GetMatchContext().MatchId)
+	{
+		PublishPlayerSnapshots(Snapshot.PlayerIndex);
+	}
+}
+
+void ALDGameMode::HandleEnemyDeath(const FLDCombatDeath& Death)
+{
+	if (!bEnding && CommandProcessor)
+	{
+		CommandProcessor->EnqueueCombatReward(Death);
+	}
+}
+
+void ALDGameMode::PublishPlayerSnapshots(int32 PlayerIndex)
+{
+	if (!BoardManager || !EconomyService || !Participants.IsValidIndex(PlayerIndex))
+	{
+		return;
+	}
+	if (ALDPlayerController* Controller = Cast<ALDPlayerController>(Participants[PlayerIndex].Get()))
+	{
+		Controller->PublishSnapshots(BoardManager->GetSnapshot(PlayerIndex), EconomyService->GetSnapshot(PlayerIndex));
+	}
+}
+
+ULDBoardManager* ALDGameMode::GetBoardManager() const
+{
+	return HasAuthority() ? BoardManager.Get() : nullptr;
+}
+ULDEconomyService* ALDGameMode::GetEconomyService() const
+{
+	return HasAuthority() ? EconomyService.Get() : nullptr;
+}
+ULDCombatService* ALDGameMode::GetCombatService() const
+{
+	return HasAuthority() ? CombatService.Get() : nullptr;
+}
+ULDCommandProcessor* ALDGameMode::GetCommandProcessor() const
+{
+	return HasAuthority() ? CommandProcessor.Get() : nullptr;
 }
