@@ -1,0 +1,1464 @@
+[
+  {
+    "Role": "host",
+    "Result": "Fail",
+    "CheckCount": 1338,
+    "FailureCount": 107,
+    "FailedCases": [
+      {
+        "case": "view-6-input-0",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-0-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-0-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-0-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-0-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-1",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-1-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-1-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-1-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-1-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-2",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-2-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-2-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-2-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-2-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-3",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-3-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-3-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-3-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-3-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-4",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-4-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-4-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-4-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-4-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-5",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-5-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-5-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-5-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-5-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-6",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-6-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-6-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-6-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-6-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-7",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-7-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-7-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-7-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-7-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-8",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-8-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-8-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-8-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-8-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-9",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-9-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-9-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-9-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-9-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-10",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-10-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-10-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-10-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-10-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-11",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-11-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-11-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-11-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-11-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-12",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-12-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-12-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-12-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-12-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-13",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-13-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-13-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-13-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-13-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-14",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-14-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-14-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-14-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-14-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-15",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-15-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-15-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-15-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-15-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-16",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-16-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-16-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-16-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-16-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-17",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=17"
+      },
+      {
+        "case": "view-6-cell-17-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-17-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-17-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-17-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-engine-touch-0",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=0 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-1",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=1 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-2",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=2 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-3",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=3 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-4",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=4 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-5",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=5 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-6",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=6 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-7",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=7 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-8",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=8 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-9",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=9 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-10",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=10 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-11",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=11 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-12",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=12 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-13",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=13 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-14",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=14 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-15",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=15 actual=17"
+      },
+      {
+        "case": "view-6-engine-touch-16",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=16 actual=17"
+      }
+    ],
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 60,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/host/view-0.png"
+      },
+      {
+        "width": 1080,
+        "height": 2340,
+        "cellPixels": 120,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/host/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/host/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1600,
+        "cellPixels": 80,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/host/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 52.5128173828125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/host/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/host/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 36.923095703125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/host/view-6.png"
+      }
+    ],
+    "RouteSamples": [
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 525.0000000000034,
+        "canonical": "X=490.000 Y=-35.000 Z=0.000",
+        "presentation": "X=490.000 Y=-34.985 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 525.0000000000034,
+        "canonical": "X=490.000 Y=35.000 Z=0.000",
+        "presentation": "X=490.000 Y=34.985 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 1275.000000000014,
+        "canonical": "X=-225.000 Y=0.000 Z=0.000",
+        "presentation": "X=-227.469 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 1275.000000000014,
+        "canonical": "X=-225.000 Y=0.000 Z=0.000",
+        "presentation": "X=-227.469 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2025.0000000000246,
+        "canonical": "X=-490.000 Y=-485.000 Z=0.000",
+        "presentation": "X=-490.000 Y=-488.941 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2025.0000000000246,
+        "canonical": "X=-490.000 Y=485.000 Z=0.000",
+        "presentation": "X=-490.000 Y=488.941 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2775.000000000035,
+        "canonical": "X=185.000 Y=-560.000 Z=0.000",
+        "presentation": "X=191.405 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2775.000000000035,
+        "canonical": "X=185.000 Y=560.000 Z=0.000",
+        "presentation": "X=191.405 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 3532.500000000046,
+        "canonical": "X=490.000 Y=-107.500 Z=0.000",
+        "presentation": "X=490.000 Y=-107.202 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 3532.500000000046,
+        "canonical": "X=490.000 Y=107.500 Z=0.000",
+        "presentation": "X=490.000 Y=107.202 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 4282.500000000024,
+        "canonical": "X=-152.500 Y=0.000 Z=0.000",
+        "presentation": "X=-155.308 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 4282.500000000024,
+        "canonical": "X=-152.500 Y=0.000 Z=0.000",
+        "presentation": "X=-155.308 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5032.499999999982,
+        "canonical": "X=-490.000 Y=-412.500 Z=0.000",
+        "presentation": "X=-490.000 Y=-415.317 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5032.499999999982,
+        "canonical": "X=-490.000 Y=412.500 Z=0.000",
+        "presentation": "X=-490.000 Y=415.317 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5782.499999999939,
+        "canonical": "X=112.500 Y=-560.000 Z=0.000",
+        "presentation": "X=117.823 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5782.499999999939,
+        "canonical": "X=112.500 Y=560.000 Z=0.000",
+        "presentation": "X=117.823 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 6532.499999999896,
+        "canonical": "X=490.000 Y=-187.500 Z=0.000",
+        "presentation": "X=490.000 Y=-182.171 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 6532.499999999896,
+        "canonical": "X=490.000 Y=187.500 Z=0.000",
+        "presentation": "X=490.000 Y=182.171 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 7282.499999999854,
+        "canonical": "X=-72.500 Y=0.000 Z=0.000",
+        "presentation": "X=-77.839 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 7282.499999999854,
+        "canonical": "X=-72.500 Y=0.000 Z=0.000",
+        "presentation": "X=-77.839 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 8039.999999999811,
+        "canonical": "X=-490.000 Y=-340.000 Z=0.000",
+        "presentation": "X=-490.000 Y=-340.344 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 8039.999999999811,
+        "canonical": "X=-490.000 Y=340.000 Z=0.000",
+        "presentation": "X=-490.000 Y=340.344 Z=35.000"
+      }
+    ],
+    "FrameP95Ms": 16.666900634765625,
+    "Scope": "Rendered two-process G1 fixture; actual projection and mouse/touch shared input boundary; no physical input or combat/economy"
+  },
+  {
+    "Role": "client",
+    "Result": "Fail",
+    "CheckCount": 1336,
+    "FailureCount": 107,
+    "FailedCases": [
+      {
+        "case": "view-6-input-18",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-18-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-18-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-18-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-18-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-19",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-19-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-19-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-19-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-19-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-20",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-20-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-20-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-20-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-20-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-21",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-21-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-21-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-21-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-21-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-22",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-22-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-22-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-22-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-22-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-23",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-23-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-23-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-23-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-23-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-24",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-24-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-24-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-24-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-24-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-25",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-25-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-25-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-25-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-25-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-26",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-26-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-26-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-26-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-26-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-27",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-27-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-27-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-27-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-27-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-28",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-28-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-28-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-28-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-28-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-29",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-29-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-29-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-29-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-29-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-30",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-30-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-30-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-30-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-30-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-31",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-31-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-31-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-31-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-31-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-32",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-32-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-32-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-32-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-32-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-33",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-33-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-33-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-33-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-33-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-34",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-34-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-34-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-34-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-34-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-input-35",
+        "pass": false,
+        "detail": "owned=1 accepted=0 selected=35"
+      },
+      {
+        "case": "view-6-cell-35-corner-0",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-35-corner-1",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-35-corner-2",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-cell-35-corner-3",
+        "pass": false,
+        "detail": "Interior corner of the actual full cell, through the mouse/touch input boundary"
+      },
+      {
+        "case": "view-6-engine-touch-18",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=18 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-19",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=19 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-20",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=20 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-21",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=21 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-22",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=22 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-23",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=23 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-24",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=24 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-25",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=25 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-26",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=26 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-27",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=27 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-28",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=28 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-29",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=29 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-30",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=30 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-31",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=31 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-32",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=32 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-33",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=33 actual=35"
+      },
+      {
+        "case": "view-6-engine-touch-34",
+        "pass": false,
+        "detail": "Engine InputTouch -> PlayerInput -> bound callback; expected=34 actual=35"
+      }
+    ],
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 60,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/client/view-0.png"
+      },
+      {
+        "width": 1080,
+        "height": 2340,
+        "cellPixels": 120,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/client/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/client/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1600,
+        "cellPixels": 80,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/client/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 52.5128173828125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/client/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/client/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 36.923095703125,
+        "screenshot": "C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G1-two-process-fix1/client/view-6.png"
+      }
+    ],
+    "RouteSamples": [
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 0,
+        "canonical": "X=490.000 Y=560.000 Z=0.000",
+        "presentation": "X=490.000 Y=-556.489 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 0,
+        "canonical": "X=490.000 Y=-560.000 Z=0.000",
+        "presentation": "X=490.000 Y=556.489 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 720.0000000000063,
+        "canonical": "X=330.000 Y=0.000 Z=0.000",
+        "presentation": "X=327.314 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 720.0000000000063,
+        "canonical": "X=330.000 Y=0.000 Z=0.000",
+        "presentation": "X=327.314 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 1470.0000000000166,
+        "canonical": "X=-420.000 Y=0.000 Z=0.000",
+        "presentation": "X=-422.753 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 1470.0000000000166,
+        "canonical": "X=-420.000 Y=0.000 Z=0.000",
+        "presentation": "X=-422.753 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2220.0000000000273,
+        "canonical": "X=-370.000 Y=560.000 Z=0.000",
+        "presentation": "X=-366.868 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2220.0000000000273,
+        "canonical": "X=-370.000 Y=-560.000 Z=0.000",
+        "presentation": "X=-366.868 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2970.0000000000377,
+        "canonical": "X=380.000 Y=560.000 Z=0.000",
+        "presentation": "X=384.532 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2970.0000000000377,
+        "canonical": "X=380.000 Y=-560.000 Z=0.000",
+        "presentation": "X=384.532 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 3720.0000000000487,
+        "canonical": "X=410.000 Y=0.000 Z=0.000",
+        "presentation": "X=405.148 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 3720.0000000000487,
+        "canonical": "X=410.000 Y=0.000 Z=0.000",
+        "presentation": "X=405.148 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 4470.000000000014,
+        "canonical": "X=-340.000 Y=0.000 Z=0.000",
+        "presentation": "X=-344.575 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 4470.000000000014,
+        "canonical": "X=-340.000 Y=0.000 Z=0.000",
+        "presentation": "X=-344.575 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5219.999999999971,
+        "canonical": "X=-450.000 Y=560.000 Z=0.000",
+        "presentation": "X=-445.964 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5219.999999999971,
+        "canonical": "X=-450.000 Y=-560.000 Z=0.000",
+        "presentation": "X=-445.964 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5977.499999999928,
+        "canonical": "X=307.500 Y=560.000 Z=0.000",
+        "presentation": "X=307.500 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5977.499999999928,
+        "canonical": "X=307.500 Y=-560.000 Z=0.000",
+        "presentation": "X=307.500 Y=560.000 Z=35.000"
+      }
+    ],
+    "FrameP95Ms": 16.666900634765625,
+    "Scope": "Rendered two-process G1 fixture; actual projection and mouse/touch shared input boundary; no physical input or combat/economy"
+  }
+]

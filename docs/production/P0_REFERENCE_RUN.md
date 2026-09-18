@@ -34,12 +34,21 @@
 |---|---|---|
 | 출발 문서·데이터·스타일 | Pass | 원본 Saved/P0Runs/20260918-start/check-project.log; 문서6601 checks. 게임 실행 증거 아님 |
 | G0 | Pass | A/B/통합 Editor Pass, A4/B4/통합12 자동화 Pass. 초기화·종료 2건 a02efc1 수정·재리뷰 완료. 실제 RPC/PIE는 G1~G3 검수 |
-| G1 | InProgress | G0 통과. 경로·보드·카메라·양쪽 실제 화면/입력 구현 시작 |
+| G1 | Pass | 소스 df8a2f2. 새 G0 재현 Editor·22자동화·실제2프로세스7화면비·전체 셀·2바퀴 Pass. 카메라/표시/검사기 실패 수정·리뷰 완료 |
 | G2 | NotRun | G1 실제 실행/양쪽 화면 통과 의존 |
 | G3 | NotRun | G2 의존, PC 패키지 별도 두 프로세스·5판 필요 |
 | G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018/JDK21.0.3 준비. Android 실제 빌드 exit6: UE Android 선택 구성 요소 누락. 사용자가 설치 진행, adb 장치0 |
 
 원격 push/PR 병합/외부 배포/기존 작업 삭제는 수행하지 않는다. 전체 로그는 Saved/P0Runs에 저장하고 핵심 결과는 이 기록과 정식 검수 기록에 연결한다.
+
+## G1 실행·재현·통합
+
+- 최종 소스 `df8a2f27dd962a4d9f9f4051e51f3332245ba40a`; G0 `649c1de`의 새 detached `C:/Users/iam12/P0_lesson_replay_g1`에 수업 순서36파일 조립/blob 대조. 기존 G0 재현·원본·learn 브랜치는 보존했다.
+- 역할 Editor: A Pass, B 지역 UMG Slot 이름 숨김 수정 후 Pass. 통합 컴파일 fixture 이름/정수 타입 실패 수정 후 Pass. 최종 통합 Editor와 새 재현 Editor Pass, 재현88.39초.
+- 실제 실패: 세로 FOV축 확대→MaintainXFOV, host 표시 되감김→현재 view clock, resize/터치 단계 덮어쓰기→완료 조건 전환, 가로 자동 높이 보정→명시false, 축소 셀 경계 소실→표시 간격 최소1.5px. 새 카메라 테스트의 미활성 fixture도 초기화 보완 후 통과. [파일·재현·수정·리뷰](evidence/RUN-20260918-G1/REVIEW.md).
+- 최종 실제 별도2프로세스: host1338/client1336 Pass, 차이2개는 서버 생성 검사. 양쪽7해상도·자기18칸/상대18칸·72내부모서리·EngineTouch·ID/RouteIndex2바퀴를 확인했다. [요약·PNG 해시](evidence/RUN-20260918-G1/final-pair-summary.json). NullRHI 자동화22Pass와 GPU 화면 검사를 구분했다.
+- 수업 재현은 참고 제작이며 실제 학습자는 Planned. 전체 로그/14PNG는 재현폴더 Saved/P0Runs/Replay-G1-*. PIE·PC 패키지·전투·경제·물리 터치·Android는 이 통과 범위가 아니다.
+- 적2개 fixture의60FPS 제한 P95는 양쪽16.667ms. 측정 환경은 아래와 같으며 대표 부하 측정은 G3에서 수행한다.
 
 ## G0 실행·리뷰 관찰
 

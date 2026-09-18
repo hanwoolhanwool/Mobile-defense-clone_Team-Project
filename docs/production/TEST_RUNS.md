@@ -542,3 +542,15 @@
 - 미실행: PIE 양쪽 화면·입력, PC 패키지 2인·지연, 10웨이브·5판 밸런스, Android 설치·터치·완주·성능. P0 전체 InProgress.
 
 - G0 최종 갱신: 수명2건 `a02efc1` 수정, `3797517` Editor 재빌드 Pass·통합 자동화12 Pass/0Fail/0NotRun, 독립 재리뷰 차단 결함0. G0 코드 게이트 Pass. [최종 빌드](evidence/RUN-20260918-G0/integration-editor-final.json)·[최종 자동화](evidence/RUN-20260918-G0/integration-tests-final.json). 실제 RPC/PIE·G1~G4 검수는 포함하지 않는다.
+
+## RUN-20260918-02 · G1 두 경로·보드·카메라·전체 셀 입력
+
+- 실행자: Codex 참고 제작. 소스 `df8a2f27dd962a4d9f9f4051e51f3332245ba40a`. G0 `649c1de`의 새 detached 재현 프로젝트에서36파일 조립/blob 대조 후 실제 실행했다. 실제 학습자는 Planned.
+- Unreal 컴파일: A/B 역할 Editor Pass(실패 수정 포함), 최종 통합 [Editor Pass](evidence/RUN-20260918-G1/integration-editor-final.json), 재현 Editor88.39초 Pass.
+- Unreal 자동화: 재현 [22Success/0Fail/0NotRun](evidence/RUN-20260918-G1/replay-automation-final.json). NullRHI 계약 검사이며 화면 검수와 별개다.
+- 실제 GPU·네트워크: UnrealEditor `-game` 별도2프로세스,7개 viewport별 자기18칸 수락·상대18칸 거절·72모서리·36개 합성 EngineTouch·정사각 셀 투영, 두 경로 EnemyId/RouteIndex/Actor를2바퀴 유지. host1338/client1336 Pass. [명령](evidence/RUN-20260918-G1/final-pair.json)·[결과/PNG 해시](evidence/RUN-20260918-G1/final-pair-summary.json).
+- 시각 확인: 양쪽 모두 자기6×3보드 아래·좌측 생성·중앙 오른쪽 이동·한글·선택·전장 전체가 보인다. 직전14장과 표시 수정 후 최종 세로/가로4장을 직접 열람했다. [host 가로](evidence/RUN-20260918-G1/final-host-view-6.png)·[client 가로](evidence/RUN-20260918-G1/final-client-view-6.png).
+- 실패/리뷰: [파일·함수·재현·수정](evidence/RUN-20260918-G1/REVIEW.md). 세로 FOV축·host 시각 되감김·가로 자동 높이 보정·얇은 셀 경계·검사기 단계/fixture 초기화 문제를 수정 후 재검증했다. 구현자와 별도 gate_review가 엔진 투영 경로·상태 원본·권한·수명을 대조했다.
+- 정적 검사: [문서/데이터/스타일](evidence/RUN-20260918-G1/project-check.log), [학습 링크](evidence/RUN-20260918-G1/learning-check.log) Pass. 최종 게이트 동기화 후 문서 검사는 추가 갱신한다.
+- 성능 범위:60FPS 제한·적2개·화면 전환/캡처 포함 P95 host16.6670/client16.6669ms. P0 대표 부하가 아니며 G3에서 별도로 측정한다. [환경](P0_REFERENCE_RUN.md).
+- 미실행: PIE, PC 패키지·지연/손실, 전투/경제/10웨이브, 물리 터치/Android. G1 Pass, P0 전체 InProgress. 전체 로그·14PNG는 `C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-*`에 보존했다.

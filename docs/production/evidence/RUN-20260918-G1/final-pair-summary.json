@@ -1,0 +1,458 @@
+[
+  {
+    "Role": "host",
+    "SourceSha": "df8a2f27dd962a4d9f9f4051e51f3332245ba40a",
+    "ReplayHead": "649c1dedd6832c41089a76b59bc76518cd262296",
+    "Result": "Pass",
+    "CheckCount": 1338,
+    "FailureCount": 0,
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 60,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/host/view-0.png"
+      },
+      {
+        "width": 1080,
+        "height": 2340,
+        "cellPixels": 120,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/host/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/host/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1600,
+        "cellPixels": 80,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/host/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 52.5128173828125,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/host/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/host/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 36.923095703125,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/host/view-6.png"
+      }
+    ],
+    "RouteSamples": [
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 540.0000000000032,
+        "canonical": "X=490.000 Y=-20.000 Z=0.000",
+        "presentation": "X=490.000 Y=-14.893 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 540.0000000000032,
+        "canonical": "X=490.000 Y=20.000 Z=0.000",
+        "presentation": "X=490.000 Y=14.893 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 1290.0000000000139,
+        "canonical": "X=-240.000 Y=0.000 Z=0.000",
+        "presentation": "X=-247.453 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 1290.0000000000139,
+        "canonical": "X=-240.000 Y=0.000 Z=0.000",
+        "presentation": "X=-247.453 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2047.5000000000243,
+        "canonical": "X=-490.000 Y=-507.500 Z=0.000",
+        "presentation": "X=-490.000 Y=-508.206 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2047.5000000000243,
+        "canonical": "X=-490.000 Y=507.500 Z=0.000",
+        "presentation": "X=-490.000 Y=508.206 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2797.500000000035,
+        "canonical": "X=207.500 Y=-560.000 Z=0.000",
+        "presentation": "X=210.033 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2797.500000000035,
+        "canonical": "X=207.500 Y=560.000 Z=0.000",
+        "presentation": "X=210.033 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 3547.5000000000455,
+        "canonical": "X=490.000 Y=-92.500 Z=0.000",
+        "presentation": "X=490.000 Y=-89.079 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 3547.5000000000455,
+        "canonical": "X=490.000 Y=92.500 Z=0.000",
+        "presentation": "X=490.000 Y=89.079 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 4297.500000000025,
+        "canonical": "X=-167.500 Y=0.000 Z=0.000",
+        "presentation": "X=-171.041 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 4297.500000000025,
+        "canonical": "X=-167.500 Y=0.000 Z=0.000",
+        "presentation": "X=-171.041 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5047.499999999982,
+        "canonical": "X=-490.000 Y=-427.500 Z=0.000",
+        "presentation": "X=-490.000 Y=-431.483 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5047.499999999982,
+        "canonical": "X=-490.000 Y=427.500 Z=0.000",
+        "presentation": "X=-490.000 Y=431.483 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5797.499999999939,
+        "canonical": "X=127.500 Y=-560.000 Z=0.000",
+        "presentation": "X=131.750 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5797.499999999939,
+        "canonical": "X=127.500 Y=560.000 Z=0.000",
+        "presentation": "X=131.750 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 6547.499999999896,
+        "canonical": "X=490.000 Y=-172.500 Z=0.000",
+        "presentation": "X=490.000 Y=-168.232 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 6547.499999999896,
+        "canonical": "X=490.000 Y=172.500 Z=0.000",
+        "presentation": "X=490.000 Y=168.232 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 7297.499999999854,
+        "canonical": "X=-87.500 Y=0.000 Z=0.000",
+        "presentation": "X=-94.289 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 7297.499999999854,
+        "canonical": "X=-87.500 Y=0.000 Z=0.000",
+        "presentation": "X=-94.289 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 8054.999999999811,
+        "canonical": "X=-490.000 Y=-355.000 Z=0.000",
+        "presentation": "X=-490.000 Y=-356.796 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 8054.999999999811,
+        "canonical": "X=-490.000 Y=355.000 Z=0.000",
+        "presentation": "X=-490.000 Y=356.796 Z=35.000"
+      }
+    ],
+    "FrameP50Ms": 16.666799545288086,
+    "FrameP95Ms": 16.667001724243164,
+    "Scope": "Rendered two-process G1 fixture; actual projection and mouse/touch shared input boundary; no physical input or combat/economy",
+    "ResultSHA256": "2F55FB7640C36A4DE45191B199356830E7A05299F292A2B563266D71A0E686EA",
+    "Screenshots": [
+      {
+        "Name": "view-0.png",
+        "SHA256": "B1CE40501430AE11A433903E5BD7435B904CB869AC196ECD9BB6EF0A6B2FECAD"
+      },
+      {
+        "Name": "view-1.png",
+        "SHA256": "A3904D9E7DCC069E7E09DDF623BE9265A31489372DDE6C6531D09B0531276D75"
+      },
+      {
+        "Name": "view-2.png",
+        "SHA256": "CA7FA401783D7DA52208A9B1AFABE321C02BF8719B8D5B2E8FDD69CE5913B020"
+      },
+      {
+        "Name": "view-3.png",
+        "SHA256": "00D624AB693F7AC0257406AE4D7A8CA4E103EE8A85EBAF8752FF937AFBD1841D"
+      },
+      {
+        "Name": "view-4.png",
+        "SHA256": "8C2F509064AB0E39D4295A8151660F40CEF20CE9CBC6E31E3825FFC997EE0769"
+      },
+      {
+        "Name": "view-5.png",
+        "SHA256": "6D062D7865164748AD41F6A62E559DC8BE1346A8BF1FB1D106FFBF64A933BA5F"
+      },
+      {
+        "Name": "view-6.png",
+        "SHA256": "97BD7D2999C50632142EA99724FF3F7C2E637D536EF05A8F3ACB18AF14773F7D"
+      }
+    ]
+  },
+  {
+    "Role": "client",
+    "SourceSha": "df8a2f27dd962a4d9f9f4051e51f3332245ba40a",
+    "ReplayHead": "649c1dedd6832c41089a76b59bc76518cd262296",
+    "Result": "Pass",
+    "CheckCount": 1336,
+    "FailureCount": 0,
+    "Viewports": [
+      {
+        "width": 540,
+        "height": 1170,
+        "cellPixels": 60,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/client/view-0.png"
+      },
+      {
+        "width": 1080,
+        "height": 2340,
+        "cellPixels": 120,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/client/view-1.png"
+      },
+      {
+        "width": 720,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/client/view-2.png"
+      },
+      {
+        "width": 720,
+        "height": 1600,
+        "cellPixels": 80,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/client/view-3.png"
+      },
+      {
+        "width": 768,
+        "height": 1024,
+        "cellPixels": 52.5128173828125,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/client/view-4.png"
+      },
+      {
+        "width": 800,
+        "height": 1280,
+        "cellPixels": 65.6409912109375,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/client/view-5.png"
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "cellPixels": 36.923095703125,
+        "screenshot": "C:/Users/iam12/P0_lesson_replay_g1/Saved/P0Runs/Replay-G1-pair/client/view-6.png"
+      }
+    ],
+    "RouteSamples": [
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 0,
+        "canonical": "X=490.000 Y=560.000 Z=0.000",
+        "presentation": "X=490.000 Y=-555.110 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 0,
+        "canonical": "X=490.000 Y=-560.000 Z=0.000",
+        "presentation": "X=490.000 Y=555.110 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 720.0000000000057,
+        "canonical": "X=330.000 Y=0.000 Z=0.000",
+        "presentation": "X=325.635 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 720.0000000000057,
+        "canonical": "X=330.000 Y=0.000 Z=0.000",
+        "presentation": "X=325.635 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 1470.0000000000161,
+        "canonical": "X=-420.000 Y=0.000 Z=0.000",
+        "presentation": "X=-425.912 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 1470.0000000000161,
+        "canonical": "X=-420.000 Y=0.000 Z=0.000",
+        "presentation": "X=-425.912 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2227.500000000027,
+        "canonical": "X=-362.500 Y=560.000 Z=0.000",
+        "presentation": "X=-361.411 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2227.500000000027,
+        "canonical": "X=-362.500 Y=-560.000 Z=0.000",
+        "presentation": "X=-361.411 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 2970.0000000000373,
+        "canonical": "X=380.000 Y=560.000 Z=0.000",
+        "presentation": "X=388.852 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 2970.0000000000373,
+        "canonical": "X=380.000 Y=-560.000 Z=0.000",
+        "presentation": "X=388.852 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 3727.500000000048,
+        "canonical": "X=402.500 Y=0.000 Z=0.000",
+        "presentation": "X=400.479 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 3727.500000000048,
+        "canonical": "X=402.500 Y=0.000 Z=0.000",
+        "presentation": "X=400.479 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 4477.500000000014,
+        "canonical": "X=-347.500 Y=0.000 Z=0.000",
+        "presentation": "X=-352.158 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 4477.500000000014,
+        "canonical": "X=-347.500 Y=0.000 Z=0.000",
+        "presentation": "X=-352.158 Y=0.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5227.499999999972,
+        "canonical": "X=-442.500 Y=560.000 Z=0.000",
+        "presentation": "X=-439.827 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5227.499999999972,
+        "canonical": "X=-442.500 Y=-560.000 Z=0.000",
+        "presentation": "X=-439.827 Y=560.000 Z=35.000"
+      },
+      {
+        "id": 1002,
+        "route": 1,
+        "distanceCm": 5977.499999999929,
+        "canonical": "X=307.500 Y=560.000 Z=0.000",
+        "presentation": "X=310.279 Y=-560.000 Z=35.000"
+      },
+      {
+        "id": 1001,
+        "route": 0,
+        "distanceCm": 5977.499999999929,
+        "canonical": "X=307.500 Y=-560.000 Z=0.000",
+        "presentation": "X=310.279 Y=560.000 Z=35.000"
+      }
+    ],
+    "FrameP50Ms": 16.666799545288086,
+    "FrameP95Ms": 16.666900634765625,
+    "Scope": "Rendered two-process G1 fixture; actual projection and mouse/touch shared input boundary; no physical input or combat/economy",
+    "ResultSHA256": "7971BADB9CC790EBDC688256388ED581279D3A9165BD0AA26907D1E56DC331AF",
+    "Screenshots": [
+      {
+        "Name": "view-0.png",
+        "SHA256": "FC7BA85501A0FC93EB310D1B7E7A571BB5DE8C97E8390CE71888EB6B9D33A2A7"
+      },
+      {
+        "Name": "view-1.png",
+        "SHA256": "CAEFB49BB9B0440363267C739392BFC8E375B7CB3ED2A9FF14DEECA80505BAEF"
+      },
+      {
+        "Name": "view-2.png",
+        "SHA256": "1D0899671A96A745B066AF69A1742BBED65AB69792EFE2C3AD18AB8AB42D4838"
+      },
+      {
+        "Name": "view-3.png",
+        "SHA256": "F0C140015951E13B3C9AEA133C3130EDCCD37B9E268D8A1902A5CA7B8C9CFCD4"
+      },
+      {
+        "Name": "view-4.png",
+        "SHA256": "8F19D90FEAB237B91161573EB0C053F174CF1C3BE27DE215BCAF3F391D0B59DB"
+      },
+      {
+        "Name": "view-5.png",
+        "SHA256": "8430EA75EDFFEACFCBCF4FC9F47D6776E17BAB301130D3492A2E4B4ADC8C78F9"
+      },
+      {
+        "Name": "view-6.png",
+        "SHA256": "3204A8AE64A8E0F83CA92F5352CE9A6C429D7DEEC83372061F5DF6410ECBCD9F"
+      }
+    ]
+  }
+]
