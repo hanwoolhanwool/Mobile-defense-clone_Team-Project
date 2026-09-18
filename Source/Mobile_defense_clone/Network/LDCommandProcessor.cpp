@@ -154,6 +154,8 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 	if (Command.RequestId <= Session->HighestAdmittedRequestId)
 	{
 		Result.ResultCode = ELDCommandResultCode::RequestExpired;
+		Result.NewBoardRevision = BoardManager ? BoardManager->GetSnapshot(Context.PlayerIndex).BoardRevision : 0;
+		Result.EconomyRevision = EconomyService ? EconomyService->GetSnapshot(Context.PlayerIndex).EconomyRevision : 0;
 		return Result;
 	}
 	if (bAcceptingCommands && FMath::IsFinite(NowSeconds))
