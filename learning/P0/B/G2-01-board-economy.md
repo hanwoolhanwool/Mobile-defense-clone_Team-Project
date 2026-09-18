@@ -64,6 +64,10 @@ UE 자동화의 FGameplayFixture는 CreateWorld 뒤 `GEngine->CreateNewWorldCont
 | normal 중복, 보스30초/30초 초과 | 각 금화301·돌5, 중복 추가0 | Pass | RewardsAndPreparedRevision |
 | 실제 첫 소환→기본 공격→처치→보상 | 실제 RPC와 양쪽 화면 일치 | NotRun | root 통합 실행 대기 |
 
+추가 독립 기대 검사 `b7696baaa97c4bf0200ef9cb25dfad2888836354`는 실제 Editor Pass 후 `G2-supplemental-commands`에서 12건 중11Pass/1Fail이었다. `PreparedIsolationAndIdReservation`의 Actor 전역 IsHidden/GetActorEnableCollision 기대 두 항목이 실패했다. 원인은 제품이 각 PrimitiveComponent에 Visibility=false·CollisionEnabled=NoCollision·GenerateOverlapEvents=false를 설정하는데 테스트가 Actor 전역 플래그를 요구한 것이다. 제품 코드를 바꾸지 않고 실제 Primitive가 하나 이상 존재하는지 확인한 뒤 모든 Primitive의 비표시·무충돌·Overlap 비활성을 검사하도록 수정한다. 비복제·미확정·취소 Destroy·실패/취소 후 첫 성공 ID1 검사는 유지한다. 이 수정의 UE 재실행은 아직 대기다. 나머지 신규 전체 뭉치 교환·등급 판매/전설 합성 거절·2보스 사망 각10회 중복·방어적 비P0 배치 거절 검사는 모두 무경고 Pass였다.
+
+방어적 NoSpace 검사는 M01 비P0 결과를 공개 준비 API에 전달한 거절이다. 정상 P0에서18칸 점유는 종류별 여유 뭉치 최대1·16종 조건 때문에 가득 찬 뭉치 최소2개가 필요해 인구최소22가 되므로 인구20 상한 안에서 도달할 수 없다. 이를 실제 포화 보드 검수로 표시하지 않는다.
+
 ## 상대에게 전달하고 통합하기
 
 공통 헤더→A 준비 UnitActor→B 두 Service/Processor→A GameMode/Combat 연결→UI 순서로 통합한다. 전달 API는 `OnBoardCommitted`, `TryGetCommittedUnitActor`, `TryGetCellTransform`, `GetSnapshot`, `OnEconomyChanged`다. `GetRandomState`는 서버 검증용 읽기 조회이며 클라이언트 Snapshot/RPC에 넣지 않는다. B 독립 테스트에서는 실제 전투 처치 대신 명시적 서버 사망 값을 주입했으므로 A 처치 이벤트와 연결 후 다시 확인해야 한다. 완료 통합/실제 학습자 SHA는 아직 미생성이다.

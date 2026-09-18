@@ -3,6 +3,7 @@
 #if WITH_DEV_AUTOMATION_TESTS
 
 #include "Battle/LDUnitActor.h"
+#include "Components/PrimitiveComponent.h"
 #include "Core/LDPlayerController.h"
 #include "Core/LDPlayerState.h"
 #include "Economy/LDEconomyService.h"
@@ -662,8 +663,16 @@ bool FLDP0PreparedLifetimeTest::RunTest(const FString& Parameters)
 		return false;
 	}
 	ALDUnitActor* Actor = Prepared.PreparedActors[0];
-	TestTrue(TEXT("Prepared actor is actually hidden"), Actor->IsHidden());
-	TestFalse(TEXT("Prepared actor actually has collision disabled"), Actor->GetActorEnableCollision());
+	TArray<UPrimitiveComponent*> Primitives;
+	Actor->GetComponents(Primitives);
+	TestTrue(TEXT("Prepared actor contains real primitive components to inspect"), !Primitives.IsEmpty());
+	for (const UPrimitiveComponent* Primitive : Primitives)
+	{
+		TestFalse(TEXT("Every prepared primitive is actually invisible"), Primitive->IsVisible());
+		TestEqual(TEXT("Every prepared primitive has collision disabled"), Primitive->GetCollisionEnabled(),
+		               ECollisionEnabled::NoCollision);
+		TestFalse(TEXT("Every prepared primitive disables overlap generation"), Primitive->GetGenerateOverlapEvents());
+	}
 	TestFalse(TEXT("Prepared actor is actually not replicated"), Actor->GetIsReplicated());
 	TestFalse(TEXT("Prepared actor is not committed"), Actor->IsCommitted());
 	Fixture.Board->CancelPrepared(Prepared);
