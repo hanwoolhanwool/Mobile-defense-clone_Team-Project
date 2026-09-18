@@ -139,11 +139,12 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 	}
 	if (bProcessing)
 	{
-		Result.ResultCode = ExecutingPlayer == Context.PlayerIndex && ExecutingCommand.IsSet() &&
-		                            ExecutingCommand->RequestId == Command.RequestId &&
-		                            ExecutingCommand->HasSameContent(Normalized)
-		                        ? ELDCommandResultCode::Pending
-		                        : ELDCommandResultCode::Busy;
+		const bool bSameKey = ExecutingPlayer == Context.PlayerIndex && ExecutingCommand.IsSet() &&
+		                      ExecutingCommand->RequestId == Command.RequestId;
+		Result.ResultCode =
+		    bSameKey ? (ExecutingCommand->HasSameContent(Normalized) ? ELDCommandResultCode::Pending
+		                                                             : ELDCommandResultCode::RequestIdConflict)
+		             : ELDCommandResultCode::Busy;
 		return Result;
 	}
 	if (Command.RequestId <= Session->HighestAdmittedRequestId)
