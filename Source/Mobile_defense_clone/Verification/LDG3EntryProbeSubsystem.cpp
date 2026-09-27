@@ -385,6 +385,15 @@ bool ULDG3EntryProbeSubsystem::InspectTerminal(ALDPlayerController& Controller, 
 	         FString::Printf(TEXT("%llu"), Player ? Player->GetParticipantContext().ConnectionEpoch : uint64(0)));
 	TerminalObservation->SetBoolField(TEXT("participantContextValid"),
 	                                       Player && Player->GetParticipantContext().IsValid());
+	TerminalObservation->SetBoolField(TEXT("playerStatePresent"), Player != nullptr);
+	if (Role == TEXT("client"))
+	{
+		// An absent PlayerState also means no admitted participant; never invent a valid player index.
+		const FLDParticipantContext Context = Player ? Player->GetParticipantContext() : FLDParticipantContext();
+		Check(TEXT("late-client-not-registered"), !Context.IsValid() && Context.ConnectionEpoch == 0,
+		           FString::Printf(TEXT("playerState=%d contextValid=%d epoch=%llu"), Player != nullptr,
+		                                Context.IsValid(), Context.ConnectionEpoch));
+	}
 	OldResult = Result;
 	return true;
 }
@@ -493,6 +502,33 @@ void ULDG3EntryProbeSubsystem::TickMatch(ALDPlayerController& Controller, const 
 				return;
 			Check(TEXT("late-client-real-network-terminal-ack"), Peer->bClientPassed);
 			Check(TEXT("host-terminal-immutable-after-late-client"), SameBattle(Battle, TimeoutBattle));
+			const ALDPlayerController* Remote = Cast<ALDPlayerController>(Peer->GetOwner());
+			const ALDPlayerState* RemotePlayer = Remote ? Remote->GetPlayerState<ALDPlayerState>() : nullptr;
+			const FLDParticipantContext RemoteContext =
+			    RemotePlayer ? RemotePlayer->GetParticipantContext() : FLDParticipantContext();
+			Check(TEXT("host-late-remote-not-registered"),
+			           Remote && !Remote->IsLocalController() && Remote->GetNetConnection() &&
+			               !RemoteContext.IsValid() && RemoteContext.ConnectionEpoch == 0,
+			           FString::Printf(TEXT("playerState=%d contextValid=%d epoch=%llu"), RemotePlayer != nullptr,
+			                                RemoteContext.IsValid(), RemoteContext.ConnectionEpoch));
+			if (Mode && Mode->GetBoardManager() && Mode->GetEconomyService() && Mode->GetCommandProcessor())
+			{
+				// Both empty owner slots are authored during service initialization, before any login.
+				const FLDBoardSnapshot RemoteBoard = Mode->GetBoardManager()->GetSnapshot(1);
+				const FLDEconomySnapshot RemoteEconomy = Mode->GetEconomyService()->GetSnapshot(1);
+				const int32 RemoteCache = Mode->GetCommandProcessor()->GetCachedResultCount(1);
+				Check(TEXT("late-owner-slot-remains-initialized-and-pristine"),
+				           RemoteBoard.MatchId == Battle.MatchId && RemoteBoard.PlayerIndex == 1 &&
+				               RemoteEconomy.MatchId == Battle.MatchId && RemoteEconomy.PlayerIndex == 1 &&
+				               RemoteBoard.Population == 0 && RemoteBoard.Units.IsEmpty() &&
+				               RemoteBoard.BoardRevision == 0 && RemoteEconomy.Gold == 100 &&
+				               RemoteEconomy.Stars == 0 && RemoteEconomy.PaidSummonCount == 0 &&
+				               RemoteEconomy.EconomyRevision == 0 && RemoteCache == 0,
+				           FString::Printf(
+				               TEXT("population=%d gold=%d summons=%d boardRevision=%d economyRevision=%d cache=%d"),
+				                    RemoteBoard.Population, RemoteEconomy.Gold, RemoteEconomy.PaidSummonCount,
+				                    RemoteBoard.BoardRevision, RemoteEconomy.EconomyRevision, RemoteCache));
+			}
 			Check(TEXT("host-gameplay-services-stopped-and-state-pristine"),
 			           Mode && !Mode->CanAcceptCommands() && !Mode->IsLogicTimerActive() && Mode->GetBoardManager() &&
 			               Mode->GetEconomyService() && Mode->GetCommandProcessor() &&
@@ -654,6 +690,10 @@ void ULDG3EntryProbeSubsystem::Finish()
 		return;
 	Check(TEXT("entry-terminal-return-sequence-complete"),
 	           bIdleVerified && bTravelClicked && bTerminalVerified && bReturnedVerified);
+	if (GEngine)
+		GEngine->OnNetworkFailure().Remove(NetworkFailureHandle);
+	NetworkFailureHandle.Reset();
+	Check(TEXT("probe-network-observer-released-before-result"), !NetworkFailureHandle.IsValid());
 	bFinished = true;
 	TSharedPtr<FJsonObject> Root = MakeShared<FJsonObject>();
 	Root->SetStringField(TEXT("runId"), RunId);
