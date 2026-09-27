@@ -23,7 +23,7 @@
 2. `Battle/LDWaveDirector.h`에 주입받은 GameData/GameState/Combat UPROPERTY와 일정 cursor, 살아 있는 ID→약한 actor 참조, 일반 ID집합을 선언한다. 별도 Actor/타이머·에디터 배치·UI 포인터가 필요 없는 UObject다.
 3. `Initialize`에서 같은 World·서버 권한·같은 RulesVersion을 확인한다. `StartAt`은 Running 한 번만 허용하고 `BeginWave(1)`을 호출한다.
 4. `BeginWave`는 데이터 행에서 시작/마감 시각을 만든다. `GetNextEventSeconds`는 다음 스폰 또는 웨이브/보스 경계만 반환한다. 실제 실행 프레임을 생성 예정 시각으로 덮어쓰지 않는다.
-5. `SpawnEnemy`는 행→경로→HP/생성 시각→Combat 등록을 모두 성공한 뒤 ID를 소비하고 일반 수/보스 요약을 게시한다. 실패 actor는 Destroy하고 원인 있는 Aborted를 요청한다. 일반 수 증가는 하나씩 검사하여 첫100 이후 상대 진영 스폰도 중단한다.
+5. `SpawnEnemy`는 행→경로→HP/생성 시각→Combat 등록을 모두 성공한 뒤 ID를 소비하고 일반 수/보스 요약을 게시한다. 실패한 자기 소유의 새 actor만 Destroy하고 원인 있는 Aborted를 요청한다. 선택적 ActorFactory 주입점은 이 생성 한 곳뿐이고, 기본 제품 경로는 SpawnActor다. 다른 World 또는 이미 초기화된 actor는 새 소유물로 다루지 않는다. 일반 수 증가는 하나씩 검사하여 첫100 이후 상대 진영 스폰도 중단한다.
 6. `EnemyActor.TryApplyDamage`의 단일 HP0 전이에 DeathServerSeconds를 기록한다. `HandleEnemyDeath`는 MatchId/등록 actor/HP0/종류/생성·사망 시각을 대조한 뒤 일반 집합·Combat 등록에서 제거한다. 동일 사망을 다시 받으면 등록이 없어 무시한다. 죽은 actor는0.25초 뒤 해제하여 매치 내 누적을 막는다.
 7. `RefreshCombatView`는 실제 보스 HP 변화를 조회 모델에 게시한다. `EvaluateVictory`는 최종 생성 완료·두 보스 HP0·일반0을 모두 확인한다. `Stop`은 일정·구독·등록을 닫는다. 결과 확정과 보상/서비스 정리는 다음 수업의 GameMode에 맡긴다.
 
