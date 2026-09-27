@@ -75,12 +75,18 @@ namespace
 		bool bThirdLogout = false;
 		bool bThirdHadNetConnection = false;
 		bool bThirdRejected = false;
+		bool bThirdJoinWindow = false;
+		bool bTeardownRequested = false;
 		bool bMissingData = false;
 		bool bRestored = false;
 
 		~FG0PIEProof()
 		{
-			RemoveObservers();
+			RemoveParticipantObservers();
+			if (GEngine)
+			{
+				GEngine->OnNetworkFailure().Remove(NetworkFailureHandle);
+			}
 			Restore();
 			if (Original)
 			{
@@ -96,14 +102,10 @@ namespace
 			Observations.Add(MakeShared<FJsonValueObject>(Item));
 			Test->AddInfo(Stage + TEXT(": ") + Detail);
 		}
-		void RemoveObservers()
+		void RemoveParticipantObservers()
 		{
 			FGameModeEvents::OnGameModePostLoginEvent().Remove(PostLoginHandle);
 			FGameModeEvents::OnGameModeLogoutEvent().Remove(LogoutHandle);
-			if (GEngine)
-			{
-				GEngine->OnNetworkFailure().Remove(NetworkFailureHandle);
-			}
 			if (ClientWorld.IsValid())
 			{
 				if (ALDGameState* State = ClientWorld->GetGameState<ALDGameState>())
@@ -113,12 +115,45 @@ namespace
 			}
 			PostLoginHandle.Reset();
 			LogoutHandle.Reset();
-			NetworkFailureHandle.Reset();
 			ClientStateHandle.Reset();
+		}
+		void ObserveNetworkLifetime()
+		{
+			const TWeakPtr<FG0PIEProof> Weak = AsShared();
+			NetworkFailureHandle = GEngine->OnNetworkFailure().AddLambda(
+			    [Weak](UWorld* World, UNetDriver* Driver, ENetworkFailure::Type Type, const FString& Error)
+			    {
+				    const TSharedPtr<FG0PIEProof> P = Weak.Pin();
+				    if (!P)
+				    {
+					    return;
+				    }
+				    const bool bDisconnect =
+				        Type == ENetworkFailure::ConnectionLost || Type == ENetworkFailure::FailureReceived;
+				    const bool bPIEWorld = World && World->WorldType == EWorldType::PIE;
+				    const bool bExpectedThird = P->bThirdJoinWindow && P->bThirdPostLogin && bPIEWorld &&
+				                                World != P->HostWorld.Get() && World != P->ClientWorld.Get() &&
+				                                bDisconnect;
+				    const bool bExpectedTeardown = P->bTeardownRequested && bPIEWorld && bDisconnect;
+				    P->Test->TestTrue(
+				        TEXT("Network failure belongs only to intentional third rejection or PIE teardown"),
+				             bExpectedThird || bExpectedTeardown);
+				    P->Record(
+				        TEXT("network-failure"),
+				             FString::Printf(TEXT("expectedThird=%d expectedTeardown=%d world=%s driver=%s type=%s %s"),
+				                                  bExpectedThird, bExpectedTeardown, *GetNameSafe(World),
+				                                  *GetNameSafe(Driver), ENetworkFailure::ToString(Type), *Error));
+			    });
+			// BroadcastNetworkFailure logs before broadcasting. Ignore only these two log forms, then validate
+			// every corresponding event for the whole proof lifetime, including startup and the second PIE.
+			Test->AddExpectedError(
+			    TEXT("UEngine::BroadcastNetworkFailure: FailureType = (ConnectionLost|FailureReceived),"),
+			         EAutomationExpectedErrorFlags::Contains, -1);
 		}
 		void ObserveThirdJoin()
 		{
 			bThirdRequested = true;
+			bThirdJoinWindow = true;
 			const TWeakPtr<FG0PIEProof> Weak = AsShared();
 			PostLoginHandle = FGameModeEvents::OnGameModePostLoginEvent().AddLambda(
 			    [Weak](AGameModeBase* InMode, APlayerController* Player)
@@ -153,29 +188,6 @@ namespace
 					    P->Test->AddError(TEXT("Third admission displaced an original participant"));
 				    }
 			    });
-			NetworkFailureHandle = GEngine->OnNetworkFailure().AddLambda(
-			    [Weak](UWorld* World, UNetDriver* Driver, ENetworkFailure::Type Type, const FString& Error)
-			    {
-				    const TSharedPtr<FG0PIEProof> P = Weak.Pin();
-				    if (!P)
-				    {
-					    return;
-				    }
-				    const bool bExpectedThird =
-				        P->bThirdPostLogin && World && World->WorldType == EWorldType::PIE &&
-				        World != P->HostWorld.Get() && World != P->ClientWorld.Get() &&
-				        (Type == ENetworkFailure::ConnectionLost || Type == ENetworkFailure::FailureReceived);
-				    P->Test->TestTrue(TEXT("Disconnect belongs only to the explicitly rejected third PIE client"),
-				                           bExpectedThird);
-				    P->Record(TEXT("network-failure"),
-				                   FString::Printf(TEXT("expectedThird=%d world=%s type=%s %s"), bExpectedThird,
-				                                        *GetNameSafe(World), ENetworkFailure::ToString(Type), *Error));
-			    });
-			// The engine reports an intentional kick as a network error on the rejected client. Every such
-			// event is separately checked above; failures of either original participant still fail the test.
-			Test->AddExpectedError(
-			    TEXT("UEngine::BroadcastNetworkFailure: FailureType = (ConnectionLost|FailureReceived),"),
-			         EAutomationExpectedErrorFlags::Contains, -1);
 			GEditor->RequestLateJoin();
 		}
 		void Restore()
@@ -219,10 +231,14 @@ namespace
 		}
 		void Save()
 		{
+			const bool bExpectedErrorsMet = Test->HasMetExpectedErrors();
 			TSharedRef<FJsonObject> Root = MakeShared<FJsonObject>();
 			Root->SetStringField(TEXT("kind"), TEXT("actual-editor-PIE-independent-G0-A"));
 			Root->SetStringField(TEXT("productSource"), TEXT("4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6"));
-			Root->SetStringField(TEXT("result"), Test->HasAnyErrors() ? TEXT("Fail") : TEXT("Pass"));
+			Root->SetStringField(TEXT("result"),
+			                          Test->HasAnyErrors() || !bExpectedErrorsMet ? TEXT("Fail") : TEXT("Pass"));
+			Root->SetBoolField(TEXT("expectedErrorsMet"), bExpectedErrorsMet);
+			Root->SetStringField(TEXT("passScope"), TEXT("Proof observations and expected errors at save time only; final Automation report success is also required"));
 			Root->SetNumberField(TEXT("processId"), FPlatformProcess::GetCurrentProcessId());
 			Root->SetNumberField(TEXT("completedSessions"), CompletedSessions);
 			Root->SetBoolField(TEXT("settingsRestored"), bRestored);
@@ -508,6 +524,7 @@ namespace
 				Proof->Test->TestEqual(TEXT("Exactly two admitted participants after real third rejection"), Admitted,
 				                            2);
 				Proof->bThirdRejected = Proof->bThirdHadNetConnection && Admitted == 2;
+				Proof->bThirdJoinWindow = false;
 				Proof->Record(
 				    TEXT("third-rejected"),
 				         TEXT("remote PostLogin followed by Logout/Destroy; original slots/epochs preserved"));
@@ -540,7 +557,7 @@ namespace
 			                           ServerState->SetPhase(TerminalPhase));
 			Proof->Capture(*Host, FString::Printf(TEXT("round%d-host-terminal"), Round));
 			Proof->Capture(*Client, FString::Printf(TEXT("round%d-client-terminal"), Round));
-			Proof->RemoveObservers();
+			Proof->RemoveParticipantObservers();
 			// A test-owned timer bound to this real Mode proves ClearAllTimersForObject in its unchanged EndPlay.
 			// The missing-data path has already called StopMatchServices; never add new work after that closure.
 			FTimerHandle OwnedTimer;
@@ -596,7 +613,7 @@ namespace
 			}
 			Proof->Test->TestEqual(TEXT("FEndPlayMap removes all actual PIE Worlds including rejected client"),
 			                            Remaining, 0);
-			Proof->RemoveObservers();
+			Proof->RemoveParticipantObservers();
 			Proof->Record(TEXT("cleanup"), FString::Printf(TEXT("PIE worlds remaining=%d"), Remaining));
 			if (bFinal)
 			{
@@ -647,6 +664,8 @@ namespace
 		{
 			if (!Command)
 			{
+				Proof->bTeardownRequested = false;
+				Proof->bThirdJoinWindow = false;
 				// The engine command subscribes to global PIE delegates in its constructor. Construct it only
 				// when this queue entry is active, so the next session cannot observe this session's events.
 				Command = MakeUnique<FStartPIEForAutomationCommand>(MakeRequest(*Proof));
@@ -662,6 +681,23 @@ namespace
 	private:
 		TSharedRef<FG0PIEProof> Proof;
 		TUniquePtr<FStartPIEForAutomationCommand> Command;
+	};
+
+	class FEndG0APIE final : public IAutomationLatentCommand
+	{
+	public:
+		explicit FEndG0APIE(TSharedRef<FG0PIEProof> InProof) : Proof(InProof) {}
+		virtual bool Update() override
+		{
+			// Mark only this harness's explicit engine teardown, including cleanup after a failed assertion.
+			Proof->bTeardownRequested = true;
+			Proof->bThirdJoinWindow = false;
+			return Command.Update();
+		}
+
+	private:
+		TSharedRef<FG0PIEProof> Proof;
+		FEndPlayMapCommand Command;
 	};
 
 	TSharedPtr<FG0PIEProof> PrepareProof(FAutomationTestBase& Test, bool bMissingData)
@@ -703,6 +739,7 @@ namespace
 			Test.AddError(TEXT("Unable to create new PIE proof directory"));
 			return nullptr;
 		}
+		Proof->ObserveNetworkLifetime();
 		Proof->Record(TEXT("scope"), TEXT("provided test fixture over unchanged independent A Core/Data; native mode; no B RPC, BP generation, package or Android validation"));
 		return Proof;
 	}
@@ -719,11 +756,11 @@ bool FLDG0AActualPIETest::RunTest(const FString& Parameters)
 	}
 	ADD_LATENT_AUTOMATION_COMMAND(FDeferredStartG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FVerifyG0APIE(Proof.ToSharedRef(), 0));
-	ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
+	ADD_LATENT_AUTOMATION_COMMAND(FEndG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FFinishG0APIE(Proof.ToSharedRef(), false));
 	ADD_LATENT_AUTOMATION_COMMAND(FDeferredStartG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FVerifyG0APIE(Proof.ToSharedRef(), 1));
-	ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
+	ADD_LATENT_AUTOMATION_COMMAND(FEndG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FFinishG0APIE(Proof.ToSharedRef(), true));
 	return true;
 }
@@ -740,7 +777,7 @@ bool FLDG0AMissingDataPIETest::RunTest(const FString& Parameters)
 	AddExpectedError(TEXT("Match aborted:.*GameRules.json"), EAutomationExpectedErrorFlags::Contains, 1);
 	ADD_LATENT_AUTOMATION_COMMAND(FDeferredStartG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FVerifyG0APIE(Proof.ToSharedRef(), 0));
-	ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
+	ADD_LATENT_AUTOMATION_COMMAND(FEndG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FFinishG0APIE(Proof.ToSharedRef(), true));
 	return true;
 }
