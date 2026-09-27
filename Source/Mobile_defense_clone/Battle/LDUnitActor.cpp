@@ -109,12 +109,13 @@ bool ALDUnitActor::InitializePrepared(const FLDPlacedUnit& Unit, const FLDUnitRo
 	RangeCm = Row.RangeCm;
 	CanonicalPosition = Transform.GetLocation();
 	SetActorLocation(CanonicalPosition);
-	UnitColor = Row.Grade == TEXT("Legendary")
-	                              ? FLinearColor(1, 0.62f, 0.08f)
-	                              : Row.Grade == TEXT("Epic")
-	                                                  ? FLinearColor(0.7f, 0.15f, 0.9f)
-	                                                  : Row.Grade == TEXT("Rare") ? FLinearColor(0.1f, 0.55f, 1)
-	                                                                              : FLinearColor(0.3f, 0.85f, 0.45f);
+	// Author the grade palette in sRGB, like the board; material parameters require linear values.
+	const FColor GradeTint =
+	    Row.Grade == TEXT("Legendary") ? FColor(242, 176, 36)
+	                                   : Row.Grade == TEXT("Epic") ? FColor(160, 70, 224)
+	                                                               : Row.Grade == TEXT("Rare") ? FColor(26, 166, 213)
+	                                                                                           : FColor(142, 153, 170);
+	UnitColor = FLinearColor::FromSRGBColor(GradeTint);
 	bPrepared = true;
 	return true;
 }
