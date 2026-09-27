@@ -3,14 +3,81 @@
 #if WITH_DEV_AUTOMATION_TESTS
 
 #include "Board/LDBoardManager.h"
+#include "Components/EditableTextBox.h"
 #include "Core/LDGameState.h"
 #include "Core/LDPlayerController.h"
 #include "Data/LDGameData.h"
 #include "Economy/LDEconomyService.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
+#include "Layout/Children.h"
 #include "Misc/AutomationTest.h"
 #include "Network/LDCommandProcessor.h"
+#include "UI/LDEntryWidget.h"
+#include "UObject/GarbageCollection.h"
+#include "UObject/StrongObjectPtr.h"
+#include "Widgets/Input/SEditableText.h"
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0EntryStyleLifetimeTest, "LD.P0.G3.Entry.OwnedAddressStyleSurvivesPrepass",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0EntryStyleLifetimeTest::RunTest(const FString& Parameters)
+{
+	TStrongObjectPtr<ULDEntryWidget> Entry(NewObject<ULDEntryWidget>());
+	Entry->Initialize();
+	const TSharedRef<SWidget> EntrySlate = Entry->TakeWidget();
+	UEditableTextBox* Address = Cast<UEditableTextBox>(Entry->GetWidgetFromName(TEXT("HostAddress")));
+	if (!TestNotNull(TEXT("Actual entry creates its address input"), Address))
+	{
+		return false;
+	}
+	const FSlateFontInfo OriginalFont = Address->GetWidgetStyle().TextStyle.Font;
+	TFunction<TSharedPtr<SEditableText>(const TSharedRef<SWidget>&)> FindEditable;
+	FindEditable = [&FindEditable](const TSharedRef<SWidget>& Widget) -> TSharedPtr<SEditableText>
+	{
+		if (Widget->GetTypeAsString() == TEXT("SEditableText"))
+		{
+			return StaticCastSharedRef<SEditableText>(Widget);
+		}
+		FChildren* Children = Widget->GetChildren();
+		for (int32 Index = 0; Children && Index < Children->Num(); ++Index)
+		{
+			if (TSharedPtr<SEditableText> Found = FindEditable(Children->GetChildAt(Index)))
+			{
+				return Found;
+			}
+		}
+		return nullptr;
+	};
+	const TSharedPtr<SEditableText> EditableSlate = FindEditable(Address->TakeWidget());
+	if (!TestTrue(TEXT("Regression exercises the real Slate editable-text child"), EditableSlate.IsValid()))
+	{
+		return false;
+	}
+	for (const int32 Size : {33, 19, 42})
+	{
+		Entry->UpdateAddressFontSize(Size);
+		EntrySlate->MarkPrepassAsDirty();
+		EntrySlate->SlatePrepass(1.0f);
+		TestEqual(TEXT("A later prepass retains the requested size"), EditableSlate->GetFont().Size,
+		               static_cast<float>(Size));
+		// This independent mutation distinguishes a retained owned-style pointer from a stale copy.
+		Address->WidgetStyle.TextStyle.Font.Size = Size + 1;
+		EntrySlate->MarkPrepassAsDirty();
+		EntrySlate->SlatePrepass(1.0f);
+		TestEqual(TEXT("Slate reads the still-owned style, not an expired caller copy"), EditableSlate->GetFont().Size,
+		               static_cast<float>(Size + 1));
+		CollectGarbage(RF_NoFlags);
+		EntrySlate->MarkPrepassAsDirty();
+		EntrySlate->SlatePrepass(1.0f);
+		TestTrue(TEXT("GC and deferred prepass retain the original font resource"),
+		              EditableSlate->GetFont().FontObject == OriginalFont.FontObject);
+		TestNotNull(TEXT("Deferred text shaping can resolve its composite font"),
+		                 EditableSlate->GetFont().GetCompositeFont());
+	}
+	// Actual cooked-package rendering and repeated entry travel remain separate runtime gates.
+	return true;
+}
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0EntryAddressTest, "LD.P0.G3.Entry.NumericAddressBoundary",
                                  EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)

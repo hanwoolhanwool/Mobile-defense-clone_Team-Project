@@ -27,6 +27,8 @@ protected:
 	virtual void NativeTick(const FGeometry& Geometry, float DeltaSeconds) override;
 
 private:
+	friend class FLDP0EntryStyleLifetimeTest;
+	void UpdateAddressFontSize(int32 FontSize);
 	UTextBlock* AddLabel(FName Name, const FText& Text);
 	UButton* AddButton(FName Name, const FText& Text, UTextBlock*& OutLabel);
 	static bool GetWidgetRect(const UWidget* Widget, FBox2D& OutRect);
