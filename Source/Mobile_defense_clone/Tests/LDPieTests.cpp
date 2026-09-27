@@ -35,6 +35,7 @@
 #include "Tests/AutomationEditorCommon.h"
 #include "UI/LDBattleStatusWidget.h"
 #include "UI/LDResultWidget.h"
+#include "UObject/GarbageCollection.h"
 #include "UObject/StrongObjectPtr.h"
 #include "UObject/UObjectIterator.h"
 #include "UObject/UnrealType.h"
@@ -387,6 +388,12 @@ namespace
 				Proof->TerminalUI->SetNumberField(TEXT("expectedNewServerRequests"), 0);
 				Proof->TerminalUI->SetStringField(TEXT("expectedStateChange"),
 				                                       TEXT("none: board/economy/battle/cache/RNG"));
+				SourceMapAsset = FindObject<UWorld>(nullptr, TEXT("/Game/LD/Maps/L_P0.L_P0"));
+				Proof->Test->TestTrue(TEXT("PIE source map is a standalone editor asset"),
+				                           SourceMapAsset.IsValid() && SourceMapAsset->HasAnyFlags(RF_Standalone) &&
+				                               SourceMapAsset->WorldType != EWorldType::PIE);
+				Proof->TerminalUI->SetStringField(TEXT("gcKeepPolicy"),
+				                                       TEXT("GARBAGE_COLLECTION_KEEPFLAGS: Editor RF_Standalone"));
 				for (int32 Index = 0; Index < 2; ++Index)
 				{
 					ALDPlayerController& Player = *Players[Index];
@@ -406,6 +413,9 @@ namespace
 					View.RetiredStatus.Reset(Statuses[Index]);
 					View.OldResult = Results[Index];
 					View.OldStatus = Statuses[Index];
+					Proof->Test->TestFalse(TEXT("Retired widgets are not standalone editor assets or rooted"),
+					                            Results[Index]->HasAnyFlags(RF_Standalone) || Results[Index]->IsRooted() ||
+					                                Statuses[Index]->HasAnyFlags(RF_Standalone) || Statuses[Index]->IsRooted());
 					Proof->Test->TestFalse(TEXT("Terminal begins without pending command"), Player.HasPendingCommand());
 					Proof->Capture(Player, Index == 0 ? TEXT("host-terminal-before") : TEXT("client-terminal-before"));
 					Results[Index]->RemoveFromParent();
@@ -554,7 +564,10 @@ namespace
 					View.RetiredResult.Reset();
 					View.RetiredStatus.Reset();
 				}
-				CollectGarbage(RF_NoFlags);
+				// Match InitializeForPlayInEditor/EndPlayMap: retain standalone source map assets in Editor.
+				// RF_NoFlags destroys the initialized source WorldPartition subsystem while PIE still owns its map.
+				// The retired widgets above are neither standalone nor rooted and must still be collected.
+				CollectGarbage(GARBAGE_COLLECTION_KEEPFLAGS);
 				TerminalStepAt = FPlatformTime::Seconds();
 				Stage = 8;
 				return false;
@@ -568,6 +581,9 @@ namespace
 			Proof->Test->TestTrue(TEXT("All four retired Result/Status widgets garbage collected"),
 			                           bOldWidgetsCollected);
 			Proof->TerminalUI->SetBoolField(TEXT("allFourOldWidgetsCollected"), bOldWidgetsCollected);
+			const bool bSourceMapRetained = SourceMapAsset.IsValid() && SourceMapAsset->HasAnyFlags(RF_Standalone);
+			Proof->Test->TestTrue(TEXT("Standalone PIE source map survives editor GC"), bSourceMapRetained);
+			Proof->TerminalUI->SetBoolField(TEXT("sourceMapRetainedAfterGC"), bSourceMapRetained);
 			Proof->TerminalUI->SetNumberField(TEXT("actualTerminalServerRequests"), Proof->TerminalServerRequests);
 			Proof->TerminalUI->SetBoolField(TEXT("logicTimerActive"), Mode->IsLogicTimerActive());
 			Proof->TerminalUI->SetBoolField(TEXT("passedBeforeEditorShutdown"), !Proof->Test->HasAnyErrors());
@@ -709,6 +725,7 @@ namespace
 		}
 		TSharedRef<FPIEProof> Proof;
 		FTerminalViewBaseline TerminalViews[2];
+		TWeakObjectPtr<UWorld> SourceMapAsset;
 		double StartedAt = 0;
 		double RunningObservedAt = 0;
 		double TerminalStepAt = 0;
