@@ -1,0 +1,390 @@
+{
+  "generator": "learning/tools/build-html.mjs",
+  "parser": "marked 17.0.5 (MIT)",
+  "documents": [
+    {
+      "source": "P0/A/G0_01_DATA.md",
+      "output": "html/P0/A/G0_01_DATA.html",
+      "title": "P0 규칙 snapshot — P0 / A / A-01",
+      "sha256": "084cfa99ab59fc5001c026708cc7b88122574ed59324db5da4a98fd412f18969"
+    },
+    {
+      "source": "P0/A/G0_02_MATCH.md",
+      "output": "html/P0/A/G0_02_MATCH.html",
+      "title": "서버 매치와 참가자 수명 — P0 / A / A-02",
+      "sha256": "f3079f3d605bfb0962b2be9d6e13299ce34b4dde6cda85aff08a184114d01ce3"
+    },
+    {
+      "source": "P0/A/G1_01_ROUTE_MODEL.md",
+      "output": "html/P0/A/G1_01_ROUTE_MODEL.html",
+      "title": "닫힌 선형 경로 계산 — P0 / A / G1-A-01",
+      "sha256": "83c2608e035b318f66c4e60fb2206d2fadae5845ffee2ca88e6c4111ad28106d"
+    },
+    {
+      "source": "P0/A/G1_02_ENEMY_ACTOR.md",
+      "output": "html/P0/A/G1_02_ENEMY_ACTOR.html",
+      "title": "영속 적 개체와 로컬 표시 — P0 / A / G1-A-02",
+      "sha256": "67fdba4c80b6cfe49c6a83cbfdfefc7f22b1a91b29df356b42cc680e2895c57a"
+    },
+    {
+      "source": "P0/A/G1_EVIDENCE/README.md",
+      "output": "html/P0/A/G1_EVIDENCE/README.html",
+      "title": "G1 A 역할 검증 증거",
+      "sha256": "da3685e16c081ee1d2e1b0c121d851619964d5331fbb52b53917d107f8c0c44b"
+    },
+    {
+      "source": "P0/A/G1_ROUTE_NOTE.md",
+      "output": "html/P0/A/G1_ROUTE_NOTE.html",
+      "title": "G1 경로·개체 준비 메모",
+      "sha256": "b5ce0a41e1ba19ba7733004daa633c377ce4ce9a39003a00759926cdb4843e11"
+    },
+    {
+      "source": "P0/A/G2_01_UNIT.md",
+      "output": "html/P0/A/G2_01_UNIT.html",
+      "title": "준비된 유닛과 표시 — P0 / A / G2-A-01",
+      "sha256": "c1c10cd960e5be8a39702a28d3e990be948920a2d9cca51796407676a713ee24"
+    },
+    {
+      "source": "P0/A/G2_02_COMBAT.md",
+      "output": "html/P0/A/G2_02_COMBAT.html",
+      "title": "예정 공격과 단일 사망 — P0 / A / G2-A-02",
+      "sha256": "27c35c6a6be8b0893f41b10dd23ab28fa2b2ffc493de30686f6a7a2004c9bcd4"
+    },
+    {
+      "source": "P0/A/G2_03_MATCH.md",
+      "output": "html/P0/A/G2_03_MATCH.html",
+      "title": "보드·경제·전투의 서버 연결 — P0 / A / G2-A-03",
+      "sha256": "6de35ce1b39a7c018f8555bc2d1beca1bddf6c78f111a3cb0395fb2a8c69464a"
+    },
+    {
+      "source": "P0/A/G2_CONTRACT_NOTE.md",
+      "output": "html/P0/A/G2_CONTRACT_NOTE.html",
+      "title": "G2 A/B 연결 계약 준비 메모",
+      "sha256": "a7ee2318434be9495e22760ab7edf2b0ec3659497d2e4cfdc385d1819500e449"
+    },
+    {
+      "source": "P0/A/G2_EVIDENCE.md",
+      "output": "html/P0/A/G2_EVIDENCE.html",
+      "title": "G2 A 실행 증거",
+      "sha256": "6617a53c33965d520b2067ddf1146c2af403fa086d37e3990812a9a73b3c5454"
+    },
+    {
+      "source": "P0/A/G3_01_WAVES.md",
+      "output": "html/P0/A/G3_01_WAVES.html",
+      "title": "예정 생성과 일반 적 수 — P0 / A / G3-A-01",
+      "sha256": "6c410ab526b230ab8134fdb932ef2263294fc82d40ab683c6430cc3383f4170f"
+    },
+    {
+      "source": "P0/A/G3_02_TIMELINE.md",
+      "output": "html/P0/A/G3_02_TIMELINE.html",
+      "title": "열린 현재 시각과 단일 종료 — P0 / A / G3-A-02",
+      "sha256": "5b990d7a1c5b57f143bd93c75cf757d0f7060ca1bc535da392d97121b0fff0b1"
+    },
+    {
+      "source": "P0/A/G3_03_WIDGETS.md",
+      "output": "html/P0/A/G3_03_WIDGETS.html",
+      "title": "공용 전투 정보와 결과 표시 — P0 / A / G3-A-03",
+      "sha256": "55422d6bf964b5a3771c044db94e13bcf23d6db5f54ed25a266f8efc43cbdce8"
+    },
+    {
+      "source": "P0/A/G3_04_SESSION_LIFETIME.md",
+      "output": "html/P0/A/G3_04_SESSION_LIFETIME.html",
+      "title": "새 매치의 명령 세대 — P0 / A / G3-A-04",
+      "sha256": "3d954f16eba06d592a7afe21ec20a063c8b63565a8550ab15209a29455538cf8"
+    },
+    {
+      "source": "P0/A/G3_EVIDENCE.md",
+      "output": "html/P0/A/G3_EVIDENCE.html",
+      "title": "G3 A 공통 증거·전달 기록",
+      "sha256": "1b9a84fcd0984aa723830d535f4fa21ab5a106f11d2735398be6bebee36d2942"
+    },
+    {
+      "source": "P0/A/G4_01_ANDROID.md",
+      "output": "html/P0/A/G4_01_ANDROID.html",
+      "title": "Android 패키지·실기기 검수 — P0 / A / G4-01",
+      "sha256": "c9f734346007c849f02a2f4043230f088b7352e48da1e533af404f4a8eabf81a"
+    },
+    {
+      "source": "P0/A/README.md",
+      "output": "html/P0/A/README.html",
+      "title": "P0 A 참고 구현 수업",
+      "sha256": "8eb163a486533ef5394831875236d9538491d1d928373cadc9cb1c07e29b1ccb"
+    },
+    {
+      "source": "P0/A/evidence/G0_RUNTIME.md",
+      "output": "html/P0/A/evidence/G0_RUNTIME.html",
+      "title": "A G0 Unreal 컴파일과 자동화",
+      "sha256": "42a9621785f373d5a7d7a46d4c45283f7e695db244c14559ffbb6d77ca4b1206"
+    },
+    {
+      "source": "P0/A/evidence/G0_STATIC.md",
+      "output": "html/P0/A/evidence/G0_STATIC.html",
+      "title": "A G0 정적 검사",
+      "sha256": "2b1e2a2e48807532d52a681552e5f18501508575a5405adf517f3b0035609ea1"
+    },
+    {
+      "source": "P0/B/G0-01-foundation.md",
+      "output": "html/P0/B/G0-01-foundation.html",
+      "title": "독립 공통 기반 — P0 / B / G0-01",
+      "sha256": "6995033ed33b1e7879c7c05b87200f4e15a53e254917491f5d71b1b58a152756"
+    },
+    {
+      "source": "P0/B/G0-02-commands.md",
+      "output": "html/P0/B/G0-02-commands.html",
+      "title": "명령 입구와 중복 방지 — P0 / B / G0-02",
+      "sha256": "9612c38f86626b8972c406ff407eda92ceeb15e88c080a54eed34905a8aa3860"
+    },
+    {
+      "source": "P0/B/G1-01-geometry.md",
+      "output": "html/P0/B/G1-01-geometry.html",
+      "title": "변하지 않는 셀과 로컬 좌표 — P0 / B / G1-01",
+      "sha256": "5c24b5f227422e6087bdababe9ff075968a75509216909ddcab72c1af46cbccb"
+    },
+    {
+      "source": "P0/B/G1-02-view-input.md",
+      "output": "html/P0/B/G1-02-view-input.html",
+      "title": "두 화면의 카메라와 같은 좌표로 누르기 — P0 / B / G1-02",
+      "sha256": "75f85da6fda830d2776be82ea7c44c6d0ad375be5967a382ac523806c6b6f947"
+    },
+    {
+      "source": "P0/B/G2-01-board-economy.md",
+      "output": "html/P0/B/G2-01-board-economy.html",
+      "title": "보드와 경제의 공동 확정 — P0 / B / G2-01",
+      "sha256": "4d03cd3d223b4c7c4aab340abc457a5d576f53523772dcab42214d48d51c3bc2"
+    },
+    {
+      "source": "P0/B/G2-02-command-lifetime.md",
+      "output": "html/P0/B/G2-02-command-lifetime.html",
+      "title": "중복 요청과 연결 세대 수명 — P0 / B / G2-02",
+      "sha256": "673bcb27fbd9fd225ca7411781bf295a59cae7b8d7dfac13bbc1093e5adc3898"
+    },
+    {
+      "source": "P0/B/G2-03-hud-input.md",
+      "output": "html/P0/B/G2-03-hud-input.html",
+      "title": "개인 HUD와 뭉치 조작 — P0 / B / G2-03",
+      "sha256": "b8d3f73c3e4c75a3b24444aa10b069c6d2a4809d470f92da6b937632153f37e0"
+    },
+    {
+      "source": "P0/B/G2-contract-notes.md",
+      "output": "html/P0/B/G2-contract-notes.html",
+      "title": "공동 확정과 전투 연결 준비 메모 — P0 / B / G2 준비",
+      "sha256": "61a847b4a4762b88ee73cf935426701307b3521ac370333c6cc69b571c71fbed"
+    },
+    {
+      "source": "P0/B/G3-01-entry-return.md",
+      "output": "html/P0/B/G3-01-entry-return.html",
+      "title": "P0 진입과 반복 매치 복귀 — G3 / B / 01",
+      "sha256": "3c1c6f157770f7e5fc2cc4ebaa875d4d96aad31a8b7533568755b9b5680d899b"
+    },
+    {
+      "source": "P0/B/G3-02-battle-result-hud.md",
+      "output": "html/P0/B/G3-02-battle-result-hud.html",
+      "title": "전투·결과 HUD를 읽기 전용으로 연결하기 — G3 / B / 02",
+      "sha256": "23d4982cb71868c4ef80b8a9a55b119a7c07038a9dedb3a6baf73d5f6d11deec"
+    },
+    {
+      "source": "P0/B/G3-03-clock-finalization.md",
+      "output": "html/P0/B/G3-03-clock-finalization.html",
+      "title": "명령 시각과 최종 보상 확정 경계 — G3 / B / 03",
+      "sha256": "156ea3a8fee9528fc30e1e0d4371f2269ab82ad0af6f1389c8af8d798ef20bba"
+    },
+    {
+      "source": "P0/B/G3-04-session-epoch.md",
+      "output": "html/P0/B/G3-04-session-epoch.html",
+      "title": "새 매치의 이전 요청 격리 — G3 / B / 04",
+      "sha256": "af40c822e834ba51e1dd9663d1250391a38bfcd888a637494fa4cd5436bc0bdf"
+    },
+    {
+      "source": "P0/B/README.md",
+      "output": "html/P0/B/README.html",
+      "title": "P0 B 참고 구현 학습 순서",
+      "sha256": "d89f27fbfd9cf4bc3cab5441be46b775df9ca3ed0d2eee6035a73a736c323755"
+    },
+    {
+      "source": "P0/COMMON.md",
+      "output": "html/P0/COMMON.html",
+      "title": "공통 계약과 제공 범위",
+      "sha256": "30d8af8c68bd8e0baca849a86a8b059ef731b360a20702d1b931e313c8692c55"
+    },
+    {
+      "source": "P0/G1_INTEGRATION.md",
+      "output": "html/P0/G1_INTEGRATION.html",
+      "title": "두 경로와 양쪽 입력 연결 — P0 / 통합 / G1",
+      "sha256": "e86e1f848072921c5dc9b468703db40667be78d44165911a2d722b17439abc1b"
+    },
+    {
+      "source": "P0/G2_INTEGRATION.md",
+      "output": "html/P0/G2_INTEGRATION.html",
+      "title": "전투·경제 연결 — P0 / 통합 / G2",
+      "sha256": "fb648963edf26c96c2e1bed76695e80e586ca01fe47a67b6a3a6db85b1cd6afa"
+    },
+    {
+      "source": "P0/G3_INTEGRATION.md",
+      "output": "html/P0/G3_INTEGRATION.html",
+      "title": "10웨이브·진입·반복 실행 — P0 / 통합 / G3",
+      "sha256": "45c9d0d94e814dc4d2cba1f21488cc51a7d3d97d6a7c4c686c0e31b4e3ab9071"
+    },
+    {
+      "source": "P0/INTEGRATION.md",
+      "output": "html/P0/INTEGRATION.html",
+      "title": "P0 게이트 통합",
+      "sha256": "e6b6ffe027e86ba6757600fe8dd12dbc147fa1da64ba2ab4ef7a15a2f0b94372"
+    },
+    {
+      "source": "P0/README.md",
+      "output": "html/P0/README.html",
+      "title": "P0 참고 구현 학습 시작",
+      "sha256": "c90716f47c8aac5c3cda8e09eea46f4353c7149c7671f75c9a1a807e017eec92"
+    },
+    {
+      "source": "P0/evidence/G0_REPLAY/B-network.md",
+      "output": "html/P0/evidence/G0_REPLAY/B-network.html",
+      "title": "G0 B 소유 RPC와 canonical 종료 재현",
+      "sha256": "4cc621178723463af73d74ea0007c9c4cb53da5900bd23fa6798a8e23d612439"
+    },
+    {
+      "source": "P0/evidence/G0_REPLAY/SUMMARY.md",
+      "output": "html/P0/evidence/G0_REPLAY/SUMMARY.html",
+      "title": "G0 수업 출발점 재현 — 2026-09-18 / 실제 PIE 후속2026-09-27",
+      "sha256": "580b58ce62b472cc4594b9a402f1912374a4239b248cfb9545dfe8372ad1601e"
+    },
+    {
+      "source": "P0/evidence/G0_REPLAY/a-network.md",
+      "output": "html/P0/evidence/G0_REPLAY/a-network.html",
+      "title": "A G0 native 매치 재현 — 2026-09-27",
+      "sha256": "dd9a2bf9653b624072d22b527e605afbdf228c8e9feaf6426be28c99c524b764"
+    },
+    {
+      "source": "P0/evidence/G1_REPLAY/README.md",
+      "output": "html/P0/evidence/G1_REPLAY/README.html",
+      "title": "G1 수업의 참고 코드 조립 재현",
+      "sha256": "cf75bd5b4fda800adede4f0b91012f09c1b9f2832fc5f0c3c7e86d51e48ba42f"
+    },
+    {
+      "source": "P0/evidence/G1_REPLAY/SUMMARY.md",
+      "output": "html/P0/evidence/G1_REPLAY/SUMMARY.html",
+      "title": "G1 수업 재현 결과",
+      "sha256": "214e04663db8e80c25dc120c0c0b1895803186033a1351831a775b661efdc627"
+    },
+    {
+      "source": "P0/evidence/G2_REPLAY/README.md",
+      "output": "html/P0/evidence/G2_REPLAY/README.html",
+      "title": "G2 수업 재현 증거",
+      "sha256": "9a92cb104fc702409af93146798acaf5c2dbd5c88de0620d242abedd19593b53"
+    },
+    {
+      "source": "P0/evidence/G3_REPLAY/README.md",
+      "output": "html/P0/evidence/G3_REPLAY/README.html",
+      "title": "G3 새 시작점 재현 증거",
+      "sha256": "517c9e70c8e67320d546f4c15eee9e369d32c45b25560cf8068197002149e5df"
+    },
+    {
+      "source": "P1/A/README.md",
+      "output": "html/P1/A/README.html",
+      "title": "P1 · A 개발자 학습 경로",
+      "sha256": "262d96cbb174c753a94d577a58d3a1bb4013f29b0a52474195da02e8b6161f24"
+    },
+    {
+      "source": "P1/B/README.md",
+      "output": "html/P1/B/README.html",
+      "title": "P1 · B 개발자 학습 경로",
+      "sha256": "74ca116bbeefd24ce36dec7b35a73852d331a9151607e19f02b3d17cbdc36246"
+    },
+    {
+      "source": "P1/COMMON.md",
+      "output": "html/P1/COMMON.html",
+      "title": "P1 공통 준비",
+      "sha256": "fe9d76c9eeccabf0ea0d950ee5bd67c846a1bb2a6a3dee5a7a7803678d974304"
+    },
+    {
+      "source": "P1/INTEGRATION.md",
+      "output": "html/P1/INTEGRATION.html",
+      "title": "P1 통합과 다음 단계 진입",
+      "sha256": "c26f401d889422dc3096f8a790dfb4d388eba9153a6029a8a479dc5f891a5091"
+    },
+    {
+      "source": "P1/README.md",
+      "output": "html/P1/README.html",
+      "title": "P1 학습 경로",
+      "sha256": "25aae46353b68fdd8f8ab44419f49b8141a7666b2f622cb16e2ca5d5ee4d6ea3"
+    },
+    {
+      "source": "P2/A/README.md",
+      "output": "html/P2/A/README.html",
+      "title": "P2 · A 개발자 학습 경로",
+      "sha256": "e531acdc955395b767ff0116b0abef8a859dfac1cdadb829999dc6491c4aafca"
+    },
+    {
+      "source": "P2/B/README.md",
+      "output": "html/P2/B/README.html",
+      "title": "P2 · B 개발자 학습 경로",
+      "sha256": "4539727124b886c423bbf002da602033aee611e7077ac47d45b7e9389d6772d2"
+    },
+    {
+      "source": "P2/COMMON.md",
+      "output": "html/P2/COMMON.html",
+      "title": "P2 공통 준비",
+      "sha256": "5b085dbada7faaf947d8d000e8f4e6c5e2b628b8379524d871294b1e552e881a"
+    },
+    {
+      "source": "P2/INTEGRATION.md",
+      "output": "html/P2/INTEGRATION.html",
+      "title": "P2 통합과 다음 단계 진입",
+      "sha256": "8ea4c5ecbca96cc9097e5d7995963b375f08c57c6fdebe824dc2bb876394fc2b"
+    },
+    {
+      "source": "P2/README.md",
+      "output": "html/P2/README.html",
+      "title": "P2 학습 경로",
+      "sha256": "0261ccc28efb77b7d6c23b5f4b0eca329c383f9dec04a8708b16167b51817d0d"
+    },
+    {
+      "source": "README.md",
+      "output": "html/README.html",
+      "title": "A·B 개발 학습 자료",
+      "sha256": "96fa3ccf8cd5b34c6787bae457df2742fdb7f98af61fb4f1b3bd782f801b2be0"
+    },
+    {
+      "source": "REMOVAL.md",
+      "output": "html/REMOVAL.html",
+      "title": "학습 자료를 제거할 때",
+      "sha256": "96292c3e59e80345f606b0cce5359dbcb77fa4c0a88236688f4539249f5b86d2"
+    },
+    {
+      "source": "WORKFLOW.md",
+      "output": "html/WORKFLOW.html",
+      "title": "학습용 제작과 실제 개발을 분리하는 운영",
+      "sha256": "e9423bab9c30d76f93ef18974cc6b9acf477293fc39d30351fa7eda49ce735ba"
+    },
+    {
+      "source": "templates/LESSON.md",
+      "output": "html/templates/LESSON.html",
+      "title": "수업 제목 — 마일스톤 / 역할 / 단계",
+      "sha256": "e26fe3a7f75e6b38e9118e963c6a261eaff67d5cf12371d14e0e406402c04f81"
+    },
+    {
+      "source": "templates/MILESTONE.md",
+      "output": "html/templates/MILESTONE.html",
+      "title": "마일스톤 학습 자료 — 복사용 양식",
+      "sha256": "dc1ebb2556ad44f26af3b0fa3948ca9f13543f70ed46aa24e8c7c747c6a81ebc"
+    },
+    {
+      "source": "tools/G0Replay/A/README.md",
+      "output": "html/tools/G0Replay/A/README.html",
+      "title": "독립 G0 A의 실제 PIE 검사용 제공 코드",
+      "sha256": "0d2cb249f2bc585366625593eb14d906982af0e374882aee86d8e37dc3386a40"
+    },
+    {
+      "source": "tools/G0Replay/B/README.md",
+      "output": "html/tools/G0Replay/B/README.html",
+      "title": "G0 B 실제 PIE·소유 RPC 검사 제공 파일",
+      "sha256": "9377c7b185f79af24bc51f2c3facde8588dd7238b49e02d2f5a4cdd77169cff9"
+    },
+    {
+      "source": "tools/G0Replay/README.md",
+      "output": "html/tools/G0Replay/README.html",
+      "title": "G0 실제 접속 검사의 공통 실행 절차",
+      "sha256": "677854fcb173de4c9e9f0b81a3394d7ee9774b436bc551048530caecade8fab4"
+    }
+  ]
+}

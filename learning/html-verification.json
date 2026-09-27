@@ -1,0 +1,45 @@
+{
+  "Scope": "Offline reading copies of every existing learning Markdown document; no product or learner status change",
+  "Result": "Pass",
+  "VerifiedAt": "2026-09-28T05:14:47.4194679+09:00",
+  "BaseSha": "7820cf5767da6a0cdac1e04a08ed6d1ac2839405",
+  "InputManifest": "html/manifest.json",
+  "InputManifestSHA256": "AC780168983E4AECBB367B7AACB67096C49659BFDD0F28AF6AC6CDD1BF9BA0C9",
+  "GeneratorSHA256": "44EDD9494BC0FC016DE28EF39B3EFEDB748DCC9075B7AC223BF4087A5C3308D2",
+  "MarkdownDocuments": 64,
+  "HtmlPages": 65,
+  "GeneratedContentCheck": "Pass",
+  "MarkdownLinks": 707,
+  "LearningValidation": "PASS",
+  "Browser": "151.0.7922.34",
+  "BrowserPages": 65,
+  "BrowserLocalLinks": 1616,
+  "BrowserErrors": [],
+  "BrowserRequestFailures": [],
+  "Viewports": [
+    {
+      "Height": 1050,
+      "Width": 1440
+    },
+    {
+      "Height": 844,
+      "Width": 390
+    }
+  ],
+  "FunctionalChecks": [
+    "All 65 pages load offline without document overflow at both widths",
+    "64 index entries, search, empty result and reset",
+    "A navigation, lesson navigation and explicit common-contract anchor",
+    "All local targets and generated-page anchors exist",
+    "Representative desktop/mobile screenshots inspected",
+    "Representative A4 PDF generated and print navigation hidden"
+  ],
+  "SourceAndStatus": "Lesson bodies/SHA/Verified/Draft/Planned preserved; only learning/README.md adds HTML usage instructions",
+  "EvidenceDirectory": "Saved/P0Runs/learning-html",
+  "Limits": [
+    "Links to non-learning Markdown, source code, JSON and screenshots retain repository originals",
+    "Keep repository folder structure for reference links",
+    "No Unreal build/gameplay test rerun for documentation-only output",
+    "Print preview checked on one representative lesson, not all documents"
+  ]
+}
