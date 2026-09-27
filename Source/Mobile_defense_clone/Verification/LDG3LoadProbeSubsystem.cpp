@@ -21,9 +21,11 @@
 #include "Misc/Paths.h"
 #include "Net/UnrealNetwork.h"
 #include "Network/LDCommandProcessor.h"
+#include "ProfilingDebugging/CsvProfiler.h"
 #include "Serialization/JsonSerializer.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDG3Load, Log, All);
+CSV_DEFINE_CATEGORY(LDG3Load, true);
 
 namespace
 {
@@ -475,6 +477,7 @@ void ULDG3LoadProbeSubsystem::TickAuthority(ALDGameMode& Mode, double Now)
 			BaselineRng[Player] = Mode.GetEconomyService()->GetRandomState(Player);
 		}
 		Sample(TEXT("sustain-end"), Now);
+		EndProfileCapture();
 		DestroyEnemies(Mode);
 		Probe.Phase = 3;
 		Probe.ForceNetUpdate();
@@ -563,6 +566,14 @@ void ULDG3LoadProbeSubsystem::TickAuthority(ALDGameMode& Mode, double Now)
 	}
 	if (Probe.Phase == 4 && Now - PhaseStartedAt >= 2)
 	{
+		if (!PollProfileWrite())
+		{
+			if (Now - PhaseStartedAt > 120)
+			{
+				FailAndExit(TEXT("server-profile-async-write-timeout"));
+			}
+			return;
+		}
 		int32 UncollectedUnits = 0;
 		for (const TWeakObjectPtr<ALDUnitActor>& Unit : AllUnits)
 		{
@@ -578,6 +589,7 @@ void ULDG3LoadProbeSubsystem::TickAuthority(ALDGameMode& Mode, double Now)
 		Check(TEXT("2000-deaths-and-25-batches"), DeathIds.Num() == 2000 && CompletedBatches == 25);
 		Check(TEXT("no-callback-after-stop"), DamageEvents == DamageEventsAtStop && !Mode.IsLogicTimerActive());
 		Sample(TEXT("after-stop-and-gc"), Now);
+		WriteResult(false);
 		Probe.bServerPassed = !bFailed;
 		Probe.Phase = 5;
 		Probe.ForceNetUpdate();
@@ -652,6 +664,7 @@ void ULDG3LoadProbeSubsystem::TickLocal(ALDPlayerController& Controller, double 
 		LocalBatch = Probe.Batch;
 		if (LocalPlayerIndex == 1 && (Probe.Phase == 3 || Probe.Phase == 4))
 		{
+			EndProfileCapture();
 			GEngine->ForceGarbageCollection(true);
 		}
 	}
@@ -679,6 +692,10 @@ void ULDG3LoadProbeSubsystem::TickLocal(ALDPlayerController& Controller, double 
 	}
 	if (LocalPlayerIndex == 1 && Probe.Phase == 5 && !bResultWritten)
 	{
+		if (!PollProfileWrite())
+		{
+			return;
+		}
 		GEngine->ForceGarbageCollection(true);
 		int32 UnitResidue = 0;
 		for (const TWeakObjectPtr<ALDUnitActor>& Unit : AllUnits)
@@ -768,8 +785,21 @@ void ULDG3LoadProbeSubsystem::Tick(float DeltaTime)
 	SampleFrameMs.Add(FrameMs);
 	if (ExitAt > 0 && Now >= ExitAt)
 	{
+		if (!PollProfileWrite())
+		{
+			if (Now < ExitAt + 120)
+			{
+				return;
+			}
+			Check(TEXT("profile-async-write-timeout"), false);
+		}
+		WriteResult(bHandshakeComplete);
 		bFinished = true;
 		FPlatformMisc::RequestExit(false);
+		return;
+	}
+	if (bFailingExit)
+	{
 		return;
 	}
 	if (Now - CreatedAt > LoadSeconds + 1800)
@@ -802,9 +832,19 @@ void ULDG3LoadProbeSubsystem::Tick(float DeltaTime)
 	}
 	if (State->Phase == 1 && State->SustainStartServerSeconds > 0 && bSustainObserved)
 	{
+		if (!bProfileStarted)
+		{
+			BeginProfileCapture();
+			if (bFailingExit)
+			{
+				return;
+			}
+		}
 		SustainedFrameMs.Add(FrameMs);
 		MeasuredSustainSeconds += FrameMs / 1000.0;
 	}
+	CSV_CUSTOM_STAT(LDG3Load, Phase, State->Phase, ECsvCustomStatOp::Set);
+	CSV_CUSTOM_STAT(LDG3Load, SustainSeconds, float(MeasuredSustainSeconds), ECsvCustomStatOp::Set);
 	TickLocal(*Controller, Now);
 	if (Mode && !bFinished)
 	{
@@ -818,6 +858,7 @@ void ULDG3LoadProbeSubsystem::Tick(float DeltaTime)
 
 void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 {
+	bHandshakeComplete = bHandshakeConfirmed;
 	if (!bResultWritten)
 	{
 		Check(TEXT("local-route-motion-observed"), bRouteMovementObserved);
@@ -850,6 +891,9 @@ void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 	Result->SetNumberField(TEXT("observedUnitIdentities"), ObservedUnitIds.Num());
 	Result->SetNumberField(TEXT("attackingUnitTypeCount"), AttackingUnitTypes.Num());
 	Result->SetBoolField(TEXT("completionHandshakeConfirmed"), bHandshakeConfirmed);
+	Result->SetBoolField(TEXT("authorityMetricsAvailable"), LocalPlayerIndex == 0);
+	Result->SetBoolField(TEXT("profileCsvWriteCompleted"), bProfileWritten);
+	Result->SetStringField(TEXT("profileCsvPath"), ProfilePath);
 	Result->SetArrayField(TEXT("checks"), Checks);
 	Result->SetArrayField(TEXT("memoryCheckpoints"), MemoryCheckpoints);
 	FString Json;
@@ -860,9 +904,56 @@ void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 void ULDG3LoadProbeSubsystem::FailAndExit(const FString& Reason)
 {
 	Check(Reason, false);
+	EndProfileCapture();
 	WriteResult(false);
-	bFinished = true;
-	FPlatformMisc::RequestExit(false);
+	bFailingExit = true;
+	ExitAt = FPlatformTime::Seconds() + 1;
+}
+
+void ULDG3LoadProbeSubsystem::BeginProfileCapture()
+{
+	// This probe owns one capture per process; it does not stop a capture owned by another tool.
+#if CSV_PROFILER
+	if (FCsvProfiler::Get()->IsCapturing() || FCsvProfiler::Get()->IsWritingFile())
+	{
+		FailAndExit(TEXT("profile-capture-already-owned"));
+		return;
+	}
+	FCsvProfiler::Get()->BeginCapture(-1, OutputDirectory, TEXT("profile.csv"));
+	bProfileStarted = true;
+#else
+	FailAndExit(TEXT("csv-profiler-disabled-in-this-build"));
+#endif
+}
+
+void ULDG3LoadProbeSubsystem::EndProfileCapture()
+{
+#if CSV_PROFILER
+	if (bProfileStarted && !bProfileEndRequested)
+	{
+		ProfileWrite = FCsvProfiler::Get()->EndCapture();
+		bProfileEndRequested = true;
+	}
+#endif
+}
+
+bool ULDG3LoadProbeSubsystem::PollProfileWrite()
+{
+#if CSV_PROFILER
+	if (bProfileStarted && !bProfileWritten)
+	{
+		EndProfileCapture();
+		if (!ProfileWrite.IsValid() || !ProfileWrite.IsReady())
+		{
+			return false;
+		}
+		ProfilePath = ProfileWrite.Get();
+		const bool bExists = !ProfilePath.IsEmpty() && IFileManager::Get().FileSize(*ProfilePath) > 0;
+		Check(TEXT("profile-csv-async-write-completed"), bExists, ProfilePath);
+		bProfileWritten = true;
+	}
+#endif
+	return true;
 }
 
 void ULDG3LoadProbeSubsystem::Deinitialize()

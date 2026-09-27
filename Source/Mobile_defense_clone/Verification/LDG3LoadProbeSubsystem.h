@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Async/Future.h"
 #include "Battle/LDCombatEvents.h"
 #include "Data/LDMatchTypes.h"
 #include "GameFramework/Actor.h"
@@ -66,6 +67,9 @@ private:
 	void Check(const FString& Name, bool bPass, const FString& Detail = TEXT(""));
 	void Sample(const FString& Label, double Now);
 	void WriteResult(bool bHandshakeConfirmed);
+	void BeginProfileCapture();
+	void EndProfileCapture();
+	bool PollProfileWrite();
 	void FailAndExit(const FString& Reason);
 	int32 CountUncollected(const TArray<TWeakObjectPtr<ALDEnemyActor>>& Actors) const;
 
@@ -113,6 +117,13 @@ private:
 	bool bResultWritten = false;
 	bool bFinished = false;
 	bool bFailed = false;
+	bool bFailingExit = false;
+	bool bProfileStarted = false;
+	bool bProfileEndRequested = false;
+	bool bProfileWritten = false;
+	bool bHandshakeComplete = false;
+	FString ProfilePath;
+	TSharedFuture<FString> ProfileWrite;
 	TArray<float> SustainedFrameMs;
 	TArray<float> SampleFrameMs;
 	TArray<TSharedPtr<class FJsonValue>> Checks;
