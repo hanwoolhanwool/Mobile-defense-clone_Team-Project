@@ -66,6 +66,7 @@ private:
 	void OnDeath(const FLDCombatDeath& Death);
 	void Check(const FString& Name, bool bPass, const FString& Detail = TEXT(""));
 	void Sample(const FString& Label, double Now);
+	void EnsureOutputDirectory();
 	void WriteResult(bool bHandshakeConfirmed);
 	void BeginProfileCapture();
 	void EndProfileCapture();
@@ -133,6 +134,7 @@ private:
 	bool bHandshakeComplete = false;
 	bool bScreenshotRequested = false;
 	bool bExpectedTerminal = false;
+	bool bOutputReady = false;
 	FString ProfilePath;
 	TSharedFuture<FString> ProfileWrite;
 	TArray<float> SustainedFrameMs;
