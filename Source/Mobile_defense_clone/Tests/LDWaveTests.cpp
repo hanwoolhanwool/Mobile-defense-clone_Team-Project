@@ -19,6 +19,7 @@
 #include "Misc/AutomationTest.h"
 #include "Misc/CommandLine.h"
 #include "Network/LDCommandProcessor.h"
+#include "UObject/UnrealType.h"
 
 // Explicit test fixture control. Product admissions never expose time/HP/wave setters.
 struct FLDWaveTestAccess
@@ -273,6 +274,72 @@ bool FLDWaveReadinessTest::RunTest(const FString& Parameters)
 		TestFalse(TEXT("Late participant was not assigned"),
 		               F.Players[1]->GetPlayerState<ALDPlayerState>()->GetParticipantContext().IsValid());
 	}
+	{
+		// Explicit World-time fixture, not elapsed PIE: P=0; buy20, buy22, sell for floor(24/2)=12.
+		// Independent late-preparation result: gold70, paid2, population1, board/economy revisions3.
+		FWaveFixture F;
+		F.Ready();
+		const FLDCommandResult Initial = F.Players[0]->SubmitServerCommand(F.Command(0, 1));
+		if (!TestEqual(TEXT("Preparation baseline paid summon succeeds"), Initial.ResultCode,
+		                    ELDCommandResultCode::Success) ||
+		               !TestEqual(TEXT("Preparation baseline has one ID"), Initial.CreatedInstanceIds.Num(), 1))
+		{
+			return false;
+		}
+		const uint64 InitialId = Initial.CreatedInstanceIds[0];
+		ALDUnitActor* InitialActor = nullptr;
+		TestTrue(TEXT("Preparation baseline retains real committed actor"),
+		              F.Mode->GetBoardManager()->TryGetCommittedUnitActor(InitialId, InitialActor));
+		double InitialDue = 0;
+		TestTrue(TEXT("Preparation baseline attack registration exists"),
+		              F.Mode->GetCombatService()->TryGetUnitAttackState(InitialId, InitialDue));
+		TestEqual(TEXT("Independent initial delay is .25"), InitialDue, .25);
+		F.World->TimeSeconds = 9.999;
+		const FLDCommandResult LateBuy = F.Players[0]->SubmitServerCommand(F.Command(0, 2));
+		if (!TestEqual(TEXT("P+9.999 actual PC purchase succeeds"), LateBuy.ResultCode,
+		                    ELDCommandResultCode::Success) ||
+		               !TestEqual(TEXT("Late purchase creates one ID"), LateBuy.CreatedInstanceIds.Num(), 1))
+		{
+			return false;
+		}
+		FLDCommand Sale = F.Command(0, 3, ELDCommandType::Sell);
+		Sale.InstanceId = LateBuy.CreatedInstanceIds[0];
+		TestEqual(TEXT("P+9.999 actual PC sale succeeds"), F.Players[0]->SubmitServerCommand(Sale).ResultCode,
+		               ELDCommandResultCode::Success);
+		TestEqual(TEXT("Both late operations remain in Preparing"), F.State()->GetPhase(), ELDMatchPhase::Preparing);
+		const FLDBoardSnapshot BeforeBoard = F.Mode->GetBoardManager()->GetSnapshot(0);
+		const FLDEconomySnapshot BeforeMoney = F.Mode->GetEconomyService()->GetSnapshot(0);
+		TestEqual(TEXT("Late preparation gold is100-20-22+12"), BeforeMoney.Gold, 70);
+		TestEqual(TEXT("Late preparation retains two paid draws"), BeforeMoney.PaidSummonCount, 2);
+		TestEqual(TEXT("Late preparation next price remains24 after sale"), BeforeMoney.NextSummonGold, 24);
+		TestEqual(TEXT("Late preparation economy revision3"), BeforeMoney.EconomyRevision, 3);
+		TestEqual(TEXT("Late preparation board revision3"), BeforeBoard.BoardRevision, 3);
+		TestEqual(TEXT("Only original unit remains before Running"), BeforeBoard.Population, 1);
+		TestTrue(TEXT("Late sale retains original identity"),
+		              BeforeBoard.Units.Num() == 1 && BeforeBoard.Units[0].InstanceId == InitialId);
+		double AfterCommandsDue = 0;
+		TestTrue(TEXT("Preparing commands preserve existing attack registration"),
+		              F.Mode->GetCombatService()->TryGetUnitAttackState(InitialId, AfterCommandsDue));
+		TestEqual(TEXT("P+9.999 purchase/sale do not reset earlier unit timer"), AfterCommandsDue, InitialDue);
+		const int32 RandomBeforeRunning = F.Mode->GetEconomyService()->GetRandomState(0);
+		F.World->TimeSeconds = 10.0001;
+		FLDWaveTestAccess::Advance(*F.Mode, 10.0001);
+		TestEqual(TEXT("Late preparation crosses into real Running"), F.State()->GetPhase(), ELDMatchPhase::Running);
+		ALDUnitActor* RunningActor = nullptr;
+		TestTrue(TEXT("Running still owns original committed actor"),
+		              F.Mode->GetBoardManager()->TryGetCommittedUnitActor(InitialId, RunningActor) &&
+		                  RunningActor == InitialActor);
+		const FLDBoardSnapshot AfterBoard = F.Mode->GetBoardManager()->GetSnapshot(0);
+		const FLDEconomySnapshot AfterMoney = F.Mode->GetEconomyService()->GetSnapshot(0);
+		TestTrue(TEXT("Running transition preserves complete prepared board"),
+		              FLDBoardSnapshot::StaticStruct()->CompareScriptStruct(&BeforeBoard, &AfterBoard, 0));
+		TestTrue(TEXT("Running transition preserves complete prepared economy"),
+		              FLDEconomySnapshot::StaticStruct()->CompareScriptStruct(&BeforeMoney, &AfterMoney, 0));
+		TestEqual(TEXT("Running transition draws no extra summon randomness"),
+		               F.Mode->GetEconomyService()->GetRandomState(0), RandomBeforeRunning);
+		// Once Running, due attacks may legally execute/reserve as time advances. The preparation-only
+		// timer assertion above does not require an expired .25 due time to remain unchanged during combat.
+	}
 	return true;
 }
 
@@ -324,6 +391,70 @@ bool FLDWaveScheduleTest::RunTest(const FString& Parameters)
 	}
 	TestEqual(TEXT("360 actual normal deaths paid both players360, no wave transition pay"),
 	               F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 460);
+	{
+		// Explicit lethal-damage cleanup fixture keeps N below100; natural spawns/time ordering remain real.
+		// Waves1..8 create320; retain only wave9's first two normal IDs321/322, routes0/1.
+		FWaveFixture Carry;
+		Carry.Ready();
+		TWeakObjectPtr<ALDEnemyActor> Retained[2];
+		for (int32 Second = 10; Second <= 189; ++Second)
+		{
+			FLDWaveTestAccess::Advance(*Carry.Mode, Second + .0001);
+			for (ALDEnemyActor* Enemy : FLDWaveTestAccess::Enemies(*Carry.Mode->GetWaveDirector()))
+			{
+				const uint64 Id = Enemy->GetRouteSnapshot().EnemyId;
+				if (Id == 321 || Id == 322)
+				{
+					Retained[int32(Id - 321)] = Enemy;
+				}
+				else
+				{
+					TestTrue(TEXT("Explicit cleanup confirms an actual HP-to-zero transition"),
+					              FLDWaveTestAccess::Kill(*Carry.Mode, *Enemy, Second + .01));
+				}
+			}
+			Carry.Mode->GetCommandProcessor()->DrainCombatRewards();
+		}
+		TestEqual(TEXT("Wave9 ends with exactly the selected two normals"),
+		               Carry.State()->GetBattleSnapshot().ActiveEnemyCount, 2);
+		for (int32 Route = 0; Route < 2; ++Route)
+		{
+			if (!TestTrue(TEXT("Selected wave9 actor exists before boss spawn"), Retained[Route].IsValid()))
+			{
+				return false;
+			}
+			TestEqual(TEXT("Retained normal originates from wave9"),
+			               Retained[Route]->GetCombatSnapshot().SpawnWaveIndex, 9);
+			TestEqual(TEXT("Retained normal scheduled at170"),
+			               Retained[Route]->GetCombatSnapshot().SpawnedServerSeconds, 170.0);
+		}
+		FLDWaveTestAccess::Advance(*Carry.Mode, 190.0001);
+		const FLDBattleSnapshot AfterBossSpawn = Carry.State()->GetBattleSnapshot();
+		TestEqual(TEXT("Wave10 starts without clearing wave9 normals"), AfterBossSpawn.WaveIndex, 10);
+		TestEqual(TEXT("Boss spawn leaves normal count2"), AfterBossSpawn.ActiveEnemyCount, 2);
+		TestEqual(TEXT("Both final bosses coexist with residual normals"), AfterBossSpawn.Bosses.Num(), 2);
+		TestEqual(TEXT("Four real actors remain registered with director"),
+		               Carry.Mode->GetWaveDirector()->GetTrackedEnemyCount(), 4);
+		const TArray<ALDEnemyActor*> Actual = FLDWaveTestAccess::Enemies(*Carry.Mode->GetWaveDirector());
+		for (int32 Route = 0; Route < 2; ++Route)
+		{
+			ALDEnemyActor* Original = Retained[Route].Get();
+			if (!TestTrue(TEXT("Original wave9 actor pointer survives wave10"), Original && Actual.Contains(Original)))
+			{
+				return false;
+			}
+			TestEqual(TEXT("Original wave9 enemy ID is unchanged"), Original->GetRouteSnapshot().EnemyId,
+			               uint64(321 + Route));
+			TestEqual(TEXT("Original wave9 route index is unchanged"), Original->GetRouteSnapshot().RouteIndex, Route);
+			TestTrue(TEXT("Original wave9 normal remains combat alive"), Original->IsCombatAlive());
+			TestEqual(TEXT("Original wave9 normal retains its authored HP112"), Original->GetCombatSnapshot().HP,
+			               112.0);
+		}
+		TestEqual(TEXT("Exactly358 explicitly killed normals reward each participant"),
+		               Carry.Mode->GetEconomyService()->GetSnapshot(0).Gold, 458);
+		TestEqual(TEXT("Peer received the same358 cleanup rewards"),
+		               Carry.Mode->GetEconomyService()->GetSnapshot(1).Gold, 458);
+	}
 	return true;
 }
 
@@ -401,6 +532,72 @@ bool FLDWaveCapAndDeathTest::RunTest(const FString& Parameters)
 		TestEqual(TEXT("N101 preserves original event time"), F.State()->GetBattleSnapshot().ResultServerSeconds,
 		               10.01);
 		TestEqual(TEXT("Defensive injection grants no reward"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 100);
+	}
+	{
+		// Independent expectation: a scheduled spawn at11 turns N99 into100 before a new request at11.04.
+		// Explicit spawn/time fixture; no manual Advance/finalizer occurs between N99 and actual PC Submit.
+		FWaveFixture F;
+		F.Ready();
+		const FLDCommand OriginalCommand = F.Command(0, 1);
+		const FLDCommandResult OriginalResult = F.Players[0]->SubmitServerCommand(OriginalCommand);
+		if (!TestEqual(TEXT("Cap-late baseline keeps a genuine successful response"), OriginalResult.ResultCode,
+		                    ELDCommandResultCode::Success) ||
+		               !TestEqual(TEXT("Cap-late baseline has one purchased unit"),
+		                               OriginalResult.CreatedInstanceIds.Num(), 1))
+		{
+			return false;
+		}
+		FLDCommand Sale = F.Command(0, 2, ELDCommandType::Sell);
+		Sale.InstanceId = OriginalResult.CreatedInstanceIds[0];
+		TestEqual(TEXT("Explicit sale removes attack interference before cap fixture"),
+		               F.Players[0]->SubmitServerCommand(Sale).ResultCode, ELDCommandResultCode::Success);
+		TestEqual(TEXT("Sale leaves independent baseline100-20+11"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold,
+		               91);
+		FLDWaveTestAccess::Advance(*F.Mode, 10.0001);
+		for (int32 Index = 2; Index < 99; ++Index)
+		{
+			TestTrue(TEXT("Cap-late extra normal fixture remains below limit"),
+			              FLDWaveTestAccess::ExtraNormal(*F.Mode, 10.01));
+		}
+		TestEqual(TEXT("Cap-late starts at99 without terminal state"), F.State()->GetBattleSnapshot().ActiveEnemyCount,
+		               99);
+		TestTrue(TEXT("New admission is open before overdue spawn is advanced"), F.Mode->CanAcceptCommands());
+		TestTrue(TEXT("Production BeforeExternalCommand hook is actually bound"),
+		              F.Mode->GetCommandProcessor()->BeforeExternalCommand.IsBound());
+		const FLDBoardSnapshot BoardBefore = F.Mode->GetBoardManager()->GetSnapshot(0);
+		const FLDEconomySnapshot MoneyBefore = F.Mode->GetEconomyService()->GetSnapshot(0);
+		const int32 RandomBefore = F.Mode->GetEconomyService()->GetRandomState(0);
+		const int32 CacheBefore = F.Mode->GetCommandProcessor()->GetCachedResultCount(0);
+		TestEqual(TEXT("Only summon and sale cached before late request"), CacheBefore, 2);
+		F.World->TimeSeconds = 11.04;
+		const FLDCommand LateCommand = F.Command(0, 3);
+		const FLDCommandResult LateResult = F.Players[0]->SubmitServerCommand(LateCommand);
+		TestEqual(TEXT("Actual PC late request is rejected after production clock hook"), LateResult.ResultCode,
+		               ELDCommandResultCode::PhaseNotAllowed);
+		TestEqual(TEXT("Clock hook commits exact enemy-limit reason"), F.State()->GetBattleSnapshot().ResultReason,
+		               ELDResultReason::EnemyLimit);
+		TestEqual(TEXT("Clock hook commits original spawn time11, not request11.04"),
+		               F.State()->GetBattleSnapshot().ResultServerSeconds, 11.0);
+		TestEqual(TEXT("Only first increase to100 is accepted"), F.State()->GetBattleSnapshot().ActiveEnemyCount, 100);
+		const FLDBoardSnapshot BoardAfter = F.Mode->GetBoardManager()->GetSnapshot(0);
+		const FLDEconomySnapshot MoneyAfter = F.Mode->GetEconomyService()->GetSnapshot(0);
+		TestTrue(TEXT("Late rejected purchase preserves complete board"),
+		              FLDBoardSnapshot::StaticStruct()->CompareScriptStruct(&BoardBefore, &BoardAfter, 0));
+		TestTrue(TEXT("Late rejected purchase preserves complete economy"),
+		              FLDEconomySnapshot::StaticStruct()->CompareScriptStruct(&MoneyBefore, &MoneyAfter, 0));
+		TestEqual(TEXT("Late rejected purchase does not draw randomness"),
+		               F.Mode->GetEconomyService()->GetRandomState(0), RandomBefore);
+		TestEqual(TEXT("Earlier cache survives and stores one new rejection"),
+		               F.Mode->GetCommandProcessor()->GetCachedResultCount(0), CacheBefore + 1);
+		const FLDCommandResult Replayed = F.Players[0]->SubmitServerCommand(OriginalCommand);
+		TestTrue(TEXT("Original success response remains byte-field identical after terminal"),
+		              FLDCommandResult::StaticStruct()->CompareScriptStruct(&OriginalResult, &Replayed, 0));
+		TestEqual(TEXT("Cached original replay changes neither cache count nor money"),
+		               F.Mode->GetCommandProcessor()->GetCachedResultCount(0), CacheBefore + 1);
+		TestEqual(TEXT("Cached original replay cannot recreate sold unit"),
+		               F.Mode->GetBoardManager()->GetSnapshot(0).Population, 0);
+		TestEqual(TEXT("Cached original replay cannot spend again"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold,
+		               91);
 	}
 	return true;
 }
