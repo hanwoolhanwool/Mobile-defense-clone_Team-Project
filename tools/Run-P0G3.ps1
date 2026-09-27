@@ -83,6 +83,30 @@ try {
         $Result = Get-Content -LiteralPath $ResultPath -Raw | ConvertFrom-Json
         if ($Pair.Process.ExitCode -ne 0 -or $Result.result -ne 'Pass') { $AllPassed = $false }
     }
+    if ($AllPassed) {
+        $HostLog = Get-Content -LiteralPath "$RunRoot/host/engine.log" -Raw
+        $ObservedSeeds = @([regex]::Matches($HostLog, 'G[23] match ([A-Fa-f0-9-]+) rules=\S+ seed=(-?\d+)') | ForEach-Object {
+            [pscustomobject]@{MatchId=$_.Groups[1].Value; Seed=[int]$_.Groups[2].Value}
+        })
+        $HostResult = Get-Content -LiteralPath "$RunRoot/host/result.json" -Raw | ConvertFrom-Json
+        $SeedChecks = @($HostResult.matches | ForEach-Object {
+            $Match = $_
+            $Adopted = @($ObservedSeeds | Where-Object { $_.MatchId -eq $Match.matchId })
+            [pscustomobject]@{MatchId=$Match.matchId; RequestedSeed=$Match.seed; ObservedSeed=$(if($Adopted.Count -eq 1){$Adopted[0].Seed}else{$null}); Pass=($Adopted.Count -eq 1 -and $Adopted[0].Seed -eq $Match.seed)}
+        })
+        $Metadata.SeedChecks = $SeedChecks
+        if ($SeedChecks.Count -ne $HostResult.completedMatches -or ($SeedChecks | Where-Object { !$_.Pass })) {
+            $AllPassed = $false
+            $Metadata.Error = 'Recorded requested seed differs from the server adopted seed log.'
+        }
+        foreach ($Pair in $Pairs) {
+            $EngineLog = Get-Content -LiteralPath "$($Pair.Output)/engine.log" -Raw
+            if ($EngineLog -notmatch "PktLagMin set to $($RTTMilliseconds / 2)" -or $EngineLog -notmatch "PktLoss set to $PacketLossPercent") {
+                $AllPassed = $false
+                $Metadata.Error = 'Engine packet simulation settings were not observed in both process logs.'
+            }
+        }
+    }
 } catch {
     $AllPassed = $false
     $Metadata.Error = $_.Exception.Message

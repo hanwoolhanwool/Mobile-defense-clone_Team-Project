@@ -76,6 +76,8 @@ void ALDG3ProbePeer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	DOREPLIFETIME(ALDG3ProbePeer, FinalBattle);
 	DOREPLIFETIME(ALDG3ProbePeer, FinalBoards);
 	DOREPLIFETIME(ALDG3ProbePeer, FinalEconomies);
+	DOREPLIFETIME(ALDG3ProbePeer, EffectiveDamageByPlayer);
+	DOREPLIFETIME(ALDG3ProbePeer, FirstMergeAtByPlayer);
 	DOREPLIFETIME(ALDG3ProbePeer, bTerminalCaptured);
 	DOREPLIFETIME(ALDG3ProbePeer, bFinishSuite);
 	DOREPLIFETIME(ALDG3ProbePeer, bMayReturn);
@@ -119,6 +121,7 @@ void ULDG3ProbeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 	StartedAt = FPlatformTime::Seconds();
+	LastTickAt = StartedAt;
 	FParse::Value(FCommandLine::Get(), TEXT("P0ProbeOutput="), OutputDirectory);
 	FParse::Value(FCommandLine::Get(), TEXT("P0Role="), Role);
 	FParse::Value(FCommandLine::Get(), TEXT("P0PeerAddress="), PeerAddress);
@@ -132,6 +135,14 @@ void ULDG3ProbeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 void ULDG3ProbeSubsystem::Deinitialize()
 {
+	if (ObservedCombat.IsValid())
+	{
+		ObservedCombat->OnDamageCommitted.Remove(DamageHandle);
+	}
+	if (ObservedBoard.IsValid())
+	{
+		ObservedBoard->OnBoardCommitted.Remove(BoardHandle);
+	}
 	Super::Deinitialize();
 }
 
@@ -165,6 +176,17 @@ void ULDG3ProbeSubsystem::Check(const FString& Name, bool bPass, const FString& 
 
 void ULDG3ProbeSubsystem::BeginMatch(ALDGameMode* Mode, const FLDBattleSnapshot& Battle)
 {
+	if (ObservedCombat.IsValid())
+	{
+		ObservedCombat->OnDamageCommitted.Remove(DamageHandle);
+	}
+	if (ObservedBoard.IsValid())
+	{
+		ObservedBoard->OnBoardCommitted.Remove(BoardHandle);
+	}
+	EffectiveDamage[0] = EffectiveDamage[1] = 0;
+	FirstMergeAt[0] = FirstMergeAt[1] = -1;
+	bWaitingForNewHUD = false;
 	CurrentMatch = Battle.MatchId;
 	CurrentWorld = GetWorld();
 	LocalPeer.Reset();
@@ -184,6 +206,10 @@ void ULDG3ProbeSubsystem::BeginMatch(ALDGameMode* Mode, const FLDBattleSnapshot&
 	Check(TEXT("new-match-context"), CurrentMatch.IsValid());
 	if (Mode)
 	{
+		ObservedCombat = Mode->GetCombatService();
+		ObservedBoard = Mode->GetBoardManager();
+		DamageHandle = ObservedCombat->OnDamageCommitted.AddUObject(this, &ULDG3ProbeSubsystem::HandleDamage);
+		BoardHandle = ObservedBoard->OnBoardCommitted.AddUObject(this, &ULDG3ProbeSubsystem::HandleBoardCommit);
 		for (int32 Player = 0; Player < 2; ++Player)
 		{
 			const FLDEconomySnapshot& Economy = Mode->GetEconomyService()->GetSnapshot(Player);
@@ -193,6 +219,23 @@ void ULDG3ProbeSubsystem::BeginMatch(ALDGameMode* Mode, const FLDBattleSnapshot&
 		}
 	}
 	WriteProgress();
+}
+
+void ULDG3ProbeSubsystem::HandleDamage(const FLDDamageEvent& Event, int32 PlayerIndex, int32 Damage)
+{
+	if (Event.MatchId == CurrentMatch && PlayerIndex >= 0 && PlayerIndex < 2)
+	{
+		EffectiveDamage[PlayerIndex] += Damage;
+	}
+}
+
+void ULDG3ProbeSubsystem::HandleBoardCommit(const FLDBoardCommit& Commit)
+{
+	if (Commit.MatchId == CurrentMatch && Commit.PlayerIndex >= 0 && Commit.PlayerIndex < 2 &&
+	    Commit.ChangeReason == ELDBoardChangeReason::Merge && FirstMergeAt[Commit.PlayerIndex] < 0)
+	{
+		FirstMergeAt[Commit.PlayerIndex] = Commit.CommitServerSeconds;
+	}
 }
 
 void ULDG3ProbeSubsystem::TickAuthority(ALDGameMode& Mode)
@@ -233,9 +276,10 @@ void ULDG3ProbeSubsystem::TickAuthority(ALDGameMode& Mode)
 			{
 				Peer->FinalBoards.Add(Mode.GetBoardManager()->GetSnapshot(Player));
 				Peer->FinalEconomies.Add(Mode.GetEconomyService()->GetSnapshot(Player));
+				Peer->EffectiveDamageByPlayer.Add(EffectiveDamage[Player]);
+				Peer->FirstMergeAtByPlayer.Add(FirstMergeAt[Player]);
 			}
-			Peer->bFinishSuite =
-			    CompletedMatches + 1 >= RequestedMatches && FPlatformTime::Seconds() - StartedAt >= MinimumSeconds;
+			Peer->bFinishSuite = CompletedMatches + 1 >= RequestedMatches && ConnectedGameplaySeconds >= MinimumSeconds;
 			Peer->bTerminalCaptured = true;
 			Peer->ForceNetUpdate();
 		}
@@ -409,6 +453,30 @@ void ULDG3ProbeSubsystem::RecordMatch(ALDPlayerController& Controller, ALDG3Prob
 	Item->SetNumberField(TEXT("failedCommands"), FailedCommands);
 	Item->SetNumberField(TEXT("duplicateRetries"), DuplicateRequests);
 	Item->SetNumberField(TEXT("hudRecreations"), HUDRecreations);
+	TArray<TSharedPtr<FJsonValue>> DamageValues;
+	for (int64 Value : Peer.EffectiveDamageByPlayer)
+	{
+		DamageValues.Add(MakeShared<FJsonValueNumber>(static_cast<double>(Value)));
+	}
+	Item->SetArrayField(TEXT("effectiveDamageByPlayer"), DamageValues);
+	TArray<TSharedPtr<FJsonValue>> MergeValues;
+	for (double Value : Peer.FirstMergeAtByPlayer)
+	{
+		MergeValues.Add(MakeShared<FJsonValueNumber>(Value));
+	}
+	Item->SetArrayField(TEXT("firstMergeServerSecondsByPlayer"), MergeValues);
+	TArray<TSharedPtr<FJsonValue>> BossValues;
+	for (const FLDBossSnapshot& Boss : Battle.Bosses)
+	{
+		TSharedPtr<FJsonObject> Value = MakeShared<FJsonObject>();
+		Value->SetNumberField(TEXT("id"), static_cast<double>(Boss.EnemyId));
+		Value->SetNumberField(TEXT("route"), Boss.RouteIndex);
+		Value->SetNumberField(TEXT("hp"), Boss.HP);
+		Value->SetNumberField(TEXT("maxHP"), Boss.MaxHP);
+		Value->SetBoolField(TEXT("alive"), Boss.bAlive);
+		BossValues.Add(MakeShared<FJsonValueObject>(Value));
+	}
+	Item->SetArrayField(TEXT("bosses"), BossValues);
 	Item->SetStringField(TEXT("ownerBoard"), BoardSignature(Controller.GetBoardSnapshot()));
 	Item->SetStringField(TEXT("ownerEconomy"), EconomySignature(Controller.GetEconomySnapshot()));
 	TArray<TSharedPtr<FJsonValue>> RTT;
@@ -484,16 +552,37 @@ void ULDG3ProbeSubsystem::TickLocal(ALDPlayerController& Controller, const FLDBa
 	}
 	if (!Battle.IsTerminal())
 	{
+		if (bWaitingForNewHUD)
+		{
+			int32 Count = 0;
+			bool bNew = false;
+			for (TObjectIterator<ULDGameplayWidget> It; It; ++It)
+			{
+				if (It->GetWorld() == GetWorld() && It->GetOwningPlayer() == &Controller && It->IsInViewport())
+				{
+					++Count;
+					bNew |= *It != RemovedHUD.Get();
+				}
+			}
+			if (bNew)
+			{
+				Check(TEXT("hud-recreated-single-new-instance"), Count == 1);
+				++HUDRecreations;
+				bWaitingForNewHUD = false;
+			}
+		}
 		if (Battle.Phase == ELDMatchPhase::Preparing || Battle.Phase == ELDMatchPhase::Running)
 		{
-			if (LastWave >= 2 + HUDRecreations && HUDRecreations < 3 && !Controller.HasPendingCommand())
+			if (!bWaitingForNewHUD && LastWave >= 2 + HUDRecreations && HUDRecreations < 3 &&
+			    !Controller.HasPendingCommand())
 			{
 				for (TObjectIterator<ULDGameplayWidget> It; It; ++It)
 				{
 					if (It->GetWorld() == GetWorld() && It->GetOwningPlayer() == &Controller && It->IsInViewport())
 					{
+						RemovedHUD = *It;
 						It->RemoveFromParent();
-						++HUDRecreations;
+						bWaitingForNewHUD = true;
 						break;
 					}
 				}
@@ -551,6 +640,8 @@ void ULDG3ProbeSubsystem::Tick(float DeltaTime)
 		return;
 	}
 	const double Now = FPlatformTime::Seconds();
+	const double WallDelta = FMath::Max(0.0, Now - LastTickAt);
+	LastTickAt = Now;
 	if (Now - StartedAt > TimeoutSeconds)
 	{
 		Check(TEXT("suite-timeout"), false);
@@ -616,6 +707,11 @@ void ULDG3ProbeSubsystem::Tick(float DeltaTime)
 		return;
 	}
 	const FLDBattleSnapshot Battle = State->GetBattleSnapshot();
+	if ((Battle.Phase == ELDMatchPhase::Preparing || Battle.Phase == ELDMatchPhase::Running) && World->GetNetDriver() &&
+	    (World->GetNetDriver()->ServerConnection || World->GetNetDriver()->ClientConnections.Num() > 0))
+	{
+		ConnectedGameplaySeconds += WallDelta;
+	}
 	if (!Battle.MatchId.IsValid())
 	{
 		return;
@@ -649,6 +745,7 @@ void ULDG3ProbeSubsystem::WriteProgress()
 	Root->SetStringField(TEXT("role"), Role);
 	Root->SetNumberField(TEXT("completedMatches"), CompletedMatches);
 	Root->SetNumberField(TEXT("elapsedWallSeconds"), LastProgressAt - StartedAt);
+	Root->SetNumberField(TEXT("connectedGameplaySeconds"), ConnectedGameplaySeconds);
 	Root->SetNumberField(TEXT("frameCount"), FrameMilliseconds.Num());
 	Root->SetNumberField(TEXT("processPhysicalBytes"), static_cast<double>(FPlatformMemory::GetStats().UsedPhysical));
 	Root->SetArrayField(TEXT("checks"), Checks);
@@ -671,7 +768,7 @@ void ULDG3ProbeSubsystem::Finish()
 		return;
 	}
 	Check(TEXT("requested-match-count"), CompletedMatches >= RequestedMatches);
-	Check(TEXT("minimum-duration"), FPlatformTime::Seconds() - StartedAt >= MinimumSeconds);
+	Check(TEXT("minimum-connected-duration"), ConnectedGameplaySeconds + 1 >= MinimumSeconds);
 	bFinished = true;
 	WriteProgress();
 	FPlatformMisc::RequestExit(false);
