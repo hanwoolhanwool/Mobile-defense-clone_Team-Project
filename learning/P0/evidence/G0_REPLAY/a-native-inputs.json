@@ -1,0 +1,37 @@
+{
+  "Scope": "Post-execution read-only original assembly blob comparison; runtime source unchanged; test harness and Editor dependencies provided separately",
+  "Inputs": [
+    {
+      "Root": "C:/Users/iam12/P0_lesson_replay_a",
+      "Source": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "AssemblyCount": 21,
+      "UnchangedProductAndProvidedInputCount": 20,
+      "MismatchPaths": [],
+      "OnlyAmendedManifestPath": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs",
+      "EditorOnlyDependencies": [
+        "UnrealEd",
+        "SlateCore"
+      ],
+      "HarnessSource": "fdc12b7e881e231c846c42baa6b2c52360003f52",
+      "HarnessSHA256": "A60B9877198BF20D5909F724987058CEAF992D592B504EC320A84510E167878E",
+      "BuildFileSHA256": "B693162A0F8F148210362CE028A1301E915D836843CEAC73E9D06D3D6DE00C63",
+      "RulesPresent": true
+    },
+    {
+      "Root": "C:/Users/iam12/P0_lesson_replay_a_missing",
+      "Source": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+      "AssemblyCount": 20,
+      "UnchangedProductAndProvidedInputCount": 19,
+      "MismatchPaths": [],
+      "OnlyAmendedManifestPath": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs",
+      "EditorOnlyDependencies": [
+        "UnrealEd",
+        "SlateCore"
+      ],
+      "HarnessSource": "fdc12b7e881e231c846c42baa6b2c52360003f52",
+      "HarnessSHA256": "A60B9877198BF20D5909F724987058CEAF992D592B504EC320A84510E167878E",
+      "BuildFileSHA256": "B693162A0F8F148210362CE028A1301E915D836843CEAC73E9D06D3D6DE00C63",
+      "RulesPresent": false
+    }
+  ]
+}

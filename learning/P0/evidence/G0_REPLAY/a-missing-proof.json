@@ -1,0 +1,46 @@
+{
+	"kind": "actual-editor-PIE-independent-G0-A",
+	"productSource": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+	"result": "Pass",
+	"expectedErrorsMet": true,
+	"passScope": "Proof observations and expected errors at save time only; final Automation report success is also required",
+	"processId": 48816,
+	"completedSessions": 1,
+	"settingsRestored": true,
+	"missingDataFixture": true,
+	"thirdRemoteRejected": false,
+	"map": "/Game/TopDown/Lvl_TopDown",
+	"gameMode": "native ALDGameMode; no generated Blueprint validation",
+	"observations": [
+		{
+			"stage": "scope",
+			"detail": "provided test fixture over unchanged independent A Core/Data; native mode; no B RPC, BP generation, package or Android validation",
+			"wallSeconds": 16905055.5486135
+		},
+		{
+			"stage": "missing-data-abort",
+			"detail": "C:/Users/iam12/P0_lesson_replay_a_missing/Content/LD/Data/GameRules.json: cannot read required runtime JSON",
+			"wallSeconds": 16905056.040850502
+		},
+		{
+			"stage": "capture",
+			"detail": "../../../../../../Users/iam12/P0_lesson_replay_a_missing/Saved/P0Runs/G0-actual-network-replay-A-missing-pie-proof/round0-host-terminal.png 546x720; G0 has no gameplay HUD",
+			"wallSeconds": 16905056.357744001
+		},
+		{
+			"stage": "capture",
+			"detail": "../../../../../../Users/iam12/P0_lesson_replay_a_missing/Saved/P0Runs/G0-actual-network-replay-A-missing-pie-proof/round0-client-terminal.png 546x720; G0 has no gameplay HUD",
+			"wallSeconds": 16905056.3927573
+		},
+		{
+			"stage": "terminal",
+			"detail": "round0 actual client phase=4; repeat EndPlay; owned timer absent (installed=0); phase unchanged",
+			"wallSeconds": 16905056.3927995
+		},
+		{
+			"stage": "cleanup",
+			"detail": "PIE worlds remaining=0",
+			"wallSeconds": 16905056.486241501
+		}
+	]
+}

@@ -1,0 +1,96 @@
+{
+  "Scope": "Compact unmodified final Automation report fields/events; result.Warnings counts warned tests, not events",
+  "Reports": [
+    {
+      "Role": "A",
+      "Source": "C:/Users/iam12/P0_lesson_replay_a/Saved/P0Runs/G0-actual-network-replay-A-pie/report/index.json",
+      "ReportSHA256": "D05B51474235AB310EE4FA0860D7E28A89E371EA242CB47E5A1FEADC3F3E417C",
+      "SucceededWithoutWarnings": 0,
+      "SucceededWithWarnings": 1,
+      "Failed": 0,
+      "Tests": [
+        {
+          "Path": "LD.PIE.G0.A.MatchLifecycle",
+          "State": "Success",
+          "Warnings": 4,
+          "Errors": 0,
+          "NonInfoEvents": [
+            {
+              "event": {
+                "type": "Warning",
+                "message": "LogNet: Network Failure: GameNetDriver[ConnectionLost]: 호스트와의 접속이 끊어졌습니다.",
+                "context": "log",
+                "artifact": "00000000000000000000000000000000"
+              },
+              "filename": "",
+              "lineNumber": -1,
+              "timestamp": "2026.09.27-14.50.05"
+            },
+            {
+              "event": {
+                "type": "Warning",
+                "message": "LogCrowdFollowing: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance",
+                "context": "log",
+                "artifact": "00000000000000000000000000000000"
+              },
+              "filename": "",
+              "lineNumber": -1,
+              "timestamp": "2026.09.27-14.50.06"
+            },
+            {
+              "event": {
+                "type": "Warning",
+                "message": "LogCrowdFollowing: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance",
+                "context": "log",
+                "artifact": "00000000000000000000000000000000"
+              },
+              "filename": "",
+              "lineNumber": -1,
+              "timestamp": "2026.09.27-14.50.06"
+            },
+            {
+              "event": {
+                "type": "Warning",
+                "message": "LogCrowdFollowing: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance",
+                "context": "log",
+                "artifact": "00000000000000000000000000000000"
+              },
+              "filename": "",
+              "lineNumber": -1,
+              "timestamp": "2026.09.27-14.50.07"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Role": "A-missing",
+      "Source": "C:/Users/iam12/P0_lesson_replay_a_missing/Saved/P0Runs/G0-actual-network-replay-A-missing-pie/report/index.json",
+      "ReportSHA256": "82FC4613E25017F73E0D7940BACC1F3F70724A3E87478615D6F6F55EEACC1013",
+      "SucceededWithoutWarnings": 0,
+      "SucceededWithWarnings": 1,
+      "Failed": 0,
+      "Tests": [
+        {
+          "Path": "LD.PIE.G0.A.MissingData",
+          "State": "Success",
+          "Warnings": 1,
+          "Errors": 0,
+          "NonInfoEvents": [
+            {
+              "event": {
+                "type": "Warning",
+                "message": "LogCrowdFollowing: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance",
+                "context": "log",
+                "artifact": "00000000000000000000000000000000"
+              },
+              "filename": "",
+              "lineNumber": -1,
+              "timestamp": "2026.09.27-14.51.59"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
