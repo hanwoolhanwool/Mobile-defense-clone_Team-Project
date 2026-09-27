@@ -565,3 +565,10 @@
 - 직접 화면 확인: host골드2/인구5/다음36, client159/2/24; 거절시9/4/28불변과 붉은버튼/문구. 양쪽 자기보드 아래.
 - [실패/수정](evidence/RUN-20260918-G2/REVIEW_FINDINGS.md) 및 [독립 구조 리뷰](evidence/RUN-20260918-G2/FINAL_REVIEW.md): 차단 결함0, ARCH-01~06 실제 경로 대조. 명령 현재시각 개방·처치 시각·epoch 캐시·검사 누락 보완.
 - 성능:60FPS 제한·구매자금용HP1적100(최대동시12) 픽스처의 P95양쪽16.667ms. 대표 부하/밸런스 증거 아님. PIE·최종 PC 패키지·지연/손실·10웨이브5판·음향청취·Android는 후속 미검증. G2 Pass, P0 InProgress.
+
+## RUN-20260927-01 · G3 웨이브·결과·패키지·학습 재현 (진행 중)
+
+- 기대값과 결과 원본은 [G3 검수 요약](evidence/RUN-20260918-G3/SUMMARY.md), [독립 리뷰](evidence/RUN-20260918-G3/REVIEW_FINDINGS.md), [새 조립 입력](evidence/RUN-20260918-G3/replay-inputs.json)에 관리한다. 폴더 이름의20260918은 제작 착수일이며 이 실행은2026-09-27이다.
+- G2 출발점의 새 파일 조립·Editor·56자동화·실제2World PIE·G2 조작 회귀를 확인했다. 후속 Entry 수명 수정 후 A/B Editor 및 B 전체57자동화 무경고Pass, 재현본 Entry 관련3개 무경고Pass.
+- 최초 Win64 패키징의 Live Coding 충돌과 실제 cooked Entry의 스타일 수명 크래시는 실패 증거를 보존했다. 수정된 실제 패키지 반복 검수 전까지 G3 차단 상태를 유지한다.
+- 짧은 부하 smoke의 실제2000사망/GC2141/양쪽 결과 저장 Pass는 대표20분 패키지 성능이나 자연 플레이/Android 통과를 뜻하지 않는다. 실제 학습자는 Planned, P0 최종 미완료다.

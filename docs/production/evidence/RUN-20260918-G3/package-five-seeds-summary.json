@@ -1,0 +1,289 @@
+{
+  "Scope": "Actual final Development Win64 package, two same-PC processes, normal product data and wave clock, automated Slate/Controller decisions; not human learner play or Android",
+  "Result": "Pass",
+  "RuntimeSource": "98727f04e7c563a854a103ad26152cff5ed652a6",
+  "CppSource": "0e473f4af380506d209a95f7ec42eccf89c69df4",
+  "ReplayHead": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "InputManifest": "package-final-inputs.json",
+  "RunRoot": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-five-seeds-fix2",
+  "PackageExecutableSHA256": "4339F4E3C166D244DC77D780C4E26FBC423E30E7BDB0923C1E39628F5B2B6B54",
+  "RequestedRTTMs": 150,
+  "OutgoingDelayPerEndpointMs": 75,
+  "LossPercentPerEndpoint": 1,
+  "ConnectedGameplaySeconds": [
+    1250.020971197635,
+    1252.0436108969152
+  ],
+  "Checks": [
+    82,
+    72
+  ],
+  "Failures": 0,
+  "SameProcessEntryReturns": [
+    4,
+    4
+  ],
+  "Matches": [
+    {
+      "MatchId": "7EA79B9A48D230AFBB9125B0B478EBBB",
+      "Seed": 1776,
+      "Result": "Defeat",
+      "Reason": "BossTimeout",
+      "Wave": 10,
+      "RemainingNormal": 0,
+      "BossHP": [
+        435,
+        3975
+      ],
+      "ResultWorldSeconds": 259.52500069886446,
+      "FirstMergeWorldSecondsByPlayer": [
+        11.415762200951576,
+        39.602140098810196
+      ],
+      "EffectiveDamageByPlayer": [
+        20331,
+        19419
+      ],
+      "SuccessfulCommands": [
+        19,
+        19
+      ],
+      "ExpectedRejections": [
+        1,
+        1
+      ],
+      "PendingRetries": [
+        0,
+        17
+      ],
+      "HUDRecreations": [
+        3,
+        3
+      ],
+      "OwnerEconomies": [
+        "7EA79B9A48D230AFBB9125B0B478EBBB:0:378:18:0:14:48",
+        "7EA79B9A48D230AFBB9125B0B478EBBB:1:378:18:0:14:48"
+      ],
+      "ClientApplicationEcho": {
+        "Count": 244,
+        "MeanMs": 196.90226171104635,
+        "P95NearestRankMs": 216.856699436903,
+        "MinMs": 156.43500164151192,
+        "MaxMs": 245.3933022916317
+      },
+      "ClientPingsSent": 251,
+      "ClientPongsReceived": 244,
+      "NetworkRecovered": false
+    },
+    {
+      "MatchId": "0B30FF6A42F9FE51C66A7EB76BF2F20F",
+      "Seed": 42,
+      "Result": "Defeat",
+      "Reason": "BossTimeout",
+      "Wave": 10,
+      "RemainingNormal": 0,
+      "BossHP": [
+        0,
+        3332
+      ],
+      "ResultWorldSeconds": 253.16357500106096,
+      "FirstMergeWorldSecondsByPlayer": [
+        48.05576030164957,
+        5.7224384024739265
+      ],
+      "EffectiveDamageByPlayer": [
+        21717,
+        19111
+      ],
+      "SuccessfulCommands": [
+        22,
+        23
+      ],
+      "ExpectedRejections": [
+        1,
+        1
+      ],
+      "PendingRetries": [
+        0,
+        21
+      ],
+      "HUDRecreations": [
+        3,
+        3
+      ],
+      "OwnerEconomies": [
+        "0B30FF6A42F9FE51C66A7EB76BF2F20F:0:382:18:2:16:52",
+        "0B30FF6A42F9FE51C66A7EB76BF2F20F:1:383:20:2:16:52"
+      ],
+      "ClientApplicationEcho": {
+        "Count": 248,
+        "MeanMs": 197.99446260496492,
+        "P95NearestRankMs": 216.57619997859,
+        "MinMs": 169.07190158963203,
+        "MaxMs": 229.322399944067
+      },
+      "ClientPingsSent": 251,
+      "ClientPongsReceived": 248,
+      "NetworkRecovered": false
+    },
+    {
+      "MatchId": "80A62A9248611BE888B2CAB87611F9ED",
+      "Seed": 1729,
+      "Result": "Defeat",
+      "Reason": "BossTimeout",
+      "Wave": 10,
+      "RemainingNormal": 0,
+      "BossHP": [
+        975,
+        4114
+      ],
+      "ResultWorldSeconds": 252.78889589756727,
+      "FirstMergeWorldSecondsByPlayer": [
+        76.91688179969788,
+        84.44097019731998
+      ],
+      "EffectiveDamageByPlayer": [
+        19158,
+        19913
+      ],
+      "SuccessfulCommands": [
+        19,
+        17
+      ],
+      "ExpectedRejections": [
+        1,
+        1
+      ],
+      "PendingRetries": [
+        0,
+        15
+      ],
+      "HUDRecreations": [
+        3,
+        3
+      ],
+      "OwnerEconomies": [
+        "80A62A9248611BE888B2CAB87611F9ED:0:378:14:0:14:48",
+        "80A62A9248611BE888B2CAB87611F9ED:1:376:44:1:13:46"
+      ],
+      "ClientApplicationEcho": {
+        "Count": 242,
+        "MeanMs": 197.65259303953036,
+        "P95NearestRankMs": 217.10089966654778,
+        "MinMs": 154.7807976603508,
+        "MaxMs": 242.3618994653225
+      },
+      "ClientPingsSent": 251,
+      "ClientPongsReceived": 242,
+      "NetworkRecovered": false
+    },
+    {
+      "MatchId": "E0D436ED482709B20A80F192D6C82F8E",
+      "Seed": 2026,
+      "Result": "Defeat",
+      "Reason": "BossTimeout",
+      "Wave": 10,
+      "RemainingNormal": 0,
+      "BossHP": [
+        1659,
+        3764
+      ],
+      "ResultWorldSeconds": 252.73286430165172,
+      "FirstMergeWorldSecondsByPlayer": [
+        100.76032400131226,
+        5.833349999040365
+      ],
+      "EffectiveDamageByPlayer": [
+        20177,
+        18560
+      ],
+      "SuccessfulCommands": [
+        19,
+        18
+      ],
+      "ExpectedRejections": [
+        1,
+        1
+      ],
+      "PendingRetries": [
+        0,
+        17
+      ],
+      "HUDRecreations": [
+        3,
+        3
+      ],
+      "OwnerEconomies": [
+        "E0D436ED482709B20A80F192D6C82F8E:0:378:14:0:14:48",
+        "E0D436ED482709B20A80F192D6C82F8E:1:377:44:0:13:46"
+      ],
+      "ClientApplicationEcho": {
+        "Count": 246,
+        "MeanMs": 197.25133446840252,
+        "P95NearestRankMs": 216.48550033569336,
+        "MinMs": 152.9444009065628,
+        "MaxMs": 244.1853992640972
+      },
+      "ClientPingsSent": 251,
+      "ClientPongsReceived": 246,
+      "NetworkRecovered": false
+    },
+    {
+      "MatchId": "646A27FE4D975A409F1CCCA96F67C699",
+      "Seed": 9001,
+      "Result": "Defeat",
+      "Reason": "BossTimeout",
+      "Wave": 10,
+      "RemainingNormal": 0,
+      "BossHP": [
+        153,
+        3087
+      ],
+      "ResultWorldSeconds": 252.78468529880047,
+      "FirstMergeWorldSecondsByPlayer": [
+        29.940777499228716,
+        4.900708798319101
+      ],
+      "EffectiveDamageByPlayer": [
+        20292,
+        20628
+      ],
+      "SuccessfulCommands": [
+        19,
+        18
+      ],
+      "ExpectedRejections": [
+        1,
+        1
+      ],
+      "PendingRetries": [
+        0,
+        17
+      ],
+      "HUDRecreations": [
+        3,
+        3
+      ],
+      "OwnerEconomies": [
+        "646A27FE4D975A409F1CCCA96F67C699:0:378:16:0:14:48",
+        "646A27FE4D975A409F1CCCA96F67C699:1:377:44:0:13:46"
+      ],
+      "ClientApplicationEcho": {
+        "Count": 250,
+        "MeanMs": 186.42845837771893,
+        "P95NearestRankMs": 200.10950043797493,
+        "MinMs": 169.27119717001915,
+        "MaxMs": 227.1529994904995
+      },
+      "ClientPingsSent": 253,
+      "ClientPongsReceived": 250,
+      "NetworkRecovered": false
+    }
+  ],
+  "Limits": [
+    "First merge times use each match World clock, not a common process clock.",
+    "Application unreliable echo includes scheduling and frame delay; unreturned pings can include outstanding requests, not only lost packets.",
+    "All five planned seeds are recorded; five losses do not prove human-play balance. No game-rule tuning was performed.",
+    "Sound asset loading passed in a muted run; audible quality remains unverified."
+  ]
+}

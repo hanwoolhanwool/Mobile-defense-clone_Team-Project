@@ -1,0 +1,162 @@
+{
+  "Scope": "Negative log fixture, not a product failure; original runtime evidence unchanged",
+  "SourceRun": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-five-seeds-fix2",
+  "RemovedPostTerminalServerResponses": 10,
+  "ExitCode": 1,
+  "ObservedAuditResult": "Fail",
+  "Expected": "Fail for original-response-after-authoritative-result while pre-terminal replay count checks still pass",
+  "FailedChecks": [
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "7EA79B9A48D230AFBB9125B0B478EBBB",
+      "Role": "host",
+      "TerminalLines": [
+        1320
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "7EA79B9A48D230AFBB9125B0B478EBBB",
+      "Role": "client",
+      "TerminalLines": [
+        1320
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "0B30FF6A42F9FE51C66A7EB76BF2F20F",
+      "Role": "host",
+      "TerminalLines": [
+        1572
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "0B30FF6A42F9FE51C66A7EB76BF2F20F",
+      "Role": "client",
+      "TerminalLines": [
+        1572
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "80A62A9248611BE888B2CAB87611F9ED",
+      "Role": "host",
+      "TerminalLines": [
+        1806
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "80A62A9248611BE888B2CAB87611F9ED",
+      "Role": "client",
+      "TerminalLines": [
+        1806
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "E0D436ED482709B20A80F192D6C82F8E",
+      "Role": "host",
+      "TerminalLines": [
+        2043
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "E0D436ED482709B20A80F192D6C82F8E",
+      "Role": "client",
+      "TerminalLines": [
+        2043
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "646A27FE4D975A409F1CCCA96F67C699",
+      "Role": "host",
+      "TerminalLines": [
+        2279
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    },
+    {
+      "Name": "original-response-after-authoritative-result",
+      "MatchId": "646A27FE4D975A409F1CCCA96F67C699",
+      "Role": "client",
+      "TerminalLines": [
+        2279
+      ],
+      "ServerLines": [
+        null
+      ],
+      "ReceivedLines": [
+        null
+      ],
+      "Pass": false
+    }
+  ],
+  "PreTerminalCountChecksPass": true,
+  "Result": "Pass"
+}

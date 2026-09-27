@@ -223,7 +223,7 @@ def analyze_samples(path, warmup):
     elif first_full is not None:
         start = first_full
         method = "fallback: first phase-1 sample with actual 40/101/101 population"
-        uncertainty = "True sustain start may precede this sample; window is conservatively shorter."
+        uncertainty = "The first local full-population sample and server sustain start can occur in either order; this sample-based warmup boundary has bidirectional timing uncertainty. Use profile Phase/SustainSeconds for the measured duration."
     else:
         start = first_phase
         method = "fallback: first phase-1 sample (population not confirmed)"

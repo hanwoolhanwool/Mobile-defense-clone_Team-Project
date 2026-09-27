@@ -1,9 +1,11 @@
 param(
     [Parameter(Mandatory = $true)][string]$ProjectRoot,
     [Parameter(Mandatory = $true)][ValidateSet('A', 'B')][string]$Role,
-    [string]$RunId = ('Replay-G0-' + (Get-Date -Format 'yyyyMMdd-HHmmss'))
+    [string]$RunId = ('Replay-G0-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
+    [switch]$MissingRulesFixture
 )
 $ErrorActionPreference = 'Stop'
+if ($MissingRulesFixture -and $Role -ne 'A') { throw 'The missing-rules fixture is only for the independent A initialization test.' }
 $BaseSha = '8c6856d235de87cc28c12b49ca775bd0937334a5'
 $ProvidedSha = '81ba665adff6c60ef95f79319b3115050937a1c1'
 $SourceSha = if ($Role -eq 'A') {
@@ -34,6 +36,9 @@ $SourceRoot = 'Source/Mobile_defense_clone/'
 
 function Restore-ReplayStep {
     param([string]$Step, [string]$Sha, [string[]]$Paths)
+    if ($MissingRulesFixture) {
+        $Paths = @($Paths | Where-Object { $_ -ne 'Content/LD/Data/GameRules.json' })
+    }
     Invoke-ReplayGit (@('restore', "--source=$Sha", '--worktree', '--') + $Paths)
     foreach ($RelativePath in $Paths) {
         $SourceBlob = (Invoke-ReplayGit @('rev-parse', "${Sha}:$RelativePath")).Trim()
@@ -76,13 +81,20 @@ Restore-ReplayStep '06 role-specific composition and lifecycle' $SourceSha @(
 )
 $TestFile = if ($Role -eq 'A') { 'Tests/LDDataTests.cpp' } else { 'Tests/LDCommandTests.cpp' }
 Restore-ReplayStep '07 role-specific automation expectations' $SourceSha @("$SourceRoot$TestFile")
-& (Join-Path $ReplayRoot 'tools/Sync-P0Data.ps1') -Check
+if ($MissingRulesFixture) {
+    if (Test-Path -LiteralPath (Join-Path $ReplayRoot 'Content/LD/Data/GameRules.json')) { throw 'Missing-rules fixture unexpectedly contains GameRules.json.' }
+} else {
+    & (Join-Path $ReplayRoot 'tools/Sync-P0Data.ps1') -Check
+    if ($LASTEXITCODE -ne 0) { throw 'Runtime data check failed.' }
+}
 if ((Invoke-ReplayGit @('rev-parse', 'HEAD')).Trim() -ne $BaseSha) { throw 'Replay unexpectedly changed HEAD.' }
 $Evidence = [ordered]@{
     Scope = 'Reference file assembly only; not learner implementation or build/gameplay validation'
     Role = $Role; StartedFrom = $BaseSha; ProvidedFrom = $ProvidedSha; RoleSourceFrom = $SourceSha
     ProjectRoot = $ReplayRoot; Created = (Get-Date).ToString('o'); Files = $Manifest.ToArray()
     Build = 'NotRun'; Automation = 'NotRun'; PIE = 'NotRun'; Package = 'NotRun'; Android = 'NotRun'
+    IntentionalMissingRulesFixture = [bool]$MissingRulesFixture
+    OmittedInputs = $(if ($MissingRulesFixture) { @('Content/LD/Data/GameRules.json') } else { @() })
 }
 $Evidence | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $RunRoot 'assembly.json') -Encoding utf8
 Invoke-ReplayGit @('status', '--short') | Set-Content -LiteralPath (Join-Path $RunRoot 'status.txt') -Encoding utf8

@@ -1,0 +1,250 @@
+{
+  "Result": "Fail",
+  "Scope": "Actual packaged asset load failure; controlled stop, not a completed match",
+  "RuntimeSource": "0e473f4af380506d209a95f7ec42eccf89c69df4",
+  "Pair": {
+    "Scope": "Actual GPU two separate packaged processes",
+    "Probe": "G3",
+    "Started": "2026-09-27T22:54:18.0711228+09:00",
+    "Head": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+    "Executable": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-entry-fixed/Package/Windows/Mobile_defense_clone/Binaries/Win64/Mobile_defense_clone.exe",
+    "ExecutableSHA256": "4339F4E3C166D244DC77D780C4E26FBC423E30E7BDB0923C1E39628F5B2B6B54",
+    "Matches": 5,
+    "MinimumSeconds": 600,
+    "RequestedRTTMilliseconds": 150,
+    "OutgoingDelayPerEndpointMs": 75,
+    "OutgoingLossPercentPerEndpoint": 1,
+    "NetworkScope": "Engine packet emulation in each direction. RTT measured by client unreliable echo; lost echo fraction is not equal to per-direction configured packet loss.",
+    "Resolution": [
+      540,
+      1170
+    ],
+    "MaxFPS": 60,
+    "VSync": 0,
+    "RenderOffscreen": true,
+    "Strategy": "Automated Slate summon/merge/sale and Controller move using normal product rules; no HP/gold/wave clock override.",
+    "Seeds": [
+      1776,
+      42,
+      1729,
+      2026,
+      9001
+    ],
+    "Processes": [
+      {
+        "Id": 25164,
+        "Role": "host",
+        "Arguments": [
+          "/Game/LD/Maps/L_P0Entry",
+          "-ModelContextProtocolPort=17877",
+          "-windowed",
+          "-ForceRes",
+          "-ResX=540",
+          "-ResY=1170",
+          "-port=17777",
+          "-nosplash",
+          "-nosound",
+          "-unattended",
+          "-culture=ko",
+          "-P0Probe=G3",
+          "-P0Role=host",
+          "-P0PeerAddress=127.0.0.1:17777",
+          "-P0Matches=5",
+          "-P0MinimumSeconds=600",
+          "-P0TimeoutSeconds=1800",
+          "-P0Seed=1776",
+          "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\host",
+          "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\host/engine.log",
+          "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+          "-PktLagMin=75",
+          "-PktLagMax=75",
+          "-PktLoss=1",
+          "-P0CommandTrace",
+          "-P0RecoverAfter=0",
+          "-RenderOffscreen"
+        ]
+      },
+      {
+        "Id": 54596,
+        "Role": "client",
+        "Arguments": [
+          "/Game/LD/Maps/L_P0Entry",
+          "-ModelContextProtocolPort=17878",
+          "-windowed",
+          "-ForceRes",
+          "-ResX=540",
+          "-ResY=1170",
+          "-port=17777",
+          "-nosplash",
+          "-nosound",
+          "-unattended",
+          "-culture=ko",
+          "-P0Probe=G3",
+          "-P0Role=client",
+          "-P0PeerAddress=127.0.0.1:17777",
+          "-P0Matches=5",
+          "-P0MinimumSeconds=600",
+          "-P0TimeoutSeconds=1800",
+          "-P0Seed=1776",
+          "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\client",
+          "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\client/engine.log",
+          "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+          "-PktLagMin=75",
+          "-PktLagMax=75",
+          "-PktLoss=1",
+          "-P0CommandTrace",
+          "-P0RecoverAfter=0",
+          "-RenderOffscreen"
+        ]
+      }
+    ],
+    "Result": "Fail",
+    "RecoverAfterConnectedSeconds": 0,
+    "Error": "Peer failed; preserved evidence and stopped dependent peer.",
+    "Finished": "2026-09-27T22:55:47.1753947+09:00"
+  },
+  "Roles": {
+    "host": {
+      "ConnectedSeconds": 61.18540729954839,
+      "Checks": [
+        {
+          "name": "entry-slate-button",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 2.112187299877405,
+          "matchId": "00000000000000000000000000000000"
+        },
+        {
+          "name": "new-match-context",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 2.1764556989073753,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "fresh-economy-and-board",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 2.1766888983547688,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "fresh-economy-and-board",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 2.17691870033741,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "unaffordable-purchase-rejected",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 13.916713397949934,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "rejection-audio-asset-loaded",
+          "pass": false,
+          "detail": "Object loaded by normal Controller rejection; -nosound does not verify audible output.",
+          "wallSeconds": 13.917073998600245,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "hud-recreated-single-new-instance",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 41.11646319925785,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "hud-recreated-single-new-instance",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 61.125932198017836,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        }
+      ],
+      "LastWave": {
+        "matchId": "D902C3684F5F4E8F47F88089FAF709D9",
+        "wave": 3,
+        "serverSeconds": 58.98445390164852,
+        "gold": 9,
+        "population": 4,
+        "normalCount": 23
+      }
+    },
+    "client": {
+      "ConnectedSeconds": 70.4422616995871,
+      "Checks": [
+        {
+          "name": "entry-slate-button",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 7.085653699934483,
+          "matchId": "00000000000000000000000000000000"
+        },
+        {
+          "name": "new-match-context",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 7.886951100081205,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "unaffordable-purchase-rejected",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 10.481720499694347,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "rejection-audio-asset-loaded",
+          "pass": false,
+          "detail": "Object loaded by normal Controller rejection; -nosound does not verify audible output.",
+          "wallSeconds": 10.481949500739574,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "hud-recreated-single-new-instance",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 38.00459440052509,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        },
+        {
+          "name": "hud-recreated-single-new-instance",
+          "pass": true,
+          "detail": "",
+          "wallSeconds": 57.907354701310396,
+          "matchId": "D902C3684F5F4E8F47F88089FAF709D9"
+        }
+      ],
+      "LastWave": {
+        "matchId": "D902C3684F5F4E8F47F88089FAF709D9",
+        "wave": 3,
+        "serverSeconds": 58.97756573930383,
+        "gold": 9,
+        "population": 4,
+        "normalCount": 23
+      }
+    }
+  },
+  "Stop": {
+    "Reason": "Both packaged probes failed rejection-audio-asset-loaded and host log confirms S_P0Rejected absent from cooked package. Stop owned failing run promptly before unrelated 5-match wait; preserve progress/logs.",
+    "Stopped": [
+      {
+        "PID": 25164,
+        "Role": "host",
+        "VerifiedCommand": "\"C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-entry-fixed\\Package\\Windows\\Mobile_defense_clone\\Binaries\\Win64\\Mobile_defense_clone.exe\" \"/Game/LD/Maps/L_P0Entry\" \"-ModelContextProtocolPort=17877\" \"-windowed\" \"-ForceRes\" \"-ResX=540\" \"-ResY=1170\" \"-port=17777\" \"-nosplash\" \"-nosound\" \"-unattended\" \"-culture=ko\" \"-P0Probe=G3\" \"-P0Role=host\" \"-P0PeerAddress=127.0.0.1:17777\" \"-P0Matches=5\" \"-P0MinimumSeconds=600\" \"-P0TimeoutSeconds=1800\" \"-P0Seed=1776\" \"-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\host\" \"-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\host/engine.log\" \"-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0\" \"-PktLagMin=75\" \"-PktLagMax=75\" \"-PktLoss=1\" \"-P0CommandTrace\" \"-P0RecoverAfter=0\" \"-RenderOffscreen\""
+      },
+      {
+        "PID": 54596,
+        "Role": "client",
+        "VerifiedCommand": "\"C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-entry-fixed\\Package\\Windows\\Mobile_defense_clone\\Binaries\\Win64\\Mobile_defense_clone.exe\" \"/Game/LD/Maps/L_P0Entry\" \"-ModelContextProtocolPort=17878\" \"-windowed\" \"-ForceRes\" \"-ResX=540\" \"-ResY=1170\" \"-port=17777\" \"-nosplash\" \"-nosound\" \"-unattended\" \"-culture=ko\" \"-P0Probe=G3\" \"-P0Role=client\" \"-P0PeerAddress=127.0.0.1:17777\" \"-P0Matches=5\" \"-P0MinimumSeconds=600\" \"-P0TimeoutSeconds=1800\" \"-P0Seed=1776\" \"-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\client\" \"-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix1\\client/engine.log\" \"-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0\" \"-PktLagMin=75\" \"-PktLagMax=75\" \"-PktLoss=1\" \"-P0CommandTrace\" \"-P0RecoverAfter=0\" \"-RenderOffscreen\""
+      }
+    ],
+    "Time": "2026-09-27T22:55:47.1781106+09:00"
+  },
+  "Correction": "98727f04e7c563a854a103ad26152cff5ed652a6 explicitly cooks required /Game/LD/Audio",
+  "AudioAudibility": "NotRun (-nosound)"
+}

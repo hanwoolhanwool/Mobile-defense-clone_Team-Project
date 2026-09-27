@@ -1,0 +1,407 @@
+{
+  "Result": "Pass",
+  "SourceSha": "98727f04e7c563a854a103ad26152cff5ed652a6",
+  "RuntimeSourceSha": "0e473f4af380506d209a95f7ec42eccf89c69df4",
+  "ReplayHead": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "Scope": "66 final files matched after explicit sound cook configuration; source code unchanged since entry fix",
+  "Files": [
+    {
+      "Path": "Mobile_defense_clone.uproject",
+      "ExpectedBlob": "d3e9ec27e5f77a2b3105b79965bf1131640233c3",
+      "ActualBlob": "d3e9ec27e5f77a2b3105b79965bf1131640233c3",
+      "SHA256": "B0CF364F82DFFDB1F3FDC1808685EBC355E1CEA816C593C21AE7E6858CFD7502"
+    },
+    {
+      "Path": "Config/DefaultGame.ini",
+      "ExpectedBlob": "9cd9232c9f7e6d0818ba112072d3f3c8e166a9c0",
+      "ActualBlob": "9cd9232c9f7e6d0818ba112072d3f3c8e166a9c0",
+      "SHA256": "35507F62274197A71EEB84C0A51F37E0773BACB04677845B3495A356777596F0"
+    },
+    {
+      "Path": "Config/DefaultInput.ini",
+      "ExpectedBlob": "e9f5815bf8846580289ad7a898d8f65d1925b3ae",
+      "ActualBlob": "e9f5815bf8846580289ad7a898d8f65d1925b3ae",
+      "SHA256": "02090691777462B6FB2850725DA4C9EC86833F3703A83C9EDEB262706F003411"
+    },
+    {
+      "Path": "Content/LD/Core/BP_LDGameMode.uasset",
+      "ExpectedBlob": "c0faeabb19f3123c6c312d07e1bbc4f226bf1717",
+      "ActualBlob": "c0faeabb19f3123c6c312d07e1bbc4f226bf1717",
+      "SHA256": "AA591AEDC861864CC85727A21155D9D7119BB88702FB5FA7AA7F37C05A8967B4"
+    },
+    {
+      "Path": "Content/LD/Materials/M_P0Flat.uasset",
+      "ExpectedBlob": "3b53099784111b610634421bd93bd271454b0609",
+      "ActualBlob": "3b53099784111b610634421bd93bd271454b0609",
+      "SHA256": "2DEEF65FBF41FF6A8CC8D13E9870E663C81001D4C36EB41211CB94201999B8A7"
+    },
+    {
+      "Path": "Content/LD/Audio/S_P0Rejected.uasset",
+      "ExpectedBlob": "22ae203fc7b9509b51f0da75569498d37cf44f42",
+      "ActualBlob": "22ae203fc7b9509b51f0da75569498d37cf44f42",
+      "SHA256": "FC2562EB5927EAEDFB4322AC0788B507ED0B0F17BB36D4DB7B6C223BCB427AC6"
+    },
+    {
+      "Path": "Content/LD/Data/GameRules.json",
+      "ExpectedBlob": "a7bec044262d4d4cb4bdb09fa5890383d1273f40",
+      "ActualBlob": "a7bec044262d4d4cb4bdb09fa5890383d1273f40",
+      "SHA256": "58EA787B591C5A618513E21DFE9F0EAFC9C9D4B07BF0C1DB452D28B1AB363486"
+    },
+    {
+      "Path": "Content/LD/Data/DT_Units.json",
+      "ExpectedBlob": "c623de80eb01499dee969658153d8166a6485860",
+      "ActualBlob": "c623de80eb01499dee969658153d8166a6485860",
+      "SHA256": "59A50660C5816755F00B8D95A9BE43E33F22142E49512ECB89EED7E2EE69F551"
+    },
+    {
+      "Path": "Content/LD/Data/DT_EnemyTypes.json",
+      "ExpectedBlob": "ddf9d88f1bd265aa3203b3699d5e2576218164ff",
+      "ActualBlob": "ddf9d88f1bd265aa3203b3699d5e2576218164ff",
+      "SHA256": "228B6B97F858C098F86ADC77535A0A14511A729F9F36BE01B57908F4F586E705"
+    },
+    {
+      "Path": "Content/LD/Data/DT_Waves.json",
+      "ExpectedBlob": "f464316e7117c539d8b71ad973c4a4951c7cdade",
+      "ActualBlob": "f464316e7117c539d8b71ad973c4a4951c7cdade",
+      "SHA256": "7DC78FEC98392F79F0B3C23A90E6F46771DF5DCF553EA20884B32E9F2DF314E9"
+    },
+    {
+      "Path": "Content/LD/Data/DT_SummonProfiles.json",
+      "ExpectedBlob": "7724b35d045ef2004bed86a2a1b5547ce07d0d8e",
+      "ActualBlob": "7724b35d045ef2004bed86a2a1b5547ce07d0d8e",
+      "SHA256": "E6EF0FD82F2E188730429EA3261BB8BFCBEF318737210BAF9FA67B6DE75FD078"
+    },
+    {
+      "Path": "Content/LD/Data/DT_SpawnProfiles.json",
+      "ExpectedBlob": "4486ad8ff89f7b3553164e590c2ed312c4a000dd",
+      "ActualBlob": "4486ad8ff89f7b3553164e590c2ed312c4a000dd",
+      "SHA256": "26FE69380F2C928E33077FFEC8789F3260A979976863FDA92A9455EC79ECC34F"
+    },
+    {
+      "Path": "tools/Build-P0Editor.ps1",
+      "ExpectedBlob": "2ed3bba9b6486274cacd1535efc236a33e3be28a",
+      "ActualBlob": "2ed3bba9b6486274cacd1535efc236a33e3be28a",
+      "SHA256": "027476A053559C2D5A4BF0D161277A417EC3008F4C7AB623D4A37F6A136B4561"
+    },
+    {
+      "Path": "tools/Sync-P0Data.ps1",
+      "ExpectedBlob": "dcf5372ce00507dfea6c85addabefe75c1787128",
+      "ActualBlob": "dcf5372ce00507dfea6c85addabefe75c1787128",
+      "SHA256": "A4A4450FE7D455868B5DC0E1422469CEBA58DD2BD05017BC2625FBB2357B883C"
+    },
+    {
+      "Path": "tools/Test-P0Automation.ps1",
+      "ExpectedBlob": "d8e7aee6de9e32426bc068b3c0093fc7a90be199",
+      "ActualBlob": "d8e7aee6de9e32426bc068b3c0093fc7a90be199",
+      "SHA256": "6C95DBB7F9EFC7EE2026E1E37827AF7C714F5FDBF71A0DD7E7B9B6F0236D69EA"
+    },
+    {
+      "Path": "tools/Run-P0Pair.ps1",
+      "ExpectedBlob": "d889070f2ba369b490131f2056c800d34b37be4c",
+      "ActualBlob": "d889070f2ba369b490131f2056c800d34b37be4c",
+      "SHA256": "EC3B22723B5AB1C0E99969DB3780A5A27ED5E4EC3067F53CD6F16830947F1846"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Data/LDBattleTypes.h",
+      "ExpectedBlob": "8840dca915ac283febc24a90ca6702418534eeb0",
+      "ActualBlob": "8840dca915ac283febc24a90ca6702418534eeb0",
+      "SHA256": "D0690A37E7874CED1AD8EF28FF3C9D9A1E7FF46604EFF81D3CD3B357B0D1F6F9"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDGameState.h",
+      "ExpectedBlob": "ae6726967e9a4818207e7fb55e1324da4276b828",
+      "ActualBlob": "ae6726967e9a4818207e7fb55e1324da4276b828",
+      "SHA256": "6A299702FB89F20283E4D6F6CF7B63E1A2325867BE8513826D5CE721A6DD164C"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDGameState.cpp",
+      "ExpectedBlob": "e41bdb5ef95e5a9fbffc183f34d4193a7e8f85d3",
+      "ActualBlob": "e41bdb5ef95e5a9fbffc183f34d4193a7e8f85d3",
+      "SHA256": "40DC8BD194C8231353E026AA8D99E2F350CE7FE2209B25EF3C6BBF1ECA605EE0"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Battle/LDEnemyActor.h",
+      "ExpectedBlob": "3e0746a87e16b93042704330d11c4d8f6e50b3de",
+      "ActualBlob": "3e0746a87e16b93042704330d11c4d8f6e50b3de",
+      "SHA256": "04D1DD973CD4EFA82132D8D062CDBE05DEC0C2B2E5E602C56AB1902144659B1E"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Battle/LDEnemyActor.cpp",
+      "ExpectedBlob": "c6b8d9a347be890f7ee1bee9e1c1c0d80bd39d8d",
+      "ActualBlob": "c6b8d9a347be890f7ee1bee9e1c1c0d80bd39d8d",
+      "SHA256": "4177787FE6998DBA37E28B7E3B5DC9058B3D8A22BAFB289DED727772AA1770D1"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Battle/LDCombatService.h",
+      "ExpectedBlob": "c00f88d8d8ce24c199a229b96ed1630965013240",
+      "ActualBlob": "c00f88d8d8ce24c199a229b96ed1630965013240",
+      "SHA256": "715496096C8FB381A2B578B81AAB6338D3856C98668EEDF0DBD319514F49E15A"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Battle/LDCombatService.cpp",
+      "ExpectedBlob": "2dc11b982c497d2fb4be8189d21679fc5a498d80",
+      "ActualBlob": "2dc11b982c497d2fb4be8189d21679fc5a498d80",
+      "SHA256": "08CFCEA3577CF23DA8623B2044B8FF272077728D8B8ED7E5B26AAE5703AE6ED8"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Battle/LDWaveDirector.h",
+      "ExpectedBlob": "27a1737ea407f1c0d2edbb58c00ee508753079ae",
+      "ActualBlob": "27a1737ea407f1c0d2edbb58c00ee508753079ae",
+      "SHA256": "0FFC32A7B08EE3DEF6A49A9E7F9DEF8052D62BA513032B74DF2372A487441999"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Battle/LDWaveDirector.cpp",
+      "ExpectedBlob": "8c0a40270892df727d88773bd7e79f6cd831e856",
+      "ActualBlob": "8c0a40270892df727d88773bd7e79f6cd831e856",
+      "SHA256": "F2638028F28A871F7566D3935F24ABBFE210134F1CBC357BA09101E6EBC7D97B"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDGameMode.h",
+      "ExpectedBlob": "0d32bdb6ff28acff5f43ec0d3ee8138bff4b22e7",
+      "ActualBlob": "0d32bdb6ff28acff5f43ec0d3ee8138bff4b22e7",
+      "SHA256": "502B953D34CF8078C7F51FA6DBAE7400954DC1C1ABB935DFD0FE1D3ED61622AF"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDGameMode.cpp",
+      "ExpectedBlob": "a6ec2e833063e2fa717836fb173a8d57b60eda92",
+      "ActualBlob": "a6ec2e833063e2fa717836fb173a8d57b60eda92",
+      "SHA256": "15D41D0E930EC9A199B683C4391E7CC64160783B57174BBDB0CE80DA36F0FDEB"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Network/LDCommandProcessor.h",
+      "ExpectedBlob": "ade36fa597b6015fbaa83b65240292448e94827b",
+      "ActualBlob": "ade36fa597b6015fbaa83b65240292448e94827b",
+      "SHA256": "E1422D44EB4FD11379BDF0234169DCC1E32339DCD1ECBD77993447F0950FDB60"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Network/LDCommandProcessor.cpp",
+      "ExpectedBlob": "8fabe25552a503d6a518d3e94a873540e44d25f0",
+      "ActualBlob": "8fabe25552a503d6a518d3e94a873540e44d25f0",
+      "SHA256": "A232896AB6378C51E49E0851990F2A890F9E54AE6FB7749C43D7DD758FE1DA86"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDBattleStatusWidget.h",
+      "ExpectedBlob": "05e0d5ab7e95265c036d25c8dcc6bf2ccdf535a1",
+      "ActualBlob": "05e0d5ab7e95265c036d25c8dcc6bf2ccdf535a1",
+      "SHA256": "C1838703BC656D287BBF95B37D6711FAA9688F15F0AF1B5AE3CB3F9C94C82260"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDBattleStatusWidget.cpp",
+      "ExpectedBlob": "77f8391c40bc355a3cba7a0dd37f8d9131acdc20",
+      "ActualBlob": "77f8391c40bc355a3cba7a0dd37f8d9131acdc20",
+      "SHA256": "3261C9B5E52C178439E58860001FEC7AFAFB9991B9B03D69EEEAAB903BCF0124"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDResultWidget.h",
+      "ExpectedBlob": "e5567ce88dffbc641dac8899c08b9ff2e3752080",
+      "ActualBlob": "e5567ce88dffbc641dac8899c08b9ff2e3752080",
+      "SHA256": "B2B4397C87730B0309C2BDD1B72DEF7B85A4B13B07D97FA3E1E51542D0040836"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDResultWidget.cpp",
+      "ExpectedBlob": "bc9c45ec5157681ec84bef2fb21dace75266e292",
+      "ActualBlob": "bc9c45ec5157681ec84bef2fb21dace75266e292",
+      "SHA256": "9DFEBD2CD1C158CED13A2BFAA99AF21C6A19A9A5A0262618CA28A7D3B52C3BC9"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDGameInstance.h",
+      "ExpectedBlob": "fc3a522e9c86787d85f72e4cc98f9f50d6b69a47",
+      "ActualBlob": "fc3a522e9c86787d85f72e4cc98f9f50d6b69a47",
+      "SHA256": "0464F80360AE5F76E7A6651C3C436ABD17ED246C8494E33DEC75720C218F75A8"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDGameInstance.cpp",
+      "ExpectedBlob": "05b999d74b7f5df4f70ed194690484976ecebc45",
+      "ActualBlob": "05b999d74b7f5df4f70ed194690484976ecebc45",
+      "SHA256": "BD6982B1E32830FE53A5C7B89D353F3AAD26AFCA80EF8A4D53170FC156264E32"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDEntryGameMode.h",
+      "ExpectedBlob": "300809c5bfce450823ce09ba5635b52f1d964d97",
+      "ActualBlob": "300809c5bfce450823ce09ba5635b52f1d964d97",
+      "SHA256": "CD5996F66A77D6390F3CD9671B50D2587D459227AF7A4315B4ABBEE7110FB27D"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDEntryGameMode.cpp",
+      "ExpectedBlob": "b840015af416929d233b537f42fe5f535559ae15",
+      "ActualBlob": "b840015af416929d233b537f42fe5f535559ae15",
+      "SHA256": "E411DB0E69B1EBBF41CF942B96F57EDE9AF71D27CF55C8CAB24AB958EF98701A"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDEntryPlayerController.h",
+      "ExpectedBlob": "33cbc0917204c07c148471a148f3bbca7c99a5f0",
+      "ActualBlob": "33cbc0917204c07c148471a148f3bbca7c99a5f0",
+      "SHA256": "A93DA578B3DA9F33CBA8A427828CB7C7ABE3F5C2873467792F5E812D61AFA92B"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDEntryPlayerController.cpp",
+      "ExpectedBlob": "65238ba8efa50c5ac18696e4436efc0a63a49448",
+      "ActualBlob": "65238ba8efa50c5ac18696e4436efc0a63a49448",
+      "SHA256": "A6A25446B47EB3BF5F0E1B477014061502F978A30975227D28FD4B12F2840D0B"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDEntryWidget.h",
+      "ExpectedBlob": "26f4f6628e46aaff7b3ced6d0d21e0be357169ca",
+      "ActualBlob": "26f4f6628e46aaff7b3ced6d0d21e0be357169ca",
+      "SHA256": "FE1316D4A502FB58EE5649643BA782EB993D11B639A07CDA88C7CF8F24349B37"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDEntryWidget.cpp",
+      "ExpectedBlob": "16673c7e0f304b64b3b9b580016847933b28b2b7",
+      "ActualBlob": "16673c7e0f304b64b3b9b580016847933b28b2b7",
+      "SHA256": "CDF7919D65FBF18A05ED72EBF9FB7809213A1FBF314A9815DD80EE286A48AC36"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerController.h",
+      "ExpectedBlob": "05c952b21d7b275f6044f86d885d988d7fbd64b1",
+      "ActualBlob": "05c952b21d7b275f6044f86d885d988d7fbd64b1",
+      "SHA256": "A8F7C8FCDBC182B849051CA7FC58D2E154534FA08E27B6170436B653A5A84BF8"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Core/LDPlayerController.cpp",
+      "ExpectedBlob": "b7ba409ec1e0d52d77208f03171086a4bf058917",
+      "ActualBlob": "b7ba409ec1e0d52d77208f03171086a4bf058917",
+      "SHA256": "4363E2C07AC6DFD0106CD15C4D6E5AD935505343F9B8EF3DADD910FC7739139F"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDG1BoardWidget.h",
+      "ExpectedBlob": "7d3b0acdac756e7562e027f10020edc8696bff9d",
+      "ActualBlob": "7d3b0acdac756e7562e027f10020edc8696bff9d",
+      "SHA256": "E405BB890D8FE487BFB7618BFA5BFC5961316312FA783307333F6AE504C72583"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDG1BoardWidget.cpp",
+      "ExpectedBlob": "d0cdc9a380d5d129a1c47d87228e7a750b739d45",
+      "ActualBlob": "d0cdc9a380d5d129a1c47d87228e7a750b739d45",
+      "SHA256": "C7F2AF4A8DD0985BA507DF02E8F5A3EB5EB37219123639E358349DCFA4795371"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDGameplayWidget.h",
+      "ExpectedBlob": "f5d507f33bd1d203642516087ce74a28ecc8ff5e",
+      "ActualBlob": "f5d507f33bd1d203642516087ce74a28ecc8ff5e",
+      "SHA256": "E54A8CD610CFBF11961798EB7DF9374713A59328083CBE680BB4DE173AE18BF4"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDGameplayWidget.cpp",
+      "ExpectedBlob": "61bab09d7a995972de30df30fee293ff0ad7a061",
+      "ActualBlob": "61bab09d7a995972de30df30fee293ff0ad7a061",
+      "SHA256": "B6FADF901DA1B0A8278885ADD96C95051940C5A5CA37F9DB9B8DD6F00E5BE2FE"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Tests/LDWaveTests.cpp",
+      "ExpectedBlob": "f27ff52d9c86760f8cd323af7cd333183753fd4b",
+      "ActualBlob": "f27ff52d9c86760f8cd323af7cd333183753fd4b",
+      "SHA256": "6226588375BB5A2322560B8CF2FC773000312622AB6A267C4BEE646281A4DC06"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Tests/LDLifecycleTests.cpp",
+      "ExpectedBlob": "9d839dc34524a7cda3fa3cf50de96176b54247a9",
+      "ActualBlob": "9d839dc34524a7cda3fa3cf50de96176b54247a9",
+      "SHA256": "7DFBF5C7B14F045C063D1AB5A8457762C4A03EA29082F8B106A815937DC62B74"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Tests/LDEntryAndHudTests.cpp",
+      "ExpectedBlob": "9377bb08fd86ed764763d4abb439059afb8e7f1e",
+      "ActualBlob": "9377bb08fd86ed764763d4abb439059afb8e7f1e",
+      "SHA256": "DF484632F54B1C818D3B31EC955EF47D34B21868A7D296533F4EB57E43E2099C"
+    },
+    {
+      "Path": "Config/DefaultEngine.ini",
+      "ExpectedBlob": "942b25ebc4ffb89db493c5c3e510f44d27cf9046",
+      "ActualBlob": "942b25ebc4ffb89db493c5c3e510f44d27cf9046",
+      "SHA256": "14B27512987D8A3F78902568237CCF9C38529E17F4A9EC6E8E76E43731930D5D"
+    },
+    {
+      "Path": "Content/LD/Maps/L_P0.umap",
+      "ExpectedBlob": "88f0173fa6c487cd85b94ed760dfe39769fc029e",
+      "ActualBlob": "88f0173fa6c487cd85b94ed760dfe39769fc029e",
+      "SHA256": "7FE0FBD2D8B80E58E3CACC6886ED296A593AF9AE5F2590BF0C0B7EAC5E2AD8B0"
+    },
+    {
+      "Path": "Content/LD/Maps/L_P0Entry.umap",
+      "ExpectedBlob": "950d927e59b737a1a86d687283722e41cd22dc5b",
+      "ActualBlob": "950d927e59b737a1a86d687283722e41cd22dc5b",
+      "SHA256": "90F82969E4A91C86B2C69A9EB78BEBC769782FBB1B4B84232543F7FBB9653814"
+    },
+    {
+      "Path": "tools/Create-P0Assets.py",
+      "ExpectedBlob": "57a8d647730dfd200efb28f025f0308c934da78a",
+      "ActualBlob": "57a8d647730dfd200efb28f025f0308c934da78a",
+      "SHA256": "8217A9179123B379B07FA22DBF00735F8AF4FE825A62C294DEF07575A272C754"
+    },
+    {
+      "Path": "tools/Build-P0Package.ps1",
+      "ExpectedBlob": "f929e7ee435d05193c98c06d7a4ae8d503f51841",
+      "ActualBlob": "f929e7ee435d05193c98c06d7a4ae8d503f51841",
+      "SHA256": "B6316F412602C6233135B8303808CA92FF8181917A292F3EC20E778A6D435C1E"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs",
+      "ExpectedBlob": "cab7ebb4bca44d9a5a51b74c3f20f41651deab6f",
+      "ActualBlob": "cab7ebb4bca44d9a5a51b74c3f20f41651deab6f",
+      "SHA256": "6D1949F7641C6E3AB08920743AE30DBC4FC54FC58BA384395A6A315961434710"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Tests/LDPieTests.cpp",
+      "ExpectedBlob": "6359087385e89be2ed195aeb06a0374554b2a463",
+      "ActualBlob": "6359087385e89be2ed195aeb06a0374554b2a463",
+      "SHA256": "B5A95F01AA2F51FBA451E43365FB90A0D9CE73A34194213291BDA76CBDC89485"
+    },
+    {
+      "Path": "tools/Test-P0PIE.ps1",
+      "ExpectedBlob": "2a34041dd8b3f54ce1e8686ee9717e8b0476d2a7",
+      "ActualBlob": "2a34041dd8b3f54ce1e8686ee9717e8b0476d2a7",
+      "SHA256": "D03E08B9328D1E4773FA5FAC6AEECABF6F52F65069A62F459B0571D558B4AB23"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Verification/LDG3ProbeSubsystem.h",
+      "ExpectedBlob": "d419de9e242096f1ace04c25f016daff48b25094",
+      "ActualBlob": "d419de9e242096f1ace04c25f016daff48b25094",
+      "SHA256": "E4D9E1D209365B695D32C44705BCD9D5D2A70787C52D1565DA1AFF627894D1A5"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Verification/LDG3ProbeSubsystem.cpp",
+      "ExpectedBlob": "9d7fb38f4e34e94e8706bda7689a38d43fcd747e",
+      "ActualBlob": "9d7fb38f4e34e94e8706bda7689a38d43fcd747e",
+      "SHA256": "E60BF91955143230C99491C152FC9F4AFC7C0454B03C8AC36E8BE62BA9BF887D"
+    },
+    {
+      "Path": "tools/Run-P0G3.ps1",
+      "ExpectedBlob": "c76efbd8976baa3dedb8fa37a1cee0ff00611daf",
+      "ActualBlob": "c76efbd8976baa3dedb8fa37a1cee0ff00611daf",
+      "SHA256": "706CFAA01CFD9A850379B0757B6AA3D3C58A70D582DDEF6AFF57B4364AFA10E7"
+    },
+    {
+      "Path": "tools/Test-P0G3Evidence.ps1",
+      "ExpectedBlob": "30a25e15f57b863f7c5d6896e3736095d136d4e9",
+      "ActualBlob": "30a25e15f57b863f7c5d6896e3736095d136d4e9",
+      "SHA256": "DED60FC8682FA9AF028289D68F5AB186A7D6467A4DB1E642C853B09BCB02C435"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Verification/LDG3LoadProbeSubsystem.h",
+      "ExpectedBlob": "f0f94a9017283aaae8c2c12f9fb03435f76d3f72",
+      "ActualBlob": "f0f94a9017283aaae8c2c12f9fb03435f76d3f72",
+      "SHA256": "1A9AA2762D8F475AF7D0E1C6ACB9CEA1C784E2A8DB7806FABC754B1ACF56F2EF"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Verification/LDG3LoadProbeSubsystem.cpp",
+      "ExpectedBlob": "1b391fa68ca8b7bb007497b7be34b464b303e540",
+      "ActualBlob": "1b391fa68ca8b7bb007497b7be34b464b303e540",
+      "SHA256": "20556EAE0F698DAC322492B061CC1383E10D0FA2DE34C81180D10FEA0BD32FAF"
+    },
+    {
+      "Path": "tools/Run-P0Load.ps1",
+      "ExpectedBlob": "8d90af67d37b4ca7af8855a07eb8f02fa7707e56",
+      "ActualBlob": "8d90af67d37b4ca7af8855a07eb8f02fa7707e56",
+      "SHA256": "66B482886DFA3B3DFC59483D5ED0AB595377FB5B892A475F349D1745569DB7AC"
+    },
+    {
+      "Path": "tools/Analyze-P0Load.py",
+      "ExpectedBlob": "fa62e06587fea51c89ade544ecc605811dec3df9",
+      "ActualBlob": "fa62e06587fea51c89ade544ecc605811dec3df9",
+      "SHA256": "B66D26F8DDF10020EB7262EDB2E17E3D992A2DDFDB5CCAABED44603595056FF2"
+    }
+  ],
+  "PriorAssembly": "entry-fixed-inputs.json",
+  "Amendment": "audio-cook-amendment.json"
+}
