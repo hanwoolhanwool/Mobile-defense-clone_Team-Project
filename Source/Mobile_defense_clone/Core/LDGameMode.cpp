@@ -97,7 +97,8 @@ void ALDGameMode::InitGameState()
 	FString Probe;
 	FParse::Value(FCommandLine::Get(), TEXT("P0Probe="), Probe);
 	bG1Probe = Probe.Equals(TEXT("G1"), ESearchCase::IgnoreCase);
-	bG2Probe = Probe.Equals(TEXT("G2"), ESearchCase::IgnoreCase);
+	bG2Probe =
+	    Probe.Equals(TEXT("G2"), ESearchCase::IgnoreCase) || Probe.Equals(TEXT("G3Load"), ESearchCase::IgnoreCase);
 #endif
 	if (!BoardManager->Initialize(*GetWorld(), Context, *GameData) ||
 	    !EconomyService->Initialize(Context, *GameData, Seed) ||
