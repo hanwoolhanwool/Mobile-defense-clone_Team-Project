@@ -383,6 +383,12 @@ void ALDGameMode::RequestTerminal(ELDMatchResult Result, ELDResultReason Reason,
 	{
 		CommandProcessor->SetAcceptingCommands(false);
 	}
+	// A terminal request can arrive inside a damage observer. Interrupt the active attack loop now,
+	// while keeping the Processor alive to drain the already committed death before publishing Result.
+	if (CombatService)
+	{
+		CombatService->Stop();
+	}
 }
 
 void ALDGameMode::FinalizePendingTerminal()
