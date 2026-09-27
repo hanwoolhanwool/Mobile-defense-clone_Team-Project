@@ -231,6 +231,15 @@ namespace
 				{
 					return false;
 				}
+				if (RunningObservedAt == 0)
+				{
+					RunningObservedAt = FPlatformTime::Seconds();
+					return false;
+				}
+				if (FPlatformTime::Seconds() - RunningObservedAt < .5)
+				{
+					return false;
+				}
 				Proof->Capture(*Host, TEXT("host-running"));
 				Proof->Capture(*Client, TEXT("client-running"));
 				Proof->Record(TEXT("running"), FString::Printf(TEXT("host/client wave1, counts%d/%d, server time%.3f"),
@@ -261,6 +270,7 @@ namespace
 	private:
 		TSharedRef<FPIEProof> Proof;
 		double StartedAt = 0;
+		double RunningObservedAt = 0;
 		int32 Stage = 0;
 	};
 

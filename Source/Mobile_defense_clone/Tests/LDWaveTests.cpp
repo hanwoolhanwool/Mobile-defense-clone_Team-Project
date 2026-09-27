@@ -514,4 +514,65 @@ bool FLDWaveFailureTest::RunTest(const FString& Parameters)
 	}
 	return true;
 }
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDWaveDamageObserverTest, "LD.P0.G3.Waves.CommittedDeathBeforeObserverAbort",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
+{
+	FWaveFixture F;
+	F.Ready();
+	FLDWaveTestAccess::Advance(*F.Mode, 10.0001);
+	FLDUnitRow Row;
+	F.Mode->GetGameData()->TryGetUnitRow(TEXT("C02"), Row);
+	// Explicit observer-lifetime fixture: one strong ranged attack, no economy or command bypass in product.
+	Row.BaseAttack = 1000;
+	Row.RangeCm = 1000;
+	FLDPlacedUnit Placement;
+	Placement.InstanceId = 800000;
+	Placement.UnitId = Row.UnitId;
+	Placement.CellId = 0;
+	Placement.PlayerIndex = 0;
+	ALDUnitActor* Unit = F.World->SpawnActor<ALDUnitActor>();
+	if (!TestTrue(TEXT("Prepare actual observer fixture unit"),
+	                   Unit->InitializePrepared(Placement, Row, FTransform::Identity)))
+	{
+		return false;
+	}
+	Unit->ApplyCommittedPlacement(Placement, FTransform::Identity);
+	F.Mode->GetCombatService()->RegisterCommittedUnit(*Unit, 10);
+	int32 DamageCount = 0;
+	int32 ObservedDamage = 0;
+	bool bResultSawReward = false;
+	F.State()->OnMatchStateChanged.AddLambda(
+	    [&]()
+	    {
+		    if (F.State()->GetPhase() == ELDMatchPhase::Aborted)
+		    {
+			    bResultSawReward = F.Mode->GetEconomyService()->GetSnapshot(0).Gold == 101 &&
+			                       F.Mode->GetEconomyService()->GetSnapshot(1).Gold == 101;
+		    }
+	    });
+	F.Mode->GetCombatService()->OnDamageCommitted.AddLambda(
+	    [&](const FLDDamageEvent& Event, int32 PlayerIndex, int32 EffectiveDamage)
+	    {
+		    ++DamageCount;
+		    ObservedDamage = EffectiveDamage;
+		    F.Mode->AbortMatch(TEXT("damage observer requests shutdown"));
+		    F.Mode->GetCombatService()->Stop();
+	    });
+	AddExpectedError(TEXT("Match aborted: damage observer requests shutdown"), EAutomationExpectedErrorFlags::Contains,
+	                      1);
+	F.World->TimeSeconds = 10.3f;
+	FLDWaveTestAccess::Advance(*F.Mode, 10.3);
+	TestEqual(TEXT("One already committed hit remains observable through self-clear"), DamageCount, 1);
+	TestEqual(TEXT("Effective damage excludes930 overkill"), ObservedDamage, 70);
+	TestTrue(TEXT("Approved death reward precedes terminal result despite observer stop"), bResultSawReward);
+	TestEqual(TEXT("Observer stop prevents a later second attack"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold,
+	               101);
+	TestEqual(TEXT("Actual terminal retains Abort"), F.State()->GetBattleSnapshot().Result, ELDMatchResult::Aborted);
+	TestEqual(TEXT("Observer stop leaves no combat enemy registration"),
+	               F.Mode->GetCombatService()->GetRegisteredEnemyCount(), 0);
+	TestFalse(TEXT("Observer stop clears owned mode timer"), F.Mode->IsLogicTimerActive());
+	F.State()->OnMatchStateChanged.Clear();
+	return true;
+}
 #endif
