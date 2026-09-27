@@ -513,6 +513,10 @@ void ALDGameMode::AdvanceTimelineBefore(double ServerSeconds)
 		}
 		State->SetPhase(ELDMatchPhase::Running);
 		State->SetReadinessReason(TEXT("Running: two participants; 10 P0 waves"));
+		if (bEnding || PendingResult != ELDMatchResult::None)
+		{
+			return;
+		}
 		LogicOriginSeconds = StartSeconds;
 		LogicStep = 0;
 		if (!WaveDirector || !WaveDirector->StartAt(StartSeconds))
@@ -541,9 +545,17 @@ void ALDGameMode::AdvanceTimelineBefore(double ServerSeconds)
 		// The current world time remains open for commands. Older exact event times close in stage order.
 		CombatService->AdvanceCombatTo(At);
 		CommandProcessor->DrainCombatRewards();
+		if (bEnding || PendingResult != ELDMatchResult::None)
+		{
+			break;
+		}
 		if (WaveDirector)
 		{
 			WaveDirector->RefreshCombatView();
+			if (bEnding || PendingResult != ELDMatchResult::None)
+			{
+				break;
+			}
 			WaveDirector->ProcessEventsAt(At);
 		}
 		if (At == NextStep)

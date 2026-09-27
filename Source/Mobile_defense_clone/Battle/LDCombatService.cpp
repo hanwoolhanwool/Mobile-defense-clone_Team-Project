@@ -251,13 +251,15 @@ void ULDCombatService::ResolveScheduledAttacks(double ServerSeconds, bool bInclu
 			State->ReservedAttackAt = State->NextAttackAt;
 		}
 		Unit->PresentCommittedAttack(Event.DamageEventId, HitPosition, DueSeconds);
-		// These are copied values; observers may stop services or remove actors during either notification.
-		OnDamageCommitted.Broadcast(Event, AttackingPlayer, EffectiveDamage);
-		if (Result == ELDDamageResult::Killed && !bStopped)
+		// Complete the gameplay event before observational callbacks can stop services. The copied observers
+		// still receive this already committed hit when death publication clears the original delegate.
+		const FLDDamageCommitted DamageObservers = OnDamageCommitted;
+		if (Result == ELDDamageResult::Killed)
 		{
 			// The subscriber may mutate Units or stop the match; do not retain map references across this call.
 			OnEnemyDeathCommitted.Broadcast(Death);
 		}
+		DamageObservers.Broadcast(Event, AttackingPlayer, EffectiveDamage);
 	}
 }
 void ULDCombatService::Stop()
