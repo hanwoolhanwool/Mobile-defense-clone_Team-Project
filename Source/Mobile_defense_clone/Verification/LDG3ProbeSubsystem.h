@@ -104,6 +104,8 @@ private:
 	FLDCommand FirstSummon;
 	bool bReplayAfterChange = false;
 	bool bReplayAfterTerminal = false;
+	bool bRejectedPurchaseSent = false;
+	bool bExpectInsufficient = false;
 	int64 EffectiveDamage[2] = {0, 0};
 	double FirstMergeAt[2] = {-1, -1};
 	int32 LocalPlayer = INDEX_NONE;

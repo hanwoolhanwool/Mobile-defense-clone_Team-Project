@@ -26,6 +26,7 @@
 #include "Misc/Paths.h"
 #include "Net/UnrealNetwork.h"
 #include "Serialization/JsonSerializer.h"
+#include "Sound/SoundBase.h"
 #include "UI/LDGameplayWidget.h"
 #include "UI/LDResultWidget.h"
 #include "UnrealClient.h"
@@ -200,6 +201,8 @@ void ULDG3ProbeSubsystem::BeginMatch(ALDGameMode* Mode, const FLDBattleSnapshot&
 	ReplaysSent = 0;
 	bReplayAfterChange = false;
 	bReplayAfterTerminal = false;
+	bRejectedPurchaseSent = false;
+	bExpectInsufficient = false;
 	LastResultId = 0;
 	SuccessfulCommands = 0;
 	FailedCommands = 0;
@@ -355,6 +358,15 @@ void ULDG3ProbeSubsystem::PlayAction(ALDPlayerController& Controller)
 		}
 	}
 	const FLDEconomySnapshot& Economy = Controller.GetEconomySnapshot();
+	if (!bRejectedPurchaseSent && Economy.Gold < Economy.NextSummonGold && Board.Population < 20 &&
+	    Controller.GetActionScreenRect(ELDCommandType::Summon, Rect))
+	{
+		bExpectInsufficient = true;
+		bRejectedPurchaseSent = Click(Rect);
+		bExpectInsufficient = bRejectedPurchaseSent;
+		LastActionAt = Now;
+		return;
+	}
 	if (Economy.Gold >= Economy.NextSummonGold && Board.Population < 20 &&
 	    Controller.GetActionScreenRect(ELDCommandType::Summon, Rect))
 	{
@@ -579,6 +591,16 @@ void ULDG3ProbeSubsystem::TickLocal(ALDPlayerController& Controller, const FLDBa
 	if (Controller.GetLastResult().RequestId != 0 && Controller.GetLastResult().RequestId != LastResultId)
 	{
 		LastResultId = Controller.GetLastResult().RequestId;
+		if (bExpectInsufficient)
+		{
+			Check(TEXT("unaffordable-purchase-rejected"),
+			           Controller.GetLastResult().ResultCode == ELDCommandResultCode::InsufficientResource);
+			Check(TEXT("rejection-audio-asset-loaded"),
+			    FindObject<USoundBase>(
+			        nullptr, TEXT("/Game/LD/Audio/S_P0Rejected.S_P0Rejected")) != nullptr,
+			        TEXT("Object loaded by normal Controller rejection; -nosound does not verify audible output."));
+			bExpectInsufficient = false;
+		}
 		if (Controller.GetLastResult().ResultCode == ELDCommandResultCode::Success)
 		{
 			++SuccessfulCommands;
