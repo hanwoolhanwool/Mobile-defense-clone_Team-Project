@@ -134,12 +134,12 @@ bool ULDWaveDirector::SpawnEnemy(int32 RouteIndex, const FLDWaveRow& Wave, doubl
 		NormalEnemies.Add(EnemyId);
 		++Snapshot.ActiveEnemyCount;
 	}
-	GameState->UpdateBattle(Snapshot);
-	// Latch inside each individual increase, before the other gate or any future hit is processed.
+	// Close admission before publishing N=100: GameState observers may synchronously submit a command.
 	if (!bBoss && Snapshot.ActiveEnemyCount >= Snapshot.MaxEnemyCount)
 	{
 		RequestTerminal(ELDMatchResult::Defeat, ELDResultReason::EnemyLimit, ServerSeconds);
 	}
+	GameState->UpdateBattle(Snapshot);
 	return !bStopped;
 }
 
@@ -276,7 +276,7 @@ void ULDWaveDirector::EvaluateVictory(double ServerSeconds)
 	}
 	const FLDBattleSnapshot& Snapshot = GameState->GetBattleSnapshot();
 	if (!Snapshot.bFinalSpawnsComplete || Snapshot.WaveIndex != Snapshot.FinalWave || Snapshot.ActiveEnemyCount != 0 ||
-	    Snapshot.Bosses.Num() != 2)
+	    Snapshot.Bosses.Num() != 2 || LastDeathServerSeconds > ServerSeconds)
 	{
 		return;
 	}
@@ -287,7 +287,7 @@ void ULDWaveDirector::EvaluateVictory(double ServerSeconds)
 			return;
 		}
 	}
-	RequestTerminal(ELDMatchResult::Victory, ELDResultReason::None, FMath::Min(ServerSeconds, LastDeathServerSeconds));
+	RequestTerminal(ELDMatchResult::Victory, ELDResultReason::None, LastDeathServerSeconds);
 }
 
 void ULDWaveDirector::RequestTerminal(ELDMatchResult Result, ELDResultReason Reason, double ServerSeconds)

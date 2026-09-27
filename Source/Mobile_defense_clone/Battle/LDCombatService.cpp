@@ -5,6 +5,9 @@
 #include "Battle/LDUnitActor.h"
 #include "Data/LDGameData.h"
 #include "Engine/World.h"
+#include "ProfilingDebugging/CsvProfiler.h"
+
+CSV_DEFINE_CATEGORY(LDP0, true);
 
 UWorld* ULDCombatService::GetWorld() const
 {
@@ -115,6 +118,7 @@ bool ULDCombatService::AdvanceCombatBefore(double ServerSeconds)
 
 bool ULDCombatService::AdvanceCombatInternal(double ServerSeconds, bool bIncludeBoundary)
 {
+	CSV_SCOPED_TIMING_STAT(LDP0, Combat);
 	if (!bInitialized || bStopped || bAdvancing || !FMath::IsFinite(ServerSeconds) || ServerSeconds < 0 ||
 	    ServerSeconds < LastAdvanceSeconds)
 	{

@@ -258,6 +258,20 @@ bool FLDWaveCapAndDeathTest::RunTest(const FString& Parameters)
 			FLDWaveTestAccess::ExtraNormal(*F.Mode, 10.01);
 		}
 		TestEqual(TEXT("N99 itself remains running"), F.State()->GetPhase(), ELDMatchPhase::Running);
+		bool bObservedCapBeforeResult = false;
+		bool bCapObserverDenied = false;
+		F.State()->OnMatchStateChanged.AddLambda(
+		    [&]()
+		    {
+			    if (F.State()->GetBattleSnapshot().ActiveEnemyCount == 100 &&
+			        F.State()->GetPhase() == ELDMatchPhase::Running && !bObservedCapBeforeResult)
+			    {
+				    bObservedCapBeforeResult = true;
+				    bCapObserverDenied =
+				        !F.Mode->CanAcceptCommands() && F.Players[0]->SubmitServerCommand(F.Command(0, 1)).ResultCode ==
+				                                            ELDCommandResultCode::PhaseNotAllowed;
+			    }
+		    });
 		const TArray<ALDEnemyActor*> Enemies = FLDWaveTestAccess::Enemies(*F.Mode->GetWaveDirector());
 		for (int32 Index = 0; Index < KillCount; ++Index)
 		{
@@ -278,10 +292,13 @@ bool FLDWaveCapAndDeathTest::RunTest(const FString& Parameters)
 			TestEqual(TEXT("Immediate cap records exact spawn time11"),
 			               F.State()->GetBattleSnapshot().ResultServerSeconds, 11.0);
 			TestEqual(TEXT("No increase after latch"), F.State()->GetBattleSnapshot().ActiveEnemyCount, 100);
+			TestTrue(TEXT("N100 is published before final Result"), bObservedCapBeforeResult);
+			TestTrue(TEXT("N100 observer cannot admit reentrant purchase"), bCapObserverDenied);
 			const int32 Revision = F.State()->GetBattleSnapshot().Revision;
 			FLDWaveTestAccess::Advance(*F.Mode, 12);
 			TestEqual(TEXT("Later timeline cannot rescue latch"), F.State()->GetBattleSnapshot().Revision, Revision);
 		}
+		F.State()->OnMatchStateChanged.Clear();
 	}
 	return true;
 }
