@@ -1,0 +1,33 @@
+{
+  "Scope": "Provided G0 verification harness; actual GPU Editor PIE networking, not packaged or Android",
+  "Head": "649c1dedd6832c41089a76b59bc76518cd262296",
+  "ProjectRoot": "C:\\Users\\iam12\\P0_lesson_replay_g0_integration",
+  "Filter": "LD.PIE.G0.Canonical.TerminalCache",
+  "Started": "2026-09-27T23:54:05.7003372+09:00",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+  "Arguments": [
+    "C:\\Users\\iam12\\P0_lesson_replay_g0_integration\\Mobile_defense_clone.uproject",
+    "-unattended",
+    "-nosound",
+    "-nosplash",
+    "-RenderOffscreen",
+    "-culture=ko",
+    "-ModelContextProtocolPort=17879",
+    "-P0PIERun=G0-actual-network-replay-canonical-pie-proof",
+    "-ExecCmds=Automation RunTests LD.PIE.G0.Canonical.TerminalCache",
+    "-TestExit=Automation Test Queue Empty",
+    "-ReportExportPath=C:\\Users\\iam12\\P0_lesson_replay_g0_integration\\Saved\\P0Runs\\G0-actual-network-replay-canonical-pie/report",
+    "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g0_integration\\Saved\\P0Runs\\G0-actual-network-replay-canonical-pie/engine.log"
+  ],
+  "Result": "Pass",
+  "ProcessId": 55264,
+  "ExitCode": 0,
+  "Succeeded": 1,
+  "Warnings": 1,
+  "Failed": 0,
+  "SettingsRestored": true,
+  "packetSettingsRestored": true,
+  "eventObserverRestored": true,
+  "sendObserverRestored": true,
+  "Finished": "2026-09-27T23:54:35.2170991+09:00"
+}
