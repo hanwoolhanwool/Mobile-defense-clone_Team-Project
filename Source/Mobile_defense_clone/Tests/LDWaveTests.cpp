@@ -10,6 +10,7 @@
 #include "Core/LDGameState.h"
 #include "Core/LDPlayerController.h"
 #include "Core/LDPlayerState.h"
+#include "CoreGlobals.h"
 #include "Data/LDGameData.h"
 #include "Economy/LDEconomyService.h"
 #include "Engine/Engine.h"
@@ -139,6 +140,16 @@ namespace
 			Login(1);
 			Mode->DispatchBeginPlay();
 		}
+		void TickLogicTimer(double ServerSeconds)
+		{
+			World->TimeSeconds = ServerSeconds;
+			// Drive the real timer delegate through public engine APIs. Activate pending timers first;
+			// the fixture scopes/restores frame identity because TimerManager permits one Tick per frame.
+			TGuardValue<uint64> FrameGuard(GFrameCounter, GFrameCounter + 1);
+			World->GetTimerManager().Tick(0);
+			++GFrameCounter;
+			World->GetTimerManager().Tick(.1f);
+		}
 		ALDGameState* State() const
 		{
 			return Mode->GetGameState<ALDGameState>();
@@ -176,8 +187,7 @@ bool FLDCombatFixtureReadinessTest::RunTest(const FString& Parameters)
 		FWaveFixture F;
 		TestNull(TEXT("Actual combat-only probe option does not construct a wave director"), F.Mode->GetWaveDirector());
 		F.Mode->DispatchBeginPlay();
-		F.World->TimeSeconds = .1f;
-		F.Mode->AdvanceLogic();
+		F.TickLogicTimer(.1);
 		if (!TestEqual(FString::Printf(TEXT("%s zero-participant timer remains Preparing"), Probe),
 		                               F.State()->GetPhase(), ELDMatchPhase::Preparing))
 		{
@@ -185,8 +195,7 @@ bool FLDCombatFixtureReadinessTest::RunTest(const FString& Parameters)
 		}
 		TestFalse(TEXT("Probe cannot start fixture authoring before participants join"), F.Mode->CanAcceptCommands());
 		F.Login(0);
-		F.World->TimeSeconds = 35;
-		F.Mode->AdvanceLogic();
+		F.TickLogicTimer(35);
 		TestEqual(TEXT("One participant still waits beyond normal Loading timeout"), F.State()->GetPhase(),
 		               ELDMatchPhase::Preparing);
 		TestEqual(TEXT("Fixture wait never produces initialization failure"), F.State()->GetBattleSnapshot().Result,
@@ -202,8 +211,7 @@ bool FLDCombatFixtureReadinessTest::RunTest(const FString& Parameters)
 		TestEqual(TEXT("Second participant opens combat-only Running immediately"), F.State()->GetPhase(),
 		               ELDMatchPhase::Running);
 		TestTrue(TEXT("Both participants allow fixture authoring"), F.Mode->CanAcceptCommands());
-		F.World->TimeSeconds = 35.1f;
-		F.Mode->AdvanceLogic();
+		F.TickLogicTimer(35.1);
 		TestEqual(TEXT("Combat-only timer never creates normal waves"), F.State()->GetBattleSnapshot().WaveIndex, 0);
 		TestEqual(TEXT("Combat-only timer has no unauthored enemies"),
 		               F.Mode->GetCombatService()->GetRegisteredEnemyCount(), 0);
