@@ -15,7 +15,7 @@ if (!(Test-Path (Join-Path $ProjectRoot 'Content/LD/Maps/L_P0.umap'))) { throw '
 if (!(Test-Path (Join-Path $ProjectRoot 'Content/LD/Maps/L_P0Entry.umap'))) { throw 'Create and verify L_P0Entry before packaging.' }
 $Project = Join-Path $ProjectRoot 'Mobile_defense_clone.uproject'
 $Uat = Join-Path $EngineRoot 'Engine/Build/BatchFiles/RunUAT.bat'
-$Arguments = @('BuildCookRun',"-project=$Project",'-noP4','-unattended','-utf8output','-target=Mobile_defense_clone',"-platform=$Platform",'-clientconfig=Development','-build','-cook','-stage','-pak','-package','-archive','-map=/Game/LD/Maps/L_P0+/Game/LD/Maps/L_P0Entry',"-archivedirectory=$RunRoot/Package")
+$Arguments = @('BuildCookRun',"-project=$Project",'-noP4','-unattended','-utf8output','-target=Mobile_defense_clone',"-platform=$Platform",'-clientconfig=Development','-build','-cook','-stage','-pak','-package','-archive','-ubtargs=-NoHotReloadFromIDE -MaxParallelActions=4','-map=/Game/LD/Maps/L_P0+/Game/LD/Maps/L_P0Entry',"-archivedirectory=$RunRoot/Package")
 if ($Platform -eq 'Android') {
     if (!$AndroidJdk) { $AndroidJdk = Join-Path $ProjectRoot 'Saved/Tooling/jdk21/jdk-21.0.3+9' }
     $env:ANDROID_HOME = $AndroidSdk
