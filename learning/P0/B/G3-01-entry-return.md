@@ -53,7 +53,7 @@ Blueprint/UMG 추가 에셋은 필요 없다. UI 구성은 C++ `RebuildWidget`�
 | 첫 cooked Entry 렌더링 | 제목·Host·주소·Join 유지 | **Fail PKG01→Closed**: client 프레임2 접근 위반 수정 후 새 패키지 진입·반복 복귀 Pass | [원본 실패](../../../docs/production/evidence/RUN-20260918-G3/packaged-entry-crash.json)와 [최종5판](../../../docs/production/evidence/RUN-20260918-G3/package-five-seeds-summary.json)을 별도 보존 |
 | 입력창 크기 변경→후속 prepass→GC | 원래 FontObject와 소유 스타일 유지 | 수정 후 Pass | B 57자동화 중 `OwnedAddressStyleSurvivesPrepass`; NullRHI |
 | 호스트 결과 복귀·peer 연결 종료 | peer도 Entry와 오류 문구, 이전 타이머 정리 | 미실행 | 실제 네트워크 여행 |
-| 같은 두 프로세스에서3회 이상 재매치 | 각 매치 새 MatchId·초기 재화·명령 문맥, 새 위젯 하나 | Pass: 양쪽4회 실제 결과 복귀 클릭·서로 다른5개 매치·각 판 게임 HUD3회 재생성 | 최종5시드. 후속 host 진입은 시드 지정 OpenLevel, client 재참가는 정상 요청 API를 사용하므로 모든 재진입 버튼의 실제 클릭 증거로 확대하지 않음 |
+| 같은 두 프로세스에서3회 이상 재매치 | 각 매치 새 MatchId·초기 재화·명령 문맥, 새 위젯 하나 | Pass: 양쪽4회 실제 결과 복귀 클릭·서로 다른5개 매치·각 판 게임 HUD3회 재생성 | 최종5시드. 후속 host 진입은 시드 지정 OpenLevel, client 재참가는 ClientTravel이므로 모든 재진입 버튼의 실제 클릭 증거로 확대하지 않음 |
 
 PKG01은 실제 패키지 실패다. 첫 패키지는 만들어졌지만 `SEditableText::SynchronizeTextStyle → FSlateFontInfo::GetCompositeFont → UObjectBaseUtility::GetInterfaceAddress`에서 client가 종료했다. 원인은 초기 `NativeTick`의 지역 `FEditableTextBoxStyle`이었다. 로컬 UE5.8 `UMG/Private/Components/EditableTextBox.cpp:392`의 setter는 프로퍼티에 복사한 뒤 **호출자가 전달한 `&InStyle`**을 Slate에 전달하고, `Slate/Private/Widgets/Input/SEditableTextBox.cpp:113`은 그 주소를 보관한다. 따라서 함수 반환 뒤 폰트·브러시를 읽는 주소가 유효하지 않았다. 기본 폰트가 패키지에 없다고 단정하거나 엔진/에셋을 바꾸지 않았다.
 
