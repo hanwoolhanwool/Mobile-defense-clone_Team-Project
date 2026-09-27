@@ -194,6 +194,7 @@ struct FLDG3BoundaryState : public TSharedFromThis<FLDG3BoundaryState>
 	FLDCommand OldSummon;
 	double Started = 0, EntryAt = 0, ActionAt = 0, Deadline = 0, TerminalAt = 0, FinishAt = 0, LastProgress = 0;
 	double FixtureViewAt = 0;
+	double LocalReadyAt = 0;
 	double OldSentAt = 0, CapAt = 0, LastKillAt = 0, HitchBefore = 0, HitchAfterWall = 0;
 	int32 ActiveCase = 0, Completed = 0, Returns = 0, Timeout = 600, LocalIndex = INDEX_NONE, HitCount = 0;
 	uint64 UnitIds[2] = {0, 0};
@@ -297,6 +298,7 @@ struct FLDG3BoundaryState : public TSharedFromThis<FLDG3BoundaryState>
 		LocalUnitActor.Reset();
 		bLocalActorCaptured = false;
 		FixtureViewAt = 0;
+		LocalReadyAt = 0;
 		Deadline = TerminalAt = CapAt = LastKillAt = OldSentAt = 0;
 		bPrepared = bTerminalRecorded = bReadyAck = bCapTriggered = bNormalWait = bNormalRescheduled = bHitch = false;
 		bOldSent = bOldDone = bMoveSent = bReturning = bTerminalAuthorityChecked = false;
@@ -712,6 +714,12 @@ void FLDG3BoundaryState::Local(ALDPlayerController& PC, const FLDBattleSnapshot&
 	{
 		if (B.Phase != ELDMatchPhase::Preparing || !PC.IsLocalBoardReady() || PC.HasPendingCommand())
 			return;
+		// Snapshot readiness can precede the UMG layout/enabled-state update in this frame.
+		// Deliver the Slate event only after the actual local HUD has settled.
+		if (LocalReadyAt == 0)
+			LocalReadyAt = Now;
+		if (Now - LocalReadyAt < 1)
+			return;
 		const auto& Board = PC.GetBoardSnapshot();
 		if (!bOldDone)
 		{
@@ -767,6 +775,11 @@ void FLDG3BoundaryState::Local(ALDPlayerController& PC, const FLDBattleSnapshot&
 		}
 		if (Now - ActionAt < .3)
 			return;
+		if (bPurchaseSent && !bPurchaseCaptured && Now - ActionAt > 3)
+		{
+			Check(TEXT("paid-summon-response-timeout"), false);
+			return;
+		}
 		FBox2D Rect;
 		if (Board.Units.IsEmpty() && !bPurchaseSent && PC.GetActionScreenRect(ELDCommandType::Summon, Rect))
 		{
