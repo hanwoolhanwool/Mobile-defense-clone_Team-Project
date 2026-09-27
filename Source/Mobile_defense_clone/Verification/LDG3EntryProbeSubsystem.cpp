@@ -81,8 +81,8 @@ namespace
 	}
 	bool InViewport(const FBox2D& Rect, const FIntPoint& Size)
 	{
-		return Rect.GetArea() > 0 && Rect.Min.X >= 0 && Rect.Min.Y >= 0 &&
-		       Rect.Max.X <= Size.X + 1 && Rect.Max.Y <= Size.Y + 1;
+		return Rect.GetArea() > 0 && Rect.Min.X >= 0 && Rect.Min.Y >= 0 && Rect.Max.X <= Size.X + 1 &&
+		       Rect.Max.Y <= Size.Y + 1;
 	}
 } // namespace
 
@@ -114,8 +114,8 @@ bool ULDG3EntryProbeSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 	return false;
 #else
 	FString Probe;
-	return FParse::Value(FCommandLine::Get(), TEXT("P0Probe="), Probe) && Probe == TEXT("G3Entry") &&
-	       Super::ShouldCreateSubsystem(Outer);
+	return FParse::Value(FCommandLine::Get(), TEXT("P0Probe="), Probe) &&
+	                     Probe == TEXT("G3Entry") && Super::ShouldCreateSubsystem(Outer);
 #endif
 }
 
@@ -139,7 +139,7 @@ void ULDG3EntryProbeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	FPaths::NormalizeDirectoryName(OutputDirectory);
 	PeerOutputDirectory = FPaths::GetPath(OutputDirectory) / (Role == TEXT("host") ? TEXT("client") : TEXT("host"));
 	if (IFileManager::Get().FileExists(*(OutputDirectory / TEXT("progress.json"))) ||
-	    IFileManager::Get().FileExists(*(OutputDirectory / TEXT("result.json"))))
+	                                   IFileManager::Get().FileExists(*(OutputDirectory / TEXT("result.json"))))
 	{
 		UE_LOG(LogLDG3EntryProbe, Error, TEXT("G3Entry refuses to overwrite prior evidence: %s"), *OutputDirectory);
 		bFinished = true;
@@ -149,7 +149,8 @@ void ULDG3EntryProbeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	bOutputReady = IFileManager::Get().MakeDirectory(*OutputDirectory, true);
 	if (GEngine)
 	{
-		NetworkFailureHandle = GEngine->OnNetworkFailure().AddUObject(this, &ULDG3EntryProbeSubsystem::ObserveNetworkFailure);
+		NetworkFailureHandle =
+		    GEngine->OnNetworkFailure().AddUObject(this, &ULDG3EntryProbeSubsystem::ObserveNetworkFailure);
 	}
 	WriteProgress(TEXT("initializing"));
 }
@@ -164,12 +165,18 @@ void ULDG3EntryProbeSubsystem::Deinitialize()
 	Super::Deinitialize();
 }
 
-bool ULDG3EntryProbeSubsystem::IsTickable() const { return !IsTemplate() && !bFinished; }
+bool ULDG3EntryProbeSubsystem::IsTickable() const
+{
+	return !IsTemplate() && !bFinished;
+}
 TStatId ULDG3EntryProbeSubsystem::GetStatId() const
 {
 	RETURN_QUICK_DECLARE_CYCLE_STAT(ULDG3EntryProbeSubsystem, STATGROUP_Tickables);
 }
-UWorld* ULDG3EntryProbeSubsystem::GetTickableGameObjectWorld() const { return GetWorld(); }
+UWorld* ULDG3EntryProbeSubsystem::GetTickableGameObjectWorld() const
+{
+	return GetWorld();
+}
 
 void ULDG3EntryProbeSubsystem::Check(const FString& Name, bool bPass, const FString& Detail)
 {
@@ -186,7 +193,8 @@ void ULDG3EntryProbeSubsystem::Check(const FString& Name, bool bPass, const FStr
 void ULDG3EntryProbeSubsystem::WriteProgress(const FString& Stage)
 {
 	CurrentStage = Stage;
-	if (!bOutputReady) return;
+	if (!bOutputReady)
+		return;
 	TSharedPtr<FJsonObject> Root = MakeShared<FJsonObject>();
 	Root->SetStringField(TEXT("runId"), RunId);
 	Root->SetStringField(TEXT("role"), Role);
@@ -203,13 +211,15 @@ bool ULDG3EntryProbeSubsystem::ReadPeerStage(const FString& Filename, const FStr
 	FString Text;
 	TSharedPtr<FJsonObject> Object;
 	if (!FFileHelper::LoadFileToString(Text, *(PeerOutputDirectory / Filename)) ||
-	    !FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Text), Object) || !Object.IsValid()) return false;
+	    !FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Text), Object) || !Object.IsValid())
+		return false;
 	FString OtherRun;
 	FString OtherStage;
 	FString OtherRole;
 	return Object->TryGetStringField(TEXT("runId"), OtherRun) && OtherRun == RunId &&
-	       Object->TryGetStringField(TEXT("stage"), OtherStage) && OtherStage == Stage &&
-	       Object->TryGetStringField(TEXT("role"), OtherRole) && OtherRole != Role;
+	                                 Object->TryGetStringField(TEXT("stage"), OtherStage) && OtherStage == Stage &&
+	                                                           Object->TryGetStringField(TEXT("role"), OtherRole) &&
+	                                                                                     OtherRole != Role;
 }
 
 void ULDG3EntryProbeSubsystem::Capture(const FString& Name)
@@ -220,10 +230,12 @@ void ULDG3EntryProbeSubsystem::Capture(const FString& Name)
 bool ULDG3EntryProbeSubsystem::Click(const FBox2D& Rect)
 {
 	if (!FSlateApplication::IsInitialized() || !GetWorld() || !GetWorld()->GetGameViewport() ||
-	    !GetWorld()->GetGameViewport()->GetWindow()) return false;
+	    !GetWorld()->GetGameViewport()->GetWindow())
+		return false;
 	FVector2D Absolute;
 	USlateBlueprintLibrary::ScreenToWidgetAbsolute(this, Rect.GetCenter(), Absolute);
-	const FPointerEvent Down(0, Absolute, Absolute, {EKeys::LeftMouseButton}, EKeys::LeftMouseButton, 0, FModifierKeysState());
+	const FPointerEvent Down(0, Absolute, Absolute, {EKeys::LeftMouseButton}, EKeys::LeftMouseButton, 0,
+	                         FModifierKeysState());
 	const FPointerEvent Up(0, Absolute, Absolute, {}, EKeys::LeftMouseButton, 0, FModifierKeysState());
 	FSlateApplication& Slate = FSlateApplication::Get();
 	Slate.ProcessMouseMoveEvent(Down, true);
@@ -242,24 +254,32 @@ bool ULDG3EntryProbeSubsystem::InspectEntry(ALDEntryPlayerController& Controller
 	UGameViewportClient* Viewport = GetWorld()->GetGameViewport();
 	if (!Widget || !Widget->WidgetTree || !Viewport || !Viewport->Viewport ||
 	    !Controller.GetEntryActionScreenRect(true, HostRect) || !Controller.GetEntryActionScreenRect(false, JoinRect) ||
-	    !Widget->GetAddressScreenRect(AddressRect)) return false;
+	    !Widget->GetAddressScreenRect(AddressRect))
+		return false;
 	const FIntPoint Size = Viewport->Viewport->GetSizeXY();
-	Check(bReturned ? TEXT("returned-entry-visible") : TEXT("initial-entry-visible"),
-	      Count == 1 && Widget->IsVisible() && InViewport(HostRect, Size) && InViewport(JoinRect, Size) && InViewport(AddressRect, Size),
-	      FString::Printf(TEXT("viewport=%dx%d host=(%.1f,%.1f)-(%.1f,%.1f) join=(%.1f,%.1f)-(%.1f,%.1f)"),
-	          Size.X, Size.Y, HostRect.Min.X, HostRect.Min.Y, HostRect.Max.X, HostRect.Max.Y,
-	          JoinRect.Min.X, JoinRect.Min.Y, JoinRect.Max.X, JoinRect.Max.Y));
+	Check(bReturned
+	      ? TEXT("returned-entry-visible")
+	      : TEXT("initial-entry-visible"),
+	             Count == 1 && Widget->IsVisible() && InViewport(HostRect, Size) && InViewport(JoinRect, Size) &&
+	                 InViewport(AddressRect, Size),
+	             FString::Printf(TEXT("viewport=%dx%d host=(%.1f,%.1f)-(%.1f,%.1f) join=(%.1f,%.1f)-(%.1f,%.1f)"),
+	                                  Size.X, Size.Y, HostRect.Min.X, HostRect.Min.Y, HostRect.Max.X, HostRect.Max.Y,
+	                                  JoinRect.Min.X, JoinRect.Min.Y, JoinRect.Max.X, JoinRect.Max.Y));
 	const UButton* Host = Cast<UButton>(Widget->WidgetTree->FindWidget(TEXT("Host")));
 	const UButton* Join = Cast<UButton>(Widget->WidgetTree->FindWidget(TEXT("Join")));
-	Check(TEXT("entry-buttons-enabled"), Host && Join && Host->GetIsEnabled() && Join->GetIsEnabled() && !Controller.IsEntryBusy());
-	Check(TEXT("entry-has-no-match-state-or-match-mode"), GetWorld()->GetGameState<ALDGameState>() == nullptr &&
-	      GetWorld()->GetAuthGameMode<ALDGameMode>() == nullptr && GetWorld()->GetAuthGameMode<ALDEntryGameMode>() != nullptr);
+	Check(TEXT("entry-buttons-enabled"),
+	           Host && Join && Host->GetIsEnabled() && Join->GetIsEnabled() && !Controller.IsEntryBusy());
+	Check(TEXT("entry-has-no-match-state-or-match-mode"),
+	           GetWorld()->GetGameState<ALDGameState>() == nullptr &&
+	               GetWorld()->GetAuthGameMode<ALDGameMode>() == nullptr &&
+	               GetWorld()->GetAuthGameMode<ALDEntryGameMode>() != nullptr);
 	if (bReturned && Role == TEXT("client"))
 	{
 		const UTextBlock* Feedback = Cast<UTextBlock>(Widget->WidgetTree->FindWidget(TEXT("Feedback")));
 		const FString Expected = Controller.GetEntryFeedback().ToString();
 		Check(TEXT("network-error-visible-in-entry"), Feedback && Feedback->IsVisible() && !Expected.IsEmpty() &&
-		      Feedback->GetText().ToString() == Expected && Expected.Contains(TEXT("연결")), Expected);
+		                                                  Feedback->GetText().ToString() == Expected &&
+		                                                  Expected.Contains(TEXT("연결")), Expected);
 	}
 	return true;
 }
@@ -268,12 +288,14 @@ void ULDG3EntryProbeSubsystem::TickEntry(ALDEntryPlayerController& Controller, d
 {
 	if (EntryAt == 0)
 	{
-		if (!InspectEntry(Controller, false)) return;
+		if (!InspectEntry(Controller, false))
+			return;
 		EntryAt = Now;
 		Capture(TEXT("entry-initial"));
 		WriteProgress(TEXT("entry-idle"));
 	}
-	if (GetWorld()->GetGameState<ALDGameState>() || GetWorld()->GetAuthGameMode<ALDGameMode>() || Controller.IsEntryBusy())
+	if (GetWorld()->GetGameState<ALDGameState>() || GetWorld()->GetAuthGameMode<ALDGameMode>() ||
+	    Controller.IsEntryBusy())
 	{
 		Fail(TEXT("entry-unexpected-match-or-travel-before-button"));
 		return;
@@ -281,18 +303,24 @@ void ULDG3EntryProbeSubsystem::TickEntry(ALDEntryPlayerController& Controller, d
 	EntryIdleSeconds = Now - EntryAt;
 	if (!bIdleVerified && EntryIdleSeconds >= 35)
 	{
-		if (!InspectEntry(Controller, false)) return;
+		if (!InspectEntry(Controller, false))
+			return;
 		bIdleVerified = true;
-		Check(TEXT("entry-idle-at-least-35-seconds-without-match-timeout"), true, FString::SanitizeFloat(EntryIdleSeconds));
+		Check(TEXT("entry-idle-at-least-35-seconds-without-match-timeout"), true,
+		           FString::SanitizeFloat(EntryIdleSeconds));
 		Capture(TEXT("entry-idle35"));
 		WriteProgress(TEXT("entry-idle-verified"));
 		return; // Keep this frame available for the pre-travel screenshot.
 	}
-	if (!bIdleVerified || EntryIdleSeconds < 36) return;
-	if (Role == TEXT("client") && !ReadPeerStage(TEXT("progress.json"), TEXT("late-join-ready"))) return;
-	if (Role == TEXT("client")) Controller.SetJoinAddressText(PeerAddress);
+	if (!bIdleVerified || EntryIdleSeconds < 36)
+		return;
+	if (Role == TEXT("client") && !ReadPeerStage(TEXT("progress.json"), TEXT("late-join-ready")))
+		return;
+	if (Role == TEXT("client"))
+		Controller.SetJoinAddressText(PeerAddress);
 	FBox2D Rect;
-	if (!Controller.GetEntryActionScreenRect(Role == TEXT("host"), Rect)) return;
+	if (!Controller.GetEntryActionScreenRect(Role == TEXT("host"), Rect))
+		return;
 	bTravelClicked = true;
 	Check(Role == TEXT("host") ? TEXT("host-slate-button") : TEXT("late-join-slate-button"), Click(Rect));
 	WriteProgress(TEXT("travel-clicked"));
@@ -300,7 +328,8 @@ void ULDG3EntryProbeSubsystem::TickEntry(ALDEntryPlayerController& Controller, d
 
 void ULDG3EntryProbeSubsystem::ObservePhase(const FLDBattleSnapshot& Battle)
 {
-	if (LastPhase == static_cast<int32>(Battle.Phase) && LastRevision == Battle.Revision) return;
+	if (LastPhase == static_cast<int32>(Battle.Phase) && LastRevision == Battle.Revision)
+		return;
 	TSharedPtr<FJsonObject> Item = BattleJson(Battle);
 	Item->SetNumberField(TEXT("localWorldSeconds"), GetWorld()->GetTimeSeconds());
 	Item->SetNumberField(TEXT("wallSeconds"), FPlatformTime::Seconds() - StartedAt);
@@ -314,22 +343,27 @@ bool ULDG3EntryProbeSubsystem::InspectTerminal(ALDPlayerController& Controller, 
 	int32 Count = 0;
 	ULDResultWidget* Result = VisibleWidget<ULDResultWidget>(Controller, Count);
 	FBox2D Rect;
-	if (!Result || !Result->WidgetTree || !Controller.GetReturnButtonScreenRect(Rect)) return false;
+	if (!Result || !Result->WidgetTree || !Controller.GetReturnButtonScreenRect(Rect))
+		return false;
 	const UTextBlock* Label = Cast<UTextBlock>(Result->WidgetTree->FindWidget(TEXT("ResultText")));
 	const FString Text = Label ? Label->GetText().ToString() : FString();
 	const FIntPoint Size = GetWorld()->GetGameViewport()->Viewport->GetSizeXY();
-	Check(TEXT("loading-timeout-result-visible"), Count == 1 && Result->IsVisible() && InViewport(Rect, Size) &&
-	      Text.Contains(TEXT("매치 종료")) && Text.Contains(TEXT("참가자 접속 대기 시간 초과")), Text);
+	Check(TEXT("loading-timeout-result-visible"),
+	           Count == 1 && Result->IsVisible() && InViewport(Rect, Size) &&
+	               Text.Contains(TEXT("매치 종료")) && Text.Contains(TEXT("참가자 접속 대기 시간 초과")), Text);
 	const FLDBoardSnapshot BeforeBoard = Controller.GetBoardSnapshot();
 	const FLDEconomySnapshot BeforeEconomy = Controller.GetEconomySnapshot();
 	const FLDCommandResult BeforeResult = Controller.GetLastResult();
 	Check(TEXT("terminal-intents-closed"), !Controller.CanUseGameplayActions() && !Controller.HasPendingCommand() &&
-	      !Controller.RequestSummon() && !Controller.RequestMergeSelection() && !Controller.RequestSellSelection() &&
-	      !Controller.RequestMove(1, 0) && !Controller.SubmitLocalCommand(FLDCommand()));
-	Check(TEXT("terminal-local-state-unchanged"),
-	      FLDBoardSnapshot::StaticStruct()->CompareScriptStruct(&BeforeBoard, &Controller.GetBoardSnapshot(), 0) &&
-	      FLDEconomySnapshot::StaticStruct()->CompareScriptStruct(&BeforeEconomy, &Controller.GetEconomySnapshot(), 0) &&
-	      FLDCommandResult::StaticStruct()->CompareScriptStruct(&BeforeResult, &Controller.GetLastResult(), 0));
+	                                           !Controller.RequestSummon() && !Controller.RequestMergeSelection() &&
+	                                           !Controller.RequestSellSelection() && !Controller.RequestMove(1, 0) &&
+	                                           !Controller.SubmitLocalCommand(FLDCommand()));
+	Check(
+	    TEXT("terminal-local-state-unchanged"),
+	         FLDBoardSnapshot::StaticStruct()->CompareScriptStruct(&BeforeBoard, &Controller.GetBoardSnapshot(), 0) &&
+	             FLDEconomySnapshot::StaticStruct()->CompareScriptStruct(&BeforeEconomy,
+	                                                                     &Controller.GetEconomySnapshot(), 0) &&
+	             FLDCommandResult::StaticStruct()->CompareScriptStruct(&BeforeResult, &Controller.GetLastResult(), 0));
 	int32 HUDCount = 0;
 	if (ULDGameplayWidget* HUD = VisibleWidget<ULDGameplayWidget>(Controller, HUDCount))
 	{
@@ -346,16 +380,22 @@ bool ULDG3EntryProbeSubsystem::InspectTerminal(ALDPlayerController& Controller, 
 	TerminalObservation->SetNumberField(TEXT("visibleResults"), Count);
 	TerminalObservation->SetNumberField(TEXT("visibleGameplayHUDs"), HUDCount);
 	const ALDPlayerState* Player = Controller.GetPlayerState<ALDPlayerState>();
-	TerminalObservation->SetStringField(TEXT("connectionEpoch"), FString::Printf(TEXT("%llu"),
-	    Player ? Player->GetParticipantContext().ConnectionEpoch : uint64(0)));
-	TerminalObservation->SetBoolField(TEXT("participantContextValid"), Player && Player->GetParticipantContext().IsValid());
+	TerminalObservation->SetStringField(
+	    TEXT("connectionEpoch"),
+	         FString::Printf(TEXT("%llu"), Player ? Player->GetParticipantContext().ConnectionEpoch : uint64(0)));
+	TerminalObservation->SetBoolField(TEXT("participantContextValid"),
+	                                       Player && Player->GetParticipantContext().IsValid());
 	OldResult = Result;
 	return true;
 }
 
 void ULDG3EntryProbeSubsystem::TickMatch(ALDPlayerController& Controller, const FLDBattleSnapshot& Battle, double Now)
 {
-	if (!bTravelClicked) { Fail(TEXT("match-opened-without-entry-slate-click")); return; }
+	if (!bTravelClicked)
+	{
+		Fail(TEXT("match-opened-without-entry-slate-click"));
+		return;
+	}
 	ObservePhase(Battle);
 	ALDGameMode* Mode = GetWorld()->GetAuthGameMode<ALDGameMode>();
 	if (MatchObservedAt == 0)
@@ -363,35 +403,52 @@ void ULDG3EntryProbeSubsystem::TickMatch(ALDPlayerController& Controller, const 
 		MatchObservedAt = Now;
 		OldMatchWorld = GetWorld();
 		OldController = &Controller;
-		Check(TEXT("native-match-controller-and-role"), Controller.IsLocalController() &&
-		      (Role == TEXT("host") ? Mode != nullptr && GetWorld()->GetNetMode() == NM_ListenServer :
-		                            Mode == nullptr && GetWorld()->GetNetMode() == NM_Client));
+		Check(TEXT("native-match-controller-and-role"),
+		           Controller.IsLocalController() &&
+		               (Role == TEXT("host") ? Mode != nullptr && GetWorld()->GetNetMode() == NM_ListenServer
+		                                     : Mode == nullptr && GetWorld()->GetNetMode() == NM_Client));
 	}
 	if (Battle.Phase == ELDMatchPhase::Loading)
 	{
 		bSawLoading = true;
-		if (Role == TEXT("client")) { Fail(TEXT("late-client-resumed-loading")); return; }
-		if (Now - LastProgressAt >= 1) WriteProgress(TEXT("host-loading"));
+		if (Role == TEXT("client"))
+		{
+			Fail(TEXT("late-client-resumed-loading"));
+			return;
+		}
+		if (Now - LastProgressAt >= 1)
+			WriteProgress(TEXT("host-loading"));
 		return;
 	}
-	if (!Battle.IsTerminal()) { Fail(TEXT("late-join-unexpected-preparing-or-running")); return; }
+	if (!Battle.IsTerminal())
+	{
+		Fail(TEXT("late-join-unexpected-preparing-or-running"));
+		return;
+	}
 	if (TerminalAt == 0)
 	{
 		TerminalAt = Now;
 		TimeoutBattle = Battle;
-		Check(TEXT("actual-loading-timeout-boundary"), Battle.MatchId.IsValid() && Battle.Phase == ELDMatchPhase::Aborted &&
-		      Battle.Result == ELDMatchResult::Aborted && Battle.ResultReason == ELDResultReason::LoadingTimeout &&
-		      Battle.LoadingDeadlineServerSeconds >= 30 &&
-		      FMath::IsNearlyEqual(Battle.ResultServerSeconds, Battle.LoadingDeadlineServerSeconds, 0.000001) &&
-		      Battle.WaveIndex == 0 && Battle.ActiveEnemyCount == 0);
-		if (Role == TEXT("host")) Check(TEXT("host-observed-real-loading-before-timeout"), bSawLoading);
+		Check(TEXT("actual-loading-timeout-boundary"),
+		    Battle.MatchId.IsValid() && Battle.Phase == ELDMatchPhase::Aborted &&
+		        Battle.Result == ELDMatchResult::Aborted && Battle.ResultReason == ELDResultReason::LoadingTimeout &&
+		        Battle.LoadingDeadlineServerSeconds >= 30 &&
+		        FMath::IsNearlyEqual(Battle.ResultServerSeconds, Battle.LoadingDeadlineServerSeconds, 0.000001) &&
+		        Battle.WaveIndex == 0 && Battle.ActiveEnemyCount == 0);
+		if (Role == TEXT("host"))
+			Check(TEXT("host-observed-real-loading-before-timeout"), bSawLoading);
 	}
-	if (!SameBattle(Battle, TimeoutBattle)) { Fail(TEXT("terminal-snapshot-changed-after-late-join")); return; }
+	if (!SameBattle(Battle, TimeoutBattle))
+	{
+		Fail(TEXT("terminal-snapshot-changed-after-late-join"));
+		return;
+	}
 	if (!bTerminalVerified && Now - TerminalAt >= 1)
 	{
 		if (!InspectTerminal(Controller, Battle))
 		{
-			if (Now - TerminalAt > 15) Fail(TEXT("terminal-result-ui-missing"));
+			if (Now - TerminalAt > 15)
+				Fail(TEXT("terminal-result-ui-missing"));
 			return;
 		}
 		bTerminalVerified = true;
@@ -400,16 +457,24 @@ void ULDG3EntryProbeSubsystem::TickMatch(ALDPlayerController& Controller, const 
 	}
 	if (Role == TEXT("host"))
 	{
-		if (GetWorld()->GetTimeSeconds() >= Battle.LoadingDeadlineServerSeconds + 1 && bTerminalVerified && !Peer.IsValid())
+		if (GetWorld()->GetTimeSeconds() >= Battle.LoadingDeadlineServerSeconds + 1 && bTerminalVerified &&
+		    !Peer.IsValid())
 		{
-			if (Now - LastProgressAt >= 1 || CurrentStage != TEXT("late-join-ready")) WriteProgress(TEXT("late-join-ready"));
+			if (Now - LastProgressAt >= 1 || CurrentStage != TEXT("late-join-ready"))
+				WriteProgress(TEXT("late-join-ready"));
 			for (TActorIterator<ALDPlayerController> It(GetWorld()); It; ++It)
 			{
-				if (It->IsLocalController() || !It->GetNetConnection()) continue;
+				if (It->IsLocalController() || !It->GetNetConnection())
+					continue;
 				FActorSpawnParameters Params;
 				Params.Owner = *It;
-				ALDG3EntryProbePeer* Spawned = GetWorld()->SpawnActor<ALDG3EntryProbePeer>(ALDG3EntryProbePeer::StaticClass(), Params);
-				if (!Spawned) { Fail(TEXT("observation-peer-spawn-failed")); return; }
+				ALDG3EntryProbePeer* Spawned =
+				    GetWorld()->SpawnActor<ALDG3EntryProbePeer>(ALDG3EntryProbePeer::StaticClass(), Params);
+				if (!Spawned)
+				{
+					Fail(TEXT("observation-peer-spawn-failed"));
+					return;
+				}
 				Spawned->TimeoutBattle = TimeoutBattle;
 				Spawned->ForceNetUpdate();
 				Peer = Spawned;
@@ -424,17 +489,23 @@ void ULDG3EntryProbeSubsystem::TickMatch(ALDPlayerController& Controller, const 
 				Capture(TEXT("late-terminal"));
 				return;
 			}
-			if (Now - PeerAcknowledgedAt < 1) return;
+			if (Now - PeerAcknowledgedAt < 1)
+				return;
 			Check(TEXT("late-client-real-network-terminal-ack"), Peer->bClientPassed);
 			Check(TEXT("host-terminal-immutable-after-late-client"), SameBattle(Battle, TimeoutBattle));
-			Check(TEXT("host-gameplay-services-stopped-and-state-pristine"), Mode && !Mode->CanAcceptCommands() &&
-			      !Mode->IsLogicTimerActive() && Mode->GetBoardManager() && Mode->GetEconomyService() &&
-			      Mode->GetCommandProcessor() && Mode->GetBoardManager()->GetSnapshot(0).Population == 0 &&
-			      Mode->GetEconomyService()->GetSnapshot(0).Gold == 100 &&
-			      Mode->GetEconomyService()->GetSnapshot(0).PaidSummonCount == 0 &&
-			      Mode->GetCommandProcessor()->GetCachedResultCount(0) == 0);
+			Check(TEXT("host-gameplay-services-stopped-and-state-pristine"),
+			           Mode && !Mode->CanAcceptCommands() && !Mode->IsLogicTimerActive() && Mode->GetBoardManager() &&
+			               Mode->GetEconomyService() && Mode->GetCommandProcessor() &&
+			               Mode->GetBoardManager()->GetSnapshot(0).Population == 0 &&
+			               Mode->GetEconomyService()->GetSnapshot(0).Gold == 100 &&
+			               Mode->GetEconomyService()->GetSnapshot(0).PaidSummonCount == 0 &&
+			               Mode->GetCommandProcessor()->GetCachedResultCount(0) == 0);
 			FBox2D Rect;
-			if (!Controller.GetReturnButtonScreenRect(Rect)) { Fail(TEXT("host-return-rect-missing")); return; }
+			if (!Controller.GetReturnButtonScreenRect(Rect))
+			{
+				Fail(TEXT("host-return-rect-missing"));
+				return;
+			}
 			bReturnClicked = true;
 			// Both events are delivered before the product GI's deferred travel ticker runs.
 			Check(TEXT("host-first-result-return-slate"), Click(Rect));
@@ -453,7 +524,11 @@ void ULDG3EntryProbeSubsystem::TickMatch(ALDPlayerController& Controller, const 
 		{
 			for (TActorIterator<ALDG3EntryProbePeer> It(GetWorld()); It; ++It)
 			{
-				if (It->GetOwner() == &Controller && It->TimeoutBattle.MatchId.IsValid()) { Peer = *It; break; }
+				if (It->GetOwner() == &Controller && It->TimeoutBattle.MatchId.IsValid())
+				{
+					Peer = *It;
+					break;
+				}
 			}
 		}
 		if (Peer.IsValid() && CurrentStage != TEXT("client-terminal-acknowledged"))
@@ -466,12 +541,13 @@ void ULDG3EntryProbeSubsystem::TickMatch(ALDPlayerController& Controller, const 
 }
 
 void ULDG3EntryProbeSubsystem::ObserveNetworkFailure(UWorld* World, UNetDriver* Driver, ENetworkFailure::Type Type,
-                                                    const FString& Error)
+                                                     const FString& Error)
 {
-	if (!World || World->GetGameInstance() != GetGameInstance() || bFinished) return;
+	if (!World || World->GetGameInstance() != GetGameInstance() || bFinished)
+		return;
 	++NetworkFailures;
 	const bool bInMatch = World == OldMatchWorld.Get() &&
-	    Cast<ALDPlayerController>(GetGameInstance()->GetFirstLocalPlayerController()) != nullptr;
+	                      Cast<ALDPlayerController>(GetGameInstance()->GetFirstLocalPlayerController()) != nullptr;
 	bSawNetworkFailureInMatch |= bInMatch;
 	TSharedPtr<FJsonObject> Item = MakeShared<FJsonObject>();
 	Item->SetNumberField(TEXT("type"), static_cast<int32>(Type));
@@ -495,23 +571,28 @@ void ULDG3EntryProbeSubsystem::TickReturned(ALDEntryPlayerController& Controller
 		}
 		WriteProgress(TEXT("returned-settling"));
 	}
-	if (Now - ReturnedAt < 3) return;
+	if (Now - ReturnedAt < 3)
+		return;
 	if (!bReturnedVerified)
 	{
-		if (!InspectEntry(Controller, true)) return;
-		if (OldResult.IsValid()) Check(TEXT("old-result-return-subscription-removed"), !OldResult->OnReturnRequested.IsBound());
+		if (!InspectEntry(Controller, true))
+			return;
+		if (OldResult.IsValid())
+			Check(TEXT("old-result-return-subscription-removed"), !OldResult->OnReturnRequested.IsBound());
 		// Observe normal game travel cleanup only; do not root, manually clean, or destroy the former World.
 		CollectGarbage(GARBAGE_COLLECTION_KEEPFLAGS);
 		CleanupObservation = MakeShared<FJsonObject>();
 		const bool bWorldCollected = OldMatchWorld.IsStale(false, true);
 		const bool bControllerCollected = OldController.IsStale(false, true);
 		const bool bResultCollected = OldResult.IsStale(false, true);
-		Check(TEXT("old-world-controller-result-collected"), bWorldCollected && bControllerCollected && bResultCollected);
+		Check(TEXT("old-world-controller-result-collected"),
+		           bWorldCollected && bControllerCollected && bResultCollected);
 		CleanupObservation->SetBoolField(TEXT("oldWorldCollected"), bWorldCollected);
 		CleanupObservation->SetBoolField(TEXT("oldControllerCollected"), bControllerCollected);
 		CleanupObservation->SetBoolField(TEXT("oldResultCollected"), bResultCollected);
 		CleanupObservation->SetNumberField(TEXT("stableEntrySeconds"), Now - ReturnedAt);
-		CleanupObservation->SetStringField(TEXT("gcPolicy"), TEXT("GARBAGE_COLLECTION_KEEPFLAGS; no manual World teardown"));
+		CleanupObservation->SetStringField(TEXT("gcPolicy"),
+		                                        TEXT("GARBAGE_COLLECTION_KEEPFLAGS; no manual World teardown"));
 		bReturnedVerified = true;
 		Capture(TEXT("entry-returned"));
 		WriteProgress(TEXT("entry-returned"));
@@ -522,28 +603,43 @@ void ULDG3EntryProbeSubsystem::TickReturned(ALDEntryPlayerController& Controller
 		SaveJson(OutputDirectory / TEXT("entry-returned.json"), Marker);
 		return;
 	}
-	if (Now - ReturnedAt >= 5 && ReadPeerStage(TEXT("entry-returned.json"), TEXT("entry-returned"))) Finish();
+	if (Now - ReturnedAt >= 5 && ReadPeerStage(TEXT("entry-returned.json"), TEXT("entry-returned")))
+		Finish();
 }
 
 void ULDG3EntryProbeSubsystem::Tick(float DeltaTime)
 {
-	if (bFinished) return;
+	if (bFinished)
+		return;
 	const double Now = FPlatformTime::Seconds();
-	if (Now - StartedAt > TimeoutSeconds) { Fail(TEXT("entry-suite-timeout")); return; }
+	if (Now - StartedAt > TimeoutSeconds)
+	{
+		Fail(TEXT("entry-suite-timeout"));
+		return;
+	}
 	UWorld* World = GetWorld();
-	if (!World || !World->IsGameWorld() || !GetGameInstance()) return;
-	if (!bOutputReady) { Fail(TEXT("output-directory-unavailable")); return; }
+	if (!World || !World->IsGameWorld() || !GetGameInstance())
+		return;
+	if (!bOutputReady)
+	{
+		Fail(TEXT("output-directory-unavailable"));
+		return;
+	}
 	APlayerController* Local = GetGameInstance()->GetFirstLocalPlayerController();
-	if (Local && Local->GetWorld() != World) return;
+	if (Local && Local->GetWorld() != World)
+		return;
 	if (ALDEntryPlayerController* Entry = Cast<ALDEntryPlayerController>(Local))
 	{
-		if (MatchObservedAt > 0) TickReturned(*Entry, Now);
-		else if (!bTravelClicked) TickEntry(*Entry, Now);
+		if (MatchObservedAt > 0)
+			TickReturned(*Entry, Now);
+		else if (!bTravelClicked)
+			TickEntry(*Entry, Now);
 		return;
 	}
 	ALDPlayerController* Controller = Cast<ALDPlayerController>(Local);
 	ALDGameState* State = World->GetGameState<ALDGameState>();
-	if (Controller && State && State->GetBattleSnapshot().MatchId.IsValid()) TickMatch(*Controller, State->GetBattleSnapshot(), Now);
+	if (Controller && State && State->GetBattleSnapshot().MatchId.IsValid())
+		TickMatch(*Controller, State->GetBattleSnapshot(), Now);
 }
 
 void ULDG3EntryProbeSubsystem::Fail(const FString& Reason)
@@ -554,8 +650,10 @@ void ULDG3EntryProbeSubsystem::Fail(const FString& Reason)
 
 void ULDG3EntryProbeSubsystem::Finish()
 {
-	if (bFinished) return;
-	Check(TEXT("entry-terminal-return-sequence-complete"), bIdleVerified && bTravelClicked && bTerminalVerified && bReturnedVerified);
+	if (bFinished)
+		return;
+	Check(TEXT("entry-terminal-return-sequence-complete"),
+	           bIdleVerified && bTravelClicked && bTerminalVerified && bReturnedVerified);
 	bFinished = true;
 	TSharedPtr<FJsonObject> Root = MakeShared<FJsonObject>();
 	Root->SetStringField(TEXT("runId"), RunId);
@@ -563,7 +661,8 @@ void ULDG3EntryProbeSubsystem::Finish()
 	Root->SetStringField(TEXT("probe"), TEXT("G3Entry"));
 	Root->SetNumberField(TEXT("processId"), FPlatformProcess::GetCurrentProcessId());
 	Root->SetStringField(TEXT("status"), bFailed ? TEXT("Fail") : TEXT("Pass"));
-	Root->SetStringField(TEXT("scope"), TEXT("Native Entry idle / actual late Join / natural LoadingTimeout / host-first Slate return / actual client network failure. No wave, outcome, clock or participant injection. Coordination files schedule only."));
+	Root->SetStringField(TEXT("scope"),
+	    TEXT("Native Entry idle / actual late Join / natural LoadingTimeout / host-first Slate return / actual client network failure. No wave, outcome, clock or participant injection. Coordination files schedule only."));
 	Root->SetStringField(TEXT("lastStage"), CurrentStage);
 	Root->SetNumberField(TEXT("wallSeconds"), FPlatformTime::Seconds() - StartedAt);
 	Root->SetNumberField(TEXT("entryIdleSeconds"), EntryIdleSeconds);
@@ -573,16 +672,22 @@ void ULDG3EntryProbeSubsystem::Finish()
 	Root->SetArrayField(TEXT("phaseObservations"), PhaseObservations);
 	Root->SetArrayField(TEXT("networkFailure"), NetworkObservations);
 	Root->SetObjectField(TEXT("timeoutSnapshot"), BattleJson(TimeoutBattle));
-	if (TerminalObservation) Root->SetObjectField(TEXT("terminalView"), TerminalObservation);
-	if (CleanupObservation) Root->SetObjectField(TEXT("cleanup"), CleanupObservation);
-	for (const FString& Name : {FString(TEXT("entry-initial")), FString(TEXT("entry-idle35")), FString(TEXT("late-terminal")), FString(TEXT("entry-returned"))})
+	if (TerminalObservation)
+		Root->SetObjectField(TEXT("terminalView"), TerminalObservation);
+	if (CleanupObservation)
+		Root->SetObjectField(TEXT("cleanup"), CleanupObservation);
+	for (const FString& Name :
+	     {FString(TEXT("entry-initial")), FString(TEXT("entry-idle35")), FString(TEXT("late-terminal")),
+	                                                                             FString(TEXT("entry-returned"))})
 	{
-		Check(TEXT("screenshot-written-") + Name, IFileManager::Get().FileSize(*(OutputDirectory / (Name + TEXT(".png")))) > 0);
+		Check(TEXT("screenshot-written-") + Name,
+		           IFileManager::Get().FileSize(*(OutputDirectory / (Name + TEXT(".png")))) > 0);
 	}
 	Root->SetArrayField(TEXT("checks"), Checks);
 	Root->SetStringField(TEXT("status"), bFailed ? TEXT("Fail") : TEXT("Pass"));
 	Root->SetStringField(TEXT("result"), bFailed ? TEXT("Fail") : TEXT("Pass"));
 	Root->SetBoolField(TEXT("passed"), !bFailed);
-	if (bOutputReady) SaveJson(OutputDirectory / TEXT("result.json"), Root);
+	if (bOutputReady)
+		SaveJson(OutputDirectory / TEXT("result.json"), Root);
 	FPlatformMisc::RequestExit(false);
 }
