@@ -70,7 +70,7 @@ private:
 	void BeginProfileCapture();
 	void EndProfileCapture();
 	bool PollProfileWrite();
-	void FailAndExit(const FString& Reason);
+	void FailAndExit(const FString& Reason, const FString& Detail = TEXT(""));
 	int32 CountUncollected(const TArray<TWeakObjectPtr<ALDEnemyActor>>& Actors) const;
 
 	FString OutputDirectory;
@@ -132,6 +132,7 @@ private:
 	bool bProfileWritten = false;
 	bool bHandshakeComplete = false;
 	bool bScreenshotRequested = false;
+	bool bExpectedTerminal = false;
 	FString ProfilePath;
 	TSharedFuture<FString> ProfileWrite;
 	TArray<float> SustainedFrameMs;
