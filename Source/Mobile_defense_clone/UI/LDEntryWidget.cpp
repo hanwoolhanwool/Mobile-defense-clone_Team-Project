@@ -120,14 +120,24 @@ void ULDEntryWidget::NativeTick(const FGeometry& Geometry, float DeltaSeconds)
 		Font.Size = FMath::Max(12, FMath::RoundToInt((Label == Title ? 50 : 32) * Scale));
 		Label->SetFont(Font);
 	}
-	FEditableTextBoxStyle AddressStyle = Address->GetWidgetStyle();
-	AddressStyle.TextStyle.Font.Size = FMath::Max(12, FMath::RoundToInt(30 * Scale));
-	Address->SetWidgetStyle(AddressStyle);
+	UpdateAddressFontSize(FMath::Max(12, FMath::RoundToInt(30 * Scale)));
 	const bool bEnabled = !Controller->IsEntryBusy();
 	HostButton->SetIsEnabled(bEnabled);
 	JoinButton->SetIsEnabled(bEnabled);
 	Address->SetIsEnabled(bEnabled);
 	Feedback->SetText(Controller->GetEntryFeedback());
+}
+
+void ULDEntryWidget::UpdateAddressFontSize(int32 FontSize)
+{
+	// UE 5.8 SetWidgetStyle forwards &InStyle to Slate, which retains that pointer.
+	// Use the text box's UPROPERTY-owned style; a local copy dangles after this call.
+	FEditableTextBoxStyle& AddressStyle = Address->WidgetStyle;
+	if (AddressStyle.TextStyle.Font.Size != FontSize)
+	{
+		AddressStyle.TextStyle.Font.Size = FontSize;
+		Address->SetWidgetStyle(AddressStyle);
+	}
 }
 
 bool ULDEntryWidget::GetWidgetRect(const UWidget* Widget, FBox2D& OutRect)
