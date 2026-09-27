@@ -41,14 +41,22 @@ GPU `UnrealEditor.exe`에서 각 필터를 별도 새 RunId로 실행한다. Nul
 
 누락 입력 fixture는 ExecCmds의 필터만 `LD.PIE.G0.A.MissingData`로 바꾼다. root의 공통 실행 도구가 엔진·프로젝트·로그·RunId를 지정하며 포트와 기기는 직렬 관리한다. 이 제공 코드 자체는 포트나 기본 맵/프로젝트 설정을 변경하지 않는다.
 
-두 필터 모두 `Saved/P0Runs/<새 실행 ID>-proof/pie-proof.json`을 저장한다. `result`, `settingsRestored`, `processId`, `observations`는 G3 PIE 증거 형식과 같고, `completedSessions`, `missingDataFixture`, `thirdRemoteRejected`를 추가한다. 양쪽 실제 창 PNG도 같은 폴더에 저장한다. 정상 검사는 세션2개, 누락 검사는1개 완료 및 `settingsRestored=true`가 필요하다. 원래 Editor play config를 보관하고 끝나면 전체 config 프로퍼티를 복원해 동일성을 검사한다.
+두 필터 모두 `Saved/P0Runs/<새 실행 ID>-proof/pie-proof.json`을 저장한다. `result`, `settingsRestored`, `processId`, `observations`는 G3 PIE 증거 형식과 같고, `completedSessions`, `missingDataFixture`, `thirdRemoteRejected`를 추가한다. `expectedErrorsMet`는 저장 시 공개 `HasMetExpectedErrors()`로 검사한다. `passScope`에 명시하듯 JSON의 Pass만으로 최종 통과를 판단하지 않으며, 실행 도구는 최종 Automation 보고서 성공까지 함께 확인해야 한다. 양쪽 실제 창 PNG도 같은 폴더에 저장한다. 정상 검사는 세션2개, 누락 검사는1개 완료 및 `settingsRestored=true`가 필요하다. 원래 Editor play config를 보관하고 끝나면 전체 config 프로퍼티를 복원해 동일성을 검사한다.
 
 ## 관찰과 한계
 
 - `/Game/TopDown/Lvl_TopDown`에 **요청 한정 native ALDGameMode override**를 쓴다. 맵은 저장하지 않는다. 수업에서 허용한 native 경로의 재현이며 BP_GameMode/BP_GameState 생성은 검증하지 않는다.
 - G0에는 전장·전투·명령 성공·HUD가 없다. PNG는 실제 창 기록이며 Phase/문맥/오류의 통과 근거는 해당 World의 실제 복제값과 OnRep 관찰이다. Result/두 번째 세션 Aborted는 공개 GameState API를 통한 명시적인 전이 fixture이지 자연 플레이 승패가 아니다. 누락 입력의 Aborted만 실제 로딩 실패 경로다.
-- 셋째 접속은 임의 Controller 생성이 아니라 `GEditor->RequestLateJoin()`이다. 예상된 ConnectionLost/FailureReceived 엔진 로그만 허용하며 별도 NetworkFailure event가 **셋째 PIE World에만 속하는지** 검사한다. 원래 두 참가자의 이탈/네트워크 실패는 검사 실패다. 실제 실패 로그가 다른 형태라면 원본을 보존하고 원인을 확인한 뒤 검사기만 수정한다.
+- 셋째 접속은 임의 Controller 생성이 아니라 `GEditor->RequestLateJoin()`이다. 두 세션 시작 전부터 최종 정리까지 NetworkFailure event를 유지한다. ConnectionLost/FailureReceived 로그는 event에서 요청한 셋째 접속 구간의 다른 PIE World 또는 검사기가 실제 종료를 요청한 뒤의 PIE World인지 검사한다. 원래 두 참가자의 이탈/네트워크 실패는 검사 실패다. 실제 실패 로그가 다른 형태라면 원본을 보존하고 원인을 확인한 뒤 검사기만 수정한다.
 - 첫 정상 세션에서 의도적으로 등록한 Mode-bound60초 타이머가 변경하지 않은 제품 EndPlay에 의해 제거되는지 검사한다. 누락 입력에서는 이미 서비스가 닫혔으므로 종료 뒤 새 타이머를 넣지 않는다.
 - B의 게임 명령 RPC, canonical G0 통합, 최종 PC 패키지, 물리 입력·Android, Blueprint 생성은 이 검사의 범위가 아니다. 해당 검수를 완료로 승계하지 않는다.
 
 엔진 실행 뒤 원래 제품 blob 유지, 새 검사/의존 해시, 빌드·자동화·PIE 결과와 실패 원인을 수업 증거에 별도로 연결해야 한다. 실행 전에는 이 제공 코드만으로 수업을 Verified로 바꾸지 않는다.
+
+## 실행 전 독립 리뷰 수정
+
+최초 제공 코드는 두 `FStartPIEForAutomationCommand`를 RunTest에서 즉시 생성해 큐에 넣었다. 로컬 UE5.8 `AutomationEditorCommon.cpp`1176행 부근의 생성자는 PostPIEStarted/EndPIE 전역 delegate에 바로 구독하므로, 두 번째 명령이 첫 번째 세션의 시작/종료를 먼저 받아 잘못 실패할 수 있었다. 이는 **실행 전 정적 리뷰로 발견한 경로**이며 실제 실패 로그가 있는 것으로 기록하지 않는다.
+
+`FDeferredStartG0APIE`는 자기 큐 순서의 첫 Update에서 설정 복제와 내부 엔진 명령을 생성한다. 진행 중에는 그 명령만 구동하고, 완료 직후 파기하여 delegate 구독과 rooted 설정을 해제한다. 아직 실행 차례가 오지 않은 명령은 전역 이벤트에 구독하지 않고 설정도 생성하지 않는다. 정상 두 세션과 누락 입력 한 세션 모두 같은 wrapper를 사용한다. 수정 후 빌드/실행은 여전히 NotRun이다.
+
+같은 실행 전 리뷰에서 네트워크 예상 오류의 무제한 로그 필터가 첫 세션 뒤에도 남지만 NetworkFailure observer는 첫 종료 때 해제되어, 둘째 세션의 예상하지 못한 오류를 놓칠 수 있음을 발견했다. 실제 실행 실패가 아닌 정적 결함이다. 참가자/OnRep observer 정리와 네트워크 observer 수명을 분리했고, 네트워크 감시는 proof 준비 때 등록하여 proof 파기 때만 해제한다. 셋째 접속 허용 구간은 해당 거절 확인 뒤 닫고, 다음 PIE 시작 시 종료 허용 구간도 초기화한다. `FEndG0APIE.Update`에서 실제 종료 명령을 구동할 때만 의도된 종료를 허용한다. 따라서 둘째 세션의 시작/진행 중 실패나 첫 두 참가자의 임의 이탈은 실패로 남는다. `Save`는 공개 `HasMetExpectedErrors()` 결과를 포함하며, 저장 이후까지 포함한 최종 판단에는 Automation 보고서가 반드시 필요함을 `passScope`로 기록한다. 이 수정 역시 빌드/실행 NotRun이다.
