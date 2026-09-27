@@ -10,6 +10,8 @@
 #include "Core/LDPlayerState.h"
 #include "Economy/LDEconomyService.h"
 #include "Engine/Engine.h"
+#include "Engine/NetConnection.h"
+#include "Engine/NetDriver.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
 #include "HAL/FileManager.h"
@@ -155,7 +157,8 @@ void ULDG3LoadProbeSubsystem::EnsureOutputDirectory()
 		OutputDirectory /= FGuid::NewGuid().ToString();
 	}
 	IFileManager::Get().MakeDirectory(*OutputDirectory, true);
-	const FString Header = TEXT("wallSeconds,worldSeconds,phase,batch,label,frames,frameMsP95,processCpuPercent,processCpuOneCorePercent,rssBytes,peakRssBytes,unitActors,enemyActors,aliveEnemies,registeredUnits,registeredEnemies,damageEvents,uniqueDeaths,routeDistanceSumCm\n");
+	const FString Header =
+	    TEXT("wallSeconds,worldSeconds,phase,batch,label,frames,frameMsP95,processCpuPercent,processCpuOneCorePercent,rssBytes,peakRssBytes,unitActors,enemyActors,aliveEnemies,registeredUnits,registeredEnemies,damageEvents,uniqueDeaths,routeDistanceSumCm,inTotalBytes,outTotalBytes,inTotalPackets,outTotalPackets,inTotalPacketsLost,outTotalPacketsLost\n");
 	FFileHelper::SaveStringToFile(Header, *(OutputDirectory / TEXT("samples.csv")),
 	                                        FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM);
 	bOutputReady = true;
@@ -862,11 +865,21 @@ void ULDG3LoadProbeSubsystem::Sample(const FString& Label, double Now)
 	    Mode && Mode->GetCombatService() ? Mode->GetCombatService()->GetRegisteredEnemyCount() : -1;
 	const int32 Phase = State.IsValid() ? State->Phase : 0;
 	const int32 Batch = State.IsValid() ? State->Batch : -1;
+	const UNetDriver* Driver = GetWorld()->GetNetDriver();
+	const UNetConnection* Connection = Driver ? Driver->ServerConnection.Get() : nullptr;
+	if (Driver && !Connection && Driver->ClientConnections.Num() > 0)
+	{
+		Connection = Driver->ClientConnections[0].Get();
+	}
+	// These are connection lifetime totals, not the counters that reset each engine StatPeriod.
 	const FString Row = FString::Printf(
-	    TEXT("%.6f,%.6f,%d,%d,%s,%d,%.6f,%.6f,%.6f,%llu,%llu,%d,%d,%d,%d,%d,%llu,%d,%.3f\n"), Now - CreatedAt,
-	         double(GetWorld()->GetTimeSeconds()), Phase, Batch, *Label, SampleFrameMs.Num(),
+	    TEXT("%.6f,%.6f,%d,%d,%s,%d,%.6f,%.6f,%.6f,%llu,%llu,%d,%d,%d,%d,%d,%llu,%d,%.3f,%d,%d,%d,%d,%d,%d\n"),
+	         Now - CreatedAt, double(GetWorld()->GetTimeSeconds()), Phase, Batch, *Label, SampleFrameMs.Num(),
 	         Percentile95(SampleFrameMs), CPU.CPUTimePct, CPU.CPUTimePctRelative, Memory.UsedPhysical, PeakRss, Units,
-	         EnemyActors, Alive, RegisteredUnits, RegisteredEnemies, DamageEvents, DeathIds.Num(), RouteSum);
+	         EnemyActors, Alive, RegisteredUnits, RegisteredEnemies, DamageEvents, DeathIds.Num(), RouteSum,
+	         Connection ? Connection->InTotalBytes : -1, Connection ? Connection->OutTotalBytes : -1,
+	         Connection ? Connection->InTotalPackets : -1, Connection ? Connection->OutTotalPackets : -1,
+	         Connection ? Connection->InTotalPacketsLost : -1, Connection ? Connection->OutTotalPacketsLost : -1);
 	FFileHelper::SaveStringToFile(Row, *(OutputDirectory / TEXT("samples.csv")),
 	                                     FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM, &IFileManager::Get(),
 	                                     FILEWRITE_Append);
