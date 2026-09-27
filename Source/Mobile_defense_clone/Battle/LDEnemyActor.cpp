@@ -316,6 +316,7 @@ ELDDamageResult ALDEnemyActor::TryApplyDamage(const FLDDamageEvent& Event, FLDCo
 		return ELDDamageResult::Applied;
 	}
 	CombatSnapshot.bAlive = false;
+	CombatSnapshot.DeathServerSeconds = Event.AttackServerSeconds;
 	StopRoute();
 	// EnemyId is match-unique and this transition occurs once, so it also forms a stable death event key.
 	OutDeath.MatchId = RouteSnapshot.MatchId;

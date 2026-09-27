@@ -216,6 +216,8 @@ bool ULDWaveDirector::HandleEnemyDeath(const FLDCombatDeath& Death)
 	if (!Enemy || Enemy->GetWorld() != GetWorld() || Enemy->GetCombatSnapshot().bAlive ||
 	    Enemy->GetCombatSnapshot().HP != 0 || Enemy->GetCombatSnapshot().SpawnSerial != Death.SpawnSerial ||
 	    Enemy->GetCombatSnapshot().SpawnWaveIndex != Death.SpawnWaveIndex ||
+	    Enemy->GetCombatSnapshot().SpawnedServerSeconds != Death.SpawnedServerSeconds ||
+	    Enemy->GetCombatSnapshot().DeathServerSeconds != Death.DeathServerSeconds ||
 	    Enemy->GetCombatSnapshot().EnemyTypeId != Death.EnemyTypeId)
 	{
 		return false;
