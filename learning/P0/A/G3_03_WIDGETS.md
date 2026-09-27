@@ -6,7 +6,7 @@
 |---|---|
 | 상위 TASK·정식 설계 | TASK-UI-01 중 A / [A-06](../../../docs/technical/IMPLEMENTATION_A.md#a06), [UI v2](../../../docs/design/BOARD_UI.md#ingame-ui-v2) |
 | 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작 / 구현 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `61fb3a74252fe2618758652a0e098fad0eecd13f` — 화면 검수 완료 아님 |
+| 참고 시작 / 현재 A Source SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `0d358bc5af920166bc517431848700d8c9c6a98f` — native 위젯 최초 구현 `61fb3a7`, 수업 조립 재현 완료 아님 |
 | 실제 개발 시작 / 완료 SHA | 자기 G2 통합 결과 / 미생성 |
 | 상대 산출물 | B Controller의 GameState 구독·Widget 생성/갱신/해제·시작 화면 복귀 |
 | 제공 / 직접 작성 | 제공: G2 UI 입력과 SafeArea 계약. 직접 작성: UI/LDBattleStatusWidget.h/.cpp, UI/LDResultWidget.h/.cpp |
@@ -45,13 +45,14 @@
 
 | 조건 | 기대 결과 | 실제 결과·범위 |
 |---|---|---|
-| 첫 연결·준비·일반 웨이브 | 실제 Phase/남은초/Wave/N 표시, 가짜10웨이브 예시값 없음 | 코드 작성, 실제 화면 미검수 |
+| 첫 연결·준비·일반 웨이브 | 실제 Phase/남은초/Wave/N 표시, 가짜10웨이브 예시값 없음 | 실제 PIE v2에서 양쪽 wave1/N2, 소유 소환·Gold80 확인; 후속 수정 뒤 미재실행 |
 | 보스 actor 미도착·snapshot 선도착 | 두 HP를 값으로 표시, actor 역참조0 | 코드 경로 검토, 실행 미검수 |
-| 패배/승리/Aborted | 각각 사유·웨이브·복귀 표시 | B 통합 대기 |
+| 패배/승리/Aborted | 각각 사유·웨이브·복귀 표시 | B 통합 완료; 실제 PIE v2 Aborted 복제 확인, 최종 패키지 표시 검수 대기 |
+| 보스 비치명타격 직후 Abort | 결과 최초 게시에서 실제 Actor HP5900/6000과 snapshot 일치 | A02 실제 Fail→Mode의 마지막 HP 갱신→NullRHI 회귀 Pass; 실제 화면은 후속 검수 |
 | HUD3회 재생성 | 구독1회/클릭1의도, 현재 상태 즉시표시 | B 수명 자동화/패키지 검수 대기 |
 | 좁은 화면/SafeArea | 상단·핵심 조작 잘림 없음, Return button 실측rect와 입력 일치 | 패키지/Android 미검수 |
 
-실제 캡처·컴파일·수명 결과는 [G3 A 공통 증거](G3_EVIDENCE.md)에 연결한다. 화면을 보지 않았으므로 현재 문구·최소 글자 크기의 가독성을 통과로 표시하지 않는다.
+실제 캡처·컴파일·수명 결과는 [G3 A 공통 증거](G3_EVIDENCE.md)에 연결한다. PIE v1은 같은 프레임의 host WAVE0/00:00 잔상이 있어 표시 검수를 보류했고, 양쪽 Running 뒤0.5초 대기한 v2는 실제2개 PIE World·양쪽 PNG·원설정 복원까지 Pass했다. 요청540×1170의 실제 창은 데스크톱 제약으로546×720이다. 이 한 크기의 관찰로 모든 화면비/물리 SafeArea/최소 글자 가독성을 통과 처리하지 않는다. 이후 A01/A02/준비 분기 수정 뒤 PIE·최종 패키지·수업 조립 재현은 미실행이다.
 
 ## 상대에게 전달하고 통합하기
 
