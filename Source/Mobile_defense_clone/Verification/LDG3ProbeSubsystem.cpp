@@ -194,6 +194,7 @@ void ULDG3ProbeSubsystem::BeginMatch(ALDGameMode* Mode, const FLDBattleSnapshot&
 	TerminalAt = 0;
 	EntryAt = 0;
 	LastWave = -1;
+	CaptureWaveAt = 0;
 	LastResultId = 0;
 	SuccessfulCommands = 0;
 	FailedCommands = 0;
@@ -545,10 +546,16 @@ void ULDG3ProbeSubsystem::TickLocal(ALDPlayerController& Controller, const FLDBa
 		Samples.Add(MakeShared<FJsonValueObject>(Item));
 		if (LastWave == 1 || LastWave == 10)
 		{
-			FScreenshotRequest::RequestScreenshot(
-			    OutputDirectory / FString::Printf(TEXT("match-%d-wave-%d.png"), CompletedMatches + 1, LastWave), true,
-			                                      false);
+			// The state may publish before the Controller updates UMG in this frame.
+			CaptureWaveAt = FPlatformTime::Seconds() + 0.5;
 		}
+	}
+	if (CaptureWaveAt > 0 && FPlatformTime::Seconds() >= CaptureWaveAt)
+	{
+		FScreenshotRequest::RequestScreenshot(
+		    OutputDirectory / FString::Printf(TEXT("match-%d-wave-%d.png"), CompletedMatches + 1, LastWave), true,
+		                                      false);
+		CaptureWaveAt = 0;
 	}
 	if (!Battle.IsTerminal())
 	{

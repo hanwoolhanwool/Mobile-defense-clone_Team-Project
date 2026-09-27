@@ -94,6 +94,7 @@ private:
 	double FinishAt = 0;
 	double ConnectedGameplaySeconds = 0;
 	double LastTickAt = 0;
+	double CaptureWaveAt = 0;
 	int64 EffectiveDamage[2] = {0, 0};
 	double FirstMergeAt[2] = {-1, -1};
 	int32 LocalPlayer = INDEX_NONE;

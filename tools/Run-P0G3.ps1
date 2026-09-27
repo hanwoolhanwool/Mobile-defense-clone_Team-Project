@@ -85,7 +85,7 @@ try {
     }
     if ($AllPassed) {
         $HostLog = Get-Content -LiteralPath "$RunRoot/host/engine.log" -Raw
-        $ObservedSeeds = @([regex]::Matches($HostLog, 'G[23] match ([A-Fa-f0-9-]+) rules=\S+ seed=(-?\d+)') | ForEach-Object {
+        $ObservedSeeds = @([regex]::Matches($HostLog, 'P0 match ([A-Fa-f0-9-]+) rules=\S+ seed=(-?\d+)') | ForEach-Object {
             [pscustomobject]@{MatchId=$_.Groups[1].Value; Seed=[int]$_.Groups[2].Value}
         })
         $HostResult = Get-Content -LiteralPath "$RunRoot/host/result.json" -Raw | ConvertFrom-Json
