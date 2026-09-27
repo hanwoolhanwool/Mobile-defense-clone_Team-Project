@@ -135,6 +135,12 @@ $Steps = @(
         "${SourceRoot}Verification/LDG3LoadProbeSubsystem.h", "${SourceRoot}Verification/LDG3LoadProbeSubsystem.cpp",
         'tools/Run-P0Load.ps1', 'tools/Analyze-P0Load.py'
     ) }
+    @{ Name = '14 provided packaged boundary, entry and concurrent-command supplements'; Lesson = 'G3_INTEGRATION.md / packaged supplements'; Kind = 'ProvidedVerification'; Sha = $SourceSha; Paths = @(
+        "${SourceRoot}Verification/LDG3BoundaryProbeSubsystem.h", "${SourceRoot}Verification/LDG3BoundaryProbeSubsystem.cpp",
+        "${SourceRoot}Verification/LDG3EntryProbeSubsystem.h", "${SourceRoot}Verification/LDG3EntryProbeSubsystem.cpp",
+        "${SourceRoot}Verification/LDG3NetConflictProbeSubsystem.h", "${SourceRoot}Verification/LDG3NetConflictProbeSubsystem.cpp",
+        'tools/Run-P0G3Supplement.ps1'
+    ) }
 )
 $AllPaths = @($Steps | ForEach-Object { $_.Paths })
 if (@($AllPaths | Select-Object -Unique).Count -ne $AllPaths.Count) { throw 'Manifest contains duplicate paths.' }
