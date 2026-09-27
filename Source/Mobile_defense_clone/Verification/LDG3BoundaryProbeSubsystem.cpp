@@ -26,6 +26,7 @@
 #include "Misc/OutputDevice.h"
 #include "Misc/OutputDeviceRedirector.h"
 #include "Misc/Paths.h"
+#include "Misc/ScopeLock.h"
 #include "Net/UnrealNetwork.h"
 #include "Network/LDCommandProcessor.h"
 #include "Serialization/JsonSerializer.h"
@@ -76,13 +77,30 @@ namespace
 	class FBoundaryWireObserver final : public FOutputDevice
 	{
 	public:
-		TFunction<void(const FString&)> Observe;
+		virtual bool CanBeUsedOnAnyThread() const override
+		{
+			return true;
+		}
 		virtual void Serialize(const TCHAR* V, ELogVerbosity::Type Verbosity, const FName& Category) override
 		{
-			if (IsInGameThread() && Category == TEXT("LogLDBoardInput") &&
-			                                         FCString::Strstr(V, TEXT("P0WIRE CLIENT ")) && Observe)
-				Observe(V);
+			if (Category == TEXT("LogLDBoardInput") && FCString::Strstr(V, TEXT("P0WIRE CLIENT ")))
+			{
+				FScopeLock Lock(&Mutex);
+				Pending.Add(V);
+			}
 		}
+		TArray<FString> Drain()
+		{
+			check(IsInGameThread());
+			FScopeLock Lock(&Mutex);
+			TArray<FString> Result = MoveTemp(Pending);
+			Pending.Reset();
+			return Result;
+		}
+
+	private:
+		FCriticalSection Mutex;
+		TArray<FString> Pending;
 	};
 } // namespace
 
@@ -195,6 +213,7 @@ struct FLDG3BoundaryState : public TSharedFromThis<FLDG3BoundaryState>
 	double Started = 0, EntryAt = 0, ActionAt = 0, Deadline = 0, TerminalAt = 0, FinishAt = 0, LastProgress = 0;
 	double FixtureViewAt = 0;
 	double LocalReadyAt = 0;
+	double SummonSentAt = 0;
 	double OldSentAt = 0, CapAt = 0, LastKillAt = 0, HitchBefore = 0, HitchAfterWall = 0;
 	int32 ActiveCase = 0, Completed = 0, Returns = 0, Timeout = 600, LocalIndex = INDEX_NONE, HitCount = 0;
 	uint64 UnitIds[2] = {0, 0};
@@ -299,6 +318,7 @@ struct FLDG3BoundaryState : public TSharedFromThis<FLDG3BoundaryState>
 		bLocalActorCaptured = false;
 		FixtureViewAt = 0;
 		LocalReadyAt = 0;
+		SummonSentAt = 0;
 		Deadline = TerminalAt = CapAt = LastKillAt = OldSentAt = 0;
 		bPrepared = bTerminalRecorded = bReadyAck = bCapTriggered = bNormalWait = bNormalRescheduled = bHitch = false;
 		bOldSent = bOldDone = bMoveSent = bReturning = bTerminalAuthorityChecked = false;
@@ -681,7 +701,7 @@ void FLDG3BoundaryState::Record(ALDPlayerController& PC, ALDG3BoundaryPeer& Peer
 	J->SetNumberField(TEXT("hitchSleptWallSeconds"), HitchAfterWall);
 	J->SetArrayField(TEXT("committedHitsOnAuthority"), Hits);
 	Cases.Add(MakeShared<FJsonValueObject>(J));
-	FScreenshotRequest::RequestScreenshot(Output / FString::Printf(TEXT("case%d-result.png"), Peer.CaseIndex), false,
+	FScreenshotRequest::RequestScreenshot(Output / FString::Printf(TEXT("case%d-result.png"), Peer.CaseIndex), true,
 	                                                               false);
 	bTerminalRecorded = true;
 	++Completed;
@@ -712,6 +732,11 @@ void FLDG3BoundaryState::Local(ALDPlayerController& PC, const FLDBattleSnapshot&
 	const double Now = FPlatformTime::Seconds();
 	if (!B.IsTerminal() && !bPrepared && (!LocalPeer.IsValid() || !LocalPeer->bFixtureReady))
 	{
+		if (bPurchaseSent && !bPurchaseCaptured && Now - SummonSentAt > 3)
+		{
+			Check(TEXT("paid-summon-response-timeout"), false);
+			return;
+		}
 		if (B.Phase != ELDMatchPhase::Preparing || !PC.IsLocalBoardReady() || PC.HasPendingCommand())
 			return;
 		// Snapshot readiness can precede the UMG layout/enabled-state update in this frame.
@@ -775,15 +800,11 @@ void FLDG3BoundaryState::Local(ALDPlayerController& PC, const FLDBattleSnapshot&
 		}
 		if (Now - ActionAt < .3)
 			return;
-		if (bPurchaseSent && !bPurchaseCaptured && Now - ActionAt > 3)
-		{
-			Check(TEXT("paid-summon-response-timeout"), false);
-			return;
-		}
 		FBox2D Rect;
 		if (Board.Units.IsEmpty() && !bPurchaseSent && PC.GetActionScreenRect(ELDCommandType::Summon, Rect))
 		{
 			ActionAt = Now;
+			SummonSentAt = Now;
 			bPurchaseSent = Click(Rect);
 			Check(TEXT("paid-summon-slate-click"), bPurchaseSent);
 			return;
@@ -831,7 +852,7 @@ void FLDG3BoundaryState::Local(ALDPlayerController& PC, const FLDBattleSnapshot&
 			Check(TEXT("actual-fixture-actors-replicated"), true, BattleKey(B));
 			Peer.ServerObserve(Match, 1, B.Revision, true);
 			FScreenshotRequest::RequestScreenshot(Output / FString::Printf(TEXT("case%d-ready.png"), Peer.CaseIndex),
-			                                                               false, false);
+			                                                               true, false);
 		}
 	}
 	if (Peer.CaseIndex == 2 && !bLocalNormalWait && Peer.bNormalWaitObserved && B.Phase == ELDMatchPhase::Running &&
@@ -840,7 +861,7 @@ void FLDG3BoundaryState::Local(ALDPlayerController& PC, const FLDBattleSnapshot&
 		bLocalNormalWait = true;
 		Check(TEXT("replicated-normal-one-past-boss-deadline"),
 		           World->GetGameState<ALDGameState>()->GetServerWorldTimeSeconds() > Peer.Deadline);
-		FScreenshotRequest::RequestScreenshot(Output / TEXT("case2-normal-wait.png"), false, false);
+		FScreenshotRequest::RequestScreenshot(Output / TEXT("case2-normal-wait.png"), true, false);
 	}
 	if (!B.IsTerminal())
 		return;
@@ -888,6 +909,13 @@ void FLDG3BoundaryState::Tick()
 		return;
 	World = W;
 	const double Now = FPlatformTime::Seconds();
+	// Log delivery may occur on a redirector thread. Only the game thread inspects match state.
+	if (Wire)
+		for (const FString& Line : Wire->Drain())
+			if (bOldSent && !bOldDone &&
+			    Line.Contains(FString::Printf(TEXT("P0WIRE CLIENT match=%s epoch=%llu id=%u "), *Match.ToString(),
+			                                       OldSummon.ConnectionEpoch, OldSummon.RequestId)))
+				OldReply = Line;
 	if (Now - Started > Timeout)
 		Check(TEXT("suite-timeout"), false);
 	if (bFailed || (FinishAt > 0 && Now >= FinishAt))
@@ -971,18 +999,6 @@ void ULDG3BoundaryProbeSubsystem::Initialize(FSubsystemCollectionBase& Collectio
 	State->bWritableOutput = IFileManager::Get().MakeDirectory(*State->Output, true);
 	State->Check(TEXT("evidence-directory-created"), State->bWritableOutput);
 	State->Wire = MakeUnique<FBoundaryWireObserver>();
-	TWeakPtr<FLDG3BoundaryState> Weak = State;
-	State->Wire->Observe = [Weak](const FString& Line)
-	{
-		if (auto S = Weak.Pin(); S && S->bOldSent && !S->bOldDone)
-		{
-			const FString Prefix =
-			    FString::Printf(TEXT("P0WIRE CLIENT match=%s epoch=%llu id=%u "), *S->Match.ToString(),
-			                         S->OldSummon.ConnectionEpoch, S->OldSummon.RequestId);
-			if (Line.Contains(Prefix))
-				S->OldReply = Line;
-		}
-	};
 	GLog->AddOutputDevice(State->Wire.Get());
 }
 void ULDG3BoundaryProbeSubsystem::Deinitialize()
