@@ -228,6 +228,7 @@ IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDWaveReadinessTest, "LD.P0.G3.Waves.LoadingPr
                                  EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
 bool FLDWaveReadinessTest::RunTest(const FString& Parameters)
 {
+	for (const double ReadyAt : {29.999, 30.0})
 	{
 		FWaveFixture F;
 		TestEqual(TEXT("Real match remains Loading before participants"), F.State()->GetPhase(),
@@ -236,23 +237,24 @@ bool FLDWaveReadinessTest::RunTest(const FString& Parameters)
 		               F.State()->GetBattleSnapshot().LoadingDeadlineServerSeconds, 30.0);
 		F.Login(0);
 		F.Mode->DispatchBeginPlay();
-		FLDWaveTestAccess::Advance(*F.Mode, 30.0);
-		TestEqual(TEXT("Exact 30 remains open for readiness"), F.State()->GetPhase(), ELDMatchPhase::Loading);
-		F.World->TimeSeconds = 30;
+		FLDWaveTestAccess::Advance(*F.Mode, ReadyAt);
+		TestEqual(FString::Printf(TEXT("Readiness boundary %.3f remains open"), ReadyAt), F.State()->GetPhase(),
+		                          ELDMatchPhase::Loading);
+		F.World->TimeSeconds = ReadyAt;
 		F.Login(1);
-		TestEqual(TEXT("Exact deadline readiness wins before timeout"), F.State()->GetPhase(),
+		TestEqual(TEXT("Before or exact deadline readiness wins before timeout"), F.State()->GetPhase(),
 		               ELDMatchPhase::Preparing);
 		TestEqual(TEXT("Preparation has its own ten seconds"),
-		               F.State()->GetBattleSnapshot().PreparationEndServerSeconds, 40.0);
+		               F.State()->GetBattleSnapshot().PreparationEndServerSeconds, ReadyAt + 10);
 		const FLDCommandResult Bought = F.Players[0]->SubmitServerCommand(F.Command(0, 1));
 		TestEqual(TEXT("Preparing accepts actual owned command"), Bought.ResultCode, ELDCommandResultCode::Success);
 		TestEqual(TEXT("First summon spends exactly20"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 80);
 		ALDUnitActor* Unit = nullptr;
 		F.Mode->GetBoardManager()->TryGetCommittedUnitActor(Bought.CreatedInstanceIds[0], Unit);
-		FLDWaveTestAccess::Advance(*F.Mode, 40.0);
+		FLDWaveTestAccess::Advance(*F.Mode, ReadyAt + 10);
 		TestEqual(TEXT("No early enemies or Running at open boundary"), F.State()->GetBattleSnapshot().ActiveEnemyCount,
 		               0);
-		FLDWaveTestAccess::Advance(*F.Mode, 40.0001);
+		FLDWaveTestAccess::Advance(*F.Mode, ReadyAt + 10.0001);
 		TestEqual(TEXT("Wave1 starts at preparation deadline"), F.State()->GetPhase(), ELDMatchPhase::Running);
 		TestEqual(TEXT("Exactly two first normal actors"), F.State()->GetBattleSnapshot().ActiveEnemyCount, 2);
 		ALDUnitActor* After = nullptr;
@@ -380,6 +382,25 @@ bool FLDWaveCapAndDeathTest::RunTest(const FString& Parameters)
 			TestEqual(TEXT("Later timeline cannot rescue latch"), F.State()->GetBattleSnapshot().Revision, Revision);
 		}
 		F.State()->OnMatchStateChanged.Clear();
+	}
+	{
+		FWaveFixture F;
+		F.Ready();
+		FLDWaveTestAccess::Advance(*F.Mode, 10.0001);
+		// Defensive corruption fixture: the public count is intentionally inconsistent with actual actors.
+		// The next production increase must use >=, not equality-only, and cannot leave N101 running.
+		FLDBattleSnapshot Corrupted = F.State()->GetBattleSnapshot();
+		Corrupted.ActiveEnemyCount = 100;
+		TestTrue(TEXT("Explicit over-cap baseline injection"), F.State()->UpdateBattle(Corrupted));
+		TestFalse(TEXT("N101 production increase stops director"), FLDWaveTestAccess::ExtraNormal(*F.Mode, 10.01));
+		TestEqual(TEXT("Defensive case actually observed N101"), F.State()->GetBattleSnapshot().ActiveEnemyCount, 101);
+		TestFalse(TEXT("N101 immediately closes commands"), F.Mode->CanAcceptCommands());
+		FLDWaveTestAccess::Advance(*F.Mode, 10.02);
+		TestEqual(TEXT("N101 is an enemy-limit defeat"), F.State()->GetBattleSnapshot().ResultReason,
+		               ELDResultReason::EnemyLimit);
+		TestEqual(TEXT("N101 preserves original event time"), F.State()->GetBattleSnapshot().ResultServerSeconds,
+		               10.01);
+		TestEqual(TEXT("Defensive injection grants no reward"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 100);
 	}
 	return true;
 }
