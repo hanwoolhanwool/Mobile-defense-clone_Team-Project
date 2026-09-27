@@ -10,10 +10,12 @@
 #include "Core/LDGameMode.h"
 #include "Core/LDPlayerController.h"
 #include "Data/LDGameData.h"
+#include "Economy/LDEconomyService.h"
 #include "Engine/Engine.h"
 #include "Engine/Player.h"
 #include "Engine/World.h"
 #include "Misc/AutomationTest.h"
+#include "Network/LDCommandProcessor.h"
 
 namespace
 {
@@ -368,6 +370,65 @@ bool FLDP0OpenFrameBoundaryTest::RunTest(const FString& Parameters)
 		               bSellAtBoundary ? 100 : 101);
 		Fixture.Mode->EndPlay(EEndPlayReason::EndPlayInEditor);
 	}
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDP0CrossMatchEpochTest, "LD.P0.G3.Lifetime.PreviousMatchRequestRejected",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+
+bool FLDP0CrossMatchEpochTest::RunTest(const FString& Parameters)
+{
+	FLDCommand PreviousRequest;
+	FGuid PreviousMatch;
+	{
+		FServerLifecycleFixture First;
+		First.PrepareServices();
+		ALDPlayerController* Owner = First.CreateController();
+		ALDPlayerController* Peer = First.CreateController();
+		if (!Owner || !Peer)
+		{
+			AddError(TEXT("First match needs two real controllers"));
+			return false;
+		}
+		First.Mode->PostLogin(Owner);
+		First.Mode->PostLogin(Peer);
+		First.Mode->DispatchBeginPlay();
+		PreviousRequest = CommandFor(*Owner, 1);
+		PreviousMatch = Owner->GetPlayerState<ALDPlayerState>()->GetParticipantContext().MatchId;
+		TestEqual(TEXT("Previous payload was a valid committed summon"),
+		               Owner->SubmitServerCommand(PreviousRequest).ResultCode, ELDCommandResultCode::Success);
+		First.Mode->EndPlay(EEndPlayReason::EndPlayInEditor);
+	}
+	FServerLifecycleFixture Next;
+	Next.PrepareServices();
+	ALDPlayerController* Owner = Next.CreateController();
+	ALDPlayerController* Peer = Next.CreateController();
+	if (!Owner || !Peer)
+	{
+		AddError(TEXT("Next match needs two real controllers"));
+		return false;
+	}
+	Next.Mode->PostLogin(Owner);
+	Next.Mode->PostLogin(Peer);
+	Next.Mode->DispatchBeginPlay();
+	const FLDParticipantContext Current = Owner->GetPlayerState<ALDPlayerState>()->GetParticipantContext();
+	TestTrue(TEXT("A fresh World owns a distinct match"), Current.MatchId != PreviousMatch);
+	TestTrue(TEXT("New match does not reuse the earlier wire generation"),
+	              Current.ConnectionEpoch != PreviousRequest.ConnectionEpoch);
+	const int32 RandomBefore = Next.Mode->GetEconomyService()->GetRandomState(0);
+	const FLDCommandResult Replayed = Owner->SubmitServerCommand(PreviousRequest);
+	TestEqual(TEXT("Old wire payload rejected before fresh-match purchase"), Replayed.ResultCode,
+	               ELDCommandResultCode::InvalidEpoch);
+	TestEqual(TEXT("Fresh balance remains 100"), Next.Mode->GetEconomyService()->GetSnapshot(0).Gold, 100);
+	TestEqual(TEXT("Fresh paid summon count remains zero"),
+	               Next.Mode->GetEconomyService()->GetSnapshot(0).PaidSummonCount, 0);
+	TestEqual(TEXT("Fresh population remains zero"), Next.Mode->GetBoardManager()->GetSnapshot(0).Population, 0);
+	TestEqual(TEXT("Fresh board revision remains zero"), Next.Mode->GetBoardManager()->GetSnapshot(0).BoardRevision, 0);
+	TestEqual(TEXT("Stale payload does not draw randomness"), Next.Mode->GetEconomyService()->GetRandomState(0),
+	               RandomBefore);
+	TestEqual(TEXT("Stale payload is not entered into new-match cache"),
+	               Next.Mode->GetCommandProcessor()->GetCachedResultCount(0), 0);
+	Next.Mode->EndPlay(EEndPlayReason::EndPlayInEditor);
 	return true;
 }
 
