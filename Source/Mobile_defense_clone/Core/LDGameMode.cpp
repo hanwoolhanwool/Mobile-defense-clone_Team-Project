@@ -297,7 +297,8 @@ bool ALDGameMode::CanAcceptCommands() const
 {
 	const ALDGameState* State = GetGameState<ALDGameState>();
 	return HasAuthority() && !bEnding && PendingResult == ELDMatchResult::None && !bG1Probe && bServicesReady &&
-	       State && (State->GetPhase() == ELDMatchPhase::Preparing || State->GetPhase() == ELDMatchPhase::Running);
+	       State && (!bG2Probe || State->GetPhase() == ELDMatchPhase::Running) &&
+	       (State->GetPhase() == ELDMatchPhase::Preparing || State->GetPhase() == ELDMatchPhase::Running);
 }
 
 void ALDGameMode::RefreshReadiness()
@@ -518,6 +519,12 @@ void ALDGameMode::AdvanceTimelineBefore(double ServerSeconds)
 	}
 	if (State->GetPhase() == ELDMatchPhase::Preparing)
 	{
+		// Combat-only fixtures have no preparation deadline or WaveDirector. RefreshReadiness owns their
+		// transition once both participants and services are ready; timer ticks must keep waiting here.
+		if (bG2Probe)
+		{
+			return;
+		}
 		const double StartSeconds = State->GetBattleSnapshot().PreparationEndServerSeconds;
 		if (StartSeconds >= ServerSeconds)
 		{
