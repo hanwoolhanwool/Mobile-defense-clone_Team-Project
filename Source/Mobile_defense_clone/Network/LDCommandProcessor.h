@@ -26,6 +26,8 @@ public:
 	void EnqueueCombatReward(const FLDCombatDeath& Death);
 	void DrainCombatRewards();
 	FLDBeforeExternalCommand BeforeExternalCommand;
+	// The composition owner may finalize a clock-triggered result only after prior rewards are committed.
+	FSimpleDelegate AfterExternalCommandClock;
 	void SetAcceptingCommands(bool bAccept);
 	void Close();
 	FLDCommandResult Submit(const FLDParticipantContext& Context, const FLDCommand& Command);
