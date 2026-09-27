@@ -80,6 +80,14 @@ struct FLDWaveTestAccess
 	{
 		return Mode.GetWaveDirector()->SpawnEnemy(0, Mode.GetGameData()->GetWaves()[0], At);
 	}
+	static bool ReplaceSpawnFactory(ALDGameMode& Mode, FLDEnemyActorFactory Factory)
+	{
+		Mode.WaveDirector->Stop();
+		Mode.WaveDirector = NewObject<ULDWaveDirector>(&Mode);
+		Mode.WaveDirector->OnTerminalRequested.AddUObject(&Mode, &ALDGameMode::RequestTerminal);
+		return Mode.WaveDirector->Initialize(*Mode.GameData, *Mode.GetGameState<ALDGameState>(), *Mode.CombatService,
+		                                     MoveTemp(Factory));
+	}
 };
 
 namespace
@@ -450,4 +458,60 @@ bool FLDWaveModeBoundaryTest::RunTest(const FString& Parameters)
 	return true;
 }
 
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDWaveFailureTest, "LD.P0.G3.Waves.PartialBossSpawnFailureAndForeignWorld",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FLDWaveFailureTest::RunTest(const FString& Parameters)
+{
+	for (bool bForeignWorld : {false, true})
+	{
+		FWaveFixture F;
+		F.Ready();
+		UWorld* ForeignWorld = nullptr;
+		ALDEnemyActor* ForeignActor = nullptr;
+		if (bForeignWorld)
+		{
+			ForeignWorld = UWorld::CreateWorld(EWorldType::Game, false);
+			GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(ForeignWorld);
+			ForeignActor = ForeignWorld->SpawnActor<ALDEnemyActor>();
+		}
+		int32 Calls = 0;
+		TestTrue(TEXT("One injected actor factory at existing spawn seam"),
+		              FLDWaveTestAccess::ReplaceSpawnFactory(*F.Mode,
+		                                                     [&](UWorld& World) -> ALDEnemyActor*
+		                                                     {
+			                                                     ++Calls;
+			                                                     return Calls == 2 ? ForeignActor
+			                                                                       : World.SpawnActor<ALDEnemyActor>();
+		                                                     }));
+		FLDWaveTestAccess::JumpToFinal(*F.Mode, 10);
+		TestEqual(TEXT("Exactly the second boss creation fails"), Calls, 2);
+		TestFalse(TEXT("Partial boss creation never reports final generation complete"),
+		               F.State()->GetBattleSnapshot().bFinalSpawnsComplete);
+		TestEqual(TEXT("Only successful first boss had a committed snapshot"),
+		               F.State()->GetBattleSnapshot().Bosses.Num(), 1);
+		FLDWaveTestAccess::Advance(*F.Mode, 10.001);
+		TestEqual(TEXT("Required actor failure ends with explicit Aborted"), F.State()->GetBattleSnapshot().Result,
+		               ELDMatchResult::Aborted);
+		TestEqual(TEXT("Failure reason is initialization, not a victory or timeout"),
+		               F.State()->GetBattleSnapshot().ResultReason, ELDResultReason::InitializationFailure);
+		TestEqual(TEXT("No combat enemy registration remains"), F.Mode->GetCombatService()->GetRegisteredEnemyCount(),
+		               0);
+		TestEqual(TEXT("No director registration remains"), F.Mode->GetWaveDirector()->GetTrackedEnemyCount(), 0);
+		TestFalse(TEXT("Owned logic timer was cleared"), F.Mode->IsLogicTimerActive());
+		const int32 Revision = F.State()->GetBattleSnapshot().Revision;
+		FLDWaveTestAccess::Advance(*F.Mode, 100);
+		TestEqual(TEXT("No late retry or terminal mutation"), F.State()->GetBattleSnapshot().Revision, Revision);
+		TestEqual(TEXT("No spawn failure reward"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 100);
+		if (ForeignWorld)
+		{
+			TestFalse(TEXT("Foreign actor is not initialized or deleted by this match"),
+			               ForeignActor->IsActorBeingDestroyed());
+			TestEqual(TEXT("Foreign actor retains uninitialized ID"), ForeignActor->GetRouteSnapshot().EnemyId,
+			               uint64(0));
+			ForeignWorld->DestroyWorld(false);
+			GEngine->DestroyWorldContext(ForeignWorld);
+		}
+	}
+	return true;
+}
 #endif

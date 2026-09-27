@@ -11,6 +11,7 @@ class ALDGameState;
 class ULDCombatService;
 class ULDGameData;
 struct FLDWaveRow;
+using FLDEnemyActorFactory = TFunction<ALDEnemyActor*(UWorld&)>;
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FLDWaveTerminalRequested, ELDMatchResult, ELDResultReason, double);
 
 // Owns schedule cursors and enemy membership. GameState owns the published match state, actors own HP.
@@ -21,7 +22,8 @@ class MOBILE_DEFENSE_CLONE_API ULDWaveDirector : public UObject
 	GENERATED_BODY()
 public:
 	virtual UWorld* GetWorld() const override;
-	bool Initialize(ULDGameData& Data, ALDGameState& State, ULDCombatService& Combat);
+	bool Initialize(ULDGameData& Data, ALDGameState& State, ULDCombatService& Combat,
+	                FLDEnemyActorFactory ActorFactory = {});
 	bool StartAt(double ServerSeconds);
 	double GetNextEventSeconds() const;
 	void ProcessEventsAt(double ServerSeconds);
@@ -52,6 +54,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<ULDCombatService> CombatService;
 	TMap<uint64, TWeakObjectPtr<ALDEnemyActor>> LivingEnemies;
+	FLDEnemyActorFactory SpawnActor;
 	TSet<uint64> NormalEnemies;
 	double WaveStartSeconds = 0;
 	double LastDeathServerSeconds = 0;
