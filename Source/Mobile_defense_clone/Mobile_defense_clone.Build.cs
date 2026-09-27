@@ -25,6 +25,11 @@ public class Mobile_defense_clone : ModuleRules
 
 		// Strict runtime P0 JSON loading; no editor-only importer dependency.
 		PrivateDependencyModuleNames.AddRange(new string[] { "Json", "SlateCore" });
+		if (Target.bBuildEditor)
+		{
+			// Actual PIE lifecycle automation is compiled only for Editor targets.
+			PrivateDependencyModuleNames.Add("UnrealEd");
+		}
 
 		PublicIncludePaths.AddRange(new string[] {
 			"Mobile_defense_clone",
