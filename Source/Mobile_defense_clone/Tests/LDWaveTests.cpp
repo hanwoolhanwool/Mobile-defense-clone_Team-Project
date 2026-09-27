@@ -538,7 +538,7 @@ bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
 		return false;
 	}
 	Unit->ApplyCommittedPlacement(Placement, FTransform::Identity);
-	F.Mode->GetCombatService()->RegisterCommittedUnit(*Unit, 10);
+	F.Mode->GetCombatService()->RegisterCommittedUnit(*Unit, 10.75);
 	int32 DamageCount = 0;
 	int32 ObservedDamage = 0;
 	bool bResultSawReward = false;
@@ -561,8 +561,8 @@ bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
 	    });
 	AddExpectedError(TEXT("Match aborted: damage observer requests shutdown"), EAutomationExpectedErrorFlags::Contains,
 	                      1);
-	F.World->TimeSeconds = 10.3f;
-	FLDWaveTestAccess::Advance(*F.Mode, 10.3);
+	F.World->TimeSeconds = 11.1f;
+	FLDWaveTestAccess::Advance(*F.Mode, 11.1);
 	TestEqual(TEXT("One already committed hit remains observable through self-clear"), DamageCount, 1);
 	TestEqual(TEXT("Effective damage excludes930 overkill"), ObservedDamage, 70);
 	TestTrue(TEXT("Approved death reward precedes terminal result despite observer stop"), bResultSawReward);
@@ -572,6 +572,8 @@ bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("Observer stop leaves no combat enemy registration"),
 	               F.Mode->GetCombatService()->GetRegisteredEnemyCount(), 0);
 	TestFalse(TEXT("Observer stop clears owned mode timer"), F.Mode->IsLogicTimerActive());
+	TestEqual(TEXT("Same timestamp scheduled spawns remain cancelled after observer Abort"),
+	               F.State()->GetBattleSnapshot().ActiveEnemyCount, 1);
 	F.State()->OnMatchStateChanged.Clear();
 	return true;
 }
