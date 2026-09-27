@@ -1,0 +1,23 @@
+> node tools/build-design-data.mjs --check
+Checked 8 DataTables and GameRules.json
+> node tools/validate-design-data.mjs --check
+{
+  "checks": 2689,
+  "errors": [],
+  "totalNormalEnemies": 2880,
+  "totalBosses": 16,
+  "totalKillGoldPerPlayer": 5040
+}
+> node tools/validate-planning.mjs
+{
+  "result": "PASS",
+  "checks": 6937,
+  "markdownFiles": 59,
+  "metadataDocuments": 34,
+  "editableTopicDocuments": 10,
+  "tasks": 38,
+  "qaCases": 102,
+  "errors": []
+}
+> node tools/check-code-style.mjs
+Code style: 55 checked (includes formatting sample), 48 unchanged legacy files, 0 errors.
