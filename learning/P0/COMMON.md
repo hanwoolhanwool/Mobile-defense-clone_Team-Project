@@ -19,7 +19,7 @@
 
 ## G0 출발점부터 참고 파일 조립하기
 
-이 절차는 **참고 수업에 적힌 입력과 파일 목록으로 빌드 가능한 참고본을 재현하는 검사**다. 학습자의 직접 구현·이해 확인·수업 이수 증거가 아니다. 2026-09-18 A/B 각각 실제 조립·Editor·자동화를 통과했다. A-01 데이터 수업의 참고 제작만 해당 범위에서 Verified이며 PIE/RPC가 남은 A-02·B-01·B-02는 Draft, 실제 학습은 모두 Planned다. `learn/p0-*`에 적용하지 않으며 전체 참고 브랜치 병합도 하지 않는다. [결과·환경·한계](evidence/G0_REPLAY/SUMMARY.md).
+이 절차는 **참고 수업에 적힌 입력과 파일 목록으로 빌드 가능한 참고본을 재현하는 검사**다. 학습자의 직접 구현·이해 확인·수업 이수 증거가 아니다. 2026-09-18 A/B 조립·Editor·자동화에 이어2026-09-27 독립 G0 실제 PIE를 실행했다. A-01 데이터·A-02 TopDown/native 매치와 B-01/02의 native 경로는 해당 범위에서 Verified이며 실제 학습은 모두 Planned다. B/canonical은 [별도 입력·실행 증거](evidence/G0_REPLAY/B-network.md)로 판정하며 A 성공을 승계하지 않는다. `learn/p0-*`에 적용하지 않고 전체 참고 브랜치도 병합하지 않는다. [결과·환경·한계](evidence/G0_REPLAY/SUMMARY.md).
 
 | 입력 | 고정 SHA | 필요한 범위 |
 |---|---|---|
@@ -64,7 +64,13 @@ git -C $ReplayRoot rev-parse HEAD
 
 G0-01과 G0-02는 같은 모듈로 컴파일한다. A의 로더 테스트가 G0-02의 MatchTypes를 사용하고, B의 GameMode가 G0-02의 Controller/Processor를 참조한다. 따라서 **각 역할의 두 수업 파일을 모두 작성한 뒤 Editor 빌드는 한 번** 수행한다. A 필터4개는 데이터·참가자 값 계약 검사이고 Core 매치 실행 검사가 아니다. B 필터4개 중 BIndependentLoader 1개는 G0-01, AdmissionAndReplay/LimitsAndExpiry/PayloadNormalization 3개는 G0-02의 부분 검사다. 각 수업 이름에 따라 동일 빌드를 반복하거나 부분 Pass를 역할 전체·네트워크 Pass로 올리지 않는다.
 
-수업 재현을 완료한 담당자는 원본 SHA/조립 manifest, 실제 새 로그 경로, 실행 환경, 기대값과 결과, 미검증을 각 수업에 연결한다. 참고 조립·Editor·자동화의 재현을 통과했어도 A-02의 PIE 수명/접속, B-02의 RPC 양방향, 통합 종료/준비 경계 관찰이 없으면 해당 수업 전체를 Verified로 표시하지 않는다. 실제 학습자는 제공 도구/JSON만 받아 수업 순서로 소스를 직접 작성하고 자기 커밋·실행·변형 과제·상대 리뷰를 따로 남긴다.
+수업 재현을 완료한 담당자는 원본 SHA/조립 manifest, 실제 새 로그 경로, 실행 환경, 기대값과 결과, 미검증을 각 수업에 연결한다. 참고 조립·Editor·자동화만 통과하고 A-02의 PIE 수명/접속, B-02의 RPC 양방향, 통합 종료/준비 경계 관찰이 없으면 해당 수업 전체를 Verified로 표시하지 않는다. A-02의 기존 결손은 아래 독립 native 실행으로 채웠으며 수동 BP 경로는 여전히 미검증이다. 실제 학습자는 제공 도구/JSON만 받아 수업 순서로 소스를 직접 작성하고 자기 커밋·실행·변형 과제·상대 리뷰를 따로 남긴다.
+
+### A-02 실제 native PIE 재현
+
+[A 실행·설치·독립 기대값](evidence/G0_REPLAY/a-network.md)에 절차를 모았다. 원래 A21파일/제품4cc3e0f를 유지하고 제공 검사기fdc12b7을 Tests에 추가한다. Build.cs에는 Editor-only UnrealEd/SlateCore만 추가하며 A Core/Data/기존 테스트를 바꾸지 않는다. 누락 검사는 **다른 새 detached 폴더**에 위 조립 명령의 `-MissingRulesFixture`를 추가해 GameRules.json을 처음부터 제외한다. 기존 파일을 삭제하지 않는다.
+
+Editor를 다시 빌드한 뒤 `learning/tools/Test-P0G0PIE.ps1 -ProjectRoot <새 재현 폴더> -RunId <새 ID> -Filter LD.PIE.G0.A.MatchLifecycle`을 직렬 실행한다. 누락 fixture는 필터를 `LD.PIE.G0.A.MissingData`로 바꾼다. 실제 GPU PIE이며 요청 단위로 TopDown/native LDGameMode·listen/client2 World를 설정하고 맵을 저장하지 않는다. 정상2세션/누락1세션, 최종 Automation report Success와 proof Pass·원설정 복원·World0을 함께 요구한다. 경고 원문과 실제 창 크기는 위 증거에 남기며 패키지·Android 통과로 표시하지 않는다.
 
 ## 이번 재현 결과
 

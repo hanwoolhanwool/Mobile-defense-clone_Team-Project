@@ -1,0 +1,30 @@
+{
+  "Scope": "Provided G0 verification harness; actual GPU Editor PIE networking, not packaged or Android",
+  "Head": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+  "ProjectRoot": "C:\\Users\\iam12\\P0_lesson_replay_a_missing",
+  "Filter": "LD.PIE.G0.A.MissingData",
+  "Started": "2026-09-27T23:51:29.2672563+09:00",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+  "Arguments": [
+    "C:\\Users\\iam12\\P0_lesson_replay_a_missing\\Mobile_defense_clone.uproject",
+    "-unattended",
+    "-nosound",
+    "-nosplash",
+    "-RenderOffscreen",
+    "-culture=ko",
+    "-ModelContextProtocolPort=17879",
+    "-P0PIERun=G0-actual-network-replay-A-missing-pie-proof",
+    "-ExecCmds=Automation RunTests LD.PIE.G0.A.MissingData",
+    "-TestExit=Automation Test Queue Empty",
+    "-ReportExportPath=C:\\Users\\iam12\\P0_lesson_replay_a_missing\\Saved\\P0Runs\\G0-actual-network-replay-A-missing-pie/report",
+    "-abslog=C:\\Users\\iam12\\P0_lesson_replay_a_missing\\Saved\\P0Runs\\G0-actual-network-replay-A-missing-pie/engine.log"
+  ],
+  "Result": "Pass",
+  "ProcessId": 48816,
+  "ExitCode": 0,
+  "Succeeded": 1,
+  "Warnings": 1,
+  "Failed": 0,
+  "SettingsRestored": true,
+  "Finished": "2026-09-27T23:51:59.5714005+09:00"
+}

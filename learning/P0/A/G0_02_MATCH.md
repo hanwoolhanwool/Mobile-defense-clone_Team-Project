@@ -5,11 +5,11 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-NET-01 중 A / [A-02 설계](../../../docs/technical/IMPLEMENTATION_A.md#a02) |
-| 참고 자료 제작 상태 | Draft — 출발점 조립·합친 컴파일 재현 Pass, PIE 접속·복제 미검증 |
+| 참고 자료 제작 상태 | Verified — 고정 독립 A 소스의 TopDown/native LDGameMode 조립·Editor·실제 PIE 정상/누락 경로. 수동 BP 에셋 재생성은 미검증 |
 | 실제 개발 상태 | Planned |
 | 참고 시작/완료 SHA | `8c6856d235de87cc28c12b49ca775bd0937334a5` / 독립 코드 `4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6`; 출발 HEAD의 [조립 manifest](../evidence/G0_REPLAY/a-assembly.json)로 재현 |
 | 실제 개발 시작/완료 SHA | 출발점만 준비 / 미생성 |
-| 필요한 상대 산출물·버전 | A-01 규칙 로더, B Controller·CommandProcessor 선언 및 구현 |
+| 필요한 상대 산출물·버전 | A-01 규칙 로더. 독립 A 실행은 B 서비스를 Stub으로 두며 B Controller·Processor 실제 연결은 통합 수업 |
 | 제공 코드 / 직접 작성할 코드 | 제공: 기본 UE 프로젝트·A-01 직접 작성 결과. 직접 작성: Data/LDMatchTypes.h, Core/LDGameMode.*, Core/LDGameState.*, Core/LDPlayerState.* |
 
 ## 이번에 만들 동작
@@ -38,11 +38,13 @@
 | ARCH-03 원본 | Phase의 원본은 서버 GameState, 규칙은 매치별 ULDGameData. 참가자 연결은 GameMode가 발급 |
 | ARCH-04 처리 | 데이터 전체 검증 뒤 게시. 경제/보드 공동 확정은 이 단계에서 구현하지 않음 |
 | ARCH-05 수명 | UObject 소유는 UPROPERTY/TObjectPtr, Controller 관찰은 TWeakObjectPtr, 종료는 한 경로 |
-| ARCH-06 검증 | 실제 코드 Automation 신원 경계 + Editor/UHT 필수. 네트워크 복제·반복 매치는 별도 실행 필요 |
+| ARCH-06 검증 | 실제 코드 Automation 신원 경계 + Editor/UHT. 독립 A의 실제 PIE 두 세션·셋째 접속·복제·누락 초기화는 [별도 실행](../evidence/G0_REPLAY/a-network.md)으로 확인 |
 
 ## Unreal 설정 순서
 
-아래 에셋 작성은 재현 절차이며 실제 A 역할에서 생성/저장한 바이너리 에셋이 아니다. 공용 에셋·맵 편집권은 통합 담당자가 직렬로 갖는다.
+**확인한 native 경로:** 기존 `/Game/TopDown/Lvl_TopDown`을 요청 한정 native ALDGameMode override로 실행한다. 부모 클래스 기본값의 GameState=LDGameState, PlayerState=LDPlayerState, PlayerController=기본 PlayerController, DefaultPawn=None을 사용한다. 제공 검사기는 ListenServer·한 프로세스2인·요청 창540×720·온라인 subsystem 끔으로 설정하고 종료 후 원래 Editor 설정을 복원한다. 맵/BP를 저장하지 않는다. 설치·누락 fixture·실행 인수와 기대값은 [실제 native 재현 절차](../evidence/G0_REPLAY/a-network.md)에 둔다.
+
+아래 **선택적 수동 BP 구성안은 미검증**이다. native 경로와 같은 클래스를 연결하는 방법을 보존하며 BP 에셋 생성/저장을 실제 통과로 기록하지 않는다. 공용 에셋·맵 편집권은 통합 담당자가 직렬로 갖는다.
 
 | 순서 | 에디터 위치·에셋 | 부모/프로퍼티/연결과 값 | 이유·기대 화면 |
 |---|---|---|---|
@@ -54,25 +56,26 @@
 | 6 | Play 드롭다운 → Advanced Settings → Multiplayer | Number of Players=2, Net Mode=Play As Listen Server | G0 공통 상태만 관찰; 최종 PC 두 프로세스 검수를 대신하지 않음 |
 | 7 | UMG/HUD | G0 A에서 새 위젯 없음 | 화면상의 성공 대신 준비 사유가 복제되는지 먼저 확인 |
 
-예상 관찰은 `LogLDMatch: G0 match <GUID> rules=0.3.0 units=16 waves=10`, 참가자0/1의 서로 다른 epoch, `Preparing: 2/2 participants; Stub: ... not connected`다. 전장/버튼/공격이 나타나는 것은 이 수업의 기대 결과가 아니다. 실제 화면 캡처·PIE 로그는 아직 없다.
+예상 관찰은 `LogLDMatch: G0 match <GUID> rules=0.3.0 units=16 waves=10`, 참가자0/1의 서로 다른 epoch, `Preparing: 2/2 participants; Stub: ... not connected`다. 실제 정상 두 세션에서 이를 확인했다. [host](../evidence/G0_REPLAY/a-native-host.png)·[client](../evidence/G0_REPLAY/a-native-client.png)는 템플릿 벽·하늘만 보이는546×720 기본 카메라 화면이며 G0 HUD/전장/버튼은 없다. 상태 Pass는 화면 모양이 아니라 실제 World의 복제값과 OnRep 관찰로 판단한다.
 
 ## 실행·실패·수정 기록
 
-새 출발점의 조립·컴파일 재현은 Pass다. [공통 재현 절차](../COMMON.md#g0-replay)로 A-01/02를 함께 조립·빌드했고 `LD.P0.G0.Data`4Success 중 ParticipantIdentity가 이 수업의 값 경계 부분 검사다([새 증거](../evidence/G0_REPLAY/SUMMARY.md)). 이 결과는 A 독립 GameMode의 접속·종료 실행이나 네트워크 복제의 Pass가 아니다. 별도로 수정한 canonical 통합은 실제 UWorld/GameMode/Controller 수명4개를 포함한12개 자동화가 Pass지만 실제 PIE 두 화면/RPC는 남아 있어 수업 상태를 Draft로 유지한다.
+새 출발점의 조립·컴파일과 `LD.P0.G0.Data`4Success 중 ParticipantIdentity 값 경계는 [기존 증거](../evidence/G0_REPLAY/SUMMARY.md)다. 2026-09-27 추가한 **독립 A 실제 PIE**는 제품4cc3e0f를 유지하고 제공 검사기fdc12b7만 별도로 설치했다. 정상 두 세션 및 JSON 누락의 별도 조립 한 세션을 각각 빌드·실행해 report Success1/Fail0, 설정 복원·World0을 확인했다. 이 추가 실행으로 native 경로의 접속·종료·실제 복제 결손을 채웠다. canonical/B 성공이나 G3 성공을 독립 A에 승계하지 않았다.
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
-| 정상 로드 + 두 접속 | 동일 MatchId, PlayerIndex0/1, Preparing, 요청 비활성 | NotRun | PIE 2인 예정 |
+| 정상 로드 + 두 접속 | 동일 MatchId, PlayerIndex0/1, Preparing, 요청 비활성 | Pass | 실제 listen/client2 World, epoch1/2, client OnRep·owner private 복제 경계 |
 | 빈 문맥·PlayerIndex=-1/2·epoch0 | IsValid=false | Pass | `LD.P0.G0.Data.ParticipantIdentity`; [실제 증거](evidence/G0_RUNTIME.md) |
-| 동일 초기화/동일 PostLogin 재호출 | ID·세대·구독 중복 없음 | 코드 경로 검토, 실제 실행 NotRun | GameState/PlayerState Initialize, GameMode PostLogin |
-| 데이터 누락 | 구체적 오류와 Aborted, 새 접수0 | NotRun | A-01 실패 픽스처 + 매치 실행 필요 |
-| 세 번째 참가자 | 슬롯을 덮어쓰지 않고 거절 | NotRun | 세 접속 실행 필요 |
-| Result/Aborted 뒤 재진입·반복 EndPlay | 상태 되돌림0, 예약/구독 없음 | 정적 경로 검토, 실제 실행 NotRun | SetPhase/StopMatchServices |
+| 동일 초기화/동일 PostLogin 재호출 | ID·세대·원래 객체 보존 | Pass | 실제 Mode 공개 초기화/PostLogin 재호출, 로더 동일·다른 문맥 거절 |
+| 데이터 누락 | 구체적 오류와 Aborted, 새 접수0 | Pass | 신규20파일 fixture에서 GameRules.json을 처음부터 제외; 실제 Mode 로딩 Abort |
+| 세 번째 참가자 | 슬롯을 덮어쓰지 않고 거절 | Pass | RequestLateJoin의 실제 NetConnection/PostLogin→Logout/Destroy, 원래2슬롯 유지 |
+| Result/Aborted 뒤 재진입·반복 EndPlay | 상태 되돌림0, 예약 정리 | Pass | 공개 전이 fixture→client 복제·역전 거절, 실제 Mode-bound 검사 타이머 제거. 새 PIE MatchId 변경·각World0 |
 | C++ 서식/공백 | 오류0 | Pass | [정적 기록](evidence/G0_STATIC.md) |
 | Editor 컴파일 | UHT/C++/링크 성공 | 첫 빌드 Fail; 로더 문자열 오류 수정 후 재빌드 Pass | [A-01 실패 기록](G0_01_DATA.md), [실제 증거](evidence/G0_RUNTIME.md) |
-| 네트워크·패키지·Android | 각 검수 성공 | NotRun | 통합 담당자가 직렬 실행 예정 |
+| 실제 PIE 네트워크 | 해당 native 절차의 복제·접속·종료 | Pass, 경고 있음 | [실행·입력·경고·한계](../evidence/G0_REPLAY/a-network.md); B 게임명령 RPC는 다른 수업 |
+| 선택 BP 재생성·패키지·Android | 각 검수 성공 | NotRun | 이 수업 Verified 범위에 포함하지 않음 |
 
-실제 컴파일 실패와 문자열 연결 수정 후 재빌드 Pass는 A-01에 기록했다. 게임 실행 화면은 아직 없다. 정적 리뷰 수정도 A-01의 정책/좌표 검증에 기록했으며 해당 변조 입력이 실제 UE 자동화에서 거절되는 것을 확인했다.
+실제 컴파일 실패와 문자열 연결 수정 후 재빌드 Pass는 A-01에 기록했다. 이번 정상 PIE는 경고4개(셋째 거절 ConnectionLost1/CrowdFollowing3), 누락은 CrowdFollowing1개와 함께 성공했다. 무경고로 기록하지 않는다. 제공 검사기의 delegate 조기 구독·네트워크 observer 수명·시작 timeout 문제는 **실행 전 정적 발견**으로 수정했고 실제 런타임 실패로 분류하지 않는다. 상세 SHA와 원문은 공통 [A 네트워크 증거](../evidence/G0_REPLAY/a-network.md)에서 관리한다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -92,7 +95,8 @@ GameState API는 `InitializeMatch`, `SetPhase`, `GetPhase`, `GetMatchContext`, `
 
 ## 단계 완료
 
-- [x] 출발점의 A-01/02 파일 조립·UFS 설정·합친 Editor 빌드를 재현했다. 독립 PIE 설정/실행은 남아 있다.
-- [x] Unreal 컴파일·신원 자동화 결과와 시작/코드/실행 커밋을 연결했다. 통합 수명 회귀는 Pass, A 독립 PIE 접속·복제는 미완료다.
-- [ ] 필요한 상대 기능을 합쳐 확인했다.
+- [x] 출발점의 A-01/02 파일 조립·UFS 설정·합친 Editor 빌드 및 native 독립 PIE를 재현했다.
+- [x] 정상 접속/복제/중복 초기화/셋째 거절/반복 종료·재시작과 누락 로딩 Abort를 고정 제품 소스에서 확인했다.
+- [x] 필요한 A-01 로더를 합쳐 확인했고, B 미연결 Stub과 후속 통합 책임을 구분했다.
+- [ ] 선택적 BP 에셋 재생성은 미검증이며 위 native 경로의 Verified 판정에 포함하지 않는다.
 - [x] 미검증 범위와 다음 단계의 의존성을 명시했다.
