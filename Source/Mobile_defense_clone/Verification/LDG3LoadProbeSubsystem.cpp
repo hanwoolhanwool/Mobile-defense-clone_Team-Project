@@ -180,6 +180,23 @@ bool ULDG3LoadProbeSubsystem::PrepareUnits(ALDGameMode& Mode)
 	{
 		return false;
 	}
+	// Authored workload layout: 175cm melee rows must face the central route. Alphabetic placement
+	// would put E01 in the middle row, 280cm from every path, silently reducing the active workload.
+	TArray<FName> Melee;
+	TArray<FName> Ranged;
+	for (FName Type : UnitTypes)
+	{
+		FLDUnitRow Row;
+		Mode.GetGameData()->TryGetUnitRow(Type, Row);
+		(Row.RangeCm < Mode.GetGameData()->GetRules().CellSizeCm * 2 ? Melee : Ranged).Add(Type);
+	}
+	UnitTypes.Reset();
+	int32 MeleeIndex = 0;
+	int32 RangedIndex = 0;
+	for (int32 Index = 0; Index < 16; ++Index)
+	{
+		UnitTypes.Add(Index % 3 == 0 && Melee.IsValidIndex(MeleeIndex) ? Melee[MeleeIndex++] : Ranged[RangedIndex++]);
+	}
 	for (int32 Player = 0; Player < 2; ++Player)
 	{
 		if (!Participants[Player].IsValid() || Mode.GetBoardManager()->GetSnapshot(Player).Population != 0)
@@ -193,8 +210,8 @@ bool ULDG3LoadProbeSubsystem::PrepareUnits(ALDGameMode& Mode)
 			Command.RequestId = Index + 1;
 			Command.ExpectedBoardRevision = Mode.GetBoardManager()->GetSnapshot(Player).BoardRevision;
 			FLDBoardPlan Plan;
-			if (Mode.GetBoardManager()->TryPrepare(Participants[Player], Command, UnitTypes[Index % 16],
-			                                       GetWorld()->GetTimeSeconds(),
+			const FName Type = Index < 16 ? UnitTypes[Index] : FName(*FString::Printf(TEXT("C%02d"), Index - 15));
+			if (Mode.GetBoardManager()->TryPrepare(Participants[Player], Command, Type, GetWorld()->GetTimeSeconds(),
 			                                       Plan) != ELDCommandResultCode::Success ||
 			    !Mode.GetBoardManager()->ValidatePrepared(Plan))
 			{
@@ -440,7 +457,8 @@ void ULDG3LoadProbeSubsystem::TickAuthority(ALDGameMode& Mode, double Now)
 			}
 			return;
 		}
-		if (Now - SustainStartedAt < LoadSeconds)
+		// Keep the replicated workload alive beyond the exact target so both processes measure the full duration.
+		if (Now - SustainStartedAt < LoadSeconds + 2)
 		{
 			return;
 		}
@@ -803,7 +821,7 @@ void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 	if (!bResultWritten)
 	{
 		Check(TEXT("local-route-motion-observed"), bRouteMovementObserved);
-		Check(TEXT("local-sustain-duration"), bSustainObserved && MeasuredSustainSeconds >= LoadSeconds - 1,
+		Check(TEXT("local-sustain-duration"), bSustainObserved && MeasuredSustainSeconds >= LoadSeconds,
 		           FString::Printf(TEXT("measured=%.3f configured=%.3f"), MeasuredSustainSeconds, LoadSeconds));
 	}
 	bResultWritten = true;
