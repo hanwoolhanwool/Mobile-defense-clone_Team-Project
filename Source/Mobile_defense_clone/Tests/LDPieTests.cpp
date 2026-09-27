@@ -336,10 +336,8 @@ bool FLDP0ActualPIETest::RunTest(const FString& Parameters)
 	Settings->SetPlayNumberOfClients(2);
 	Settings->NewWindowWidth = 540;
 	Settings->NewWindowHeight = 1170;
-	Settings->ClientWindowWidth = 540;
-	Settings->ClientWindowHeight = 1170;
+	Settings->SetClientWindowSize(FIntPoint(540, 1170));
 	Settings->GameGetsMouseControl = false;
-	Settings->AdditionalServerGameOptions = TEXT("?P0Seed=1776");
 	Settings->AddToRoot(); // FStartPIEForAutomationCommand owns removal on every start outcome.
 	FRequestPlaySessionParams Request;
 	Request.SessionDestination = EPlaySessionDestinationType::InProcess;
