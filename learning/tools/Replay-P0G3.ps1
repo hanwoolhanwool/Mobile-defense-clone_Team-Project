@@ -78,7 +78,7 @@ $SourceRoot = 'Source/Mobile_defense_clone/'
 # Keep these paths explicit; uncovered changes must cause preflight to fail rather than broaden scope.
 $Steps = @(
     @{ Name = '00 provided G2 inputs and unchanged execution tools'; Lesson = 'Common'; Kind = 'Provided'; Sha = $BaseSha; Paths = @(
-        'Mobile_defense_clone.uproject', 'Config/DefaultGame.ini', 'Config/DefaultInput.ini',
+        'Mobile_defense_clone.uproject', 'Config/DefaultInput.ini',
         'Content/LD/Core/BP_LDGameMode.uasset', 'Content/LD/Materials/M_P0Flat.uasset',
         'Content/LD/Audio/S_P0Rejected.uasset',
         'Content/LD/Data/GameRules.json', 'Content/LD/Data/DT_Units.json', 'Content/LD/Data/DT_EnemyTypes.json',
@@ -121,7 +121,7 @@ $Steps = @(
         "${SourceRoot}Tests/LDEntryAndHudTests.cpp"
     ) },
     @{ Name = '10 provided entry and battle maps, config and asset packaging'; Lesson = 'G3_INTEGRATION.md / Unreal settings'; Kind = 'Provided'; Sha = $SourceSha; Paths = @(
-        'Config/DefaultEngine.ini', 'Content/LD/Maps/L_P0.umap', 'Content/LD/Maps/L_P0Entry.umap',
+        'Config/DefaultEngine.ini', 'Config/DefaultGame.ini', 'Content/LD/Maps/L_P0.umap', 'Content/LD/Maps/L_P0Entry.umap',
         'tools/Create-P0Assets.py', 'tools/Build-P0Package.ps1'
     ) },
     @{ Name = '11 provided actual PIE verification and editor-only module support'; Lesson = 'G3_INTEGRATION.md / PIE'; Kind = 'ProvidedVerification'; Sha = $SourceSha; Paths = @(
