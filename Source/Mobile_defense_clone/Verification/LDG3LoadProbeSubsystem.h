@@ -131,6 +131,7 @@ private:
 	bool bProfileEndRequested = false;
 	bool bProfileWritten = false;
 	bool bHandshakeComplete = false;
+	bool bScreenshotRequested = false;
 	FString ProfilePath;
 	TSharedFuture<FString> ProfileWrite;
 	TArray<float> SustainedFrameMs;
