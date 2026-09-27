@@ -59,3 +59,13 @@ A는 자기 worktree의 허용 Source/학습 문서만 편집했다. 에디터·
 - `27c2875`: `LD.PIE.P0.Session` 별도 필터의 실제 GPU Editor PIE 검사를 작성했다. `FStartPIEForAutomationCommand`가 listen/client2개의 실제 EWorldType::PIE World를 시작한다. 양쪽 소유 PC의 Preparing 소환/실제 RPC/골드80/인구1→10초 뒤 Running→양쪽 Slate 창 PNG→명시적 Abort 복제→FEndPlayMap→PIE World0을 검사한다. 이 필터는 NullRHI `LD.P0`에 포함되지 않는다. TimeSeconds나 PIE World를 임의 생성하지 않는다. 아직 실행 미검수다.
 - PIE 설정은 복제한 ULevelEditorPlaySettings로 시작하고 원본 config property 전체를 보관한다. 로컬 UE5.8 PlayLevel.cpp의 PIE 종료가 CDO 창 위치를 저장하므로 검사 종료 뒤 원래 config 값을 복원하고 동일성을 확인한다. 기존 PIE 세션이나 같은 증거 RunId가 있으면 대체/덮어쓰기하지 않고 실패한다. Editor-only UnrealEd 모듈 연결은 통합 담당자 소유다.
 - `001b78f`: 엔진 CsvProfiler의 LDP0/Combat, LDP0/Timeline CPU 범위를 추가했다. Timeline에는 Combat이 포함되므로 둘을 더하지 않는다. CSV 값은 프레임별 합계이며20Hz 개별 스텝 p95와 같은 지표가 아니다. 수집 오버헤드·FPS/VSync·대표 부하/측정 구간은 통합 실측에서 기록한다. 아직 성능 수치나 목표 통과를 보고할 근거가 없다.
+## PIE 실행 관찰과 후속 수정
+
+- 최초 PIE 코드 컴파일은 `G3-pie-editor-v1/build.log`에서 ULevelEditorPlaySettings의 private ClientWindowWidth/Height·AdditionalServerGameOptions 접근 C2248로 실패했다. `2087f6f`는 로컬 공개 `SetClientWindowSize`를 사용하고 별도 server option 직접 쓰기를 제거했다. Editor 실행의 `-P0Seed=1776`로 seed를 제공한다.
+- 통합 `G3-actual-pie-v1`은 실제 Editor PIE 자동화1개 Pass, 두 실제 World의 listen/client RPC 소환·각 인구1/Gold80, Running N2/2, EndPlay 뒤 PIE World0 및 원설정 복원을 확인했다. 이는 별도 프로세스 패키지 검사나 실제 사용자의 수동 조작이 아니다.
+- 요청 창540×1170은 데스크톱 제약으로 실제 캡처546×720이었다. root의 PNG 직접 검토에서 host 이미지는 같은 프레임 UMG 갱신 이전 WAVE0/00:00, client는WAVE1을 표시했다. 게임 상태 검사는 통과했지만 이 캡처로 양쪽 최종 표시를 통과 처리하지 않는다. `b794473`에서 양쪽 Running 확인 뒤0.5초 더 기다리고 캡처하도록 바꿨으며 새 시각 증거를 기다린다.
+- `c76bb35`: Combat.GetRegisteredEnemyCount는 living 수와 구분되는 등록 map 수, Mode.IsLogicTimerActive는 자기 LogicTimer만 읽는다. 장기/종료 검수의 읽기 전용 접점이다.
+- `8cebbd4` + `df231fa`: Director.Initialize의 선택적 FLDEnemyActorFactory 한 점에서 실제 Actor 생성 실패를 주입한다. 제품 기본 경로는 기존 SpawnActor다. 두 번째 boss가 nullptr 또는 다른 World actor면 최종생성 false→Aborted/등록0/타이머0/보상0을 검사하며 외부 World actor는 초기화·삭제하지 않는다. callable을 복사해 재진입 Stop의 자기해제에 안전하게 하고 이미 쓰인 actor도 새 소유물로 확정하지 않는다.
+- `b794473` + `a57341e`: 사망 게임 사건을 먼저 게시하고 복사한 피해 관찰자에 확정 값만 전달한다. 관찰자가 Abort/Stop해도 이미 확정된 처치 보상이 결과 전에 반영된다. Mode는 callback 뒤 terminal 후보를 다시 확인하여 같은 시각 남은 생성 단계도 중단한다. 회귀는 두 일반 적 중 한 마리를 예정11초에 죽이고 관찰자가 종료하는 fixture다. 같은11초 예정 생성2개는 취소, N1·양쪽Gold101·등록0·타이머false를 기대한다. 새 실제 검사 결과는 아직 대기한다.
+
+최종 A Source 묶음은 `a57341e`까지이며 통합 빌드/검사 중에는 동결한다. 역할 Build.cs의 Editor-only UnrealEd 의존은 root `bca735c`를 A `79e45f4`로 수신했다. G3 수업 상태는 출발점 재현이 확인되지 않아 계속 Draft다.
