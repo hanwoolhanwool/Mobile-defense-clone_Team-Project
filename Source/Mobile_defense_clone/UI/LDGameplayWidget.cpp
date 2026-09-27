@@ -130,8 +130,9 @@ void ULDGameplayWidget::NativeTick(const FGeometry& MyGeometry, float DeltaSecon
 	                                                   : FText::Format(NSLOCTEXT("LD", "SummonPrice", "소환\n{0} 골드"),
 	                                                                             Economy.NextSummonGold));
 	Selection->SetText(Controller->GetSelectionText());
-	Feedback->SetText(!bReady             ? NSLOCTEXT("LD", "SnapshotWaiting", "참가자와 보드 정보를 기다리고 있습니다")
-	                                      : Controller->GetCommandFeedback());
+	Feedback->SetText(!Controller->IsGameplaySnapshotReady()
+	                  ? NSLOCTEXT("LD", "SnapshotWaiting", "참가자와 보드 정보를 기다리고 있습니다")
+	                              : Controller->GetCommandFeedback());
 	Summon->SetBackgroundColor(GetWorld()->GetTimeSeconds() < RejectedUntil ? FLinearColor(0.9f, .2f, .18f)
 	                                                                        : FLinearColor(.4f, .65f, .6f));
 	ActionRects.Reset();

@@ -383,6 +383,11 @@ FText ALDPlayerController::GetSelectionText() const
 
 FText ALDPlayerController::GetCommandFeedback() const
 {
+	const ALDGameState* State = GetWorld() ? GetWorld()->GetGameState<ALDGameState>() : nullptr;
+	if (State && State->GetBattleSnapshot().IsTerminal())
+	{
+		return NSLOCTEXT("LD", "GameplayEnded", "전투가 종료되었습니다");
+	}
 	if (LastCellInputResult == ELDCellInputResult::NotOwner)
 	{
 		return NSLOCTEXT("LD", "GameplayForeignCell", "상대 보드는 조작할 수 없습니다");

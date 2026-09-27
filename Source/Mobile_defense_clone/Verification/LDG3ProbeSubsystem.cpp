@@ -285,7 +285,8 @@ void ULDG3ProbeSubsystem::TickAuthority(ALDGameMode& Mode)
 				Peer->EffectiveDamageByPlayer.Add(EffectiveDamage[Player]);
 				Peer->FirstMergeAtByPlayer.Add(FirstMergeAt[Player]);
 			}
-			Peer->bFinishSuite = CompletedMatches + 1 >= RequestedMatches && ConnectedGameplaySeconds >= MinimumSeconds;
+			Peer->bFinishSuite = CompletedMatches + 1 >= RequestedMatches &&
+			                     ConnectedGameplaySeconds >= (MinimumSeconds > 0 ? MinimumSeconds + 2 : 0);
 			Peer->bTerminalCaptured = true;
 			Peer->ForceNetUpdate();
 		}
@@ -657,7 +658,8 @@ void ULDG3ProbeSubsystem::TickLocal(ALDPlayerController& Controller, const FLDBa
 		TerminalAt = Now;
 	}
 	if (!LocalPeer.IsValid() || !LocalPeer->bTerminalCaptured || LocalPeer->FinalBoards.Num() != 2 ||
-	    LocalPeer->FinalEconomies.Num() != 2)
+	    LocalPeer->FinalEconomies.Num() != 2 || LocalPeer->EffectiveDamageByPlayer.Num() != 2 ||
+	    LocalPeer->FirstMergeAtByPlayer.Num() != 2)
 	{
 		return;
 	}
@@ -841,7 +843,7 @@ void ULDG3ProbeSubsystem::Finish()
 		return;
 	}
 	Check(TEXT("requested-match-count"), CompletedMatches >= RequestedMatches);
-	Check(TEXT("minimum-connected-duration"), ConnectedGameplaySeconds + 1 >= MinimumSeconds);
+	Check(TEXT("minimum-connected-duration"), ConnectedGameplaySeconds >= MinimumSeconds);
 	bFinished = true;
 	WriteProgress();
 	FPlatformMisc::RequestExit(false);
