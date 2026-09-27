@@ -55,7 +55,7 @@ DEC-043에 따라 P0는 16종·10웨이브 기본 공격과 짧은 조작 안내
 | [TASK-WAVE-02](../BACKLOG_QA.md#TASK-WAVE-02) | P1 | Must | Backlog | 미지정 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-WAVE-01](../BACKLOG_QA.md#QA-WAVE-01), [QA-WAVE-02](../BACKLOG_QA.md#QA-WAVE-02), [QA-WAVE-03](../BACKLOG_QA.md#QA-WAVE-03), [QA-TIME-06](../BACKLOG_QA.md#QA-TIME-06), [QA-HUNT-01](../BACKLOG_QA.md#QA-HUNT-01), [QA-DUNGEON-01](../BACKLOG_QA.md#QA-DUNGEON-01) | A |
 | [TASK-BOT-01](../BACKLOG_QA.md#TASK-BOT-01) | P1 | Must | Backlog | 미지정 | [SPEC-COOP](../design/COOP_META.md) | [작업 완료 조건](../BACKLOG_QA.md#TASK-BOT-01) | A |
 | [TASK-UI-02](../BACKLOG_QA.md#TASK-UI-02) | P1 | Must | Backlog | 미지정 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-BOARD-09](../BACKLOG_QA.md#QA-BOARD-09), [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04) | B |
-| [TASK-UX-01](../BACKLOG_QA.md#TASK-UX-01) | P1 | Must | Backlog | 미지정 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-MOB-03](../BACKLOG_QA.md#QA-MOB-03), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04) | B |
+| [TASK-UX-01](../BACKLOG_QA.md#TASK-UX-01) | P1 | Must | Backlog | 미지정 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-MOB-03](../BACKLOG_QA.md#QA-MOB-03), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04), [QA-BOARD-14](../BACKLOG_QA.md#QA-BOARD-14) | B |
 | [TASK-SAVE-01](../BACKLOG_QA.md#TASK-SAVE-01) | P1 | Must | Backlog | 미지정 | [SPEC-COOP](../design/COOP_META.md) | [QA-SAVE-01](../BACKLOG_QA.md#QA-SAVE-01), [QA-SAVE-03](../BACKLOG_QA.md#QA-SAVE-03), [QA-META-01](../BACKLOG_QA.md#QA-META-01) | B |
 | [TASK-ART-01](../BACKLOG_QA.md#TASK-ART-01) | P1 | Must | Backlog | 미지정 | [ART-001](../art/ART_DIRECTION.md) | [QA-VIS-01](../BACKLOG_QA.md#QA-VIS-01), [QA-VIS-04](../BACKLOG_QA.md#QA-VIS-04) | A 캐릭터 / B 월드·UI |
 | [TASK-ART-02](../BACKLOG_QA.md#TASK-ART-02) | P1 | Must | Backlog | 미지정 | [ART-001](../art/ART_DIRECTION.md) | [QA-VIS-01](../BACKLOG_QA.md#QA-VIS-01), [QA-VIS-04](../BACKLOG_QA.md#QA-VIS-04) | A |
@@ -154,6 +154,8 @@ DEC-020 추가 수용 기준은 [명령 검수](../BACKLOG_QA.md#QA-CMD-01), [�
 
 ### TASK-UI-01
 
+- 후속 UX: 현재 칸 밖 입력으로 선택이 해제되지 않는 제약은 사용자 요청에 따라 DEC-050 / P1 TASK-UX-01로 이관했다. 해당 동작은 미구현·미검수다.
+
 - 담당자: Codex 참고 제작. 상태 InProgress. PC HUD/결과·조작 거절·Entry 복귀·한글/에셋 로딩·Result/Status 재생성 후 구독/상태 보존을 검수했다. [최종 PC 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [실제 PIE proof](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-pie-proof.json).
 - 남은 조건: Android 실기기 SafeArea·터치 키보드·선택/합성/판매/사거리 UI와 실제 화면. 실제 청음은 TEST의 QA와 연결한다.
 
@@ -161,6 +163,13 @@ DEC-020 추가 수용 기준은 [명령 검수](../BACKLOG_QA.md#QA-CMD-01), [�
 
 - 담당자: Codex 참고 제작. 상태 InProgress. 사용자 Android 구성 요소 설치 예정 답변을 받았으며 [2026-09-28 준비 확인](evidence/RUN-20260918-G3/android-latest-readiness.json)에서 UE Android 플랫폼 미설치·adb 연결0을 확인했다.
 - 남은 조건: 플랫폼 설치 확인 후 APK 패키징·실기기 설치/실행·터치/SafeArea·10웨이브·초기 성능. 모두 NotRun이며 SDK/NDK 준비 또는 PC Pass로 대체하지 않는다.
+
+### TASK-UX-01
+
+- 상태 Backlog / 계획 역할 B / 실제 담당자 미지정. DEC-050으로 칸이 아닌 배경 클릭·탭 시 선택 해제를 P1 후속에 추가했다. 상위 작업38개와 상태 집계는 유지한다.
+- 현재 관찰: 사용자에게서 P0 선택 유지가 보고되었고 `LDPlayerController::InputScreenPosition`의 칸 밖 처리에서 기존 선택 유지 코드를 확인했다. 이번 회차의 실제 게임 재현은 NotRun이다.
+- 구현/수용 기준: [배경 선택 해제](../design/BOARD_UI.md#p1-background-deselect), [QA-BOARD-14](../BACKLOG_QA.md#QA-BOARD-14). UI 소비·드래그 구분, 로컬 선택/UI 정리·재선택, 서버 명령과 게임 상태 불변을 확인한다.
+- 기록: RUN-20260928-07. P1 구현에 착수하거나 기존 P0 Pass를 이 동작의 Pass로 승계하지 않았다.
 
 진행 중이거나 완료한 작업의 후속 메모는 아래 형식을 사용한다.
 

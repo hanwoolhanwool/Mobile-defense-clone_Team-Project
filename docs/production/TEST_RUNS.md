@@ -664,3 +664,12 @@
 - 검토·수정 근거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 기존 실패와 수정 전후 증거를 보존한다.
 - 제외·잔여: 실제 학습자 완료, 실제 청음, Android 실기기 및 P1/P2. -nosound 실행을 청음 Pass로 표시하지 않는다. TASK-TEST-01은 QA, MAP/UI/MOB는 InProgress, P0 전체 미완료.
 - 완료 판정 등록: [verification.json](verification.json)의 동일 작업 criteria/run/evidence와 [보드 메모](BOARD.md)를 연결했다.
+
+## RUN-20260928-07 · P1 배경 입력 선택 해제 계획 등록
+
+- 실행일: 2026-09-28 / 실행자: Codex / 관련 TASK-UX-01, QA-BOARD-14, DEC-050.
+- 범위: 사용자 보고와 문서/소스의 읽기 확인, P1 후속 명세·계획·QA·읽기본 정합. 사용자 관찰과 이번 회차의 실제 실행을 구분한다.
+- 확인: `LDPlayerController.cpp::InputScreenPosition`은 Selected일 때만 SelectedCellId/LocalBoard를 갱신하고 칸 밖이면 기존 선택을 유지한다. 기존 문서의 일반적인 선택 해제 정리는 있지만 배경 클릭/탭 경로의 P1 계획은 없었다.
+- 반영: 기존 TASK-UX-01 Backlog에 배경 클릭/탭 해제, 선택 관련 표시 정리·재선택, UI 소비·드래그 구분, 서버 명령/게임 상태 불변 검수 추가. 새 상위 작업 없음, 기존38개 상태 유지.
+- 기록 판정: Pass
+- 문서 검사: 기획/메타데이터/링크/읽기본/38작업/103QA 정합 검사를 통과했다. [실제 검사 결과](evidence/RUN-20260928-07.json). `git diff --check` 통과, Source/Content/Config 변경0. P1 코드 구현·Unreal 빌드·PIE·PC 패키지·Android 실기기 검수는 모두 이번 회차 NotRun.

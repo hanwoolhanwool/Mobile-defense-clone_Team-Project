@@ -18,7 +18,7 @@
 | 현재 상황 한 문장 | G0~G2 Pass, G3 PC 자동화·화면·패키지·새 재현 Pass. 참고 제작 Done7/QA1/InProgress3, 학습자 Planned. 청음과 Android가 남아 P0 최종 완료 아님. |
 | 진행 중 작업 | TASK-TEST-01 QA(청음 답변 대기), TASK-MAP-01/TASK-UI-01/TASK-MOB-01 InProgress 3개(Android 실기기 조건) |
 | 다음 착수 후보 | 실제 거절 효과음 청음 결과 반영, UE Android 구성 요소 설치 확인 및 실기기 연결 후 G4 패키징·터치/SafeArea·10웨이브·성능 검수 |
-| 이번 갱신 내용 | [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md)와 [수용 기준별 증거](verification.json)를 연결해 6기능 Done 등록. 과거 환경·부하 기록의 입력을 보존하며 P1/P2로 확장하지 않음 |
+| 이번 갱신 내용 | DEC-050: 사용자 보고의 칸 밖 선택 해제를 P1 TASK-UX-01/QA-BOARD-14로 이관. 기존 G0~G3 PC 결과·작업 상태·학습자 Planned는 유지. [기록](TEST_RUNS.md) |
 
 ### A2. 단계별 현황
 
@@ -86,6 +86,7 @@ OPEN 항목의 상세 상태는 [결정 기록](../DECISIONS.md)을 따른다.
 
 | 날짜 | 구분 | 변경·완료 내용 | 근거·남은 범위 |
 |---|---|---|---|
+| 2026-09-28 | P1 조작 후속 등록 | 칸 밖 클릭/탭 선택 해제의 명시 계획 부재를 확인하여 TASK-UX-01·QA-BOARD-14·B 구현 순서에 추가 | DEC-050, [RUN-20260928-07](TEST_RUNS.md). 사용자 관찰·코드 확인과 계획 반영이며 실제 구현/게임 검수 NotRun |
 | 2026-09-28 | 참고 구현 PC 검수·수용 기준 대조 | NET/DATA/COMBAT/ECON/BOARD/WAVE 6개 Done, P0 합계 Done7/QA1/InProgress3. 새73파일 재현 Editor·58자동화·실제 PIE·Win64 패키지와 경계/동시/Entry 검수 Pass; 마지막 테스트만 변경한 Waves9종도 양쪽 재현 Pass | [RUN-20260928-01~06](TEST_RUNS.md), [완료 증거](verification.json), [최종 PC 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md). 청음 답변 및 Android NotRun, P0 최종 완료/P1 진입 아님. 이전5판·20분 부하 입력과 모든 실패 이력 보존 |
 | 2026-09-17 | 일정 재배치·병합 시점 | P2 선행/P1 마무리 각2일 교환, P1 목록10/16·최소 접속11/6·핵심11/13·전체/계정방11/20, 수시/수요일/금요일 병합·검수 기준 | DEC-049, [RUN-20260917-09](TEST_RUNS.md). 문서 반영이며 실제 브랜치 병합·UE 실행 아님 |
 | 2026-09-17 | 개발 시작·실행 계획 | 9/21 시작·12/22 목표, 세 개발 문서의 P0 구현/검수 잔여 작업·A/B 책임·14개 주차·공수 재계산 | DEC-048, [RUN-20260917-08](TEST_RUNS.md). 실제 구현/게임 실행 완료와 별도 |
