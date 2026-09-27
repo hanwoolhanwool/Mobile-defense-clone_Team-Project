@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {Marked, Renderer} from './vendor/marked.mjs';
+import {shell as labShell, classify, plain, route, courses} from './html-lab.mjs';
 
 const learning = fileURLToPath(new URL('../', import.meta.url));
 const project = path.dirname(learning);
@@ -33,6 +34,7 @@ const links = [];
 const ids = new Map();
 const generated = new Map();
 const catalog = [];
+const rendered = new Map();
 
 function rewrite(href, source, destination) {
   if (/^(https?:|mailto:)/i.test(href)) return href;
@@ -44,22 +46,6 @@ function rewrite(href, source, destination) {
   const fragment = match[3] || '';
   links.push({from: relative(source), target: converted, fragment: decodeURIComponent(fragment.slice(1))});
   return url(destination, converted) + (match[2] || '') + fragment;
-}
-
-function shell(title, destination, body, toc = '', source = null) {
-  const nav = [['전체 문서', 'index.html'], ['P0 시작', 'P0/README.html'], ['A 수업', 'P0/A/README.html'], ['B 수업', 'P0/B/README.html'], ['통합', 'P0/INTEGRATION.html']];
-  return `${marker}
-<!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escape(title)} · A·B 학습 자료</title><style>${css}</style></head>
-<body><a class="skip" href="#main">본문으로 이동</a>
-<header class="site-header"><a class="brand" href="${url(destination, path.join(output, 'index.html'))}">A · B 개발 학습 자료</a>
-<nav aria-label="주요 문서">${nav.map(([label, target]) => `<a href="${url(destination, path.join(output, target))}"${path.join(output, target) === destination ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav></header>
-<div class="layout${toc ? '' : ' wide'}">${toc ? `<aside><details open><summary>이 문서의 목차</summary><nav aria-label="문서 목차">${toc}</nav></details></aside>` : ''}
-<main id="main">${source ? `<div class="document-meta"><span>${escape(relative(source))}</span><a href="${url(destination, source)}">Markdown 원본</a></div>` : ''}${body}
-<footer>오프라인 HTML 읽기본 · 작성·검증 상태는 원문을 따릅니다.${source ? ' 원문을 수정한 뒤 HTML을 다시 생성해 주세요.' : ''}<button type="button" class="print-button">인쇄 / PDF</button></footer></main></div>
-<script>${client}</script></body></html>
-`;
 }
 
 for (const source of files) {
@@ -100,35 +86,36 @@ for (const source of files) {
   const toc = headings.filter(heading => heading.depth > 1 && heading.depth < 4)
     .map(heading => `<a class="level-${heading.depth}" href="#${escape(heading.id)}">${heading.label}</a>`).join('');
   ids.set(destination, usedIds);
-  generated.set(destination, shell(title.replace(/&amp;/g, '&'), destination, body, toc, source));
+  rendered.set(source, {body, toc, headings});
   // Git may normalize CRLF on checkout; hash canonical Markdown text, not host-specific line endings.
-  catalog.push({source: relative(source), output: relative(destination), title, sha256: digest(markdown.replace(/\r\n?/g, '\n'))});
+  catalog.push({source: relative(source), output: relative(destination), title: plain(title), shortTitle: plain(title).split(' — ')[0], ...classify(relative(source)), sha256: digest(markdown.replace(/\r\n?/g, '\n'))});
 }
 
-const groups = [
-  ['먼저 읽기', item => !item.source.includes('/') || item.source === 'P0/README.md' || item.source === 'P0/COMMON.md'],
-  ['P0 · A 수업', item => /^P0\/A\/[^/]+\.md$/.test(item.source)],
-  ['P0 · B 수업', item => /^P0\/B\/[^/]+\.md$/.test(item.source)],
-  ['P0 · 통합', item => /^P0\/[^/]*INTEGRATION\.md$/.test(item.source)],
-  ['재현·검수 증거', item => item.source.startsWith('P0/')],
-  ['수업 양식·제공 도구', item => /^(templates|tools)\//.test(item.source)],
-  ['P1 · 기존 계획', item => item.source.startsWith('P1/')],
-  ['P2 · 기존 계획', item => item.source.startsWith('P2/')],
-];
 const index = path.join(output, 'index.html');
-const remaining = new Set(catalog);
-const sections = groups.map(([title, matches]) => {
-  const items = [...remaining].filter(matches).sort((a, b) => Number(!a.source.endsWith('README.md')) - Number(!b.source.endsWith('README.md')) || a.source.localeCompare(b.source, 'ko', {numeric: true}));
-  items.forEach(item => remaining.delete(item));
-  return `<section class="catalog-group"><h2>${title}</h2><ul class="document-list">${items.map(item => `<li data-search="${escape(`${item.source} ${item.title}`.toLowerCase())}"><a href="${url(index, path.join(learning, item.output))}">${item.title}</a><small>${escape(item.source)}</small></li>`).join('')}</ul></section>`;
-}).join('');
-if (remaining.size) throw new Error('Add an index group for new documents.');
-generated.set(index, shell('학습 문서 모음', index, `<p class="eyebrow">REFERENCE LEARNING LIBRARY</p><h1>작은 기능부터,<br>함께 완성하는 P0.</h1>
-<p class="intro">A·B 학습 문서 ${catalog.length}개를 HTML로 모았습니다. P0 시작 문서에서 공통 계약을 읽고, 각 역할의 수업과 단계별 통합을 순서대로 진행하세요.</p>
-<div class="notice">원문의 Verified·Draft·Planned와 SHA를 그대로 보존했습니다. HTML 변환은 수업이나 게임 검수의 추가 통과를 의미하지 않습니다. P1·P2는 기존 계획 문서입니다.</div>
-<label class="search-label" for="document-search">문서 찾기</label><input id="document-search" type="search" placeholder="제목 또는 경로 검색 · 예: G2, 보드, Android" autocomplete="off">
-<p id="search-count" role="status" aria-live="polite">${catalog.length}개 문서</p><div class="catalog">${sections}</div><p id="search-empty" hidden>일치하는 문서가 없습니다. 다른 검색어를 입력해 주세요.</p>
-<p class="reference-note">학습 문서 링크는 HTML로 연결됩니다. 정식 명세·코드·JSON·화면 증거는 저장소의 원본으로 연결되므로 저장소 폴더 구조를 유지해 주세요.</p>`));
+const byOutput = new Map([...pages].map(([source, destination]) => [destination, relative(source)]));
+const appDocuments = catalog.map(doc => {
+  const source = path.join(learning, doc.source);
+  const destination = pages.get(source);
+  const {body, headings} = rendered.get(source);
+  const appBody = body.replace(/(href|src)="([^"]*)"/g, (whole, attr, encoded) => {
+    const href = encoded.replaceAll('&amp;', '&');
+    if (/^(https?:|mailto:)/i.test(href)) return whole;
+    const match = /^([^?#]*)(\?[^#]*)?(#.*)?$/.exec(href);
+    const target = match[1] ? path.resolve(path.dirname(destination), decodeURIComponent(match[1])) : destination;
+    const anchor = match[3] ? decodeURIComponent(match[3].slice(1)) : '';
+    const rewritten = byOutput.has(target) ? route(byOutput.get(target), anchor) : target === index ? '#view=home' : url(index, target) + (match[2] || '') + (match[3] || '');
+    return `${attr}="${escape(rewritten)}"`;
+  });
+  const goal = /<h2[^>]*>[^<]*(?:이번에|목표)[^<]*<\/h2>\s*<p>([\s\S]*?)<\/p>/.exec(appBody);
+  return {...doc, body: appBody, headings, text: plain(appBody), goal: goal ? plain(goal[1]) : '', original: url(index, source), standalone: url(index, destination)};
+});
+for (const doc of catalog) {
+  const source = path.join(learning, doc.source);
+  const destination = pages.get(source);
+  const {body, toc} = rendered.get(source);
+  generated.set(destination, labShell({title:doc.title, marker, css, client, catalog, home:url(destination,index), source:doc.source, body, toc, original:url(destination,source)}));
+}
+generated.set(index, labShell({title:'학습 대시보드', marker, css, client, catalog, data:{documents:appDocuments, courses}}));
 
 for (const link of links) {
   if (link.fragment && ids.has(link.target) && !ids.get(link.target).has(link.fragment)) {

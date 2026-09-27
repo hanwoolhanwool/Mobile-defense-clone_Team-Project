@@ -1,46 +1,91 @@
 {
-  "Scope": "Offline reading copies of every existing learning Markdown document; no product or learner status change",
+  "Scope": "Optional offline learning reader: reference-inspired design and personal study functions. No Unreal/product/official learner status changes.",
   "Result": "Pass",
-  "VerifiedAt": "2026-09-28T05:14:47.4194679+09:00",
-  "BaseSha": "7820cf5767da6a0cdac1e04a08ed6d1ac2839405",
+  "VerifiedAt": "2026-09-28T05:50:01.0094840+09:00",
+  "BaseSha": "f484cb880a94d102a5ea1f6ba0fdc928d1be3df1",
+  "Reference": "C:/Users/iam12/Documents/Codex/2026-09-20/new-chat-2/outputs/UE5_Blueprint_Lab_KO.html#i02",
+  "ReferenceHandling": "Read-only visual/interaction reference; lesson content remains the existing P0 Markdown.",
   "InputManifest": "html/manifest.json",
-  "InputManifestSHA256": "FD958B6DEB298D81971CE29D3627E4B2C77BA3AAB56176930E99253E20F15F89",
-  "GeneratorSHA256": "07DDAC4CB8A2CE4553F1CFC5A162D55C98851390BA0E45EBEC0D349D0C231C17",
-  "MarkdownDocuments": 64,
-  "HtmlPages": 65,
-  "GeneratedContentCheck": "Pass",
-  "MarkdownLinks": 707,
-  "LearningValidation": "PASS",
+  "InputFiles": [
+    {
+      "Path": "learning/tools/build-html.mjs",
+      "SHA256": "B5D8F48703606868EAAD52D11EA8975073BBCEA8B152869E4459EADE9E9AA015"
+    },
+    {
+      "Path": "learning/tools/html-lab.mjs",
+      "SHA256": "59E60F1F17E58E881750D09C2A46DFCAF97E435026A435A9F65E47E9D9ACCA75"
+    },
+    {
+      "Path": "learning/tools/html.css",
+      "SHA256": "952A55F4D4EB0A4D722605537C026840A148EF23CD90F9035D3DF93C66EEDD59"
+    },
+    {
+      "Path": "learning/tools/html.js",
+      "SHA256": "53D945ADD252FAA56DA9E3ED051A4148D927A2D9965069C3556055B6F4FA81E0"
+    },
+    {
+      "Path": "learning/tools/test-html-lab.mjs",
+      "SHA256": "4E2A477D4464FAB751E283FCEB4F0C9473BD8B2B7B69A41BB76CB9D933A7CBEF"
+    },
+    {
+      "Path": "learning/html/manifest.json",
+      "SHA256": "4EED66B9EDC02E098A4DE85BE77133D852CC1DDFC5991EF49DBA5DFDACDE8A17"
+    }
+  ],
+  "IndexSHA256": "6c47d7d42e84d806b2ac0942ee6f96c913356a6491802e9ed5a9a751fe4bcadb",
   "Browser": "151.0.7922.34",
-  "BrowserPages": 65,
-  "BrowserLocalLinks": 1616,
-  "BrowserErrors": [],
-  "BrowserRequestFailures": [],
+  "BrowserResult": "Pass",
+  "AppDocuments": 64,
+  "StandalonePages": 65,
+  "PersonalPracticeUnits": 27,
+  "LocalLinkObservations": 6960,
   "Viewports": [
     {
-      "Height": 1050,
-      "Width": 1440
+      "Height": 1060,
+      "Width": 1480
     },
     {
       "Height": 844,
       "Width": 390
     }
   ],
-  "FunctionalChecks": [
-    "All 65 pages load offline without document overflow at both widths",
-    "64 index entries, search, empty result and reset",
-    "A navigation, lesson navigation and explicit common-contract anchor",
-    "All local targets and generated-page anchors exist",
-    "Representative desktop/mobile screenshots inspected",
-    "Representative A4 PDF generated and print navigation hidden"
+  "Checks": [
+    "Fresh dashboard: 64 documents / 27 practices / zero personal completion",
+    "Full-text search, no-results and reset",
+    "Completion gate, explicit action, reload, uncheck revocation, safe notes and bookmark",
+    "Previous/next, browser Back and source/heading deep links",
+    "Code copy button passes exact source text to clipboard",
+    "JSON export/import, invalid backup rejection, cancellation and explicit reset",
+    "Current/whole-practice print, PDF generation and cleanup",
+    "64 app documents and 65 independent pages at desktop/mobile widths; source body content and local links",
+    "Mobile drawer, focus/Escape handling, personal-record shortcut",
+    "Storage failure feedback without losing current input"
   ],
-  "SourceAndStatus": "Lesson bodies/SHA/Verified/Draft/Planned preserved; only learning/README.md adds HTML usage instructions",
-  "EvidenceDirectory": "Saved/P0Runs/learning-html",
+  "AdditionalChecks": [
+    "Role A library includes reference notes",
+    "Continue advances after personal completion",
+    "Every original paragraph/list/table/heading/code block remains present in app document bodies"
+  ],
+  "ScriptErrors": [],
+  "ExternalNetworkRequests": [],
+  "Storage": "One index.html location, browser-local p0-learning-lab:v1; explicit JSON backup/confirmed restore/reset; no server, telemetry or Git writes",
+  "EvidenceDirectory": "Saved/P0Runs/learning-html-lab-final",
+  "StaticLogs": [
+    "Saved/P0Runs/learning-html/lab-final-content.log",
+    "Saved/P0Runs/learning-html/lab-final-links.log"
+  ],
+  "Reproduction": [
+    "Set P0_PLAYWRIGHT_MODULE to an installed playwright/index.mjs, or use an environment where playwright resolves normally",
+    "Set P0_HTML_TEST_RUN to a new simple run name; prior evidence is not overwritten",
+    "node learning/tools/test-html-lab.mjs; uses a fresh isolated browser context and saves results under Saved/P0Runs"
+  ],
+  "FirstFailure": "lab-01: heading position assertion ran before the hashchange render. A separate probe confirmed 94px scroll margin after two animation frames; the test now waits for the requested route and rendered position.",
   "Limits": [
-    "Links to non-learning Markdown, source code, JSON and screenshots retain repository originals",
-    "Keep repository folder structure for reference links",
-    "No Unreal build/gameplay test rerun for documentation-only output",
-    "Print preview checked on one representative lesson, not all documents"
-  ],
-  "PortabilityFix": "Fresh A checkout exposed CRLF/LF-only source hash difference in G1_INTEGRATION.md, with identical Git blob. Normalize source text hashes to LF; generated HTML bodies were unchanged."
+    "Headless Chromium browser checks, not Android hardware or Unreal tests",
+    "Clipboard test verifies exact content passed to the clipboard API using an isolated stub; actual OS/browser permissions vary",
+    "A4 PDF generated for one current lesson; all27 print assembly checked, not every printed page visually reviewed",
+    "In-app browser automatic file URL access was blocked by Browser Use URL policy; its refresh/storage behavior was not verified. User can refresh the existing tab",
+    "Keep repository structure for linked original specifications/assets; export records before changing browser/path or clearing browser data",
+    "Personal checkboxes do not update official Verified/Draft/Planned states or source Markdown"
+  ]
 }
