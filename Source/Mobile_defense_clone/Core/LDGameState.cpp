@@ -12,7 +12,7 @@ void ALDGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ALDGameState, MatchContext);
-	DOREPLIFETIME(ALDGameState, Phase);
+	DOREPLIFETIME(ALDGameState, BattleSnapshot);
 	DOREPLIFETIME(ALDGameState, ReadinessReason);
 }
 
@@ -27,6 +27,8 @@ bool ALDGameState::InitializeMatch(const FLDMatchContext& Context)
 		return MatchContext.MatchId == Context.MatchId && MatchContext.RulesVersion == Context.RulesVersion;
 	}
 	MatchContext = Context;
+	BattleSnapshot.MatchId = Context.MatchId;
+	++BattleSnapshot.Revision;
 	OnRep_CommonState();
 	ForceNetUpdate();
 	return true;
@@ -38,21 +40,23 @@ bool ALDGameState::SetPhase(ELDMatchPhase NewPhase)
 	{
 		return false;
 	}
-	if (Phase == NewPhase)
+	if (BattleSnapshot.Phase == NewPhase)
 	{
 		return true;
 	}
-	const bool bTerminal = Phase == ELDMatchPhase::Result || Phase == ELDMatchPhase::Aborted;
+	const bool bTerminal =
+	    BattleSnapshot.Phase == ELDMatchPhase::Result || BattleSnapshot.Phase == ELDMatchPhase::Aborted;
 	const bool bValidTransition =
 	    !bTerminal && (NewPhase == ELDMatchPhase::Aborted ||
-	                   (Phase == ELDMatchPhase::Loading && NewPhase == ELDMatchPhase::Preparing) ||
-	                   (Phase == ELDMatchPhase::Preparing && NewPhase == ELDMatchPhase::Running) ||
-	                   (Phase == ELDMatchPhase::Running && NewPhase == ELDMatchPhase::Result));
+	                   (BattleSnapshot.Phase == ELDMatchPhase::Loading && NewPhase == ELDMatchPhase::Preparing) ||
+	                   (BattleSnapshot.Phase == ELDMatchPhase::Preparing && NewPhase == ELDMatchPhase::Running) ||
+	                   (BattleSnapshot.Phase == ELDMatchPhase::Running && NewPhase == ELDMatchPhase::Result));
 	if (!bValidTransition || (!MatchContext.IsValid() && NewPhase != ELDMatchPhase::Aborted))
 	{
 		return false;
 	}
-	Phase = NewPhase;
+	BattleSnapshot.Phase = NewPhase;
+	++BattleSnapshot.Revision;
 	OnRep_CommonState();
 	ForceNetUpdate();
 	return true;
@@ -75,7 +79,7 @@ const FLDMatchContext& ALDGameState::GetMatchContext() const
 
 ELDMatchPhase ALDGameState::GetPhase() const
 {
-	return Phase;
+	return BattleSnapshot.Phase;
 }
 
 const FString& ALDGameState::GetReadinessReason() const
@@ -86,4 +90,9 @@ const FString& ALDGameState::GetReadinessReason() const
 void ALDGameState::OnRep_CommonState()
 {
 	OnMatchStateChanged.Broadcast();
+}
+
+const FLDBattleSnapshot& ALDGameState::GetBattleSnapshot() const
+{
+	return BattleSnapshot;
 }

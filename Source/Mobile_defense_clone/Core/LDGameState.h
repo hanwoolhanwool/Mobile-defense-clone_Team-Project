@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/LDMatchTypes.h"
+#include "Data/LDBattleTypes.h"
 #include "GameFramework/GameStateBase.h"
 #include "LDGameState.generated.h"
 
@@ -21,6 +21,7 @@ public:
 	const FLDMatchContext& GetMatchContext() const;
 	ELDMatchPhase GetPhase() const;
 	const FString& GetReadinessReason() const;
+	const FLDBattleSnapshot& GetBattleSnapshot() const;
 	FOnLDMatchStateChanged OnMatchStateChanged;
 
 private:
@@ -31,7 +32,7 @@ private:
 	FLDMatchContext MatchContext;
 
 	UPROPERTY(ReplicatedUsing = OnRep_CommonState)
-	ELDMatchPhase Phase = ELDMatchPhase::Loading;
+	FLDBattleSnapshot BattleSnapshot;
 
 	UPROPERTY(ReplicatedUsing = OnRep_CommonState)
 	FString ReadinessReason = TEXT("Loading required P0 data");
