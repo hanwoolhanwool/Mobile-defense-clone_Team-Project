@@ -1,0 +1,81 @@
+# 새 매치의 이전 요청 격리 — G3 / B / 04
+
+## 상태와 기준점
+
+| 항목 | 값 |
+|---|---|
+| 상위 TASK·정식 설계 | TASK-NET-01, TASK-TEST-01; [식별자·캐시 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [ARCH-03/05/06](../../../docs/technical/CODING_STANDARD.md) |
+| 참고 자료 제작 상태 | **Draft — 제품 수정 후 최종 패키지·수업 재현 대기** |
+| 실제 개발 상태 | Planned |
+| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미확정** |
+| 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
+| 필요한 상대 산출물·버전 | A/통합 GameMode 수정 `53af3993b49234b4f78b0c0213c4f3ed5041f7be`; G2 Processor·B Controller 계약 |
+| 제공 코드 / 직접 작성할 코드 | 제공: A GameMode 수정·수명 회귀·패키지 보충 probe. 직접 작성/대조: B Controller의 요청·응답 세대 검사, 세션 종료와 UI 수명 연결 |
+
+[B01](G3-01-entry-return.md)·[B02](G3-02-battle-result-hud.md)·[B03](G3-03-clock-finalization.md) 뒤에 진행한다. NET-LIFE01 실패/수정은 [공통 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md), 실행별 SHA·검사 수는 [SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 조립은 [통합 수업](../G3_INTEGRATION.md)에 둔다. 초기66파일 입력은 보존된 과거 기준이며 이 수정의 최종 완료본이 아니다.
+
+## 이번에 만들 동작
+
+새 매치에서 이전 매치의 유효한 구매 payload를 다시 보내도 재화·소환 횟수·보드·난수·응답 캐시는 바뀌지 않아야 한다. 현재 문맥으로 만든 정상 요청은 계속 허용되어야 한다. 같은 매치의 재시도와 다른 매치의 오래된 요청 거절은 별개 계약이다.
+
+명령 payload에는 MatchId가 없고 ConnectionEpoch가 있다. World마다 세대를 1부터 다시 발급하면 이전 payload가 새 Controller의 문맥과 맞는다. 응답의 MatchId 검사나 GI 여행 gate는 서버의 오래된 **요청** 승인을 막지 못한다. 발급기 수명은 World보다 길게 두되 실제 참가자·캐시·경제 상태는 기존 서버 원본에 남긴다.
+
+## 코드 작성 순서
+
+경로 기준은 `Source/Mobile_defense_clone/`이다.
+
+1. 제공 `Tests/LDLifecycleTests.cpp`의 `LD.P0.G3.Lifetime.PreviousMatchRequestRejected`를 먼저 읽는다. 첫 World의 정상 구매 payload를 보관하고 EndPlay 후 새 World·Mode·Controller를 만든다. 임의의 틀린 숫자만 넣는 검사가 아니다.
+2. A/통합 제공 `Core/LDGameMode.cpp`의 `AllocateConnectionEpoch`를 대조한다. GameThread 전용 process static uint64를 GUID 값으로 한 번 초기화해 증가시킨다. `.h`의 World별 counter를 제거하며 경제 RNG는 쓰지 않는다.
+3. 값이 소진돼 0이 되면 계속 0을 반환한다. `FLDParticipantContext::IsValid`→`PlayerState.InitializeParticipant`가 쓰기 전에 거절하고 Mode가 중단한다. 1로 돌아가 재사용하지 않는다. GUID 초기값은 재시작 간 충돌을 확률적으로 줄이며 수학적 유일성 보장은 아니다.
+4. B `Core/LDPlayerController.cpp`의 `InitializeServerSession/ShutdownServerSession/OnRep_ConnectionEpoch`를 대조한다. 새 문맥에서 이전 pending·응답·선택·위젯을 정리한다. 오래된 요청의 epoch를 새 값으로 고쳐 재전송하지 않는다.
+5. `SubmitLocalCommand`는 현재 소유 세대와 RequestId를 부여한다. `ClientCommandResult`는 MatchId·epoch·pending RequestId가 모두 맞을 때만 완료한다. `RetryPendingCommand`는 원래 키를 유지한다.
+6. `Network/LDCommandProcessor.cpp`의 `SubmitAtTime`은 실제 Controller 문맥과 payload epoch를 먼저 비교한다. invalid epoch를 새 캐시에 넣지 않는다. 같은 세대 재등록은 캐시를 지우지 않고, 오래된 세대로 세션을 바꾸지 않는다.
+
+흐름은 `서버 Controller 등록 → process 발급 → PlayerState/Processor → owner 복제 → 새 로컬 요청`이다. 구 payload는 `소유 RPC → 실제 서버 문맥 비교 → InvalidEpoch`에서 멈춘다. process static에는 식별자 값만 두고 UObject·보드·경제·World 참조를 보관하지 않는다. B는 A의 발급 로직을 Controller에 복제하지 않는다.
+
+## Unreal 설정 순서
+
+| 순서 | 위치·에셋 | 연결과 값 | 이유·기대 화면 |
+|---|---|---|---|
+| 1 | `L_P0Entry` / GI | B01의 native Entry·GI 설정 유지 | 같은 프로세스에서 새 World 시작 |
+| 2 | `L_P0` / Mode·Controller | 기존 BP 부모/클래스 연결 유지 | 새 서버 참가자 문맥 |
+| 3 | 제공 검사/probe | 명시 Development 옵션에서만 실행 | 기본 게임/Shipping은 검사 미생성 |
+
+새 Blueprint·UMG·맵·Config·데이터 프로퍼티는 없다. Blueprint에 세대를 저장하거나 Level Blueprint에서 1로 초기화하지 않는다. uint64 관찰 JSON은 십진 문자열로 남겨 double 반올림으로 다른 세대가 같게 보이지 않도록 한다. 런타임은 learning 폴더에 의존하지 않는다.
+
+## 실행·실패·수정 기록
+
+| 입력/조건 | 독립 기대 결과 | 실제 결과·범위 |
+|---|---|---|
+| 첫 판 정상 구매 payload→새 World/Controller | InvalidEpoch, 새 gold100/pop0/소환0/revision0/cache0, RNG 불변 | 수정 전 실제 Unreal 회귀에서 Success·재화 차감·개체/캐시 생성으로 실패. NET-LIFE01 |
+| 같은 회귀에 process 발급기 적용 | 다른 epoch, 새 원본 불변 | `53af399` 이후 자동화 Pass. 실제 서버 admission 호출이며 소켓 RPC는 아님 |
+| 같은 매치의 동일 요청 재시도 | 원응답·효과 한 번 | 기존 G2/G3 실제 RPC 증거는 SUMMARY. 새 매치 거절 검사와 합치지 않음 |
+| 다른 MatchId/epoch의 늦은 응답 | 현재 pending을 완료/삭제하지 않음 | G2 및 G0 실제 소유 RPC의 명시 응답 주입 증거와 구분. 제품 서버가 틀린 응답을 자연 생성했다는 뜻은 아님 |
+| 최신 패키지 새 매치의 구 payload | 실제 RPC InvalidEpoch와 양쪽 초기 상태 보존 | 보충 검수 대기. 과거 서로 다른 MatchId 목록만으로 통과 처리하지 않음 |
+
+예상 화면은 새 매치의 초기 보드·재화가 구 요청 때문에 변하지 않는 모습이다. 현재 이 결함의 직접 수정 전후 근거는 자동화의 실제 서비스 값이며 해당 검사 화면 캡처는 없다. 최신 패키지 UI/wire 관찰 전에 화면 Pass를 붙이지 않는다. 이전 반복 매치와 성능 측정은 당시 소스·조건으로 보존한다.
+
+## 상대에게 전달하고 통합하기
+
+전달 계약은 변경 없는 `FLDCommand/FLDCommandResult/FLDParticipantContext`, 서버 문맥 기반 `SubmitAtTime`, 로컬 pending/응답 필터다. A/통합 `53af399`를 B Controller·Processor의 기존 비교 조건과 연결한다. 새 wire 필드나 GI gameplay 상태를 추가하지 않는다.
+
+통합 수업의 `Replay-P0G3.ps1` 최초66파일과 `Apply-P0G3Supplement.ps1`의 문서화된73파일 보충 manifest를 대조한다. 시작 HEAD는 `f735b588`에 유지하고 기존 SHA256·변경 전 복사본·보충 SourceSha를 확인한다. 조립은 직접 작성의 대체가 아니며 learn 브랜치를 이동하지 않는다. 새 Editor→전체 자동화→실제 PIE→최신 패키지 보충을 순서대로 실행하고 완료 SHA를 적는다.
+
+독립 리뷰는 epoch 단조 조건·0 거절·중복 로그인·서버 소유권·종료 구독/타이머를 대조한다. `G3Boundary/G3NetConflict/G3Entry` 제공 fixture는 각 명시 조건만 증명하며 자연 밸런스나 Android 검수로 확대하지 않는다.
+
+## 이해 확인
+
+1. 응답에 MatchId가 있어도 이전 요청이 승인될 수 있었던 이유는 무엇인가?
+2. 매번 임의 uint64를 뽑는 방식은 기존 Processor의 단조 세대 검사와 왜 충돌하는가?
+3. process 발급기와 GI에 보드를 보관하는 설계는 어떻게 다른가?
+4. 작은 변형: 구 요청 거절 뒤 현재 문맥의 RequestId1을 보내 정상 구매도 확인한다. 모든 구매를 막는 잘못된 구현을 구별한다.
+5. 정상 재시도와 이전 매치 요청은 각각 어떤 키·소유 문맥으로 판정하는가?
+
+## 단계 완료
+
+- [x] 실제 실패→수정→Unreal 회귀와 네트워크 검수의 차이를 기록했다.
+- [x] 제공 A 수정·B 작성 범위·상태 원본·API를 구분했다.
+- [ ] 최종73파일 입력·완료 SHA와 새 수업 재현 결과를 연결한다.
+- [ ] 최신 패키지 실제 구 payload 거절·새 정상 요청·반복 수명 검수를 통과한다.
+
+위 조건 전에는 Draft, 학습자 Planned다. G4 설치·실행·터치·SafeArea·완주 미검증이 남으면 P0 최종 완료로 표시하지 않는다. P1/P2는 확장하지 않는다.
