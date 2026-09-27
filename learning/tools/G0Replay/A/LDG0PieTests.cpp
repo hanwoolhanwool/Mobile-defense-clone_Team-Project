@@ -292,6 +292,13 @@ namespace
 		FVerifyG0APIE(TSharedRef<FG0PIEProof> InProof, int32 InRound) : Proof(InProof), Round(InRound) {}
 		virtual bool Update() override
 		{
+			if (Proof->Test->HasAnyErrors())
+			{
+				Proof->Record(
+				    TEXT("verification-stopped"),
+				         FString::Printf(TEXT("round%d retained prior failure; proceed to engine cleanup"), Round));
+				return true;
+			}
 			const double Now = FPlatformTime::Seconds();
 			if (StartedAt == 0)
 			{
@@ -662,13 +669,30 @@ namespace
 		explicit FDeferredStartG0APIE(TSharedRef<FG0PIEProof> InProof) : Proof(InProof) {}
 		virtual bool Update() override
 		{
+			if (Proof->Test->HasAnyErrors())
+			{
+				Command.Reset();
+				Proof->Record(TEXT("start-stopped"),
+				                   TEXT("retained prior failure; no new PIE session; proceed to cleanup"));
+				return true;
+			}
 			if (!Command)
 			{
+				StartedAt = FPlatformTime::Seconds();
 				Proof->bTeardownRequested = false;
 				Proof->bThirdJoinWindow = false;
 				// The engine command subscribes to global PIE delegates in its constructor. Construct it only
 				// when this queue entry is active, so the next session cannot observe this session's events.
 				Command = MakeUnique<FStartPIEForAutomationCommand>(MakeRequest(*Proof));
+			}
+			// InternalUpdate is private to the automation framework. Directly driving the nested command
+			// does not initialize its StartTime, so bound the whole start/readiness wait here instead.
+			if (FPlatformTime::Seconds() - StartedAt > 60.0)
+			{
+				Proof->Test->AddError(
+				    TEXT("Independent A PIE startup/readiness exceeded wrapper timeout of 60 seconds"));
+				Command.Reset();
+				return true;
 			}
 			if (!Command->Update())
 			{
@@ -681,6 +705,7 @@ namespace
 	private:
 		TSharedRef<FG0PIEProof> Proof;
 		TUniquePtr<FStartPIEForAutomationCommand> Command;
+		double StartedAt = 0;
 	};
 
 	class FEndG0APIE final : public IAutomationLatentCommand

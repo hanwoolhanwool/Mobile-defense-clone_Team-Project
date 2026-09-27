@@ -15,11 +15,11 @@
     ],
     "NewTestPath": "Source/Mobile_defense_clone/Tests/LDG0PieTests.cpp",
     "ProductCoreDataAndExistingTestsUnchanged": true,
-    "NewTestSHA256": "DD5A04059A3B11E18F4B3257FB4061D9D609AEAE170B33BE6BD5BD2C45195929",
+    "NewTestSHA256": "A60B9877198BF20D5909F724987058CEAF992D592B504EC320A84510E167878E",
     "OnlyChangedManifestPath": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs",
     "InitialProvidedTestSHA256": "EDAD6FB9DDCFFE5D777C67961C36DE5E56B4F57B2EDC7DE43E1FABA0562279E7"
   },
   "Build": "NotRun",
   "PIE": "NotRun",
-  "PreExecutionReview": "Deferred start command construction; network event observer retained across both sessions with explicit third-join/teardown windows; expected-error check and final-report requirement in proof. Both findings are static, not observed runtime failures."
+  "PreExecutionReview": "Deferred start command construction; proof-lifetime network observer with explicit allowed windows; expected-error check and final-report requirement; wrapper-owned 60-second start timeout because nested InternalUpdate is private; prior errors skip new starts/verification but retain cleanup. Findings are static, not observed runtime failures."
 }
