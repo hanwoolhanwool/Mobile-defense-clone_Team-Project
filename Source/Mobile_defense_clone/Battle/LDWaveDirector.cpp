@@ -276,7 +276,7 @@ void ULDWaveDirector::EvaluateVictory(double ServerSeconds)
 	}
 	const FLDBattleSnapshot& Snapshot = GameState->GetBattleSnapshot();
 	if (!Snapshot.bFinalSpawnsComplete || Snapshot.WaveIndex != Snapshot.FinalWave || Snapshot.ActiveEnemyCount != 0 ||
-	    Snapshot.Bosses.Num() != 2)
+	    Snapshot.Bosses.Num() != 2 || LastDeathServerSeconds > ServerSeconds)
 	{
 		return;
 	}
