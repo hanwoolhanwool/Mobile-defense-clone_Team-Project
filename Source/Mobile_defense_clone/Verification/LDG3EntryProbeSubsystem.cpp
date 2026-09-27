@@ -55,7 +55,7 @@ namespace
 		}
 		return Found;
 	}
-	bool SaveJson(const FString& Path, const TSharedPtr<FJsonObject>& Object)
+	bool SaveEntryJson(const FString& Path, const TSharedPtr<FJsonObject>& Object)
 	{
 		FString Json;
 		return FJsonSerializer::Serialize(Object.ToSharedRef(), TJsonWriterFactory<>::Create(&Json)) &&
@@ -202,7 +202,7 @@ void ULDG3EntryProbeSubsystem::WriteProgress(const FString& Stage)
 	Root->SetNumberField(TEXT("wallSeconds"), FPlatformTime::Seconds() - StartedAt);
 	Root->SetNumberField(TEXT("worldSeconds"), GetWorld() ? GetWorld()->GetTimeSeconds() : -1);
 	Root->SetObjectField(TEXT("timeoutSnapshot"), BattleJson(TimeoutBattle));
-	SaveJson(OutputDirectory / TEXT("progress.json"), Root);
+	SaveEntryJson(OutputDirectory / TEXT("progress.json"), Root);
 	LastProgressAt = FPlatformTime::Seconds();
 }
 
@@ -636,7 +636,7 @@ void ULDG3EntryProbeSubsystem::TickReturned(ALDEntryPlayerController& Controller
 		Marker->SetStringField(TEXT("runId"), RunId);
 		Marker->SetStringField(TEXT("role"), Role);
 		Marker->SetStringField(TEXT("stage"), TEXT("entry-returned"));
-		SaveJson(OutputDirectory / TEXT("entry-returned.json"), Marker);
+		SaveEntryJson(OutputDirectory / TEXT("entry-returned.json"), Marker);
 		return;
 	}
 	if (Now - ReturnedAt >= 5 && ReadPeerStage(TEXT("entry-returned.json"), TEXT("entry-returned")))
@@ -728,6 +728,6 @@ void ULDG3EntryProbeSubsystem::Finish()
 	Root->SetStringField(TEXT("result"), bFailed ? TEXT("Fail") : TEXT("Pass"));
 	Root->SetBoolField(TEXT("passed"), !bFailed);
 	if (bOutputReady)
-		SaveJson(OutputDirectory / TEXT("result.json"), Root);
+		SaveEntryJson(OutputDirectory / TEXT("result.json"), Root);
 	FPlatformMisc::RequestExit(false);
 }
