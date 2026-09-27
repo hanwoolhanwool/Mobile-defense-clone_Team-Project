@@ -79,6 +79,8 @@ private:
 	TArray<TWeakObjectPtr<ALDEnemyActor>> Enemies;
 	TArray<TWeakObjectPtr<ALDEnemyActor>> AllEnemies;
 	TArray<TWeakObjectPtr<ALDUnitActor>> AllUnits;
+	TArray<TWeakObjectPtr<ALDEnemyActor>> BossActors;
+	TSet<uint64> AuthoredUnitIds;
 	TSet<uint64> ObservedEnemyIds;
 	TSet<uint64> ObservedUnitIds;
 	TSet<uint64> DeathIds;
@@ -96,6 +98,13 @@ private:
 	int32 LocalPhase = -1;
 	int32 LocalBatch = -2;
 	int32 CompletedBatches = 0;
+	int32 IntegritySamples = 0;
+	int32 MinimumUnits = MAX_int32;
+	int32 MinimumNormals = MAX_int32;
+	int32 MinimumBosses = MAX_int32;
+	int32 MinimumOwnerPopulation = MAX_int32;
+	double LastIntegrityAt = 0;
+	bool bIntegrityFailed = false;
 	int32 BaselineGold[2] = {0, 0};
 	int32 BaselineStars[2] = {0, 0};
 	int32 BaselineEconomyRevision[2] = {0, 0};

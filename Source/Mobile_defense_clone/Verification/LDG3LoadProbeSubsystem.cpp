@@ -231,6 +231,7 @@ bool ULDG3LoadProbeSubsystem::PrepareUnits(ALDGameMode& Mode)
 				return false;
 			}
 			AllUnits.Add(Actor);
+			AuthoredUnitIds.Add(Unit.InstanceId);
 		}
 	}
 	return Mode.GetCombatService()->GetRegisteredUnitCount() == 40;
@@ -261,6 +262,10 @@ ALDEnemyActor* ULDG3LoadProbeSubsystem::SpawnEnemy(ALDGameMode& Mode, bool bBoss
 	}
 	Enemies.Add(Enemy);
 	AllEnemies.Add(Enemy);
+	if (bBoss)
+	{
+		BossActors.Add(Enemy);
+	}
 	return Enemy;
 }
 
@@ -292,6 +297,8 @@ bool ULDG3LoadProbeSubsystem::PrepareLoad(ALDGameMode& Mode)
 	{
 		return false;
 	}
+	// Authoring is complete. Keep the product clock running but reject external gameplay mutations.
+	Mode.GetCommandProcessor()->SetAcceptingCommands(false);
 	DamageHandle = Mode.GetCombatService()->OnDamageCommitted.AddUObject(this, &ULDG3LoadProbeSubsystem::OnDamage);
 	DeathHandle = Mode.GetCombatService()->OnEnemyDeathCommitted.AddUObject(this, &ULDG3LoadProbeSubsystem::OnDeath);
 	for (int32 Index = 0; Index < 101; ++Index)
@@ -304,6 +311,25 @@ bool ULDG3LoadProbeSubsystem::PrepareLoad(ALDGameMode& Mode)
 	Check(TEXT("server-representative-population"), Mode.GetCombatService()->GetRegisteredUnitCount() == 40 &&
 	                                                    Mode.GetCombatService()->GetRegisteredEnemyCount() == 101 &&
 	                                                    Mode.GetCombatService()->GetLivingEnemyCount() == 101);
+	ALDGameState* GameState = GetWorld()->GetGameState<ALDGameState>();
+	FLDBattleSnapshot Battle = GameState->GetBattleSnapshot();
+	Battle.WaveIndex = 10;
+	Battle.ActiveEnemyCount = 99;
+	Battle.bFinalSpawnsComplete = true;
+	Battle.BossDeadlineServerSeconds = GetWorld()->GetTimeSeconds() + LoadSeconds + 120;
+	Battle.Bosses.Reset();
+	for (const TWeakObjectPtr<ALDEnemyActor>& Weak : BossActors)
+	{
+		const ALDEnemyActor* Enemy = Weak.Get();
+		FLDBossSnapshot Boss;
+		Boss.EnemyId = Enemy->GetRouteSnapshot().EnemyId;
+		Boss.RouteIndex = Enemy->GetRouteSnapshot().RouteIndex;
+		Boss.HP = Enemy->GetCombatSnapshot().HP;
+		Boss.MaxHP = Enemy->GetCombatSnapshot().MaxHP;
+		Boss.bAlive = true;
+		Battle.Bosses.Add(Boss);
+	}
+	Check(TEXT("fixture-battle-HUD-state-authored"), GameState->UpdateBattle(Battle));
 	State->ForceNetUpdate();
 	return true;
 }
@@ -318,6 +344,26 @@ void ULDG3LoadProbeSubsystem::OnDamage(const FLDDamageEvent& Event, int32 Player
 		if (Mode->GetBoardManager()->TryGetUnit(Event.SourceInstanceId, Unit))
 		{
 			AttackingUnitTypes.Add(Unit.UnitId);
+		}
+		if (State.IsValid() && State->Phase == 1)
+		{
+			for (const TWeakObjectPtr<ALDEnemyActor>& Weak : BossActors)
+			{
+				const ALDEnemyActor* Boss = Weak.Get();
+				if (Boss && Boss->GetRouteSnapshot().EnemyId == Event.EnemyId)
+				{
+					ALDGameState* GameState = GetWorld()->GetGameState<ALDGameState>();
+					FLDBattleSnapshot Battle = GameState->GetBattleSnapshot();
+					for (FLDBossSnapshot& BossView : Battle.Bosses)
+					{
+						if (BossView.EnemyId == Event.EnemyId)
+						{
+							BossView.HP = Boss->GetCombatSnapshot().HP;
+						}
+					}
+					GameState->UpdateBattle(Battle);
+				}
+			}
 		}
 	}
 }
@@ -391,33 +437,35 @@ void ULDG3LoadProbeSubsystem::BeginBatch(ALDGameMode& Mode)
 void ULDG3LoadProbeSubsystem::BeginStop(ALDGameMode& Mode)
 {
 	// Explicit fixture teardown via normal board plans: remove the authored free units before services close.
-	for (int32 Player = 0; Player < 2; ++Player)
+	for (uint64 InstanceId : AuthoredUnitIds)
 	{
-		for (int32 Index = 0; Index < 20; ++Index)
+		FLDPlacedUnit Unit;
+		if (!Mode.GetBoardManager()->TryGetUnit(InstanceId, Unit))
 		{
-			const FLDBoardSnapshot Before = Mode.GetBoardManager()->GetSnapshot(Player);
-			if (Before.Units.IsEmpty())
-			{
-				break;
-			}
-			FLDCommand Command;
-			Command.CommandType = ELDCommandType::Sell;
-			Command.InstanceId = Before.Units[0].InstanceId;
-			Command.ExpectedBoardRevision = Before.BoardRevision;
-			FLDBoardPlan Plan;
-			if (Mode.GetBoardManager()->TryPrepare(Participants[Player], Command, NAME_None,
-			                                       GetWorld()->GetTimeSeconds(),
-			                                       Plan) != ELDCommandResultCode::Success ||
-			    !Mode.GetBoardManager()->ValidatePrepared(Plan))
-			{
-				Mode.GetBoardManager()->CancelPrepared(Plan);
-				FailAndExit(TEXT("fixture-unit-teardown-failed"));
-				return;
-			}
-			Mode.GetBoardManager()->CommitPrepared(Plan);
-			Mode.GetBoardManager()->PublishPrepared(Plan);
+			FailAndExit(TEXT("authored-unit-missing-before-teardown"));
+			return;
 		}
+		const int32 Player = Unit.PlayerIndex;
+		const FLDBoardSnapshot Before = Mode.GetBoardManager()->GetSnapshot(Player);
+		FLDCommand Command;
+		Command.CommandType = ELDCommandType::Sell;
+		Command.InstanceId = InstanceId;
+		Command.ExpectedBoardRevision = Before.BoardRevision;
+		FLDBoardPlan Plan;
+		if (Mode.GetBoardManager()->TryPrepare(Participants[Player], Command, NAME_None, GetWorld()->GetTimeSeconds(),
+		                                       Plan) != ELDCommandResultCode::Success ||
+		    !Mode.GetBoardManager()->ValidatePrepared(Plan))
+		{
+			Mode.GetBoardManager()->CancelPrepared(Plan);
+			FailAndExit(TEXT("fixture-unit-teardown-failed"));
+			return;
+		}
+		Mode.GetBoardManager()->CommitPrepared(Plan);
+		Mode.GetBoardManager()->PublishPrepared(Plan);
 	}
+	Check(TEXT("fixture-only-teardown-leaves-empty-boards"),
+	           Mode.GetBoardManager()->GetSnapshot(0).Population == 0 &&
+	               Mode.GetBoardManager()->GetSnapshot(1).Population == 0);
 	DamageEventsAtStop = DamageEvents;
 	Mode.AbortMatch(TEXT("G3Load fixture complete: explicit Stop/GC lifetime verification"));
 	Check(TEXT("stop-turns-off-logic-timer"), !Mode.IsLogicTimerActive());
@@ -645,8 +693,8 @@ void ULDG3LoadProbeSubsystem::TickLocal(ALDPlayerController& Controller, double 
 		{
 			continue;
 		}
-		Normal += It->GetCombatSnapshot().EnemyTypeId == TEXT("N01") ? 1 : 0;
-		Bosses += It->GetCombatSnapshot().EnemyTypeId == TEXT("B01") ? 1 : 0;
+		Normal += It->IsCombatAlive() && It->GetCombatSnapshot().EnemyTypeId == TEXT("N01") ? 1 : 0;
+		Bosses += It->IsCombatAlive() && It->GetCombatSnapshot().EnemyTypeId == TEXT("B01") ? 1 : 0;
 		RouteSum += It->GetRouteSnapshot().TotalDistanceCm;
 		BatchSeen += ID >= Probe.BatchFirstEnemyId && ID < Probe.BatchFirstEnemyId + BatchSize ? 1 : 0;
 		if (!ObservedEnemyIds.Contains(ID))
@@ -670,10 +718,18 @@ void ULDG3LoadProbeSubsystem::TickLocal(ALDPlayerController& Controller, double 
 	}
 	if (Probe.Phase == 1)
 	{
+		const ALDGameState* GameState = GetWorld()->GetGameState<ALDGameState>();
+		const bool bBattleHudReady = GameState && GameState->GetBattleSnapshot().WaveIndex == 10 &&
+		                             GameState->GetBattleSnapshot().ActiveEnemyCount == 99 &&
+		                             GameState->GetBattleSnapshot().Bosses.Num() == 2;
 		if (!bSustainObserved && Units == 40 && Normal == 99 && Bosses == 2 &&
-		    Controller.GetBoardSnapshot().Population == 20)
+		    Controller.GetBoardSnapshot().Population == 20 && bBattleHudReady)
 		{
 			bSustainObserved = true;
+			if (LocalPlayerIndex == 1)
+			{
+				AuthoredUnitIds = ObservedUnitIds;
+			}
 			Check(TEXT("local-representative-actors-and-owner-board"), true);
 			if (LocalPlayerIndex == 1)
 			{
@@ -682,6 +738,49 @@ void ULDG3LoadProbeSubsystem::TickLocal(ALDPlayerController& Controller, double 
 		}
 		bRouteMovementObserved |= LastRouteSum > 0 && RouteSum > LastRouteSum;
 		LastRouteSum = RouteSum;
+		if (bSustainObserved && Probe.SustainStartServerSeconds > 0 && Now - LastIntegrityAt >= 1)
+		{
+			LastIntegrityAt = Now;
+			++IntegritySamples;
+			const int32 Population = Controller.GetBoardSnapshot().Population;
+			MinimumUnits = FMath::Min(MinimumUnits, Units);
+			MinimumNormals = FMath::Min(MinimumNormals, Normal);
+			MinimumBosses = FMath::Min(MinimumBosses, Bosses);
+			MinimumOwnerPopulation = FMath::Min(MinimumOwnerPopulation, Population);
+			bool bCorrect = Units == 40 && Normal == 99 && Bosses == 2 && Population == 20 && bBattleHudReady &&
+			                AuthoredUnitIds.Num() == 40 && ObservedUnitIds.Num() == 40;
+			ALDGameMode* Mode = GetWorld()->GetAuthGameMode<ALDGameMode>();
+			for (const TWeakObjectPtr<ALDUnitActor>& Weak : AllUnits)
+			{
+				const ALDUnitActor* Unit = Weak.Get();
+				bCorrect &= Unit && Unit->IsCommitted() && AuthoredUnitIds.Contains(Unit->GetPlacement().InstanceId);
+				if (Mode && Unit)
+				{
+					double NextAttack = 0;
+					ALDUnitActor* RegisteredActor = nullptr;
+					bCorrect &=
+					    Mode->GetCombatService()->TryGetUnitAttackState(Unit->GetPlacement().InstanceId, NextAttack) &&
+					    Mode->GetBoardManager()->TryGetCommittedUnitActor(Unit->GetPlacement().InstanceId,
+					                                                      RegisteredActor) &&
+					    RegisteredActor == Unit;
+				}
+			}
+			if (Mode)
+			{
+				bCorrect &= Mode->GetBoardManager()->GetSnapshot(0).Population == 20 &&
+				            Mode->GetBoardManager()->GetSnapshot(1).Population == 20 &&
+				            Mode->GetCombatService()->GetRegisteredUnitCount() == 40 &&
+				            Mode->GetCombatService()->GetRegisteredEnemyCount() == 101 &&
+				            Mode->GetCombatService()->GetLivingEnemyCount() == 101;
+			}
+			if (!bCorrect && !bIntegrityFailed)
+			{
+				Check(TEXT("sustained-population-or-registration-changed"), false,
+				           FString::Printf(TEXT("units=%d normal=%d boss=%d ownerPopulation=%d"), Units, Normal, Bosses,
+				                                Population));
+				bIntegrityFailed = true;
+			}
+		}
 	}
 	if (LocalPlayerIndex == 1 && Probe.Phase == 2 && BatchSeen == BatchSize && Probe.ClientObservedBatch != Probe.Batch)
 	{
@@ -775,6 +874,7 @@ void ULDG3LoadProbeSubsystem::Sample(const FString& Label, double Now)
 
 void ULDG3LoadProbeSubsystem::Tick(float DeltaTime)
 {
+	CSV_SCOPED_TIMING_STAT(LDG3Load, ProbeTick);
 	if (bFinished || !GetWorld()->HasBegunPlay())
 	{
 		return;
@@ -864,6 +964,9 @@ void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 		Check(TEXT("local-route-motion-observed"), bRouteMovementObserved);
 		Check(TEXT("local-sustain-duration"), bSustainObserved && MeasuredSustainSeconds >= LoadSeconds,
 		           FString::Printf(TEXT("measured=%.3f configured=%.3f"), MeasuredSustainSeconds, LoadSeconds));
+		Check(TEXT("sustained-periodic-actor-registry-and-HUD-integrity"),
+		           !bIntegrityFailed && IntegritySamples > 0 && MinimumUnits == 40 && MinimumNormals == 99 &&
+		               MinimumBosses == 2 && MinimumOwnerPopulation == 20);
 	}
 	bResultWritten = true;
 	TSharedPtr<FJsonObject> Result = MakeShared<FJsonObject>();
@@ -890,6 +993,11 @@ void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 	Result->SetNumberField(TEXT("observedEnemyIdentities"), ObservedEnemyIds.Num());
 	Result->SetNumberField(TEXT("observedUnitIdentities"), ObservedUnitIds.Num());
 	Result->SetNumberField(TEXT("attackingUnitTypeCount"), AttackingUnitTypes.Num());
+	Result->SetNumberField(TEXT("sustainIntegritySamples"), IntegritySamples);
+	Result->SetNumberField(TEXT("minimumSustainUnitActors"), MinimumUnits);
+	Result->SetNumberField(TEXT("minimumSustainAliveNormals"), MinimumNormals);
+	Result->SetNumberField(TEXT("minimumSustainAliveBosses"), MinimumBosses);
+	Result->SetNumberField(TEXT("minimumSustainOwnerPopulation"), MinimumOwnerPopulation);
 	Result->SetBoolField(TEXT("completionHandshakeConfirmed"), bHandshakeConfirmed);
 	Result->SetBoolField(TEXT("authorityMetricsAvailable"), LocalPlayerIndex == 0);
 	Result->SetBoolField(TEXT("profileCsvWriteCompleted"), bProfileWritten);
