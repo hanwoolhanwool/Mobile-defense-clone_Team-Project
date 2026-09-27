@@ -98,6 +98,5 @@ private:
 
 	TArray<TWeakObjectPtr<APlayerController>> Participants;
 	TArray<TWeakObjectPtr<ALDPlayerController>> PendingParticipants;
-	uint64 NextConnectionEpoch = 1;
 	bool bEnding = false;
 };
