@@ -32,6 +32,7 @@ public:
 	bool TryGetUnitAttackState(uint64 InstanceId, double& OutNextAttackAt) const;
 	int32 GetRegisteredUnitCount() const;
 	int32 GetLivingEnemyCount() const;
+	int32 GetRegisteredEnemyCount() const;
 	FLDEnemyDeathCommitted OnEnemyDeathCommitted;
 	FLDDamageCommitted OnDamageCommitted;
 

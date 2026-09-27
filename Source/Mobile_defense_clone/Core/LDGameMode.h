@@ -38,6 +38,7 @@ public:
 	ULDCombatService* GetCombatService() const;
 	ULDCommandProcessor* GetCommandProcessor() const;
 	ULDWaveDirector* GetWaveDirector() const;
+	bool IsLogicTimerActive() const;
 
 protected:
 	virtual void BeginPlay() override;
