@@ -17,6 +17,9 @@
 #include "Misc/CommandLine.h"
 #include "Misc/Parse.h"
 #include "TimerManager.h"
+#include "ProfilingDebugging/CsvProfiler.h"
+
+CSV_DECLARE_CATEGORY_EXTERN(LDP0);
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDMatch, Log, All);
 
@@ -480,6 +483,7 @@ void ALDGameMode::AdvanceBeforeExternalCommand(double ServerSeconds)
 
 void ALDGameMode::AdvanceTimelineBefore(double ServerSeconds)
 {
+	CSV_SCOPED_TIMING_STAT(LDP0, Timeline);
 	if (bEnding || bAdvancingTimeline || !FMath::IsFinite(ServerSeconds) || ServerSeconds < 0 ||
 	    PendingResult != ELDMatchResult::None)
 	{
