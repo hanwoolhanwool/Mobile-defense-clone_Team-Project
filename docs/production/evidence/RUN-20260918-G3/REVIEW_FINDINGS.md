@@ -1,6 +1,6 @@
 # G3 독립 리뷰 관찰
 
-상태: **330283c 변경 정적 재리뷰 / 제품 A01 Open / G3 게이트 미완료**. 검토일 2026-09-27. 구현자와 분리한 리뷰다. 1차 고정 소스 `86faa69`(제품 A `61fb3a7`, B `d2183ae8`, 통합 검사기/설정 `86faa69`),2차 `13264a9`,3차 `330283c`의 필요한 diff를 읽었다. 아래 정적 관찰은 빌드·실행 Pass가 아니며, 제공된 자동화/PIE/Editor-game 증거를 범위별로 구분했다. 리뷰어는 커밋·빌드·에디터 실행을 수행하지 않았다.
+상태: **A01/A02·fixture 준비 순서 수정 및56개 회귀 Pass / 부하 v2 내부 관찰 Pass·종합 Fail 보존 / G3 게이트 미완료**. 검토일 2026-09-27. 구현자와 분리한 리뷰다. 1차 고정 소스 `86faa69`(제품 A `61fb3a7`, B `d2183ae8`, 통합 검사기/설정 `86faa69`),2차 `13264a9`,3차 `330283c` 및 A01/A02·준비 순서·검사용 출력 경로 수정의 필요한 diff를 읽었다. 아래 정적 관찰은 빌드·실행 Pass가 아니며, 제공된 자동화/PIE/Editor-game 증거를 범위별로 구분했다. 리뷰어는 커밋·빌드·에디터 실행을 수행하지 않았다.
 
 ## 구현 전 계약 대조
 
@@ -100,10 +100,10 @@ GameInstance/entry/return/network 코드는1차 이후 제품 diff가 없어 불
 
 | 항목 | 내용 |
 |---|---|
-| 수준·상태 | **차단 / Open**, 정적 코드 반례. runtime 재현은 아직 미실행이며 root/A에게 전달 |
+| 수준·상태 | **차단 결함 수정·회귀 Pass**. 정적 반례 전달→실제 Failure→제품 수정 후54개 자동화 Pass. 상세 SHA와 증거는 아래 후속 표 |
 | 파일·함수 | `Source/Mobile_defense_clone/Core/LDGameMode.cpp`의 `AbortMatch/RequestTerminal/AdvanceTimelineBefore`; `Source/Mobile_defense_clone/Battle/LDCombatService.cpp`의 `ResolveScheduledAttacks` |
 | 재현 | 실제 두 유닛의 공격을 같은 시각11에 예약하고 범위 안 HP70 적2개를 둔다. 첫 `OnDamageCommitted` observer에서 **Mode.AbortMatch만** 호출한다. fixture가 Combat.Stop을 추가로 호출하지 않는다 |
-| 현재 코드 결과 | Mode가 timeline 진행 중이면 PendingResult와 접수 닫힘만 설정한다. Combat의 공격 반복은 `!bStopped`만 검사하므로 다음 유닛의 공격도 계속하여 두 번째 적 HP를 변경한다. Mode.HandleEnemyDeath는 이미 PendingResult가 있어 두 번째 Death의 보상/Director 카운터 처리를 거절할 수 있다. 따라서 종료 요청 이후의 HP와 공용 N·보상 상태가 갈라진다 |
+| 수정 전 코드 결과 | Mode가 timeline 진행 중이면 PendingResult와 접수 닫힘만 설정한다. Combat의 공격 반복은 `!bStopped`만 검사하므로 다음 유닛의 공격도 계속하여 두 번째 적 HP를 변경한다. Mode.HandleEnemyDeath는 이미 PendingResult가 있어 두 번째 Death의 보상/Director 카운터 처리를 거절할 수 있다. 따라서 종료 요청 이후의 HP와 공용 N·보상 상태가 갈라진다 |
 | 기대 | 첫 이미 확정한 피해/사망/보상은1회 유지하고, 종료 요청 이후 두 번째 공격은 실행하지 않는다. 첫 보상 Drain 후 Result를 게시하며 둘째 적 HP70·일반 잔여1을 보존한다 |
 | 수정 방향 | terminal 요청이 들어온 순간 전투 반복의 다음 사건을 막는 명시적 취소/중지 계약을 Mode→Combat에 연결한다. 이미 승인한 Death 큐는 보존하고 Result 전 Drain한다. 같은 원칙으로 WaveDirector/남은 timeline 단계도 정지시키며 외부 observer가 하위 서비스 Stop까지 알아서 호출해야 하는 의존성을 만들지 않는다 |
 | 기존 검사 한계 | `CommittedDeathBeforeObserverAbort`는 callback 안에서 AbortMatch에 이어 **Combat.Stop을 직접 호출**하고 유닛도1개이므로 이 API 단독 종료 반례를 검사하지 않는다. 기존54Pass를 이 반례의 통과 증거로 쓰지 않는다. 두 유닛 fixture에서 AbortMatch만 호출하는 회귀가 필요 |
@@ -115,4 +115,73 @@ GameInstance/entry/return/network 코드는1차 이후 제품 diff가 없어 불
 | Unreal NullRHI 자동화 / `f4ad32c786cb6023014d48e0435d9460e4411dd3` | `Saved/P0Runs/G3-final-automation-v1/result.json`:54Pass, 경고0, 실패0, NotRun0. report에서 G3 wave7개 성공 확인 | 준비 동률·생성 일정·100 latch·승리 진리표·보스 마감/판매·부분 생성·observer+수동Stop 경로. 실제 화면/패키지 또는 위 A01의 API 단독 Abort 증거가 아님 |
 | 실제 GPU PIE / `2f144fe4852ede5b96e6f51683e2df3b527ccb37` | `Saved/P0Runs/G3-actual-pie-v2/result.json`:1Pass, PID53912, SettingsRestored=true. `-proof/pie-proof.json`에서 서로 다른 listen/client PIE World·소유0/1·양쪽 소환1/gold80·remote RPC·wave1 count2/2·Aborted·PIE World0과 설정복원 확인 | 실제 에디터 PIE2월드이며 별도2프로세스 패키지는 아님. 통합 담당이 양쪽PNG의 WAVE1/20초/N2를 직접 확인했다. 이 리뷰어는 JSON·코드·범위만 읽었으며 해당 PNG를 재열람했다고 기록하지 않음.10웨이브/승리/패키지 반복·네트워크 지연·부하는 포함되지 않음 |
 
-이 재리뷰는 요청된 V02/metric/time·부분 생성·observer 종료 diff와 위 증거로 한정했다. 새 `G3Load`의 전체 검사기와 부하 실행 결과는 이번 범위에서 읽거나 승인하지 않았다. **현재 제품 차단 A01이 남아 G3 통과를 보류한다.**
+이330283c 재리뷰는 요청된 V02/metric/time·부분 생성·observer 종료 diff와 위 증거로 한정했다. 새 `G3Load`의 전체 검사기는 이 범위에서 읽거나 승인하지 않았다. **당시 제품 차단 A01을 기록했고 아래 후속 실패→수정 검증으로 연결했다.**
+
+## A01/A02 실패 재현과 최소 수정 검증
+
+### A01 — 종료 요청 뒤 다음 타격
+
+| 단계 | 정확한 소스·실제 결과 | 근거·리뷰 |
+|---|---|---|
+| 반례 강화 | A 테스트 `83bd8fc1e10b8cdeb9e999561cc119efe2f094c2` | 수동 Combat.Stop을 제거하고 두 유닛 due11·적각HP70·피해 통지1·둘째HP70·양쪽 보상1·잔여N1을 독립 기대값으로 검사 |
+| 수정 전 실제 실행 | 통합 `15f14224a6a79159d82f7d45eb2ca83f8625db29`,1Fail | [자동화 결과](abort-regression-before.json), [실패 구간](abort-regression-before-errors.json). `G3-A01-before-test`: DamageCount 실제2/기대1, 둘째 적 HP 실제0/기대70. Unreal 프로세스 exit0이어도 테스트 Fail로 정확히 기록 |
+| 최소 제품 수정 | A `2a9d3469143bafa4c3d58dab261f05fbd528edf7` | `ALDGameMode::RequestTerminal`에서 PendingResult·접수 잠금 직후 Combat.Stop. 공격 반복은 다음 사건 전에 중지되며 Processor를 닫지 않아 첫 확정 Death 큐는 Drain→Result까지 유지. observer가 하위 서비스 종료를 직접 호출할 필요 제거 |
+| 수정 후 실제 실행 | 통합 `6b59c582fb4d2c75472c28292008e873c2f6d8ec`, 전체 LD.P0 **54Pass/경고0/Fail0/NotRun0** | [수정 후 결과](abort-regression-after-54.json), 전체 로그 `Saved/P0Runs/G3-A01-after-automation`. A01 강화 회귀를 포함한다. 정적 수정과 실제 before/after 결과를 함께 확인하여 A01을 닫음 |
+
+위 실행은 NullRHI의 실제 Unreal 생산 객체/함수 회귀이며 GPU 화면·최종 패키지·모바일 Pass가 아니다.
+
+### A02 — 중단 결과의 보스 HP가 마지막 확정 타격보다 오래됨
+
+| 항목 | 내용 |
+|---|---|
+| 상태 | **실제 실패→최소 수정→수정 후56개 회귀 Pass**, 아래 e4a02a4 결과로 닫음 |
+| 파일·함수 | `Source/Mobile_defense_clone/Core/LDGameMode.cpp`의 `AdvanceTimelineBefore/FinalizePendingTerminal`; `Source/Mobile_defense_clone/Battle/LDWaveDirector.cpp`의 `RefreshCombatView` |
+| 재현·원인 | 두 B01의 HP6000/방어20, 두 유닛의 due11, 물리 공격120으로 첫 타격이100 피해를 확정한 직후 damage observer에서 Mode.AbortMatch만 호출. A01 수정은 다음 공격을 멈추지만 Mode의 Pending 분기가 정기 RefreshCombatView를 건너뛰고, 기존 FinalizePendingTerminal도 동기화 없이 Result를 게시함 |
+| 영향 | 실제 적 Actor HP는5900인데 결과의 GameState/HUD Boss.HP는6000. R16의 표시·원본 일치 위반이며 서버 GameState와 그 복제 증거만 비교하는 V02 검사로는 검출 불가 |
+| 독립 기대·회귀 | A 테스트 `162fd7f8cf328620eb8d9d77f2b06cb627fcd2c1`: 물리120×100/(100+20)=100, 첫 보스5900/다른 보스6000. 첫 유일한 Result observer 안에서 실제 Actor HP와 snapshot HP를 비교. 피해1회·양쪽 재화100 유지·결과Aborted·후속 revision 불변도 검사 |
+| 수정 전 실제 실패 | 통합 `530327ae03966afd1a704a5d043d9100b70c87a3`; `G3-A02-before-test`1Fail. [결과](boss-view-regression-before.json), [실패 구간](boss-view-regression-before-errors.json): 기대5900/실제6000, 최초 결과 통지에서 불일치 확인 |
+| 최소 수정 | A `decb709977b6f76b8ab1436f2ae88416450dd592`: `FinalizePendingTerminal`에서 승인 Death Drain 후 `WaveDirector->RefreshCombatView()`를 호출하고 그 다음 GameState.FinalizeResult. 마지막 확정 Actor HP를 반영할 뿐 전투 진행·새 타격·승리 평가를 호출하지 않음 |
+| 코드 재리뷰 |6줄 변경과 기존 RefreshCombatView를 대조했다. Mode-origin Abort의 Director는 아직 살아 있어 HP를 게시할 수 있고, Result 전이라 GameState.UpdateBattle이 허용된다. 이후 기존 StopMatchServices가 정리한다. 이 최소 수정에서 추가 차단은 발견하지 않았다. 이후 e4a02a4의 실제 회귀 Pass를 확인하여 A02를 닫음 |
+
+### 별도 부하 fixture의 준비 단계 실패
+
+[G3-load-smoke-v1 결과](load-smoke-initial-failure.json)는 소스 `6b59c582fb4d2c75472c28292008e873c2f6d8ec`, 실제 Editor-game 두 프로세스, 부하 유지 요청10초의 **Fail**이다. 대표20분·2000회 검수의 Pass나 성능 수치로 사용하지 않는다. host 로그에는 참가자0만 등록된 뒤 `P0 terminal result=3 reason=5 time=0.000000`이 남았다.
+
+원인은 명시 G3Load/G2 combat-only fixture가 Preparing 상태이지만 준비 마감0·WaveDirector 없음에도 일반 timeline 준비 종료 경로로 진입한 것이다. A 수정 `53333d9e69c3095d54ef4499e40e83e734eae820`는 해당 fixture의 Preparing에서 timeline을 기다리고, 두 참가자 준비 후 RefreshReadiness가 Running을 여는 기존 경로만 사용한다. 준비 중 fixture 명령도 막는다. 정상 제품의 Preparing10초 규칙은 바꾸지 않는다. 이9줄 diff를 확인했으나 준비 회귀의 private 접근 컴파일 수정과 smoke 재실행은 통합 담당 진행 중이며 Pass로 표시하지 않는다.
+
+위 단계 당시 판정은 A01 닫힘/A02와 부하 재검증 대기였으며, 아래 실제 후속 결과로 갱신한다. 전체 로그/실패 입력은 보존했다.
+
+## e4a02a4의56개 회귀와 부하 v2 관찰
+
+### A02와 준비 순서의 실제 후속 결과
+
+[56개 자동화 결과](integration-automation-56.json)의 정확한 소스는 `e4a02a4fc369601ff5434c9101c070998502b373`이다. `Saved/P0Runs/G3-review-final-automation-fix1/result.json`과 report를 직접 읽어 **56Pass/경고0/Fail0/NotRun0**을 확인했다. `CommittedBossHPBeforeObserverAbortResult`, 강화된 `CommittedDeathBeforeObserverAbort`, `CombatFixturesWaitForBothParticipants`가 모두 Success다. 따라서 A02의 기대5900/실제6000 Failure와 수정 후 Pass가 연결되며 A01도 유지된다.
+
+준비 회귀의 컴파일 실패는 private 함수 직접 호출을 제거한 `0d358bc5af920166bc517431848700d8c9c6a98f`로 수정됐다. 테스트는 public TimerManager API로 실제 등록 타이머 delegate를 실행하고, fixture 안에서 GFrameCounter를 저장·복원한다. G2/G3Load 옵션 각각0인/1인에서 Preparing을 유지하고,2인 준비 때만 Running·명령 허용, 자동 웨이브/미작성 적0을 검사한다. 정상 매치의 Loading30초/Preparing10초 검사는 별도 기존 회귀로 유지된다. 테스트 통과는 실제 장기 부하나 네트워크 패키지 통과를 의미하지 않는다.
+
+### G3-load-smoke-v2: 내부 성공과 종합 실패를 분리
+
+[부하 v2 내부 관찰](load-smoke-v2-observations.json)과 `Saved/P0Runs/G3-load-smoke-v2/pair.json`을 대조했다. 소스는 같은 e4a02a4, 실제 별도 UnrealEditor-game host PID54640/client PID43640,540×1170·60FPS 제한·VSync0·RenderOffscreen·무음이며 **10초 요청 smoke**다.
+
+| 층 | 실제 결과·근거 |
+|---|---|
+| 실행 종합 | **Fail 유지**. launcher가 요구한 host/client 직하 result.json을 찾지 못해 `client exited without valid result`로 종료. 성공한 내부 검사만으로 pair.json을 Pass로 고치지 않음 |
+| 원인 | 전환용 초기 World의 subsystem이 요청 경로에 samples.csv를 먼저 만들었다. 실제 게임 World는 기존 파일 보존 분기에 의해 새 GUID 하위 경로를 사용했으므로 launcher 계약과 결과 경로가 달라짐 |
+| host 실제 내부 증거 | `host/2326BD984D988DA649AFD8954F83A6F0/result.json`:69개 검사 Pass, 유지12.009초,40유닛·일반99·보스2의 최소 점유 유지,16종 공격 관찰.25배치/2000개 고유 사망 모두 실제 기본 공격 경로, 추가 강제 피해 fallback0 |
+| client 실제 내부 증거 | `client/749FBE4D462B185E3B6A878AD12D0282/result.json`:33개 검사 Pass, 유지11.989초,40유닛·일반99·보스2 관찰,적2101개·유닛40개 식별자 관찰 |
+| 수명·정리 | host의 배치별 death/reward once·등록/수집 약한 참조0과 종료 logic timer 해제 검사 Pass. 최종 `all-2141-fixture-actors-garbage-collected`/client `client-2141-observed-actors-collected`도 Pass. 양쪽 완료 handshake·CSV 쓰기 완료true |
+| 한계 | 제품의 확률·HP·시계 그대로 진행한 자연 플레이가 아니라 명시 부하 fixture다. **최종 패키지·대표20분·Android 성능은 미실행**. 이 약12초 유지와2000회 수명 관찰만으로 장시간 메모리 추세·성능 예산 달성을 선언하지 않음 |
+
+### 검사용 출력 경로·네트워크 누계 수정
+
+`6c89c815cf5d84cd8ac7b479af71a2f66f98de52`는 output 경로 선점을 Initialize에서 제거하고 실제 Sample/프로파일 시작/결과 작성 시 `EnsureOutputDirectory`로 지연한다. 기존 증거 보존 분기는 유지된다. `adb45cde7939d3cbbd853b5f9b3f442a7fb3e52c`는 Sample에 연결 수명의 누적 byte/packet/loss를 기록한다. 초기화·제품 전투/경제·승패 규칙을 변경한 diff가 아니다. 이 두 수정의 코드 범위에서 추가 중대 결함은 발견하지 않았으나 **수정 후 새 run의 종합 Pass는 아직 제시되지 않았다**.
+
+현재 독립 리뷰 판정: **확인한 제품 차단 A01/A02와 준비 순서 결함은 회귀로 닫힘**. 최종 패키지2인·지연/회복·5시드·동일 프로세스 반복·대표20분과 최종 수명/성능 결과 연결이 남아 **G3 게이트는 미완료**다. 이전 smoke의 aggregate Fail은 그대로 보존한다.
+
+통합 실행 후속: `de6e2f62f94660161f5863013ea3353f7a3a1e92`의 새 `G3-load-smoke-v3`는 22:26~22:28 실제 실행에서 **pair Pass**, host69/client33 Pass였다. 요청한 역할 폴더에 결과/CSV/PNG를 저장했고25배치2000 자연 사망·fallback0·최종 GC 검사·완료 handshake가 유지됐다. [새 요약](load-smoke-v3.json). 출력 경로 결함은 이 후속 실행으로 닫으며, 짧은 Editor-game smoke를 최종 패키지20분 성능 증거로 승격하지 않는다.
+
+## PKG01 — 시작 주소 입력창 스타일의 수명 (Open)
+
+첫 Win64 패키지는 빌드·쿠킹·아카이브를 통과했지만, 실제 client 실행의 프레임2에서 크래시했다. [원본 실행·오류](packaged-entry-crash.json). `UI/LDEntryWidget.cpp::NativeTick`이 지역 `FEditableTextBoxStyle`을 `UEditableTextBox::SetWidgetStyle`에 전달한다. 로컬 UE5.8의 `EditableTextBox.cpp:392`는 자기 프로퍼티에 복사한 뒤 Slate에는 여전히 `&InStyle`을 전달하고, `SEditableTextBox.cpp:113`는 이 포인터를 저장한다. 따라서 tick 반환 후 임시 스타일/FontObject가 무효가 된다. 실제 스택은 `GetInterfaceAddress→FSlateFontInfo::GetCompositeFont→SlatePrepass`였다.
+
+영향: 최종 패키지 시작 화면에서 참가 전 크래시, G3 차단. 수정 방향: 입력창이 UPROPERTY로 소유한 스타일의 안정 주소를 전달하고 글자 크기가 달라질 때만 갱신. Editor에서 드러나지 않은 메모리 수명 문제이므로 단위 회귀만으로 닫지 않고 패키지 시작·반복 복귀를 다시 실행한다. 기존 실패 run은 보존한다.

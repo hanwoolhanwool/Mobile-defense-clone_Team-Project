@@ -1,0 +1,63 @@
+{
+  "Scope": "Two separate UnrealEditor -game processes; not PIE or packaged execution",
+  "Probe": "G2",
+  "Started": "2026-09-27T22:34:01.6272251+09:00",
+  "Head": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "Executable": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+  "RenderOffscreen": true,
+  "Port": 17777,
+  "Processes": [
+    {
+      "Role": "host",
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_lesson_replay_g3\\Mobile_defense_clone.uproject",
+        "/Game/LD/Maps/L_P0?listen",
+        "-game",
+        "-ModelContextProtocolPort=17877",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G2",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-G2-regression\\host",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-G2-regression\\host/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-RenderOffscreen",
+        "-P0Seed=1776"
+      ],
+      "Id": 53464
+    },
+    {
+      "Role": "client",
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_lesson_replay_g3\\Mobile_defense_clone.uproject",
+        "127.0.0.1:17777",
+        "-game",
+        "-ModelContextProtocolPort=17878",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G2",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-G2-regression\\client",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-G2-regression\\client/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-RenderOffscreen",
+        "-P0Seed=1776"
+      ],
+      "Id": 54276
+    }
+  ],
+  "Result": "Pass",
+  "Finished": "2026-09-27T22:35:48.6929455+09:00"
+}

@@ -1,0 +1,51 @@
+{
+  "Scope": "Short Editor-game workload/lifetime smoke; not final package or 20-minute performance",
+  "Source": "de6e2f62f94660161f5863013ea3353f7a3a1e92",
+  "PairResult": "Pass",
+  "ConfiguredSustainSeconds": 10,
+  "EvidenceRoot": "Saved/P0Runs/G3-load-smoke-v3",
+  "Roles": {
+    "client": {
+      "Result": "Pass",
+      "Checks": 33,
+      "Failed": 0,
+      "MeasuredSustainSeconds": 12.024984868049616,
+      "NaturalDeaths": 0,
+      "FixtureDamageDeaths": 0,
+      "CompletedBatches": 0,
+      "ObservedEnemies": 2101,
+      "ObservedUnits": 40,
+      "AttackingTypes": 0,
+      "MinimumUnits": 40,
+      "MinimumNormals": 99,
+      "MinimumBosses": 2,
+      "Handshake": true,
+      "AuthorityMetrics": false,
+      "ProfileCsvComplete": true,
+      "ResultSHA256": "79AF37D56EDD847926E1FDA1786B051AF88C9E9572ED05D0C89CE194D7EED38A",
+      "ScreenshotSHA256": "3356EF7E09522CDD9806B9278F3E0604BB890485894E1B1A96ED137B7035711A"
+    },
+    "host": {
+      "Result": "Pass",
+      "Checks": 69,
+      "Failed": 0,
+      "MeasuredSustainSeconds": 12.024916597366337,
+      "NaturalDeaths": 2000,
+      "FixtureDamageDeaths": 0,
+      "CompletedBatches": 25,
+      "ObservedEnemies": 2101,
+      "ObservedUnits": 40,
+      "AttackingTypes": 16,
+      "MinimumUnits": 40,
+      "MinimumNormals": 99,
+      "MinimumBosses": 2,
+      "Handshake": true,
+      "AuthorityMetrics": true,
+      "ProfileCsvComplete": true,
+      "ResultSHA256": "85068EA69466A81062B67C7520694D2AB01BA59F2C11641721BC4CA585FC6D42",
+      "ScreenshotSHA256": "A399E4FB8D081B8C869F98BF71F2FCD174D23867B7A7017C768671C4F923E905"
+    }
+  },
+  "PreviousFailedEvidence": "G3-load-smoke-v1 and v2 preserved",
+  "VisualObservation": "Previous v2 both 540x1170 captures directly inspected: own board below, 20/20 units, N99 and both boss HP, no clipping. v3 screenshots stored; final long package captures pending."
+}

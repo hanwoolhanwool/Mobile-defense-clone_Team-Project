@@ -1,0 +1,43 @@
+{
+  "Aggregate": "Fail retained: initial transient World claimed requested output path; actual proof stored in unique subdirectories",
+  "Source": "e4a02a4fc369601ff5434c9101c070998502b373",
+  "Scope": "10-second Editor-game smoke and actual actor lifecycle, not 20-minute package performance",
+  "ActualProof": [
+    {
+      "result": "Pass",
+      "localPlayerIndex": 1,
+      "measuredSustainSeconds": 11.98870530033112,
+      "completedBatches": 0,
+      "uniqueDeathEvents": 0,
+      "naturalDeaths": 0,
+      "fixtureDamageDeaths": 0,
+      "observedEnemyIdentities": 2101,
+      "observedUnitIdentities": 40,
+      "attackingUnitTypeCount": 0,
+      "minimumSustainUnitActors": 40,
+      "minimumSustainAliveNormals": 99,
+      "minimumSustainAliveBosses": 2,
+      "completionHandshakeConfirmed": true,
+      "profileCsvWriteCompleted": true,
+      "Checks": 33
+    },
+    {
+      "result": "Pass",
+      "localPlayerIndex": 0,
+      "measuredSustainSeconds": 12.00922777557373,
+      "completedBatches": 25,
+      "uniqueDeathEvents": 2000,
+      "naturalDeaths": 2000,
+      "fixtureDamageDeaths": 0,
+      "observedEnemyIdentities": 2101,
+      "observedUnitIdentities": 40,
+      "attackingUnitTypeCount": 16,
+      "minimumSustainUnitActors": 40,
+      "minimumSustainAliveNormals": 99,
+      "minimumSustainAliveBosses": 2,
+      "completionHandshakeConfirmed": true,
+      "profileCsvWriteCompleted": true,
+      "Checks": 69
+    }
+  ]
+}

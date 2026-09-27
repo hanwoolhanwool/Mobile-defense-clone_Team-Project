@@ -1,0 +1,14 @@
+# G3 새 시작점 재현 증거
+
+참고 제작 Draft, 학습자 Planned. G2 기준 `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6`의 새 detached `C:/Users/iam12/P0_lesson_replay_g3`에 역할 수업 순서로 파일을 조립했다. [수업 절차](../../G3_INTEGRATION.md).
+
+- [최초65파일 조립](assembly.json): 런타임 기준 `de6e2f62f94660161f5863013ea3353f7a3a1e92`.
+- [최종66파일 대조](final-inputs.json): 검증 입력 `5359cda03b241537e0561c16b5026e18061181aa`. Source/Content/Config는 최초 조립과 동일하다.
+- [패키징 도구 수정](package-tool-amendment.json): 첫 패키징이 기존 다른 에디터의 Live Coding mutex로 exit6. 사용자 에디터를 보존하고 제공 도구에 UBT `-NoHotReloadFromIDE -MaxParallelActions=4`를 지정했다. 읽기 전용 CSV 분석기도 제공 입력으로 추가했다. 현재 재현 도구는 이 두 파일을 포함한66개를 처음부터 조립한다.
+- [Editor](editor.json), [56종 자동화](automation.json), [실제 PIE](pie.json), [PIE 수명 증거](pie-proof.json), [G2 조작 회귀](g2-regression.json): Pass. 자동화56종 경고0, PIE1종/원설정 복원, G2 실제 host213/client57검사 통과.
+
+재현 HEAD는 출발점에 유지되므로 각 실행 JSON의 HEAD만으로 최종 소스를 판정하지 않는다. 위 최종 입력 manifest가 실행 파일의 코드/에셋 입력을 식별한다. 빌드·NullRHI 자동화·GPU PIE·별도 프로세스는 서로 다른 증거다.
+
+PIE에서 양쪽546×720 화면의 WAVE1/20초/일반2와 gold80/pop1, 자기 보드 아래를 직접 확인했다. [host](host-running.png) · [client](client-running.png). 창 테두리를 포함한 실제 크기이며 요청한540×1170 그대로라고 기록하지 않는다.
+
+최종 패키지·반복 자연 규칙 플레이·지연/회복·20분 부하·Android는 아직 이 파일의 Pass 범위에 포함하지 않는다. 전체 로그/PNG는 재현 폴더 Saved/P0Runs/Replay-G3-*에 보존한다. 과거 패키징 실패 로그는 `Replay-G3-package`, 수정 후 새 시도는 `Replay-G3-package-fix1`이다.

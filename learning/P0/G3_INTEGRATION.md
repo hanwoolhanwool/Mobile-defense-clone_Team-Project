@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01, TASK-NET-01, TASK-UI-01; [공통 계약](COMMON.md), [독립 기대값](../../docs/production/evidence/RUN-20260918-G3/REVIEW_PLAN.md) |
-| 참고 자료 제작 상태 | Draft — 새 출발점 재현과 최종 패키지 검수 미완료 |
+| 참고 자료 제작 상태 | Draft — 새 출발점 조립·Editor·56자동화·실제 PIE 통과, 최종 패키지 검수 진행 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | f735b5889a5bd197e46d29bdfaa2b38c246d5ea6 / 미확정 |
+| 참고 시작/완료 SHA | f735b5889a5bd197e46d29bdfaa2b38c246d5ea6 / 검증 입력5359cda03b241537e0561c16b5026e18061181aa, 런타임de6e2f62f94660161f5863013ea3353f7a3a1e92와 동일 (게이트 완료 미확정) |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | G2 통합, Schema2/Rules0.3.0; A Director/공용 상태/전투·결과 위젯, B 진입/복귀/Controller |
 | 제공 코드 / 직접 작성할 코드 | 제공: 기존 JSON·UI v2·검사기·에셋 생성기. 직접 작성: A/B G3 수업의 런타임 코드와 독립 기대 검사. 참고 파일 조립은 학습자 구현 완료가 아님 |
@@ -48,16 +48,19 @@
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
 | 첫 자연 규칙2프로세스, seed1776 | 규칙대로10웨이브 결과, 서버/양쪽 상태 일치 | 보스 시간초과 패배, N0, HP467/3901. 내부 host16/client14 Pass. launcher seed 로그 문구 불일치로 종합Fail 보존 | [첫 실행 요약](../../docs/production/evidence/RUN-20260918-G3/first-editor-pair.json); Editor-game, 패키지 아님 |
-| 현재 프레임에 웨이브 전환·캡처 | 현재 HUD와 snapshot 일치 | host 캡처가 UMG 갱신보다 빨라 WAVE0. 전환 후0.5초로 캡처 예약 수정 | `13264a9`; 재실행 화면 확인 필요 |
-| 보스 패배 결과 | 종료 안내·비활성 조작·복귀 버튼 | 결과는 정상이나 하단에 참가자 대기 문구. 준비 여부와 조작 허용 여부를 분리하여 수정 중 | 첫 실행 양쪽 result PNG 직접 관찰 |
-| 실제 GPU PIE 두 네트워크 월드 | 각소환1/gold80, Running, 종료시 월드0/설정복원 | 1Pass, 설정복원true; 시작 캡처는 동일 프레임 지연 문제로 재검수 | `Saved/P0Runs/G3-actual-pie-v1` 및 `-proof`; 제품 승리/10웨이브 검사 아님 |
-| 부분 보스 생성 실패·정확 마감·한도 재진입 | 부분 성공 게시/중복 보상 없이 일관 종료 | 수정·독립 자동화 보강, 최종 재실행 대기 | [리뷰 기록](../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md) |
+| 현재 프레임에 웨이브 전환·캡처 | 현재 HUD와 snapshot 일치 | host 캡처가 UMG 갱신보다 빨라 WAVE0. 전환 후0.5초 예약으로 수정 후 양쪽 WAVE1/20초/N2 관찰 | 실제 PIEv2 및 새 재현 PIE 양쪽 PNG 직접 대조 |
+| 보스 패배 결과 | 종료 안내·비활성 조작·복귀 버튼 | 하단 참가자 대기 문구를 종료 안내로 수정 `28a5f2e`; 최종 결과 화면 재확인 진행 | 최초 실패 PNG 보존 |
+| 새 재현본의 실제 GPU PIE 두 네트워크 월드 | 각소환1/gold80, Running, 종료시 월드0/설정복원 | 1Pass, 설정복원true; 양쪽546×720 화면에서 WAVE1/20초/N2·gold80/pop1 확인 | 재현 폴더 `Saved/P0Runs/Replay-G3-pie` 및 `-proof`; 제품 승리/10웨이브 검사 아님 |
+| 부분 보스 생성 실패·정확 마감·한도·종료 재진입 | 부분 성공 게시/중복 보상/추가 공격 없이 일관 종료 | A01/A02/검사용 준비 순서 결함 수정 후56종 무경고Pass, 새 재현본도56Pass | [리뷰 기록](../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md) |
+| 부하 출력 경로·2000회 수명 smoke | 실제 게임 World가 지정 폴더에 한 결과 저장, 실제 처치·정리 | 전환 World의 경로 선점으로v2 종합Fail. 출력 지연 초기화 후v3 host69/client33 및 종합Pass | [smoke v3](../../docs/production/evidence/RUN-20260918-G3/load-smoke-v3.json);10초 유지 Editor-game,20분 패키지 성능 아님 |
 
 컴파일 실패·모의 자동화·실제 PIE·Editor-game·패키지·Android 결과를 합쳐 하나의 Pass로 쓰지 않는다. 전체 로그와 PNG는 각 Saved/P0Runs 새 RunId에 보존한다.
 
 ## 상대에게 전달하고 통합하기
 
-A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Controller·Entry/GI를 연결한다. 기준 `f735b588`의 새 detached worktree에 역할 수업 순서로 조립한 뒤 파일 blob과 설정/에셋을 대조한다. 상세 manifest와 완료 SHA는 최종 검증 후 고정한다. 세 learn 브랜치에는 완성 코드를 병합하지 않는다.
+A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Controller·Entry/GI를 연결한다. `learning/tools/Replay-P0G3.ps1 -RepositoryRoot C:/Users/iam12/P0_reference_integration -ReplayRoot <존재하지 않는 절대 경로> -SourceSha 5359cda03b241537e0561c16b5026e18061181aa -RunId <새 이름>`으로 기준 `f735b588`의 새 detached worktree에66파일을 수업 순서로 조립하고 blob을 대조한다.16개는 제공 기반,50개는 G3 최종 입력이다. 중간 파일 묶음은 다음 묶음을 참조하므로 전체 조립 후 빌드한다. 조립은 학습자의 직접 구현을 대신하지 않는다.
+
+이번 실제 재현 경로는 `C:/Users/iam12/P0_lesson_replay_g3`다. 초기65파일 manifest와 패키징 도구 수정·분석기 추가 후 최종66파일 blob 대조를 [재현 증거](evidence/G3_REPLAY/README.md)에 보관했다. 런타임 Source/Content/Config는de6e2f6과5359cda가 동일하다. 이 폴더 HEAD는 출발점 f735b588에 그대로 있으므로 실행 기록의 HEAD만 최종 코드로 해석하지 말고 반드시 manifest의 SourceSha/파일 blob을 함께 대조한다. 세 learn 브랜치는 최초 공통8c6856d에 유지하며 완성 코드를 병합하지 않는다.
 
 통합 참고 프로젝트는 `C:/Users/iam12/P0_reference_integration/Mobile_defense_clone.uproject`이다. 에디터 Play의 Net Mode=Play As Listen Server, Number of Players=2로 설정하고 `L_P0`를 연다. 시작 화면 흐름은 별도 게임2프로세스 또는 패키지에서 첫 창 호스트, 둘째 창 `127.0.0.1` 참가로 확인한다. 기본 포트7777은 다른 실행과 겹치지 않게 한다.
 

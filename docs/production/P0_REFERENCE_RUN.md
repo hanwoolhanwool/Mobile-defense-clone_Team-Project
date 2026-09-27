@@ -36,7 +36,7 @@
 | G0 | Pass | A/B/통합 Editor Pass, A4/B4/통합12 자동화 Pass. 초기화·종료 2건 a02efc1 수정·재리뷰 완료. 실제 RPC/PIE는 G1~G3 검수 |
 | G1 | Pass | 소스 df8a2f2. 새 G0 재현 Editor·22자동화·실제2프로세스7화면비·전체 셀·2바퀴 Pass. 카메라/표시/검사기 실패 수정·리뷰 완료 |
 | G2 | Pass | 시작4861b987→제품5baa960/검사포함ae6be1b. 새56파일 조립·Editor·39+보충12 무경고Pass(44종); 실제GPU20단계 host213/client57 Pass. 독립 리뷰 차단0; [증거](evidence/RUN-20260918-G2/SUMMARY.md) |
-| G3 | InProgress | 2026-09-27 재개. G2 통합 f735b5889a5bd197e46d29bdfaa2b38c246d5ea6에서 A 웨이브/시간/결과, B HUD/진입/복귀, 통합 반복 실행 검사기 작성. 통합 Editor·독립 자동화54종·실제 GPU PIE 통과. 최종 패키지/5판/부하/재현 진행 중. 독립 리뷰에서 종료 중 후속 공격 결함을 추가 발견해 수정 중 |
+| G3 | InProgress | 2026-09-27 재개. G2 통합 f735b5889a5bd197e46d29bdfaa2b38c246d5ea6에서 A 웨이브/시간/결과, B HUD/진입/복귀 통합. 종료 재진입·보스 HP 반영·검수용 준비 순서 수정 후 e4a02a4의 독립 자동화56종 무경고 Pass. 실제 GPU PIEv2 통과 범위 별도. 최종 패키지/5판/20분 부하/새 수업 재현 진행 중 |
 | G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018/JDK21.0.3 준비. Android 실제 빌드 exit6: UE Android 선택 구성 요소 누락. 사용자가 설치 진행, adb 장치0 |
 
 원격 push/PR 병합/외부 배포/기존 작업 삭제는 수행하지 않는다. 전체 로그는 Saved/P0Runs에 저장하고 핵심 결과는 이 기록과 정식 검수 기록에 연결한다.

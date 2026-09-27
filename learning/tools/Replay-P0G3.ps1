@@ -133,7 +133,7 @@ $Steps = @(
     ) },
     @{ Name = '13 provided explicit representative load and lifetime fixture'; Lesson = 'G3_INTEGRATION.md / representative load'; Kind = 'ProvidedVerification'; Sha = $SourceSha; Paths = @(
         "${SourceRoot}Verification/LDG3LoadProbeSubsystem.h", "${SourceRoot}Verification/LDG3LoadProbeSubsystem.cpp",
-        'tools/Run-P0Load.ps1'
+        'tools/Run-P0Load.ps1', 'tools/Analyze-P0Load.py'
     ) }
 )
 $AllPaths = @($Steps | ForEach-Object { $_.Paths })

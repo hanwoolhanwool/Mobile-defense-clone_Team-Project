@@ -14,6 +14,7 @@
 8. [G3-A-01: 예정 생성과 일반 적 수](G3_01_WAVES.md)
 9. [G3-A-02: 열린 현재 시각과 단일 종료](G3_02_TIMELINE.md)
 10. [G3-A-03: 공용 전투 정보와 결과 표시](G3_03_WIDGETS.md)
+11. [G4-A-01: Android 패키지와 실기기](G4_01_ANDROID.md) — Draft, 구성 요소·기기 대기
 
 G2 세 수업은 G1 완료 `4861b987f3e2fe78bcc159d1b6a85008543a938b`에서 수업 순서로56파일을 조립하고 최종 소스 `ae6be1b0b06ed733425e01632a341fb4db4cad59`까지 재현한 범위에서 **Verified**다. [공통 재현 절차·증거](../evidence/G2_REPLAY/README.md), [정식 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md), [A 역할 경고와 최종 결과 구분](G2_EVIDENCE.md)을 따른다. Editor·39개 무경고 자동화·후속12개 무경고 검사·실제 두 프로세스20단계를 확인했다. 실제 학습자는 **Planned**이며 학습 브랜치에는 완성 코드를 병합하지 않았다.
 

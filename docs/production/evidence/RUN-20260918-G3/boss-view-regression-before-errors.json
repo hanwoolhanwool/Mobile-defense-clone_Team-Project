@@ -1,0 +1,4 @@
+[
+  "Expected 'Result observer sees final committed actor HP in shared state' to be 5900.000000, but it was 6000.000000 and outside tolerance 0.000100.",
+  "Expected 'Only first100 damage is reflected before Result; no second due attack' to be 5900.000000, but it was 6000.000000 and outside tolerance 0.000100."
+]

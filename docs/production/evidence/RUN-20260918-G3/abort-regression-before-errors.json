@@ -1,0 +1,4 @@
+[
+  "Expected 'One already committed hit remains observable through self-clear' to be 1, but it was 2.",
+  "Expected 'Mode Abort alone prevents second due attack: untouched HP70' to be 70.000000, but it was 0.000000 and outside tolerance 0.000100."
+]

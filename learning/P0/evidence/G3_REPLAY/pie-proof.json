@@ -1,0 +1,43 @@
+{
+	"kind": "actual-editor-PIE-listen-and-client",
+	"result": "Pass",
+	"processId": 50328,
+	"settingsRestored": true,
+	"observations": [
+		{
+			"stage": "worlds",
+			"detail": "host=/Game/LD/Maps/UEDPIE_0_L_P0.L_P0 type=PIE net=ListenServer localPlayer=0; client=/Game/LD/Maps/UEDPIE_1_L_P0.L_P0 type=PIE net=Client localPlayer=1; match=96CE23F3420297E2B8F0EA90E6B2AF96",
+			"wallSeconds": 16900340.802111398
+		},
+		{
+			"stage": "owned-commands",
+			"detail": "both population1 gold80; remote reliable RPC completed; pending cleared",
+			"wallSeconds": 16900340.841815598
+		},
+		{
+			"stage": "capture",
+			"detail": "../../../../../../Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-pie-proof/host-running.png 546x720",
+			"wallSeconds": 16900351.264600899
+		},
+		{
+			"stage": "capture",
+			"detail": "../../../../../../Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-pie-proof/client-running.png 546x720",
+			"wallSeconds": 16900351.288557999
+		},
+		{
+			"stage": "running",
+			"detail": "host/client wave1, counts2/2, server time10.842",
+			"wallSeconds": 16900351.288577002
+		},
+		{
+			"stage": "terminal",
+			"detail": "server/client Aborted; server command admission closed and combat registrations cleared",
+			"wallSeconds": 16900351.3034987
+		},
+		{
+			"stage": "cleanup",
+			"detail": "PIE worlds remaining=0; original config restored=1",
+			"wallSeconds": 16900351.390262399
+		}
+	]
+}

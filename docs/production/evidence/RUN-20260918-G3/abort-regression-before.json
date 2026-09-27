@@ -1,0 +1,27 @@
+{
+  "Scope": "Unreal automation with NullRHI; not PIE or visual gameplay",
+  "Filter": "LD.P0.G3.Waves.CommittedDeathBeforeObserverAbort",
+  "Started": "2026-09-27T22:04:51.6096161+09:00",
+  "Head": "15f14224a6a79159d82f7d45eb2ca83f8625db29",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe",
+  "Arguments": [
+    "C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+    "-unattended",
+    "-NullRHI",
+    "-nosound",
+    "-nosplash",
+    "-culture=en",
+    "-ExecCmds=Automation RunTests LD.P0.G3.Waves.CommittedDeathBeforeObserverAbort",
+    "-TestExit=Automation Test Queue Empty",
+    "-ReportExportPath=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-A01-before-test/report",
+    "-abslog=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-A01-before-test/engine.log"
+  ],
+  "ExitCode": 0,
+  "SucceededWithoutWarnings": 0,
+  "SucceededWithWarnings": 0,
+  "Succeeded": 0,
+  "Failed": 1,
+  "NotRun": 0,
+  "Result": "Fail",
+  "Finished": "2026-09-27T22:05:31.1534796+09:00"
+}

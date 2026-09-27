@@ -1,0 +1,9 @@
+{
+  "Source": "5359cda03b241537e0561c16b5026e18061181aa",
+  "RuntimeSource": "de6e2f62f94660161f5863013ea3353f7a3a1e92",
+  "File": "tools/Build-P0Package.ps1",
+  "BeforeSHA256": "689A218AFA111846980D046211B5231841CC4749C7E2135EF7225E0D5B07E212",
+  "AfterSHA256": "B6316F412602C6233135B8303808CA92FF8181917A292F3EC20E778A6D435C1E",
+  "Reason": "UAT attempted editor target with IDE hot reload while unrelated user editor PID52900 was open. Local engine UBT confirms -NoHotReloadFromIDE selects normal isolated build. User editor preserved; Source/Content/Config unchanged.",
+  "FailedRun": "Replay-G3-package"
+}
