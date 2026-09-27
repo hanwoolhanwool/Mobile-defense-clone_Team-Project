@@ -1,0 +1,584 @@
+{
+	"kind": "actual-editor-PIE-G0-owned-RPC",
+	"result": "Pass",
+	"productSource": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+	"canonicalTerminalVariant": false,
+	"processId": 46780,
+	"settingsRestored": true,
+	"packetSettingsRestored": true,
+	"eventObserverRestored": true,
+	"sendObserverRestored": true,
+	"terminalCompletions": 3,
+	"observations": [
+		{
+			"stage": "worlds",
+			"detail": "distinct PIE worlds host=/Game/TopDown/UEDPIE_0_Lvl_TopDown.Lvl_TopDown client=/Game/TopDown/UEDPIE_1_Lvl_TopDown.Lvl_TopDown match=B45DE5FA44B26F3AE06DFAA8A22E9BD5 indices=0/1 epochs=1/2; native override; Preparing Stub",
+			"wallSeconds": 16905126.384233199
+		},
+		{
+			"stage": "owned-rpc",
+			"detail": "request1 twice on server, PhaseNotAllowed twice on client, one completion/cache entry; nonlocal intent refused",
+			"wallSeconds": 16905126.414676499
+		},
+		{
+			"stage": "owner-mismatch",
+			"detail": "owning client RPC with host epoch received InvalidEpoch; client completion/cache unchanged; payload has no player index",
+			"wallSeconds": 16905126.439117499
+		},
+		{
+			"stage": "packet-loss-start",
+			"detail": "Only client PIE NetDriver outgoing PktLoss=100; no application response-token exhaustion",
+			"wallSeconds": 16905126.439133
+		},
+		{
+			"stage": "reply-fixtures",
+			"detail": "server Client RPC injects old match701, old epoch702 and matching Pending703; no direct implementation call",
+			"wallSeconds": 16905126.843187001
+		},
+		{
+			"stage": "packet-loss-end",
+			"detail": "all original client NetDriver settings restored; same request2 retried",
+			"wallSeconds": 16905126.858106799
+		},
+		{
+			"stage": "recovered",
+			"detail": "request2 retained through client transport loss; three dispatches, one new cache entry/terminal completion; admission remains G0 Stub",
+			"wallSeconds": 16905126.897053201
+		},
+		{
+			"stage": "response-budget-burst",
+			"detail": "32 completed request2 duplicates then new local request3, one client update; no packet setting or processor clock/token mutation",
+			"wallSeconds": 16905126.897986799
+		},
+		{
+			"stage": "response-budget-observed",
+			"detail": "actual flood/new dispatches=33 server frames=1251..1252 elapsed=0.013084s offered replies=9 new-request3-offered=0; cache3",
+			"wallSeconds": 16905126.925459102
+		},
+		{
+			"stage": "response-budget-recovered",
+			"detail": "request3 received twice, initially cached but no send attempt, then recharge/retry delivered original PhaseNotAllowed; cache3 and terminal completions3",
+			"wallSeconds": 16905127.252677001
+		},
+		{
+			"stage": "cleanup",
+			"detail": "PIE worlds remaining=0; original settings/network/event/send restored=1/1/1/1",
+			"wallSeconds": 16905127.368337601
+		}
+	],
+	"limits": "Native GameMode override, G0 closed Stub admission. No board/economy effects, BP wiring, gameplay UI, package, Android or G3 claim. Stale/Pending replies are explicit server-RPC fixtures. Client transport loss and server response-budget exhaustion are separate observed stages.",
+	"actualServerReceivedRequests": [
+		{
+			"requestId": 1,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.404588599,
+			"receivedFrame": 1213
+		},
+		{
+			"requestId": 1,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.404661801,
+			"receivedFrame": 1213
+		},
+		{
+			"requestId": 77,
+			"epoch": 1,
+			"source": 0,
+			"receivedWallSeconds": 16905126.428319,
+			"receivedFrame": 1215
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.884826299,
+			"receivedFrame": 1250
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.884884,
+			"receivedFrame": 1250
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.884899098,
+			"receivedFrame": 1250
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899289299,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899335399,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899353601,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899369199,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899384201,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899397999,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899412401,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899426199,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899439801,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.8994532,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899459898,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899466399,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899473902,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.8994794,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899484601,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899489999,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899510201,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899515901,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899519999,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899523798,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899528101,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899531901,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.8995356,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899539199,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899542801,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.8995465,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899550099,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899553798,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899557602,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899561301,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.899565201,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 2,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.8995689,
+			"receivedFrame": 1251
+		},
+		{
+			"requestId": 3,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905126.912373502,
+			"receivedFrame": 1252
+		},
+		{
+			"requestId": 3,
+			"epoch": 2,
+			"source": 0,
+			"receivedWallSeconds": 16905127.2394205,
+			"receivedFrame": 1277
+		}
+	],
+	"actualClientReceivedResults": [
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 1,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 1,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 1,
+			"requestId": 77,
+			"resultCode": 5,
+			"eventId": 0
+		},
+		{
+			"matchId": "7107116749E6A1A4CCFB75B74CAE4A8C",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 0,
+			"eventId": 701
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 1,
+			"requestId": 2,
+			"resultCode": 0,
+			"eventId": 702
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 2,
+			"eventId": 703
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"matchId": "B45DE5FA44B26F3AE06DFAA8A22E9BD5",
+			"epoch": 2,
+			"requestId": 3,
+			"resultCode": 9,
+			"eventId": 0
+		}
+	],
+	"serverSendRPCAttempts": [
+		{
+			"requestId": 1,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 1,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 77,
+			"resultCode": 5,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 0,
+			"eventId": 701
+		},
+		{
+			"requestId": 2,
+			"resultCode": 0,
+			"eventId": 702
+		},
+		{
+			"requestId": 2,
+			"resultCode": 2,
+			"eventId": 703
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 2,
+			"resultCode": 9,
+			"eventId": 0
+		},
+		{
+			"requestId": 3,
+			"resultCode": 9,
+			"eventId": 0
+		}
+	]
+}
