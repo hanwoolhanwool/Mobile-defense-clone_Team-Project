@@ -521,26 +521,43 @@ bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
 	FWaveFixture F;
 	F.Ready();
 	FLDWaveTestAccess::Advance(*F.Mode, 10.0001);
-	FLDUnitRow Row;
-	F.Mode->GetGameData()->TryGetUnitRow(TEXT("C02"), Row);
-	// Explicit observer-lifetime fixture: one strong ranged attack, no economy or command bypass in product.
-	Row.BaseAttack = 1000;
-	Row.RangeCm = 1000;
-	FLDPlacedUnit Placement;
-	Placement.InstanceId = 800000;
-	Placement.UnitId = Row.UnitId;
-	Placement.CellId = 0;
-	Placement.PlayerIndex = 0;
-	ALDUnitActor* Unit = F.World->SpawnActor<ALDUnitActor>();
-	if (!TestTrue(TEXT("Prepare actual observer fixture unit"),
-	                   Unit->InitializePrepared(Placement, Row, FTransform::Identity)))
+	const TArray<ALDEnemyActor*> Enemies = FLDWaveTestAccess::Enemies(*F.Mode->GetWaveDirector());
+	if (!TestEqual(TEXT("Observer boundary starts with exactly two real wave enemies"), Enemies.Num(), 2))
 	{
 		return false;
 	}
-	Unit->ApplyCommittedPlacement(Placement, FTransform::Identity);
-	F.Mode->GetCombatService()->RegisterCommittedUnit(*Unit, 10.75);
+	for (const ALDEnemyActor* Enemy : Enemies)
+	{
+		TestEqual(TEXT("Each untouched normal enemy starts at HP70"), Enemy->GetCombatSnapshot().HP, 70.0);
+	}
+	FLDUnitRow Row;
+	F.Mode->GetGameData()->TryGetUnitRow(TEXT("C02"), Row);
+	// Explicit observer-lifetime fixture: two strong attacks due at11; no product economy/command bypass.
+	Row.BaseAttack = 1000;
+	Row.RangeCm = 1000;
+	for (int32 Index = 0; Index < 2; ++Index)
+	{
+		FLDPlacedUnit Placement;
+		Placement.InstanceId = 800000 + Index;
+		Placement.UnitId = Row.UnitId;
+		Placement.CellId = Index;
+		Placement.PlayerIndex = Index;
+		ALDUnitActor* Unit = F.World->SpawnActor<ALDUnitActor>();
+		if (!TestTrue(TEXT("Prepare actual observer fixture unit"),
+		                   Unit->InitializePrepared(Placement, Row, FTransform::Identity)))
+		{
+			return false;
+		}
+		Unit->ApplyCommittedPlacement(Placement, FTransform::Identity);
+		F.Mode->GetCombatService()->RegisterCommittedUnit(*Unit, 10.75);
+		double Due = 0;
+		TestTrue(TEXT("Each fixture unit owns a scheduled attack"),
+		              F.Mode->GetCombatService()->TryGetUnitAttackState(Placement.InstanceId, Due));
+		TestEqual(TEXT("Both attacks are due at the same exact timestamp"), Due, 11.0);
+	}
 	int32 DamageCount = 0;
 	int32 ObservedDamage = 0;
+	uint64 FirstDamagedEnemyId = 0;
 	bool bResultSawReward = false;
 	F.State()->OnMatchStateChanged.AddLambda(
 	    [&]()
@@ -556,8 +573,11 @@ bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
 	    {
 		    ++DamageCount;
 		    ObservedDamage = EffectiveDamage;
+		    if (FirstDamagedEnemyId == 0)
+		    {
+			    FirstDamagedEnemyId = Event.EnemyId;
+		    }
 		    F.Mode->AbortMatch(TEXT("damage observer requests shutdown"));
-		    F.Mode->GetCombatService()->Stop();
 	    });
 	AddExpectedError(TEXT("Match aborted: damage observer requests shutdown"), EAutomationExpectedErrorFlags::Contains,
 	                      1);
@@ -565,13 +585,22 @@ bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
 	FLDWaveTestAccess::Advance(*F.Mode, 11.1);
 	TestEqual(TEXT("One already committed hit remains observable through self-clear"), DamageCount, 1);
 	TestEqual(TEXT("Effective damage excludes930 overkill"), ObservedDamage, 70);
-	TestTrue(TEXT("Approved death reward precedes terminal result despite observer stop"), bResultSawReward);
-	TestEqual(TEXT("Observer stop prevents a later second attack"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold,
-	               101);
+	TestTrue(TEXT("Approved death reward precedes terminal result when observer requests Abort"), bResultSawReward);
+	TestEqual(TEXT("First committed death grants each player exactly one reward"),
+	               F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 101);
+	TestEqual(TEXT("Partner receives the same single accepted death reward"),
+	               F.Mode->GetEconomyService()->GetSnapshot(1).Gold, 101);
+	for (const ALDEnemyActor* Enemy : Enemies)
+	{
+		const bool bFirstVictim = Enemy->GetRouteSnapshot().EnemyId == FirstDamagedEnemyId;
+		TestEqual(bFirstVictim ? TEXT("Already committed first victim remains dead")
+		                       : TEXT("Mode Abort alone prevents second due attack: untouched HP70"),
+		                              Enemy->GetCombatSnapshot().HP, bFirstVictim ? 0.0 : 70.0);
+	}
 	TestEqual(TEXT("Actual terminal retains Abort"), F.State()->GetBattleSnapshot().Result, ELDMatchResult::Aborted);
-	TestEqual(TEXT("Observer stop leaves no combat enemy registration"),
+	TestEqual(TEXT("Mode Abort leaves no combat enemy registration"),
 	               F.Mode->GetCombatService()->GetRegisteredEnemyCount(), 0);
-	TestFalse(TEXT("Observer stop clears owned mode timer"), F.Mode->IsLogicTimerActive());
+	TestFalse(TEXT("Mode Abort clears owned mode timer"), F.Mode->IsLogicTimerActive());
 	TestEqual(TEXT("Same timestamp scheduled spawns remain cancelled after observer Abort"),
 	               F.State()->GetBattleSnapshot().ActiveEnemyCount, 1);
 	F.State()->OnMatchStateChanged.Clear();
