@@ -139,6 +139,16 @@ void ULDG3LoadProbeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 		OutputDirectory = FPaths::ProjectSavedDir() / TEXT("P0Runs/G3Load") / FGuid::NewGuid().ToString();
 	}
 	OutputDirectory = FPaths::ConvertRelativePathToFull(OutputDirectory);
+	BaselineRss = FPlatformMemory::GetStats().UsedPhysical;
+}
+
+void ULDG3LoadProbeSubsystem::EnsureOutputDirectory()
+{
+	if (bOutputReady)
+	{
+		return;
+	}
+	// Transitional worlds also create subsystems. Only a world that produces evidence claims the output path.
 	if (FPaths::FileExists(OutputDirectory / TEXT("result.json")) ||
 	                       FPaths::FileExists(OutputDirectory / TEXT("samples.csv")))
 	{
@@ -148,7 +158,7 @@ void ULDG3LoadProbeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	const FString Header = TEXT("wallSeconds,worldSeconds,phase,batch,label,frames,frameMsP95,processCpuPercent,processCpuOneCorePercent,rssBytes,peakRssBytes,unitActors,enemyActors,aliveEnemies,registeredUnits,registeredEnemies,damageEvents,uniqueDeaths,routeDistanceSumCm\n");
 	FFileHelper::SaveStringToFile(Header, *(OutputDirectory / TEXT("samples.csv")),
 	                                        FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM);
-	BaselineRss = FPlatformMemory::GetStats().UsedPhysical;
+	bOutputReady = true;
 }
 
 TStatId ULDG3LoadProbeSubsystem::GetStatId() const
@@ -825,6 +835,7 @@ void ULDG3LoadProbeSubsystem::TickLocal(ALDPlayerController& Controller, double 
 
 void ULDG3LoadProbeSubsystem::Sample(const FString& Label, double Now)
 {
+	EnsureOutputDirectory();
 	int32 Units = 0;
 	int32 EnemyActors = 0;
 	int32 Alive = 0;
@@ -990,6 +1001,7 @@ void ULDG3LoadProbeSubsystem::Tick(float DeltaTime)
 
 void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 {
+	EnsureOutputDirectory();
 	bHandshakeComplete = bHandshakeConfirmed;
 	if (!bResultWritten)
 	{
@@ -1052,6 +1064,7 @@ void ULDG3LoadProbeSubsystem::FailAndExit(const FString& Reason, const FString& 
 
 void ULDG3LoadProbeSubsystem::BeginProfileCapture()
 {
+	EnsureOutputDirectory();
 	// This probe owns one capture per process; it does not stop a capture owned by another tool.
 #if CSV_PROFILER
 	if (FCsvProfiler::Get()->IsCapturing() || FCsvProfiler::Get()->IsWritingFile())
