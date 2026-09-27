@@ -5,14 +5,14 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-UI-01, TASK-TEST-01; [B HUD 계약](../../../docs/technical/IMPLEMENTATION_B.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
-| 참고 자료 제작 상태 | Draft — A 위젯 통합·B Editor·실제 PIE 확인, 최종 패키지 결과/복귀 검수 대기 |
+| 참고 자료 제작 상태 | Draft — 실제 패키지 양쪽 최종 HUD·게임 HUD 재생성·반복 복귀 Pass, 필수 부하 진행 중 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / 현재 소스 `0e473f4af380506d209a95f7ec42eccf89c69df4` (게이트 완료 미확정) |
+| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / 조립 `0981d07307112857dfdf0e91c79bcecdbcbc291b`; C++ `0e473f4`, cook Config `98727f0` ([공통 입력](README.md#g3-evidence), 게이트 완료 미확정) |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A 계약 `e61c414`의 `FLDBattleSnapshot`, `ALDGameState`, `ULDBattleStatusWidget`, `ULDResultWidget`; 실제 구현과 종료/HP 수정까지 현재 통합 소스에 포함 |
 | 제공 코드 / 직접 작성할 코드 | A DTO/전투/결과 위젯과 G2는 제공. B `LDPlayerController`, `LDGameplayWidget` 변경을 직접 작성 |
 
-빌드·실행별 SHA, 새 재현본66파일과 Entry 수정 기록, 로그 위치는 [B 공통 검증 기록](README.md#g3-evidence)을 따른다. 아래에는 이 수업의 HUD 관찰과 남은 검수만 적는다.
+빌드·실행별 SHA, 최종66파일과 Entry/쿠킹 수정 기록, 로그 위치는 [B 공통 검증 기록](README.md#g3-evidence)을 따른다. 아래에는 이 수업의 HUD 관찰과 남은 검수만 적는다.
 
 ## 이번에 만들 동작
 
@@ -48,21 +48,23 @@ Loading/Preparing/Running 화면 위에 서버의 웨이브·적 수·보스 HP/
 |---|---|---|---|
 | Loading에서 보드 미준비→Aborted | 결과/복귀가 표시됨 | 미실행 | 실제 한 참가자 대기/초기화 실패 |
 | Preparing에서 소환→Running | 서버 경제 확정, 전투는 Running부터 | 실제 PIE 양쪽 소환1/gold80·Running 확인; 준비시간 경계는 별도 자동화 Pass | [새 재현 PIE](../evidence/G3_REPLAY/pie-proof.json), B 57자동화의 `LoadingPreparationAndExactReadiness` |
-| Result에서 S/M/X·터치/드래그 | 새 요청/상태 변화0 | 미실행 | PC/Slate/EngineTouch 검수 |
-| Result Widget RemoveFromParent→재생성 | 표시 복구, 복귀1회 | 미실행 | 실제 GPU UI 수명 |
-| 결과 여러 번 갱신·빠른 복귀 클릭2번 | Entry 여행1회 | 미실행 | GI gate 단위 검사 + 실제 여행 |
+| Result에서 S/M/X·터치/드래그 | 새 요청/상태 변화0 | 실제 패키지 PNG에서 소환/합성/판매 비활성 확인; 종료 후 조작 주입은 미실행 | 시각 관찰과 PC/Slate/EngineTouch 입력 검수를 구분 |
+| Result Widget RemoveFromParent→재생성 | 표시 복구, 복귀1회 | 미실행. 각 판3회 재생성 Pass는 게임 HUD 대상이며 Result 위젯 자체 검사로 세지 않음 | 실제 GPU UI 수명 |
+| 결과 여러 번 갱신·빠른 복귀 클릭2번 | Entry 여행1회 | 정상 복귀 클릭은 양쪽4회 Pass; 빠른 이중 클릭은 미실행 | GI gate 자동화와 실제 클릭 횟수를 구분 |
 | 양쪽 Running UI | 같은 웨이브·일반 수·개인 상태 표시 | 실제 PIE WAVE1/20초/N2, gold80/pop1, 자기 보드 아래 관찰 | [host](../evidence/G3_REPLAY/host-running.png)/[client](../evidence/G3_REPLAY/client-running.png), 546×720 |
-| 양쪽 최종 UI·지연·중복·재매치 | 보스 HP/승패·revision 일치, 복귀1회 | 수정 후 패키지 검수 NotRun | PIE의 Running 관찰을 최종 결과 증거로 확대하지 않음 |
+| 양쪽 최종 UI·지연·중복·재매치 | 보스 HP/승패·전투/개인 상태 일치, 새 매치 초기화 | 최종 패키지5판과 회복1판 Pass, 실제 결과 화면·복귀 확인 | [공통 검증 기록의 최종 PNG/JSON](README.md#g3-evidence); 정확한 네트워크 로그와 UI 효과 횟수는 별도 증거 |
 
 통합 전 배치 대조에서 기존 G1 Title y146px와 상대 라벨 y240px(540×1170)이 A Status y114~230px와 Boss y238~259px에 겹쳤다. `558c168`에서 전투 Widget의 실제 viewport 존재에 맞춰 두 기존 라벨만 숨겼고, `82ce249`에서 probe 예외를 GameMode와 같은 Development/대소문자 규칙으로 맞췄다. 이후 실제 PIE 양쪽 화면은 공용 전투 상태와 보드를 확인했다. 요청 해상도540×1170과 실제 창 테두리 포함546×720을 구분한다.
 
-첫 자연 규칙 Editor-game은10웨이브 BossTimeout 결과와 보스 HP467/3901을 관찰했지만 [종합 결과는 Fail](../../../docs/production/evidence/RUN-20260918-G3/first-editor-pair.json)이다. host16/client14 내부 검사나 HUD 재생성 기록으로 이를 Pass로 바꾸지 않는다. 결과 뒤 하단에 잘못 남은 참가자 대기 문구는 `28a5f2e`에서 종료 안내로 고쳤으며, 최종 수정 패키지 결과 화면 재확인은 남았다.
+첫 자연 규칙 Editor-game은10웨이브 BossTimeout 결과와 보스 HP467/3901을 관찰했지만 [종합 결과는 Fail](../../../docs/production/evidence/RUN-20260918-G3/first-editor-pair.json)이다. host16/client14 내부 검사나 HUD 재생성 기록으로 이를 Pass로 바꾸지 않는다. 결과 뒤 하단에 잘못 남은 참가자 대기 문구는 `28a5f2e`에서 종료 안내로 고쳤다. 최종 패키지의 양쪽 Result PNG에서는 "전투가 종료되었습니다"로 정상 표시됨을 직접 확인했다.
 
-현재 `0e473f4`의 B Editor72.19초·57자동화 Pass와, 기존 조립 입력의 실제 PIE·G2 host213/client57 회귀를 [공통 기록](README.md#g3-evidence)에서 구분한다. G2 fixture의 HUD 재생성은 새 Result/Entry 반복 복귀 증거가 아니다. 첫 cooked 실행은 HUD까지 가기 전 Entry에서 PKG01로 실패했고 `501be90`의 스타일 소유권 수정 후 자동화는 통과했다. 실패 원인·수정 절차는 [Entry 수업](G3-01-entry-return.md)에만 관리한다. 최종 패키지5시드·20분 부하·Android는 NotRun이다.
+최종 패키지540×1170의 양쪽 Wave10 PNG는 자기 보드가 아래이며 공통 보스 HP5832/5895가 같다. Result PNG는 보스 HP435/3975·일반 적0·패배/보스 제한 시간 초과·복귀 버튼·비활성 조작 버튼이 일치한다. 패키지5판은 각 판 게임 HUD3회 재생성과 양쪽 최종 보드/재화/전투 스냅샷 일치, 네 번 실제 결과 복귀를 확인했다. UI가 상태 원본을 별도로 계산하지 않는 기대와 비교하는 관찰이며, 결과 위젯 자체 재생성/종료 후 터치 검수로 확대하지 않는다.
+
+현재 전체57자동화와 새 재현본56종+후속 Entry3종, 실제 PIE와 G2 host213/client57, 패키지5시드/회복의 입력·범위 차이는 [공통 기록](README.md#g3-evidence)에서 관리한다. PKG01의 실패 원인·수정은 [Entry 수업](G3-01-entry-return.md), PKG02 쿠킹/로드 수정은 공통 기록을 참조한다. 둘 다 해당 결함은 닫혔지만 대표 부하20분은 진행 중, 실제 음향 청취·Android는 NotRun이다.
 
 ## 상대에게 전달하고 통합하기
 
-API: `GameState.GetBattleSnapshot`, `BattleStatusWidget.UpdateView`, `ResultWidget.UpdateView/OnReturnRequested/GetReturnButtonScreenRect`, `PlayerController.CanUseGameplayActions/GetReturnButtonScreenRect/RequestReturnToEntry`, `G1BoardWidget.SetBattleOverlayVisible`. A 계약 `e61c414`→B `d2183ae`→A 실제 위젯/타임라인 `61fb3a`(선행 `b425226`)→B 상단 연결 `558c168/82ce249`가 초기 통합 순서다. 현재 재현은 종료/HP·안내 문구·Entry 수정까지 포함한 `0e473f4` 전체를 사용한다. B 역할 빌드·자동화는 통과했으며 패키지 결과/복귀는 다음 통합 검수다.
+API: `GameState.GetBattleSnapshot`, `BattleStatusWidget.UpdateView`, `ResultWidget.UpdateView/OnReturnRequested/GetReturnButtonScreenRect`, `PlayerController.CanUseGameplayActions/GetReturnButtonScreenRect/RequestReturnToEntry`, `G1BoardWidget.SetBattleOverlayVisible`. A 계약 `e61c414`→B `d2183ae`→A 실제 위젯/타임라인 `61fb3a`(선행 `b425226`)→B 상단 연결 `558c168/82ce249`가 초기 통합 순서다. 현재 재현은 종료/HP·안내 문구·Entry 수정의 C++ `0e473f4`와 cook Config `98727f0`를 함께 포함한 조립 `0981d073`을 사용한다. 역할 빌드→자동화→PIE→최종 패키지 결과/복귀가 통과했으며 부하와 남은 UI 수명 검수를 연결한다.
 
 ## 이해 확인
 
@@ -76,7 +78,8 @@ API: `GameState.GetBattleSnapshot`, `BattleStatusWidget.UpdateView`, `ResultWidg
 - [x] 파일 순서·소유권·API·입력/구독 해제를 기록했다.
 - [x] A 위젯 cpp와 최종 타임라인을 통합해 B 역할 Editor·자동화를 통과했다.
 - [x] 새 재현본 실제 PIE의 양쪽 Running 화면과 종료 정리 범위를 확인했다.
-- [ ] 실제 두 화면·terminal 입력·UI 재생성·복귀를 재현했다.
+- [x] 최종 패키지의 양쪽 전투/결과 화면·게임 HUD 재생성·반복 복귀를 재현했다.
+- [ ] 종료 뒤 실제 조작 주입·Result 위젯 자체 재생성·빠른 이중 복귀를 재현했다.
 - [x] 시작점→현재 소스·이전 입력·수정 기록별 증거를 연결했다.
 
-Verified 진입 조건은 현재 수정 입력으로 실제 패키지의 terminal 입력·결과 재생성·반복 복귀를 재현하는 것이다. Android SafeArea/터치는 별도 G4 검수다.
+현재 Draft다. Verified 진입 조건은 진행 중인 필수 부하 결과와 남은 terminal 입력·Result 재생성·이중 복귀의 실제 검수 범위를 확인하는 것이다. Android SafeArea/물리 터치는 별도 G4 NotRun이다.
