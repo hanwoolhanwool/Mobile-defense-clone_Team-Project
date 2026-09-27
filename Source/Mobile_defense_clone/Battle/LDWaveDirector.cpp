@@ -101,17 +101,20 @@ bool ULDWaveDirector::SpawnEnemy(int32 RouteIndex, const FLDWaveRow& Wave, doubl
 		RequestTerminal(ELDMatchResult::Aborted, ELDResultReason::InitializationFailure, ServerSeconds);
 		return false;
 	}
-	ALDEnemyActor* Enemy = SpawnActor ? SpawnActor(*GetWorld()) : GetWorld()->SpawnActor<ALDEnemyActor>();
+	const FLDEnemyActorFactory Factory = SpawnActor;
+	ALDEnemyActor* Enemy = Factory ? Factory(*GetWorld()) : GetWorld()->SpawnActor<ALDEnemyActor>();
+	const bool bOwnedFreshActor =
+	    Enemy && Enemy->GetWorld() == GetWorld() && Enemy->HasAuthority() && Enemy->GetRouteSnapshot().EnemyId == 0;
 	const uint64 EnemyId = NextEnemyId;
 	const FLDGameRules& Rules = GameData->GetRules();
 	const double HP = bBoss ? Row.FixedHP : Wave.NormalBaseHP * Row.HPScale;
-	if (!Enemy || Enemy->GetWorld() != GetWorld() || !Enemy->HasAuthority() ||
+	if (bStopped || !bOwnedFreshActor ||
 	    !Enemy->InitializeRoute(GameState->GetMatchContext().MatchId, EnemyId, RouteIndex,
 	                            Rules.PointsByGateCm[RouteIndex], Row.SpeedCmPerSec, ServerSeconds) ||
 	    !Enemy->InitializeCombat(Row, HP, EnemyId, Wave.WaveIndex, ServerSeconds) ||
 	    !CombatService->RegisterEnemy(*Enemy))
 	{
-		if (Enemy && Enemy->GetWorld() == GetWorld())
+		if (bOwnedFreshActor)
 		{
 			Enemy->Destroy();
 		}
@@ -215,9 +218,8 @@ bool ULDWaveDirector::HandleEnemyDeath(const FLDCombatDeath& Death)
 	}
 	const TWeakObjectPtr<ALDEnemyActor>* Registered = LivingEnemies.Find(Death.EnemyId);
 	ALDEnemyActor* Enemy = Registered ? Registered->Get() : nullptr;
-	if (!Enemy || Enemy->GetWorld() != GetWorld() || !Enemy->HasAuthority() || Enemy->GetWorld() != GetWorld() ||
-	    Enemy->GetCombatSnapshot().bAlive || Enemy->GetCombatSnapshot().HP != 0 ||
-	    Enemy->GetCombatSnapshot().SpawnSerial != Death.SpawnSerial ||
+	if (!Enemy || Enemy->GetWorld() != GetWorld() || !Enemy->HasAuthority() || Enemy->GetCombatSnapshot().bAlive ||
+	    Enemy->GetCombatSnapshot().HP != 0 || Enemy->GetCombatSnapshot().SpawnSerial != Death.SpawnSerial ||
 	    Enemy->GetCombatSnapshot().SpawnWaveIndex != Death.SpawnWaveIndex ||
 	    Enemy->GetCombatSnapshot().SpawnedServerSeconds != Death.SpawnedServerSeconds ||
 	    Enemy->GetCombatSnapshot().DeathServerSeconds != Death.DeathServerSeconds ||
