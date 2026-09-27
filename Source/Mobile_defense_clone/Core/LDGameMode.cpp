@@ -641,3 +641,8 @@ ULDWaveDirector* ALDGameMode::GetWaveDirector() const
 {
 	return HasAuthority() ? WaveDirector.Get() : nullptr;
 }
+
+bool ALDGameMode::IsLogicTimerActive() const
+{
+	return GetWorld() && GetWorld()->GetTimerManager().IsTimerActive(LogicTimer);
+}

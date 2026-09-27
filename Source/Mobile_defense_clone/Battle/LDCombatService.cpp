@@ -307,3 +307,8 @@ int32 ULDCombatService::GetLivingEnemyCount() const
 	}
 	return Count;
 }
+
+int32 ULDCombatService::GetRegisteredEnemyCount() const
+{
+	return Enemies.Num();
+}
