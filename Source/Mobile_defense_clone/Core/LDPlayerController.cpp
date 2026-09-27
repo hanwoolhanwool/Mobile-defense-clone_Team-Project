@@ -495,17 +495,19 @@ bool ALDPlayerController::CanUseGameplayActions() const
 
 void ALDPlayerController::UpdateBattleView()
 {
+#if !UE_BUILD_SHIPPING
 	// G1 and G2 are explicit earlier-gate fixtures: preserve their original presentation and assertions.
 	static const bool bLegacyProbe = []()
 	{
 		FString Probe;
 		FParse::Value(FCommandLine::Get(), TEXT("P0Probe="), Probe);
-		return Probe == TEXT("G1") || Probe == TEXT("G2");
+		return Probe.Equals(TEXT("G1"), ESearchCase::IgnoreCase) || Probe.Equals(TEXT("G2"), ESearchCase::IgnoreCase);
 	}();
 	if (bLegacyProbe)
 	{
 		return;
 	}
+#endif
 	ALDGameState* State = GetWorld() ? GetWorld()->GetGameState<ALDGameState>() : nullptr;
 	if (!State)
 	{
