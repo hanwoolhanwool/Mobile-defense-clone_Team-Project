@@ -40,8 +40,7 @@ namespace
 #endif
 	}
 
-	template <typename ValueType>
-	bool Same(const ValueType& A, const ValueType& B)
+	template <typename ValueType> bool Same(const ValueType& A, const ValueType& B)
 	{
 		return ValueType::StaticStruct()->CompareScriptStruct(&A, &B, 0);
 	}
@@ -72,7 +71,7 @@ namespace
 		}
 		return Result;
 	}
-}
+} // namespace
 
 ALDG3NetConflictPeer::ALDG3NetConflictPeer()
 {
@@ -98,7 +97,7 @@ void ALDG3NetConflictPeer::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 }
 
 void ALDG3NetConflictPeer::ServerReportObservation_Implementation(int32 ObservedPhase, FGuid ObservedMatch,
-                                                               int32 BoardRevision, bool bPass)
+                                                                  int32 BoardRevision, bool bPass)
 {
 	if (!IsNetConflictEnabled() || ObservedMatch != MatchId || ObservedPhase != Phase ||
 	    BoardRevision != (Phase <= 2 ? BeforeBoard.BoardRevision : AfterBoard.BoardRevision))
@@ -143,7 +142,7 @@ void ULDG3NetConflictProbeSubsystem::Initialize(FSubsystemCollectionBase& Collec
 	OutputDirectory = FPaths::ConvertRelativePathToFull(OutputDirectory);
 	// The runner may already have opened stdout/stderr here. Preserve previous owned evidence explicitly.
 	if (FPaths::FileExists(OutputDirectory / TEXT("result.json")) ||
-	    FPaths::FileExists(OutputDirectory / TEXT("progress.json")))
+	                       FPaths::FileExists(OutputDirectory / TEXT("progress.json")))
 	{
 		bFailed = true;
 		UE_LOG(LogLDG3NetConflict, Error, TEXT("Earlier fixture evidence already exists: %s"), *OutputDirectory);
@@ -216,15 +215,18 @@ bool ULDG3NetConflictProbeSubsystem::ObserveEvent(AActor* Actor, UFunction* Func
 	{
 		return false;
 	}
-	const FStructProperty* Property = FindFProperty<FStructProperty>(Function, bRequest ? TEXT("Command") : TEXT("Result"));
+	const FStructProperty* Property =
+	    FindFProperty<FStructProperty>(Function, bRequest ? TEXT("Command") : TEXT("Result"));
 	if (!Property || Property->Struct != (bRequest ? FLDCommand::StaticStruct() : FLDCommandResult::StaticStruct()))
 	{
 		Check(TEXT("RPC-parameter-shape"), false);
 		return false;
 	}
 	TSharedPtr<FJsonObject> Item = MakeShared<FJsonObject>();
-	Item->SetStringField(TEXT("kind"), bRequest ? TEXT("server-arrival") :
-	    LocalPlayerIndex == 0 ? TEXT("server-response-dispatch") : TEXT("client-response-arrival"));
+	Item->SetStringField(TEXT("kind"), bRequest ? TEXT("server-arrival")
+	                                            : LocalPlayerIndex == 0
+	                          ? TEXT("server-response-dispatch")
+	                          : TEXT("client-response-arrival"));
 	Item->SetStringField(TEXT("frame"), LexToString(GFrameCounter));
 	Item->SetNumberField(TEXT("worldSeconds"), Actor->GetWorld()->GetTimeSeconds());
 	Item->SetNumberField(TEXT("wallSeconds"), FPlatformTime::Seconds() - CreatedAt);
@@ -242,7 +244,7 @@ bool ULDG3NetConflictProbeSubsystem::ObserveEvent(AActor* Actor, UFunction* Func
 		Item->SetStringField(TEXT("epoch"), LexToString(Command.ConnectionEpoch));
 		Item->SetNumberField(TEXT("expectedBoardRevision"), Command.ExpectedBoardRevision);
 		Item->SetArrayField(TEXT("materials"), JsonIds({Command.ConsumedInstanceId0, Command.ConsumedInstanceId1,
-		    Command.ConsumedInstanceId2}));
+		                                                Command.ConsumedInstanceId2}));
 	}
 	else
 	{
@@ -278,10 +280,12 @@ bool ULDG3NetConflictProbeSubsystem::PrepareFixture(ALDGameMode& Mode, ALDPlayer
 	}
 	const FLDParticipantContext Context = PlayerState->GetParticipantContext();
 	Check(TEXT("actual-remote-owned-participant"), Context.IsValid() && Context.PlayerIndex == 1 &&
-	    !Remote.IsLocalController() && Remote.GetNetConnection() != nullptr);
+	                                                   !Remote.IsLocalController() &&
+	                                                   Remote.GetNetConnection() != nullptr);
 	Check(TEXT("fresh-empty-boards-and-caches"), Board->GetSnapshot(0).Population == 0 &&
-	    Board->GetSnapshot(1).Population == 0 && Mode.GetCommandProcessor()->GetCachedResultCount(0) == 0 &&
-	    Mode.GetCommandProcessor()->GetCachedResultCount(1) == 0);
+	                                                 Board->GetSnapshot(1).Population == 0 &&
+	                                                 Mode.GetCommandProcessor()->GetCachedResultCount(0) == 0 &&
+	                                                 Mode.GetCommandProcessor()->GetCachedResultCount(1) == 0);
 	if (bFailed)
 	{
 		return false;
@@ -299,8 +303,9 @@ bool ULDG3NetConflictProbeSubsystem::PrepareFixture(ALDGameMode& Mode, ALDPlayer
 		Command.RequestId = Index + 1;
 		Command.ExpectedBoardRevision = Board->GetSnapshot(1).BoardRevision;
 		FLDBoardPlan Plan;
-		if (Board->TryPrepare(Context, Command, TEXT("C01"), GetWorld()->GetTimeSeconds(), Plan) !=
-		        ELDCommandResultCode::Success || !Board->ValidatePrepared(Plan))
+		if (Board->TryPrepare(Context, Command,
+		                      TEXT("C01"), GetWorld()->GetTimeSeconds(), Plan) != ELDCommandResultCode::Success ||
+		                      !Board->ValidatePrepared(Plan))
 		{
 			Board->CancelPrepared(Plan);
 			Check(TEXT("free-C01-board-fixture-preparation"), false);
@@ -311,7 +316,7 @@ bool ULDG3NetConflictProbeSubsystem::PrepareFixture(ALDGameMode& Mode, ALDPlayer
 	}
 	Check(TEXT("explicit-free-fixture-no-economy-RNG-or-command-history"),
 	    Same(InitialEconomy, Economy->GetSnapshot(1)) && RngBefore == Economy->GetRandomState(1) &&
-	    Mode.GetCommandProcessor()->GetCachedResultCount(1) == 0,
+	        Mode.GetCommandProcessor()->GetCachedResultCount(1) == 0,
 	    TEXT("Three C01 units authored using public Board prepare/commit/publish; no paid summons or learner actions"));
 	FActorSpawnParameters Params;
 	Params.Owner = &Remote;
@@ -325,13 +330,14 @@ bool ULDG3NetConflictProbeSubsystem::PrepareFixture(ALDGameMode& Mode, ALDPlayer
 	Evidence->BeforeBoard = Board->GetSnapshot(1);
 	Evidence->BeforeEconomy = InitialEconomy;
 	const TArray<uint64> Materials = BoardIds(Evidence->BeforeBoard);
-	Check(TEXT("three-distinct-committed-C01-materials"), Materials.Num() == 3 &&
-	    SameIds(Materials, {1, 2, 3}) && Evidence->BeforeBoard.Population == 3 &&
-	    Evidence->BeforeBoard.BoardRevision == 3 && ActorSetMatches(Evidence->BeforeBoard));
+	Check(TEXT("three-distinct-committed-C01-materials"),
+	           Materials.Num() == 3 && SameIds(Materials, {1, 2, 3}) && Evidence->BeforeBoard.Population == 3 &&
+	               Evidence->BeforeBoard.BoardRevision == 3 && ActorSetMatches(Evidence->BeforeBoard));
 	for (const FLDPlacedUnit& Unit : Evidence->BeforeBoard.Units)
 	{
-		Check(TEXT("fixture-C01-same-owner-stack"), Unit.UnitId == TEXT("C01") && Unit.PlayerIndex == 1 &&
-		    Unit.CellId == Evidence->BeforeBoard.Units[0].CellId);
+		Check(TEXT("fixture-C01-same-owner-stack"),
+		           Unit.UnitId == TEXT("C01") && Unit.PlayerIndex == 1 &&
+		                               Unit.CellId == Evidence->BeforeBoard.Units[0].CellId);
 	}
 	if (bFailed || Materials.Num() != 3)
 	{
@@ -358,7 +364,7 @@ bool ULDG3NetConflictProbeSubsystem::PrepareFixture(ALDGameMode& Mode, ALDPlayer
 	}
 	RareTypes.Sort(FNameLexicalLess());
 	Check(TEXT("independent-P0-rare-candidate-contract"),
-	    RareTypes == TArray<FName>({TEXT("R01"), TEXT("R02"), TEXT("R03"), TEXT("R04")}));
+	           RareTypes == TArray<FName>({TEXT("R01"), TEXT("R02"), TEXT("R03"), TEXT("R04")}));
 	if (RareTypes.Num() != 4)
 	{
 		return false;
@@ -402,8 +408,8 @@ bool ULDG3NetConflictProbeSubsystem::ActorSetMatches(const FLDBoardSnapshot& Boa
 			{
 				return false; // The host deliberately has no units in this isolated scenario.
 			}
-			const FLDPlacedUnit* Expected = Board.Units.FindByPredicate([&](const FLDPlacedUnit& Unit)
-			    { return Unit.InstanceId == It->GetPlacement().InstanceId; });
+			const FLDPlacedUnit* Expected = Board.Units.FindByPredicate(
+			    [&](const FLDPlacedUnit& Unit) { return Unit.InstanceId == It->GetPlacement().InstanceId; });
 			if (!Expected || !Same(*Expected, It->GetPlacement()))
 			{
 				return false;
@@ -417,53 +423,58 @@ bool ULDG3NetConflictProbeSubsystem::ActorSetMatches(const FLDBoardSnapshot& Boa
 void ULDG3NetConflictProbeSubsystem::VerifyServer(ALDGameMode& Mode)
 {
 	ALDG3NetConflictPeer& Evidence = *Peer;
-	Check(TEXT("two-actual-owned-RPC-arrivals"), Requests.Num() == 2 &&
-	    Same(Requests[0], Evidence.First) && Same(Requests[1], Evidence.Second));
-	Check(TEXT("one-Success-one-StaleBoard-response"), Responses.Num() == 2 &&
-	    Responses[0].RequestId == 1 && Responses[0].ResultCode == ELDCommandResultCode::Success &&
-	    Responses[1].RequestId == 2 && Responses[1].ResultCode == ELDCommandResultCode::StaleBoard);
+	Check(TEXT("two-actual-owned-RPC-arrivals"),
+	           Requests.Num() == 2 && Same(Requests[0], Evidence.First) && Same(Requests[1], Evidence.Second));
+	Check(TEXT("one-Success-one-StaleBoard-response"), Responses.Num() == 2 && Responses[0].RequestId == 1 &&
+	                                                       Responses[0].ResultCode == ELDCommandResultCode::Success &&
+	                                                       Responses[1].RequestId == 2 &&
+	                                                       Responses[1].ResultCode == ELDCommandResultCode::StaleBoard);
 	Evidence.AfterBoard = Mode.GetBoardManager()->GetSnapshot(1);
 	Evidence.AfterEconomy = Mode.GetEconomyService()->GetSnapshot(1);
 	Evidence.ServerResponses = Responses;
 	Check(TEXT("population-three-to-one-and-single-board-revision"), Evidence.AfterBoard.Population == 1 &&
-	    Evidence.AfterBoard.Units.Num() == 1 && Evidence.AfterBoard.BoardRevision == 4);
+	                                                                     Evidence.AfterBoard.Units.Num() == 1 &&
+	                                                                     Evidence.AfterBoard.BoardRevision == 4);
 	FLDEconomySnapshot ExpectedEconomy = Evidence.BeforeEconomy;
 	++ExpectedEconomy.EconomyRevision;
 	Check(TEXT("gold-stars-paid-count-price-unchanged-single-economy-revision"),
-	    Same(ExpectedEconomy, Evidence.AfterEconomy));
+	           Same(ExpectedEconomy, Evidence.AfterEconomy));
 	Check(TEXT("exactly-one-independent-RNG-draw"), Mode.GetEconomyService()->GetRandomState(1) == ExpectedRngAfter,
-	    FString::Printf(TEXT("before=%d expected=%d actual=%d"), RngBefore, ExpectedRngAfter,
-	        Mode.GetEconomyService()->GetRandomState(1)));
+	           FString::Printf(TEXT("before=%d expected=%d actual=%d"), RngBefore, ExpectedRngAfter,
+	                                Mode.GetEconomyService()->GetRandomState(1)));
 	Check(TEXT("single-created-rare-ID4"), Evidence.AfterBoard.Units.Num() == 1 &&
-	    Evidence.AfterBoard.Units[0].InstanceId == 4 && Evidence.AfterBoard.Units[0].UnitId == ExpectedRare);
-	Check(TEXT("one-merge-publication-exact-materials"), MergeCommits.Num() == 1 &&
-	    MergeCommits[0].PlayerIndex == 1 && MergeCommits[0].ChangeReason == ELDBoardChangeReason::Merge &&
-	    MergeCommits[0].BoardRevision == 4 && SameIds(MergeCommits[0].RemovedInstanceIds, {1, 2, 3}) &&
-	    MergeCommits[0].AddedOrUpdatedUnits.Num() == 1 &&
-	    MergeCommits[0].AddedOrUpdatedUnits[0].InstanceId == 4);
+	                                           Evidence.AfterBoard.Units[0].InstanceId == 4 &&
+	                                           Evidence.AfterBoard.Units[0].UnitId == ExpectedRare);
+	Check(TEXT("one-merge-publication-exact-materials"),
+	           MergeCommits.Num() == 1 && MergeCommits[0].PlayerIndex == 1 &&
+	               MergeCommits[0].ChangeReason == ELDBoardChangeReason::Merge && MergeCommits[0].BoardRevision == 4 &&
+	               SameIds(MergeCommits[0].RemovedInstanceIds, {1, 2, 3}) &&
+	               MergeCommits[0].AddedOrUpdatedUnits.Num() == 1 &&
+	               MergeCommits[0].AddedOrUpdatedUnits[0].InstanceId == 4);
 	if (Responses.Num() == 2)
 	{
-		Check(TEXT("wire-single-effect-and-failure-empty-effects"), Responses[0].EventId != 0 &&
-		    SameIds(Responses[0].CreatedInstanceIds, {4}) && SameIds(Responses[0].RemovedInstanceIds, {1, 2, 3}) &&
-		    Responses[0].MovedInstanceIds.IsEmpty() && Responses[1].EventId == 0 &&
-		    Responses[1].CreatedInstanceIds.IsEmpty() && Responses[1].RemovedInstanceIds.IsEmpty() &&
-		    Responses[1].MovedInstanceIds.IsEmpty());
+		Check(TEXT("wire-single-effect-and-failure-empty-effects"),
+		           Responses[0].EventId != 0 && SameIds(Responses[0].CreatedInstanceIds, {4}) &&
+		               SameIds(Responses[0].RemovedInstanceIds, {1, 2, 3}) && Responses[0].MovedInstanceIds.IsEmpty() &&
+		               Responses[1].EventId == 0 && Responses[1].CreatedInstanceIds.IsEmpty() &&
+		               Responses[1].RemovedInstanceIds.IsEmpty() && Responses[1].MovedInstanceIds.IsEmpty());
 		for (const FLDCommandResult& Result : Responses)
 		{
-			Check(TEXT("wire-context-and-final-revisions"), Result.MatchId == MatchId &&
-			    Result.ConnectionEpoch == Evidence.First.ConnectionEpoch && Result.NewBoardRevision == 4 &&
-			    Result.EconomyRevision == ExpectedEconomy.EconomyRevision);
+			Check(TEXT("wire-context-and-final-revisions"),
+			           Result.MatchId == MatchId && Result.ConnectionEpoch == Evidence.First.ConnectionEpoch &&
+			               Result.NewBoardRevision == 4 && Result.EconomyRevision == ExpectedEconomy.EconomyRevision);
 		}
 	}
-	Check(TEXT("server-exact-remaining-actor-and-combat-registration"), ActorSetMatches(Evidence.AfterBoard) &&
-	    Mode.GetCombatService()->GetRegisteredUnitCount() == 1);
-	Check(TEXT("two-cached-results-no-host-side-effect"), Mode.GetCommandProcessor()->GetCachedResultCount(1) == 2 &&
-	    Mode.GetCommandProcessor()->GetCachedResultCount(0) == 0 &&
-	    Same(HostBeforeBoard, Mode.GetBoardManager()->GetSnapshot(0)) &&
-	    Same(HostBeforeEconomy, Mode.GetEconomyService()->GetSnapshot(0)) &&
-	    HostRngBefore == Mode.GetEconomyService()->GetRandomState(0));
+	Check(TEXT("server-exact-remaining-actor-and-combat-registration"),
+	           ActorSetMatches(Evidence.AfterBoard) && Mode.GetCombatService()->GetRegisteredUnitCount() == 1);
+	Check(TEXT("two-cached-results-no-host-side-effect"),
+	           Mode.GetCommandProcessor()->GetCachedResultCount(1) == 2 &&
+	               Mode.GetCommandProcessor()->GetCachedResultCount(0) == 0 &&
+	               Same(HostBeforeBoard, Mode.GetBoardManager()->GetSnapshot(0)) &&
+	               Same(HostBeforeEconomy, Mode.GetEconomyService()->GetSnapshot(0)) &&
+	               HostRngBefore == Mode.GetEconomyService()->GetRandomState(0));
 	Check(TEXT("scenario-completed-in-real-Preparing"),
-	    GetWorld()->GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Preparing);
+	           GetWorld()->GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Preparing);
 	Evidence.bServerPassed = !bFailed;
 	Evidence.Phase = 3;
 	Evidence.ForceNetUpdate();
@@ -472,20 +483,21 @@ void ULDG3NetConflictProbeSubsystem::VerifyServer(ALDGameMode& Mode)
 void ULDG3NetConflictProbeSubsystem::VerifyClient(ALDPlayerController& Controller)
 {
 	const ALDG3NetConflictPeer& Evidence = *Peer;
-	Check(TEXT("two-distinct-request-IDs-sent-same-client-tick"), FirstSendFrame != 0 &&
-	    FirstSendFrame == SecondSendFrame && Evidence.First.RequestId == 1 && Evidence.Second.RequestId == 2);
-	Check(TEXT("both-actual-client-response-arrivals-match-server-in-all-fields"), Responses.Num() == 2 &&
-	    Evidence.ServerResponses.Num() == 2 && Same(Responses[0], Evidence.ServerResponses[0]) &&
-	    Same(Responses[1], Evidence.ServerResponses[1]));
+	Check(TEXT("two-distinct-request-IDs-sent-same-client-tick"),
+	           FirstSendFrame != 0 && FirstSendFrame == SecondSendFrame && Evidence.First.RequestId == 1 &&
+	               Evidence.Second.RequestId == 2);
+	Check(TEXT("both-actual-client-response-arrivals-match-server-in-all-fields"),
+	           Responses.Num() == 2 && Evidence.ServerResponses.Num() == 2 &&
+	               Same(Responses[0], Evidence.ServerResponses[0]) && Same(Responses[1], Evidence.ServerResponses[1]));
 	Check(TEXT("client-one-success-one-stale-board"), Responses.Num() == 2 &&
-	    Responses[0].ResultCode == ELDCommandResultCode::Success &&
-	    Responses[1].ResultCode == ELDCommandResultCode::StaleBoard);
+	                                                      Responses[0].ResultCode == ELDCommandResultCode::Success &&
+	                                                      Responses[1].ResultCode == ELDCommandResultCode::StaleBoard);
 	Check(TEXT("client-owner-snapshots-converged"), Same(Controller.GetBoardSnapshot(), Evidence.AfterBoard) &&
-	    Same(Controller.GetEconomySnapshot(), Evidence.AfterEconomy));
+	                                                    Same(Controller.GetEconomySnapshot(), Evidence.AfterEconomy));
 	Check(TEXT("client-three-old-actors-replaced-by-exact-one"), ActorSetMatches(Evidence.AfterBoard));
 	Check(TEXT("server-independent-state-oracles-passed"), Evidence.bServerPassed);
 	Check(TEXT("raw-burst-does-not-pretend-to-test-Pending-UI"), !Controller.HasPendingCommand(),
-	    TEXT("Fixture calls owned ServerRequestCommand directly; unrequested replies are observed before the normal client guard"));
+	           TEXT("Fixture calls owned ServerRequestCommand directly; unrequested replies are observed before the normal client guard"));
 }
 
 void ULDG3NetConflictProbeSubsystem::TickAuthority(ALDGameMode& Mode)
@@ -513,15 +525,15 @@ void ULDG3NetConflictProbeSubsystem::TickAuthority(ALDGameMode& Mode)
 	{
 		Mode.AbortMatch(TEXT("G3NetConflict fixture complete: explicit service cleanup"));
 		Check(TEXT("explicit-abort-stops-admission-timer-combat-and-clock-delegates"),
-		    !Mode.CanAcceptCommands() && !Mode.IsLogicTimerActive() &&
-		    Mode.GetCombatService()->GetRegisteredUnitCount() == 0 &&
-		    !Mode.GetCommandProcessor()->BeforeExternalCommand.IsBound() &&
-		    !Mode.GetCommandProcessor()->AfterExternalCommandClock.IsBound());
+		           !Mode.CanAcceptCommands() && !Mode.IsLogicTimerActive() &&
+		               Mode.GetCombatService()->GetRegisteredUnitCount() == 0 &&
+		               !Mode.GetCommandProcessor()->BeforeExternalCommand.IsBound() &&
+		               !Mode.GetCommandProcessor()->AfterExternalCommandClock.IsBound());
 		Check(TEXT("cleanup-does-not-rewrite-merge-result-state"),
-		    Same(Evidence.AfterBoard, Mode.GetBoardManager()->GetSnapshot(1)) &&
-		    Same(Evidence.AfterEconomy, Mode.GetEconomyService()->GetSnapshot(1)) &&
-		    Mode.GetEconomyService()->GetRandomState(1) == ExpectedRngAfter &&
-		    Mode.GetCommandProcessor()->GetCachedResultCount(1) == 2);
+		           Same(Evidence.AfterBoard, Mode.GetBoardManager()->GetSnapshot(1)) &&
+		               Same(Evidence.AfterEconomy, Mode.GetEconomyService()->GetSnapshot(1)) &&
+		               Mode.GetEconomyService()->GetRandomState(1) == ExpectedRngAfter &&
+		               Mode.GetCommandProcessor()->GetCachedResultCount(1) == 2);
 		Evidence.bServerCleaned = !bFailed;
 		Evidence.Phase = 4;
 		Evidence.ForceNetUpdate();
@@ -537,7 +549,8 @@ void ULDG3NetConflictProbeSubsystem::TickAuthority(ALDGameMode& Mode)
 	else if (Evidence.Phase == 5 && Evidence.bClientFinished)
 	{
 		Check(TEXT("client-verified-cleaned-and-acknowledged-server-finish"),
-		    Evidence.bClientReady && Evidence.bClientVerified && Evidence.bClientCleaned && Evidence.bClientPassed);
+		           Evidence.bClientReady && Evidence.bClientVerified && Evidence.bClientCleaned &&
+		               Evidence.bClientPassed);
 		Evidence.Phase = 6;
 		Evidence.ForceNetUpdate();
 		WriteResult(true);
@@ -563,25 +576,24 @@ void ULDG3NetConflictProbeSubsystem::TickClient(ALDPlayerController& Controller)
 		return;
 	}
 	ALDG3NetConflictPeer& Evidence = *Peer;
-	if (LocalPhase == 0 && Evidence.Phase == 1 &&
-	    Same(Controller.GetBoardSnapshot(), Evidence.BeforeBoard) &&
+	if (LocalPhase == 0 && Evidence.Phase == 1 && Same(Controller.GetBoardSnapshot(), Evidence.BeforeBoard) &&
 	    Same(Controller.GetEconomySnapshot(), Evidence.BeforeEconomy) && ActorSetMatches(Evidence.BeforeBoard))
 	{
 		Check(TEXT("remote-baseline-sees-three-C01-and-unchanged-economy"),
-		    Evidence.BeforeBoard.Population == 3 && Evidence.BeforeBoard.BoardRevision == 3 &&
-		    Evidence.BeforeEconomy.Gold == 100 && Evidence.BeforeEconomy.Stars == 0 &&
-		    Evidence.BeforeEconomy.PaidSummonCount == 0 && Evidence.First.IsValidPayload() &&
-		    Evidence.Second.IsValidPayload() && Evidence.First.ExpectedBoardRevision == 3 &&
-		    Evidence.Second.ExpectedBoardRevision == 3);
+		           Evidence.BeforeBoard.Population == 3 && Evidence.BeforeBoard.BoardRevision == 3 &&
+		               Evidence.BeforeEconomy.Gold == 100 && Evidence.BeforeEconomy.Stars == 0 &&
+		               Evidence.BeforeEconomy.PaidSummonCount == 0 && Evidence.First.IsValidPayload() &&
+		               Evidence.Second.IsValidPayload() && Evidence.First.ExpectedBoardRevision == 3 &&
+		               Evidence.Second.ExpectedBoardRevision == 3);
 		Evidence.ServerReportObservation(1, MatchId, 3, !bFailed);
 		LocalPhase = 1;
 	}
 	else if (LocalPhase == 1 && Evidence.Phase == 2)
 	{
 		Check(TEXT("burst-starts-on-actual-owned-remote-Preparing-controller"),
-		    GetWorld()->GetNetMode() == NM_Client && Controller.IsLocalController() &&
-		    Controller.GetLocalParticipantIndex() == 1 && !Controller.HasAuthority() &&
-		    GetWorld()->GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Preparing);
+		           GetWorld()->GetNetMode() == NM_Client && Controller.IsLocalController() &&
+		               Controller.GetLocalParticipantIndex() == 1 && !Controller.HasAuthority() &&
+		               GetWorld()->GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Preparing);
 		if (bFailed)
 		{
 			FailAndExit(TEXT("remote-burst-precondition"));
@@ -594,21 +606,21 @@ void ULDG3NetConflictProbeSubsystem::TickClient(ALDPlayerController& Controller)
 		Controller.ServerRequestCommand(Evidence.Second);
 		LocalPhase = 2;
 	}
-	else if (LocalPhase == 2 && Evidence.Phase == 3 && Responses.Num() == 2 &&
-	    Evidence.ServerResponses.Num() == 2 && Same(Controller.GetBoardSnapshot(), Evidence.AfterBoard) &&
-	    Same(Controller.GetEconomySnapshot(), Evidence.AfterEconomy) && ActorSetMatches(Evidence.AfterBoard))
+	else if (LocalPhase == 2 && Evidence.Phase == 3 && Responses.Num() == 2 && Evidence.ServerResponses.Num() == 2 &&
+	         Same(Controller.GetBoardSnapshot(), Evidence.AfterBoard) &&
+	         Same(Controller.GetEconomySnapshot(), Evidence.AfterEconomy) && ActorSetMatches(Evidence.AfterBoard))
 	{
 		VerifyClient(Controller);
 		Evidence.ServerReportObservation(3, MatchId, Evidence.AfterBoard.BoardRevision, !bFailed);
 		LocalPhase = 3;
 	}
 	else if (LocalPhase == 3 && Evidence.Phase == 4 &&
-	    GetWorld()->GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Aborted)
+	         GetWorld()->GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Aborted)
 	{
-		Check(TEXT("replicated-explicit-cleanup-retains-final-owner-state"), Evidence.bServerCleaned &&
-		    Same(Controller.GetBoardSnapshot(), Evidence.AfterBoard) &&
-		    Same(Controller.GetEconomySnapshot(), Evidence.AfterEconomy) && !Controller.HasPendingCommand() &&
-		    !Controller.CanUseGameplayActions());
+		Check(TEXT("replicated-explicit-cleanup-retains-final-owner-state"),
+		           Evidence.bServerCleaned && Same(Controller.GetBoardSnapshot(), Evidence.AfterBoard) &&
+		               Same(Controller.GetEconomySnapshot(), Evidence.AfterEconomy) &&
+		               !Controller.HasPendingCommand() && !Controller.CanUseGameplayActions());
 		Check(TEXT("observer-handles-restored"), RestoreObservers());
 		Evidence.ServerReportObservation(4, MatchId, Evidence.AfterBoard.BoardRevision, !bFailed);
 		LocalPhase = 4;
@@ -732,7 +744,7 @@ void ULDG3NetConflictProbeSubsystem::Tick(float DeltaTime)
 		}
 		LocalPlayerIndex = Local->GetLocalParticipantIndex();
 		Check(TEXT("role-matches-real-local-owner"),
-		    LocalPlayerIndex == (World->GetNetMode() == NM_ListenServer ? 0 : 1));
+		           LocalPlayerIndex == (World->GetNetMode() == NM_ListenServer ? 0 : 1));
 		if (bFailed)
 		{
 			FailAndExit(TEXT("unexpected-local-owner"));
@@ -774,7 +786,8 @@ bool ULDG3NetConflictProbeSubsystem::WriteResult(bool bHandshake)
 	bFailed |= !bHandshake || !bObserversRestored;
 	TSharedRef<FJsonObject> Result = MakeShared<FJsonObject>();
 	Result->SetStringField(TEXT("result"), bFailed ? TEXT("Fail") : TEXT("Pass"));
-	Result->SetStringField(TEXT("scope"), TEXT("Development G3NetConflict fixture. Three free C01 units on remote owner1 via public Board preparation; two different IDs sent to actual owned ServerRequestCommand in one client tick. Actual server dispatch and client receipt observed without interception. No natural summon, Pending UI, two-remote-client concurrency, or physical-input claim."));
+	Result->SetStringField(
+	    TEXT("scope"), TEXT("Development G3NetConflict fixture. Three free C01 units on remote owner1 via public Board preparation; two different IDs sent to actual owned ServerRequestCommand in one client tick. Actual server dispatch and client receipt observed without interception. No natural summon, Pending UI, two-remote-client concurrency, or physical-input claim."));
 	Result->SetStringField(TEXT("engine"), FEngineVersion::Current().ToString());
 	Result->SetNumberField(TEXT("processId"), FPlatformProcess::GetCurrentProcessId());
 	Result->SetNumberField(TEXT("localPlayerIndex"), LocalPlayerIndex);
@@ -790,8 +803,8 @@ bool ULDG3NetConflictProbeSubsystem::WriteResult(bool bHandshake)
 	Result->SetNumberField(TEXT("burstSentWallSeconds"), BurstSentAt);
 	if (LocalPlayerIndex == 0)
 	{
-		Result->SetBoolField(TEXT("serverArrivalsSameFrame"), RequestFrames.Num() == 2 &&
-		    RequestFrames[0] == RequestFrames[1]);
+		Result->SetBoolField(TEXT("serverArrivalsSameFrame"),
+		                          RequestFrames.Num() == 2 && RequestFrames[0] == RequestFrames[1]);
 		Result->SetNumberField(TEXT("randomBefore"), RngBefore);
 		Result->SetNumberField(TEXT("expectedRandomAfterOneDraw"), ExpectedRngAfter);
 		Result->SetStringField(TEXT("expectedRareUnit"), ExpectedRare.ToString());
@@ -800,7 +813,7 @@ bool ULDG3NetConflictProbeSubsystem::WriteResult(bool bHandshake)
 	Result->SetArrayField(TEXT("wire"), Wire);
 	FString Json;
 	const bool bSaved = FJsonSerializer::Serialize(Result, TJsonWriterFactory<>::Create(&Json)) &&
-	    FFileHelper::SaveStringToFile(Json, *(OutputDirectory / TEXT("result.json")));
+	                    FFileHelper::SaveStringToFile(Json, *(OutputDirectory / TEXT("result.json")));
 	bWritten = bSaved;
 	if (!bSaved)
 	{

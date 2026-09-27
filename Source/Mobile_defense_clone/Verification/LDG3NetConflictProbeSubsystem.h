@@ -55,7 +55,7 @@ public:
 /** -P0Probe=G3NetConflict only. A real remote RPC burst, not natural play or UI Pending verification. */
 UCLASS()
 class MOBILE_DEFENSE_CLONE_API ULDG3NetConflictProbeSubsystem : public UGameInstanceSubsystem,
-                                                               public FTickableGameObject
+                                                                public FTickableGameObject
 {
 	GENERATED_BODY()
 public:
