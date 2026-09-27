@@ -5,12 +5,14 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-NET-01, TASK-TEST-01; [공통 수명 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [코딩 규약](../../../docs/technical/CODING_STANDARD.md) |
-| 참고 자료 제작 상태 | Draft — 실제 자동화·타임라인 통합 전 |
+| 참고 자료 제작 상태 | Draft — 실제 서비스·Mode 경계 자동화 통과, 최종 패키지 네트워크 검수 대기 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / 제품 API `8405a9395b5c512b11bc92e8337a7eec6281bb69`, 검사 `d2183ae8c809541da4602b99964f90fd22b50b93` |
+| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / 현재 소스 `0e473f4af380506d209a95f7ec42eccf89c69df4` (게이트 완료 미확정) |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A GameMode의 명령 이전 시계 진행과 보류된 결과 확정 |
-| 제공 코드 / 직접 작성할 코드 | G2 Processor·보상/경제 서비스 제공. 아래 Processor 4줄 경계를 직접 작성. 검사는 제공 코드 |
+| 제공 코드 / 직접 작성할 코드 | G2 Processor·보상/경제 서비스 제공. 아래 Processor의 clock 완료 경계·delegate 수명 처리를 직접 작성. 검사는 제공 코드 |
+
+실행별 SHA·새 재현본·증거 경로는 [B 공통 검증 기록](README.md#g3-evidence)을 따른다. 이 수업은 UI 표시보다 앞선 서버 보상 확정 순서를 확인한다.
 
 ## 이번에 만들 동작
 
@@ -40,16 +42,18 @@ G2의 `BeforeExternalCommand`는 외부 콜백 재진입을 막는 `bProcessing`
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
-| Before에서 보스 처치와 terminal 감지 | 보상 큐 유지·admission만 닫음 | 미실행 | A 코드 통합 필요 |
-| After 실행 | gold200/stars3, 이후Close | 미실행 | `LD.P0.G3.Commands.RewardBeforeTerminalClose` |
-| 같은 요청 재전송 | PhaseNotAllowed 원응답, 보상/Finalizer1회 | 미실행 | 위 자동화 |
-| 실제 보스 마감 시각의 타격 | 정확한 시각 타격만 인정, 보상 후 결과 | 미실행 | A 경계 검사 + 실제 패키지 |
+| Before에서 보스 처치와 terminal 감지 | 보상 큐 유지·admission만 닫음 | 실제 서비스 자동화 Pass | `LD.P0.G3.Commands.RewardBeforeTerminalClose` |
+| After 실행 | gold200/stars3, 이후Close | Pass | B 현재 전체57자동화의 위 검사 |
+| 같은 요청 재전송 | PhaseNotAllowed 원응답, population0·보상/Finalizer1회 | Pass | 같은 검사; 네트워크를 거치지 않은 실제 Processor 호출 |
+| 보스 마감·같은 시각 판매 경계 | 열린/닫힌 시각 계약대로 타격·보상·종료 순서 확정 | 실제 Mode/Combat 자동화 Pass | `LD.P0.G3.Waves.ProductionClockBossBoundaryAndSale`; 최종 패키지 네트워크는 NotRun |
 
-이 결함 가능성은 G3 조립 전에 A가 기존 guard/Close 코드를 대조해 발견했다. 아직 실제 게임에서 관측한 실패로 기록하지 않는다. 빌드·자동화·패키지는 통합 담당이 직렬 실행한다.
+Before 안의 Close 위험은 G3 조립 전에 A가 guard/Close 코드를 대조해 발견한 정적 결함이며 실제 패키지에서 관측한 실패로 바꾸어 기록하지 않는다. 보상 기대값은 규칙에서 독립적으로 gold200/stars3으로 정한 뒤 실제 Board/Economy/Processor와 비교했다. 수정 후 새 재현본의 기존 입력56자동화와 현재 `0e473f4` B 전체57자동화가 각각 통과했다. 새 수업 조립66파일·실제 PIE·G2 회귀는 공통 기록의 범위로 구분하며 최종 마감 경계의 패키지 네트워크 검수를 대신하지 않는다.
+
+후속 A01/A02 리뷰는 외부 observer가 종료를 재진입할 때 승인된 처치 보상 또는 마지막 실제 보스 HP가 최종 결과에 빠지는 문제를 실제 실패 자동화로 확인했다. A 수정·재검증과 현재의 `CommittedDeathBeforeObserverAbort`/`CommittedBossHPBeforeObserverAbortResult` Pass는 [독립 리뷰 기록](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)에 연결한다. B는 이 규칙을 Processor에 복제하지 않고 Drain 후 A finalizer를 호출하는 경계를 유지한다.
 
 ## 상대에게 전달하고 통합하기
 
-`8405a93` API를 A/B 모두 먼저 받는다. A는 Before에서 Close하지 않고 결과를 보류한다. root는 `d2183ae` 검사와 A 실제 타임라인을 함께 빌드한 후 보스 마감/최종 잔여 적0/보상 표시 순서를 검수한다. 실제 학습자 브랜치에는 참고 완성 코드를 합치지 않는다.
+`8405a93` API를 A/B 모두 먼저 받고 `c697c91`의 callback 수명 보완을 연결한다. A는 Before에서 Close하지 않고 결과를 보류한다. 현재 재현은 A 승인 처치/마지막 HP 수정과 B 검사를 포함한 `0e473f4`를 사용한다. `AfterExternalCommandClock`은 매치 조립 때 한 번 바인딩하고 종료 때 해제한다. 통합 담당은 자동화 이후 패키지에서 보스 마감/최종 잔여 적0/보상 표시·중복 요청을 검수한다. 실제 학습자 브랜치에는 참고 완성 코드를 합치지 않는다.
 
 ## 이해 확인
 
@@ -60,7 +64,8 @@ G2의 `BeforeExternalCommand`는 외부 콜백 재진입을 막는 `bProcessing`
 ## 단계 완료
 
 - [x] 작은 변경의 설계 이유·정확한 호출 순서·독립 기대값을 적었다.
-- [ ] 실제 자동화와 A 타임라인 통합을 통과했다.
-- [ ] 새 수업 조립·최종 SHA·실행 증거를 연결했다.
+- [x] 실제 서비스·A 타임라인 자동화를 통과했다.
+- [x] 새 수업 조립·현재 소스 SHA·실행별 입력 근거를 연결했다.
+- [ ] 수정 후 패키지에서 최종 보상·동시/중복 명령·마감 경계를 재현했다.
 
-미검증: 동시 명령과 보스 시간 경계의 실제 네트워크 실행. 이를 G3 실제 패키지 검수와 분리해 완료 표시한다.
+미검증: 최종 패키지5시드에서 동시/중복 명령과 보스 시간 경계, 반복 매치, 대표 부하20분. Entry PKG01과 `501be90` 수정은 [Entry 수업](G3-01-entry-return.md)에 기록했으며 이 서버 경계 자동화 Pass로 cooked UI 통과를 주장하지 않는다. 필수 패키지 재현 전 Draft를 유지한다.
