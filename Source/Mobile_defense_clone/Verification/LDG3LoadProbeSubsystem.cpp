@@ -23,6 +23,7 @@
 #include "Network/LDCommandProcessor.h"
 #include "ProfilingDebugging/CsvProfiler.h"
 #include "Serialization/JsonSerializer.h"
+#include "UnrealClient.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDG3Load, Log, All);
 CSV_DEFINE_CATEGORY(LDG3Load, true);
@@ -942,6 +943,11 @@ void ULDG3LoadProbeSubsystem::Tick(float DeltaTime)
 		}
 		SustainedFrameMs.Add(FrameMs);
 		MeasuredSustainSeconds += FrameMs / 1000.0;
+		if (!bScreenshotRequested && MeasuredSustainSeconds >= 5)
+		{
+			bScreenshotRequested = true;
+			FScreenshotRequest::RequestScreenshot(OutputDirectory / TEXT("representative-load.png"), true, false);
+		}
 	}
 	CSV_CUSTOM_STAT(LDG3Load, Phase, State->Phase, ECsvCustomStatOp::Set);
 	CSV_CUSTOM_STAT(LDG3Load, SustainSeconds, float(MeasuredSustainSeconds), ECsvCustomStatOp::Set);
