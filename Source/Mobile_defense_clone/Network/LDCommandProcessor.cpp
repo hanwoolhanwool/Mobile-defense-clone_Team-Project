@@ -166,7 +166,9 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 	}
 	// The clock hook queues earlier deaths while guarded; drain them before this command reads either source.
 	DrainCombatRewards();
-	AfterExternalCommandClock.ExecuteIfBound();
+	// Finalization may Close() and unbind the member delegate from inside its own callback.
+	const FSimpleDelegate FinalizeClock = AfterExternalCommandClock;
+	FinalizeClock.ExecuteIfBound();
 	// Reward publication may replace or rehash Sessions. Never keep a pointer across an external callback.
 	Session = FindSession(Context);
 	if (!Session)
