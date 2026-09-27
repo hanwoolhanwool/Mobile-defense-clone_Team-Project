@@ -134,12 +134,12 @@ bool ULDWaveDirector::SpawnEnemy(int32 RouteIndex, const FLDWaveRow& Wave, doubl
 		NormalEnemies.Add(EnemyId);
 		++Snapshot.ActiveEnemyCount;
 	}
-	GameState->UpdateBattle(Snapshot);
-	// Latch inside each individual increase, before the other gate or any future hit is processed.
+	// Close admission before publishing N=100: GameState observers may synchronously submit a command.
 	if (!bBoss && Snapshot.ActiveEnemyCount >= Snapshot.MaxEnemyCount)
 	{
 		RequestTerminal(ELDMatchResult::Defeat, ELDResultReason::EnemyLimit, ServerSeconds);
 	}
+	GameState->UpdateBattle(Snapshot);
 	return !bStopped;
 }
 
