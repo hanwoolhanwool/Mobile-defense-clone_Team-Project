@@ -1,0 +1,5 @@
+# Keep offline HTML copies and their generator inputs reproducible after checkout.
+html/** text eol=lf
+tools/*.css text eol=lf
+tools/*.js text eol=lf
+tools/vendor/marked.LICENSE text eol=lf
