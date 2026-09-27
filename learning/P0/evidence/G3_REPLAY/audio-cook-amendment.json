@@ -1,0 +1,9 @@
+{
+  "SourceSha": "98727f04e7c563a854a103ad26152cff5ed652a6",
+  "File": "Config/DefaultGame.ini",
+  "PreviousSHA256": "B613A1C62D559B93EF9B20FDF4E4ADEC7021A10BFBF4B42B1BFD5AAC61BAFFD7",
+  "CurrentSHA256": "35507F62274197A71EEB84C0A51F37E0773BACB04677845B3495A356777596F0",
+  "Reason": "Actual cooked rejection load was absent. Explicit always-cook only /Game/LD/Audio with one required asset; no product rules or Source code change.",
+  "PreviousRun": "Replay-G3-package-five-seeds-fix1",
+  "RuntimeSource": "0e473f4af380506d209a95f7ec42eccf89c69df4"
+}

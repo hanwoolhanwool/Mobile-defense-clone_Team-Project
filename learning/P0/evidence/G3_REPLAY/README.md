@@ -12,3 +12,5 @@
 PIE에서 양쪽546×720 화면의 WAVE1/20초/일반2와 gold80/pop1, 자기 보드 아래를 직접 확인했다. [host](host-running.png) · [client](client-running.png). 창 테두리를 포함한 실제 크기이며 요청한540×1170 그대로라고 기록하지 않는다.
 
 최종 패키지·반복 자연 규칙 플레이·지연/회복·20분 부하·Android는 아직 이 파일의 Pass 범위에 포함하지 않는다. 전체 로그/PNG는 재현 폴더 Saved/P0Runs/Replay-G3-*에 보존한다. 과거 패키징 실패 로그는 `Replay-G3-package`, 수정 후 새 시도는 `Replay-G3-package-fix1`이다.
+
+후속 cooked 실행에서 Entry의 임시 스타일 수명과 효과음 cook 누락을 실제 발견했다. [Entry 수정](entry-style-amendment.json) 후 [66파일 대조](entry-fixed-inputs.json), [Editor](entry-fixed-editor.json) 및 [관련3자동화](entry-fixed-automation.json) Pass. [효과음 cook 수정](audio-cook-amendment.json)까지 포함한 최종 입력은 `98727f04e7c563a854a103ad26152cff5ed652a6`이며 [정식66파일 manifest](../../../../docs/production/evidence/RUN-20260918-G3/package-final-inputs.json)와 [패키지 빌드](../../../../docs/production/evidence/RUN-20260918-G3/package-audio-fixed-build.json)에 연결한다. 기존 입력·실패 JSON은 덮어쓰지 않았다. C++는0e473f4의 B 전체57무경고 검수와 동일하며, 이 재현 폴더는56개 전체 검사 뒤 변경된 Entry3개를 별도로 실행했다.

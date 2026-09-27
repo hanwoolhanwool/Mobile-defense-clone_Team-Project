@@ -1,0 +1,26 @@
+{
+  "SourceSha": "0e473f4af380506d209a95f7ec42eccf89c69df4",
+  "PreviousInputs": "5359cda03b241537e0561c16b5026e18061181aa",
+  "ChangedFiles": [
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDEntryWidget.cpp",
+      "SHA256": "C8E35C0D41BB16D1E4A432A99F603612025D6F23F9A0DBB780C0A5875F8E5148"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/UI/LDEntryWidget.h",
+      "SHA256": "F28B875651992D23C1EEB900823D562D3CEF5D998421B04E377E6CD4705F42C2"
+    },
+    {
+      "Path": "Source/Mobile_defense_clone/Tests/LDEntryAndHudTests.cpp",
+      "SHA256": "C6667B3D8E9868A9665E4EF2A4EDE53B1F05A9B1A5EC95C6BC85254055CF5E79"
+    },
+    {
+      "Path": "tools/Analyze-P0Load.py",
+      "SHA256": "6DD50228C68529E2E64482E216481380471E0A79AA88201B6949DF44FB3D62D6"
+    }
+  ],
+  "Reason": "PKG01 dangling address style fixed and deferred Slate/GC regression added; read-only analyzer final GC window correction. No assets/config/data change.",
+  "FailedPackage": "Replay-G3-package-five-seeds",
+  "Build": "NotRun",
+  "Package": "NotRun"
+}

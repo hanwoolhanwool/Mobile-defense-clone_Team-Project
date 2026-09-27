@@ -180,8 +180,32 @@ GameInstance/entry/return/network 코드는1차 이후 제품 diff가 없어 불
 
 통합 실행 후속: `de6e2f62f94660161f5863013ea3353f7a3a1e92`의 새 `G3-load-smoke-v3`는 22:26~22:28 실제 실행에서 **pair Pass**, host69/client33 Pass였다. 요청한 역할 폴더에 결과/CSV/PNG를 저장했고25배치2000 자연 사망·fallback0·최종 GC 검사·완료 handshake가 유지됐다. [새 요약](load-smoke-v3.json). 출력 경로 결함은 이 후속 실행으로 닫으며, 짧은 Editor-game smoke를 최종 패키지20분 성능 증거로 승격하지 않는다.
 
-## PKG01 — 시작 주소 입력창 스타일의 수명 (Open)
+## PKG01 — 시작 주소 입력창 스타일의 수명 (Closed)
 
 첫 Win64 패키지는 빌드·쿠킹·아카이브를 통과했지만, 실제 client 실행의 프레임2에서 크래시했다. [원본 실행·오류](packaged-entry-crash.json). `UI/LDEntryWidget.cpp::NativeTick`이 지역 `FEditableTextBoxStyle`을 `UEditableTextBox::SetWidgetStyle`에 전달한다. 로컬 UE5.8의 `EditableTextBox.cpp:392`는 자기 프로퍼티에 복사한 뒤 Slate에는 여전히 `&InStyle`을 전달하고, `SEditableTextBox.cpp:113`는 이 포인터를 저장한다. 따라서 tick 반환 후 임시 스타일/FontObject가 무효가 된다. 실제 스택은 `GetInterfaceAddress→FSlateFontInfo::GetCompositeFont→SlatePrepass`였다.
 
 영향: 최종 패키지 시작 화면에서 참가 전 크래시, G3 차단. 수정 방향: 입력창이 UPROPERTY로 소유한 스타일의 안정 주소를 전달하고 글자 크기가 달라질 때만 갱신. Editor에서 드러나지 않은 메모리 수명 문제이므로 단위 회귀만으로 닫지 않고 패키지 시작·반복 복귀를 다시 실행한다. 기존 실패 run은 보존한다.
+
+`501be9035b02e172e356151abe0c1606304b11ce`를 통합한 `0e473f4af380506d209a95f7ec42eccf89c69df4`는 B 역할 Editor72.19초 및 전체57개 무경고 자동화 Pass([Editor](role-b-final-editor.json), [57개](role-b-final-57.json)). 새 `OwnedAddressStyleSurvivesPrepass`는 실제 Slate 입력 자식의 반환 후 prepass·별도 소유 스타일 값 변경·GC·CompositeFont 유효를 확인한다. 독립 읽기 리뷰에서도 안정 주소와 소멸 순서를 확인했고 추가 차단 결함은 없었다. 최종 cooked 재실행 전까지 PKG01은 Open이다.
+
+수정된 실제 패키지 `Replay-G3-package-five-seeds-fix1`에서는 양쪽 시작 버튼·매치 진입·재화 부족 거절·1웨이브·HUD 두 차례 재생성을 크래시 없이 진행했다. 후속 PKG02로 중단했으므로 반복 Entry 복귀 전까지 PKG01을 완전히 닫지는 않는다.
+
+후속 `Replay-G3-package-five-seeds-fix2`에서는 같은 host/client 프로세스로 네 판의 결과 복귀와 다섯 번째 새 매치 진입을 완료했다. 양쪽 `result-return-slate-click`·`entry-slate-button`·서로 다른 `new-match-context`를 확인했고 크래시·검사 실패0이었다. 따라서 수정 후 실제 패키지 Entry↔Match 3회 이상 조건을 충족해 PKG01을 닫는다. 최종 다섯 판·지연/회복·대표 부하는 별도로 종합 판정한다.
+
+## PKG02 — 거절 효과음 쿠킹 누락 (쿠킹/로딩 Closed, 청취 NotRun)
+
+같은 실제 패키지에서 양쪽 `rejection-audio-asset-loaded` 검사가 실패했고 host `LoadPackage` 로그가 `/Game/LD/Audio/S_P0Rejected`의 부재를 확인했다. Editor에서는 실제 에셋을 로드했으나 문자열로 지연 참조한 효과음이 최종 cook에 들어가지 않았다. 영향은 재화 부족 등 거절 시 짧은 음향 피드백 누락이며, 데이터/재화/게임 진행에는 영향이 없었다. 자동 플레이를 계속해 Fail을 희석하지 않고 로그/progress/제어된 종료 근거를 보존했다.
+
+수정 `98727f0`: `Config/DefaultGame.ini`의 기존 ProjectPackagingSettings에 `DirectoriesToAlwaysCook=/Game/LD/Audio`를 추가했다. 해당 폴더의 필수 에셋은 S_P0Rejected 한 개다. 다른 Source의 동적 런타임 경로도 검색했고 기존 메시·재질은 ConstructorHelpers의 하드 참조, 두 맵은 cook 명령에 명시돼 있었다. 새 패키지에서 정상 Controller 거절 경로의 실제 로드 확인이 필요하다. 무음 검수는 들리는 소리의 품질을 검증하지 않는다.
+
+후속 `Replay-G3-package-audio-fixed` compile/cook/archive34.77초 Pass. 새 실제 패키지 `Replay-G3-package-five-seeds-fix2`의 첫 판에서 host/client 모두 `unaffordable-purchase-rejected`와 `rejection-audio-asset-loaded` Pass를 확인했다. 따라서 PKG02의 쿠킹/로딩 결함은 닫혔고 음향 청취는 NotRun이다.5시드 전체와 반복 Entry 복귀는 진행 중이며 이 초기 성공으로 G3를 완료 처리하지 않는다.
+
+## 최종 검사기 리뷰와 측정 한계
+
+실제 RPC 로그 감사는 응답21회만 세던 검사에서 누락을 찾았다. 초반 재전송만 성공하고 Result 뒤 재전송이 없어도 Pass할 수 있었다. `Test-P0G3Evidence.ps1`은 이제 host의 매치/최종 결과 로그 뒤 원래 SERVER 응답과 CLIENT 수신, 보드 revision 변경 뒤 원응답, 요청한 매치 수와 GUID 유일성을 따로 요구한다. client 수신 순서는 같은 PC의 UTC 로그 시각을 사용하며 별도 기기 시계 동기화나 client 자체 Result 표시 시각을 증명하지 않는다. 실제 실행 종료 후 이 강화 검사로 판정한다.
+
+독립 ARCH-01~06 리뷰에서 PC→Processor 권한/캐시 순서, GameState/Director 소유권, Mode 타이머·구독 해제, UI 반환 delegate 해제, GameInstance의 weak ticker 취소에 추가 제품 차단 결함은 발견하지 않았다. 부하 검사의 유료 경제·웨이브·밸런스 우회는 명시 fixture로 제한된다. 직접 피해 fallback도 fixture의 종합 Pass를 만들 수 있으므로 보고서에서 `naturalDeaths=2000`, `fixtureDamageDeaths=0`을 별도로 확인한다.
+
+측정 한계: CSV Combat/Timeline은 프레임 내 합이며 서로 중첩된다. probe의 기존 p95와 분석 도구의 nearest-rank p95는 표본·clock·산식이 달라 섞지 않는다. client samples의 첫 전체 개체 관측과 서버 sustain 시작 순서는 양방향 오차가 있으므로20분 실측 구간은 profile의 Phase/SustainSeconds로 판단한다. 해당 분석 설명을 수정했다. client의 매 배치 GC 후 메모리는 수집하지 않았으며 최종 수거 검사와 구분한다.
+
+비차단 도구 부채: `LDG3LoadProbeSubsystem::Deinitialize`는 구독을 해제하지만 비정상 World 종료 중 자신이 시작한 global CSV 캡처를 종료하지 않는다. 현재 도구는 한 프로세스의 정상 완료에서 EndCapture와 쓰기 완료를 기다린 뒤 프로세스를 종료한다. 캡처 도중 World를 전환해 같은 프로세스로 검사를 재사용하는 경로는 지원·검증하지 않았다. 이 경로를 추가할 때 캡처 소유권에 따른 중단 정리가 필요하다.

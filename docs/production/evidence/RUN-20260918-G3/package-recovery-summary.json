@@ -1,0 +1,69 @@
+{
+  "Scope": "Actual final Win64 package two-process 300ms/3 percent emulation then recovery; normal game rules",
+  "Result": "Pass",
+  "RuntimeSource": "98727f04e7c563a854a103ad26152cff5ed652a6",
+  "ReplayHead": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "RunRoot": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-recovery",
+  "PackageExecutableSHA256": "4339F4E3C166D244DC77D780C4E26FBC423E30E7BDB0923C1E39628F5B2B6B54",
+  "RequestedRTTMs": 300,
+  "OutgoingDelayPerEndpointMs": 150,
+  "LossPercentPerEndpoint": 3,
+  "Checks": [
+    19,
+    17
+  ],
+  "ConnectedSeconds": [
+    250.01888179779053,
+    250.5332795009017
+  ],
+  "RecoveryEvents": [
+    {
+      "name": "network-emulation-cleared",
+      "pass": true,
+      "detail": "connectedSeconds=120.002; subsequent echo samples use real transport",
+      "wallSeconds": 133.18877889961004,
+      "matchId": "614B8F824EA11371BB32019F63932A1A"
+    },
+    {
+      "name": "network-emulation-cleared",
+      "pass": true,
+      "detail": "connectedSeconds=120.013; subsequent echo samples use real transport",
+      "wallSeconds": 127.81787710264325,
+      "matchId": "614B8F824EA11371BB32019F63932A1A"
+    }
+  ],
+  "ResultByRole": [
+    2,
+    2
+  ],
+  "ReasonByRole": [
+    2,
+    2
+  ],
+  "FinalBossHP": [
+    468,
+    3933
+  ],
+  "PendingRetries": [
+    0,
+    17
+  ],
+  "RecreatedHUDs": [
+    3,
+    3
+  ],
+  "Echo": {
+    "Samples": 244,
+    "MeanMs": 161.4736045145842,
+    "P95NearestRankMs": 349.63060170412064,
+    "MinMs": 15.714500099420547,
+    "MaxMs": 349.9526008963585,
+    "Sent": 253,
+    "Received": 244
+  },
+  "Limits": [
+    "Echo summary combines impaired and recovered periods; individual RTT samples have no paired timestamp so phase-specific percentiles are not claimed.",
+    "Recovery events describe explicit NetDriver settings reset; final snapshot matching and wire checks independently verify recovered behavior.",
+    "Host local command path is synchronous; only remote client retries traverse impaired transport."
+  ]
+}

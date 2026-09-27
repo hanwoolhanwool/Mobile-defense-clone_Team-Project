@@ -1,0 +1,132 @@
+{
+  "Scope": "Actual GPU two separate packaged processes",
+  "Probe": "G3",
+  "Started": "2026-09-27T22:57:53.1337129+09:00",
+  "Head": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "Executable": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-audio-fixed/Package/Windows/Mobile_defense_clone/Binaries/Win64/Mobile_defense_clone.exe",
+  "ExecutableSHA256": "4339F4E3C166D244DC77D780C4E26FBC423E30E7BDB0923C1E39628F5B2B6B54",
+  "Matches": 5,
+  "MinimumSeconds": 600,
+  "RequestedRTTMilliseconds": 150,
+  "OutgoingDelayPerEndpointMs": 75,
+  "OutgoingLossPercentPerEndpoint": 1,
+  "NetworkScope": "Engine packet emulation in each direction. RTT measured by client unreliable echo; lost echo fraction is not equal to per-direction configured packet loss.",
+  "Resolution": [
+    540,
+    1170
+  ],
+  "MaxFPS": 60,
+  "VSync": 0,
+  "RenderOffscreen": true,
+  "Strategy": "Automated Slate summon/merge/sale and Controller move using normal product rules; no HP/gold/wave clock override.",
+  "Seeds": [
+    1776,
+    42,
+    1729,
+    2026,
+    9001
+  ],
+  "Processes": [
+    {
+      "Id": 38516,
+      "Role": "host",
+      "Arguments": [
+        "/Game/LD/Maps/L_P0Entry",
+        "-ModelContextProtocolPort=17877",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3",
+        "-P0Role=host",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0Matches=5",
+        "-P0MinimumSeconds=600",
+        "-P0TimeoutSeconds=1800",
+        "-P0Seed=1776",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix2\\host",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix2\\host/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-PktLagMin=75",
+        "-PktLagMax=75",
+        "-PktLoss=1",
+        "-P0CommandTrace",
+        "-P0RecoverAfter=0",
+        "-RenderOffscreen"
+      ]
+    },
+    {
+      "Id": 41528,
+      "Role": "client",
+      "Arguments": [
+        "/Game/LD/Maps/L_P0Entry",
+        "-ModelContextProtocolPort=17878",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3",
+        "-P0Role=client",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0Matches=5",
+        "-P0MinimumSeconds=600",
+        "-P0TimeoutSeconds=1800",
+        "-P0Seed=1776",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix2\\client",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-package-five-seeds-fix2\\client/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-PktLagMin=75",
+        "-PktLagMax=75",
+        "-PktLoss=1",
+        "-P0CommandTrace",
+        "-P0RecoverAfter=0",
+        "-RenderOffscreen"
+      ]
+    }
+  ],
+  "Result": "Pass",
+  "RecoverAfterConnectedSeconds": 0,
+  "SeedChecks": [
+    {
+      "MatchId": "7EA79B9A48D230AFBB9125B0B478EBBB",
+      "RequestedSeed": 1776,
+      "ObservedSeed": 1776,
+      "Pass": true
+    },
+    {
+      "MatchId": "0B30FF6A42F9FE51C66A7EB76BF2F20F",
+      "RequestedSeed": 42,
+      "ObservedSeed": 42,
+      "Pass": true
+    },
+    {
+      "MatchId": "80A62A9248611BE888B2CAB87611F9ED",
+      "RequestedSeed": 1729,
+      "ObservedSeed": 1729,
+      "Pass": true
+    },
+    {
+      "MatchId": "E0D436ED482709B20A80F192D6C82F8E",
+      "RequestedSeed": 2026,
+      "ObservedSeed": 2026,
+      "Pass": true
+    },
+    {
+      "MatchId": "646A27FE4D975A409F1CCCA96F67C699",
+      "RequestedSeed": 9001,
+      "ObservedSeed": 9001,
+      "Pass": true
+    }
+  ],
+  "Finished": "2026-09-27T23:20:01.8701650+09:00"
+}
