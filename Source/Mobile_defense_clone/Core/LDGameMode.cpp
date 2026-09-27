@@ -23,6 +23,24 @@ CSV_DECLARE_CATEGORY_EXTERN(LDP0);
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDMatch, Log, All);
 
+namespace
+{
+	uint64 AllocateConnectionEpoch()
+	{
+		check(IsInGameThread());
+		// Wire commands carry an epoch, not a MatchId. Its allocator must outlive every match World.
+		// Seed from identity entropy, independently of the economy RNG, to avoid restart reuse as well.
+		static uint64 NextEpoch = []
+		{
+			const FGuid Seed = FGuid::NewGuid();
+			const uint64 Initial = (uint64(Seed.A) << 32) | uint64(Seed.B);
+			return Initial == 0 ? uint64(1) : Initial;
+		}();
+		// Exhaustion stays invalid rather than wrapping to an already issued session identity.
+		return NextEpoch == 0 ? 0 : NextEpoch++;
+	}
+} // namespace
+
 ALDGameMode::ALDGameMode()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -238,7 +256,7 @@ bool ALDGameMode::RegisterParticipant(ALDPlayerController& Controller)
 	FLDParticipantContext Context;
 	Context.MatchId = State->GetMatchContext().MatchId;
 	Context.PlayerIndex = PlayerIndex;
-	Context.ConnectionEpoch = NextConnectionEpoch++;
+	Context.ConnectionEpoch = AllocateConnectionEpoch();
 	if (!Player->InitializeParticipant(Context) || !CommandProcessor->RegisterParticipant(Context))
 	{
 		AbortMatch(TEXT("PlayerState refused server participant context"));
