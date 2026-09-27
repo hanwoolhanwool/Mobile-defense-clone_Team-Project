@@ -468,6 +468,7 @@ void ULDG3LoadProbeSubsystem::BeginStop(ALDGameMode& Mode)
 	           Mode.GetBoardManager()->GetSnapshot(0).Population == 0 &&
 	               Mode.GetBoardManager()->GetSnapshot(1).Population == 0);
 	DamageEventsAtStop = DamageEvents;
+	bExpectedTerminal = true;
 	Mode.AbortMatch(TEXT("G3Load fixture complete: explicit Stop/GC lifetime verification"));
 	Check(TEXT("stop-turns-off-logic-timer"), !Mode.IsLogicTimerActive());
 	Check(TEXT("stop-clears-combat-registration"), Mode.GetCombatService()->GetRegisteredUnitCount() == 0 &&
@@ -910,6 +911,31 @@ void ULDG3LoadProbeSubsystem::Tick(float DeltaTime)
 	}
 	ALDPlayerController* Controller = Cast<ALDPlayerController>(GetWorld()->GetFirstPlayerController());
 	ALDGameMode* Mode = GetWorld()->GetAuthGameMode<ALDGameMode>();
+	const ALDGameState* GameState = GetWorld()->GetGameState<ALDGameState>();
+	// Inspect authoritative terminal state before the readiness early return. Otherwise initialization
+	// failure can leave the fixture waiting forever for a board that will never become ready.
+	if (Mode && GameState && GameState->GetBattleSnapshot().IsTerminal() && !bExpectedTerminal &&
+	    (!State.IsValid() || State->Phase < 5))
+	{
+		const FLDBattleSnapshot& Battle = GameState->GetBattleSnapshot();
+		FailAndExit(TEXT("unexpected-terminal-before-load-completion"),
+		                 FString::Printf(TEXT("matchPhase=%d result=%d reason=%d at=%.6f readiness=%s probePhase=%d"),
+		                                      int32(Battle.Phase), int32(Battle.Result), int32(Battle.ResultReason),
+		                                      Battle.ResultServerSeconds, *GameState->GetReadinessReason(),
+		                                      State.IsValid() ? State->Phase : -1));
+		return;
+	}
+	if (!State.IsValid() && Now - CreatedAt > 60)
+	{
+		FailAndExit(
+		    TEXT("load-preparation-timeout"),
+		         FString::Printf(TEXT("world=%s netMode=%d matchPhase=%d controller=%d boardReady=%d snapshotReady=%d"),
+		                              *GetWorld()->GetName(), int32(GetWorld()->GetNetMode()),
+		                              GameState ? int32(GameState->GetPhase()) : -1, Controller != nullptr,
+		                              Controller && Controller->IsLocalBoardReady(),
+		                              Controller && Controller->IsGameplaySnapshotReady()));
+		return;
+	}
 	if (!Controller || !Controller->IsLocalBoardReady() || !Controller->IsGameplaySnapshotReady())
 	{
 		return;
@@ -1015,9 +1041,9 @@ void ULDG3LoadProbeSubsystem::WriteResult(bool bHandshakeConfirmed)
 	FFileHelper::SaveStringToFile(Json, *(OutputDirectory / TEXT("result.json")));
 }
 
-void ULDG3LoadProbeSubsystem::FailAndExit(const FString& Reason)
+void ULDG3LoadProbeSubsystem::FailAndExit(const FString& Reason, const FString& Detail)
 {
-	Check(Reason, false);
+	Check(Reason, false, Detail);
 	EndProfileCapture();
 	WriteResult(false);
 	bFailingExit = true;
