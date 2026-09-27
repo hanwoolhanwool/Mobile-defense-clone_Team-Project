@@ -413,9 +413,10 @@ namespace
 					View.RetiredStatus.Reset(Statuses[Index]);
 					View.OldResult = Results[Index];
 					View.OldStatus = Statuses[Index];
-					Proof->Test->TestFalse(TEXT("Retired widgets are not standalone editor assets or rooted"),
-					                            Results[Index]->HasAnyFlags(RF_Standalone) || Results[Index]->IsRooted() ||
-					                                Statuses[Index]->HasAnyFlags(RF_Standalone) || Statuses[Index]->IsRooted());
+					Proof->Test->TestFalse(
+					    TEXT("Retired widgets are not standalone editor assets or rooted"),
+					         Results[Index]->HasAnyFlags(RF_Standalone) || Results[Index]->IsRooted() ||
+					             Statuses[Index]->HasAnyFlags(RF_Standalone) || Statuses[Index]->IsRooted());
 					Proof->Test->TestFalse(TEXT("Terminal begins without pending command"), Player.HasPendingCommand());
 					Proof->Capture(Player, Index == 0 ? TEXT("host-terminal-before") : TEXT("client-terminal-before"));
 					Results[Index]->RemoveFromParent();
