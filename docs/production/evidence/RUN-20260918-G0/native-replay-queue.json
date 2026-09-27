@@ -1,0 +1,37 @@
+{
+  "Scope": "Serial builds and actual Editor PIE of independent historical G0 inputs; not package or Android",
+  "Started": "2026-09-27T23:48:53.7574440+09:00",
+  "Result": "Pass",
+  "Stages": [
+    {
+      "Role": "A",
+      "Root": "C:\\Users\\iam12\\P0_lesson_replay_a",
+      "Filter": "LD.PIE.G0.A.MatchLifecycle",
+      "Build": "Pass",
+      "PIE": "Pass"
+    },
+    {
+      "Role": "A-missing",
+      "Root": "C:\\Users\\iam12\\P0_lesson_replay_a_missing",
+      "Filter": "LD.PIE.G0.A.MissingData",
+      "Build": "Pass",
+      "PIE": "Pass"
+    },
+    {
+      "Role": "B",
+      "Root": "C:\\Users\\iam12\\P0_lesson_replay_b",
+      "Filter": "LD.PIE.G0.B.OwnedRPC",
+      "Build": "Pass",
+      "PIE": "Pass"
+    },
+    {
+      "Role": "canonical",
+      "Root": "C:\\Users\\iam12\\P0_lesson_replay_g0_integration",
+      "Filter": "LD.PIE.G0.Canonical.TerminalCache",
+      "Build": "Pass",
+      "PIE": "Pass"
+    }
+  ],
+  "Finished": "2026-09-27T23:54:35.2313019+09:00"
+}
+

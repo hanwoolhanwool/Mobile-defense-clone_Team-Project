@@ -1,6 +1,6 @@
 # P0 게이트 통합
 
-참고 제작은 G0 코드 게이트 Pass, 전체 P0 학습 자료 Draft / 실제 학습 Planned다. A-01 데이터 수업만 명시 범위의 재현을 마쳐 Verified이며 실제 RPC/PIE가 남은 수업은 Draft다. 공통 출발점과 실행 도구는 [COMMON](COMMON.md), 최신 상태는 [작업 기록](../../docs/production/P0_REFERENCE_RUN.md)을 따른다.
+참고 제작은 G0 코드 게이트와 native 통합 재현 **Verified**, 전체 P0 자료는 후속 G3/G4 검수 중 / 실제 학습 **Planned**다. A/B G0 수업은 각 독립 출발 소스의 실제 PIE까지 확인했다. 공통 출발점과 실행 도구는 [COMMON](COMMON.md), 최신 상태는 [작업 기록](../../docs/production/P0_REFERENCE_RUN.md)을 따른다.
 
 G0에서 독립 작성한 A/B 공통 코드의 타입·로더·초기화·상태 원본을 비교한다. 합의한 한 구현만 실행하고 B의 Controller/CommandProcessor를 GameMode 연결부에 결합한다. 각 역할과 통합 Editor 빌드, 독립 기대값 검사, ARCH-01~06 리뷰 후 G1에 들어간다.
 
@@ -58,9 +58,17 @@ G0 canonical 통합 SHA는 `649c1dedd6832c41089a76b59bc76518cd262296`다. 실제
 | canonical B 반영 | `9129c016efd4a652501f93658fd2831a830c8ab1` | canonical과 Source/Config/Content diff0 |
 | learn3개 보존 | 모두 `8c6856d235de87cc28c12b49ca775bd0937334a5` | 완성 코드 병합 없음; 학습자 완료 이력 없음 |
 
-Editor→자동화→canonical 사이의 Source/Config/Content가 동일함을 대조했다. 단독 A/B 완료소스 조립 결과와 통합 canonical 반영점을 섞어 기록하지 않는다. A-01 데이터 수업은 필요한 재현 관찰을 충족해 해당 범위에서 Verified이고, 실제 PIE/RPC 요구가 남은 A-02/B-01/B-02는 Draft다. 조립은 참고 코드 재현이며 학습자의 직접 작성 증거가 아니다.
+Editor→자동화→canonical 사이의 Source/Config/Content가 동일함을 대조했다. 단독 A/B 완료소스 조립 결과와 통합 canonical 반영점을 섞어 기록하지 않는다. 2026-09-27 후속 재현에서 A-02/B-01/B-02도 각 native 경로의 실제 PIE를 확인해 Verified다. 조립은 참고 코드 재현이며 학습자의 직접 작성 증거가 아니다.
 
-구조 리뷰는 ARCH-01 책임, ARCH-02 연결 경계, ARCH-03 상태 원본, ARCH-04 준비 전 성공 금지, ARCH-05 종료/초기화 멱등과 GC 참조, ARCH-06 구현과 독립된 실패·경계 검사를 위 실코드 경로로 확인했다. 종료 캐시·늦은 초기화 결함은 수정·실제 회귀·독립 재검토를 통과해 G0 코드 게이트가 Pass다. PIE 양쪽 문맥과 실제 화면·패키지 데이터 로딩·네트워크·Android는 미검증이며 G1에서 전장·경로·카메라·전체 셀 입력을 실제 두 화면으로 확인하기 전 G2 전투를 확장하지 않는다.
+구조 리뷰는 ARCH-01 책임, ARCH-02 연결 경계, ARCH-03 상태 원본, ARCH-04 준비 전 성공 금지, ARCH-05 종료/초기화 멱등과 GC 참조, ARCH-06 구현과 독립된 실패·경계 검사를 위 실코드 경로로 확인했다. 종료 캐시·늦은 초기화 결함은 수정·실제 회귀·독립 재검토를 통과해 G0 코드 게이트가 Pass다. 아래 후속 PIE는 실제 네트워크 기반만 검증하며 전장 표시·패키지·Android는 각 게이트의 증거를 사용한다.
+
+## native canonical 실제 네트워크 재현
+
+시작/제품 완료점은 위 canonical `649c1dedd6832c41089a76b59bc76518cd262296`이며, 별도 detached `C:/Users/iam12/P0_lesson_replay_g0_integration`에서 실행했다. 제공 검사기 `5f1f08606f87e264b5ff0a12d957dbc7720f7e6c`만 추가하고 Editor 의존 및 `LD_G0_CANONICAL_PIE=1`을 적용한다. [공통 제공 절차](../tools/G0Replay/README.md)와 [정확한 설치·실행 순서](evidence/G0_REPLAY/B-network.md)를 따른다. 런타임 원본과 검사용 추가 파일을 혼동하지 않는다.
+
+`LD.PIE.G0.Canonical.TerminalCache`의 실제 listen/client 두 월드는 소유 RPC→응답→재전송을 수행했다. 잘못된 epoch/응답을 무시하고, 송신100%손실의 Pending 유지 뒤 같은 요청 재시도, 응답 예산 소진 뒤 회복을 확인했다. 종료 뒤 기존 id3 전체 원응답 유지, 같은 ID의 다른 내용 Conflict, 새 id4 PhaseNotAllowed를 실제 전송에서 확인했다. [Editor54.72초 Pass](evidence/G0_REPLAY/canonical-native-editor.json), [PIE1Success/0Fail](evidence/G0_REPLAY/canonical-native-pie.json), [관찰·상태/패킷/관찰자 복원](evidence/G0_REPLAY/canonical-native-proof.json). NavMesh 재구성/CrowdFollowing 경고 이벤트2개를 남긴 경고 성공이며, 무경고로 기록하지 않는다.
+
+native TopDown에는 G0 전용 HUD가 없으므로 실제 두 참가자의 복제·소유·응답 관찰을 예상 결과로 삼는다. 수동 Blueprint 변형, 완성된 전장, 별도 프로세스 패키지와 물리 입력은 이 재현의 범위가 아니다. 원본 source649c와 제공 fixture5f1을 이 순서로 재현한 범위에서 통합 수업을 Verified로 판정하고, 실제 학습자의 SHA는 미생성으로 유지한다.
 
 이해 확인: 왜 Processor가 캐시를 보존해도 Controller 연결을 끊으면 멱등 응답이 깨지는가? 왜 BIndependentLoader 테스트 이름만 보고 통합에서 B 로더를 사용한다고 단정할 수 없는가? 작은 변형: 학습자 테스트 픽스처에서 초기화 호출 순서를 바꾸고 참가자 ID/세대가 한 번만 정해지는지 확인한다. 제품 규칙이나 역할 기준 SHA를 이 실습으로 바꾸지 않는다.
 

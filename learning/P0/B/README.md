@@ -1,11 +1,11 @@
 # P0 B 참고 구현 학습 순서
 
-참고 제작은 수업별 범위로 판정하며 **G1 두 수업·G2 세 수업 Verified**, 실제 학습자는 **Planned**다. 이 폴더는 2026-09-18 새 출발점의 참고 제작 기록이며 이전 P0 실행 증거를 재사용하지 않는다.
+참고 제작은 수업별 범위로 판정하며 **G0 두 수업·G1 두 수업·G2 세 수업 Verified**, 실제 학습자는 **Planned**다. 이 폴더는 2026-09-18 새 출발점의 참고 제작 기록이며 이전 P0 실행 증거를 재사용하지 않는다.
 
 | 순서 | 수업 | 진입 조건 | 상태 |
 |---|---|---|---|
-| 1 | [B-G0-01 독립 공통 기반](G0-01-foundation.md) | 공통 출발 커밋·Schema2/Rules0.3.0 자료 확보 | Draft |
-| 2 | [B-G0-02 명령 입구와 중복 방지](G0-02-commands.md) | 첫 수업 타입·로더·매치 문맥 | Draft |
+| 1 | [B-G0-01 독립 공통 기반](G0-01-foundation.md) | 공통 출발 커밋·Schema2/Rules0.3.0 자료 확보 | Verified — native 맵·실제 두 PIE 문맥 |
+| 2 | [B-G0-02 명령 입구와 중복 방지](G0-02-commands.md) | 첫 수업 타입·로더·매치 문맥 | Verified — 실제 소유 RPC·응답 예산·재시도·canonical 종료 캐시 |
 | 3 | [B-G1-01 좌표와 로컬 변환](G1-01-geometry.md) | 통합 G0 Editor 빌드와 리뷰 | Verified — 조립·좌표·실제 G1 두 화면 |
 | 4 | [B-G1-02 카메라와 전체 셀 입력](G1-02-view-input.md) | G1 좌표·A 경로 계약·공통 표시 재료 | Verified — 조립·카메라·7화면/전체셀/EngineTouch |
 | 5 | [B-G2-01 보드와 경제 공동 확정](G2-01-board-economy.md) | G1 통과·A 준비 UnitActor·공통 배치/처치 값 | Verified — 별도 조립·실제 서비스/Actor·전투 연결 |
