@@ -11,6 +11,9 @@
 | 5 | [B-G2-01 보드와 경제 공동 확정](G2-01-board-economy.md) | G1 통과·A 준비 UnitActor·공통 배치/처치 값 | Verified — 별도 조립·실제 서비스/Actor·전투 연결 |
 | 6 | [B-G2-02 중복 요청과 연결 세대](G2-02-command-lifetime.md) | 두 원본 서비스·요청 캐시 기반 | Verified — 세대/만료/응답 순서·실제 소유 RPC |
 | 7 | [B-G2-03 HUD와 뭉치 조작](G2-03-hud-input.md) | 개인 Snapshot·실제 A UnitActor | Verified — 실제 GPU/Slate·EngineTouch·HUD 재생성 |
+| 8 | [B-G3-01 진입과 반복 복귀](G3-01-entry-return.md) | G2 통합·A 결과 계약·Entry 맵 | Draft — Source 제공, 여행/패키지 미실행 |
+| 9 | [B-G3-02 전투·결과 HUD](G3-02-battle-result-hud.md) | A 단일 BattleSnapshot·두 위젯 | Draft — A 구현 연결·실제 화면 검수 대기 |
+| 10 | [B-G3-03 최종 보상 확정 경계](G3-03-clock-finalization.md) | G2 명령/보상 큐·A 시간 진행 | Draft — 실제 서비스 자동화·통합 대기 |
 
 공통 규칙 원본은 [공통 구현 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), 수업 제작·실제 학습 구분은 [학습 운영](../../WORKFLOW.md)이다. B 독립 G0 완료 소스는 `03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92`, 공통 출발은 `8c6856d235de87cc28c12b49ca775bd0937334a5`다. [G0 별도 수업 재현](../evidence/G0_REPLAY/SUMMARY.md)에서 Editor/자동화4개 Pass를 확인했으나 G0 기반/명령 수업의 실제 PIE·소유 RPC·응답 유실 검수는 남아 있어 Draft다. 학습자의 `learn/p0-b`에는 참고 완성 코드를 병합하지 않는다.
 
