@@ -114,7 +114,7 @@ void ULDGameplayWidget::NativeTick(const FGeometry& MyGeometry, float DeltaSecon
 		Font.Size = FMath::Max(10, FMath::RoundToInt(30 * Scale));
 		Label->SetFont(Font);
 	}
-	const bool bReady = Controller->IsGameplaySnapshotReady();
+	const bool bReady = Controller->CanUseGameplayActions();
 	const bool bPending = Controller->HasPendingCommand();
 	const bool bRetry = Controller->CanRetryPendingCommand();
 	const FLDEconomySnapshot& Economy = Controller->GetEconomySnapshot();

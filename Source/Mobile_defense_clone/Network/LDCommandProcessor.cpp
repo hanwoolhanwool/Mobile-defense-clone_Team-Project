@@ -54,6 +54,7 @@ void ULDCommandProcessor::Close()
 	bAcceptingCommands = false;
 	bClosed = true;
 	BeforeExternalCommand.Unbind();
+	AfterExternalCommandClock.Unbind();
 	RewardQueue.Reset();
 	QueuedDeathIds.Reset();
 	if (BoardManager)
@@ -165,6 +166,7 @@ FLDCommandResult ULDCommandProcessor::SubmitAtTime(const FLDParticipantContext& 
 	}
 	// The clock hook queues earlier deaths while guarded; drain them before this command reads either source.
 	DrainCombatRewards();
+	AfterExternalCommandClock.ExecuteIfBound();
 	// Reward publication may replace or rehash Sessions. Never keep a pointer across an external callback.
 	Session = FindSession(Context);
 	if (!Session)
