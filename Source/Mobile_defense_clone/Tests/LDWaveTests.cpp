@@ -606,4 +606,99 @@ bool FLDWaveDamageObserverTest::RunTest(const FString& Parameters)
 	F.State()->OnMatchStateChanged.Clear();
 	return true;
 }
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDWaveBossObserverAbortTest,
+                                 "LD.P0.G3.Waves.CommittedBossHPBeforeObserverAbortResult",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FLDWaveBossObserverAbortTest::RunTest(const FString& Parameters)
+{
+	FWaveFixture F;
+	F.Ready();
+	FLDWaveTestAccess::JumpToFinal(*F.Mode, 10);
+	const TArray<ALDEnemyActor*> Bosses = FLDWaveTestAccess::Enemies(*F.Mode->GetWaveDirector());
+	if (!TestEqual(TEXT("Fixture starts with two actual B01 actors"), Bosses.Num(), 2))
+	{
+		return false;
+	}
+	for (const ALDEnemyActor* Boss : Bosses)
+	{
+		TestEqual(TEXT("Both bosses start with independently specified HP6000"), Boss->GetCombatSnapshot().HP, 6000.0);
+		TestEqual(TEXT("B01 physical armor is20"), Boss->GetEnemyRow().Armor, 20.0);
+	}
+	FLDUnitRow Row;
+	F.Mode->GetGameData()->TryGetUnitRow(TEXT("C02"), Row);
+	// Explicit nonlethal fixture: physical120 / (1 + armor20/100) = exactly100 damage.
+	Row.BaseAttack = 120;
+	Row.DamageType = TEXT("Physical");
+	Row.RangeCm = 1000;
+	for (int32 Index = 0; Index < 2; ++Index)
+	{
+		FLDPlacedUnit Placement;
+		Placement.InstanceId = 810000 + Index;
+		Placement.UnitId = Row.UnitId;
+		Placement.CellId = Index;
+		Placement.PlayerIndex = Index;
+		ALDUnitActor* Unit = F.World->SpawnActor<ALDUnitActor>();
+		if (!TestTrue(TEXT("Prepare actual nonlethal observer fixture unit"),
+		                   Unit->InitializePrepared(Placement, Row, FTransform::Identity)))
+		{
+			return false;
+		}
+		Unit->ApplyCommittedPlacement(Placement, FTransform::Identity);
+		F.Mode->GetCombatService()->RegisterCommittedUnit(*Unit, 10.75);
+	}
+	int32 DamageCount = 0;
+	int32 ResultPublications = 0;
+	uint64 FirstDamagedBossId = 0;
+	F.State()->OnMatchStateChanged.AddLambda(
+	    [&]()
+	    {
+		    if (F.State()->GetPhase() != ELDMatchPhase::Aborted)
+		    {
+			    return;
+		    }
+		    ++ResultPublications;
+		    const FLDBattleSnapshot& Result = F.State()->GetBattleSnapshot();
+		    TestEqual(TEXT("Result observer receives both boss views"), Result.Bosses.Num(), 2);
+		    for (const ALDEnemyActor* Boss : Bosses)
+		    {
+			    const uint64 BossId = Boss->GetRouteSnapshot().EnemyId;
+			    const FLDBossSnapshot* View = Result.Bosses.FindByPredicate([BossId](const FLDBossSnapshot& Candidate)
+			                                                                { return Candidate.EnemyId == BossId; });
+			    if (TestNotNull(TEXT("Result boss identity still matches its actual actor"), View))
+			    {
+				    TestEqual(TEXT("Result observer sees final committed actor HP in shared state"), View->HP,
+				                   Boss->GetCombatSnapshot().HP);
+				    TestEqual(TEXT("Only first100 damage is reflected before Result; no second due attack"), View->HP,
+				                   BossId == FirstDamagedBossId ? 5900.0 : 6000.0);
+			    }
+		    }
+	    });
+	F.Mode->GetCombatService()->OnDamageCommitted.AddLambda(
+	    [&](const FLDDamageEvent& Event, int32 PlayerIndex, int32 EffectiveDamage)
+	    {
+		    ++DamageCount;
+		    FirstDamagedBossId = Event.EnemyId;
+		    TestEqual(TEXT("Actual combat commits the independent100 damage expectation"), EffectiveDamage, 100);
+		    F.Mode->AbortMatch(TEXT("boss damage observer requests shutdown"));
+	    });
+	AddExpectedError(TEXT("Match aborted: boss damage observer requests shutdown"),
+	                      EAutomationExpectedErrorFlags::Contains, 1);
+	F.World->TimeSeconds = 11.1f;
+	FLDWaveTestAccess::Advance(*F.Mode, 11.1);
+	TestEqual(TEXT("Mode Abort cancels the second nonlethal attack due at11"), DamageCount, 1);
+	TestEqual(TEXT("Final committed HP is ready for the first and only terminal publication"), ResultPublications, 1);
+	TestEqual(TEXT("Nonlethal damage cannot produce a death reward for owner"),
+	               F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 100);
+	TestEqual(TEXT("Nonlethal damage cannot produce a death reward for partner"),
+	               F.Mode->GetEconomyService()->GetSnapshot(1).Gold, 100);
+	TestEqual(TEXT("Synchronizing boss HP does not evaluate victory"), F.State()->GetBattleSnapshot().Result,
+	               ELDMatchResult::Aborted);
+	const int32 FinalRevision = F.State()->GetBattleSnapshot().Revision;
+	FLDWaveTestAccess::Advance(*F.Mode, 12);
+	TestEqual(TEXT("Later timeline calls cannot change final boss state"), F.State()->GetBattleSnapshot().Revision,
+	               FinalRevision);
+	F.State()->OnMatchStateChanged.Clear();
+	return true;
+}
 #endif
