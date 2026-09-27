@@ -1,0 +1,21 @@
+{
+  "Scope": "Editor compile only; disable UBA after shared-memory allocation failure",
+  "Started": "2026-09-28T03:31:06.4491161+09:00",
+  "BaseSha": "f50710adbac9f813f88ef1d3be9cb6256bfd12f6",
+  "ChangedFile": "Source/Mobile_defense_clone/Battle/LDUnitActor.cpp",
+  "ChangedSHA256": "66CFEF3737B87788815EB6FD8AEB53CF6B71BBA30F5DAC50A68522B4AEE3E775",
+  "Command": "C:/Program Files/Epic Games/UE_5.8/Engine/Build/BatchFiles/Build.bat",
+  "Arguments": [
+    "Mobile_defense_cloneEditor",
+    "Win64",
+    "Development",
+    "-Project=C:/Users/iam12/P0_reference_a/Mobile_defense_clone.uproject",
+    "-WaitMutex",
+    "-NoHotReloadFromIDE",
+    "-NoUBA",
+    "-MaxParallelActions=1"
+  ],
+  "ExitCode": 0,
+  "Result": "Pass",
+  "Finished": "2026-09-28T03:32:01.2881692+09:00"
+}

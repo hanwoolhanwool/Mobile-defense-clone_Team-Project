@@ -673,3 +673,12 @@
 - 반영: 기존 TASK-UX-01 Backlog에 배경 클릭/탭 해제, 선택 관련 표시 정리·재선택, UI 소비·드래그 구분, 서버 명령/게임 상태 불변 검수 추가. 새 상위 작업 없음, 기존38개 상태 유지.
 - 기록 판정: Pass
 - 문서 검사: 기획/메타데이터/링크/읽기본/38작업/103QA 정합 검사를 통과했다. [실제 검사 결과](evidence/RUN-20260928-07.json). `git diff --check` 통과, Source/Content/Config 변경0. P1 코드 구현·Unreal 빌드·PIE·PC 패키지·Android 실기기 검수는 모두 이번 회차 NotRun.
+
+## RUN-20260928-08 · P0 등급 팔레트 표시 개선
+
+- 실행일: 2026-09-28 / 실행자: Codex / 관련 TASK-UI-01, QA-VIS-02.
+- 입력: `65b7feebceb3b2aa94e1b191a010038706369d79`. LDUnitActor의 색상 매핑만 변경했으며 원래 f64 재현73입력에서 변경 전 파일을 보존하고 새73blob을 대조했다.
+- 표시: 일반 `#8E99AA`, 희귀 `#1AA6D5`, 영웅 `#A046E0`, 전설 `#F2B024`를 sRGB→linear 변환해 기존 재질에 전달한다.
+- 기록 판정: Pass
+- 실행: A Editor(공유 메모리 실패 후 NoUBA 재시도)·통합 Editor·새 Win64 패키징 Pass. 실제 별도2프로세스 host69/client33 Pass 및 원본 양쪽 화면의 네 등급 직접 관찰. 기존16종 fixture의 짧은 화면 검수이며 자연10웨이브·PIE·Android 실행은 이번 회차 NotRun.
+- 증거: [빌드·실제 화면과 한계](evidence/RUN-20260928-08/SUMMARY.md). 기존 게임 검수와 이번 표시 후속의 실행 범위를 구분한다.

@@ -1,0 +1,72 @@
+{
+  "Scope": "Explicit Development 40 units + 99 normals + 2 bosses workload, then 2000 lifecycles. Not natural-play or balance evidence.",
+  "EditorGame": false,
+  "Source": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "Executable": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/P0-grade-palette-package/Package/Windows/Mobile_defense_clone/Binaries/Win64/Mobile_defense_clone.exe",
+  "ExecutableSHA256": "E6245E9A04548795178571148C310806C2C04C341788DDA6015740D517187674",
+  "LoadSeconds": 10,
+  "Resolution": [
+    540,
+    1170
+  ],
+  "FPSLimit": 60,
+  "VSync": 0,
+  "RenderOffscreen": true,
+  "Started": "2026-09-28T03:38:22.5734599+09:00",
+  "Processes": [
+    {
+      "Role": "host",
+      "Id": 7036,
+      "Arguments": [
+        "/Game/LD/Maps/L_P0?listen",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-nosound",
+        "-nosplash",
+        "-unattended",
+        "-culture=ko",
+        "-port=18777",
+        "-P0Probe=G3Load",
+        "-P0LoadSeconds=10",
+        "-P0Seed=1776",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\P0-grade-palette-visual\\host",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\P0-grade-palette-visual\\host/engine.log",
+        "-ModelContextProtocolPort=18877",
+        "-csvGpuStats",
+        "-csvCompression=0",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-RenderOffscreen"
+      ]
+    },
+    {
+      "Role": "client",
+      "Id": 46668,
+      "Arguments": [
+        "127.0.0.1:18777",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-nosound",
+        "-nosplash",
+        "-unattended",
+        "-culture=ko",
+        "-port=18777",
+        "-P0Probe=G3Load",
+        "-P0LoadSeconds=10",
+        "-P0Seed=1776",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\P0-grade-palette-visual\\client",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\P0-grade-palette-visual\\client/engine.log",
+        "-ModelContextProtocolPort=18878",
+        "-csvGpuStats",
+        "-csvCompression=0",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-RenderOffscreen"
+      ]
+    }
+  ],
+  "Result": "Pass",
+  "Finished": "2026-09-28T03:40:33.1877496+09:00"
+}

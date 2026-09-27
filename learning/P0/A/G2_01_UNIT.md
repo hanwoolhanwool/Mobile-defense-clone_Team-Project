@@ -32,7 +32,7 @@ ARCH-01~06의 적용: 표시 actor와 보드/경제/전투 원본을 분리했�
 | 순서 | 위치 | 프로퍼티·값·연결 | 예상 화면 |
 |---|---|---|---|
 | 1 | native LDUnitActor Components | CanonicalRoot 아래 두 mesh, Collision=NoCollision, Overlap=false | 준비 중 숨김 |
-| 2 | PresentationMesh | Engine Cube, scale(.50,.50,.60), M_P0Flat.Color | Common 녹색/Rare 파랑/Epic 보라/Legendary 금색 |
+| 2 | PresentationMesh | Engine Cube, scale(.50,.50,.60), M_P0Flat.Color | 당시 G2 재현: Common 녹색/Rare 파랑/Epic 보라/Legendary 금색. 현행 후속 팔레트는 아래 기록 |
 | 3 | ProjectileMesh | Engine Sphere, scale(.12,.12,.12) | Projectile 행에서만 짧은 구체 이동 |
 | 4 | 로컬 표시 | 셀 중심+슬롯(-28,0)/(28,0)/(0,50), Z+35; owner1 Y반사 | 같은 셀3개체 구분, 자기 보드 아래 |
 | 5 | BoardManager.PublishPrepared | 전체 셀 정렬 슬롯→배치 확정→통지 | 보충 뒤 남은 구성원의 슬롯도 갱신 |
@@ -68,3 +68,11 @@ B는 헤더를 받은 뒤 준비 actor에 InitializePrepared를 호출하고 실
 - [x] 새 detached 경로에서 수업 순서로 참고 파일을 조립하고 manifest·실제 결과·완료 소스를 연결했다. 학습자 작성 이력은 아니다.
 - [x] B 보드·실제 두 프로세스와 합쳐 표시·조작·기존 개체 보존을 확인했다.
 - [x] 패키지·물리 입력·Android와 대표 부하는 미검증이다. 다음 수업은 서버 전투이며 공통 Verified 범위를 확장해 해석하지 않는다.
+
+## 2026-09-28 표시 후속 — 등급 팔레트
+
+기존 G2 시작/완료 SHA와 위 재현 화면은 당시 결과로 보존한다. 현재 참고 코드의 표시 후속은 `65b7feebceb3b2aa94e1b191a010038706369d79`이며 `Battle/LDUnitActor.cpp::InitializePrepared`의 색상 매핑만 변경했다. 일반 회색·희귀 청록·영웅 보라·전설 금색의 HEX와 변환 이유는 [아트 원본](../../../docs/art/ART_DIRECTION.md#p0-grade-palette)에 한 번 관리한다.
+
+같은 M_P0Flat.Color와 UnitColor 복제 경로를 쓰며 BP/맵/재질 에셋의 수동 수정은 없다. 새 색상을 적용하는 변형은 해당 함수의 팔레트를 작성→sRGB를 linear로 변환→Editor 빌드→실제 양쪽 화면 순서로 확인한다. 제공된 16종 배치 fixture의 [후속 검수](../../../docs/production/evidence/RUN-20260928-08/SUMMARY.md)는 원래 G2 논리 검수와 구분한다. 실제 학습자 상태는 Planned다.
+
+후속 시작은 `f50710adbac9f813f88ef1d3be9cb6256bfd12f6`, 코드 완료는 위 `65b7fee`다. 네 색상의 구분을 기대한 실제 540×1170 PC 화면에서 양쪽 보드의 일반 회색·희귀 청록·영웅 보라·전설 금색을 관찰했다. 화면의 색은 후처리 때문에 입력 HEX와 같다고 가정하지 않는다. 이번 제공 코드는 한 함수의 매핑이며 직접 연습할 부분은 색상 입력과 변환이다. 이해 확인: sRGB 숫자를 linear 재질 값으로 바로 사용하면 어떤 차이가 생기는가? 작은 변형: 별도 연습 브랜치에서 일반 색만 바꾸고 상대 화면에도 같은 색이 보이는지 확인한다. Android 실제 색·색각별 식별성은 이 PC 검수로 확정하지 않는다.

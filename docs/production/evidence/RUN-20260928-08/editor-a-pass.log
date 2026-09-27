@@ -1,0 +1,31 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" Mobile_defense_cloneEditor Win64 Development -Project=C:/Users/iam12/P0_reference_a/Mobile_defense_clone.uproject -WaitMutex -NoHotReloadFromIDE -NoUBA -MaxParallelActions=1
+Log file: C:\Users\iam12\AppData\Local\UnrealBuildTool\Log.txt
+Executing up to 1 actions based on MaxProcessorCount override
+Using 'git status' to determine working set for adaptive non-unity build (C:\Users\iam12\P0_reference_a).
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+Invalidating makefile for Mobile_defense_cloneEditor (working set of source files changed)
+Building Mobile_defense_cloneEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from Mobile_defense_clone unity file: LDUnitActor.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 5 action(s)
+  CPU 6 physical cores, 12 logical cores
+  Memory 31.65 GB physical, 46.9 GB/48.16 GB committed
+  UBA Storage capacity 40 GB
+[1/5] Compile [x64] LDUnitActor.cpp [NoUba]
+[2/5] Compile [x64] Module.Mobile_defense_clone.1.cpp [NoUba]
+[3/5] Link [x64] UnrealEditor-Mobile_defense_clone.dll [NoUba]
+[4/5] Link [x64] UnrealEditor-Mobile_defense_clone.lib [NoUba]
+   C:/Users/iam12/P0_reference_a/Intermediate/Build/Win64/x64/UnrealEditor/Development/Mobile_defense_clone/UnrealEditor-Mobile_defense_clone.lib ﾶ￳￀ￌﾺ￪ﾷﾯﾸﾮ ﾹￗ C:/Users/iam12/P0_reference_a/Intermediate/Build/Win64/x64/UnrealEditor/Development/Mobile_defense_clone/UnrealEditor-Mobile_defense_clone.exp ﾰﾳￃﾼﾸﾦ ﾻ�ﾼﾺￇￏﾰ￭ ￀ￖﾽ￀ﾴￏﾴ￙.
+[5/5] WriteMetadata Mobile_defense_cloneEditor.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 50.56 seconds
+Output binary: C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe
+
+Result: Succeeded
+Total execution time: 54.38 seconds
+Trace written to file C:\Users\iam12\AppData\Local\UnrealBuildTool\Trace.uba with size 7.6kb

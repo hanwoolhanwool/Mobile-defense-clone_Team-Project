@@ -1,0 +1,29 @@
+{
+  "Scope": "Win64 compile/cook/archive; visual execution follows separately",
+  "SourceSha": "65b7feebceb3b2aa94e1b191a010038706369d79",
+  "InputManifest": "Saved/P0Runs/P0-grade-palette-inputs/manifest.json",
+  "Started": "2026-09-28T03:34:14.3078936+09:00",
+  "Command": "C:/Program Files/Epic Games/UE_5.8/Engine/Build/BatchFiles/RunUAT.bat",
+  "Arguments": [
+    "BuildCookRun",
+    "-project=C:/Users/iam12/P0_lesson_replay_g3/Mobile_defense_clone.uproject",
+    "-noP4",
+    "-unattended",
+    "-utf8output",
+    "-target=Mobile_defense_clone",
+    "-platform=Win64",
+    "-clientconfig=Development",
+    "-build",
+    "-cook",
+    "-stage",
+    "-pak",
+    "-package",
+    "-archive",
+    "-ubtargs=-NoHotReloadFromIDE -NoUBA -MaxParallelActions=1",
+    "-map=/Game/LD/Maps/L_P0+/Game/LD/Maps/L_P0Entry",
+    "-archivedirectory=C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/P0-grade-palette-package/Package"
+  ],
+  "ExitCode": 0,
+  "Result": "Pass",
+  "Finished": "2026-09-28T03:37:03.6404479+09:00"
+}

@@ -154,6 +154,8 @@ DEC-020 추가 수용 기준은 [명령 검수](../BACKLOG_QA.md#QA-CMD-01), [�
 
 ### TASK-UI-01
 
+- 2026-09-28 표시 후속: 등급 팔레트를 일반 회색·희귀 청록·영웅 보라·전설 금색으로 조정. RUN-20260928-08의 별도 빌드/실제 화면 증거를 따른다. Android 필수 미검수 상태는 유지한다.
+
 - 후속 UX: 현재 칸 밖 입력으로 선택이 해제되지 않는 제약은 사용자 요청에 따라 DEC-050 / P1 TASK-UX-01로 이관했다. 해당 동작은 미구현·미검수다.
 
 - 담당자: Codex 참고 제작. 상태 InProgress. PC HUD/결과·조작 거절·Entry 복귀·한글/에셋 로딩·Result/Status 재생성 후 구독/상태 보존을 검수했다. [최종 PC 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [실제 PIE proof](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-pie-proof.json).

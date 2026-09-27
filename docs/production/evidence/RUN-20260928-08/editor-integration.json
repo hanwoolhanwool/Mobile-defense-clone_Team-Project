@@ -1,0 +1,19 @@
+{
+  "Scope": "Integration Editor compile only",
+  "SourceSha": "65b7feebceb3b2aa94e1b191a010038706369d79",
+  "Started": "2026-09-28T03:40:52.1192537+09:00",
+  "Command": "C:/Program Files/Epic Games/UE_5.8/Engine/Build/BatchFiles/Build.bat",
+  "Arguments": [
+    "Mobile_defense_cloneEditor",
+    "Win64",
+    "Development",
+    "-Project=C:/Users/iam12/P0_reference_integration/Mobile_defense_clone.uproject",
+    "-WaitMutex",
+    "-NoHotReloadFromIDE",
+    "-NoUBA",
+    "-MaxParallelActions=1"
+  ],
+  "Result": "Pass",
+  "ExitCode": 0,
+  "Finished": "2026-09-28T03:41:20.5316458+09:00"
+}

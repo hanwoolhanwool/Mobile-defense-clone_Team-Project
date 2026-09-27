@@ -1,0 +1,27 @@
+{
+  "Scope": "Document/data/style/lesson-link checks, not gameplay",
+  "SourceSha": "65b7feebceb3b2aa94e1b191a010038706369d79",
+  "Started": "2026-09-28T03:44:20.4205360+09:00",
+  "Result": "Pass",
+  "Checks": [
+    {
+      "Name": "planning-generation",
+      "Script": "tools/build-planning.mjs",
+      "ExitCode": 0,
+      "Log": "planning-generation.log"
+    },
+    {
+      "Name": "project-check",
+      "Script": "tools/check-project.mjs",
+      "ExitCode": 0,
+      "Log": "project-check.log"
+    },
+    {
+      "Name": "learning-check",
+      "Script": "learning/tools/validate.mjs",
+      "ExitCode": 0,
+      "Log": "learning-check.log"
+    }
+  ],
+  "Finished": "2026-09-28T03:44:37.3480948+09:00"
+}

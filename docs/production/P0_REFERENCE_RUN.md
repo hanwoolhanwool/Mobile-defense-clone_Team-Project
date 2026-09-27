@@ -94,3 +94,7 @@ A/B의 개별 전달은 이미 검토·선별 통합했다. A 최신 LDWaveTests
 G3의 실제 청음과 G4는 외부 입력 대기다. 9/28 02:23 KST [실제 Android 점검](evidence/RUN-20260918-G3/android-latest-readiness.json)에서 UE Android 구성 디렉터리 부재·adb0을 확인했다. 같은 누락 상태로 실패 빌드를 반복하지 않았다. 사용자가 설치 예정이라고 답한 상태이며 실기기 검수/P0 완료로 표시하지 않는다. 원본 사용자 에디터를 종료하거나 원격 작업을 수행하지 않았다.
 
 최종 A/B Editor도45.02/58.54초 Pass이며 통합·재현과 같은 제품/검사 소스다. [역할 빌드](evidence/RUN-20260918-G3/final-role-build-summary.json), [문서·데이터·스타일·학습·검사기25회귀](evidence/RUN-20260918-G3/final-checks.json). 정식 실행 근거는 선택 학습 폴더 없이 보존되도록 [동일 바이트 사본](evidence/RUN-20260918-G3/replay-evidence/index.json)을 연결했다. 이는 새 게임 실행이 아니다.
+
+## 2026-09-28 등급 색상 후속
+
+사용자 요청의 표시 변경 소스는 `65b7feebceb3b2aa94e1b191a010038706369d79`다. 앞선 마감 입력/실행은 당시 기록으로 보존한다. 기존 아트 방향에 맞춘 네 등급 팔레트를 적용하고 A·통합 Editor 및 새 Win64 패키지를 빌드했다. 실제 두 패키지 프로세스의 16종 화면과 기존 수명 검사는 host69/client33 Pass다. [새 입력·화면·재현·리뷰·제한](evidence/RUN-20260928-08/SUMMARY.md). 실제 학습자 Planned, Android·청음 대기, 원본/learn 출발점은 유지한다.

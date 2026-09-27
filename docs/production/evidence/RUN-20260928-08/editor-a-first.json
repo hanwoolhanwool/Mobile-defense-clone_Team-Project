@@ -1,0 +1,18 @@
+{
+  "Scope": "Unreal Editor compile only",
+  "Started": "2026-09-28T03:30:07.7802667+09:00",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Build\\BatchFiles\\Build.bat",
+  "Arguments": [
+    "Mobile_defense_cloneEditor",
+    "Win64",
+    "Development",
+    "-Project=C:\\Users\\iam12\\P0_reference_a\\Mobile_defense_clone.uproject",
+    "-WaitMutex",
+    "-NoHotReloadFromIDE",
+    "-MaxParallelActions=4"
+  ],
+  "Head": "f50710adbac9f813f88ef1d3be9cb6256bfd12f6",
+  "Result": "Fail",
+  "ExitCode": 9887,
+  "Finished": "2026-09-28T03:30:10.5780698+09:00"
+}
