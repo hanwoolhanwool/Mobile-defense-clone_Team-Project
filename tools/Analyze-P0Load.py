@@ -273,7 +273,7 @@ def analyze_samples(path, warmup):
              "recentSlopeBytesPerSecond": slope([(r["wallSeconds"], r["rssBytes"]) for r in recent]),
              "leakAssessment": "Deferred: working-set slope alone cannot prove or disprove a leak.",
              "limits": "Only explicit batch-1..25-after-gc labels count; batch 0 is sustain teardown.",
-             "recentWindowComplete": len(recent) == 10}
+             "recentWindowComplete": [r["batch"] for r in recent] == list(range(16, 26))}
     result.update({"selectedSamples": selected, "firstWallSeconds": first,
                    "lastWallSeconds": last,
                    "observedSpanSeconds": last - first if first is not None else None,
