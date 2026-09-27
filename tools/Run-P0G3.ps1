@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory = $true)][string]$RunId,
     [string]$GameExecutable = '',
-    [int]$Matches = 1,
+    [int]$MatchCount = 1,
     [int]$MinimumSeconds = 0,
     [int]$TimeoutSeconds = 1500,
     [ValidateSet(0,150,300)][int]$RTTMilliseconds = 0,
@@ -16,7 +16,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = Split-Path $PSScriptRoot -Parent
 if ($RunId -notmatch '^[A-Za-z0-9_-]+$') { throw 'Use a new simple RunId.' }
-if ($Matches -lt 1 -or $Matches -gt 20 -or $MinimumSeconds -lt 0 -or $TimeoutSeconds -le $MinimumSeconds) { throw 'Invalid duration or match count.' }
+if ($MatchCount -lt 1 -or $MatchCount -gt 20 -or $MinimumSeconds -lt 0 -or $TimeoutSeconds -le $MinimumSeconds) { throw 'Invalid duration or match count.' }
 if ($Port -lt 1024 -or $Port -gt 65400 -or $Width -lt 320 -or $Height -lt 320) { throw 'Invalid port or viewport.' }
 if (Get-NetUDPEndpoint -LocalPort $Port -ErrorAction SilentlyContinue) { throw "Port $Port already in use." }
 $RunRoot = Join-Path $ProjectRoot "Saved/P0Runs/$RunId"
@@ -29,7 +29,7 @@ $Metadata = [ordered]@{
     Scope = $(if ($UsingEditor) {'Actual GPU two separate Editor-game processes; not PIE or package'} else {'Actual GPU two separate packaged processes'})
     Probe = 'G3'; Started = (Get-Date).ToString('o'); Head = (& git -C $ProjectRoot rev-parse HEAD)
     Executable = $GameExecutable; ExecutableSHA256 = (Get-FileHash -LiteralPath $GameExecutable -Algorithm SHA256).Hash
-    Matches = $Matches; MinimumSeconds = $MinimumSeconds; RequestedRTTMilliseconds = $RTTMilliseconds
+    Matches = $MatchCount; MinimumSeconds = $MinimumSeconds; RequestedRTTMilliseconds = $RTTMilliseconds
     OutgoingDelayPerEndpointMs = ($RTTMilliseconds / 2); OutgoingLossPercentPerEndpoint = $PacketLossPercent
     NetworkScope = 'Engine packet emulation in each direction. RTT measured by client unreliable echo; lost echo fraction is not equal to per-direction configured packet loss.'
     Resolution = @($Width,$Height); MaxFPS = $MaxFPS; VSync = 0; RenderOffscreen = [bool]$RenderOffscreen
@@ -48,7 +48,7 @@ try {
         if ($UsingEditor) { $Arguments += '-game' }
         $ToolPort = $Port + $(if ($Role -eq 'host') {100} else {101})
         if (Get-NetTCPConnection -LocalPort $ToolPort -State Listen -ErrorAction SilentlyContinue) { throw "Tool port $ToolPort is occupied." }
-        $Arguments += @("-ModelContextProtocolPort=$ToolPort",'-windowed','-ForceRes',"-ResX=$Width", "-ResY=$Height", "-port=$Port", '-nosplash', '-nosound', '-unattended', '-culture=ko', '-P0Probe=G3', "-P0Role=$Role", "-P0PeerAddress=127.0.0.1:$Port", "-P0Matches=$Matches", "-P0MinimumSeconds=$MinimumSeconds", "-P0TimeoutSeconds=$TimeoutSeconds", '-P0Seed=1776', "-P0ProbeOutput=$Output", "-abslog=$Output/engine.log", "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS $MaxFPS,r.VSync 0", "-PktLagMin=$($RTTMilliseconds / 2)", "-PktLagMax=$($RTTMilliseconds / 2)", "-PktLoss=$PacketLossPercent")
+        $Arguments += @("-ModelContextProtocolPort=$ToolPort",'-windowed','-ForceRes',"-ResX=$Width", "-ResY=$Height", "-port=$Port", '-nosplash', '-nosound', '-unattended', '-culture=ko', '-P0Probe=G3', "-P0Role=$Role", "-P0PeerAddress=127.0.0.1:$Port", "-P0Matches=$MatchCount", "-P0MinimumSeconds=$MinimumSeconds", "-P0TimeoutSeconds=$TimeoutSeconds", '-P0Seed=1776', "-P0ProbeOutput=$Output", "-abslog=$Output/engine.log", "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS $MaxFPS,r.VSync 0", "-PktLagMin=$($RTTMilliseconds / 2)", "-PktLagMax=$($RTTMilliseconds / 2)", "-PktLoss=$PacketLossPercent")
         if ($RenderOffscreen) { $Arguments += '-RenderOffscreen' }
         $QuotedArguments = ($Arguments | ForEach-Object { '"' + $_.Replace('"','\"') + '"' }) -join ' '
         $Process = Start-Process -FilePath $GameExecutable -ArgumentList $QuotedArguments -PassThru -WindowStyle Hidden -RedirectStandardOutput "$Output/stdout.log" -RedirectStandardError "$Output/stderr.log"
