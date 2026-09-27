@@ -44,6 +44,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+#if !UE_BUILD_SHIPPING
+	friend struct FLDG3BoundaryAccess;
+#endif
 #if WITH_DEV_AUTOMATION_TESTS
 	friend class FLDP0OpenFrameBoundaryTest;
 	friend class FLDWaveModeBoundaryTest;
