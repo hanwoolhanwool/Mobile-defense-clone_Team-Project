@@ -23,6 +23,7 @@ G2의 `BeforeExternalCommand`는 외부 콜백 재진입을 막는 `bProcessing`
 1. `Network/LDCommandProcessor.h`: `FSimpleDelegate AfterExternalCommandClock`를 추가한다.
 2. `.cpp SubmitAtTime`: Before guard 종료→`DrainCombatRewards`→After→`FindSession` 재조회 순서로 연결한다. 보상 또는 After의 외부 콜백이 세션을 바꿀 수 있으므로 이전 Session 포인터를 재사용하지 않는다.
 3. `.cpp Close`: Before와 After delegate를 모두 해제한다. 기존 확정 캐시 보존과 새 접수 차단은 유지한다.
+   `c697c91`에서는 After를 지역 `FSimpleDelegate`로 복사한 뒤 호출한다. 그 콜백이 Close를 호출해 원본 delegate를 해제해도 현재 callable의 수명이 끝나지 않게 한다.
 4. 제공 `Tests/LDEntryAndHudTests.cpp`의 `RewardBeforeTerminalClose`를 읽는다. 실제 Board/Economy/Processor를 만들고 Before에서 B01 처치 사실을 큐에 넣고 admission만 닫는다. After에서 기대 gold200/stars3을 확인하고 Close한다. 최종 구매·중복 요청 후 population0/보상1회/Finalizer1회를 확인한다.
 5. A GameMode는 Before에서 시간 경계와 보류 terminal을 결정하고, After에서 보상 확인 후 Result 게시·서비스 종료를 수행한다. 일반 고정 tick 경로도 Drain 후 같은 확정 함수를 호출한다.
 
