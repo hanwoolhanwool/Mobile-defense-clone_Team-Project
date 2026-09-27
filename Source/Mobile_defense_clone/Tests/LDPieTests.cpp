@@ -42,8 +42,7 @@
 
 namespace
 {
-	template <typename WidgetType>
-	int32 FindVisibleWidgets(ALDPlayerController& Player, WidgetType*& OutWidget)
+	template <typename WidgetType> int32 FindVisibleWidgets(ALDPlayerController& Player, WidgetType*& OutWidget)
 	{
 		int32 Count = 0;
 		OutWidget = nullptr;
@@ -58,8 +57,7 @@ namespace
 		return Count;
 	}
 
-	template <typename SnapshotType>
-	bool SameSnapshot(const SnapshotType& Left, const SnapshotType& Right)
+	template <typename SnapshotType> bool SameSnapshot(const SnapshotType& Left, const SnapshotType& Right)
 	{
 		// Compare every reflected field, including IDs, revision, time, array membership and balances.
 		return SnapshotType::StaticStruct()->CompareScriptStruct(&Left, &Right, 0);
@@ -373,20 +371,22 @@ namespace
 				Proof->Test->TestFalse(TEXT("Actual PIE terminal stops logic timer"), Mode->IsLogicTimerActive());
 				Proof->Test->TestEqual(TEXT("Actual PIE terminal clears combat units"),
 				                            Mode->GetCombatService()->GetRegisteredUnitCount(), 0);
-				Proof->Test->TestEqual(TEXT("Client replicated result matches"), ClientState->GetBattleSnapshot().Result,
-				                            ELDMatchResult::Aborted);
+				Proof->Test->TestEqual(TEXT("Client replicated result matches"),
+				                            ClientState->GetBattleSnapshot().Result, ELDMatchResult::Aborted);
 				if (!Proof->WatchTerminalRPCs(*Host->GetWorld()))
 				{
 					return true;
 				}
-				Proof->TerminalUI->SetStringField(TEXT("scope"),
-				    TEXT("Actual GPU PIE; Aborted Result/Status removal and normal Controller-tick recreation; "
+				Proof->TerminalUI->SetStringField(
+				    TEXT("scope"),
+				         TEXT("Actual GPU PIE; Aborted Result/Status removal and normal Controller-tick recreation; "
 				         "Engine InputKey/InputTouch and public intent APIs; no physical input or Entry travel"));
 				Proof->TerminalUI->SetNumberField(TEXT("expectedVisibleResultsPerOwner"), 1);
 				Proof->TerminalUI->SetNumberField(TEXT("expectedVisibleStatusesPerOwner"), 1);
 				Proof->TerminalUI->SetNumberField(TEXT("expectedReturnOwnerBindings"), 1);
 				Proof->TerminalUI->SetNumberField(TEXT("expectedNewServerRequests"), 0);
-				Proof->TerminalUI->SetStringField(TEXT("expectedStateChange"), TEXT("none: board/economy/battle/cache/RNG"));
+				Proof->TerminalUI->SetStringField(TEXT("expectedStateChange"),
+				                                       TEXT("none: board/economy/battle/cache/RNG"));
 				for (int32 Index = 0; Index < 2; ++Index)
 				{
 					ALDPlayerController& Player = *Players[Index];
@@ -400,7 +400,8 @@ namespace
 					View.CachedResults = Mode->GetCommandProcessor()->GetCachedResultCount(Index);
 					View.LastResult = Player.GetLastResult();
 					View.SelectedCell = Player.GetSelectedCellId();
-					Proof->Test->TestTrue(TEXT("Real Controller input objects exist"), Player.InputComponent && Player.PlayerInput);
+					Proof->Test->TestTrue(TEXT("Real Controller input objects exist"),
+					                           Player.InputComponent && Player.PlayerInput);
 					View.RetiredResult.Reset(Results[Index]);
 					View.RetiredStatus.Reset(Statuses[Index]);
 					View.OldResult = Results[Index];
@@ -411,7 +412,7 @@ namespace
 					Statuses[Index]->RemoveFromParent();
 				}
 				Proof->Record(TEXT("terminal-ui-removed"),
-				    TEXT("Removed host/client Result and Status only; no private update, widget factory or state setter called"));
+				                   TEXT("Removed host/client Result and Status only; no private update, widget factory or state setter called"));
 				TerminalStepAt = FPlatformTime::Seconds();
 				Stage = 4;
 				return false;
@@ -426,7 +427,8 @@ namespace
 				{
 					ULDResultWidget* Result = nullptr;
 					ULDBattleStatusWidget* Status = nullptr;
-					if (FindVisibleWidgets(*Players[Index], Result) == 0 || FindVisibleWidgets(*Players[Index], Status) == 0)
+					if (FindVisibleWidgets(*Players[Index], Result) == 0 ||
+					    FindVisibleWidgets(*Players[Index], Status) == 0)
 					{
 						return false;
 					}
@@ -444,27 +446,39 @@ namespace
 					Proof->Test->TestEqual(TEXT("Exactly one replacement Status"), StatusCount, 1);
 					Proof->Test->TestTrue(TEXT("Result is a new instance"), Result != View.OldResult.Get());
 					Proof->Test->TestTrue(TEXT("Status is a new instance"), Status != View.OldStatus.Get());
-					Proof->Test->TestTrue(TEXT("Replacement Result and Status are visible"), Result->IsVisible() && Status->IsVisible());
-					Proof->Test->TestFalse(TEXT("Old Result no longer in viewport"), View.RetiredResult->IsInViewport());
-					Proof->Test->TestFalse(TEXT("Old Status no longer in viewport"), View.RetiredStatus->IsInViewport());
-					Proof->Test->TestFalse(TEXT("Old Result return multicast unbound"), View.RetiredResult->OnReturnRequested.IsBound());
+					Proof->Test->TestTrue(TEXT("Replacement Result and Status are visible"),
+					                           Result->IsVisible() && Status->IsVisible());
+					Proof->Test->TestFalse(TEXT("Old Result no longer in viewport"),
+					                            View.RetiredResult->IsInViewport());
+					Proof->Test->TestFalse(TEXT("Old Status no longer in viewport"),
+					                            View.RetiredStatus->IsInViewport());
+					Proof->Test->TestFalse(TEXT("Old Result return multicast unbound"),
+					                            View.RetiredResult->OnReturnRequested.IsBound());
 					const UButton* OldButton = View.RetiredResult->WidgetTree
-					    ? Cast<UButton>(View.RetiredResult->WidgetTree->FindWidget(TEXT("ReturnButton"))) : nullptr;
-					Proof->Test->TestTrue(TEXT("Old return button subscription removed"), OldButton && !OldButton->OnClicked.IsBound());
+					    ? Cast<UButton>(View.RetiredResult->WidgetTree->FindWidget(TEXT("ReturnButton")))
+					    : nullptr;
+					Proof->Test->TestTrue(TEXT("Old return button subscription removed"),
+					                           OldButton && !OldButton->OnClicked.IsBound());
 					// Count bindings on a COPY: observation must not unsubscribe the production widget.
 					FOnLDReturnRequested ReturnBindings = Result->OnReturnRequested;
 					const int32 OwnerBindings = ReturnBindings.RemoveAll(&Player);
-					Proof->Test->TestEqual(TEXT("Replacement Result has exactly one owner return binding"), OwnerBindings, 1);
-					Proof->Test->TestFalse(TEXT("Replacement Result has no extra return listeners"), ReturnBindings.IsBound());
-					Proof->Test->TestTrue(TEXT("Original replacement binding left intact"), Result->OnReturnRequested.IsBoundToObject(&Player));
+					Proof->Test->TestEqual(TEXT("Replacement Result has exactly one owner return binding"),
+					                            OwnerBindings, 1);
+					Proof->Test->TestFalse(TEXT("Replacement Result has no extra return listeners"),
+					                            ReturnBindings.IsBound());
+					Proof->Test->TestTrue(TEXT("Original replacement binding left intact"),
+					                           Result->OnReturnRequested.IsBoundToObject(&Player));
 					FBox2D ReturnRect;
-					Proof->Test->TestTrue(TEXT("Replacement result has a visible return action"), Player.GetReturnButtonScreenRect(ReturnRect));
+					Proof->Test->TestTrue(TEXT("Replacement result has a visible return action"),
+					                           Player.GetReturnButtonScreenRect(ReturnRect));
 					const FString ResultText = WidgetText(*Result, TEXT("ResultText"));
 					const FString StatusText = WidgetText(*Status, TEXT("WaveStatus"));
 					Proof->Test->TestTrue(TEXT("Replacement Result displays aborted title and wave"),
-					    ResultText.Contains(TEXT("매치 종료")) && ResultText.Contains(TEXT("WAVE 1 / 10")));
+					                           ResultText.Contains(TEXT("매치 종료")) &&
+					                                               ResultText.Contains(TEXT("WAVE 1 / 10")));
 					Proof->Test->TestTrue(TEXT("Replacement Status displays stopped clock and phase"),
-					    StatusText.Contains(TEXT("00:00")) && StatusText.Contains(TEXT("전투 종료")));
+					                           StatusText.Contains(TEXT("00:00")) &&
+					                                               StatusText.Contains(TEXT("전투 종료")));
 					View.NewResult = Result;
 					View.NewStatus = Status;
 					TSharedPtr<FJsonObject> Item = MakeShared<FJsonObject>();
@@ -480,23 +494,30 @@ namespace
 					Item->SetStringField(TEXT("statusText"), StatusText);
 					Item->SetBoolField(TEXT("oldReturnUnbound"), !View.RetiredResult->OnReturnRequested.IsBound());
 					Views.Add(MakeShared<FJsonValueObject>(Item));
-					Proof->Capture(Player, Index == 0 ? TEXT("host-terminal-recreated") : TEXT("client-terminal-recreated"));
+					Proof->Capture(Player,
+					               Index == 0 ? TEXT("host-terminal-recreated") : TEXT("client-terminal-recreated"));
 					Proof->Test->TestFalse(TEXT("Terminal summon intent rejected locally"), Player.RequestSummon());
-					Proof->Test->TestFalse(TEXT("Terminal merge intent rejected locally"), Player.RequestMergeSelection());
-					Proof->Test->TestFalse(TEXT("Terminal sale intent rejected locally"), Player.RequestSellSelection());
+					Proof->Test->TestFalse(TEXT("Terminal merge intent rejected locally"),
+					                            Player.RequestMergeSelection());
+					Proof->Test->TestFalse(TEXT("Terminal sale intent rejected locally"),
+					                            Player.RequestSellSelection());
 					const uint64 UnitId = View.ClientBoard.Units.IsEmpty() ? 0 : View.ClientBoard.Units[0].InstanceId;
 					Proof->Test->TestTrue(TEXT("Input fixture retains a real unit identity"), UnitId != 0);
-					Proof->Test->TestFalse(TEXT("Terminal move intent rejected locally"), Player.RequestMove(UnitId, 17));
+					Proof->Test->TestFalse(TEXT("Terminal move intent rejected locally"),
+					                            Player.RequestMove(UnitId, 17));
 					Proof->Test->TestTrue(TEXT("Terminal touch endpoints project onto own board"),
-					    Player.ProjectCellToScreen(0, View.TouchStart) && Player.ProjectCellToScreen(17, View.TouchEnd));
-					Proof->Test->TestFalse(TEXT("Terminal board selection rejected"), Player.InputScreenPosition(View.TouchStart));
+					                           Player.ProjectCellToScreen(0, View.TouchStart) &&
+					                               Player.ProjectCellToScreen(17, View.TouchEnd));
+					Proof->Test->TestFalse(TEXT("Terminal board selection rejected"),
+					                            Player.InputScreenPosition(View.TouchStart));
 					SendKeys(Player, IE_Pressed);
 					Proof->Test->TestTrue(TEXT("Engine accepted terminal touch begin"),
-					    Player.InputTouch(TestFinger(), ETouchType::Began, View.TouchStart, 1, FPlatformTime::Cycles64()));
+					                           Player.InputTouch(TestFinger(), ETouchType::Began, View.TouchStart, 1,
+					                                             FPlatformTime::Cycles64()));
 				}
 				Proof->TerminalUI->SetArrayField(TEXT("views"), Views);
 				Proof->Record(TEXT("terminal-ui-recreated"),
-				    TEXT("Exactly one new Result/Status per owner; old return/button unbound; new owner binding1; Engine S/M/X and touch began"));
+				                   TEXT("Exactly one new Result/Status per owner; old return/button unbound; new owner binding1; Engine S/M/X and touch began"));
 				TerminalStepAt = FPlatformTime::Seconds();
 				Stage = 5;
 				return false;
@@ -507,16 +528,19 @@ namespace
 				{
 					if (Stage == 5)
 					{
-						// Observe processed engine key state before releasing; a missing input path must not pass vacuously.
+						// Observe processed engine key state before releasing; a missing input path must not pass
+						// vacuously.
 						for (const FKey& Key : {EKeys::S, EKeys::M, EKeys::X})
 						{
-							Proof->Test->TestTrue(TEXT("Terminal test key reached PlayerInput pressed state"), Players[Index]->IsInputKeyDown(Key));
+							Proof->Test->TestTrue(TEXT("Terminal test key reached PlayerInput pressed state"),
+							                           Players[Index]->IsInputKeyDown(Key));
 						}
 						SendKeys(*Players[Index], IE_Released);
 					}
 					Proof->Test->TestTrue(TEXT("Engine accepted terminal touch move/end"),
 					    Players[Index]->InputTouch(TestFinger(), Stage == 5 ? ETouchType::Moved : ETouchType::Ended,
-					        TerminalViews[Index].TouchEnd, Stage == 5 ? 1 : 0, FPlatformTime::Cycles64()));
+					                               TerminalViews[Index].TouchEnd, Stage == 5 ? 1 : 0,
+					                               FPlatformTime::Cycles64()));
 				}
 				TerminalStepAt = FPlatformTime::Seconds();
 				++Stage;
@@ -541,14 +565,15 @@ namespace
 			{
 				bOldWidgetsCollected &= View.OldResult.IsStale(false, true) && View.OldStatus.IsStale(false, true);
 			}
-			Proof->Test->TestTrue(TEXT("All four retired Result/Status widgets garbage collected"), bOldWidgetsCollected);
+			Proof->Test->TestTrue(TEXT("All four retired Result/Status widgets garbage collected"),
+			                           bOldWidgetsCollected);
 			Proof->TerminalUI->SetBoolField(TEXT("allFourOldWidgetsCollected"), bOldWidgetsCollected);
 			Proof->TerminalUI->SetNumberField(TEXT("actualTerminalServerRequests"), Proof->TerminalServerRequests);
 			Proof->TerminalUI->SetBoolField(TEXT("logicTimerActive"), Mode->IsLogicTimerActive());
 			Proof->TerminalUI->SetBoolField(TEXT("passedBeforeEditorShutdown"), !Proof->Test->HasAnyErrors());
 			Proof->Record(TEXT("terminal-ui-input-and-gc"),
-			    FString::Printf(TEXT("Engine S/M/X and touch begin/move/end; intent APIs; server RPCs=%d; old widgets collected=%d; state/cache/RNG unchanged"),
-			        Proof->TerminalServerRequests, bOldWidgetsCollected));
+			                   FString::Printf(TEXT("Engine S/M/X and touch begin/move/end; intent APIs; server RPCs=%d; old widgets collected=%d; state/cache/RNG unchanged"),
+			                                        Proof->TerminalServerRequests, bOldWidgetsCollected));
 			return true;
 		}
 
@@ -564,15 +589,20 @@ namespace
 			for (const FKey& Key : {EKeys::S, EKeys::M, EKeys::X})
 			{
 				Player.InputKey(FInputKeyEventArgs(Viewport ? Viewport->Viewport : nullptr,
-				    FInputDeviceId::CreateFromInternalId(0), Key, Event, FPlatformTime::Cycles64()));
+				                                   FInputDeviceId::CreateFromInternalId(0), Key, Event,
+				                                   FPlatformTime::Cycles64()));
 			}
 		}
 		void VerifyTerminalUnchanged(ALDGameMode& Mode, ALDPlayerController* const Players[2])
 		{
-			Proof->Test->TestFalse(TEXT("Terminal logic timer stays inactive through UI recreation/input"), Mode.IsLogicTimerActive());
-			Proof->Test->TestFalse(TEXT("Terminal command clock before delegate stays unbound"), Mode.GetCommandProcessor()->BeforeExternalCommand.IsBound());
-			Proof->Test->TestFalse(TEXT("Terminal command clock after delegate stays unbound"), Mode.GetCommandProcessor()->AfterExternalCommandClock.IsBound());
-			Proof->Test->TestEqual(TEXT("Terminal Engine input generated no actual server RPC"), Proof->TerminalServerRequests, 0);
+			Proof->Test->TestFalse(TEXT("Terminal logic timer stays inactive through UI recreation/input"),
+			                            Mode.IsLogicTimerActive());
+			Proof->Test->TestFalse(TEXT("Terminal command clock before delegate stays unbound"),
+			                            Mode.GetCommandProcessor()->BeforeExternalCommand.IsBound());
+			Proof->Test->TestFalse(TEXT("Terminal command clock after delegate stays unbound"),
+			                            Mode.GetCommandProcessor()->AfterExternalCommandClock.IsBound());
+			Proof->Test->TestEqual(TEXT("Terminal Engine input generated no actual server RPC"),
+			                            Proof->TerminalServerRequests, 0);
 			TArray<TSharedPtr<FJsonValue>> States;
 			for (int32 Index = 0; Index < 2; ++Index)
 			{
@@ -580,42 +610,60 @@ namespace
 				const FTerminalViewBaseline& View = TerminalViews[Index];
 				ULDResultWidget* Result = nullptr;
 				ULDBattleStatusWidget* Status = nullptr;
-				Proof->Test->TestEqual(TEXT("Result remains unique after later input ticks"), FindVisibleWidgets(Player, Result), 1);
-				Proof->Test->TestEqual(TEXT("Status remains unique after later input ticks"), FindVisibleWidgets(Player, Status), 1);
-				Proof->Test->TestTrue(TEXT("Replacement identity stable across later ticks"), Result == View.NewResult.Get() && Status == View.NewStatus.Get());
+				Proof->Test->TestEqual(TEXT("Result remains unique after later input ticks"),
+				                            FindVisibleWidgets(Player, Result), 1);
+				Proof->Test->TestEqual(TEXT("Status remains unique after later input ticks"),
+				                            FindVisibleWidgets(Player, Status), 1);
+				Proof->Test->TestTrue(TEXT("Replacement identity stable across later ticks"),
+				                           Result == View.NewResult.Get() && Status == View.NewStatus.Get());
 				if (Result)
 				{
 					FOnLDReturnRequested ReturnBindings = Result->OnReturnRequested;
-					Proof->Test->TestEqual(TEXT("Later ticks keep one owner return subscription"), ReturnBindings.RemoveAll(&Player), 1);
+					Proof->Test->TestEqual(TEXT("Later ticks keep one owner return subscription"),
+					                            ReturnBindings.RemoveAll(&Player), 1);
 					Proof->Test->TestFalse(TEXT("Later ticks add no extra return listeners"), ReturnBindings.IsBound());
 				}
 				Proof->Test->TestFalse(TEXT("Terminal gameplay remains closed"), Player.CanUseGameplayActions());
 				Proof->Test->TestFalse(TEXT("Terminal input leaves no pending command"), Player.HasPendingCommand());
-				Proof->Test->TestTrue(TEXT("Owner board unchanged in all fields"), SameSnapshot(View.ClientBoard, Player.GetBoardSnapshot()));
-				Proof->Test->TestTrue(TEXT("Owner economy unchanged in all fields"), SameSnapshot(View.ClientEconomy, Player.GetEconomySnapshot()));
-				Proof->Test->TestTrue(TEXT("Owner last response unchanged in all fields"), SameSnapshot(View.LastResult, Player.GetLastResult()));
-				Proof->Test->TestTrue(TEXT("GameState unchanged in all fields"), SameSnapshot(View.Battle, Player.GetWorld()->GetGameState<ALDGameState>()->GetBattleSnapshot()));
-				Proof->Test->TestTrue(TEXT("Authoritative board unchanged in all fields"), SameSnapshot(View.ServerBoard, Mode.GetBoardManager()->GetSnapshot(Index)));
-				Proof->Test->TestTrue(TEXT("Authoritative economy unchanged in all fields"), SameSnapshot(View.ServerEconomy, Mode.GetEconomyService()->GetSnapshot(Index)));
-				Proof->Test->TestEqual(TEXT("Authoritative RNG unchanged"), Mode.GetEconomyService()->GetRandomState(Index), View.RandomState);
-				Proof->Test->TestEqual(TEXT("No new command cache entry"), Mode.GetCommandProcessor()->GetCachedResultCount(Index), View.CachedResults);
-				Proof->Test->TestEqual(TEXT("Terminal touch/drag does not change selection"), Player.GetSelectedCellId(), View.SelectedCell);
+				Proof->Test->TestTrue(TEXT("Owner board unchanged in all fields"),
+				                           SameSnapshot(View.ClientBoard, Player.GetBoardSnapshot()));
+				Proof->Test->TestTrue(TEXT("Owner economy unchanged in all fields"),
+				                           SameSnapshot(View.ClientEconomy, Player.GetEconomySnapshot()));
+				Proof->Test->TestTrue(TEXT("Owner last response unchanged in all fields"),
+				                           SameSnapshot(View.LastResult, Player.GetLastResult()));
+				Proof->Test->TestTrue(TEXT("GameState unchanged in all fields"),
+				    SameSnapshot(View.Battle, Player.GetWorld()->GetGameState<ALDGameState>()->GetBattleSnapshot()));
+				Proof->Test->TestTrue(TEXT("Authoritative board unchanged in all fields"),
+				                           SameSnapshot(View.ServerBoard, Mode.GetBoardManager()->GetSnapshot(Index)));
+				Proof->Test->TestTrue(
+				    TEXT("Authoritative economy unchanged in all fields"),
+				         SameSnapshot(View.ServerEconomy, Mode.GetEconomyService()->GetSnapshot(Index)));
+				Proof->Test->TestEqual(TEXT("Authoritative RNG unchanged"),
+				                            Mode.GetEconomyService()->GetRandomState(Index), View.RandomState);
+				Proof->Test->TestEqual(TEXT("No new command cache entry"),
+				                            Mode.GetCommandProcessor()->GetCachedResultCount(Index),
+				                            View.CachedResults);
+				Proof->Test->TestEqual(TEXT("Terminal touch/drag does not change selection"),
+				                            Player.GetSelectedCellId(), View.SelectedCell);
 				for (const FKey& Key : {EKeys::S, EKeys::M, EKeys::X})
 				{
-					Proof->Test->TestFalse(TEXT("Terminal test key released in engine input"), Player.IsInputKeyDown(Key));
+					Proof->Test->TestFalse(TEXT("Terminal test key released in engine input"),
+					                            Player.IsInputKeyDown(Key));
 					int32 OwnerKeyBindings = 0;
 					if (Player.InputComponent)
 					{
 						for (const FInputKeyBinding& Binding : Player.InputComponent->KeyBindings)
 						{
 							OwnerKeyBindings += Binding.Chord.Key == Key && Binding.KeyEvent == IE_Pressed &&
-							    Binding.KeyDelegate.IsBoundToObject(&Player) ? 1 : 0;
+							                            Binding.KeyDelegate.IsBoundToObject(&Player)
+							                        ? 1
+							                        : 0;
 						}
 					}
 					Proof->Test->TestEqual(TEXT("Exactly one real Controller key binding"), OwnerKeyBindings, 1);
 				}
-				const bool bTouchReleasedAtDestination = Player.PlayerInput &&
-				    Player.PlayerInput->GetTouchStates()[ETouchIndex::Touch1].Pressure == 0 &&
+				const bool bTouchReleasedAtDestination =
+				    Player.PlayerInput && Player.PlayerInput->GetTouchStates()[ETouchIndex::Touch1].Pressure == 0 &&
 				    FVector2D(Player.PlayerInput->GetTouchStates()[ETouchIndex::Touch1].ViewportRelativeLocation)
 				        .Equals(View.TouchEnd, .1);
 				Proof->Test->TestTrue(TEXT("Engine touch ended at projected destination"), bTouchReleasedAtDestination);
@@ -625,23 +673,31 @@ namespace
 					for (const FInputTouchBinding& Binding : Player.InputComponent->TouchBindings)
 					{
 						OwnerTouchBindings += (Binding.KeyEvent == IE_Pressed || Binding.KeyEvent == IE_Released) &&
-						    Binding.TouchDelegate.GetDelegate().IsBoundToObject(&Player) ? 1 : 0;
+						                              Binding.TouchDelegate.GetDelegate().IsBoundToObject(&Player)
+						                          ? 1
+						                          : 0;
 					}
 				}
-				Proof->Test->TestEqual(TEXT("Real Controller touch begin/end bindings retained"), OwnerTouchBindings, 2);
+				Proof->Test->TestEqual(TEXT("Real Controller touch begin/end bindings retained"), OwnerTouchBindings,
+				                            2);
 				TSharedPtr<FJsonObject> State = MakeShared<FJsonObject>();
 				State->SetStringField(TEXT("role"), Index == 0 ? TEXT("host") : TEXT("client"));
 				State->SetStringField(TEXT("matchId"), View.Battle.MatchId.ToString());
 				State->SetNumberField(TEXT("battleRevisionBefore"), View.Battle.Revision);
-				State->SetNumberField(TEXT("battleRevisionAfter"), Player.GetWorld()->GetGameState<ALDGameState>()->GetBattleSnapshot().Revision);
+				State->SetNumberField(
+				    TEXT("battleRevisionAfter"),
+				         Player.GetWorld()->GetGameState<ALDGameState>()->GetBattleSnapshot().Revision);
 				State->SetNumberField(TEXT("boardRevisionBefore"), View.ServerBoard.BoardRevision);
-				State->SetNumberField(TEXT("boardRevisionAfter"), Mode.GetBoardManager()->GetSnapshot(Index).BoardRevision);
+				State->SetNumberField(TEXT("boardRevisionAfter"),
+				                           Mode.GetBoardManager()->GetSnapshot(Index).BoardRevision);
 				State->SetNumberField(TEXT("economyRevisionBefore"), View.ServerEconomy.EconomyRevision);
-				State->SetNumberField(TEXT("economyRevisionAfter"), Mode.GetEconomyService()->GetSnapshot(Index).EconomyRevision);
+				State->SetNumberField(TEXT("economyRevisionAfter"),
+				                           Mode.GetEconomyService()->GetSnapshot(Index).EconomyRevision);
 				State->SetNumberField(TEXT("goldBefore"), View.ServerEconomy.Gold);
 				State->SetNumberField(TEXT("goldAfter"), Mode.GetEconomyService()->GetSnapshot(Index).Gold);
 				State->SetNumberField(TEXT("cachedResultsBefore"), View.CachedResults);
-				State->SetNumberField(TEXT("cachedResultsAfter"), Mode.GetCommandProcessor()->GetCachedResultCount(Index));
+				State->SetNumberField(TEXT("cachedResultsAfter"),
+				                           Mode.GetCommandProcessor()->GetCachedResultCount(Index));
 				State->SetNumberField(TEXT("randomStateBefore"), View.RandomState);
 				State->SetNumberField(TEXT("randomStateAfter"), Mode.GetEconomyService()->GetRandomState(Index));
 				State->SetNumberField(TEXT("lastRequestIdBefore"), View.LastResult.RequestId);
@@ -702,9 +758,11 @@ bool FLDP0ActualPIETest::RunTest(const FString& Parameters)
 {
 	if (!GEditor || GEditor->PlayWorld || !FSlateApplication::IsInitialized() ||
 	    FParse::Param(FCommandLine::Get(), TEXT("nullrhi")) ||
-	    FParse::Param(FCommandLine::Get(), TEXT("DisableTouch")) || AActor::ProcessEventDelegate.IsBound())
+	                  FParse::Param(FCommandLine::Get(), TEXT("DisableTouch")) ||
+	                                AActor::ProcessEventDelegate.IsBound())
 	{
-		AddError(TEXT("PIE test requires an idle GPU Editor with Slate, touch enabled and an unbound Actor event observer"));
+		AddError(
+		    TEXT("PIE test requires an idle GPU Editor with Slate, touch enabled and an unbound Actor event observer"));
 		return false;
 	}
 	TSharedRef<FPIEProof> Proof = MakeShared<FPIEProof>();
