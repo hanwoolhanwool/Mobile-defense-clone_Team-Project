@@ -53,11 +53,27 @@ def main():
     world.get_world_settings().set_editor_property("default_game_mode", mode_class)
     if not levels.save_current_level():
         raise RuntimeError("L_P0 save failed")
+    entry_path = "/Game/LD/Maps/L_P0Entry"
+    entry_class = unreal.load_class(None, "/Script/Mobile_defense_clone.LDEntryGameMode")
+    if not entry_class:
+        raise RuntimeError("Compile LDEntryGameMode before creating the entry map")
+    if not unreal.EditorAssetLibrary.does_asset_exist(entry_path):
+        if not levels.new_level(entry_path):
+            raise RuntimeError("L_P0Entry creation failed")
+        entry_world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
+        entry_world.get_world_settings().set_editor_property("default_game_mode", entry_class)
+        if not levels.save_current_level():
+            raise RuntimeError("L_P0Entry save failed")
+    elif not levels.load_level(entry_path):
+        raise RuntimeError("L_P0Entry loading failed")
+    entry_world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
+    if entry_world.get_world_settings().get_editor_property("default_game_mode") != entry_class:
+        raise RuntimeError("Existing L_P0Entry has another GameMode; preserved for review")
     output = os.path.join(root, "Saved", "P0Runs", "assets.json")
     os.makedirs(os.path.dirname(output), exist_ok=True)
     with open(output, "w", encoding="utf-8") as stream:
         json.dump({"result": "Pass", "map": level_path, "game_mode": game_mode_path,
-                   "material": material_path,
+                   "material": material_path, "entry_map": entry_path,
                    "scope": "Asset creation and save only; runtime not verified"}, stream, indent=2)
     unreal.log("P0_ASSETS_SAVED " + output)
 
