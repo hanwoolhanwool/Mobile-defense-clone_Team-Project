@@ -1,6 +1,7 @@
 {
   "generator": "learning/tools/build-html.mjs",
   "parser": "marked 17.0.5 (MIT)",
+  "sourceHashFormat": "UTF-8 Markdown normalized to LF line endings",
   "documents": [
     {
       "source": "P0/A/G0_01_DATA.md",
@@ -210,7 +211,7 @@
       "source": "P0/G1_INTEGRATION.md",
       "output": "html/P0/G1_INTEGRATION.html",
       "title": "두 경로와 양쪽 입력 연결 — P0 / 통합 / G1",
-      "sha256": "e86e1f848072921c5dc9b468703db40667be78d44165911a2d722b17439abc1b"
+      "sha256": "c7e7f5c2e2f76ea91270d2196cede2353d62d45c05eb56a5a62ea9bf02f5344d"
     },
     {
       "source": "P0/G2_INTEGRATION.md",

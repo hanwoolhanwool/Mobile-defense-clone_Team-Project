@@ -101,7 +101,8 @@ for (const source of files) {
     .map(heading => `<a class="level-${heading.depth}" href="#${escape(heading.id)}">${heading.label}</a>`).join('');
   ids.set(destination, usedIds);
   generated.set(destination, shell(title.replace(/&amp;/g, '&'), destination, body, toc, source));
-  catalog.push({source: relative(source), output: relative(destination), title, sha256: digest(fs.readFileSync(source))});
+  // Git may normalize CRLF on checkout; hash canonical Markdown text, not host-specific line endings.
+  catalog.push({source: relative(source), output: relative(destination), title, sha256: digest(markdown.replace(/\r\n?/g, '\n'))});
 }
 
 const groups = [
@@ -134,7 +135,7 @@ for (const link of links) {
     throw new Error(`Missing HTML anchor: ${link.from} -> ${link.target}#${link.fragment}`);
   }
 }
-generated.set(path.join(output, 'manifest.json'), JSON.stringify({generator: 'learning/tools/build-html.mjs', parser: 'marked 17.0.5 (MIT)', documents: catalog}, null, 2) + '\n');
+generated.set(path.join(output, 'manifest.json'), JSON.stringify({generator: 'learning/tools/build-html.mjs', parser: 'marked 17.0.5 (MIT)', sourceHashFormat: 'UTF-8 Markdown normalized to LF line endings', documents: catalog}, null, 2) + '\n');
 for (const [file, content] of generated) {
   if (check) {
     if (!fs.existsSync(file) || read(file) !== content) throw new Error(`Stale/missing HTML output: ${relative(file)}`);

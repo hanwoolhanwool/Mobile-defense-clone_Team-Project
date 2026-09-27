@@ -4,8 +4,8 @@
   "VerifiedAt": "2026-09-28T05:14:47.4194679+09:00",
   "BaseSha": "7820cf5767da6a0cdac1e04a08ed6d1ac2839405",
   "InputManifest": "html/manifest.json",
-  "InputManifestSHA256": "AC780168983E4AECBB367B7AACB67096C49659BFDD0F28AF6AC6CDD1BF9BA0C9",
-  "GeneratorSHA256": "44EDD9494BC0FC016DE28EF39B3EFEDB748DCC9075B7AC223BF4087A5C3308D2",
+  "InputManifestSHA256": "FD958B6DEB298D81971CE29D3627E4B2C77BA3AAB56176930E99253E20F15F89",
+  "GeneratorSHA256": "07DDAC4CB8A2CE4553F1CFC5A162D55C98851390BA0E45EBEC0D349D0C231C17",
   "MarkdownDocuments": 64,
   "HtmlPages": 65,
   "GeneratedContentCheck": "Pass",
@@ -41,5 +41,6 @@
     "Keep repository folder structure for reference links",
     "No Unreal build/gameplay test rerun for documentation-only output",
     "Print preview checked on one representative lesson, not all documents"
-  ]
+  ],
+  "PortabilityFix": "Fresh A checkout exposed CRLF/LF-only source hash difference in G1_INTEGRATION.md, with identical Git blob. Normalize source text hashes to LF; generated HTML bodies were unchanged."
 }
