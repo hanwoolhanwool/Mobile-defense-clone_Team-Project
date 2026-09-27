@@ -1,0 +1,27 @@
+{
+  "Scope": "Unreal automation with NullRHI; not PIE or visual gameplay",
+  "Filter": "LD.P0.G3.Waves",
+  "Started": "2026-09-27T21:57:11.0554314+09:00",
+  "Head": "d64af106b01f741039bae33d168f0ae03b7de49a",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe",
+  "Arguments": [
+    "C:\\Users\\iam12\\P0_reference_a\\Mobile_defense_clone.uproject",
+    "-unattended",
+    "-NullRHI",
+    "-nosound",
+    "-nosplash",
+    "-culture=en",
+    "-ExecCmds=Automation RunTests LD.P0.G3.Waves",
+    "-TestExit=Automation Test Queue Empty",
+    "-ReportExportPath=C:\\Users\\iam12\\P0_reference_a\\Saved\\P0Runs\\G3-A-waves/report",
+    "-abslog=C:\\Users\\iam12\\P0_reference_a\\Saved\\P0Runs\\G3-A-waves/engine.log"
+  ],
+  "ExitCode": 0,
+  "SucceededWithoutWarnings": 7,
+  "SucceededWithWarnings": 0,
+  "Succeeded": 7,
+  "Failed": 0,
+  "NotRun": 0,
+  "Result": "Pass",
+  "Finished": "2026-09-27T21:57:31.4056942+09:00"
+}

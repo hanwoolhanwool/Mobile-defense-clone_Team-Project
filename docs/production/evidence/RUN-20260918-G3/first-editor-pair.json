@@ -1,0 +1,91 @@
+{
+  "source": "f0cf89d82e3e66422b2bd771ea8adfc15e30766d",
+  "date": "2026-09-27T21:34:30.6695847+09:00",
+  "scope": "Actual GPU two separate Editor-game processes; not PIE or package",
+  "aggregateResult": "Fail",
+  "aggregateFailure": "Recorded requested seed differs from the server adopted seed log.",
+  "roles": [
+    {
+      "role": "host",
+      "internalResult": "Pass",
+      "checks": 16,
+      "connectedSeconds": 250.77402959764004,
+      "matchId": "B8FE6DCF439D880A4C28F9B8719498B5",
+      "seed": 1776,
+      "result": 2,
+      "reason": 2,
+      "wave": 10,
+      "remainingNormal": 0,
+      "commands": 19,
+      "hudRecreations": 3,
+      "bosses": [
+        {
+          "id": 361,
+          "route": 0,
+          "hp": 467,
+          "maxHP": 6000,
+          "alive": true
+        },
+        {
+          "id": 362,
+          "route": 1,
+          "hp": 3901,
+          "maxHP": 6000,
+          "alive": true
+        }
+      ],
+      "damage": [
+        20467,
+        19325
+      ],
+      "firstMerge": [
+        6.5429770946502686,
+        34.57889160513878
+      ]
+    },
+    {
+      "role": "client",
+      "internalResult": "Pass",
+      "checks": 14,
+      "connectedSeconds": 250.83758939802647,
+      "matchId": "B8FE6DCF439D880A4C28F9B8719498B5",
+      "seed": 1776,
+      "result": 2,
+      "reason": 2,
+      "wave": 10,
+      "remainingNormal": 0,
+      "commands": 19,
+      "hudRecreations": 3,
+      "bosses": [
+        {
+          "id": 361,
+          "route": 0,
+          "hp": 467,
+          "maxHP": 6000,
+          "alive": true
+        },
+        {
+          "id": 362,
+          "route": 1,
+          "hp": 3901,
+          "maxHP": 6000,
+          "alive": true
+        }
+      ],
+      "damage": [
+        20467,
+        19325
+      ],
+      "firstMerge": [
+        6.5429770946502686,
+        34.57889160513878
+      ]
+    }
+  ],
+  "limitations": [
+    "Editor-game, not PIE or package",
+    "Host wave-1 capture preceded HUD update; corrected in 13264a9, rerun pending",
+    "Requested seed regex fixed after this run; original failure retained",
+    "Automated strategy, not learner play"
+  ]
+}

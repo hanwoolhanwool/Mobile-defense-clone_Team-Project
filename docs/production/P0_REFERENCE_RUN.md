@@ -36,10 +36,22 @@
 | G0 | Pass | A/B/통합 Editor Pass, A4/B4/통합12 자동화 Pass. 초기화·종료 2건 a02efc1 수정·재리뷰 완료. 실제 RPC/PIE는 G1~G3 검수 |
 | G1 | Pass | 소스 df8a2f2. 새 G0 재현 Editor·22자동화·실제2프로세스7화면비·전체 셀·2바퀴 Pass. 카메라/표시/검사기 실패 수정·리뷰 완료 |
 | G2 | Pass | 시작4861b987→제품5baa960/검사포함ae6be1b. 새56파일 조립·Editor·39+보충12 무경고Pass(44종); 실제GPU20단계 host213/client57 Pass. 독립 리뷰 차단0; [증거](evidence/RUN-20260918-G2/SUMMARY.md) |
-| G3 | NotRun | G2 의존, PC 패키지 별도 두 프로세스·5판 필요 |
+| G3 | InProgress | 2026-09-27 재개. G2 통합 f735b5889a5bd197e46d29bdfaa2b38c246d5ea6에서 A 웨이브/시간/결과, B HUD/진입/복귀, 통합 반복 실행 검사기 작성. 통합 Editor·독립 자동화54종·실제 GPU PIE 통과. 최종 패키지/5판/부하/재현 진행 중. 독립 리뷰에서 종료 중 후속 공격 결함을 추가 발견해 수정 중 |
 | G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018/JDK21.0.3 준비. Android 실제 빌드 exit6: UE Android 선택 구성 요소 누락. 사용자가 설치 진행, adb 장치0 |
 
 원격 push/PR 병합/외부 배포/기존 작업 삭제는 수행하지 않는다. 전체 로그는 Saved/P0Runs에 저장하고 핵심 결과는 이 기록과 정식 검수 기록에 연결한다.
+
+## 2026-09-27 재개와 G3 연결
+
+원래 출발점과 세 learn 브랜치8c6856d, A/B 독립 worktree를 보존했다. 중단 직전 B 수업 커밋1ba9613을 검토·통합하고 문서6937 checks/스타일55파일/학습415링크 오류0을 확인했다. G2 전체 재빌드는 소스 변경 근거가 없어 반복하지 않는다. 시작시 존재하던 프로젝트 인수 없는 UnrealEditor PID52900은 종료하지 않았다.
+
+공용 API는 `Data/LDBattleTypes.h`의 단일 FLDBattleSnapshot과 `GameState.GetBattleSnapshot()`이다. A Director는 일정 cursor/살아있는 ID 집합, GameState는 서버 공용 상태/종료 결과, Actor는 HP를 소유한다. B가 A의 BattleStatus/Result native UMG를 만들고 수명을 관리한다. P0 최소 진입 화면은 `L_P0Entry`→호스트/IPv4 참가→`L_P0`→결과 복귀이며 정식 로비 기능을 확대하지 않는다.
+
+시간 구현 선택: 실제 listen 매치 Loading 진입부터30초, 두 참가자/필수 준비 완료부터 Preparing10초. 진입 화면 대기는 활성 매치가 아니다. 현재 WorldTime은 명령/준비 처리에 열고 이전 시각만 닫으므로 정확 로딩 마감의 준비는 마감 확정 전 허용한다. 이미 확정한 timeout은 늦은 접속으로 취소하지 않는다. 보스 마감·생성·승리도 같은 timeline에 포함한다. 명령 clock hook 종료는 접수닫기→guard해제→보상Drain→최종 결과/Close 순서이며 캐시응답은 유지한다.
+
+네트워크 도구 근거: UE5.8 `Engine/Private/Net/NetEmulationHelper.cpp::FPacketSimulationSettings::ParseSettings`가 PktLagMin/Max와 PktLoss를 지원함을 로컬 엔진 소스로 확인했다. 각 endpoint 송신 지연75/150ms로 왕복150/300ms를 요청하며 실제 echo RTT·전송 통계를 별도 기록한다. 자동 플레이는 소환/합성/판매 Slate 버튼·정상 이동 의도를 사용하고 재화/HP/시간을 바꾸지 않는다. 별도 부하 fixture와 자연 규칙 플레이는 구분한다.
+
+Android 재확인: UE5.8 Binaries에Android 없음·adb0. 사용자가 Launcher 구성 요소 설치와 USB 디버깅 허용 후 기기 모델을 알려주도록 요청했고 독립 PC 작업을 진행한다. G4 Pass 아님.
 
 ## G1 실행·재현·통합
 
@@ -65,3 +77,10 @@
 ## 측정 환경과 한계
 
 Windows11 Pro 10.0.26200, Ryzen5 7500F(6C/12T), RAM32GiB, RTX4060Ti(driver32.0.15.9186), UE5.8.2 CL56702186, MSVC14.50.35738, WindowsSDK10.0.26100. 컴파일·NullRHI 자동화 시간은 게임 프레임 성능이 아니다. 대표 부하의 렌더링·네트워크·Android 성능은 아직 측정하지 않았다.
+
+## 2026-09-27 G3 중간 실행 증거
+
+- f4ad32c 통합 Editor34.56초·LD.P0 54Pass/0Warning/0Fail. A d64af106 역할 Editor50.06초·Waves7Pass/0Warning. 후속 리뷰 결함은 이 통과로 덮지 않는다.
+- 실제 PIEv2(2f144fe): listen/client2World, 각소환1·골드80, 준비→Running, 명시종료→World0·설정복원. 양쪽546×720 PNG 직접 관찰에서 WAVE1/20초/N2가 일치했다. 패키지/10웨이브 증거가 아니다.
+- 최초 자연 Editor-game2프로세스는 각1판10웨이브BossTimeout/N0/보스HP467·3901. 내부host16/client14Pass지만 launcher seed로그정규식 오류로 종합Fail을 보존했다. 수정후 최종패키지재실행예정. 자동전략이며 학습자 플레이가 아니다.
+- 문서·데이터 검사Pass, 스타일77파일오류0, 학습55문서457링크오류0. 실행로그는Saved/P0Runs/G3-*, 요약은docs/production/evidence/RUN-20260918-G3에분리보존한다.
