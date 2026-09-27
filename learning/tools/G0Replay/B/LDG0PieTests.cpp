@@ -63,12 +63,17 @@ namespace
 		TWeakObjectPtr<ALDPlayerController> Client;
 		TWeakObjectPtr<ALDPlayerController> RemoteServer;
 		TWeakObjectPtr<UNetDriver> LossDriver;
+		TWeakObjectPtr<UNetDriver> ObservedServerDriver;
 		FPacketSimulationSettings OriginalPackets;
 		FString OriginalPacketsText;
 		FDelegateHandle EventObserver;
+		FDelegateHandle SendObserver;
 		FDelegateHandle HostCompletedHandle;
 		FDelegateHandle ClientCompletedHandle;
 		TArray<FLDCommand> ServerReceived;
+		TArray<double> ServerReceivedAt;
+		TArray<uint64> ServerReceivedFrames;
+		TArray<FLDCommandResult> ServerOffered;
 		TArray<FLDCommandResult> ClientReceived;
 		TArray<FLDCommandResult> Completed;
 		TArray<TSharedPtr<FJsonValue>> Observations;
@@ -76,6 +81,7 @@ namespace
 		bool bLossApplied = false;
 		bool bPacketsRestored = true;
 		bool bObserverRestored = true;
+		bool bSendObserverRestored = true;
 		bool bRestored = false;
 
 		~FG0PIEProof()
@@ -108,6 +114,8 @@ namespace
 					    if (Property)
 					    {
 						    ServerReceived.Add(*Property->ContainerPtrToValuePtr<FLDCommand>(Parameters));
+						    ServerReceivedAt.Add(FPlatformTime::Seconds());
+						    ServerReceivedFrames.Add(GFrameCounter);
 					    }
 				    }
 				    if (Actor == Client.Get() && Function->GetFName() == TEXT("ClientCommandResult"))
@@ -122,6 +130,22 @@ namespace
 			    });
 			EventObserver = AActor::ProcessEventDelegate.GetHandle();
 			bObserverRestored = false;
+			ObservedServerDriver = RemoteServer->GetWorld()->GetNetDriver();
+			// This observes the application's send boundary before transport emulation; never block or edit RPCs.
+			ObservedServerDriver->SendRPCDel.BindLambda(
+			    [this](AActor* Actor, UFunction* Function, void* Parameters, FOutParmRec*, FFrame*, UObject*, bool&)
+			    {
+				    if (Actor == RemoteServer.Get() && Function->GetFName() == TEXT("ClientCommandResult"))
+				    {
+					    const FStructProperty* Property = FindFProperty<FStructProperty>(Function, TEXT("Result"));
+					    if (Property)
+					    {
+						    ServerOffered.Add(*Property->ContainerPtrToValuePtr<FLDCommandResult>(Parameters));
+					    }
+				    }
+			    });
+			SendObserver = ObservedServerDriver->SendRPCDel.GetHandle();
+			bSendObserverRestored = false;
 			HostCompletedHandle =
 			    Host->OnCommandCompleted.AddLambda([this](const FLDCommandResult&) { ++HostCompleted; });
 			ClientCompletedHandle =
@@ -172,6 +196,12 @@ namespace
 				AActor::ProcessEventDelegate.Unbind();
 				bObserverRestored = true;
 			}
+			if (!bSendObserverRestored && ObservedServerDriver.IsValid() &&
+			    ObservedServerDriver->SendRPCDel.GetHandle() == SendObserver)
+			{
+				ObservedServerDriver->SendRPCDel.Unbind();
+				bSendObserverRestored = true;
+			}
 		}
 		void RestoreSettings()
 		{
@@ -207,6 +237,10 @@ namespace
 			                       { return R.ResultCode != ELDCommandResultCode::Pending; })
 			    .Num();
 		}
+		int32 Offered(uint32 Id) const
+		{
+			return ServerOffered.FilterByPredicate([Id](const FLDCommandResult& R) { return R.RequestId == Id; }).Num();
+		}
 		void Save()
 		{
 			TSharedRef<FJsonObject> Root = MakeShared<FJsonObject>();
@@ -220,16 +254,21 @@ namespace
 			Root->SetBoolField(TEXT("settingsRestored"), bRestored);
 			Root->SetBoolField(TEXT("packetSettingsRestored"), bPacketsRestored);
 			Root->SetBoolField(TEXT("eventObserverRestored"), bObserverRestored);
+			Root->SetBoolField(TEXT("sendObserverRestored"), bSendObserverRestored);
 			Root->SetNumberField(TEXT("terminalCompletions"), TerminalCompletions());
 			Root->SetArrayField(TEXT("observations"), Observations);
-			Root->SetStringField(TEXT("limits"), TEXT("Native GameMode override, G0 closed Stub admission. No board/economy effects, BP wiring, gameplay UI, package, Android or G3 claim. Stale/Pending replies are explicit server-RPC fixtures; loss is client transport only, not response-rate limiting."));
+			Root->SetStringField(TEXT("limits"),
+			    TEXT("Native GameMode override, G0 closed Stub admission. No board/economy effects, BP wiring, gameplay UI, package, Android or G3 claim. Stale/Pending replies are explicit server-RPC fixtures. Client transport loss and server response-budget exhaustion are separate observed stages."));
 			TArray<TSharedPtr<FJsonValue>> RequestsJson;
-			for (const FLDCommand& C : ServerReceived)
+			for (int32 Index = 0; Index < ServerReceived.Num(); ++Index)
 			{
+				const FLDCommand& C = ServerReceived[Index];
 				TSharedPtr<FJsonObject> Item = MakeShared<FJsonObject>();
 				Item->SetNumberField(TEXT("requestId"), C.RequestId);
 				Item->SetNumberField(TEXT("epoch"), C.ConnectionEpoch);
 				Item->SetNumberField(TEXT("source"), C.Source);
+				Item->SetNumberField(TEXT("receivedWallSeconds"), ServerReceivedAt[Index]);
+				Item->SetNumberField(TEXT("receivedFrame"), ServerReceivedFrames[Index]);
 				RequestsJson.Add(MakeShared<FJsonValueObject>(Item));
 			}
 			Root->SetArrayField(TEXT("actualServerReceivedRequests"), RequestsJson);
@@ -245,6 +284,16 @@ namespace
 				ResultsJson.Add(MakeShared<FJsonValueObject>(Item));
 			}
 			Root->SetArrayField(TEXT("actualClientReceivedResults"), ResultsJson);
+			TArray<TSharedPtr<FJsonValue>> OfferedJson;
+			for (const FLDCommandResult& R : ServerOffered)
+			{
+				TSharedPtr<FJsonObject> Item = MakeShared<FJsonObject>();
+				Item->SetNumberField(TEXT("requestId"), R.RequestId);
+				Item->SetNumberField(TEXT("resultCode"), static_cast<uint8>(R.ResultCode));
+				Item->SetNumberField(TEXT("eventId"), R.EventId);
+				OfferedJson.Add(MakeShared<FJsonValueObject>(Item));
+			}
+			Root->SetArrayField(TEXT("serverSendRPCAttempts"), OfferedJson);
 			FString Json;
 			FJsonSerializer::Serialize(Root, TJsonWriterFactory<>::Create(&Json));
 			if (!FFileHelper::SaveStringToFile(Json, *(OutputDirectory / TEXT("pie-proof.json"))))
@@ -304,7 +353,8 @@ namespace
 			ALDPlayerState* CP = Client->GetPlayerState<ALDPlayerState>();
 			ALDPlayerState* RP = Remote->GetPlayerState<ALDPlayerState>();
 			ALDGameMode* Mode = Host->GetWorld()->GetAuthGameMode<ALDGameMode>();
-			if (!HS || !CS || !HP || !CP || !RP || !Mode || !Client->GetWorld()->GetNetDriver())
+			if (!HS || !CS || !HP || !CP || !RP || !Mode || !Client->GetWorld()->GetNetDriver() ||
+			    !Host->GetWorld()->GetNetDriver())
 				return false;
 			const FObjectPropertyBase* ProcessorProperty =
 			    FindFProperty<FObjectPropertyBase>(Mode->GetClass(), TEXT("CommandProcessor"));
@@ -351,9 +401,9 @@ namespace
 				Proof->Host = Host;
 				Proof->Client = Client;
 				Proof->RemoteServer = Remote;
-				if (AActor::ProcessEventDelegate.IsBound())
+				if (AActor::ProcessEventDelegate.IsBound() || Host->GetWorld()->GetNetDriver()->SendRPCDel.IsBound())
 				{
-					Proof->Test->AddError(TEXT("Existing ProcessEvent observer will not be replaced"));
+					Proof->Test->AddError(TEXT("Existing ProcessEvent/send observer will not be replaced"));
 					return Finish();
 				}
 				Proof->Watch();
@@ -373,7 +423,8 @@ namespace
 			}
 			if (Stage == 1)
 			{
-				if (Proof->Requests(1) < 2 || Proof->Responses(1, ELDCommandResultCode::PhaseNotAllowed) < 2)
+				if (Proof->Requests(1) < 2 || Proof->Responses(1, ELDCommandResultCode::PhaseNotAllowed) < 2 ||
+				    Proof->Offered(1) < 2)
 					return false;
 				Proof->Test->TestEqual(TEXT("G0 cannot fabricate a purchase success"), Host->GetLastResult().ResultCode,
 				                            ELDCommandResultCode::PhaseNotAllowed);
@@ -475,32 +526,110 @@ namespace
 				                            uint32(2));
 				Proof->Record(TEXT("recovered"),
 				                   TEXT("request2 retained through client transport loss; three dispatches, one new cache entry/terminal completion; admission remains G0 Stub"));
+				Proof->Test->TestTrue(TEXT("Response-budget stage starts after transport restoration"),
+				                           Proof->bPacketsRestored && !Proof->bLossApplied);
+				RateRequestStart = Proof->ServerReceived.Num();
+				RateOfferedStart = Proof->ServerOffered.Num();
+				Command.ConnectionEpoch = CC.ConnectionEpoch;
+				Command.RequestId = 2;
+				// All calls are real owning RPCs in this one latent update. Cached results still consume response
+				// tokens.
+				for (int32 Index = 0; Index < 32; ++Index)
+				{
+					Client->ServerRequestCommand(Command);
+				}
+				Proof->Test->TestTrue(TEXT("New intent follows more than Burst12 cached retries"),
+				                           Client->SubmitLocalCommand(FLDCommand()));
+				Proof->Record(TEXT("response-budget-burst"),
+				                   TEXT("32 completed request2 duplicates then new local request3, one client update; no packet setting or processor clock/token mutation"));
+				Stage = 6;
+				return false;
+			}
+			if (Stage == 6)
+			{
+				if (Proof->Requests(2) < 35 || !Proof->Requests(3) || Processor->GetCachedResultCount(1) != 3)
+					return false;
+				const int32 LastRequest = Proof->ServerReceived.Num() - 1;
+				Proof->Record(TEXT("response-budget-observed"),
+				                   FString::Printf(TEXT("actual flood/new dispatches=%d server frames=%llu..%llu elapsed=%.6fs offered replies=%d new-request3-offered=%d; cache3"),
+				                       Proof->ServerReceived.Num() - RateRequestStart,
+				                       Proof->ServerReceivedFrames[RateRequestStart],
+				                       Proof->ServerReceivedFrames[LastRequest],
+				                       Proof->ServerReceivedAt[LastRequest] - Proof->ServerReceivedAt[RateRequestStart],
+				                       Proof->ServerOffered.Num() - RateOfferedStart, Proof->Offered(3)));
+				// If scheduling refilled the budget before request3, this must fail, never pass by assuming a burst.
+				Proof->Test->TestEqual(TEXT("Actually processed request3 was withheld by application response budget"),
+				                            Proof->Offered(3), 0);
+				Proof->Test->TestTrue(TEXT("Cached result exists while client still awaits limited response"),
+				                           Client->HasPendingCommand());
+				Proof->Test->TestEqual(TEXT("Burst and suppressed new reply add no terminal completion"),
+				                            Proof->TerminalCompletions(), 2);
+				Proof->Test->TestEqual(TEXT("Suppression leaves previous received result intact"),
+				                            Client->GetLastResult().RequestId, uint32(2));
+				StageAt = Now;
+				Stage = 7;
+				return false;
+			}
+			if (Stage == 7)
+			{
+				if (Now - StageAt < .3)
+					return false; // 8 response tokens/second: at least 2.4 tokens replenish.
+				Proof->Test->TestTrue(TEXT("Budget recharge alone cannot clear pending"), Client->HasPendingCommand());
+				Proof->Test->TestTrue(TEXT("After recharge, retry the same pending request3"),
+				                           Client->RetryPendingCommand());
+				Stage = 8;
+				return false;
+			}
+			if (Stage == 8)
+			{
+				if (Proof->Requests(3) < 2 || !Proof->Offered(3) ||
+				    !Proof->Responses(3, ELDCommandResultCode::PhaseNotAllowed))
+					return false;
+				Proof->Test->TestEqual(TEXT("Rate-limited response recovery adds exactly one completion"),
+				                            Proof->TerminalCompletions(), 3);
+				Proof->Test->TestEqual(TEXT("Retry returns the already cached result without adding an identity"),
+				                            Processor->GetCachedResultCount(1), 3);
+				Proof->Test->TestFalse(TEXT("Retried cached final response clears pending"),
+				                            Client->HasPendingCommand());
+				Proof->Test->TestEqual(TEXT("Rate recovery preserves new intent request3"),
+				                            Client->GetLastResult().RequestId, uint32(3));
+				Proof->Record(
+				    TEXT("response-budget-recovered"),
+				         TEXT("request3 received twice, initially cached but no send attempt, then recharge/retry delivered original PhaseNotAllowed; cache3 and terminal completions3"));
 #if LD_G0_CANONICAL_PIE
 				BeforeTerminal = Client->GetLastResult();
-				Proof->Test->AddExpectedError(TEXT("Match aborted: G0 canonical PIE terminal fixture"),
-				                                   EAutomationExpectedErrorFlags::Contains, 1);
-				Mode->AbortMatch(TEXT("G0 canonical PIE terminal fixture"));
-				Stage = 6;
+				StageAt = Now;
+				Stage = 9;
 				return false;
 #else
 				return Finish();
 #endif
 			}
 #if LD_G0_CANONICAL_PIE
-			if (Stage == 6)
+			if (Stage == 9)
+			{
+				if (Now - StageAt < .5)
+					return false; // Refill before the three independent terminal replies.
+				Proof->Test->AddExpectedError(TEXT("Match aborted: G0 canonical PIE terminal fixture"),
+				                                   EAutomationExpectedErrorFlags::Contains, 1);
+				Mode->AbortMatch(TEXT("G0 canonical PIE terminal fixture"));
+				Stage = 10;
+				return false;
+			}
+			if (Stage == 10)
 			{
 				if (HS->GetPhase() != ELDMatchPhase::Aborted || CS->GetPhase() != ELDMatchPhase::Aborted)
 					return false;
 				TerminalResponseStart = Proof->ClientReceived.Num();
 				Command.ConnectionEpoch = CC.ConnectionEpoch;
-				Command.RequestId = 2;
+				Command.RequestId = 3;
 				Client->ServerRequestCommand(Command);
 				Command.Source = 1;
 				Client->ServerRequestCommand(Command);
 				Command.Source = 0;
-				Command.RequestId = 3;
+				Command.RequestId = 4;
 				Client->ServerRequestCommand(Command);
-				Stage = 7;
+				Stage = 11;
 				return false;
 			}
 			if (Proof->ClientReceived.Num() - TerminalResponseStart < 3)
@@ -515,16 +644,16 @@ namespace
 			         FLDCommandResult::StaticStruct()->CompareScriptStruct(&Same, &BeforeTerminal, 0));
 			Proof->Test->TestEqual(TEXT("Changed same request remains conflict after close"), Changed.ResultCode,
 			                            ELDCommandResultCode::RequestIdConflict);
-			Proof->Test->TestEqual(TEXT("Changed payload retained its request number"), Changed.RequestId, uint32(2));
+			Proof->Test->TestEqual(TEXT("Changed payload retained its request number"), Changed.RequestId, uint32(3));
 			Proof->Test->TestEqual(TEXT("New request cannot execute after close"), New.ResultCode,
 			                            ELDCommandResultCode::PhaseNotAllowed);
-			Proof->Test->TestEqual(TEXT("New rejected request has a new number"), New.RequestId, uint32(3));
+			Proof->Test->TestEqual(TEXT("New rejected request has a new number"), New.RequestId, uint32(4));
 			Proof->Test->TestEqual(TEXT("Terminal raw replies cannot complete an absent pending intent"),
-			                            Proof->TerminalCompletions(), 2);
+			                            Proof->TerminalCompletions(), 3);
 			Proof->Test->TestEqual(TEXT("Only new rejected identity adds one cached outcome"),
-			                            Processor->GetCachedResultCount(1), 3);
+			                            Processor->GetCachedResultCount(1), 4);
 			Proof->Record(TEXT("canonical-terminal"),
-			                   TEXT("AbortMatch replicated; actual raw replies identical=PhaseNotAllowed, changed=RequestIdConflict, new=PhaseNotAllowed; cache3/completions2"));
+			                   TEXT("AbortMatch replicated; actual raw replies identical=PhaseNotAllowed, changed=RequestIdConflict, new=PhaseNotAllowed; cache4/completions3"));
 #endif
 			return Finish();
 		}
@@ -540,6 +669,8 @@ namespace
 		double StageAt = 0;
 		int32 Stage = 0;
 		int32 TerminalResponseStart = 0;
+		int32 RateRequestStart = 0;
+		int32 RateOfferedStart = 0;
 		FLDCommandResult BeforeTerminal;
 	};
 
@@ -562,9 +693,10 @@ namespace
 			Proof->Test->TestTrue(TEXT("Play config restored"), Proof->bRestored);
 			Proof->Test->TestTrue(TEXT("Client-only packet settings restored"), Proof->bPacketsRestored);
 			Proof->Test->TestTrue(TEXT("Read-only event observer removed"), Proof->bObserverRestored);
+			Proof->Test->TestTrue(TEXT("Read-only server send observer removed"), Proof->bSendObserverRestored);
 			Proof->Record(TEXT("cleanup"),
-			    FString::Printf(TEXT("PIE worlds remaining=%d; original settings/network/observer restored=%d/%d/%d"),
-			                         Remaining, Proof->bRestored, Proof->bPacketsRestored, Proof->bObserverRestored));
+			    FString::Printf(TEXT("PIE worlds remaining=%d; original settings/network/event/send restored=%d/%d/%d/%d"), Remaining,
+			        Proof->bRestored, Proof->bPacketsRestored, Proof->bObserverRestored, Proof->bSendObserverRestored));
 			Proof->Save();
 			return true;
 		}
