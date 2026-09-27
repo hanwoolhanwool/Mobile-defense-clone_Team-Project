@@ -69,7 +69,9 @@ def main():
     entry_world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
     if entry_world.get_world_settings().get_editor_property("default_game_mode") != entry_class:
         raise RuntimeError("Existing L_P0Entry has another GameMode; preserved for review")
-    output = os.path.join(root, "Saved", "P0Runs", "assets.json")
+    output = os.environ.get("P0_ASSET_OUTPUT", os.path.join(root, "Saved", "P0Runs", "assets.json"))
+    if os.path.exists(output):
+        raise RuntimeError("Existing asset run evidence preserved; set a new P0_ASSET_OUTPUT")
     os.makedirs(os.path.dirname(output), exist_ok=True)
     with open(output, "w", encoding="utf-8") as stream:
         json.dump({"result": "Pass", "map": level_path, "game_mode": game_mode_path,

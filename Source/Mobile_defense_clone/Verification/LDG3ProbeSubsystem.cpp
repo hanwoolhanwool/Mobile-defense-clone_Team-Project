@@ -342,6 +342,21 @@ void ULDG3ProbeSubsystem::PlayAction(ALDPlayerController& Controller)
 void ULDG3ProbeSubsystem::RecordMatch(ALDPlayerController& Controller, ALDG3ProbePeer& Peer)
 {
 	const FLDBattleSnapshot& Battle = GetWorld()->GetGameState<ALDGameState>()->GetBattleSnapshot();
+	bool bBossesMatch = Battle.Bosses.Num() == Peer.FinalBattle.Bosses.Num();
+	for (const FLDBossSnapshot& Boss : Battle.Bosses)
+	{
+		const FLDBossSnapshot* Other = Peer.FinalBattle.Bosses.FindByPredicate(
+		    [&Boss](const FLDBossSnapshot& Candidate) { return Candidate.EnemyId == Boss.EnemyId; });
+		bBossesMatch &= Other && Other->RouteIndex == Boss.RouteIndex && Other->HP == Boss.HP &&
+		                Other->MaxHP == Boss.MaxHP && Other->bAlive == Boss.bAlive;
+	}
+	Check(TEXT("terminal-boss-and-clock-state-matches-server"),
+	           bBossesMatch && Battle.BossDeadlineServerSeconds == Peer.FinalBattle.BossDeadlineServerSeconds &&
+	               Battle.PreparationEndServerSeconds == Peer.FinalBattle.PreparationEndServerSeconds &&
+	               Battle.WaveEndServerSeconds == Peer.FinalBattle.WaveEndServerSeconds &&
+	               Battle.bFinalSpawnsComplete == Peer.FinalBattle.bFinalSpawnsComplete &&
+	               Battle.FinalWave == Peer.FinalBattle.FinalWave &&
+	               Battle.MaxEnemyCount == Peer.FinalBattle.MaxEnemyCount);
 	Check(TEXT("terminal-battle-state-matches-server"),
 	           Battle.MatchId == Peer.FinalBattle.MatchId && Battle.Revision == Peer.FinalBattle.Revision &&
 	               Battle.Result == Peer.FinalBattle.Result && Battle.ResultReason == Peer.FinalBattle.ResultReason &&
@@ -362,6 +377,7 @@ void ULDG3ProbeSubsystem::RecordMatch(ALDPlayerController& Controller, ALDG3Prob
 	}
 	int32 ActualCount = 0;
 	bool bActorsMatch = true;
+	TSet<uint64> SeenIds;
 	for (TActorIterator<ALDUnitActor> It(GetWorld()); It; ++It)
 	{
 		if (!It->IsCommitted())
@@ -370,11 +386,14 @@ void ULDG3ProbeSubsystem::RecordMatch(ALDPlayerController& Controller, ALDG3Prob
 		}
 		++ActualCount;
 		const FLDPlacedUnit& Unit = It->GetPlacement();
+		bActorsMatch &= !SeenIds.Contains(Unit.InstanceId);
+		SeenIds.Add(Unit.InstanceId);
 		const FLDPlacedUnit* Wanted = Expected.Find(Unit.InstanceId);
 		bActorsMatch &= Wanted && Wanted->CellId == Unit.CellId && Wanted->PlayerIndex == Unit.PlayerIndex &&
 		                Wanted->UnitId == Unit.UnitId;
 	}
-	Check(TEXT("both-boards-exact-committed-actor-set"), bActorsMatch && ActualCount == Expected.Num());
+	Check(TEXT("both-boards-exact-committed-actor-set"),
+	           bActorsMatch && ActualCount == Expected.Num() && SeenIds.Num() == Expected.Num());
 	Check(TEXT("natural-result-not-aborted"),
 	           Battle.Result == ELDMatchResult::Victory || Battle.Result == ELDMatchResult::Defeat);
 	Check(TEXT("commands-observed"), SuccessfulCommands > 0 && (LocalPlayer == 0 || DuplicateRequests > 0));
