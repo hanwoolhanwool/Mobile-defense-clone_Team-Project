@@ -35,6 +35,9 @@ public:
 	FLDWaveTerminalRequested OnTerminalRequested;
 
 private:
+#if !UE_BUILD_SHIPPING
+	friend struct FLDG3BoundaryAccess;
+#endif
 #if WITH_DEV_AUTOMATION_TESTS
 	friend class FLDWaveScheduleTest;
 	friend class FLDWaveCapAndDeathTest;
