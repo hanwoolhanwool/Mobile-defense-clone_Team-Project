@@ -1,0 +1,23 @@
+{
+  "Scope": "Pre-edit read-only blob comparison; provided fixture written, no build or Editor execution",
+  "ProjectRoot": "C:/Users/iam12/P0_lesson_replay_a",
+  "BaseSha": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+  "ProductSource": "4cc3e0fd63d074df2d2e4568cbc0889cd0ecc2a6",
+  "Manifest": "Saved/P0Runs/Replay-G0-A-assembly/assembly.json",
+  "Before": {
+    "FileCount": 21,
+    "MismatchCount": 0
+  },
+  "After": {
+    "EditorOnlyDependencies": [
+      "UnrealEd",
+      "SlateCore"
+    ],
+    "NewTestPath": "Source/Mobile_defense_clone/Tests/LDG0PieTests.cpp",
+    "ProductCoreDataAndExistingTestsUnchanged": true,
+    "NewTestSHA256": "EDAD6FB9DDCFFE5D777C67961C36DE5E56B4F57B2EDC7DE43E1FABA0562279E7",
+    "OnlyChangedManifestPath": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs"
+  },
+  "Build": "NotRun",
+  "PIE": "NotRun"
+}
