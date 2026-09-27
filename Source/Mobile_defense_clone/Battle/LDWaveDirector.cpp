@@ -287,7 +287,7 @@ void ULDWaveDirector::EvaluateVictory(double ServerSeconds)
 			return;
 		}
 	}
-	RequestTerminal(ELDMatchResult::Victory, ELDResultReason::None, FMath::Min(ServerSeconds, LastDeathServerSeconds));
+	RequestTerminal(ELDMatchResult::Victory, ELDResultReason::None, LastDeathServerSeconds);
 }
 
 void ULDWaveDirector::RequestTerminal(ELDMatchResult Result, ELDResultReason Reason, double ServerSeconds)

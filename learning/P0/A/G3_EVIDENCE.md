@@ -46,3 +46,8 @@ A는 자기 worktree의 허용 Source/학습 문서만 편집했다. 에디터·
 3. 프로젝트 `tools/Build-P0Editor.ps1 -RunId <새 ID>`로 컴파일 로그를 보존한다. `tools/Test-P0Automation.ps1 -Filter LD.P0.G3.Waves -RunId <새 ID>`로 필수 경계를 실행하고 실제 Report의 Fail/Warnings/NotRun을 확인한다. G0~G2 영향 회귀는 통합 담당자가 선정한다.
 4. root의 실제 PIE/최종 패키지2프로세스·5시드·반복/네트워크·부하 절차를 실행하고 양쪽 캡처·실측·실패 원인·수정 SHA를 정식 G3 검수에 연결한다. 기록 파일이 아직 없는 절차를 완료로 체크하지 않는다.
 5. 수업 출발점과 파일 조립으로 재현된 범위만 Verified로 바꾸고, 실제 학습자의 Planned는 유지한다. G3 차단 결함을 수정·재검수한 뒤 G4로 진행한다.
+
+## 초기 실제 통합 검수와 수정
+
+- 통합0ae913c Editor48.96초 Pass. 전체 LD.P0 52종 중51개 무경고Pass, VictoryRequiresAllThreeConditions 1개Fail. 원본 로그는 통합 Saved/P0Runs/G3-integration-automation-initial에 보존했다.
+- 실패는 fixture가 시간70.1까지만 진행한 뒤 실제 Enemy.TryApplyDamage에 미래 사망시각71을 직접 넣고, 이후 밀린70.1 격자를 처리한 조건이다. 제품에서는 Combat가 각 격자까지의 타격만 확정하여 이런 미래 보고를 만들지 않는다. 하지만 EvaluateVictory의 min(격자,사망시각)은 그 입력을 조용히70.1로 소급했다. 미래 확정 시각은 아직 판정하지 않고 정확한 LastDeathServerSeconds에서 승리를 확정하도록 보완했다. 기대71은 유지하고 재검수 대기다.
