@@ -6,10 +6,10 @@
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01 / [사건 순서](../../../docs/design/BATTLE.md), [공통 종료 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
 | 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작 / A 담당 기능 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `0d358bc5af920166bc517431848700d8c9c6a98f` — 최종 통합66파일·실행 입력은 [공통 증거](G3_EVIDENCE.md) |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미정**. 최종 Source SHA도 미정이며 중간 구현·최초66파일 증거는 [공통 기록](G3_EVIDENCE.md)에 구분 |
 | 실제 개발 시작 / 완료 SHA | 자기 G2 통합 결과 / 미생성 |
 | 상대 산출물 | G3-A-01 Director, B Processor.AfterExternalCommandClock `8405a93` 및 자기해제 보호 `c697c91` |
-| 제공 / 직접 작성 | 제공: G2 매치·실제 서비스. 직접 작성: Core/LDGameMode.*, LDGameState.* 및 Tests/LDWaveTests.cpp |
+| 제공 / 직접 작성 | 제공: G2 매치·실제 서비스. 직접 작성: Core/LDGameMode.*, LDGameState.*와 독립 기대값. 제공 검수 코드: Tests/LDWaveTests.cpp, LDLifecycleTests.cpp, LDPieTests.cpp, G3 probe; 통과 결과를 제품 구현 대신 사용하지 않음 |
 
 ## 이번에 만들 동작
 
@@ -27,7 +27,9 @@
 6. 각 닫힌 시각에서 Combat→보상 Drain→보스 조회 갱신→Director 사건 처리 순서를 지킨다. 명령 hook 안은 Processor 재진입 guard 상태이므로 보상은 큐에 쌓이고 hook 복귀 후 Drain된다. 이 구간에 결과를 바로 게시하거나 Processor.Close를 호출하지 않는다.
 7. `RequestTerminal`은 최초 결과 후보를 보관하고 접수와 Combat를 즉시 닫는다. 같은 시각에 이미 예정된 두 번째 공격도 취소하지만 Processor는 아직 닫지 않아 승인된 첫 처치 보상이 남는다. B의 `AfterExternalCommandClock`는 guard 해제→보상 Drain→이 후단 호출→세션 재조회 순으로 실행한다. `FinalizePendingTerminal`은 최종 경제 snapshot→마지막 확정 보스 HP 조회 갱신→GameState Result 순서로 게시하고 나머지 서비스/타이머/구독을 닫는다. 조회 갱신은 새 공격·승리 평가를 하지 않는다. 일반 타이머도 같은 finalizer를 사용한다. 이 임시 후보는 미완료 transaction이며 별도 복제 Result 원본이 아니다.
 8. EndPlay는 세션까지 해제한다. Preparing/Running 참가자 이탈은 Aborted다. 종료 후 동일 RequestId 캐시는 원래 결과를 재전달하지만 새 명령·생성·타격은 진행하지 않는다.
-9. 독립 기대값으로 `LD.P0.G3.Waves.*`를 작성한다. 실제 World/Mode/PC/Board/Combat/Enemy를 사용하되 시각·HP를 직접 지정한 부분을 명시적 fixture로 기록한다.
+9. 독립 기대값을 먼저 기록하고 제공 `LD.P0.G3.Waves.*`의 assertion과 대조한다. 실제 World/Mode/PC/Board/Combat/Enemy를 사용하되 시각·HP를 직접 지정한 부분을 명시적 fixture로 기록한다.
+
+10. 결과 복귀로 새 World가 만들어져도 이전 payload의 세대가 재사용되지 않도록 [G3-A-04](G3_04_SESSION_LIFETIME.md)를 적용한다. 이 수명 차이는 위 명령/전투 시계나 결과 캐시를 새로 소유하는 변경이 아니다.
 
 ## Unreal 설정 순서
 
@@ -40,6 +42,8 @@
 | 5 | 명시 fixture | `-P0Probe=G1`, `G2`, `G3Load`를 해당 검수에서만 사용 |10웨이브 일반 플레이 증거로 쓰지 않음 |
 
 ## 실행·실패·수정 기록
+
+아래 실제 결과는 당시 입력에서 관찰한 이력이다. 이번 수업의 최종73파일 입력을 출발점에서 다시 조립한 결과는 아직 미실행이다. 공통 실행 수치·SHA는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)를 따른다.
 
 | 조건 | 독립 기대 결과 | 실제 결과·범위 |
 |---|---|---|
@@ -55,13 +59,13 @@
 
 설계 중 발견한 실패 경로는 `BeforeExternalCommand` 안에서 terminal→Close하면 bProcessing 때문에 Drain이 무효이고 Close가 남은 보상을 지운다는 점이다. B 후단 delegate를 추가하여 해결했으며, 최종 보스 보상이 Result observer에 먼저 보이는 검사를 넣었다. 이는 코드 검토로 찾은 위험이며 실제 실패 로그가 발생한 것으로 쓰지 않는다. 실행 실패·수정은 [공통 증거](G3_EVIDENCE.md)에 이어 기록한다.
 
-초기 통합 `e4a02a4`에서 전체56개가 무경고 Pass했다. 준비 대기 회귀의 최초 코드는 private `AdvanceLogic` 직접 호출로 C2248 컴파일 실패했다. `0d358bc`는 public TimerManager.Tick으로 등록된 실제 delegate를 구동하고 프레임 식별자와 프로브 옵션을 scope 종료 시 복원한다. 후속 새 조립56종·B 최종 전체57종, 새 조립 PIE, 준비 분기의2프로세스 smoke와 최종 패키지는 [공통 증거](G3_EVIDENCE.md)에 실행 층을 나누어 기록했다.
+준비 대기 회귀의 최초 코드는 private AdvanceLogic 직접 호출로 C2248 컴파일 실패했다. `0d358bc`는 public TimerManager.Tick으로 등록된 실제 delegate를 구동하고 프레임 식별자와 프로브 옵션을 scope 종료 시 복원한다. 이후 자동화·준비 분기 smoke·PIE·패키지의 입력과 수치는 정식 SUMMARY/REVIEW에 둔다.
 
-이번 수업의 패키지 관찰은5개의 다른 MatchId·각4회 결과 복귀, Result 뒤 원래 명령 응답 재전달, 지연/손실 해제 후 최종 상태 일치다. 자연5판은 모두 보스 시간초과 패배이므로 정확 D/D+.001의 모든 경계나 승리 조건8조합을 패키지에서 모두 유발한 것으로 기록하지 않는다. 그 독립 경계는 위 실제 서비스 조립 자동화가 검증한다.20분 대표 부하는 진행 중이다.
+기존 패키지는 같은 프로세스의 반복 매치·결과 복귀·지연망 회복·원래 응답 재전달을 관찰했지만 모두 자연 패배였다. 정확 D/D+.001, 혼합 승패, 옛 payload의 새 Controller 재전송은 최종 보충 입력의 별도 검사 대상이다. 고정 부하 실측은 정식 PERFORMANCE의 이전 입력 범위로 유지한다.
 
 ## 상대에게 전달하고 통합하기
 
-B는 공용 snapshot 조회·두 위젯 수명·복귀를 연결한다. Processor 후단 API와 A terminal 조립을 반드시 함께 통합한다. `bProcessing` 중 외부 완료 callback이 세션을 교체할 수 있으므로 callback 뒤 Session 포인터는 다시 조회한다. 통합 순서/커밋은 [G3-A-01](G3_01_WAVES.md)의 표준 순서를 따른다.
+B는 공용 snapshot 조회·두 위젯 수명·복귀를 연결한다. Processor 후단 API와 A terminal 조립을 반드시 함께 통합한다. `bProcessing` 중 외부 완료 callback이 세션을 교체할 수 있으므로 callback 뒤 Session 포인터는 다시 조회한다. 통합 순서/커밋과73파일 적용 절차는 [공통 기록](G3_EVIDENCE.md)을 따른다. 다음 UI 연결은 G3-A-03, 새 매치 세대는 G3-A-04다.
 
 ## 이해 확인
 
@@ -73,6 +77,7 @@ B는 공용 snapshot 조회·두 위젯 수명·복귀를 연결한다. Processo
 ## 단계 완료
 
 - [x] 사건 순서·상태 원본·호출 경계·타이머/구독 정리를 기록했다.
-- [x] Editor·필수 자동화·수업 조립 재현을 통과했다. 전체57종은 B 역할, 새 재현은56종+후속 Entry3종이다.
+- [x] 당시 Editor/자동화/PIE/패키지 이력과 실패 원인을 정식 증거에 연결했다.
+- [ ] 문서 시작점→66파일→73파일 보충의 새 Editor·자동화·실제 PIE·패키지 실행을 완료하고 최종 Source SHA를 기록했다.
 - [x] 실제 PC 패키지·PIE·지연망·반복 매치에서 위 관찰 범위를 확인했다. 경계 fixture와 자연 패배 실행은 구분한다.
 - [ ] 독립 리뷰 차단0 및 정식 G3 검수 후 다음 게이트에 진입한다. Android는 별도 G4다.

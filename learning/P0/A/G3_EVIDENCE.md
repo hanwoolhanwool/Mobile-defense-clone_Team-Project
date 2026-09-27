@@ -1,109 +1,87 @@
 # G3 A 공통 증거·전달 기록
 
-참고 자료 제작 **Draft**, 실제 학습자 **Planned**. 공통 G2 출발점 `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6`. 이 기록의 코드 작성 완료는 실행·재현·G3 통과를 뜻하지 않는다. 제품 기준은 [공통 작업 기록](../../../docs/production/P0_REFERENCE_RUN.md), [전투 명세](../../../docs/design/BATTLE.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md)이다.
+참고 자료 제작 **Draft**, 실제 학습자 **Planned**. 시작 SHA는 `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6`이며 **최종 Source SHA·참고 완료 SHA는 미정**이다. A 초기 기능의 `0d358bc`와 기존 패키지의 `0e473f4`는 중간 입력이며 현재 수업의 완료 SHA가 아니다. learn 브랜치에 완성 코드를 병합하거나 제공 파일 조립을 학습자의 직접 구현으로 기록하지 않는다.
 
-A 담당 기능의 마지막 수정은 `0d358bc5af920166bc517431848700d8c9c6a98f`다. 이후 B Entry 수정까지 포함한 런타임 C++ 기준은 `0e473f4af380506d209a95f7ec42eccf89c69df4`, 효과음 cook 설정 기준은 `98727f04e7c563a854a103ad26152cff5ed652a6`다. [감사 완료66파일 입력](../../../docs/production/evidence/RUN-20260918-G3/audited-final-inputs.json)의 SourceSha는 `0981d07307112857dfdf0e91c79bcecdbcbc291b`이며 패키징 뒤 바뀐 것은 읽기 전용 RPC/CSV 분석 도구2개뿐이다. 런타임·데이터·에셋·설정은 패키지 입력과 같다.
+공통 규칙은 [작업 기록](../../../docs/production/P0_REFERENCE_RUN.md), [현행 전투 명세](../../../docs/design/BATTLE.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md)에 둔다. 실행 수치·환경·결함 상태의 원본은 아래 세 문서다. 수업마다 같은 표를 복사하지 않고 해당 기능의 관찰과 차이만 기록한다.
 
-2026-09-27 최종 패키지5시드·회복 결과를 [정식 G3 요약](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md)과 대조했다. **20분 대표 부하는 진행 중이므로 G3 InProgress, 세 수업 Draft, 학습자 Planned**다. 원본은 통합 또는 새 재현 경로의 `Saved/P0Runs/<실행 ID>/`에 보존한다. `result.json`은 실행 범위/요약, `report/index.json`은 자동화 결과, `engine.log`/`build.log`는 원본이다. 새 재현 HEAD는 G2 출발점에 남으므로 최종 코드는 HEAD 대신 입력 manifest의 SourceSha와 파일 blob으로 식별한다.
-
-## 변경과 전달
-
-| 커밋 | 역할·변경 | API/의존성 |
+| 정식 근거 | 읽을 내용 | 이 수업에 적용하는 한계 |
 |---|---|---|
-| `e61c414` | A 공용 조회 계약 | FLDBattleSnapshot, ELDMatchResult/Reason, GameState.GetBattleSnapshot, native 두 widget header |
-| `8405a93` (A 수신 `682c48f`) | B Processor 후단 | Before guard 해제→Drain→AfterExternalCommandClock→세션 재조회 |
-| `b425226` | A 피해 관찰 | Combat.OnDamageCommitted(Event,PlayerIndex,EffectiveDamage), Stop 때 Clear |
-| `61fb3a7` | A 제품 구현 | UObject WaveDirector, Mode 단일 timeline/terminal, GameState 결과, native widget cpp |
-| `c697c91` (A 수신 `8f89116`) | B 수명 보완 | 후단 delegate 복사본 Execute로 자기 Close/Unbind 때 callable 수명 보존 |
-| `f796c19` | A 실제 생산 조립 검사·사망 출처 | LD.P0.G3.Waves 5종, Enemy.DeathServerSeconds와 Director 대조 |
-| `83bd8fc` → `2a9d346` | A01 실패 회귀 → 즉시 전투 중지 | Mode.AbortMatch만 호출해 후속 동일 시각 공격 취소, 승인 사망 Drain 유지 |
-| `162fd7f` → `decb709` | A02 실패 회귀 → 최종 보스 HP 동기화 | Result 직전 Director.RefreshCombatView; 새 공격/승리 평가 없음 |
-| `1d06558` → `53333d9` → `0d358bc` | 준비 대기 회귀 → Mode 수정 → 검사 컴파일 수정 | G2/G3Load 두 참가자 대기, 실제 TimerManager delegate 실행, 임시 옵션/프레임 복원 |
+| [SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md) | 컴파일·자동화·PIE·패키지·네트워크·학습 재현의 입력과 실제 결과 | 이전 소스의 성공을 보충 소스의 실행으로 승계하지 않음 |
+| [REVIEW_FINDINGS](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md) | 독립 기대값, 실제 실패→수정, 정적 발견과 실행 실패의 구분, NET-LIFE01 | Unreal 회귀가 닫힌 결함도 패키지 재전송까지 실행했다는 뜻은 아님 |
+| [PERFORMANCE](../../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md) | 실제 20분 PC 패키지 부하·CSV·수거·측정 환경과 한계 | 명시 고정 부하의 결과. 자연 플레이·Android 성능·보편적인 무누수를 증명하지 않음 |
 
-A는 자기 worktree의 허용 Source/학습 문서만 편집했다. 에디터·컴파일·바이너리·공용 설정·포트·기기는 통합 담당자가 직렬 실행한다. UI 원본 아트 추가/P1/P2는 구현하지 않았다. learn 브랜치는 공통 출발점에 둔다.
+20분 부하는 이제 정식 증거에 기록되어 있다. 이를 진행 중으로 쓰지 않는다. 다만 후속 세대 수정과 보충 검사까지 포함한 **수업 절차의 새 조립·빌드·실행은 대기**이므로 G3 수업은 Draft다. Android 실기기는 별도 G4 NotRun이다.
 
-## 실행 범위와 독립 기대값
+## 수업 순서와 작성/제공 경계
 
-| 검사 | 범위 | 상태 |
-|---|---|---|
-| diff 공백·clang-format | 변경 C++ 파일 | 적용·통과; 문서 검사 결과는 문서 커밋 전달에 별도 기록 |
-| 통합·새 재현 Editor | Unreal C++/UHT/link | Pass. 초기 `G3-review-final-editor-fix1`25.32초와 후속 Entry 수정 재현 Editor를 별도 보존 |
-| 최종 A/B 역할 Editor | 별도 worktree 빌드 | C++0e473f4 양쪽 Pass; [A 결과](../../../docs/production/evidence/RUN-20260918-G3/role-a-final-editor.json), [B 결과](../../../docs/production/evidence/RUN-20260918-G3/role-b-final-editor.json) |
-| LD.P0.G3.Waves.* 9종 | 실제 Mode/State/PC/Board/Combat/Enemy, 명시적 시간/HP fixture | `G3-review-final-automation-fix1`:9개 Success |
-| 전체 LD.P0 회귀 | G0/G1/G2와 G3, UI/명령/수명 포함; NullRHI | C++0e473f4의 B 역할 전체57개 무경고 Pass. 새 재현본은 전체56개 뒤 Entry 관련3개를 실행했으며 새 재현에서57개 전체를 다시 실행한 것으로 기록하지 않음 |
-| 실제 PIE | 새 재현 GPU Editor, 한 프로세스 listen/client2 World | `Replay-G3-pie`:1개 Pass, 각소환1/Gold80→Running, World0·원설정 복원. 이후 Entry/cook 변경은 별도 자동화·최종 패키지로 검수 |
-| PC 최종 패키지2프로세스 | 최종 데이터/에셋·UI·10웨이브·복귀·네트워크 | `Replay-G3-package-five-seeds-fix2`:5시드 host82/client72 및 실제 RPC62검사 Pass. 각4회 복귀·5개 매치; 아래 결과/한계 참조 |
-| G3Load 초기2프로세스 smoke | Editor `-game`,10초 설정의 명시 부하 fixture | `G3-load-smoke-v1`: 준비 전 조기 Abort로 Fail, 측정 완료 아님 |
-| 지연·손실 후 회복 | 송신 각150ms/3%→약120초 해제, 정상 규칙 한 판 | `Replay-G3-package-recovery`:host19/client17 및 RPC Pass, 최종 상태 일치 |
-| 짧은 부하·2000회 수명 | Editor-game 명시 fixture, 정상 플레이와 분리 | `G3-load-smoke-v3`:host69/client33 Pass, 자연 사망2000/fallback0/GC2141. 최종 패키지20분 성능 증거 아님 |
-|20분 대표 부하 | 최종 패키지 명시 fixture·CSV | 진행 중, 최종 실측/판정 미수신 |
-| Android 실기기 | 물리 터치/SafeArea/10웨이브/성능 | NotRun |
+1. [G3-A-01](G3_01_WAVES.md): 공용 DTO→Director의 생성·사망·승리 조건.
+2. [G3-A-02](G3_02_TIMELINE.md): Mode/State의 단일 사건 순서→보상 Drain→종료.
+3. [G3-A-03](G3_03_WIDGETS.md): 값으로 갱신하는 전투/결과 위젯→B의 생성·해제 연결.
+4. [G3-A-04](G3_04_SESSION_LIFETIME.md): 매치를 넘어가는 명령 세대→종료·재진입·실제 네트워크 경계 관찰.
 
-기대값은 구현 결과로 재계산하지 않는다. 시작10일 때 일반 wave1 생성 시각10~29에 각2, wave2 첫30에는 누적42,9일반 누적360, wave10보스시작190/마감250이다. 보스2×6000HP는 일반 수에 포함하지 않는다. N99에서 처치0/1/2 후 생성2는 각각100 즉시패배/100 즉시패배/99 계속이다. F(최종생성)/B(양보스사망)/Z(일반0)의8조합에서 전부참만 승리다.
+직접 작성할 제품 코드는 각 수업의 파일 순서를 따른다. G2 기반, B 담당 Processor/Controller/Entry, 데이터·맵·아트는 계약에 맞는 제공 입력이다. `Tests/LDPieTests.cpp`와 `Verification/LDG3*ProbeSubsystem.*`, 빌드/실행 도구는 **제공 검수 코드**다. 학습자는 기대값을 먼저 설명하고 실행하되, 제공 fixture를 만든 실적으로 쓰지 않는다. 필요한 런타임 파일은 Source/Content/Config에 있으며 learning 폴더를 로드하지 않는다.
 
-보스 경계 검사는 실제 PC 유료 소환·이동으로 두 유닛을 배치한 뒤 **초기 공격 예정 시각만** 명시 재등록하고 실제 B01에5999피해를 넣어 HP1로 만든다. deadline70에 due69.999/70은 승리, 한쪽70.001 또는 같은70 판매는 패배다. 이 검사는 자연 플레이·밸런스 증거가 아니다. 두60초 보스처치면 구매후Gold80+200=280/별4, 한쪽만처치면180/별2, host판매+한쪽처치면80+11+100=191이다. Result 통지 observer가 이미 이 최종 재화를 읽어야 한다.
+## 출발점에서 재현하는 절차
 
-## 작성 중 확인한 위험과 대응
+공유 리소스와 Editor/패키지/포트는 통합 담당자가 순차 사용한다. 사용자 파일이 있는 폴더를 덮어쓰거나 실행 중인 Editor를 임의 종료하지 않는다. 명령 인자와 출력 위치의 기준은 [통합 수업](../G3_INTEGRATION.md)이다.
 
-- Processor Before hook 안은 bProcessing이므로 Drain이 무효다. 그 안에서 Close하면 확정 사망 큐가 사라진다. terminal 후보를 latch하고 새 접수/전투를 먼저 닫은 뒤, guard 해제/Drain 이후의 후단에서 결과 게시/Close하도록 B와 계약했다. 이 초기 계약 위험 자체를 실제 실행 실패로 적지 않으며, 이후 A01/A02의 별도 실제 실패는 아래에 남긴다.
-- 후단에서 Close가 자기 delegate를 Unbind한다. B는 callable 복사본을 실행하도록 보완했다.
-- G2의 전투만 AdvanceBefore 하면 이전 boss deadline을 건너뛸 수 있다. Mode가20Hz 격자와 모든 Director 경계를 하나의 시간순 루프로 처리한다.
-- HP0 actor의 사망 시각까지 실제 snapshot에 기록하고 Director에서 생성/사망 시각을 대조하여 별도 사건 신고가 빠른 보상 시각을 바꾸지 못하게 했다.
-- native UMG는 실제 PC 패키지540×1170에서 두 보스 HP 한 줄과 결과/복귀 표시를 확인했다. 모든 화면비·물리 SafeArea·Android 가독성을 이 한 크기로 통과 처리하지 않는다.
+1. 새 경로에서 시작 SHA `f735b588`를 확보한다. `learning/tools/Replay-P0G3.ps1`로 최초 66개 입력을 조립한다. 원래 입력은 `0981d07307112857dfdf0e91c79bcecdbcbc291b`의 manifest이며 C++ `0e473f4`·Config `98727f0`를 구분한다. 이 명령은 현재 최종 제품을 이미 검증한 것으로 표시하지 않는다.
+2. [문서화된 보충 절차](../G3_INTEGRATION.md)대로 `learning/tools/Apply-P0G3Supplement.ps1`에 **향후 확정할 full Source SHA**와 새 RunId를 전달하여 73개 입력으로 갱신한다. 기존 66개 해시와 새 7개 부재를 먼저 확인하고 변경 전 파일은 새 증거 폴더에 보존한다. 불일치를 무시하거나 현재 HEAD를 최종 SHA로 추정하지 않는다.
+3. 새 입력 manifest에서 파일별 blob/SHA256, 제공·작성 분류, 변경 전후를 대조한다. 부분 묶음은 다음 묶음을 참조하므로 전체 조립 후 Editor 빌드를 수행한다. 실제 재현본 HEAD는 시작 SHA에 남을 수 있으므로 실행 입력 식별에 manifest를 반드시 함께 쓴다.
+4. 새 RunId로 `tools/Build-P0Editor.ps1` → `tools/Test-P0Automation.ps1 -Filter LD.P0` → `tools/Test-P0PIE.ps1`을 순차 실행한다. 실제 GPU PIE 필터는 `LD.PIE.P0.Session`이며 NullRHI 자동화에 포함되지 않는다. 프로세스 exit0만 보지 말고 report의 Fail/Warnings/NotRun, proof, 실제 양쪽 PNG, PIE World0와 원설정 복원을 대조한다.
+5. 같은 입력으로 Win64 패키지를 만든다. 자연 규칙의 `Run-P0G3.ps1`과 보충 `Run-P0G3Supplement.ps1 -Probe G3Boundary|G3NetConflict|G3Entry`를 별도 RunId·포트로 순차 실행한다. 양쪽 JSON·실제 RPC·정상 종료·PNG를 모두 확인한다. 생성·HP·등록 시각을 바꾼 Boundary와 무료 재료의 NetConflict는 자연 플레이/밸런스 결과에 합치지 않는다.
+6. 실패하면 원본 로그와 입력을 보존하고 실제 원인·수정 SHA·같은 독립 기대값의 재실행을 기록한다. 최종 Source SHA, 두 단계 manifest, 위 실행 결과를 연결한 뒤 해당 수업의 필수 절차가 재현된 범위만 Verified로 바꾼다. 실제 학습자 상태는 별도다.
 
-## 재현 절차와 다음 조건
+**현재 상태:** 최초 66개 조립의 실제 증거는 [G3_REPLAY](../evidence/G3_REPLAY/README.md)에 있다. 73개 보충까지 포함하는 이번 전체 재현은 미실행이며, 통합 브랜치의 최신 자동화·PIE 성공을 이 절차의 대체 증거로 쓰지 않는다. 이후 실행 결과는 SUMMARY에 한 번만 추가한다.
 
-1. G2 완료 출발점의 별도 detached 작업 경로를 만든다. 기존 폴더/학습자 작업을 덮어쓰지 않는다.
-2. [G3-A-01](G3_01_WAVES.md)→[G3-A-02](G3_02_TIMELINE.md)→[G3-A-03](G3_03_WIDGETS.md)의 파일 작성 순서로 A 파일을 조립하고 B Processor/Controller/Entry를 함께 연결한다. [통합 수업](../G3_INTEGRATION.md)의 `Replay-P0G3.ps1`과 위 SourceSha0981d073의66파일 manifest를 사용한다. 제공 입력15개/최종 G3 입력51개이며 전체 조립 뒤 빌드한다. 학습자의 직접 작성 완료와 제공 파일 조립은 구분한다.
-3. 프로젝트 `tools/Build-P0Editor.ps1 -RunId <새 ID>`로 컴파일 로그를 보존한다. `tools/Test-P0Automation.ps1 -Filter LD.P0.G3.Waves -RunId <새 ID>`로 필수 경계를 실행하고 실제 Report의 Fail/Warnings/NotRun을 확인한다. G0~G2 영향 회귀는 통합 담당자가 선정한다.
-4. [새 재현 증거](../evidence/G3_REPLAY/README.md)의 `C:/Users/iam12/P0_lesson_replay_g3`에서 조립→Editor→56종→실제 PIE→Entry 변경3종→최종 패키지5시드/회복을 확인했다. 동일 절차를 다시 수행할 때는 새 경로/RunId를 사용한다. 20분 부하·Android는 아직 이 완료 범위에 포함하지 않는다.
-5. 수업 출발점과 파일 조립으로 재현된 범위만 Verified로 바꾸고, 실제 학습자의 Planned는 유지한다. G3 차단 결함을 수정·재검수한 뒤 G4로 진행한다.
+## 전달 커밋과 통합 순서
 
-## 초기 실제 통합 검수와 수정
+| 변경 묶음 | 계약·연결 순서 |
+|---|---|
+| `e61c414` → `61fb3a7` | Battle DTO/위젯 header→Director/Mode/State/native widget 구현 |
+| B `8405a93` + `c697c91` | Processor guard 해제→Death Drain→복사한 AfterExternalCommandClock 실행→세션 재조회. A finalizer와 함께 연결 |
+| `b425226` + `f796c19` | 확정 피해 관찰과 Actor 사망 출처. 관찰자는 게임 상태 원본을 소유하지 않음 |
+| `83bd8fc` → `2a9d346` | A01: 종료 요청 이후 두 번째 공격을 막되 첫 사망 보상은 Drain |
+| `162fd7f` → `decb709` | A02: Result 게시 전에 마지막 Actor HP를 조회 snapshot에 반영 |
+| `1d06558` → `53333d9` → `0d358bc` | G2/G3Load 준비 대기 회귀→제품 수정→실제 TimerManager delegate 검사 수정 |
+| `62b5180` → `53af399` | NET-LIFE01 실제 실패 회귀→process 수명의 세대 발급기. 제품 DTO는 유지 |
+| `bb18616` 및 후속 검수 수정 | Boundary 제공 fixture. 세대 수정과 같은 최종 소스에 조립해야 함; 이 SHA는 제품 완료 SHA가 아님 |
 
-- 통합0ae913c Editor48.96초 Pass. 전체 LD.P0 52종 중51개 무경고Pass, VictoryRequiresAllThreeConditions 1개Fail. 원본 로그는 통합 Saved/P0Runs/G3-integration-automation-initial에 보존했다.
-- 실패는 fixture가 시간70.1까지만 진행한 뒤 실제 Enemy.TryApplyDamage에 미래 사망시각71을 직접 넣고, 이후 밀린70.1 격자를 처리한 조건이다. 제품에서는 Combat가 각 격자까지의 타격만 확정하여 이런 미래 보고를 만들지 않는다. 하지만 EvaluateVictory의 min(격자,사망시각)은 그 입력을 조용히70.1로 소급했다. 미래 확정 시각은 아직 판정하지 않고 정확한 LastDeathServerSeconds에서 승리를 확정하도록 보완했다. 기대71은 유지했으며 후속56개 검사에 포함된 VictoryRequiresAllThreeConditions는 Pass했다.
-## 추가 전달·미검증 범위
-
-- `b88506d`: N100 공개 알림 전에 새 명령 접수를 닫는다. 같은 알림 observer가 실제 PC구매를 시도해 PhaseNotAllowed를 받는 회귀를 추가했다. 수량 상태는 Result 전 별도로 보이며 결과 후보를 취소할 수 없다.
-- `bc99d37`: nonShipping의 명시적 `-P0Probe=G3Load`만 기존 G2 combat-only 분기에 넣었다. 부하 고정 fixture이며 정상10웨이브/밸런스 실행이 아니다.
-- `baa4be6` + `2fbe86a`: 위 미래 사망 fixture의 결과 시각을 당기지 않는다. 마지막 사망 시각보다 이른 격자에서는 승리를 아직 판정하지 않고 실제 사망 시각을 그대로 사용한다.
-- `27c2875`: `LD.PIE.P0.Session` 별도 필터의 실제 GPU Editor PIE 검사를 작성했다. `FStartPIEForAutomationCommand`가 listen/client2개의 실제 EWorldType::PIE World를 시작한다. 양쪽 소유 PC의 Preparing 소환/실제 RPC/골드80/인구1→10초 뒤 Running→양쪽 Slate 창 PNG→명시적 Abort 복제→FEndPlayMap→PIE World0을 검사한다. 이 필터는 NullRHI `LD.P0`에 포함되지 않는다. TimeSeconds나 PIE World를 임의 생성하지 않는다. v1/v2 실행 범위는 아래와 같다.
-- PIE 설정은 복제한 ULevelEditorPlaySettings로 시작하고 원본 config property 전체를 보관한다. 로컬 UE5.8 PlayLevel.cpp의 PIE 종료가 CDO 창 위치를 저장하므로 검사 종료 뒤 원래 config 값을 복원하고 동일성을 확인한다. 기존 PIE 세션이나 같은 증거 RunId가 있으면 대체/덮어쓰기하지 않고 실패한다. Editor-only UnrealEd 모듈 연결은 통합 담당자 소유다.
-- `001b78f`: 엔진 CsvProfiler의 LDP0/Combat, LDP0/Timeline CPU 범위를 추가했다. Timeline에는 Combat이 포함되므로 둘을 더하지 않는다. CSV 값은 프레임별 합계이며20Hz 개별 스텝 p95와 같은 지표가 아니다. 수집 오버헤드·FPS/VSync·대표 부하/측정 구간은 통합 실측에서 기록한다. 아직 성능 수치나 목표 통과를 보고할 근거가 없다.
-## PIE 실행 관찰과 후속 수정
-
-- 최초 PIE 코드 컴파일은 `G3-pie-editor-v1/build.log`에서 ULevelEditorPlaySettings의 private ClientWindowWidth/Height·AdditionalServerGameOptions 접근 C2248로 실패했다. `2087f6f`는 로컬 공개 `SetClientWindowSize`를 사용하고 별도 server option 직접 쓰기를 제거했다. Editor 실행의 `-P0Seed=1776`로 seed를 제공한다.
-- 통합 `G3-actual-pie-v1`은 실제 Editor PIE 자동화1개 Pass, 두 실제 World의 listen/client RPC 소환·각 인구1/Gold80, Running N2/2, EndPlay 뒤 PIE World0 및 원설정 복원을 확인했다. 이는 별도 프로세스 패키지 검사나 실제 사용자의 수동 조작이 아니다.
-- 요청 창540×1170은 데스크톱 제약으로 실제 캡처546×720이었다. root의 PNG 직접 검토에서 v1 host 이미지는 같은 프레임 UMG 갱신 이전 WAVE0/00:00, client는WAVE1을 표시했다. 게임 상태 검사는 통과했지만 이 캡처로 양쪽 최종 표시를 통과 처리하지 않았다. `b794473`에서 양쪽 Running 확인 뒤0.5초 더 기다리고 캡처하도록 바꿨다.
-- `G3-actual-pie-v2`는 통합 `2f144fe4852ede5b96e6f51683e2df3b527ccb37`에서 실제 GPU PIE1개 Pass다. `G3-actual-pie-v2-proof/pie-proof.json`은 실제 PIE World/ListenServer·Client/소유자0·1, RPC 완료·각Gold80/인구1, wave1/N2·2, Aborted 복제·전투 등록 해제, 종료 후 PIE World0·설정 복원을 기록한다. 같은 폴더의 host-running.png/client-running.png는 각각546×720이다. root가 양쪽 이미지를 확인했다. 이 실행은 A01/A02/준비 분기 수정 전이며, 수정 후 증거는 위 새 재현 PIE/최종 패키지와 구분한다.
-- `c76bb35`: Combat.GetRegisteredEnemyCount는 living 수와 구분되는 등록 map 수, Mode.IsLogicTimerActive는 자기 LogicTimer만 읽는다. 장기/종료 검수의 읽기 전용 접점이다.
-- `8cebbd4` + `df231fa`: Director.Initialize의 선택적 FLDEnemyActorFactory 한 점에서 실제 Actor 생성 실패를 주입한다. 제품 기본 경로는 기존 SpawnActor다. 두 번째 boss가 nullptr 또는 다른 World actor면 최종생성 false→Aborted/등록0/타이머0/보상0을 검사하며 외부 World actor는 초기화·삭제하지 않는다. callable을 복사해 재진입 Stop의 자기해제에 안전하게 하고 이미 쓰인 actor도 새 소유물로 확정하지 않는다.
-- `b794473` + `a57341e`: 사망 게임 사건을 먼저 게시하고 복사한 피해 관찰자에 확정 값만 전달한다. Mode는 callback 뒤 terminal 후보를 다시 확인하여 같은 시각 남은 생성 단계도 중단한다. 다만 초기 회귀는 관찰자가 직접 Combat.Stop까지 호출해 Mode.AbortMatch만 사용했을 때의 결함을 가렸다. 아래 A01에서 검사를 강화하고 제품 종료 API를 수정했다.
-
-역할 Build.cs의 Editor-only UnrealEd 의존은 root `bca735c`를 A `79e45f4`로 수신했다. 현재 A Source는 문서 첫머리의 SHA이며, 학습자가 그 완성 코드를 작성한 것으로 기록하지 않는다.
+B Entry 스타일 수명(PKG01)과 필수 효과음 cook(PKG02) 등 공용 의존도 manifest에 포함한다. native 위젯만 복사하고 B/Config를 생략하면 검수한 조합과 달라진다. 에셋·설정은 통합 담당자 소유이며 A 수업에서 동시에 저장하지 않는다.
 
 <a id="review-regressions"></a>
 
-## 독립 리뷰 회귀와 수정
+## 실패 원인과 학습 포인트
 
-| 사례·실제 재현 | 실패 원인과 수정 | 수정 전 증거 | 수정 후 증거 |
-|---|---|---|---|
-| A01: 실제 일반 적2개 HP70, 강한 유닛2개 due11. 첫 OnDamage에서 Mode.AbortMatch만 호출 | PendingResult만 세워 Combat 내부 루프가 두 번째 HP도0으로 변경했지만 그 사망 보상은 거절됨. `83bd8fc`로 숨겨진 직접 Stop을 제거한 회귀를 먼저 적용하고, `2a9d346`에서 접수 잠금 직후 Combat.Stop. Processor는 승인된 첫 사망의 Drain까지 보존 | `G3-A01-before-test`, HEAD `15f14224a6a79159d82f7d45eb2ca83f8625db29`:1 Fail, 기대 공격1/실제2, 다른HP70/실제0 | `G3-A01-after-automation`, HEAD `6b59c582fb4d2c75472c28292008e873c2f6d8ec`:전체54개 무경고 Pass. 이후56개 및 최종57개에서도 Pass |
-| A02: 실제 B01 두 개 HP6000, 물리120/방어20→독립 기대100피해, 첫 비치명타격 직후 Abort | Actor는5900이지만 terminal 후보 후 평상시 조회 갱신을 건너뛰어 Result의 GS HP는6000. `162fd7f` 회귀를 먼저 적용하고 `decb709`에서 Death Drain→RefreshCombatView→Result 순서로 수정 | `G3-A02-before-test`, HEAD `530327ae03966afd1a704a5d043d9100b70c87a3`:1 Fail, Result observer의 기대5900/실제6000 두 assertion | `G3-review-final-automation-fix1`:해당 검사 Success. 최초 결과 게시에서 Actor/GS5900·6000 일치, 공격1, 보상0, 반복 결과 변경0 |
-| G2/G3Load 준비 대기: 실제 Editor `-game` 별도 host/client 실행, host 첫 timer | fixture Preparing의 마감0을 일반 웨이브 시작으로 해석해 아직 없는 Director 때문에 time0 Aborted. `1d06558`은 실제 CLI 두 옵션의 준비 대기 회귀, `53333d9`는 RefreshReadiness의 두 참가자 확인 전 timeline 대기/CanAcceptCommands false | `G3-load-smoke-v1/pair.json`:Fail. host engine.log1828에 `result=3 reason=5 time=0`, 두 번째 참가자 등록 전. 이는 패키지·정상 플레이·부하 측정 통과가 아님 | 최신56개 중 CombatFixturesWaitForBothParticipants Success. 실제 TimerManager delegate로0인/1인35초 대기·구매 거절·2인 즉시Running/소환80·Wave0/적0 확인. 후속 G3-load-smoke-v3의 별도2프로세스 host69/client33 Pass를 위 실행 표에 연결 |
-| 준비 회귀 검사 코드의 컴파일 오류 | private AdvanceLogic 직접 호출3곳의 C2248. `0d358bc`에서 제품 API 공개 없이 public TimerManager.Tick으로 기존 등록 delegate를 실행. pending timer 활성화와 프레임당1회 제한을 고려하고 임시 GFrameCounter/프로브 CLI는 scope 종료 때 복원 | `G3-review-final-editor/build.log`:LDWaveTests.cpp180/189/206 C2248, 컴파일 Fail | `G3-review-final-editor-fix1/build.log`:25.32초 Pass. 같은 HEAD `e4a02a4fc369601ff5434c9101c070998502b373` 전체56개 무경고 Pass/Fail0/NotRun0 |
+| 사례 | 원인→수정 포인트 | 실제 증거의 위치·범위 |
+|---|---|---|
+| A01 | observer의 Abort가 후보만 저장하여 두 번째 타격이 진행됨→제품 종료 API 자체에서 접수/전투 즉시 닫기, 이미 확정한 Death는 Drain | REVIEW_FINDINGS의 A01 실패→수정 표. fixture의 직접 Combat.Stop으로 결함을 숨기지 않음 |
+| A02 | 마지막 Actor HP가 Result snapshot에 반영되지 않음→새 타격/승리 평가 없이 마지막 조회 갱신 후 게시 | REVIEW_FINDINGS의 A02. 수치 자동화와 실제 화면은 별도 |
+| 준비 분기 | fixture Preparing 마감0을 제품 wave 시작으로 해석→두 참가자가 준비될 때까지 RefreshReadiness 소유 전이만 허용 | REVIEW_FINDINGS의 준비 smoke 및 컴파일 수정. 최초 private API 호출 C2248도 실제 실패로 보존 |
+| 미래 사망 fixture | 미래 시각71 보고 뒤 오래된 격자70.1로 승리를 당김→해당 사망 시각 전에는 판정 보류 | SUMMARY/REVIEW_FINDINGS의 VictoryRequiresAllThreeConditions. 제품의 자연 전투가 미래 사망을 생성했다는 주장은 하지 않음 |
+| NET-LIFE01 | World마다 epoch1/2를 재사용→process 수명 발급. 새 Controller로 옛 payload를 재전송하는 반례 | REVIEW_FINDINGS의 NET-LIFE01. 오래된 Actor 채널 패킷과 다른 재현 |
+| PIE/표시 검사 | private Editor API 접근, 같은 프레임의 오래된 host 화면, 잘못된 GC 유지 플래그 등 제공 검사 코드의 문제 | REVIEW_FINDINGS의 해당 실제 실패와 수정. 제품 결함과 검사기 결함을 구분 |
 
-`G3-A01-before-test`·`G3-A01-after-automation`·`G3-A02-before-test`·`G3-review-final-automation-fix1`의 자동화는 NullRHI 실제 C++ 검사다. Editor `-game` smoke와 컴파일 결과는 그와 구분하며, 수치 검사 성공을 실제 게임 화면 통과로 바꿔 적지 않는다. A01/A02 검사는 원래의 독립 기대값을 유지한 채 실패→제품 수정→통과로 연결했다. 두 회귀 모두 관찰자가 직접 서비스를 정리하여 제품 종료 결함을 숨기지 않는다.
+상세 수치·SHA·원본 로그는 정식 리뷰에 둔다. 코드 검토로만 찾은 callable 자기해제 위험이나 검수기 반례는 실제 게임 실패가 있었다고 바꾸어 기록하지 않는다.
 
-이전56개 회귀 결과에 후속 역할 빌드·새 조립·실제 PIE·최종 패키지 증거를 추가했다. 아래 성공 범위를 전체 G3/Android 완료로 승계하지 않으며, 대표20분 부하와 최종 문서·게이트 검토가 남아 세 수업은 **Draft**, 실제 학습자 진행은 **Planned**다.
+## 구조 선택 대조
 
-## 최종 패키지·조립 후속 증거
+| 규약 | 실제 코드 경로·책임 | 검수에서 확인할 경계 |
+|---|---|---|
+| ARCH-01 책임 | Mode가 순서/종료, Director가 일정/적 소속, Widget이 값 표시를 담당 | Widget의 시간0이나 actor 개수로 승패를 변경하지 않음 |
+| ARCH-02 의존 | Mode.InitGameState가 Data/State/Combat을 Director.Initialize로 주입; Controller가 Widget에 snapshot 전달 | Battle/Economy가 구체 Widget을 찾아 역호출하지 않음 |
+| ARCH-03 상태 | GameState.BattleSnapshot이 공용 원본, EnemyActor가 HP 원본, process 발급기는 명령 세대만 소유 | Actor→보스 조회 snapshot 동기화와 세대/재화 RNG 분리 |
+| ARCH-04 처리 | Processor.SubmitAtTime의 준비/확정/알림과 guard 해제 후 Drain, Mode.FinalizePendingTerminal | 실패/중복 무소비, 승인한 첫 보상이 Result 전에 보임, callback 뒤 세션 재조회 |
+| ARCH-05 수명 | Mode의 LogicTimer/서비스 종료, Combat/Director.Stop, ResultWidget.NativeDestruct, process epoch | 종료 후 다음 타격0, 옛 구독0, 새 World의 옛 요청 거절, 검수 weak ref 수거 |
+| ARCH-06 검증 | LDWaveTests/LDLifecycleTests의 독립 수치, LDPieTests의 실제2월드, Development 제공 probe | 계산/모의 시각·실제 PIE·별도 패키지·물리 Android를 서로 대체하지 않음 |
 
-[5시드 결과](../../../docs/production/evidence/RUN-20260918-G3/package-five-seeds-summary.json)의 실행 파일 SHA256은 `4339F4E3C166D244DC77D780C4E26FBC423E30E7BDB0923C1E39628F5B2B6B54`다. 같은 PC의 서로 다른 두 프로세스에서 정상 제품 규칙을 자동 조작했고 HP/골드/시간은 변경하지 않았다. 시드1776/42/1729/2026/9001 모두10웨이브 보스 시간초과 패배·잔여 일반0이었다. 자연 승리나 사람의 숙련도/원작 밸런스 재현을 검증한 것은 아니며 수치를 조정하지 않았다. 각 판 HUD3회 재생성, 전체 각4회 결과 복귀 후 새 MatchId, 최종 양쪽 공용 상태·개체·재화 일치를 확인했다.
+통합 후 구현자와 구분된 리뷰의 결론과 미검증은 REVIEW_FINDINGS에 둔다. 이 표는 코드 선택 이유이며 정적 표만으로 구조 검수 또는 런타임 통과를 선언하지 않는다.
 
-양쪽 송신75ms·손실1%로 왕복150ms를 요청했고 실제 접속은 host1250.021초/client1252.044초였다. host82/client72와 [실제 RPC62검사](../../../docs/production/evidence/RUN-20260918-G3/package-five-seeds-wire.json)는 별도 증거다. Result 및 보드 revision 변경 뒤 원래 응답 재전달을 검사했다. [회복 결과](../../../docs/production/evidence/RUN-20260918-G3/package-recovery-summary.json)는 각 송신150ms·손실3%를 약120초에 해제한 한 판으로 host19/client17/RPC Pass, client 재시도17회·최종 상태 일치다. client echo244표본 평균161.5ms/p95349.6ms는 손실·회복 구간 혼합이며 구간별 p95가 아니다. host 로컬 요청은 같은 지연을 거치지 않는다.
+## Verified 진입 조건
 
-실제 [host wave10](../../../docs/production/evidence/RUN-20260918-G3/package-host-wave10.png)·[client wave10](../../../docs/production/evidence/RUN-20260918-G3/package-client-wave10.png)·[host 결과](../../../docs/production/evidence/RUN-20260918-G3/package-host-result.png)·[client 결과](../../../docs/production/evidence/RUN-20260918-G3/package-client-result.png)를 직접 확인했다.540×1170 양쪽에서 자기 보드가 아래이며 wave10 시작 보스HP5832/5895, 시드1776 결과HP435/3975가 일치한다. 결과는 보스 제한 시간 초과/복귀 버튼·조작 비활성을 표시한다. 이는 모든 화면비·Android SafeArea 검수가 아니다.
-
-후속 실패→수정 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)에 둔다. **PKG01**은 cooked Entry2프레임 크래시(지역 스타일 주소가 Slate에 남음)→B `501be90`/통합0e473f4의 소유 스타일 안정 주소→역할 전체57종·새 재현 Entry3종→최종 패키지4회 복귀 성공으로 Closed다. **PKG02**는 거절 효과음 cook 누락→Config98727f0의 `/Game/LD/Audio` always-cook→새 패키지34.77초 빌드 및 양쪽 실제 거절 경로 로드 Pass로 쿠킹/로딩 Closed다. 무음 실행이므로 청취는 NotRun이다. 두 수정은 초기 A 코드를 다시 작성할 이유가 아니라 B Entry/공용 패키지 설정을 함께 전달해야 하는 의존성이다.
+- [ ] 시작 SHA→66개 조립→73개 보충의 문서 절차를 새 경로에서 재현하고 최종 full Source SHA를 확정했다.
+- [ ] 새 입력의 Editor·필수 자동화·실제 PIE·패키지/네트워크 결과를 구분해 보존했다.
+- [ ] 각 수업의 정상·실패·중복·종료/시간 경계에 독립 기대값과 실제 관찰을 연결했다.
+- [ ] 양쪽 화면, 결과 후 UI 재생성/입력 차단/구독·타이머 정리, 같은 프로세스 재진입을 확인했다.
+- [ ] 독립 리뷰의 차단 결함을 수정·재검증하고 코드·수업·정식 검수의 입력이 일치한다.
+- [x] 이전 20분 성능의 입력/환경/측정 한계와 Android G4 NotRun을 분리했다.
