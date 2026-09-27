@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-BOARD-01·TASK-ECON-01, [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [경제](../../../docs/design/SUMMON_ECONOMY.md), [뭉치 규칙](../../../docs/design/BOARD_UI.md#unit-stacks) |
-| 참고 자료 제작 상태 | Draft — 서버 코드·UE 명령 픽스처 검증, 수업 시작점 조립 재현 전 |
+| 참고 자료 제작 상태 | Verified — G1부터 별도 조립·실제 서비스/Actor·A 전투 결합 재현 범위 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | 시작 `4861b987f3e2fe78bcc159d1b6a85008543a938b` / 역할 핵심 `84389ce22205c8906592465be4d40e42434dda01`, 최종 G2 완료 미정 |
+| 참고 시작/완료 SHA | 시작 `4861b987f3e2fe78bcc159d1b6a85008543a938b` / 완료 `ae6be1b0b06ed733425e01632a341fb4db4cad59` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A CombatEvents `3abb28e3023f7d8676c70d451fadadfdb4151f4b`, 준비 UnitActor `932bf449641b3c28d56f708a1ea90c9b38ac2596`, 표시 슬롯 `5880ce91a75c3eb6adbaefbfc940bded18914308` |
 | 제공 코드 / 직접 작성할 코드 | 제공: G1 기반·JSON·A의 위 산출물. 직접 작성: Board/Economy 타입·서비스·준비/확정 검사. 테스트의 보상·20개체 직접 배치 픽스처는 제품의 소환 성공을 대신하지 않음 |
@@ -38,7 +38,7 @@ ARCH-01~06 적용 경로: 값 계약(Types), 단일 원본(두 Service), 명시 
 | 순서 | 에디터 위치·에셋 | 부모/프로퍼티/연결과 값 | 이유·기대 화면 |
 |---|---|---|---|
 | 1 | 기존 G1 `Content/LD` 맵·JSON | Schema2/Rules0.3.0 그대로 | 데이터와 셀 원본 유지 |
-| 2 | A 네이티브 LDUnitActor | 준비: Hidden, NoCollision, Replicates=false | 확정 전 유령 유닛·공격 없음 |
+| 2 | A 네이티브 LDUnitActor | 준비: 모든 Primitive Visibility=false, NoCollision, Overlap=false; Actor Replicates=false | 확정 전 유령 유닛·공격 없음 |
 | 3 | A UnitActor 표시 | `/Engine/BasicShapes/Sphere`, `/Game/LD/Materials/M_P0Flat`, 슬롯0~2, VisualMoveSeconds=.15 | 최대3개체가 별도로 보임; 논리 중심·사거리 불변 |
 | 4 | 네이티브 LDGameMode 연결 | Board 확정→Combat 등록, Economy 변경→PC Snapshot | Blueprint에서 상태를 직접 수정하지 않음 |
 | 5 | Session Frontend → Automation | `LD.P0.G2.Commands` | 실제 서비스+Actor 계산 검사; UI/네트워크 검수와 별도 |
@@ -62,15 +62,15 @@ UE 자동화의 FGameplayFixture는 CreateWorld 뒤 `GEngine->CreateNewWorldCont
 | 다른 요청 확정 후 이전 준비 계획 | 마지막 검증 실패, 취소2회도 새 원본 보존 | Pass | RewardsAndPreparedRevision |
 | 인구20, 상대 ID 판매 | LimitReached / NotOwner, 양쪽 원본 불변 | Pass | PopulationOwnershipAndPreparedIsolation |
 | normal 중복, 보스30초/30초 초과 | 각 금화301·돌5, 중복 추가0 | Pass | RewardsAndPreparedRevision |
-| 실제 첫 소환→기본 공격→처치→보상 | 실제 RPC와 양쪽 화면 일치 | NotRun | root 통합 실행 대기 |
+| 실제 첫 소환→기본 공격→처치→보상 | 실제 RPC와 양쪽 화면 일치 | Pass | 별도 재현 GPU20단계, [최종 근거](evidence/G2-final-summary.json) |
 
-추가 독립 기대 검사 `b7696baaa97c4bf0200ef9cb25dfad2888836354`는 실제 Editor Pass 후 `G2-supplemental-commands`에서 12건 중11Pass/1Fail이었다. `PreparedIsolationAndIdReservation`의 Actor 전역 IsHidden/GetActorEnableCollision 기대 두 항목이 실패했다. 원인은 제품이 각 PrimitiveComponent에 Visibility=false·CollisionEnabled=NoCollision·GenerateOverlapEvents=false를 설정하는데 테스트가 Actor 전역 플래그를 요구한 것이다. 제품 코드를 바꾸지 않고 실제 Primitive가 하나 이상 존재하는지 확인한 뒤 모든 Primitive의 비표시·무충돌·Overlap 비활성을 검사하도록 수정한다. 비복제·미확정·취소 Destroy·실패/취소 후 첫 성공 ID1 검사는 유지한다. 이 수정의 UE 재실행은 아직 대기다. 나머지 신규 전체 뭉치 교환·등급 판매/전설 합성 거절·2보스 사망 각10회 중복·방어적 비P0 배치 거절 검사는 모두 무경고 Pass였다.
+추가 독립 기대 검사 `b7696baaa97c4bf0200ef9cb25dfad2888836354`는 실제 Editor Pass 후 `G2-supplemental-commands`에서 12건 중11Pass/1Fail이었다. `PreparedIsolationAndIdReservation`의 Actor 전역 IsHidden/GetActorEnableCollision 기대 두 항목이 실패했다. 원인은 제품이 각 PrimitiveComponent에 Visibility=false·CollisionEnabled=NoCollision·GenerateOverlapEvents=false를 설정하는데 테스트가 Actor 전역 플래그를 요구한 것이다. 제품 코드를 바꾸지 않고 실제 Primitive가 하나 이상 존재하는지 확인한 뒤 모든 Primitive의 비표시·무충돌·Overlap 비활성을 검사하도록 `ebdf6f4`에서 수정했다. 비복제·미확정·취소 Destroy·실패/취소 후 첫 성공 ID1 검사는 유지했다. 최종 새 수업 재현의 `Replay-G2-review-commands`에서12건 모두 무경고 Pass였다. 전체 뭉치 교환·등급 판매/전설 합성 거절·2보스 사망 각10회 중복·방어적 비P0 배치 거절도 포함한다.
 
 방어적 NoSpace 검사는 M01 비P0 결과를 공개 준비 API에 전달한 거절이다. 정상 P0에서18칸 점유는 종류별 여유 뭉치 최대1·16종 조건 때문에 가득 찬 뭉치 최소2개가 필요해 인구최소22가 되므로 인구20 상한 안에서 도달할 수 없다. 이를 실제 포화 보드 검수로 표시하지 않는다.
 
 ## 상대에게 전달하고 통합하기
 
-공통 헤더→A 준비 UnitActor→B 두 Service/Processor→A GameMode/Combat 연결→UI 순서로 통합한다. 전달 API는 `OnBoardCommitted`, `TryGetCommittedUnitActor`, `TryGetCellTransform`, `GetSnapshot`, `OnEconomyChanged`다. `GetRandomState`는 서버 검증용 읽기 조회이며 클라이언트 Snapshot/RPC에 넣지 않는다. B 독립 테스트에서는 실제 전투 처치 대신 명시적 서버 사망 값을 주입했으므로 A 처치 이벤트와 연결 후 다시 확인해야 한다. 완료 통합/실제 학습자 SHA는 아직 미생성이다.
+공통 헤더→A 준비 UnitActor→B 두 Service/Processor→A GameMode/Combat 연결→UI 순서로 통합한다. 전달 API는 `OnBoardCommitted`, `TryGetCommittedUnitActor`, `TryGetCellTransform`, `GetSnapshot`, `OnEconomyChanged`다. `GetRandomState`는 서버 검증용 읽기 조회이며 클라이언트 Snapshot/RPC에 넣지 않는다. 명시적 사망 값의 역할 검사 뒤 실제 A 처치 이벤트/전투 타이머와 연결해 새 두 프로세스에서 재검증했다. 완료 참고 소스는 위 ae6be1b이며 실제 학습자 SHA는 미생성이다. [공통 재현 절차](../evidence/G2_REPLAY/README.md)와 [정식 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md)의 파일 manifest·실행 도구를 사용한다.
 
 ## 이해 확인
 
@@ -83,6 +83,7 @@ UE 자동화의 FGameplayFixture는 CreateWorld 뒤 `GEngine->CreateNewWorldCont
 
 - [x] 제공/직접 작성 범위·원본·순서·독립 기대값을 기록했다.
 - [x] 실제 UE 명령 픽스처 결과를 소스 SHA와 연결했다.
-- [ ] 시작점에서 수업 순서대로 별도 조립 재현했다.
-- [ ] A 전투 타이머·실제 소유 RPC·패키지 UI와 재검증했다.
+- [x] 시작점에서 수업 순서대로 별도 조립 재현했다.
+- [x] A 전투 타이머·실제 소유 RPC·Editor-game UI와 재검증했다.
+- [ ] 최종 PC 패키지10웨이브·인위적 지연/유실·Android를 검수했다. 이는 G3/G4의 별도 진입 조건이다.
 - [x] 미검증과 다음 의존성을 구분했다.

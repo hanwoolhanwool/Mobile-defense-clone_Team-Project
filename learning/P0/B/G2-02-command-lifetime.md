@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-NET-01, [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [네트워크 16.2](../../../docs/technical/ARCHITECTURE.md) |
-| 참고 자료 제작 상태 | Draft — 원자 명령·세대 교체 UE 검사 통과, 후속 만료/UI 대기 검사 및 수업 재현 전 |
+| 참고 자료 제작 상태 | Verified — 별도 조립·실제 PC 도착순서·세대/만료·소유 RPC 재현 범위 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | 시작 `84389ce22205c8906592465be4d40e42434dda01` / 역할 최신 `f00f8fb27c514d9a44fddecaf624f7b378416662`, G2 완료 미정 |
+| 참고 시작/완료 SHA | 재현 시작 `4861b987f3e2fe78bcc159d1b6a85008543a938b` + G2-01 / 완료 `ae6be1b0b06ed733425e01632a341fb4db4cad59` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | G2-01 서비스, A GameMode/Combat의 명령 시각 이전 전투 처리 |
 | 제공 코드 / 직접 작성할 코드 | 제공: G0 요청 값·캐시 기반과 G2-01 서비스. 직접 작성: 실명령 공동 확정, 보상 큐, 콜백 세대 방어, 개인 Snapshot 도착 게이트 |
@@ -30,7 +30,7 @@
 8. 응답 미확정 시 1초 간격 세 번만 자동 재확인한다. 이후 HUD의 같은 버튼은 `응답 재확인`으로 바뀌며 기존 Pending만 다시 보낸다. 비용 환불·실패·새 소환으로 단정하지 않는다.
 9. `Tests/LDGameplayCommandTests.cpp`의 실제 게시 delegate에서 epoch를 바꿔 검증한다. 서버 캐시 만료 검사는 성공 요청 뒤 256개 후속 요청으로 실제 캐시를 축출하고 다음 보상 이후 Revision을 확인한다.
 
-후속 `ControllerResponseSnapshotOrders`는 실제 PC/PlayerState와 명시적 ULocalPlayer를 만들고 public API만 사용한다. 기존 응답 bucket의 시각을 앞으로 진행시켜 자동 응답을 보류한 뒤, 실제 서버 결과를 PC의 공개 client handler에 전달한다. 성공/만료 × 응답/스냅샷 선도착4조합, 둘 중 한 Revision만 도착, 새 epoch 세션/PlayerState/envelope의 순서를 검사한다. 렌더링 없는 fixture이므로 화면 선택 초기화는 실제 GPU 입력 검수에서 별도로 확인한다. `IsGameplaySnapshotReady`는 렌더링과 분리하여 ParticipantContext까지 검증하고, 사용자 intent와 HUD 생성은 `IsLocalBoardReady`도 요구한다. 제품에 테스트 전용 setter/분기는 추가하지 않는다. 이 추가 검사는 아직 실행 대기다.
+후속 `ControllerResponseSnapshotOrders`는 실제 PC/PlayerState와 명시적 ULocalPlayer를 만들고 public API만 사용한다. 기존 응답 bucket의 시각을 앞으로 진행시켜 자동 응답을 보류한 뒤, 실제 서버 결과를 PC의 공개 client handler에 전달한다. 성공/만료 × 응답/스냅샷 선도착4조합, 둘 중 한 Revision만 도착, 새 epoch 세션/PlayerState/envelope의 순서를 검사한다. 렌더링 없는 fixture이므로 이를 실제 네트워크 지연이나 화면 선택 초기화의 검증으로 표시하지 않는다. `IsGameplaySnapshotReady`는 렌더링과 분리하여 ParticipantContext까지 검증하고, 사용자 intent와 HUD 생성은 `IsLocalBoardReady`도 요구한다. 제품에 테스트 전용 setter/분기는 추가하지 않는다. 최종 별도 재현에서 이 검사를 포함한 명령12건이 무경고 Pass였다.
 
 ARCH-03/04: Processor는 Board/Economy의 명시 API만 조립하고 GameMode가 A와의 의존성을 연결한다. ARCH-05: callback 전에 캐시가 확정돼야 하며 세션 주소를 수명 보장으로 오해하지 않는다. ARCH-06: 실제 delegate 재진입 검사와 별도 프로세스 네트워크를 구분한다.
 
@@ -51,12 +51,14 @@ ARCH-03/04: Processor는 Board/Economy의 명시 API만 조립하고 GameMode가
 |---|---|---|
 | SubmitAtTime 처리 중 같은 키 다른 내용 | Busy가 아닌 Conflict. 원요청 내용 보존; `c20c209a4ef40a2e44702ebf8801401553030a66` | 이후 명령 5개 Pass |
 | 보드 게시 delegate에서 epoch1→2 교체 | 기존 Session 포인터로 epoch1 결과가 새 캐시에 들어갈 수 있음. 문맥 값 복사·게시 전 캐시·콜백 후 재조회; `892f3334965f4e2071cefd458ae2da9c8f21b1ac` | EpochReplacementDuringPublication Pass: 새epoch 요청1이 두 번째 구매, 잔액58 |
-| old Snapshot이 남은 상태에서 epoch OnRep | Match/Player만 같으면 UI가 너무 일찍 열림. envelopeepoch 대조; `22f31513f0e0b836200f2b161847e15e37410075` | 독립 정적 리뷰 해소, 실제 도착순서 검사 대기 |
-| 마지막 전투10.0, 공격due10.025, 판매10.04 | 앞선 공격이 판매로 사라짐. strict-before hook `16ad92fa073d4bb7b5c8f4fc68fa11257a090f88`, A 정확 시각 처리와 결합 | A 통합 수정/실행 대기 |
-| 캐시에서 요청1 축출 뒤 재조회 | 응답 Revision0과 즉시 UI 해제는 최신 상태를 보장 못함. 두 Revision 포함·동기화 후 재선택; `f00f8fb27c514d9a44fddecaf624f7b378416662` | 새 서버 회귀 추가, 실행 대기; 지연 Snapshot PC 검수 별도 |
-| 응답 세 번 재시도 후 여전히 미확정 | UI가 영구 잠긴 채 끝나지 않도록 같은 Pending 수동 재확인; `64acff687b7b31ca39abb69bc99819016cacc75c` | 실제 UI 검수 대기 |
+| old Snapshot이 남은 상태에서 epoch OnRep | Match/Player만 같으면 UI가 너무 일찍 열림. envelopeepoch 대조; `22f31513f0e0b836200f2b161847e15e37410075` | 독립 리뷰 해소, 최종 실제 PC handler 도착순서 검사 Pass |
+| 마지막 전투10.0, 공격due10.025, 판매10.04 | 앞선 공격이 판매로 사라짐. strict-before hook `16ad92fa073d4bb7b5c8f4fc68fa11257a090f88`, A 정확 시각 처리와 결합 | A 실제 GameMode/PC 시각 경계 검사와 재현 전체 자동화 Pass |
+| 캐시에서 요청1 축출 뒤 재조회 | 응답 Revision0과 즉시 UI 해제는 최신 상태를 보장 못함. 두 Revision 포함·동기화 후 재선택; `f00f8fb27c514d9a44fddecaf624f7b378416662` | 서버 회귀·실제 PC handler 역순 Pass; 인위적 지연 패킷/화면 재선택은 별도 |
+| 응답 세 번 재시도 후 여전히 미확정 | UI가 영구 잠긴 채 끝나지 않도록 같은 Pending 수동 재확인; `64acff687b7b31ca39abb69bc99819016cacc75c` | 재전송의 서버 단일 처리 Pass; 실제 응답 장기유실 환경은 미검증 |
 
-초기 근거는 [통합5개 명령 검사](evidence/G2-initial/commands-summary.json)다. 후속 통합 `cb6c631`의 [실제 UE 검사](evidence/G2-initial/commands-final-review-summary.json)는 전체37성공(34무경고+3경고)/0Fail/0NotRun이며 명령6건에 새 ExpiredRequiresCurrentRevisions를 포함한다. harness의 succeededWithWarnings 누락을 원본 report로 정정했다. 서버 만료 회귀는 이 후속 실행에서 Pass로 갱신한다. 이후 B 역할 Editor25.06초 Pass와 [명령7개 결과](evidence/G2-initial/role-b-commands-summary.json)는 ControllerResponseSnapshotOrders도 성공했다. 역할 결과는3무경고+4경고이며, Actor 정리 WorldContext 누락과 역할 트리의 제공 실패음 미수신을 수정 후 재검증해야 한다. 렌더링 없는 PC handler 검사이므로 사용자 입력·소리·네트워크 패킷을 보증하지 않는다. PIE, 응답 유실, logout/반복 매치의 새 결합 검수는 미실행이다.
+초기 근거는 [통합5개 명령 검사](evidence/G2-initial/commands-summary.json)다. 후속 통합 `cb6c631`의 [실제 UE 검사](evidence/G2-initial/commands-final-review-summary.json)는 전체37성공(34무경고+3경고)/0Fail/0NotRun이며 명령6건에 새 ExpiredRequiresCurrentRevisions를 포함한다. harness의 succeededWithWarnings 누락을 원본 report로 정정했다. 서버 만료 회귀는 이 후속 실행에서 Pass로 갱신한다. 이후 B 역할 Editor25.06초 Pass와 [명령7개 결과](evidence/G2-initial/role-b-commands-summary.json)는 ControllerResponseSnapshotOrders도 성공했다. 역할 결과는3무경고+4경고이며, 당시 Actor 정리 WorldContext 누락과 역할 트리의 제공 실패음 미수신 때문에 후속 재검증이 필요했다. 렌더링 없는 PC handler 검사이므로 사용자 입력·소리·네트워크 패킷을 보증하지 않는다. PIE, 응답 유실, logout/반복 매치의 새 결합 검수는 미실행이다.
+
+최종 판정은 위 초기 경고 실행을 대체한 [별도 재현 결과](evidence/G2-final-summary.json)다. G1에서56파일을 조립해 전체39무경고 Pass, 준비 Primitive 의미 검사 보완 후 명령12무경고 Pass를 확인했다. 실제 GPU 두 프로세스20단계 host213/client57에서 소유 RPC·개인 상태와 양쪽 보드 일치·실패/재전송의 단일 처리를 재검증했다. 완료 요청을 이미 받은 클라이언트는 불필요한 재응답을 무시하므로 원응답/Conflict는 서버 API 직접 검사 범위로 기록한다. [공통 재현 절차](../evidence/G2_REPLAY/README.md), [정식 검수](../../../docs/production/evidence/RUN-20260918-G2/SUMMARY.md)를 사용하며 인위적 지연/유실·최종 패키지 반복 매치는 G3 검수로 남긴다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -67,12 +69,13 @@ G2-01→c20→892→clock hook→envelope/UI→f00 순서의 변경을 통합한
 - 같은 요청번호가 왜 다른 연결 세대에서는 새 요청일 수 있는가?
 - delegate 이전에 저장한 TMap 내부 포인터를 이후에 사용하면 어떤 일이 생길 수 있는가?
 - 작은 변형: 게시 콜백에서 epoch를 교체하는 대신 연결을 제거하고 원본 비용/생성 수가 여전히 한 번인지 확인한다.
-- 다음 조건: A strict-before 시간 경계 검사, 서버 만료 회귀, 실제 PC snapshot 도착순서와 지연/중복 RPC 통과가 필요하다.
+- 다음 조건: 수업의 시간 경계·서버 만료·PC handler 도착순서는 통과했다. G3의 패키지2인·인위적 지연/유실·반복 매치로 확장해 검수한다.
 
 ## 단계 완료
 
 - [x] 단일 원본·콜백 수명·실패 원인/수정 SHA를 연결했다.
 - [x] 세대 교체의 실제 UE delegate 경로를 확인했다.
-- [ ] 최신 수정과 실제 네트워크 지연·응답 유실을 재검증했다.
-- [ ] 수업 시작점 조립 재현을 완료했다.
+- [x] 최신 수정과 실제 소유 RPC·서버 재전송 단일 처리를 재검증했다.
+- [x] 수업 시작점 조립 재현을 완료했다.
+- [ ] 인위적 네트워크 지연·응답 장기유실·패키지 반복 매치를 검수했다. G3의 별도 범위다.
 - [x] 정적 리뷰·자동화·실게임 미검증을 구분했다.
