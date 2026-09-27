@@ -47,6 +47,7 @@ private:
 	friend class FLDP0OpenFrameBoundaryTest;
 	friend class FLDWaveModeBoundaryTest;
 	friend class FLDWaveReadinessTest;
+	friend struct FLDWaveTestAccess;
 #endif
 	void RefreshReadiness();
 	void RegisterPendingParticipants();

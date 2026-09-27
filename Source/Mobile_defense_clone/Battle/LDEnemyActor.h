@@ -51,6 +51,8 @@ struct MOBILE_DEFENSE_CLONE_API FLDEnemyCombatSnapshot
 	UPROPERTY()
 	double SpawnedServerSeconds = 0;
 	UPROPERTY()
+	double DeathServerSeconds = 0;
+	UPROPERTY()
 	double MaxHP = 0;
 	UPROPERTY()
 	double HP = 0;

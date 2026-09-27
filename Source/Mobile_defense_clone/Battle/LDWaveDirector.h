@@ -40,6 +40,7 @@ private:
 	friend class FLDWaveTerminalTruthTest;
 	friend class FLDWaveFailureTest;
 	friend class FLDWaveModeBoundaryTest;
+	friend struct FLDWaveTestAccess;
 #endif
 	bool BeginWave(int32 WaveIndex, double ServerSeconds);
 	bool SpawnEnemy(int32 RouteIndex, const FLDWaveRow& Wave, double ServerSeconds);
