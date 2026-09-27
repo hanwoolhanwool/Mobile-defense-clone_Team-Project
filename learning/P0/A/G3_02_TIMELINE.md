@@ -6,7 +6,7 @@
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01 / [사건 순서](../../../docs/design/BATTLE.md), [공통 종료 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
 | 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작 / 현재 A Source SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `0d358bc5af920166bc517431848700d8c9c6a98f` — 수업 조립 재현 완료 아님 |
+| 참고 시작 / A 담당 기능 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `0d358bc5af920166bc517431848700d8c9c6a98f` — 최종 통합66파일·실행 입력은 [공통 증거](G3_EVIDENCE.md) |
 | 실제 개발 시작 / 완료 SHA | 자기 G2 통합 결과 / 미생성 |
 | 상대 산출물 | G3-A-01 Director, B Processor.AfterExternalCommandClock `8405a93` 및 자기해제 보호 `c697c91` |
 | 제공 / 직접 작성 | 제공: G2 매치·실제 서비스. 직접 작성: Core/LDGameMode.*, LDGameState.* 및 Tests/LDWaveTests.cpp |
@@ -55,7 +55,9 @@
 
 설계 중 발견한 실패 경로는 `BeforeExternalCommand` 안에서 terminal→Close하면 bProcessing 때문에 Drain이 무효이고 Close가 남은 보상을 지운다는 점이다. B 후단 delegate를 추가하여 해결했으며, 최종 보스 보상이 Result observer에 먼저 보이는 검사를 넣었다. 이는 코드 검토로 찾은 위험이며 실제 실패 로그가 발생한 것으로 쓰지 않는다. 실행 실패·수정은 [공통 증거](G3_EVIDENCE.md)에 이어 기록한다.
 
-최신 통합 `e4a02a4`에서 전체56개가 무경고 Pass했다. 준비 대기 회귀의 최초 코드는 private `AdvanceLogic` 직접 호출로 C2248 컴파일 실패했다. `0d358bc`는 public TimerManager.Tick으로 등록된 실제 delegate를 구동하고 프레임 식별자와 프로브 옵션을 scope 종료 시 복원한다. 이 결과는 NullRHI이며, 준비 분기의 수정 후2프로세스 smoke/최종 패키지 결과를 대체하지 않는다.
+초기 통합 `e4a02a4`에서 전체56개가 무경고 Pass했다. 준비 대기 회귀의 최초 코드는 private `AdvanceLogic` 직접 호출로 C2248 컴파일 실패했다. `0d358bc`는 public TimerManager.Tick으로 등록된 실제 delegate를 구동하고 프레임 식별자와 프로브 옵션을 scope 종료 시 복원한다. 후속 새 조립56종·B 최종 전체57종, 새 조립 PIE, 준비 분기의2프로세스 smoke와 최종 패키지는 [공통 증거](G3_EVIDENCE.md)에 실행 층을 나누어 기록했다.
+
+이번 수업의 패키지 관찰은5개의 다른 MatchId·각4회 결과 복귀, Result 뒤 원래 명령 응답 재전달, 지연/손실 해제 후 최종 상태 일치다. 자연5판은 모두 보스 시간초과 패배이므로 정확 D/D+.001의 모든 경계나 승리 조건8조합을 패키지에서 모두 유발한 것으로 기록하지 않는다. 그 독립 경계는 위 실제 서비스 조립 자동화가 검증한다.20분 대표 부하는 진행 중이다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -71,6 +73,6 @@ B는 공용 snapshot 조회·두 위젯 수명·복귀를 연결한다. Processo
 ## 단계 완료
 
 - [x] 사건 순서·상태 원본·호출 경계·타이머/구독 정리를 기록했다.
-- [ ] Editor·필수 자동화·수업 조립 재현을 통과했다.
-- [ ] 실제 PC 패키지·PIE·지연망·반복 매치에서 같은 계약을 확인했다.
+- [x] Editor·필수 자동화·수업 조립 재현을 통과했다. 전체57종은 B 역할, 새 재현은56종+후속 Entry3종이다.
+- [x] 실제 PC 패키지·PIE·지연망·반복 매치에서 위 관찰 범위를 확인했다. 경계 fixture와 자연 패배 실행은 구분한다.
 - [ ] 독립 리뷰 차단0 및 정식 G3 검수 후 다음 게이트에 진입한다. Android는 별도 G4다.
