@@ -51,3 +51,11 @@ A는 자기 worktree의 허용 Source/학습 문서만 편집했다. 에디터·
 
 - 통합0ae913c Editor48.96초 Pass. 전체 LD.P0 52종 중51개 무경고Pass, VictoryRequiresAllThreeConditions 1개Fail. 원본 로그는 통합 Saved/P0Runs/G3-integration-automation-initial에 보존했다.
 - 실패는 fixture가 시간70.1까지만 진행한 뒤 실제 Enemy.TryApplyDamage에 미래 사망시각71을 직접 넣고, 이후 밀린70.1 격자를 처리한 조건이다. 제품에서는 Combat가 각 격자까지의 타격만 확정하여 이런 미래 보고를 만들지 않는다. 하지만 EvaluateVictory의 min(격자,사망시각)은 그 입력을 조용히70.1로 소급했다. 미래 확정 시각은 아직 판정하지 않고 정확한 LastDeathServerSeconds에서 승리를 확정하도록 보완했다. 기대71은 유지하고 재검수 대기다.
+## 추가 전달·미검증 범위
+
+- `b88506d`: N100 공개 알림 전에 새 명령 접수를 닫는다. 같은 알림 observer가 실제 PC구매를 시도해 PhaseNotAllowed를 받는 회귀를 추가했다. 수량 상태는 Result 전 별도로 보이며 결과 후보를 취소할 수 없다.
+- `bc99d37`: nonShipping의 명시적 `-P0Probe=G3Load`만 기존 G2 combat-only 분기에 넣었다. 부하 고정 fixture이며 정상10웨이브/밸런스 실행이 아니다.
+- `baa4be6` + `2fbe86a`: 위 미래 사망 fixture의 결과 시각을 당기지 않는다. 마지막 사망 시각보다 이른 격자에서는 승리를 아직 판정하지 않고 실제 사망 시각을 그대로 사용한다.
+- `27c2875`: `LD.PIE.P0.Session` 별도 필터의 실제 GPU Editor PIE 검사를 작성했다. `FStartPIEForAutomationCommand`가 listen/client2개의 실제 EWorldType::PIE World를 시작한다. 양쪽 소유 PC의 Preparing 소환/실제 RPC/골드80/인구1→10초 뒤 Running→양쪽 Slate 창 PNG→명시적 Abort 복제→FEndPlayMap→PIE World0을 검사한다. 이 필터는 NullRHI `LD.P0`에 포함되지 않는다. TimeSeconds나 PIE World를 임의 생성하지 않는다. 아직 실행 미검수다.
+- PIE 설정은 복제한 ULevelEditorPlaySettings로 시작하고 원본 config property 전체를 보관한다. 로컬 UE5.8 PlayLevel.cpp의 PIE 종료가 CDO 창 위치를 저장하므로 검사 종료 뒤 원래 config 값을 복원하고 동일성을 확인한다. 기존 PIE 세션이나 같은 증거 RunId가 있으면 대체/덮어쓰기하지 않고 실패한다. Editor-only UnrealEd 모듈 연결은 통합 담당자 소유다.
+- `001b78f`: 엔진 CsvProfiler의 LDP0/Combat, LDP0/Timeline CPU 범위를 추가했다. Timeline에는 Combat이 포함되므로 둘을 더하지 않는다. CSV 값은 프레임별 합계이며20Hz 개별 스텝 p95와 같은 지표가 아니다. 수집 오버헤드·FPS/VSync·대표 부하/측정 구간은 통합 실측에서 기록한다. 아직 성능 수치나 목표 통과를 보고할 근거가 없다.
