@@ -1,0 +1,91 @@
+{
+  "Result": "Pass",
+  "Source": "53af3993b49234b4f78b0c0213c4f3ed5041f7be",
+  "Succeeded": 1,
+  "SucceededWithWarnings": 0,
+  "Failed": 0,
+  "SettingsRestored": true,
+  "EventObserverRestored": true,
+  "Terminal": {
+    "scope": "Actual GPU PIE; Aborted Result/Status removal and normal Controller-tick recreation; Engine InputKey/InputTouch and public intent APIs; no physical input or Entry travel",
+    "expectedVisibleResultsPerOwner": 1,
+    "expectedVisibleStatusesPerOwner": 1,
+    "expectedReturnOwnerBindings": 1,
+    "expectedNewServerRequests": 0,
+    "expectedStateChange": "none: board/economy/battle/cache/RNG",
+    "gcKeepPolicy": "GARBAGE_COLLECTION_KEEPFLAGS: Editor RF_Standalone",
+    "views": [
+      {
+        "role": "host",
+        "visibleResults": 1,
+        "visibleStatuses": 1,
+        "ownerReturnBindings": 1,
+        "oldResult": "LDResultWidget_0",
+        "newResult": "LDResultWidget_1",
+        "oldStatus": "LDBattleStatusWidget_0",
+        "newStatus": "LDBattleStatusWidget_1",
+        "resultText": "매치 종료\n\n필수 데이터 또는 게임 초기화 실패\n\nWAVE 1 / 10",
+        "statusText": "WAVE 1 / 10\n00:00\n전투 종료\n일반 적 2 / 100",
+        "oldReturnUnbound": true
+      },
+      {
+        "role": "client",
+        "visibleResults": 1,
+        "visibleStatuses": 1,
+        "ownerReturnBindings": 1,
+        "oldResult": "LDResultWidget_0",
+        "newResult": "LDResultWidget_1",
+        "oldStatus": "LDBattleStatusWidget_1",
+        "newStatus": "LDBattleStatusWidget_2",
+        "resultText": "매치 종료\n\n필수 데이터 또는 게임 초기화 실패\n\nWAVE 1 / 10",
+        "statusText": "WAVE 1 / 10\n00:00\n전투 종료\n일반 적 2 / 100",
+        "oldReturnUnbound": true
+      }
+    ],
+    "stateBeforeAfter": [
+      {
+        "role": "host",
+        "matchId": "DDA702B54A1EF5FF17B58E9EC8247195",
+        "battleRevisionBefore": 9,
+        "battleRevisionAfter": 9,
+        "boardRevisionBefore": 1,
+        "boardRevisionAfter": 1,
+        "economyRevisionBefore": 1,
+        "economyRevisionAfter": 1,
+        "goldBefore": 80,
+        "goldAfter": 80,
+        "cachedResultsBefore": 1,
+        "cachedResultsAfter": 1,
+        "randomStateBefore": 403227650,
+        "randomStateAfter": 403227650,
+        "lastRequestIdBefore": 1,
+        "lastRequestIdAfter": 1,
+        "touchReleasedAtDestination": true
+      },
+      {
+        "role": "client",
+        "matchId": "DDA702B54A1EF5FF17B58E9EC8247195",
+        "battleRevisionBefore": 9,
+        "battleRevisionAfter": 9,
+        "boardRevisionBefore": 1,
+        "boardRevisionAfter": 1,
+        "economyRevisionBefore": 1,
+        "economyRevisionAfter": 1,
+        "goldBefore": 80,
+        "goldAfter": 80,
+        "cachedResultsBefore": 1,
+        "cachedResultsAfter": 1,
+        "randomStateBefore": -1950403797,
+        "randomStateAfter": -1950403797,
+        "lastRequestIdBefore": 1,
+        "lastRequestIdAfter": 1,
+        "touchReleasedAtDestination": true
+      }
+    ],
+    "allFourOldWidgetsCollected": true,
+    "sourceMapRetainedAfterGC": true,
+    "actualTerminalServerRequests": 0,
+    "logicTimerActive": false,
+    "passedBeforeEditorShutdown": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "CheckedAt": "2026-09-28T00:01:16.6834000+09:00",
+  "EngineAndroidBinaries": "C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Android",
+  "EngineAndroidInstalled": false,
+  "ADB": "C:/Users/iam12/AppData/Local/Android/Sdk/platform-tools/adb.exe",
+  "Devices": [
+    "List of devices attached",
+    ""
+  ]
+}

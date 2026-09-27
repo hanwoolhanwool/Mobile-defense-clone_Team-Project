@@ -11,6 +11,10 @@
 
 PIE에서 양쪽546×720 화면의 WAVE1/20초/일반2와 gold80/pop1, 자기 보드 아래를 직접 확인했다. [host](host-running.png) · [client](client-running.png). 창 테두리를 포함한 실제 크기이며 요청한540×1170 그대로라고 기록하지 않는다.
 
-최종 패키지·반복 자연 규칙 플레이·지연/회복·20분 부하·Android는 아직 이 파일의 Pass 범위에 포함하지 않는다. 전체 로그/PNG는 재현 폴더 Saved/P0Runs/Replay-G3-*에 보존한다. 과거 패키징 실패 로그는 `Replay-G3-package`, 수정 후 새 시도는 `Replay-G3-package-fix1`이다.
+위 초기 단계의 Pass는 당시 패키지·반복 자연 규칙 플레이·지연/회복·20분 부하·Android를 포함하지 않았다. 전체 로그/PNG는 재현 폴더 Saved/P0Runs/Replay-G3-*에 보존한다. 과거 패키징 실패 로그는 `Replay-G3-package`, 수정 후 첫 빌드 시도는 `Replay-G3-package-fix1`이다. 이후 실제 결과는 아래에 별도로 연결한다.
 
 후속 cooked 실행에서 Entry의 임시 스타일 수명과 효과음 cook 누락을 실제 발견했다. [Entry 수정](entry-style-amendment.json) 후 [66파일 대조](entry-fixed-inputs.json), [Editor](entry-fixed-editor.json) 및 [관련3자동화](entry-fixed-automation.json) Pass. [효과음 cook 수정](audio-cook-amendment.json)까지 포함한 최종 입력은 `98727f04e7c563a854a103ad26152cff5ed652a6`이며 [정식66파일 manifest](../../../../docs/production/evidence/RUN-20260918-G3/package-final-inputs.json)와 [패키지 빌드](../../../../docs/production/evidence/RUN-20260918-G3/package-audio-fixed-build.json)에 연결한다. 기존 입력·실패 JSON은 덮어쓰지 않았다. C++는0e473f4의 B 전체57무경고 검수와 동일하며, 이 재현 폴더는56개 전체 검사 뒤 변경된 Entry3개를 별도로 실행했다.
+
+이 패키지의 [5시드2인](../../../../docs/production/evidence/RUN-20260918-G3/package-five-seeds-summary.json), [300ms/3% 손실 후 회복](../../../../docs/production/evidence/RUN-20260918-G3/package-recovery-summary.json), 실제 중복/종료 RPC와 양쪽 화면은 [정식 검수 요약](../../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md)에 모았다. 학습자는 Planned이며 자연 규칙의 자동 플레이를 학습자의 직접 플레이로 기록하지 않는다.20분 부하와 G4는 각각 별도 판정한다.
+
+후처리 검사 보강 후 [최종66파일 대조](audited-final-inputs.json)의 SourceSha는 `0981d07307112857dfdf0e91c79bcecdbcbc291b`다. 패키징 이후 바뀐 것은 `Test-P0G3Evidence.ps1`과 `Analyze-P0Load.py` 두 읽기 분석 도구뿐이며 런타임 C++·데이터·맵·Config는 위 패키지와 같다. 강화한 RPC 검사는 실제 두 run에서 통과했고 종료 후 응답을 제거한 로그 사본을 실패로 판정했다. Source0981의 새 조립 사전검사도50변경경로/66명시파일을 확인했으며 새 디렉터리를 만들지 않았다.

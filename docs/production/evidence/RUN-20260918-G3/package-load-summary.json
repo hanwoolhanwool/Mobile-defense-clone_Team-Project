@@ -1,0 +1,320 @@
+{
+  "Result": "Pass",
+  "Scope": "Explicit Development 40 units + 99 normals + 2 bosses workload, then 2000 lifecycles. Not natural-play or balance evidence.",
+  "RunRoot": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-load-20m",
+  "RuntimeSource": "98727f04e7c563a854a103ad26152cff5ed652a6",
+  "CppSource": "0e473f4af380506d209a95f7ec42eccf89c69df4",
+  "AnalysisToolSource": "0981d07307112857dfdf0e91c79bcecdbcbc291b",
+  "ExecutableSHA256": "4339F4E3C166D244DC77D780C4E26FBC423E30E7BDB0923C1E39628F5B2B6B54",
+  "WarmupSeconds": 20,
+  "Resolution": [
+    540,
+    1170
+  ],
+  "FPSLimit": 60,
+  "VSync": 0,
+  "Roles": [
+    {
+      "Role": "host",
+      "Result": "Pass",
+      "Checks": 69,
+      "Failed": 0,
+      "SustainSeconds": 1224.0154895501282,
+      "MeasurementSpanSeconds": 1204.0104,
+      "MeasuredFrames": 72183,
+      "MinimumUnits": 40,
+      "MinimumNormals": 99,
+      "MinimumBosses": 2,
+      "IntegritySamples": 1218,
+      "NaturalDeaths": 2000,
+      "FallbackDamageDeaths": 0,
+      "Batches": 25,
+      "ObservedEnemies": 2101,
+      "ObservedUnits": 40,
+      "AttackingUnitTypes": 16,
+      "CsvWritten": true,
+      "Metrics": {
+        "FrameTime": {
+          "n": 72183,
+          "mean": 16.680211088483436,
+          "p95NearestRank": 16.6813,
+          "max": 76.3204,
+          "min": 16.0598,
+          "invalidOrUnavailableCells": 0
+        },
+        "GameThreadTime": {
+          "n": 72183,
+          "mean": 2.438283347879695,
+          "p95NearestRank": 3.5901,
+          "max": 13.942,
+          "min": 1.2887,
+          "invalidOrUnavailableCells": 0
+        },
+        "RenderThreadTime": {
+          "n": 72183,
+          "mean": 2.306012964271366,
+          "p95NearestRank": 2.9676,
+          "max": 89.5366,
+          "min": 1.3424,
+          "invalidOrUnavailableCells": 0
+        },
+        "GPUTime": {
+          "n": 72183,
+          "mean": 2.208417919731793,
+          "p95NearestRank": 3.6328,
+          "max": 32.5807,
+          "min": 1.177,
+          "invalidOrUnavailableCells": 0
+        },
+        "LDP0/GameThread/Combat": {
+          "n": 72183,
+          "mean": 0.23138900987767205,
+          "p95NearestRank": 0.859,
+          "max": 2.5922,
+          "min": 0.0,
+          "invalidOrUnavailableCells": 0
+        },
+        "LDP0/GameThread/Timeline": {
+          "n": 72183,
+          "mean": 0.23192200795201087,
+          "p95NearestRank": 0.8607,
+          "max": 2.5957,
+          "min": 0.0,
+          "invalidOrUnavailableCells": 0
+        },
+        "LDG3Load/GameThread/ProbeTick": {
+          "n": 72183,
+          "mean": 0.04769884737403544,
+          "p95NearestRank": 0.0535,
+          "max": 6.1221,
+          "min": 0.0178,
+          "invalidOrUnavailableCells": 0
+        }
+      },
+      "MissingMetrics": [],
+      "Network": {
+        "missingColumns": [],
+        "validIntervals": 1198,
+        "validSeconds": 1203.92769,
+        "excludedIntervals": {
+          "missingOrNegativeCounter": 0,
+          "counterDecrease": 0,
+          "nonpositiveTime": 0
+        },
+        "deltas": {
+          "inTotalBytes": 2752240,
+          "outTotalBytes": 52633425,
+          "inTotalPackets": 68806,
+          "outTotalPackets": 99976,
+          "inTotalPacketsLost": 0,
+          "outTotalPacketsLost": 0
+        },
+        "limits": [
+          "Lifetime-counter differences; rates are total delta / valid elapsed seconds.",
+          "Zero-traffic intervals count toward time; -1 and reset/wrap intervals do not.",
+          "Exclusion counters count rejected pairs or invalid-counter samples; gaps are not bridged.",
+          "One continuous connection is assumed: CSV contains no connection identity."
+        ],
+        "available": true,
+        "inBytesPerSecond": 2286.050917227429,
+        "outBytesPerSecond": 43718.094896546485
+      },
+      "PostGcTrend": {
+        "expectedBatches": 25,
+        "observedBatches": 25,
+        "missingBatchIds": [],
+        "duplicateBatchIds": [],
+        "recentBatchIds": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ],
+        "recentRssBytes": {
+          "n": 10,
+          "mean": 1135828582.4,
+          "p95NearestRank": 1136373760,
+          "max": 1136373760,
+          "min": 1135394816
+        },
+        "recentSlopeBytesPerBatch": 41332.36363636364,
+        "recentSlopeBytesPerSecond": 10205.286443486277,
+        "leakAssessment": "Deferred: working-set slope alone cannot prove or disprove a leak.",
+        "limits": "Only explicit batch-1..25-after-gc labels count; batch 0 is sustain teardown.",
+        "recentWindowComplete": true
+      },
+      "FinalRssBytes": 1134948352,
+      "PeakRssBytes": 1162510336
+    },
+    {
+      "Role": "client",
+      "Result": "Pass",
+      "Checks": 33,
+      "Failed": 0,
+      "SustainSeconds": 1224.005218608867,
+      "MeasurementSpanSeconds": 1204.0042,
+      "MeasuredFrames": 72185,
+      "MinimumUnits": 40,
+      "MinimumNormals": 99,
+      "MinimumBosses": 2,
+      "IntegritySamples": 1217,
+      "NaturalDeaths": 0,
+      "FallbackDamageDeaths": 0,
+      "Batches": 0,
+      "ObservedEnemies": 2101,
+      "ObservedUnits": 40,
+      "AttackingUnitTypes": 0,
+      "CsvWritten": true,
+      "Metrics": {
+        "FrameTime": {
+          "n": 72185,
+          "mean": 16.679655857865207,
+          "p95NearestRank": 16.6758,
+          "max": 57.079,
+          "min": 15.4808,
+          "invalidOrUnavailableCells": 0
+        },
+        "GameThreadTime": {
+          "n": 72185,
+          "mean": 2.104131416499273,
+          "p95NearestRank": 2.9362,
+          "max": 13.0817,
+          "min": 1.095,
+          "invalidOrUnavailableCells": 0
+        },
+        "RenderThreadTime": {
+          "n": 72185,
+          "mean": 2.3498172667451684,
+          "p95NearestRank": 2.996,
+          "max": 56.0684,
+          "min": 1.483,
+          "invalidOrUnavailableCells": 0
+        },
+        "GPUTime": {
+          "n": 72185,
+          "mean": 2.2571274378333452,
+          "p95NearestRank": 3.6883,
+          "max": 33.7994,
+          "min": 1.1855,
+          "invalidOrUnavailableCells": 0
+        },
+        "LDP0/GameThread/Combat": {
+          "n": 0,
+          "mean": null,
+          "p95NearestRank": null,
+          "max": null,
+          "min": null,
+          "invalidOrUnavailableCells": 0
+        },
+        "LDP0/GameThread/Timeline": {
+          "n": 0,
+          "mean": null,
+          "p95NearestRank": null,
+          "max": null,
+          "min": null,
+          "invalidOrUnavailableCells": 0
+        },
+        "LDG3Load/GameThread/ProbeTick": {
+          "n": 72185,
+          "mean": 0.050966369744406735,
+          "p95NearestRank": 0.0581,
+          "max": 2.9217,
+          "min": 0.0217,
+          "invalidOrUnavailableCells": 0
+        }
+      },
+      "MissingMetrics": [
+        "LDP0/GameThread/Combat",
+        "LDP0/GameThread/Timeline"
+      ],
+      "Network": {
+        "missingColumns": [],
+        "validIntervals": 1196,
+        "validSeconds": 1203.1533689999999,
+        "excludedIntervals": {
+          "missingOrNegativeCounter": 0,
+          "counterDecrease": 0,
+          "nonpositiveTime": 0
+        },
+        "deltas": {
+          "inTotalBytes": 52597633,
+          "outTotalBytes": 2750480,
+          "inTotalPackets": 99911,
+          "outTotalPackets": 68762,
+          "inTotalPacketsLost": 0,
+          "outTotalPacketsLost": 0
+        },
+        "limits": [
+          "Lifetime-counter differences; rates are total delta / valid elapsed seconds.",
+          "Zero-traffic intervals count toward time; -1 and reset/wrap intervals do not.",
+          "Exclusion counters count rejected pairs or invalid-counter samples; gaps are not bridged.",
+          "One continuous connection is assumed: CSV contains no connection identity."
+        ],
+        "available": true,
+        "inBytesPerSecond": 43716.48233318458,
+        "outBytesPerSecond": 2286.0593427802637
+      },
+      "PostGcTrend": {
+        "expectedBatches": 25,
+        "observedBatches": 0,
+        "missingBatchIds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ],
+        "duplicateBatchIds": [],
+        "recentBatchIds": [],
+        "recentRssBytes": {
+          "n": 0,
+          "mean": null,
+          "p95NearestRank": null,
+          "max": null,
+          "min": null
+        },
+        "recentSlopeBytesPerBatch": null,
+        "recentSlopeBytesPerSecond": null,
+        "leakAssessment": "Deferred: working-set slope alone cannot prove or disprove a leak.",
+        "limits": "Only explicit batch-1..25-after-gc labels count; batch 0 is sustain teardown.",
+        "recentWindowComplete": false
+      },
+      "FinalRssBytes": 1119559680,
+      "PeakRssBytes": 1141510144
+    }
+  ],
+  "Interpretation": [
+    "Explicit 40 units + 99 normals + 2 bosses fixture, free Board setup, very high enemy HP and held deadline; no balance or natural-wave conclusion.",
+    "Client does not execute authoritative Combat/Timeline; absent metric columns mean unavailable, not measured zero.",
+    "Combat/Timeline are nested per-frame totals, not independent individual-step timings.",
+    "Host last ten post-GC samples span under 1 MiB with a small positive regression slope; no universal no-leak assertion. Client intermediate post-GC slope is unavailable.",
+    "Isolated maximum frame/render spikes remain unattributed; no sustained Combat bottleneck was observed, so speculative optimization was not added.",
+    "Same Windows PC, two Development processes, offscreen rendering, 60 FPS cap; Android performance and thermal behavior unmeasured."
+  ]
+}

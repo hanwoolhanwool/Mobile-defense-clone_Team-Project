@@ -33,10 +33,10 @@
 | 구분 | 결과 | 증거 / 남은 의존성 |
 |---|---|---|
 | 출발 문서·데이터·스타일 | Pass | 원본 Saved/P0Runs/20260918-start/check-project.log; 문서6601 checks. 게임 실행 증거 아님 |
-| G0 | Pass | A/B/통합 Editor Pass, A4/B4/통합12 자동화 Pass. 초기화·종료 2건 a02efc1 수정·재리뷰 완료. 실제 RPC/PIE는 G1~G3 검수 |
+| G0 | Pass | A4/B4/통합12 자동화와 각 Editor Pass. 후속 독립 A·누락A·B·canonical 실제 GPU PIE4종 Pass; native 수업 Verified. [직렬 실행](evidence/RUN-20260918-G0/native-replay-queue.json), [학습 재현](../../learning/P0/evidence/G0_REPLAY/SUMMARY.md) |
 | G1 | Pass | 소스 df8a2f2. 새 G0 재현 Editor·22자동화·실제2프로세스7화면비·전체 셀·2바퀴 Pass. 카메라/표시/검사기 실패 수정·리뷰 완료 |
 | G2 | Pass | 시작4861b987→제품5baa960/검사포함ae6be1b. 새56파일 조립·Editor·39+보충12 무경고Pass(44종); 실제GPU20단계 host213/client57 Pass. 독립 리뷰 차단0; [증거](evidence/RUN-20260918-G2/SUMMARY.md) |
-| G3 | InProgress | 2026-09-27 재개. G2 통합 f735b5889a5bd197e46d29bdfaa2b38c246d5ea6에서 A 웨이브/시간/결과, B HUD/진입/복귀 통합. 종료 재진입·보스 HP 반영·검수용 준비 순서 수정 후 e4a02a4의 독립 자동화56종 무경고 Pass. 실제 GPU PIEv2 통과 범위 별도. 최종 패키지/5판/20분 부하/새 수업 재현 진행 중 |
+| G3 | InProgress | 기존 패키지5시드/회복/20분 부하 Pass. 추가 세대 재사용 결함을 실제 재현 후53af399 수정, 전체58종 무경고·종료 위젯 실제 PIE Pass. 새 패키지 승리/마감/한도·동시 합성·진입 실패 보충 진행. [현재 증거](evidence/RUN-20260918-G3/SUMMARY.md) |
 | G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018/JDK21.0.3 준비. Android 실제 빌드 exit6: UE Android 선택 구성 요소 누락. 사용자가 설치 진행, adb 장치0 |
 
 원격 push/PR 병합/외부 배포/기존 작업 삭제는 수행하지 않는다. 전체 로그는 Saved/P0Runs에 저장하고 핵심 결과는 이 기록과 정식 검수 기록에 연결한다.
@@ -76,7 +76,7 @@ Android 재확인: UE5.8 Binaries에Android 없음·adb0. 사용자가 Launcher 
 <a id="측정-환경과-한계"></a>
 ## 측정 환경과 한계
 
-Windows11 Pro 10.0.26200, Ryzen5 7500F(6C/12T), RAM32GiB, RTX4060Ti(driver32.0.15.9186), UE5.8.2 CL56702186, MSVC14.50.35738, WindowsSDK10.0.26100. 컴파일·NullRHI 자동화 시간은 게임 프레임 성능이 아니다. 대표 부하의 렌더링·네트워크·Android 성능은 아직 측정하지 않았다.
+Windows11 Pro 10.0.26200, Ryzen5 7500F(6C/12T), RAM32GiB, RTX4060Ti(driver32.0.15.9186), UE5.8.2 CL56702186, MSVC14.50.35738, WindowsSDK10.0.26100. 컴파일·NullRHI 자동화 시간은 게임 프레임 성능이 아니다. [대표 PC 패키지 측정](evidence/RUN-20260918-G3/PERFORMANCE.md)은 같은 PC 두 Development 프로세스/각540×1170/60FPS 제한이며 프레임 p95 host16.6813ms/client16.6758ms, 서버 전투 프레임 합계 p950.8590ms다. Android 성능은 미측정이다.
 
 ## 2026-09-27 G3 중간 실행 증거
 

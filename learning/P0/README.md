@@ -12,10 +12,10 @@
 
 | 순서 | 공통 / A / B / 통합 | 상태 |
 |---|---|---|
-| G0 | Schema2 타입·로더·매치 / 명령·거절 / 독립 구현 비교·Editor 빌드 | 코드 게이트 Pass, 수업 재현 A/B각4Pass·A데이터수업 Verified |
+| G0 | Schema2 타입·로더·매치 / 명령·거절 / 독립 구현 비교·Editor 빌드 | Pass; 독립 A/누락A/B/canonical 실제 PIE 추가, 역할·통합 native 수업 Verified |
 | G1 | 경로 생성·이동 / 보드·카메라·전 셀 입력 / 양쪽 실제 화면·2바퀴 | Pass, 역할·[통합 수업](G1_INTEGRATION.md) 재현 Verified |
 | G2 | 16종 기본 공격·사망 / 경제·뭉치·합성·판매 / 단일 보상·실패 불변 | Pass, 39+보충12자동화·실제 두 프로세스20단계; A/B·[통합 수업](G2_INTEGRATION.md) 재현 Verified |
-| G3 | 웨이브·보스·결과 / HUD / PC 별도2프로세스·5판·성능 | 수정 후56자동화 무경고·실제 PIEv2·짧은2000회 부하 검사 통과; 최종 패키지/20분 부하/새 재현 진행, [통합 수업](G3_INTEGRATION.md) Draft |
+| G3 | 웨이브·보스·결과 / HUD / PC 별도2프로세스·5판·성능 | 5시드/회복/20분 패키지 부하 Pass. 세대 재사용 수정 후58종·종료 위젯 PIE Pass; 패키지 경계 보충 진행, [통합 수업](G3_INTEGRATION.md) Draft |
 | G4 | Android 빌드·기기 / 터치·SafeArea / 실기기10웨이브 | 기기 연결 및 통합 빌드 필요 |
 
 수업 문서의 절차로 시작 SHA에서 재현하고 실행 증거까지 연결한 경우만 Verified로 변경한다.

@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01, TASK-NET-01, TASK-UI-01; [공통 계약](COMMON.md), [독립 기대값](../../docs/production/evidence/RUN-20260918-G3/REVIEW_PLAN.md) |
-| 참고 자료 제작 상태 | Draft — 새 출발점 조립·Editor·56자동화·실제 PIE 통과, 최종 패키지 검수 진행 |
+| 참고 자료 제작 상태 | Draft — 조립·Editor·57자동화·실제 PIE·최종 패키지5시드/회복 통과, 대표 부하 진행 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | f735b5889a5bd197e46d29bdfaa2b38c246d5ea6 / 검증 입력98727f04e7c563a854a103ad26152cff5ed652a6, C++는0e473f4af380506d209a95f7ec42eccf89c69df4와 동일 (게이트 완료 미확정) |
+| 참고 시작/완료 SHA | f735b5889a5bd197e46d29bdfaa2b38c246d5ea6 / 검증 입력0981d07307112857dfdf0e91c79bcecdbcbc291b (실행 Config98727f0, 후처리 검사기만 갱신), C++는0e473f4af380506d209a95f7ec42eccf89c69df4와 동일 (게이트 완료 미확정) |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | G2 통합, Schema2/Rules0.3.0; A Director/공용 상태/전투·결과 위젯, B 진입/복귀/Controller |
 | 제공 코드 / 직접 작성할 코드 | 제공: 기존 JSON·UI v2·검사기·에셋 생성기. 직접 작성: A/B G3 수업의 런타임 코드와 독립 기대 검사. 참고 파일 조립은 학습자 구현 완료가 아님 |
@@ -58,7 +58,7 @@
 
 ## 상대에게 전달하고 통합하기
 
-A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Controller·Entry/GI를 연결한다. `learning/tools/Replay-P0G3.ps1 -RepositoryRoot C:/Users/iam12/P0_reference_integration -ReplayRoot <존재하지 않는 절대 경로> -SourceSha 98727f04e7c563a854a103ad26152cff5ed652a6 -RunId <새 이름>`으로 기준 `f735b588`의 새 detached worktree에66파일을 수업 순서로 조립하고 blob을 대조한다.15개는 제공 기반,51개는 G3 최종 입력이다. 중간 파일 묶음은 다음 묶음을 참조하므로 전체 조립 후 빌드한다. 조립은 학습자의 직접 구현을 대신하지 않는다.
+A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Controller·Entry/GI를 연결한다. `learning/tools/Replay-P0G3.ps1 -RepositoryRoot C:/Users/iam12/P0_reference_integration -ReplayRoot <존재하지 않는 절대 경로> -SourceSha 0981d07307112857dfdf0e91c79bcecdbcbc291b -RunId <새 이름>`으로 기준 `f735b588`의 새 detached worktree에66파일을 수업 순서로 조립하고 blob을 대조한다.15개는 제공 기반,51개는 G3 최종 입력이다. 중간 파일 묶음은 다음 묶음을 참조하므로 전체 조립 후 빌드한다. 조립은 학습자의 직접 구현을 대신하지 않는다.
 
 이번 실제 재현 경로는 `C:/Users/iam12/P0_lesson_replay_g3`다. 초기65파일 manifest와 제공 도구·Entry 스타일·효과음 cook 수정 후66파일 blob 대조를 [재현 증거](evidence/G3_REPLAY/README.md)에 보관했다. 패키지/Editor 실패는 보존하고 필요한 변경만 적용했다. 이 폴더 HEAD는 출발점 f735b588에 그대로 있으므로 실행 기록의 HEAD만 최종 코드로 해석하지 말고 반드시 manifest의 SourceSha/파일 blob을 함께 대조한다. 세 learn 브랜치는 최초 공통8c6856d에 유지하며 완성 코드를 병합하지 않는다.
 
@@ -76,10 +76,10 @@ A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Control
 
 ## 단계 완료
 
-- [ ] 새 출발점 조립·빌드·실행을 재현하고 manifest/완료 SHA를 고정했다.
-- [ ] 최종 패키지2인·5시드·600초 지연/손실·회복·중복·반복 매치를 확인했다.
+- [x] 새 출발점 조립·빌드·실행을 재현하고 입력 manifest/검증 소스 SHA를 고정했다. 게이트 완료 SHA는 대표 부하·최종 문서 확인 후 기록한다.
+- [x] 최종 패키지2인·5시드·600초 이상 지연/손실·회복·중복·반복 매치를 확인했다. [정식 실행 증거](../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md).
 - [ ] 대표 부하20분과2000회 실제 수명·정리·메모리를 측정했다.
 - [ ] 독립 구조 리뷰·학습 문서·작업 보드·검수 기록을 동기화했다.
-- [ ] Android 실기기는 별도 G4이며 P0 최종 완료와 혼동하지 않는다.
+- [x] Android 실기기는 별도 G4 NotRun이며 P0 최종 완료와 혼동하지 않는다.
 
 G3 검수가 남아 Draft다. 학습자는 Planned이며 실제 진행 기록은 별도로 작성한다. P0 완료 전 P1/P2로 확장하지 않는다.

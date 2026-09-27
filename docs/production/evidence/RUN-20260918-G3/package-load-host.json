@@ -1,0 +1,890 @@
+{
+	"result": "Pass",
+	"scope": "Development G3Load workload/lifetime fixture. 40 free board-prepared units (all16types per player plus4), 99N01+2B01 HP100000000 on canonical phase-shifted routes, then80HP1 N01 x25. Real actors, combat, movement and replication. No normal-wave victory/balance/physical-input claim. Fallback direct damage after20s is counted separately.",
+	"measurementLimit": "Wall-frame intervals include frame cap, stalls and fixture work. CPU columns are OS process percentages; RSS is process working set including engine/allocator caches. No GPU time or per-function CPU claim. Forced GC is outside the sustained sample window.",
+	"engine": "5.8.2-56702186+++UE5+Release-5.8",
+	"outputDirectory": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-load-20m/host",
+	"localPlayerIndex": 0,
+	"configuredSustainSeconds": 1222,
+	"measuredSustainSeconds": 1224.0154895501282,
+	"sustainedFrameCount": 73376,
+	"sustainedFrameMsP95": 17.620903015136719,
+	"baselineRssBytes": 885436416,
+	"peakSampledRssBytes": 1162510336,
+	"finalRssBytes": 1134948352,
+	"naturalDamageEvents": 54014,
+	"naturalDeaths": 2000,
+	"fixtureDamageDeaths": 0,
+	"uniqueDeathEvents": 2000,
+	"completedBatches": 25,
+	"observedEnemyIdentities": 2101,
+	"observedUnitIdentities": 40,
+	"attackingUnitTypeCount": 16,
+	"sustainIntegritySamples": 1218,
+	"minimumSustainUnitActors": 40,
+	"minimumSustainAliveNormals": 99,
+	"minimumSustainAliveBosses": 2,
+	"minimumSustainOwnerPopulation": 20,
+	"completionHandshakeConfirmed": true,
+	"authorityMetricsAvailable": true,
+	"profileCsvWriteCompleted": true,
+	"profileCsvPath": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-load-20m/host/profile.csv",
+	"checks": [
+		{
+			"name": "server-representative-population",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 4.231455399596598
+		},
+		{
+			"name": "fixture-battle-HUD-state-authored",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 4.231455399596598
+		},
+		{
+			"name": "local-representative-actors-and-owner-board",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 4.231455399596598
+		},
+		{
+			"name": "sustained-actual-attacks",
+			"pass": true,
+			"detail": "events=52014 types=16",
+			"worldSeconds": 1228.671568396443
+		},
+		{
+			"name": "sustained-all-actors-survive",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1228.671568396443
+		},
+		{
+			"name": "batch0-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1229.6781686944305
+		},
+		{
+			"name": "batch1-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1232.7115378965973
+		},
+		{
+			"name": "batch1-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1233.7282127951621
+		},
+		{
+			"name": "batch2-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1236.7616858956753
+		},
+		{
+			"name": "batch2-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1237.7785809961497
+		},
+		{
+			"name": "batch3-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1240.8119562966167
+		},
+		{
+			"name": "batch3-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1241.8286382955848
+		},
+		{
+			"name": "batch4-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1244.8627457944094
+		},
+		{
+			"name": "batch4-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1245.8794808936655
+		},
+		{
+			"name": "batch5-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1248.9138766964315
+		},
+		{
+			"name": "batch5-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1249.9305589971482
+		},
+		{
+			"name": "batch6-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1252.9640296948492
+		},
+		{
+			"name": "batch6-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1253.9807130945264
+		},
+		{
+			"name": "batch7-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1257.0141623941599
+		},
+		{
+			"name": "batch7-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1258.0308371958672
+		},
+		{
+			"name": "batch8-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1261.0642112967907
+		},
+		{
+			"name": "batch8-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1262.0809789960622
+		},
+		{
+			"name": "batch9-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1265.1143516962766
+		},
+		{
+			"name": "batch9-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1266.1310545941233
+		},
+		{
+			"name": "batch10-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1269.1645432961523
+		},
+		{
+			"name": "batch10-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1270.1812309948145
+		},
+		{
+			"name": "batch11-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1273.2146081951796
+		},
+		{
+			"name": "batch11-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1274.2312912968337
+		},
+		{
+			"name": "batch12-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1277.2648254958331
+		},
+		{
+			"name": "batch12-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1278.2815190953552
+		},
+		{
+			"name": "batch13-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1281.352532896155
+		},
+		{
+			"name": "batch13-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1282.3693163943826
+		},
+		{
+			"name": "batch14-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1285.4026790959178
+		},
+		{
+			"name": "batch14-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1286.4193535958766
+		},
+		{
+			"name": "batch15-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1289.4527168971836
+		},
+		{
+			"name": "batch15-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1290.4693998945295
+		},
+		{
+			"name": "batch16-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1293.5028032948612
+		},
+		{
+			"name": "batch16-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1294.5194769938826
+		},
+		{
+			"name": "batch17-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1297.5528407943784
+		},
+		{
+			"name": "batch17-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1298.5696584944963
+		},
+		{
+			"name": "batch18-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1301.6030671959161
+		},
+		{
+			"name": "batch18-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1302.6197421950637
+		},
+		{
+			"name": "batch19-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1305.6531152938842
+		},
+		{
+			"name": "batch19-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1306.6697960970341
+		},
+		{
+			"name": "batch20-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1309.7031656940817
+		},
+		{
+			"name": "batch20-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1310.7199013968348
+		},
+		{
+			"name": "batch21-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1313.7532915947377
+		},
+		{
+			"name": "batch21-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1314.7699907970964
+		},
+		{
+			"name": "batch22-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1317.8034165938734
+		},
+		{
+			"name": "batch22-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1318.8200917941867
+		},
+		{
+			"name": "batch23-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1321.8534968969761
+		},
+		{
+			"name": "batch23-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1322.870172194147
+		},
+		{
+			"name": "batch24-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1325.9035292965709
+		},
+		{
+			"name": "batch24-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1326.9202063967823
+		},
+		{
+			"name": "batch25-death-and-reward-once",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1329.9535703947186
+		},
+		{
+			"name": "batch25-registry-and-collected-weak-zero",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1330.9702553962707
+		},
+		{
+			"name": "fixture-only-teardown-leaves-empty-boards",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1330.9702553962707
+		},
+		{
+			"name": "stop-turns-off-logic-timer",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1330.9702553962707
+		},
+		{
+			"name": "stop-clears-combat-registration",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1330.9702553962707
+		},
+		{
+			"name": "stop-clears-combat-subscriptions",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1330.9702553962707
+		},
+		{
+			"name": "stop-clears-clock-subscriptions",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1330.9702553962707
+		},
+		{
+			"name": "profile-csv-async-write-completed",
+			"pass": true,
+			"detail": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-load-20m/host/profile.csv",
+			"worldSeconds": 1332.9869723943411
+		},
+		{
+			"name": "all-2141-fixture-actors-garbage-collected",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1332.9869723943411
+		},
+		{
+			"name": "2000-deaths-and-25-batches",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1332.9869723943411
+		},
+		{
+			"name": "no-callback-after-stop",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1332.9869723943411
+		},
+		{
+			"name": "local-route-motion-observed",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1332.9869723943411
+		},
+		{
+			"name": "local-sustain-duration",
+			"pass": true,
+			"detail": "measured=1224.015 configured=1222.000",
+			"worldSeconds": 1332.9869723943411
+		},
+		{
+			"name": "sustained-periodic-actor-registry-and-HUD-integrity",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1332.9869723943411
+		},
+		{
+			"name": "client-result-written-and-acknowledged",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1333.020305897051
+		}
+	],
+	"memoryCheckpoints": [
+		{
+			"label": "before-fixture",
+			"rssBytes": 1081454592,
+			"worldSeconds": 4.231455399596598,
+			"unitActors": 0,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "sustain-start",
+			"rssBytes": 1087954944,
+			"worldSeconds": 4.6551447985111736,
+			"unitActors": 40,
+			"enemyActors": 101,
+			"registeredEnemies": 101
+		},
+		{
+			"label": "sustain-end",
+			"rssBytes": 1144160256,
+			"worldSeconds": 1228.671568396443,
+			"unitActors": 40,
+			"enemyActors": 101,
+			"registeredEnemies": 101
+		},
+		{
+			"label": "batch-0-after-gc",
+			"rssBytes": 1140269056,
+			"worldSeconds": 1229.6781686944305,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-1-spawn",
+			"rssBytes": 1142784000,
+			"worldSeconds": 1229.6781686944305,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-1-after-gc",
+			"rssBytes": 1136017408,
+			"worldSeconds": 1233.7282127951621,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-2-spawn",
+			"rssBytes": 1136181248,
+			"worldSeconds": 1233.7282127951621,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-2-after-gc",
+			"rssBytes": 1135312896,
+			"worldSeconds": 1237.7785809961497,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-3-spawn",
+			"rssBytes": 1135337472,
+			"worldSeconds": 1237.7785809961497,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-3-after-gc",
+			"rssBytes": 1135087616,
+			"worldSeconds": 1241.8286382955848,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-4-spawn",
+			"rssBytes": 1135165440,
+			"worldSeconds": 1241.8286382955848,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-4-after-gc",
+			"rssBytes": 1134673920,
+			"worldSeconds": 1245.8794808936655,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-5-spawn",
+			"rssBytes": 1134718976,
+			"worldSeconds": 1245.8794808936655,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-5-after-gc",
+			"rssBytes": 1134718976,
+			"worldSeconds": 1249.9305589971482,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-6-spawn",
+			"rssBytes": 1134788608,
+			"worldSeconds": 1249.9305589971482,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-6-after-gc",
+			"rssBytes": 1135529984,
+			"worldSeconds": 1253.9807130945264,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-7-spawn",
+			"rssBytes": 1135554560,
+			"worldSeconds": 1253.9807130945264,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-7-after-gc",
+			"rssBytes": 1135456256,
+			"worldSeconds": 1258.0308371958672,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-8-spawn",
+			"rssBytes": 1135546368,
+			"worldSeconds": 1258.0308371958672,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-8-after-gc",
+			"rssBytes": 1134981120,
+			"worldSeconds": 1262.0809789960622,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-9-spawn",
+			"rssBytes": 1135005696,
+			"worldSeconds": 1262.0809789960622,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-9-after-gc",
+			"rssBytes": 1135513600,
+			"worldSeconds": 1266.1310545941233,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-10-spawn",
+			"rssBytes": 1135587328,
+			"worldSeconds": 1266.1310545941233,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-10-after-gc",
+			"rssBytes": 1135915008,
+			"worldSeconds": 1270.1812309948145,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-11-spawn",
+			"rssBytes": 1135955968,
+			"worldSeconds": 1270.1812309948145,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-11-after-gc",
+			"rssBytes": 1135677440,
+			"worldSeconds": 1274.2312912968337,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-12-spawn",
+			"rssBytes": 1135751168,
+			"worldSeconds": 1274.2312912968337,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-12-after-gc",
+			"rssBytes": 1135226880,
+			"worldSeconds": 1278.2815190953552,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-13-spawn",
+			"rssBytes": 1135251456,
+			"worldSeconds": 1278.2815190953552,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-13-after-gc",
+			"rssBytes": 1134952448,
+			"worldSeconds": 1282.3693163943826,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-14-spawn",
+			"rssBytes": 1134981120,
+			"worldSeconds": 1282.3693163943826,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-14-after-gc",
+			"rssBytes": 1135304704,
+			"worldSeconds": 1286.4193535958766,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-15-spawn",
+			"rssBytes": 1135337472,
+			"worldSeconds": 1286.4193535958766,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-15-after-gc",
+			"rssBytes": 1135640576,
+			"worldSeconds": 1290.4693998945295,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-16-spawn",
+			"rssBytes": 1135681536,
+			"worldSeconds": 1290.4693998945295,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-16-after-gc",
+			"rssBytes": 1135431680,
+			"worldSeconds": 1294.5194769938826,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-17-spawn",
+			"rssBytes": 1135460352,
+			"worldSeconds": 1294.5194769938826,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-17-after-gc",
+			"rssBytes": 1136373760,
+			"worldSeconds": 1298.5696584944963,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-18-spawn",
+			"rssBytes": 1136427008,
+			"worldSeconds": 1298.5696584944963,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-18-after-gc",
+			"rssBytes": 1136017408,
+			"worldSeconds": 1302.6197421950637,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-19-spawn",
+			"rssBytes": 1136017408,
+			"worldSeconds": 1302.6197421950637,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-19-after-gc",
+			"rssBytes": 1135484928,
+			"worldSeconds": 1306.6697960970341,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-20-spawn",
+			"rssBytes": 1135546368,
+			"worldSeconds": 1306.6697960970341,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-20-after-gc",
+			"rssBytes": 1135448064,
+			"worldSeconds": 1310.7199013968348,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-21-spawn",
+			"rssBytes": 1135497216,
+			"worldSeconds": 1310.7199013968348,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-21-after-gc",
+			"rssBytes": 1135394816,
+			"worldSeconds": 1314.7699907970964,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-22-spawn",
+			"rssBytes": 1135439872,
+			"worldSeconds": 1314.7699907970964,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-22-after-gc",
+			"rssBytes": 1135468544,
+			"worldSeconds": 1318.8200917941867,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-23-spawn",
+			"rssBytes": 1135525888,
+			"worldSeconds": 1318.8200917941867,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-23-after-gc",
+			"rssBytes": 1136357376,
+			"worldSeconds": 1322.870172194147,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-24-spawn",
+			"rssBytes": 1136394240,
+			"worldSeconds": 1322.870172194147,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-24-after-gc",
+			"rssBytes": 1136029696,
+			"worldSeconds": 1326.9202063967823,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "batch-25-spawn",
+			"rssBytes": 1136091136,
+			"worldSeconds": 1326.9202063967823,
+			"unitActors": 40,
+			"enemyActors": 80,
+			"registeredEnemies": 80
+		},
+		{
+			"label": "batch-25-after-gc",
+			"rssBytes": 1136279552,
+			"worldSeconds": 1330.9702553962707,
+			"unitActors": 40,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		},
+		{
+			"label": "after-stop-and-gc",
+			"rssBytes": 1133494272,
+			"worldSeconds": 1332.9869723943411,
+			"unitActors": 0,
+			"enemyActors": 0,
+			"registeredEnemies": 0
+		}
+	]
+}

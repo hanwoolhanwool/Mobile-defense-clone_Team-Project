@@ -1,0 +1,242 @@
+{
+	"result": "Pass",
+	"scope": "Development G3Load workload/lifetime fixture. 40 free board-prepared units (all16types per player plus4), 99N01+2B01 HP100000000 on canonical phase-shifted routes, then80HP1 N01 x25. Real actors, combat, movement and replication. No normal-wave victory/balance/physical-input claim. Fallback direct damage after20s is counted separately.",
+	"measurementLimit": "Wall-frame intervals include frame cap, stalls and fixture work. CPU columns are OS process percentages; RSS is process working set including engine/allocator caches. No GPU time or per-function CPU claim. Forced GC is outside the sustained sample window.",
+	"engine": "5.8.2-56702186+++UE5+Release-5.8",
+	"outputDirectory": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-load-20m/client",
+	"localPlayerIndex": 1,
+	"configuredSustainSeconds": 1222,
+	"measuredSustainSeconds": 1224.0052186088669,
+	"sustainedFrameCount": 73371,
+	"sustainedFrameMsP95": 17.212200164794922,
+	"baselineRssBytes": 898625536,
+	"peakSampledRssBytes": 1141510144,
+	"finalRssBytes": 1119559680,
+	"naturalDamageEvents": 0,
+	"naturalDeaths": 0,
+	"fixtureDamageDeaths": 0,
+	"uniqueDeathEvents": 0,
+	"completedBatches": 0,
+	"observedEnemyIdentities": 2101,
+	"observedUnitIdentities": 40,
+	"attackingUnitTypeCount": 0,
+	"sustainIntegritySamples": 1217,
+	"minimumSustainUnitActors": 40,
+	"minimumSustainAliveNormals": 99,
+	"minimumSustainAliveBosses": 2,
+	"minimumSustainOwnerPopulation": 20,
+	"completionHandshakeConfirmed": true,
+	"authorityMetricsAvailable": false,
+	"profileCsvWriteCompleted": true,
+	"profileCsvPath": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-load-20m/client/profile.csv",
+	"checks": [
+		{
+			"name": "local-representative-actors-and-owner-board",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 0.47798329964280128
+		},
+		{
+			"name": "client-batch1-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1225.7266801036894
+		},
+		{
+			"name": "client-batch2-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1229.7772122062743
+		},
+		{
+			"name": "client-batch3-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1233.8277368061244
+		},
+		{
+			"name": "client-batch4-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1237.8780628032982
+		},
+		{
+			"name": "client-batch5-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1241.9285102039576
+		},
+		{
+			"name": "client-batch6-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1245.9812519028783
+		},
+		{
+			"name": "client-batch7-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1250.031359706074
+		},
+		{
+			"name": "client-batch8-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1254.0816459059715
+		},
+		{
+			"name": "client-batch9-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1258.1317435055971
+		},
+		{
+			"name": "client-batch10-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1262.1818561032414
+		},
+		{
+			"name": "client-batch11-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1266.2319362051785
+		},
+		{
+			"name": "client-batch12-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1270.2825473062694
+		},
+		{
+			"name": "client-batch13-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1274.3327542059124
+		},
+		{
+			"name": "client-batch14-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1278.4169598035514
+		},
+		{
+			"name": "client-batch15-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1282.4672315046191
+		},
+		{
+			"name": "client-batch16-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1286.5175512060523
+		},
+		{
+			"name": "client-batch17-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1290.5677224062383
+		},
+		{
+			"name": "client-batch18-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1294.618340305984
+		},
+		{
+			"name": "client-batch19-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1298.6689534038305
+		},
+		{
+			"name": "client-batch20-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1302.7191143035889
+		},
+		{
+			"name": "client-batch21-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1306.7692571058869
+		},
+		{
+			"name": "client-batch22-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1310.8193766027689
+		},
+		{
+			"name": "client-batch23-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1314.8747870028019
+		},
+		{
+			"name": "client-batch24-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1318.9250972047448
+		},
+		{
+			"name": "client-batch25-all80-actors-replicated",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1322.9751886054873
+		},
+		{
+			"name": "profile-csv-async-write-completed",
+			"pass": true,
+			"detail": "C:/Users/iam12/P0_lesson_replay_g3/Saved/P0Runs/Replay-G3-package-load-20m/client/profile.csv",
+			"worldSeconds": 1328.8252849057317
+		},
+		{
+			"name": "client-server-completed-workload",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1328.8252849057317
+		},
+		{
+			"name": "client-2141-observed-actors-collected",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1328.8252849057317
+		},
+		{
+			"name": "local-route-motion-observed",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1328.8252849057317
+		},
+		{
+			"name": "local-sustain-duration",
+			"pass": true,
+			"detail": "measured=1224.005 configured=1222.000",
+			"worldSeconds": 1328.8252849057317
+		},
+		{
+			"name": "sustained-periodic-actor-registry-and-HUD-integrity",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1328.8252849057317
+		},
+		{
+			"name": "server-confirms-completion-handshake",
+			"pass": true,
+			"detail": "",
+			"worldSeconds": 1328.8586184047163
+		}
+	],
+	"memoryCheckpoints": [
+		{
+			"label": "client-after-stop-and-gc",
+			"rssBytes": 1121017856,
+			"worldSeconds": 1328.8252849057317,
+			"unitActors": 0,
+			"enemyActors": 0,
+			"registeredEnemies": -1
+		}
+	]
+}

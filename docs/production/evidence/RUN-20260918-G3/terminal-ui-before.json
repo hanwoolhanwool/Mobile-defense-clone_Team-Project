@@ -1,0 +1,28 @@
+{
+  "Scope": "Actual GPU Editor PIE; two in-process network worlds",
+  "Head": "46563063a3ab9886b2e10576c6322baed32babcb",
+  "Started": "2026-09-27T23:58:13.5400350+09:00",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+  "Arguments": [
+    "C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+    "-unattended",
+    "-nosound",
+    "-nosplash",
+    "-RenderOffscreen",
+    "-culture=ko",
+    "-P0Seed=1776",
+    "-ModelContextProtocolPort=17879",
+    "-P0PIERun=G3-final-terminal-ui-proof",
+    "-ExecCmds=Automation RunTests LD.PIE.P0.Session",
+    "-TestExit=Automation Test Queue Empty",
+    "-ReportExportPath=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-final-terminal-ui/report",
+    "-abslog=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-final-terminal-ui/engine.log"
+  ],
+  "Result": "Fail",
+  "ProcessId": 31024,
+  "ExitCode": 0,
+  "Succeeded": 0,
+  "Failed": 1,
+  "SettingsRestored": true,
+  "Finished": "2026-09-27T23:58:51.4366341+09:00"
+}

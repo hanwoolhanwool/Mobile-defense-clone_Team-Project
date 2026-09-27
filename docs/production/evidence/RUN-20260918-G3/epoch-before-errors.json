@@ -1,0 +1,10 @@
+[
+  "Expected 'New match does not reuse the earlier wire generation' to be true.",
+  "Old wire payload rejected before fresh-match purchase: The two values are not equal.",
+  "Expected 'Fresh balance remains 100' to be 100, but it was 80.",
+  "Expected 'Fresh paid summon count remains zero' to be 0, but it was 1.",
+  "Expected 'Fresh population remains zero' to be 0, but it was 1.",
+  "Expected 'Fresh board revision remains zero' to be 0, but it was 1.",
+  "Expected 'Stale payload does not draw randomness' to be -2058058102, but it was -1474693940.",
+  "Expected 'Stale payload is not entered into new-match cache' to be 0, but it was 1."
+]

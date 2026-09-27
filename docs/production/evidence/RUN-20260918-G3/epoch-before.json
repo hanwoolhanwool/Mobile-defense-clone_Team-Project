@@ -1,0 +1,27 @@
+{
+  "Scope": "Unreal automation with NullRHI; not PIE or visual gameplay",
+  "Filter": "LD.P0.G3.Lifetime.PreviousMatchRequestRejected",
+  "Started": "2026-09-28T00:09:19.7546349+09:00",
+  "Head": "7c761c02057c4618ef3679e35d12999ea103702d",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor-Cmd.exe",
+  "Arguments": [
+    "C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+    "-unattended",
+    "-NullRHI",
+    "-nosound",
+    "-nosplash",
+    "-culture=en",
+    "-ExecCmds=Automation RunTests LD.P0.G3.Lifetime.PreviousMatchRequestRejected",
+    "-TestExit=Automation Test Queue Empty",
+    "-ReportExportPath=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-epoch-before-test/report",
+    "-abslog=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-epoch-before-test/engine.log"
+  ],
+  "ExitCode": 0,
+  "SucceededWithoutWarnings": 0,
+  "SucceededWithWarnings": 0,
+  "Succeeded": 0,
+  "Failed": 1,
+  "NotRun": 0,
+  "Result": "Fail",
+  "Finished": "2026-09-28T00:09:36.0372972+09:00"
+}

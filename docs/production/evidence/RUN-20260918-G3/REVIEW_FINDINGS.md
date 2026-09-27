@@ -209,3 +209,24 @@ GameInstance/entry/return/network 코드는1차 이후 제품 diff가 없어 불
 측정 한계: CSV Combat/Timeline은 프레임 내 합이며 서로 중첩된다. probe의 기존 p95와 분석 도구의 nearest-rank p95는 표본·clock·산식이 달라 섞지 않는다. client samples의 첫 전체 개체 관측과 서버 sustain 시작 순서는 양방향 오차가 있으므로20분 실측 구간은 profile의 Phase/SustainSeconds로 판단한다. 해당 분석 설명을 수정했다. client의 매 배치 GC 후 메모리는 수집하지 않았으며 최종 수거 검사와 구분한다.
 
 비차단 도구 부채: `LDG3LoadProbeSubsystem::Deinitialize`는 구독을 해제하지만 비정상 World 종료 중 자신이 시작한 global CSV 캡처를 종료하지 않는다. 현재 도구는 한 프로세스의 정상 완료에서 EndCapture와 쓰기 완료를 기다린 뒤 프로세스를 종료한다. 캡처 도중 World를 전환해 같은 프로세스로 검사를 재사용하는 경로는 지원·검증하지 않았다. 이 경로를 추가할 때 캡처 소유권에 따른 중단 정리가 필요하다.
+
+## 2026-09-28 최종 보충 리뷰
+
+앞의 과거 단계 판정과 별도로, 최종5시드/회복/RPC 감사와 [대표20분/2000회 수명](PERFORMANCE.md)을 직접 대조했다. 해당 실행 범위는 Pass다. 독립 리뷰에서 아직 패키지의 승리·정확 마감·일반 잔여·적 한도·서로 다른 두 ID의 같은 재료 합성·실제 Loading 실패/복귀 증거가 없음을 발견하여 보충 검수를 추가했다. 자연5패나 고정 부하를 이 결과로 대신하지 않는다. 청음은 계속 NotRun이다.
+
+### UI-TEST01 — PIE 중 원본 에디터 맵의 잘못된 강제 수거 (Closed)
+
+- 파일/함수: `Tests/LDPieTests.cpp::FVerifyP0PIE::Update`, 이전 Result/Status 위젯 참조를 해제한 뒤 `CollectGarbage(RF_NoFlags)` 호출.
+- 실제 재현: 소스4656306의 [PIE Fail](terminal-ui-before.json), [ensure](terminal-ui-before-errors.json). 양쪽 새 위젯1개씩·옛 위젯4개 수거·RPC0·상태 불변은 맞았지만 원본 `/Game/LD/Maps/L_P0.L_P0`의 WorldPartition subsystem이 초기화된 채 수거되어 전체1Fail을 유지했다.
+- 원인/수정: UE5.8 `UGameInstance::InitializeForPlayInEditor`의 GlobalMapOverride 원본 맵과 PlayLevel 종료 GC는 `GARBAGE_COLLECTION_KEEPFLAGS`(Editor RF_Standalone)를 쓴다. 검사만 이 정책을 무시했다. B `b2f09c7`→통합 `7c761c0`은 같은 엔진 정책을 적용하고 원본 맵 생존·구 위젯의 Root/Standalone 없음·실제4개 수거를 각각 검사한다. 임의 AddToRoot나 expected-error 억제는 사용하지 않았다.
+- 수정 후: 제품53af399의 [실제 GPU PIE Pass](terminal-ui-after.json), [상세 요약](terminal-ui-summary.json), [전체 proof](terminal-ui-after-proof.json).1Success/0Warning/0Fail, 원설정/자기 관찰자 복원, 종료 월드0. 양쪽 소유자당 Result/Status 새 인스턴스1·반환 구독1, 옛 반환/버튼 구독0, 강제수거4, 종료 후 실제 SERVER RPC0·보드/경제/Battle/캐시/RNG 불변·논리 타이머 해제를 확인했다. [host](terminal-ui-host.png)와 [client](terminal-ui-client.png)를 직접 열어 한글 결과·정지 시계·버튼 배치를 확인했다.
+- 입력 범위는 Controller의 Engine InputKey S/M/X 및 InputTouch begin/move/end와 public intent API다. PlayerInput 상태·바인딩 수와 실제 서버 요청0을 확인했으나 물리 입력이나 각 입력 콜백의 호출 횟수 관측이라고 확대하지 않는다. 결과 반환 버튼의 실제 클릭은 별도 패키지 증거를 사용한다.
+
+### NET-LIFE01 — 새 매치에서 이전 요청 payload의 세대 재사용 (Unreal 회귀 Closed, 패키지 후속 대기)
+
+- 파일/경로: `Core/LDGameMode.h::NextConnectionEpoch=1`, `LDGameMode.cpp::RegisterParticipant`→`LDPlayerController::ServerRequestCommand/SubmitServerCommand`→`LDCommandProcessor::SubmitAtTime`.
+- 재현/영향: FLDCommand에는 MatchId가 없고 각 Mode가 다시 epoch1/2를 발급했다. 이전 판의 유효 첫 Summon(id1,epoch1,revision0)을 새 소유 Controller/빈 보드에 다시 보내면 새 매치 Context와 epoch가 같아 새 구매로 승인된다. 이전 Actor 채널을 대상으로 늦게 도착한 패킷과 구별하여 **이전 payload를 새 Controller로 재전송하는 상황**을 검사했다.
+- 독립 기대/실제 실패: 테스트 `62b5180`은 실제 첫 World에서 구매 후 종료하고 새 World를 만들었다. [수정 전1Fail](epoch-before.json), [실패 항목](epoch-before-errors.json): 새판 gold100 기대/실제80, 인구0/실제1, n0/실제1, revision0/실제1, RNG와 새 캐시 변경. 서버 API 수명 회귀이며 실제 네트워크 전송은 후속이다.
+- 최소 수정 `53af399`: 익명 namespace의 GameThread 전용 process 수명 uint64 발급기를 사용한다. 첫 값은 경제 RNG와 독립적인 FGuid 기반 identity 값이며 이후 단조 증가한다.0으로 소진되면 계속0을 반환하여 기존 ParticipantContext/PlayerState 검증에서 실패하고 Abort하므로 이전 값을 재사용하지 않는다. Controller DTO·Processor·재화/보드 소유권은 그대로다. 재시작 간 충돌 감소는 확률적이며 수학적 유일성 보장이 아니다.
+- 실제 수정 후: [통합 Editor34.22초 Pass](epoch-after-editor.json), [전체58개 무경고/0Fail/0NotRun](epoch-after-58.json). 독립 B 리뷰에서 초기화 전 거절·중복 로그인·기존 epoch 단조 조건·수명·상태 원본을 재확인했고 추가 차단 결함0. uint64 증거는 문자열로 기록하며 double JSON의 반올림을 세대 일치 판단에 쓰지 않는다.
+- 새 패키지의 이전 payload 재전송과 혼합 승패 반복을 확인할 때까지 이 수정의 패키지 검수는 대기다. 이전 패키지의5시드/20분 수치에는 옛 소스/해시를 그대로 표시한다. 전투/렌더/부하 함수 변경은 없어 기존 측정의 범위를 소급 확장하거나 무효로 바꾸지 않는다.
