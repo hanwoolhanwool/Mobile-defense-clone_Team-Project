@@ -1,0 +1,33 @@
+✔ unchanged legacy is exempt; Unreal macro sample is always checked (303.4487ms)
+✔ new malformed code fails read-only; explicit formatting repairs it (1030.759ms)
+✔ editing an inherited file removes its exemption (385.263ms)
+✔ renaming an inherited file does not carry its exemption (403.8864ms)
+✔ Git CRLF checkout preserves the unchanged legacy exemption (266.242ms)
+✔ the sample cannot be hidden by a baseline entry (130.4951ms)
+✔ new code cannot disable the formatter (384.5847ms)
+✔ UTF-8 BOM and CRLF in new files fail and are fixed explicitly (1061.8323ms)
+✔ fix validates all paths before writing, and rejects outside paths (135.2757ms)
+✔ missing and mismatched formatters fail instead of skipping (38.4796ms)
+✔ a clean checkout of validation inputs passes (1829.8878ms)
+✔ a new technical document without metadata fails (1795.496ms)
+✔ metadata is checked outside the GDD source list (1680.2454ms)
+✔ a fabricated run cannot complete a task (1748.5895ms)
+✔ a failing run cannot justify Done (1644.5067ms)
+✔ the run result must match the execution record (1692.7475ms)
+✔ an unexecuted acceptance criterion cannot justify Done (1787.8579ms)
+✔ Done requires a completion record (1653.5386ms)
+✔ missing evidence fails (1490.6454ms)
+✔ altered archived evidence fails its hash (1501.424ms)
+✔ a stale status summary fails (1494.613ms)
+✔ a completed task cannot be the next action (1629.6525ms)
+✔ a stale GDD reading copy fails (1523.875ms)
+✔ check-only data detects drift without repairing the file (765.0805ms)
+✔ check-only report detects drift without repairing the file (782.1559ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23135.9409

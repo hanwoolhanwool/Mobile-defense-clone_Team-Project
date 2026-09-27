@@ -1,0 +1,16 @@
+{
+  "CanonicalSha": "e1b4d63b8e47504ed71ec7cadc1fc295b907ca1e",
+  "ProductAndTestsSourceSha": "f64cc671848560923595cc1955efe12620f326de",
+  "PackageSourceSha": "e89a1fabaf5ef5e3a1d03a09397806814551ec20",
+  "RoleA": {
+    "Result": "Pass",
+    "Seconds": 45.0215801
+  },
+  "RoleB": {
+    "Result": "Pass",
+    "Seconds": 58.5408967
+  },
+  "RuntimeTreeDifferenceFromF64": [],
+  "RuntimeReferencesToLearning": [],
+  "Scope": "Compile and source dependency audit only; package/network proof separately linked"
+}

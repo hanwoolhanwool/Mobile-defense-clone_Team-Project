@@ -1,0 +1,251 @@
+{
+	"result": "Pass",
+	"scope": "Development G3NetConflict fixture. Three free C01 units on remote owner1 via public Board preparation; two different IDs sent to actual owned ServerRequestCommand in one client tick. Actual server dispatch and client receipt observed without interception. No natural summon, Pending UI, two-remote-client concurrency, or physical-input claim.",
+	"engine": "5.8.2-56702186+++UE5+Release-5.8",
+	"processId": 36972,
+	"localPlayerIndex": 0,
+	"matchId": "5D14FD3140F13F3AB49E62BF6954DE29",
+	"completionHandshakeConfirmed": true,
+	"observersRestored": true,
+	"authorityMetricsAvailable": true,
+	"serverRequestCount": 2,
+	"observedResponseCount": 2,
+	"mergePublicationCount": 1,
+	"firstSendFrame": "0",
+	"secondSendFrame": "0",
+	"burstSentWallSeconds": 0,
+	"serverArrivalsSameFrame": true,
+	"randomBefore": -1640529759,
+	"expectedRandomAfterOneDraw": 1904019648,
+	"expectedRareUnit": "R02",
+	"checks": [
+		{
+			"name": "role-matches-real-local-owner",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.617390401661396
+		},
+		{
+			"name": "actual-remote-owned-participant",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.6176129989326
+		},
+		{
+			"name": "fresh-empty-boards-and-caches",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.6177631989121437
+		},
+		{
+			"name": "explicit-free-fixture-no-economy-RNG-or-command-history",
+			"pass": true,
+			"detail": "Three C01 units authored using public Board prepare/commit/publish; no paid summons or learner actions",
+			"wallSeconds": 3.6182852014899254
+		},
+		{
+			"name": "three-distinct-committed-C01-materials",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.6185177005827427
+		},
+		{
+			"name": "fixture-C01-same-owner-stack",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.6186963990330696
+		},
+		{
+			"name": "fixture-C01-same-owner-stack",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.6188707016408443
+		},
+		{
+			"name": "fixture-C01-same-owner-stack",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.6190144009888172
+		},
+		{
+			"name": "independent-P0-rare-candidate-contract",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.6192004010081291
+		},
+		{
+			"name": "two-actual-owned-RPC-arrivals",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7185118980705738
+		},
+		{
+			"name": "one-Success-one-StaleBoard-response",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.718717198818922
+		},
+		{
+			"name": "population-three-to-one-and-single-board-revision",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7189015001058578
+		},
+		{
+			"name": "gold-stars-paid-count-price-unchanged-single-economy-revision",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7190586999058723
+		},
+		{
+			"name": "exactly-one-independent-RNG-draw",
+			"pass": true,
+			"detail": "before=-1640529759 expected=1904019648 actual=1904019648",
+			"wallSeconds": 3.7192110009491444
+		},
+		{
+			"name": "single-created-rare-ID4",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7193737998604774
+		},
+		{
+			"name": "one-merge-publication-exact-materials",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7195761986076832
+		},
+		{
+			"name": "wire-single-effect-and-failure-empty-effects",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7197333015501499
+		},
+		{
+			"name": "wire-context-and-final-revisions",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7198820002377033
+		},
+		{
+			"name": "wire-context-and-final-revisions",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7200189009308815
+		},
+		{
+			"name": "server-exact-remaining-actor-and-combat-registration",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7201870009303093
+		},
+		{
+			"name": "two-cached-results-no-host-side-effect",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7203222997486591
+		},
+		{
+			"name": "scenario-completed-in-real-Preparing",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7204741016030312
+		},
+		{
+			"name": "explicit-abort-stops-admission-timer-combat-and-clock-delegates",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7341869994997978
+		},
+		{
+			"name": "cleanup-does-not-rewrite-merge-result-state",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7343943007290363
+		},
+		{
+			"name": "exact-two-requests-and-responses-through-cleanup",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7508746013045311
+		},
+		{
+			"name": "observer-handles-restored",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7512117996811867
+		},
+		{
+			"name": "client-verified-cleaned-and-acknowledged-server-finish",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 3.7669993005692959
+		}
+	],
+	"wire": [
+		{
+			"kind": "server-arrival",
+			"frame": "219",
+			"worldSeconds": 3.638037498050835,
+			"wallSeconds": 3.716592900454998,
+			"requestId": 1,
+			"epoch": "16598904652818786291",
+			"expectedBoardRevision": 3,
+			"materials": [
+				"1",
+				"2",
+				"3"
+			]
+		},
+		{
+			"kind": "server-response-dispatch",
+			"frame": "219",
+			"worldSeconds": 3.638037498050835,
+			"wallSeconds": 3.7174191996455193,
+			"matchId": "5D14FD3140F13F3AB49E62BF6954DE29",
+			"requestId": 1,
+			"epoch": "16598904652818786291",
+			"code": 0,
+			"boardRevision": 4,
+			"economyRevision": 1,
+			"eventId": "1",
+			"created": [
+				"4"
+			],
+			"removed": [
+				"1",
+				"2",
+				"3"
+			]
+		},
+		{
+			"kind": "server-arrival",
+			"frame": "219",
+			"worldSeconds": 3.638037498050835,
+			"wallSeconds": 3.7175427004694939,
+			"requestId": 2,
+			"epoch": "16598904652818786291",
+			"expectedBoardRevision": 3,
+			"materials": [
+				"1",
+				"2",
+				"3"
+			]
+		},
+		{
+			"kind": "server-response-dispatch",
+			"frame": "219",
+			"worldSeconds": 3.638037498050835,
+			"wallSeconds": 3.7179127000272274,
+			"matchId": "5D14FD3140F13F3AB49E62BF6954DE29",
+			"requestId": 2,
+			"epoch": "16598904652818786291",
+			"code": 11,
+			"boardRevision": 4,
+			"economyRevision": 1,
+			"eventId": "0",
+			"created": [],
+			"removed": []
+		}
+	]
+}

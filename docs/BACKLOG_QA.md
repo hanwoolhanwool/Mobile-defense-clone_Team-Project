@@ -13,6 +13,8 @@ DEC-027의 2인 역할은 A 전투·웨이브 / B 경제·보드다. [역할·�
 
 이 문서는 작업 정의와 QA 기대 결과의 원본이다. 진행 상태는 작업 보드에서만 관리한다. TASK는 개발 작업, QA는 테스트 시나리오이며 서로 다른 ID다. QA 시나리오가 등록되어 있다는 것은 실행 통과를 뜻하지 않는다.
 
+**2026-09-28 참고 구현 검수 연결:** 아래 수용 기준을 변경하지 않고 [RUN-20260928-01~06](production/TEST_RUNS.md)과 [작업별 완료 조건·실행·증거](production/verification.json)를 연결했다. NET/DATA/COMBAT/ECON/BOARD/WAVE는 새 P0 실행 증거로 대조했다. 최신 PC 패키지의 [경계·동시 요청·Entry/복귀](production/evidence/RUN-20260918-G3/SUPPLEMENTS.md), [새 수업 재현](production/evidence/RUN-20260918-G3/REPLAY_EVIDENCE.md), 이전 입력의 [자연5판·회복](production/evidence/RUN-20260918-G3/SUMMARY.md)와 [20분 부하](production/evidence/RUN-20260918-G3/PERFORMANCE.md)를 구분한다. 실제 청음 답변과 Android APK·실기기 터치/SafeArea·10웨이브·성능은 남아 있으며 P0 최종 통과는 아니다. 현재 상태·학습자 Planned는 [보드](production/BOARD.md)를 따른다.
+
 ## 1. 첫 10일 실행 계획
 
 **DEC-021 적용:** [원작 대조 기록](product/ORIGINAL_REFERENCE.md)의 미확인 게임 규칙은 관련 작업 착수 전 원작 버전·모드·실제 입력과 결과를 확인하고 수용 기준을 갱신한다. 아래 기존 수치·이동/잠금/타깃/재료 교환 QA는 초안 검사용이며 원작 재현을 증명하지 않는다. 특히 재료 교환은 원작 근거 확인 전 구현 대상에서 보류한다. 서버 권한·중복 소비 방지와 DEC-019의 P0 검증 규모는 유지한다. 문서·데이터 검사 통과로 이 대조를 대체하지 않는다.

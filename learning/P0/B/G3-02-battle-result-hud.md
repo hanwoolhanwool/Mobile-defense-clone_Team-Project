@@ -5,14 +5,16 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-UI-01, TASK-TEST-01; [B HUD 계약](../../../docs/technical/IMPLEMENTATION_B.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
-| 참고 자료 제작 상태 | **Draft — 최종 소스의 73파일 보충·새 재현 대기** |
+| 참고 자료 제작 상태 | **Verified — 아래 명시한 PC 재현 범위** |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미확정**. 초기66파일 `0981d07307112857dfdf0e91c79bcecdbcbc291b`는 보존된 이전 입력 |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `f64cc671848560923595cc1955efe12620f326de` (제품+검사 소스). 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`; 마지막 차이는 테스트 파일만 |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A 계약 `e61c414`의 `FLDBattleSnapshot`, `ALDGameState`, `ULDBattleStatusWidget`, `ULDResultWidget`; 실제 구현과 종료/HP 수정까지 현재 통합 소스에 포함 |
 | 제공 코드 / 직접 작성할 코드 | A DTO/전투/결과 위젯과 G2는 제공. B `LDPlayerController`, `LDGameplayWidget` 변경을 직접 작성 |
 
-공통 실행·입력 SHA는 [SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 결함은 [REVIEW_FINDINGS](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md), 대표 부하는 [PERFORMANCE](../../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md)에 둔다. 초기66파일과 후속 검증을 현재 최종 수업 완료로 합치지 않는다. 조립·보충은 [통합 수업](../G3_INTEGRATION.md)을 따른다.
+공통 실행·입력 SHA는 [SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 결함은 [REVIEW_FINDINGS](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md), 대표 부하는 [PERFORMANCE](../../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md)에 둔다. 초기66파일과 최종73파일의 입력·실행은 구분한다. 역사 도구→보충→테스트 파일 갱신의3단계 재현은 [통합 수업](../G3_INTEGRATION.md)을 따른다.
+
+PC Verified는 [통합 수업의3단계 재현](../G3_INTEGRATION.md)과 [최종 PC 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결한 실행 범위다. 선택 변형 과제·미관찰 입력 조합은 완료로 올리지 않는다. Android G4와 실제 청음은 NotRun이며 P0 최종 완료가 아니다. 실제 학습자는 Planned를 유지한다.
 
 ## 이번에 만들 동작
 
@@ -47,10 +49,10 @@ Loading/Preparing/Running 화면 위에 서버의 웨이브·적 수·보스 HP/
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
 | Loading에서 보드 미준비→Aborted | 결과/복귀가 표시됨 | 늦은 참가의 실제 Editor-game Pass | [B01 관찰](G3-01-entry-return.md#제공-진입복귀-검사와-실제-관찰). 강제 초기화 실패와 동일 검사로 세지 않음 |
-| Preparing에서 소환→Running | 서버 경제 확정, 전투는 Running부터 | 실제 PIE 양쪽 소환1/gold80·Running 확인; 준비시간 경계는 별도 자동화 Pass | [새 재현 PIE](../evidence/G3_REPLAY/pie-proof.json), B 57자동화의 `LoadingPreparationAndExactReadiness` |
+| Preparing에서 소환→Running | 서버 경제 확정, 전투는 Running부터 | 실제 PIE 양쪽 소환1/gold80·Running 확인; 준비시간 경계는 별도 자동화 Pass | [새 재현 PIE](../evidence/G3_REPLAY/pie-proof.json), 최종 f64cc671 Waves9종의 `LoadingPreparationAndExactReadiness`(P+9.999 구매/판매 추가) |
 | terminal에서 S/M/X·터치/드래그·공개 의도 API | 새 서버 요청0, board/economy/Battle/cache/RNG 불변 | 후속 실제 GPU PIE Pass | Engine 입력 주입/실제 PC 경로이며 물리 입력·Android 검수는 아님 |
 | Result/Status RemoveFromParent→재생성 | 실제 PC tick이 새 인스턴스1개씩 생성, 구독 중복 없음 | 후속 GPU PIE Pass, 이전 네 위젯 수거 | 게임 HUD 재생성과 별개. 실제 반환 여행은 B01에서 검수 |
-| 결과 여러 번 갱신·빠른 복귀 클릭2번 | Entry 여행1회 | B01 실제 Slate Editor-game Pass | 최신 패키지 재현 대기 |
+| 결과 여러 번 갱신·빠른 복귀 클릭2번 | Entry 여행1회 | B01 실제 Slate Editor-game Pass | [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)의 G3Entry 실제 패키지도 Pass |
 | 양쪽 Running UI | 같은 웨이브·일반 수·개인 상태 표시 | 실제 PIE WAVE1/20초/N2, gold80/pop1, 자기 보드 아래 관찰 | [host](../evidence/G3_REPLAY/host-running.png)/[client](../evidence/G3_REPLAY/client-running.png), 546×720 |
 | 양쪽 최종 UI·지연·중복·재매치 | 보스 HP/승패·전투/개인 상태 일치, 새 매치 초기화 | 최종 패키지5판과 회복1판 Pass, 실제 결과 화면·복귀 확인 | [공통 검증 기록의 최종 PNG/JSON](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md); 정확한 네트워크 로그와 UI 효과 횟수는 별도 증거 |
 
@@ -66,7 +68,7 @@ Loading/Preparing/Running 화면 위에 서버의 웨이브·적 수·보스 HP/
 
 제공 `Tests/LDPieTests.cpp`의 `LD.PIE.P0.Session`은 실제 두 PIE World에서 위젯만 제거한다. 새 위젯을 검사기가 직접 생성하지 않고 기존 Controller tick이 복원하도록 기다린다. 원래 `ae12f90` 검사는 제품 조건을 관찰했지만 `CollectGarbage(RF_NoFlags)`가 에디터의 standalone 원본 맵까지 수거해 ensure와 전체 Fail을 만들었다. `b2f09c7`/통합 `7c761c0`은 엔진 `GARBAGE_COLLECTION_KEEPFLAGS`를 사용하고 원본 맵 보존·구 위젯 수거를 각각 검사한다. expected error나 수동 World 정리로 숨기지 않았다. 원본 Fail은 유지한다.
 
-수정 후 [상세 proof](../../../docs/production/evidence/RUN-20260918-G3/terminal-ui-after-proof.json)는 새 Result/Status가 소유자당 하나, 새 반환 구독 하나, 옛 반환/버튼 구독 해제, 이전 네 위젯 수거, 종료 뒤 실제 서버 RPC0·원본 상태 불변·논리 타이머 해제를 확인했다. [host](../../../docs/production/evidence/RUN-20260918-G3/terminal-ui-host.png)와 [client](../../../docs/production/evidence/RUN-20260918-G3/terminal-ui-client.png)의 실제546×720 화면은 재생성 뒤 정지 시계·한글 매치 종료·복귀 버튼을 보여준다. 새73파일 입력에서 동일 절차로 재현하기 전 이 수업을 Verified로 올리지 않는다.
+수정 후 [상세 proof](../../../docs/production/evidence/RUN-20260918-G3/terminal-ui-after-proof.json)는 새 Result/Status가 소유자당 하나, 새 반환 구독 하나, 옛 반환/버튼 구독 해제, 이전 네 위젯 수거, 종료 뒤 실제 서버 RPC0·원본 상태 불변·논리 타이머 해제를 확인했다. [host](../../../docs/production/evidence/RUN-20260918-G3/terminal-ui-host.png)와 [client](../../../docs/production/evidence/RUN-20260918-G3/terminal-ui-client.png)의 실제546×720 화면은 재생성 뒤 정지 시계·한글 매치 종료·복귀 버튼을 보여준다. 최종73파일 재현본에서도 실제 PIE 수명 검사를 Pass했다. 패키지의 혼합 승패·복귀 표시는 [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)의 양쪽 화면 리뷰와 연결한다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -88,7 +90,7 @@ API: `GameState.GetBattleSnapshot`, `BattleStatusWidget.UpdateView`, `ResultWidg
 - [x] 새 재현본 실제 PIE의 양쪽 Running 화면과 종료 정리 범위를 확인했다.
 - [x] 최종 패키지의 양쪽 전투/결과 화면·게임 HUD 재생성·반복 복귀를 재현했다.
 - [x] 후속 GPU PIE의 종료 입력/Result·Status 재생성과 별도 Editor-game의 빠른 결과 복귀를 확인했다.
-- [ ] 최종73파일 보충에서 새 Editor·자동화·PIE·패키지와 완료 SHA를 수업 절차로 재현한다.
+- [x] 최종73파일의3단계 수업 재현·Editor·자동화·실제 PIE·패키지를 확인하고 제품+검사/패키지 SHA를 구분했다.
 - [x] 시작점→초기 조립·후속 수정 기록별 증거를 연결했다.
 
-현재 Draft다. Verified 진입 조건은 최종 입력·완료 SHA를 고정하고 위 절차로 새 재현·검수 증거와 학습 기록을 동기화하는 것이다. 기존 UI 검수 Pass와 학습자 Planned를 분리한다. Android SafeArea/물리 터치는 별도 G4 NotRun이다.
+명시한 PC 범위는 문서 절차의 실제 재현으로 Verified다. 선택 변형과 미관찰 입력 조건은 포함하지 않으며 학습자 Planned를 유지한다. Android SafeArea/물리 터치는 별도 G4 NotRun이다.

@@ -1,0 +1,107 @@
+{
+  "Scope": "Actual GPU two-process Editor-game supplement; not packaged",
+  "Probe": "G3Boundary",
+  "Started": "2026-09-28T00:40:17.8141665+09:00",
+  "Head": "ab03161183cda7510e41f9f41d44736735b2a206",
+  "RunnerSHA256": "ED3281E655B54AF90FF78005ED8997D7B21ABA2C9A060E3B664DBE71D4845457",
+  "Executable": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+  "ExecutableSHA256": "6F9C95C131F37CBDC384ADE02FCF6ED828BAA366B25234D0D85E212244CAC9AA",
+  "EditorModuleSHA256": "1525D42EBCAB5B4DDD98D15A4A010F1FA0E4C819E1AFE9506A618736CEBC4E1E",
+  "ExpectedCases": 4,
+  "Resolution": [
+    540,
+    1170
+  ],
+  "MaxFPS": 60,
+  "RenderOffscreen": true,
+  "Fixture": "Explicit Development supplement. Each role result records its exact setup and observations. Not natural balance or physical input.",
+  "Processes": [
+    {
+      "PID": 45728,
+      "Role": "host",
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+        "/Game/LD/Maps/L_P0Entry",
+        "-game",
+        "-ModelContextProtocolPort=17877",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3Boundary",
+        "-P0Role=host",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-boundary-editor-pair-fix2\\host",
+        "-P0TimeoutSeconds=600",
+        "-P0Seed=1776",
+        "-P0CommandTrace",
+        "-abslog=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-boundary-editor-pair-fix2\\host/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-P0EntryRunId=G3-boundary-editor-pair-fix2",
+        "-RenderOffscreen"
+      ]
+    },
+    {
+      "PID": 24492,
+      "Role": "client",
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+        "/Game/LD/Maps/L_P0Entry",
+        "-game",
+        "-ModelContextProtocolPort=17878",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=540",
+        "-ResY=1170",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3Boundary",
+        "-P0Role=client",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-boundary-editor-pair-fix2\\client",
+        "-P0TimeoutSeconds=600",
+        "-P0Seed=1776",
+        "-P0CommandTrace",
+        "-abslog=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-boundary-editor-pair-fix2\\client/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-P0EntryRunId=G3-boundary-editor-pair-fix2",
+        "-RenderOffscreen"
+      ]
+    }
+  ],
+  "Result": "Pass",
+  "PairStateConsistent": true,
+  "RoleResults": [
+    {
+      "Role": "host",
+      "ExitCode": 0,
+      "Cases": 4,
+      "Checks": 175,
+      "FailedChecks": 0,
+      "CriticalLog": false,
+      "RequiredImages": 9,
+      "MissingImages": [],
+      "Pass": true
+    },
+    {
+      "Role": "client",
+      "ExitCode": 0,
+      "Cases": 4,
+      "Checks": 86,
+      "FailedChecks": 0,
+      "CriticalLog": false,
+      "RequiredImages": 9,
+      "MissingImages": [],
+      "Pass": true
+    }
+  ],
+  "Finished": "2026-09-28T00:44:52.2422703+09:00"
+}

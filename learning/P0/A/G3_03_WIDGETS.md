@@ -5,11 +5,13 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-UI-01 중 A / [A-06](../../../docs/technical/IMPLEMENTATION_A.md#a06), [UI v2](../../../docs/design/BOARD_UI.md#ingame-ui-v2) |
-| 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미정**. 최종 Source SHA도 미정이며 중간 구현·최초66파일 증거는 [공통 기록](G3_EVIDENCE.md)에 구분 |
+| 참고 자료 제작 / 실제 개발 상태 | **Verified — 아래 명시한 PC 재현 범위** / Planned |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `f64cc671848560923595cc1955efe12620f326de` (제품+검사 소스). 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`; 마지막 차이는 테스트 파일만 |
 | 실제 개발 시작 / 완료 SHA | 자기 G2 통합 결과 / 미생성 |
 | 상대 산출물 | B Controller의 GameState 구독·Widget 생성/갱신/해제·시작 화면 복귀 |
 | 제공 / 직접 작성 | 제공: G2 UI 입력과 SafeArea 계약. 직접 작성: UI/LDBattleStatusWidget.h/.cpp, UI/LDResultWidget.h/.cpp. 제공 검수: Tests/LDPieTests.cpp와 패키지 probe; B 생성/해제 코드는 상대 제공 |
+
+PC Verified는 [통합 수업의3단계 재현](../G3_INTEGRATION.md)과 [최종 PC 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결한 실행 범위다. 선택 변형 과제·미관찰 입력 조합은 완료로 올리지 않는다. Android G4와 실제 청음은 NotRun이며 P0 최종 완료가 아니다. 실제 학습자는 Planned를 유지한다.
 
 ## 이번에 만들 동작
 
@@ -43,30 +45,30 @@
 
 ## 실행·실패·수정 기록
 
-아래 실제 결과는 당시 입력에서 관찰한 이력이다. 이번 수업의 최종73파일 입력을 출발점에서 다시 조립한 결과는 아직 미실행이다. 공통 실행 수치·SHA는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)를 따른다.
+아래 초기 실패/결과는 당시 입력의 이력으로 보존한다. 최종73파일을 시작점에서 재조립해 검증했으며, 마지막 테스트 보강은 별도 Editor·Waves9종으로 확인했다. 공통 실행 수치·SHA는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)를 따른다.
 
 | 조건 | 기대 결과 | 실제 결과·범위 |
 |---|---|---|
 | 첫 연결·준비·일반 웨이브 | 실제 Phase/남은초/Wave/N 표시, 가짜10웨이브 예시값 없음 | 새 조립 PIE에서 양쪽 wave1/N2·소환/Gold80, 최종 패키지에서 wave10/보스HP 확인 |
 | 보스 actor 미도착·snapshot 선도착 | 두 HP를 값으로 표시, actor 역참조0 | 코드 경로 검토, 실행 미검수 |
-| 패배/승리/Aborted | 각각 사유·웨이브·복귀 표시 | 최종 패키지5시드 보스 시간초과 패배/양쪽 복귀4회, 새 조립 PIE Aborted 복제 Pass. 자연 패키지 승리 표시는 미실행 |
-| 보스 비치명타격 직후 Abort | 결과 최초 게시에서 실제 Actor HP5900/6000과 snapshot 일치 | A02 실제 Fail→Mode의 마지막 HP 갱신→NullRHI 회귀 Pass; 실제 화면은 후속 검수 |
+| 패배/승리/Aborted | 각각 사유·웨이브·복귀 표시 | 최종 패키지5시드 보스 시간초과 패배/양쪽 복귀4회, 새 조립 PIE Aborted 복제 Pass. 최종 Boundary의 명시 승리/시간초과/한도 결과 표시와 재진입도 [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에서 확인; 자연 승리는 미관찰 |
+| 보스 비치명타격 직후 Abort | 결과 최초 게시에서 실제 Actor HP5900/6000과 snapshot 일치 | A02 실제 Fail→Mode의 마지막 HP 갱신→NullRHI 회귀 Pass; 이5900/6000 Abort fixture의 별도 화면 관찰은 미검증 |
 | HUD3회 재생성 | 구독1회/클릭1의도, 현재 상태 즉시표시 | 최종 패키지 매판 양쪽3회 및 회복 한 판3회 Pass. 원래 명령 응답/중복 처리는 별도 RPC 검사 |
 | 좁은 화면/SafeArea | 상단·핵심 조작 잘림 없음, Return button 실측rect와 입력 일치 | 실제 패키지540×1170 양쪽 표시와 복귀 Slate 입력 Pass; 모든 화면비/Android 물리 SafeArea는 미검수 |
 
 실제 캡처·컴파일·수명 결과는 [G3 A 공통 증거](G3_EVIDENCE.md)에 연결한다. PIE v1은 같은 프레임의 host WAVE0/00:00 잔상이 있어 표시 검수를 보류했고, 양쪽 Running 뒤0.5초 대기한 v2 및 후속 새 조립 PIE는 실제2개 PIE World·양쪽 PNG·원설정 복원까지 Pass했다. PIE 요청540×1170의 실제 창은 데스크톱 제약으로546×720이다. 최종 패키지의540×1170 캡처와 구분한다.
 
-최종 양쪽 패키지 화면에서 WAVE10/10, 일반0/100, 보스 두 HP, 제한 시간 초과 사유·복귀 버튼 및 결과 시 비활성 조작을 직접 확인했다. 소유 보드와 개인 경제는 각 참가자의 값이다. B Entry의 임시 스타일 수명 크래시(PKG01)와 효과음 cook 누락(PKG02)은 별도 실패를 보존한 뒤 수정·패키지 재검수로 닫혔다. A 위젯만 복사해서 이 공용 의존을 생략하지 않도록 [공통 전달 입력](G3_EVIDENCE.md)을 사용한다. 효과음은 무음 실행에서 로드만 검증했고 청취는 NotRun이다. 모든 화면비·물리 SafeArea·Android 검수는 아직 완료하지 않았다.20분 고정 부하 결과와 한계는 정식 PERFORMANCE에 있으며 이 UI 수업의 새 입력 재현을 대신하지 않는다.
+이전 자연 규칙 양쪽 패키지 화면에서 WAVE10/10, 일반0/100, 보스 두 HP, 제한 시간 초과 사유·복귀 버튼 및 결과 시 비활성 조작을 직접 확인했다. 소유 보드와 개인 경제는 각 참가자의 값이다. B Entry의 임시 스타일 수명 크래시(PKG01)와 효과음 cook 누락(PKG02)은 별도 실패를 보존한 뒤 수정·패키지 재검수로 닫혔다. A 위젯만 복사해서 이 공용 의존을 생략하지 않도록 [공통 전달 입력](G3_EVIDENCE.md)을 사용한다. 효과음은 무음 실행에서 로드만 검증했고 청취는 NotRun이다. 모든 화면비·물리 SafeArea·Android 검수는 아직 완료하지 않았다.20분 고정 부하 결과와 한계는 정식 PERFORMANCE에 있으며 이 UI 수업의 새 입력 재현을 대신하지 않는다.
 
 ### 종료 UI 재생성의 수명 관찰
 
 통합의 제공 실제 PIE 검사는 Result 후 기존 Result/Status를 제거하고 재생성한다. 각 소유자에게 표시 위젯이1쌍, 새 복귀 구독이1개인지 확인하고, 이전 위젯의 버튼/외부 구독 해제를 직접 관찰한다. 종료 뒤 Engine InputKey S/M/X와 InputTouch, public intent를 보내되 실제 서버 요청0·원본 상태 불변·논리 타이머 정지를 검사한다. 이는 물리 키/터치를 누른 검수가 아니다.
 
-이전 위젯은 해제 상태를 확인할 동안 검수기가 강한 참조로 보존하고, 이후 참조를 놓고 약한 참조 수거를 확인한다. Editor의 standalone 원본 맵은 엔진의 GC 유지 플래그로 보존해야 한다. 잘못된 GC 설정의 제공 검사기 실패와 수정, 양쪽 종료 후 PNG는 정식 REVIEW에 연결한다. 제품 위젯에 검사용 전역 포인터나 강제 GC 호출을 추가하지 않는다. 이번73파일 수업 재현에서 같은 검사를 다시 실행하기 전에는 Verified를 표시하지 않는다.
+이전 위젯은 해제 상태를 확인할 동안 검수기가 강한 참조로 보존하고, 이후 참조를 놓고 약한 참조 수거를 확인한다. Editor의 standalone 원본 맵은 엔진의 GC 유지 플래그로 보존해야 한다. 잘못된 GC 설정의 제공 검사기 실패와 수정, 양쪽 종료 후 PNG는 정식 REVIEW에 연결한다. 제품 위젯에 검사용 전역 포인터나 강제 GC 호출을 추가하지 않는다. 최종73파일 재현본에서도 같은 실제 PIE 검사를 통과했다. 신규 패키지의 혼합 승패와 Entry 복귀 화면은 [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)의 화면 리뷰와 연결한다.
 
 ## 상대에게 전달하고 통합하기
 
-`e61c414` header계약과 `61fb3a7` cpp를 함께 전달한다. B의 `d2183ae` Controller 통합은 GameState 구독·서버 시각·두 widget 수명과 복귀를 맡는다. A는 화면 내부 및 값 형식 수정만 담당한다. 후속 A01/A02, B Entry/공용 cook, 새 매치 세대 및 검수 보충까지 [공통 기록](G3_EVIDENCE.md)의66→73파일 절차로 전달한다. 최종 Source SHA는 아직 미정이며 초기 위젯 커밋만 현재 실행 입력으로 쓰지 않는다.
+`e61c414` header계약과 `61fb3a7` cpp를 함께 전달한다. B의 `d2183ae` Controller 통합은 GameState 구독·서버 시각·두 widget 수명과 복귀를 맡는다. A는 화면 내부 및 값 형식 수정만 담당한다. 후속 A01/A02, B Entry/공용 cook, 새 매치 세대 및 검수 보충까지 [공통 기록](G3_EVIDENCE.md)의66→73파일 절차로 전달한다. 최종 제품+검사 소스는 표의 f64cc671이며, 패키지는 제품 코드가 같은 e89a1fa다. 초기 위젯 커밋만 현재 실행 입력으로 쓰지 않는다.
 
 ## 이해 확인
 
@@ -79,6 +81,6 @@
 
 - [x] native UMG 계층·좌표·프로퍼티·연결/해제·B 전달 API를 기록했다.
 - [x] 기존 조립/패키지의 표시·HUD 재생성·복귀 관찰과 통합의 추가 종료 UI 검사를 서로 다른 증거로 연결했다.
-- [ ] snapshot 선도착/늦은 보스 actor 조건·모든 화면비·자연 승리 표시를 별도로 확인했다.
-- [ ] 출발점 파일 조립 재현 후 Verified를 표시했다.
-- [ ] G3 독립 리뷰와 패키지 검수를 완료했다. Android 물리 SafeArea/터치는 G4 미검수다.
+- [ ] 선택 확장 관찰: snapshot 선도착/늦은 보스 actor 조건·모든 화면비·자연 승리. 현재 Verified에 포함하지 않는다.
+- [x] 문서의3단계 조립 재현과 명시 PC 실행을 근거로 Verified를 표시했다.
+- [x] 명시 PC 독립 리뷰·패키지 표시를 확인했다. Android 물리 SafeArea/터치와 실제 청음은 NotRun이다.

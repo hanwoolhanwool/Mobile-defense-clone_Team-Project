@@ -3,7 +3,7 @@
 
 ## 현재 작업 상태
 
-현재 P0 참고 구현을 A/B 독립 브랜치와 통합 worktree에서 제작·검증하고 있습니다. G0~G2는 통과했으며 G3 PC 패키지 반복·네트워크·부하 검사와 G4 Android 검수가 남아 있습니다. 실제 학습자는 공통 출발점에서 시작하는 Planned 상태입니다. [이번 작업과 검증 근거](docs/production/P0_REFERENCE_RUN.md)를 확인하세요.
+현재 P0 참고 구현을 A/B 독립 브랜치와 통합 worktree에서 제작·검증하고 있습니다. G0~G2와 G3 PC 패키지 반복·네트워크·부하·경계 검사는 통과했습니다. 실제 거절 효과음 청음과 G4 Android 검수가 남아 P0 최종 완료는 아닙니다. 실제 학습자는 공통 출발점에서 시작하는 Planned 상태입니다. [이번 작업과 검증 근거](docs/production/P0_REFERENCE_RUN.md)를 확인하세요.
 
 실행할 프로젝트는 `C:/Users/iam12/P0_reference_integration/Mobile_defense_clone.uproject`입니다. 원래 `Mobile_defense_clone` 폴더는 기획·기본 프로젝트 출발점을 보존합니다. 통합 프로젝트의 `L_P0Entry`에서 한 쪽은 호스트, 다른 쪽은 호스트 IPv4 주소로 참가합니다. 같은 PC의 두 실행에서는 `127.0.0.1:7777`을 사용합니다. 에디터의 단일 PIE 실행만으로 패키지 2인 검수를 대신하지 않습니다.
 
@@ -34,7 +34,7 @@
 <!-- optional-learning:start -->
 ## 선택 학습 자료
 
-`learning/README.md`에는 P1·P2의 향후 제작 계획과 공통 양식만 남아 있습니다. 기존 P0 A/B 자료는 삭제했으며 새 구현과 검수에 맞춰 다시 작성할 예정입니다.
+`learning/P0/README.md`의 P0 학습 시작 → 공통 계약 → A/B 수업 → 각 게이트 통합 순서입니다. G0~G3의 명시한 PC 재현 절차는 Verified이고 G4는 Draft입니다. 실제 학습자와 learn 브랜치는 공통 출발점에 유지합니다. P1/P2 목차는 기존 계획만 보존합니다.
 
 이 자료는 나중에 `learning/`과 이 안내 블록만 제거할 수 있도록 정식 개발 문서·빌드에서 분리되어 있습니다.
 <!-- optional-learning:end -->

@@ -572,3 +572,95 @@
 - G2 출발점의 새 파일 조립·Editor·56자동화·실제2World PIE·G2 조작 회귀를 확인했다. 후속 Entry 수명 수정 후 A/B Editor 및 B 전체57자동화 무경고Pass, 재현본 Entry 관련3개 무경고Pass.
 - 최초 Win64 패키징의 Live Coding 충돌과 실제 cooked Entry의 스타일 수명 크래시는 실패 증거를 보존했다. 수정된 실제 패키지 반복 검수 전까지 G3 차단 상태를 유지한다.
 - 짧은 부하 smoke의 실제2000사망/GC2141/양쪽 결과 저장 Pass는 대표20분 패키지 성능이나 자연 플레이/Android 통과를 뜻하지 않는다. 실제 학습자는 Planned, P0 최종 미완료다.
+
+## RUN-20260928-01 · NET 수용 기준 대조
+
+- 실행 근거 대조일: 2026-09-28 / 실행자: Codex 참고 제작. 이 기록 작성 중 신규 빌드·게임 실행 없음.
+- 연결 작업: TASK-NET-01 — 서버 권한·공용 상태·실제 RPC.
+- 기록 판정: Pass
+- 범위: G0 native 실제 RPC, G1 경로 복제, G3 최신 패키지 경계·동시 요청·늦은 참가/복귀를 수용 기준별로 대조했다.
+- 입력: 최신 제품/fixture e89a1fabaf5ef5e3a1d03a09397806814551ec20의73파일 새 재현과 Win64 패키지. 마지막 f64cc671848560923595cc1955efe12620f326de는 LDWaveTests197줄만 추가했으며 통합/새 재현 Waves9종 무경고 Pass. 기존 자연5판·회복·20분 부하는 원래 C++0e473f4/Config98727f0 입력에 귀속한다.
+- NET-INIT-LIFETIME: 실제 2인 초기화·소유 문맥·종료 및 재시도/종료 캐시를 확인했다. G0 native PIE 증거의 경고는 원본대로 보존한다. 증거: [B-network-summary.json](evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-B-network-summary.json), [B-native-proof.json](evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-B-native-proof.json), [canonical-native-proof.json](evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-canonical-native-proof.json).
+- NET-REPLICATION: 경로 식별, 현재/최대 일반 적 수, 보스 마감 시각, 단일 결과가 양쪽에서 일치한다. G1 경로와 G3 실제 패키지의 범위를 구분한다. 증거: [package-pair-summary.json](evidence/RUN-20260918-G1/package-pair-summary.json), [final-G3Boundary-pair.json](evidence/RUN-20260918-G3/final-G3Boundary-pair.json), [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json), [final-G3Boundary-client.json](evidence/RUN-20260918-G3/final-G3Boundary-client.json).
+- NET-REPLAY-EPOCH: 서버 직렬 명령·중복/충돌/캐시·오래된 매치 세대를 검증했다. 새 World의 기존 성공 payload는 InvalidEpoch이며 보드/경제/RNG/캐시가 불변이다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [final-G3NetConflict-host.json](evidence/RUN-20260918-G3/final-G3NetConflict-host.json), [final-G3NetConflict-client.json](evidence/RUN-20260918-G3/final-G3NetConflict-client.json), [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json).
+- NET-RETURN: Loading 시간초과 후 늦은 참가 미등록, 단일 결과 유지, 호스트 선복귀/peer 오류 안내와 종료 객체 수거를 실제 패키지에서 확인했다. 증거: [final-G3Entry-host.json](evidence/RUN-20260918-G3/final-G3Entry-host.json), [final-G3Entry-client.json](evidence/RUN-20260918-G3/final-G3Entry-client.json), [final-pie-proof.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-pie-proof.json).
+- 실행 층: 문서/데이터 정합과 Unreal NullRHI 자동화, GPU PIE, 별도 Win64 패키지 네트워크 실행을 각각 원본 결과로 구분한다. 최신 새 재현은 Editor Pass·58 Success/경고0·PIE1 Success·compile/cook/archive Pass. 패키지 Boundary179/86, NetConflict27/14, Entry35/29 모두 Pass·정상 종료·상태 일치. 각 수치는 해당 fixture의 관찰 수이며 고유 요구사항 수가 아니다.
+- 검토·수정 근거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 기존 실패와 수정 전후 증거를 보존한다.
+- 제외·잔여: 실제 학습자 완료, 실제 청음, Android 실기기 및 P1/P2. -nosound 실행을 청음 Pass로 표시하지 않는다. TASK-TEST-01은 QA, MAP/UI/MOB는 InProgress, P0 전체 미완료.
+- 완료 판정 등록: [verification.json](verification.json)의 동일 작업 criteria/run/evidence와 [보드 메모](BOARD.md)를 연결했다.
+
+## RUN-20260928-02 · DATA 수용 기준 대조
+
+- 실행 근거 대조일: 2026-09-28 / 실행자: Codex 참고 제작. 이 기록 작성 중 신규 빌드·게임 실행 없음.
+- 연결 작업: TASK-DATA-01 — 현행 P0 데이터·원자적 로더.
+- 기록 판정: Pass
+- 범위: 현행 기획용 생성 데이터에 새로 구현한 로더·검증과 최신 재현/쿠킹 실행을 대조했다. 원작 미확인 시험값의 성격은 명세에 유지한다.
+- 입력: 최신 제품/fixture e89a1fabaf5ef5e3a1d03a09397806814551ec20의73파일 새 재현과 Win64 패키지. 마지막 f64cc671848560923595cc1955efe12620f326de는 LDWaveTests197줄만 추가했으며 통합/새 재현 Waves9종 무경고 Pass. 기존 자연5판·회복·20분 부하는 원래 C++0e473f4/Config98727f0 입력에 귀속한다.
+- DATA-CONTRACT: 새 SchemaVersion=2/RulesVersion=0.3.0 로더가 16종, 6×3 두 보드, 두 경로, 일반 적 한도100/보스60초의 단위·계약을 검사한다. 잘못된 행/누락 파일/계약 변경은 원자적으로 거절한다. 증거: [integration-report-final.json](evidence/RUN-20260918-G0/integration-report-final.json), [a-tests-result.json](evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-a-tests-result.json), [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json).
+- DATA-P0-FEATURES: SkillId 참조와 P0 실행 비활성, 강화 비활성, 4등급 정수 확률, MaxStack=3을 현행 데이터로 검사했다. 삭제한 과거 런타임은 선행 구현으로 사용하지 않았다. 증거: [REVIEW.md](evidence/RUN-20260918-G0/REVIEW.md), [integration-report-final.json](evidence/RUN-20260918-G0/integration-report-final.json), [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json).
+- DATA-COOK: 새 73파일 재현과 최종 compile/cook/archive 및 실제 패키지 초기화·명령·전투 실행으로 필수 데이터/에셋 로딩을 확인했다. 증거: [supplement-inputs.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-supplement-inputs.json), [final-package.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-package.json), [final-package-inputs.json](evidence/RUN-20260918-G3/final-package-inputs.json), [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json).
+- 실행 층: 문서/데이터 정합과 Unreal NullRHI 자동화, GPU PIE, 별도 Win64 패키지 네트워크 실행을 각각 원본 결과로 구분한다. 최신 새 재현은 Editor Pass·58 Success/경고0·PIE1 Success·compile/cook/archive Pass. 패키지 Boundary179/86, NetConflict27/14, Entry35/29 모두 Pass·정상 종료·상태 일치. 각 수치는 해당 fixture의 관찰 수이며 고유 요구사항 수가 아니다.
+- 검토·수정 근거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 기존 실패와 수정 전후 증거를 보존한다.
+- 제외·잔여: 실제 학습자 완료, 실제 청음, Android 실기기 및 P1/P2. -nosound 실행을 청음 Pass로 표시하지 않는다. TASK-TEST-01은 QA, MAP/UI/MOB는 InProgress, P0 전체 미완료.
+- 완료 판정 등록: [verification.json](verification.json)의 동일 작업 criteria/run/evidence와 [보드 메모](BOARD.md)를 연결했다.
+
+## RUN-20260928-03 · COMBAT 수용 기준 대조
+
+- 실행 근거 대조일: 2026-09-28 / 실행자: Codex 참고 제작. 이 기록 작성 중 신규 빌드·게임 실행 없음.
+- 연결 작업: TASK-COMBAT-01 — 16종 기본 공격·이동·피해·사망.
+- 기록 판정: Pass
+- 범위: 기본 공격만 활성화한 G2 실제 실행·최신 자동화/경계 패키지와 기존 대표 부하의 한정된 실측 근거를 대조했다.
+- 입력: 최신 제품/fixture e89a1fabaf5ef5e3a1d03a09397806814551ec20의73파일 새 재현과 Win64 패키지. 마지막 f64cc671848560923595cc1955efe12620f326de는 LDWaveTests197줄만 추가했으며 통합/새 재현 Waves9종 무경고 Pass. 기존 자연5판·회복·20분 부하는 원래 C++0e473f4/Config98727f0 입력에 귀속한다.
+- COMBAT-ATTACKS: 16종 기본 공격과 능력치, 사거리·표적·저항·피해 경계 및 P0 고유 스킬 비활성을 Unreal 검사와 실제 G2 실행으로 확인했다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json), [FINAL_REVIEW.md](evidence/RUN-20260918-G2/FINAL_REVIEW.md).
+- COMBAT-DEATH: 중복 피해/처치의 단일 정산, 예약 타격의 사건 시각 및 종료 전에 확정된 보상을 확인했다. fixture의 고정 HP/공격 예정 시각은 자연 전투 밸런스와 구분한다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json), [final-G3Boundary-client.json](evidence/RUN-20260918-G3/final-G3Boundary-client.json), [SUPPLEMENTS.md](evidence/RUN-20260918-G3/SUPPLEMENTS.md).
+- COMBAT-LIFETIME: 이동·보충 시 기존 Actor/ID/공격 타이머 유지, 두 경로의 식별 유지, 종료 후 공격 중단을 확인했다. 별도 이전 패키지의 20분 실측/2000처치·정리 결과는 해당 입력에만 귀속한다. 증거: [package-pair-summary.json](evidence/RUN-20260918-G1/package-pair-summary.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json), [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [PERFORMANCE.md](evidence/RUN-20260918-G3/PERFORMANCE.md).
+- 실행 층: 문서/데이터 정합과 Unreal NullRHI 자동화, GPU PIE, 별도 Win64 패키지 네트워크 실행을 각각 원본 결과로 구분한다. 최신 새 재현은 Editor Pass·58 Success/경고0·PIE1 Success·compile/cook/archive Pass. 패키지 Boundary179/86, NetConflict27/14, Entry35/29 모두 Pass·정상 종료·상태 일치. 각 수치는 해당 fixture의 관찰 수이며 고유 요구사항 수가 아니다.
+- 검토·수정 근거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 기존 실패와 수정 전후 증거를 보존한다.
+- 제외·잔여: 실제 학습자 완료, 실제 청음, Android 실기기 및 P1/P2. -nosound 실행을 청음 Pass로 표시하지 않는다. TASK-TEST-01은 QA, MAP/UI/MOB는 InProgress, P0 전체 미완료.
+- 완료 판정 등록: [verification.json](verification.json)의 동일 작업 criteria/run/evidence와 [보드 메모](BOARD.md)를 연결했다.
+
+## RUN-20260928-04 · ECON 수용 기준 대조
+
+- 실행 근거 대조일: 2026-09-28 / 실행자: Codex 참고 제작. 이 기록 작성 중 신규 빌드·게임 실행 없음.
+- 연결 작업: TASK-ECON-01 — 소환·경제·실패 불변·보상.
+- 기록 판정: Pass
+- 범위: 소환/판매/보상과 실패·중복·동시 처리의 상태/RNG 불변을 실제 G2 및 최신 G3 실행에 연결했다.
+- 입력: 최신 제품/fixture e89a1fabaf5ef5e3a1d03a09397806814551ec20의73파일 새 재현과 Win64 패키지. 마지막 f64cc671848560923595cc1955efe12620f326de는 LDWaveTests197줄만 추가했으며 통합/새 재현 Waves9종 무경고 Pass. 기존 자연5판·회복·20분 부하는 원래 C++0e473f4/Config98727f0 입력에 귀속한다.
+- ECON-PRICE-RNG: 확정 소환 가격/4등급 확률 및 추첨 전 수용 조건을 검사했다. 실패 시 재화/보드/소환횟수/RNG 불변이고 강화 등 제외 명령은 FeatureDisabled다. 시험값을 원작 확정값으로 바꾸지 않았다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [integration-report-final.json](evidence/RUN-20260918-G0/integration-report-final.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json), [FINAL_REVIEW.md](evidence/RUN-20260918-G2/FINAL_REVIEW.md).
+- ECON-STACK: 동일 UnitId의 여유 뭉치 우선 추가와 모든 동일 뭉치가3일 때 새 뭉치 생성, 판매 환급·보충·등급별 합성을 확인했다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json).
+- ECON-SINGLE: 중복 명령·처치가 단일 소비/보상이 되고 실제 동시 재료 요청은 Success1/StaleBoard1이다. 준비 종료·처치 보상·새 명령 사이의 시간 순서도 검사했다. 증거: [final-G3NetConflict-host.json](evidence/RUN-20260918-G3/final-G3NetConflict-host.json), [final-G3NetConflict-client.json](evidence/RUN-20260918-G3/final-G3NetConflict-client.json), [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json), [final-detail-waves.json](evidence/RUN-20260918-G3/final-detail-waves.json), [final-detail-waves.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-detail-waves.json), [SUPPLEMENTS.md](evidence/RUN-20260918-G3/SUPPLEMENTS.md).
+- 실행 층: 문서/데이터 정합과 Unreal NullRHI 자동화, GPU PIE, 별도 Win64 패키지 네트워크 실행을 각각 원본 결과로 구분한다. 최신 새 재현은 Editor Pass·58 Success/경고0·PIE1 Success·compile/cook/archive Pass. 패키지 Boundary179/86, NetConflict27/14, Entry35/29 모두 Pass·정상 종료·상태 일치. 각 수치는 해당 fixture의 관찰 수이며 고유 요구사항 수가 아니다.
+- 검토·수정 근거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 기존 실패와 수정 전후 증거를 보존한다.
+- 제외·잔여: 실제 학습자 완료, 실제 청음, Android 실기기 및 P1/P2. -nosound 실행을 청음 Pass로 표시하지 않는다. TASK-TEST-01은 QA, MAP/UI/MOB는 InProgress, P0 전체 미완료.
+- 완료 판정 등록: [verification.json](verification.json)의 동일 작업 criteria/run/evidence와 [보드 메모](BOARD.md)를 연결했다.
+
+## RUN-20260928-05 · BOARD 수용 기준 대조
+
+- 실행 근거 대조일: 2026-09-28 / 실행자: Codex 참고 제작. 이 기록 작성 중 신규 빌드·게임 실행 없음.
+- 연결 작업: TASK-BOARD-01 — 보드·뭉치·이동·합성·판매.
+- 기록 판정: Pass
+- 범위: 서버 보드 상태와 명령의 원자성/개체 수명 완료다. 화면·물리 터치의 Android 부분은 MAP/UI 작업에 남긴다.
+- 입력: 최신 제품/fixture e89a1fabaf5ef5e3a1d03a09397806814551ec20의73파일 새 재현과 Win64 패키지. 마지막 f64cc671848560923595cc1955efe12620f326de는 LDWaveTests197줄만 추가했으며 통합/새 재현 Waves9종 무경고 Pass. 기존 자연5판·회복·20분 부하는 원래 C++0e473f4/Config98727f0 입력에 귀속한다.
+- BOARD-OWNERSHIP: 개인 6×3/전체36셀 좌표·소유권 거절, 종류 분리와 뭉치 상한3을 확인했다. Android 물리 터치/SafeArea는 이 작업 Done에 포함하지 않는다. 증거: [package-pair-summary.json](evidence/RUN-20260918-G1/package-pair-summary.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json), [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json).
+- BOARD-ATOMIC: 이동/합성/판매의 원자적 준비·확정, 중복 요청 안전, 준비 이후 revision 변경 시 재검증과 동시 재료 요청의 단일 소비를 확인했다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json), [final-G3NetConflict-host.json](evidence/RUN-20260918-G3/final-G3NetConflict-host.json), [final-G3NetConflict-client.json](evidence/RUN-20260918-G3/final-G3NetConflict-client.json).
+- BOARD-IDENTITY: 이동·기존 뭉치 보충 때 개별 InstanceId와 Actor/공격 타이머를 보존하고, 초기 실패·종료 뒤 조작이 원본을 변경하지 않음을 확인했다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [review-pair-summary.json](evidence/RUN-20260918-G2/review-pair-summary.json), [final-pie-proof.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-pie-proof.json), [final-G3Entry-host.json](evidence/RUN-20260918-G3/final-G3Entry-host.json).
+- 실행 층: 문서/데이터 정합과 Unreal NullRHI 자동화, GPU PIE, 별도 Win64 패키지 네트워크 실행을 각각 원본 결과로 구분한다. 최신 새 재현은 Editor Pass·58 Success/경고0·PIE1 Success·compile/cook/archive Pass. 패키지 Boundary179/86, NetConflict27/14, Entry35/29 모두 Pass·정상 종료·상태 일치. 각 수치는 해당 fixture의 관찰 수이며 고유 요구사항 수가 아니다.
+- 검토·수정 근거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 기존 실패와 수정 전후 증거를 보존한다.
+- 제외·잔여: 실제 학습자 완료, 실제 청음, Android 실기기 및 P1/P2. -nosound 실행을 청음 Pass로 표시하지 않는다. TASK-TEST-01은 QA, MAP/UI/MOB는 InProgress, P0 전체 미완료.
+- 완료 판정 등록: [verification.json](verification.json)의 동일 작업 criteria/run/evidence와 [보드 메모](BOARD.md)를 연결했다.
+
+## RUN-20260928-06 · WAVE 수용 기준 대조
+
+- 실행 근거 대조일: 2026-09-28 / 실행자: Codex 참고 제작. 이 기록 작성 중 신규 빌드·게임 실행 없음.
+- 연결 작업: TASK-WAVE-01 — 10웨이브·한도·보스 마감·승패.
+- 기록 판정: Pass
+- 범위: 정상5판과 조건을 제어한 경계 fixture를 구분해 수량/마감/승리 조건을 대조했다. 밸런스 목표 승률 달성이라는 판정은 하지 않는다.
+- 입력: 최신 제품/fixture e89a1fabaf5ef5e3a1d03a09397806814551ec20의73파일 새 재현과 Win64 패키지. 마지막 f64cc671848560923595cc1955efe12620f326de는 LDWaveTests197줄만 추가했으며 통합/새 재현 Waves9종 무경고 Pass. 기존 자연5판·회복·20분 부하는 원래 C++0e473f4/Config98727f0 입력에 귀속한다.
+- WAVE-SCHEDULE: 정해진 10웨이브 생성, 보스 양쪽2개체/60초, 다음 웨이브에도 남은 적 ID 유지와 11웨이브 미생성을 확인했다. 자연5시드는 모두10웨이브 BossTimeout 패배이고 양쪽 상태가 일치했다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [final-detail-waves.json](evidence/RUN-20260918-G3/final-detail-waves.json), [package-five-seeds-summary.json](evidence/RUN-20260918-G3/package-five-seeds-summary.json), [SUPPLEMENTS.md](evidence/RUN-20260918-G3/SUPPLEMENTS.md).
+- WAVE-CAP: N=M-1/M/M+1의 즉시 단일 패배와 후속 처치로 취소되지 않음을 확인했다. 실제 패키지는99→100,101 방어는 공개 카운터를 변조한 명시 Unreal fixture다. 증거: [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json), [final-G3Boundary-client.json](evidence/RUN-20260918-G3/final-G3Boundary-client.json), [final-detail-waves.json](evidence/RUN-20260918-G3/final-detail-waves.json), [final-detail-waves.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-detail-waves.json), [SUPPLEMENTS.md](evidence/RUN-20260918-G3/SUPPLEMENTS.md).
+- WAVE-DEADLINE: 실제 월드 마감 직전/정각 타격은 보상 확정 후 승리, 직후는 시간초과다. 200ms hitch 뒤에도 예약 사건 시각을 유지하고 결과 후 콜백/명령이 결과를 바꾸지 않는다. 증거: [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json), [final-G3Boundary-client.json](evidence/RUN-20260918-G3/final-G3Boundary-client.json), [SUPPLEMENTS.md](evidence/RUN-20260918-G3/SUPPLEMENTS.md).
+- WAVE-VICTORY: 최종 생성 완료/양쪽 보스 사망/잔여 일반0을 모두 만족해야 승리다. 일반1이면 Running 유지, 마지막 일반 사망 시 승리하는 실제 패키지와 독립 Unreal 기대값을 확인했다. 증거: [final-58.json](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json), [final-G3Boundary-host.json](evidence/RUN-20260918-G3/final-G3Boundary-host.json), [final-G3Boundary-client.json](evidence/RUN-20260918-G3/final-G3Boundary-client.json), [final-detail-waves.json](evidence/RUN-20260918-G3/final-detail-waves.json).
+- 실행 층: 문서/데이터 정합과 Unreal NullRHI 자동화, GPU PIE, 별도 Win64 패키지 네트워크 실행을 각각 원본 결과로 구분한다. 최신 새 재현은 Editor Pass·58 Success/경고0·PIE1 Success·compile/cook/archive Pass. 패키지 Boundary179/86, NetConflict27/14, Entry35/29 모두 Pass·정상 종료·상태 일치. 각 수치는 해당 fixture의 관찰 수이며 고유 요구사항 수가 아니다.
+- 검토·수정 근거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 기존 실패와 수정 전후 증거를 보존한다.
+- 제외·잔여: 실제 학습자 완료, 실제 청음, Android 실기기 및 P1/P2. -nosound 실행을 청음 Pass로 표시하지 않는다. TASK-TEST-01은 QA, MAP/UI/MOB는 InProgress, P0 전체 미완료.
+- 완료 판정 등록: [verification.json](verification.json)의 동일 작업 criteria/run/evidence와 [보드 메모](BOARD.md)를 연결했다.

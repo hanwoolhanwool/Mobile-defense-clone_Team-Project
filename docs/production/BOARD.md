@@ -2,7 +2,7 @@
 
 [기획 허브](../README.md) · [2인 개발 역할](TEAM_ROLES.md) · [작업 정의·완료 기준](../BACKLOG_QA.md) · [로드맵](ROADMAP.md) · [검수 기록](TEST_RUNS.md)
 
-**현재 상태:** 2026-09-27 재개, 공통 출발점을 보존하고 A/B 독립 G0 및 참고 통합을 구현했다. DATA/NET/TEST/MOB/MAP/UI/COMBAT/ECON/BOARD/WAVE 10개는 참고 제작 InProgress이며 실제 학습자는 Planned다. G0·G1·G2 게이트를 통과했다. G2 재현39+보충12자동화·실제 두 프로세스20단계·독립 리뷰를 완료했고 G3 웨이브/PC 검수에 착수했다. TASK-CORE-01의 기존 환경 기록은 이번 게임 검수 증거로 재사용하지 않는다. [이번 작업](P0_REFERENCE_RUN.md).
+**현재 상태:** 2026-09-28 기준 G0·G1·G2 Pass, G3 PC 자동화·실제 화면·2인 패키지·새 수업 재현 Pass. NET/DATA/COMBAT/ECON/BOARD/WAVE 6개를 수용 기준별 증거와 대조해 참고 제작 Done으로 등록했다. CORE의 과거 환경 Done을 포함해 P0는 Done7 / QA1 / InProgress3이다. TEST는 실제 거절 효과음 청음 답변 대기로 QA, MAP/UI/MOB는 Android 실기기 터치·SafeArea·완주 미검수로 InProgress다. 실제 학습자는 Planned이며 P0 최종 완료·P1 진입은 보류한다. [이번 작업](P0_REFERENCE_RUN.md), [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md). TASK-CORE-01의 과거 결과는 이번 게임 검수에 재사용하지 않는다.
 
 **DEC-037 반영:** P0 TASK-ECON-01/BOARD-01/UI-01에 최대 3 뭉치·소환 자동 추가·합성/판매/사거리 UI를 포함한다. [QA-BOARD-11](../BACKLOG_QA.md#QA-BOARD-11)·[QA-BOARD-12](../BACKLOG_QA.md#QA-BOARD-12)·[QA-BOARD-13](../BACKLOG_QA.md#QA-BOARD-13)을 새 구현에서 검수한다. 작업 수·상태는 유지한다.
 
@@ -28,7 +28,7 @@ DEC-021에 따라 게임 규칙·조작 작업은 [원작 대조 기록](../prod
 
 TASK-NET-01의 주관 A는 매치·공용 복제를, B는 명령 처리·경제/보드 복제를 맡는다. TASK-UI-01의 주관 B는 HUD·조작·안내를, A는 전투 정보·결과 위젯을 맡는다. DATA 작업은 A가 구조·로딩·검증을 주관하고 각 기능 담당자가 해당 데이터를 작성한다. Android 빌드는 A, PC 2인 검수는 B 주관이며 버그는 기능 담당자가 수정한다. 클래스·에셋 편집 책임과 상호 리뷰·업무량 조정은 [역할 기준](TEAM_ROLES.md)을 따른다.
 
-단계 P0/P1/P2는 마일스톤, 우선순위 Must/Should/Could는 해당 단계의 중요도다. 둘을 혼용하지 않는다. 현재 참고 제작은 G3 최종 패키지·네트워크·반복 실행·부하 검수를 진행하며 TASK-MOB-01 Android 구성 요소·기기 준비를 병행한다. 실제 학습자는 공통 출발점의 G0부터 직접 구현한다. 원작 확인이 필요한 작업은 확인된 규칙부터 진행한다.
+단계 P0/P1/P2는 마일스톤, 우선순위 Must/Should/Could는 해당 단계의 중요도다. 둘을 혼용하지 않는다. 현재 참고 제작의 G3 PC 검수는 통과했고 실제 청음 및 TASK-MOB-01 Android 구성 요소·기기 준비가 남았다. 이전 대표 부하의 측정 입력과 한계는 [성능 기록](evidence/RUN-20260918-G3/PERFORMANCE.md)에 유지한다. 실제 학습자는 공통 출발점의 G0부터 직접 구현한다. 원작 확인이 필요한 작업은 확인된 규칙부터 진행한다.
 
 상태: Backlog → Ready → InProgress → Review → QA → Done. 외부 의존성으로 막히면 Blocked와 원인을 기록한다. 완료할 때 아래 작업 메모에 증거를 연결한다.
 
@@ -40,14 +40,14 @@ DEC-043에 따라 P0는 16종·10웨이브 기본 공격과 짧은 조작 안내
 |---|---|---|---|---|---|---|---|
 | [TASK-CORE-01](../BACKLOG_QA.md#TASK-CORE-01) | P0 | Must | Done | Codex | [TECH-001](../technical/ARCHITECTURE.md) | [작업 완료 조건](../BACKLOG_QA.md#TASK-CORE-01) | — (완료 기록 유지) |
 | [TASK-MAP-01](../BACKLOG_QA.md#TASK-MAP-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-VIS-03](../BACKLOG_QA.md#QA-VIS-03), [QA-WAVE-04](../BACKLOG_QA.md#QA-WAVE-04) | B |
-| [TASK-NET-01](../BACKLOG_QA.md#TASK-NET-01) | P0 | Must | InProgress | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | A 주관 · B 명령 처리 |
-| [TASK-DATA-01](../BACKLOG_QA.md#TASK-DATA-01) | P0 | Must | InProgress | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-RNG-01](../BACKLOG_QA.md#QA-RNG-01) | A 주관 · 각 기능 데이터는 A/B |
-| [TASK-COMBAT-01](../BACKLOG_QA.md#TASK-COMBAT-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-DMG-01](../BACKLOG_QA.md#QA-DMG-01), [QA-ECO-03](../BACKLOG_QA.md#QA-ECO-03), [QA-WAVE-04](../BACKLOG_QA.md#QA-WAVE-04) | A |
-| [TASK-ECON-01](../BACKLOG_QA.md#TASK-ECON-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-SUMMON](../design/SUMMON_ECONOMY.md) | [QA-ECO-01](../BACKLOG_QA.md#QA-ECO-01), [QA-BOARD-01](../BACKLOG_QA.md#QA-BOARD-01), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03), [QA-STACK-01](../BACKLOG_QA.md#QA-STACK-01), [QA-STACK-02](../BACKLOG_QA.md#QA-STACK-02) | B |
-| [TASK-BOARD-01](../BACKLOG_QA.md#TASK-BOARD-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-BOARD-02](../BACKLOG_QA.md#QA-BOARD-02), [QA-BOARD-03](../BACKLOG_QA.md#QA-BOARD-03), [QA-BOARD-04](../BACKLOG_QA.md#QA-BOARD-04), [QA-BOARD-08](../BACKLOG_QA.md#QA-BOARD-08) | B |
-| [TASK-WAVE-01](../BACKLOG_QA.md#TASK-WAVE-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-TIME-02](../BACKLOG_QA.md#QA-TIME-02), [QA-TIME-03](../BACKLOG_QA.md#QA-TIME-03), [QA-TIME-07](../BACKLOG_QA.md#QA-TIME-07) | A |
+| [TASK-NET-01](../BACKLOG_QA.md#TASK-NET-01) | P0 | Must | Done | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | A 주관 · B 명령 처리 |
+| [TASK-DATA-01](../BACKLOG_QA.md#TASK-DATA-01) | P0 | Must | Done | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-RNG-01](../BACKLOG_QA.md#QA-RNG-01) | A 주관 · 각 기능 데이터는 A/B |
+| [TASK-COMBAT-01](../BACKLOG_QA.md#TASK-COMBAT-01) | P0 | Must | Done | Codex 참고 제작 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-DMG-01](../BACKLOG_QA.md#QA-DMG-01), [QA-ECO-03](../BACKLOG_QA.md#QA-ECO-03), [QA-WAVE-04](../BACKLOG_QA.md#QA-WAVE-04) | A |
+| [TASK-ECON-01](../BACKLOG_QA.md#TASK-ECON-01) | P0 | Must | Done | Codex 참고 제작 | [SPEC-SUMMON](../design/SUMMON_ECONOMY.md) | [QA-ECO-01](../BACKLOG_QA.md#QA-ECO-01), [QA-BOARD-01](../BACKLOG_QA.md#QA-BOARD-01), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03), [QA-STACK-01](../BACKLOG_QA.md#QA-STACK-01), [QA-STACK-02](../BACKLOG_QA.md#QA-STACK-02) | B |
+| [TASK-BOARD-01](../BACKLOG_QA.md#TASK-BOARD-01) | P0 | Must | Done | Codex 참고 제작 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-BOARD-02](../BACKLOG_QA.md#QA-BOARD-02), [QA-BOARD-03](../BACKLOG_QA.md#QA-BOARD-03), [QA-BOARD-04](../BACKLOG_QA.md#QA-BOARD-04), [QA-BOARD-08](../BACKLOG_QA.md#QA-BOARD-08) | B |
+| [TASK-WAVE-01](../BACKLOG_QA.md#TASK-WAVE-01) | P0 | Must | Done | Codex 참고 제작 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-TIME-02](../BACKLOG_QA.md#QA-TIME-02), [QA-TIME-03](../BACKLOG_QA.md#QA-TIME-03), [QA-TIME-07](../BACKLOG_QA.md#QA-TIME-07) | A |
 | [TASK-UI-01](../BACKLOG_QA.md#TASK-UI-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-MOB-01](../BACKLOG_QA.md#QA-MOB-01), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04) | B 주관 · A 전투/결과 UI |
-| [TASK-TEST-01](../BACKLOG_QA.md#TASK-TEST-01) | P0 | Must | InProgress | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-02](../BACKLOG_QA.md#QA-NET-02), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | B |
+| [TASK-TEST-01](../BACKLOG_QA.md#TASK-TEST-01) | P0 | Must | QA | Codex 참고 제작 | [TECH-001](../technical/ARCHITECTURE.md) | [QA-NET-01](../BACKLOG_QA.md#QA-NET-01), [QA-NET-02](../BACKLOG_QA.md#QA-NET-02), [QA-NET-03](../BACKLOG_QA.md#QA-NET-03) | B |
 | [TASK-MOB-01](../BACKLOG_QA.md#TASK-MOB-01) | P0 | Must | InProgress | Codex 참고 제작 | [SPEC-BOARD](../design/BOARD_UI.md) | [QA-VIS-02](../BACKLOG_QA.md#QA-VIS-02), [QA-MOB-01](../BACKLOG_QA.md#QA-MOB-01), [QA-MOB-04](../BACKLOG_QA.md#QA-MOB-04) | A |
 | [TASK-DATA-02](../BACKLOG_QA.md#TASK-DATA-02) | P1 | Must | Backlog | 미지정 | [SPEC-UNITS](../design/UNITS.md) | [QA-RNG-01](../BACKLOG_QA.md#QA-RNG-01), [QA-BOARD-10](../BACKLOG_QA.md#QA-BOARD-10) | A 주관 · 각 기능 데이터는 A/B |
 | [TASK-COMBAT-02](../BACKLOG_QA.md#TASK-COMBAT-02) | P1 | Must | Backlog | 미지정 | [SPEC-BATTLE](../design/BATTLE.md) | [QA-DMG-03](../BACKLOG_QA.md#QA-DMG-03), [QA-DMG-05](../BACKLOG_QA.md#QA-DMG-05), [QA-DMG-07](../BACKLOG_QA.md#QA-DMG-07), [QA-DMG-10](../BACKLOG_QA.md#QA-DMG-10), [QA-DMG-11](../BACKLOG_QA.md#QA-DMG-11), [QA-DMG-12](../BACKLOG_QA.md#QA-DMG-12), [QA-DMG-13](../BACKLOG_QA.md#QA-DMG-13), [QA-DMG-14](../BACKLOG_QA.md#QA-DMG-14) | A |
@@ -98,6 +98,69 @@ DEC-020 추가 수용 기준은 [명령 검수](../BACKLOG_QA.md#QA-CMD-01), [�
 - 완료 판정 연결: [완료 조건별 실행·증거](verification.json). 2026-09-14 기존 결과를 대조해 등록했으며 신규 UE 실행이 아니다.
 - 증거: RUN-20260913-02의 빌드 로그, RUN-20260913-03의 산출물 재검사·실행 관찰. 초기 검사 스크립트의 archive 경로 오판은 수정하고 실패 기록 보존.
 - 남은 범위: 한국어 Editor 시작 시 엔진 스모크 오류 15건(동일 조건 영어 0건)은 엔진 언어 의존 진단으로 기록. 엔진 내부 테스트 전체 통과·Android 빌드·엔진 최종 고정·디펜스 기능/P0 통과를 이 Done으로 판정하지 않음. 원본 소스·콘텐츠 533개 해시 불변.
+
+### TASK-NET-01
+
+- 담당자: Codex 참고 제작. 실제 A/B 학습자 진행은 Planned.
+- 완료 범위: G0 native 실제 RPC, G1 경로 복제, G3 최신 패키지 경계·동시 요청·늦은 참가/복귀를 수용 기준별로 대조했다.
+- 검수 Run ID: [RUN-20260928-01](TEST_RUNS.md). [수용 기준별 실행·증거](verification.json)의 같은 작업을 따른다.
+- 공통 입력·실행 층·실패 수정·제외 범위: [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 최신 제품/fixture 입력 e89a1fab, 마지막 f64cc671은 테스트만 변경했다.
+
+### TASK-DATA-01
+
+- 담당자: Codex 참고 제작. 실제 A/B 학습자 진행은 Planned.
+- 완료 범위: 현행 기획용 생성 데이터에 새로 구현한 로더·검증과 최신 재현/쿠킹 실행을 대조했다. 원작 미확인 시험값의 성격은 명세에 유지한다.
+- 검수 Run ID: [RUN-20260928-02](TEST_RUNS.md). [수용 기준별 실행·증거](verification.json)의 같은 작업을 따른다.
+- 공통 입력·실행 층·실패 수정·제외 범위: [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 최신 제품/fixture 입력 e89a1fab, 마지막 f64cc671은 테스트만 변경했다.
+
+### TASK-COMBAT-01
+
+- 담당자: Codex 참고 제작. 실제 A/B 학습자 진행은 Planned.
+- 완료 범위: 기본 공격만 활성화한 G2 실제 실행·최신 자동화/경계 패키지와 기존 대표 부하의 한정된 실측 근거를 대조했다.
+- 검수 Run ID: [RUN-20260928-03](TEST_RUNS.md). [수용 기준별 실행·증거](verification.json)의 같은 작업을 따른다.
+- 공통 입력·실행 층·실패 수정·제외 범위: [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 최신 제품/fixture 입력 e89a1fab, 마지막 f64cc671은 테스트만 변경했다.
+
+### TASK-ECON-01
+
+- 담당자: Codex 참고 제작. 실제 A/B 학습자 진행은 Planned.
+- 완료 범위: 소환/판매/보상과 실패·중복·동시 처리의 상태/RNG 불변을 실제 G2 및 최신 G3 실행에 연결했다.
+- 검수 Run ID: [RUN-20260928-04](TEST_RUNS.md). [수용 기준별 실행·증거](verification.json)의 같은 작업을 따른다.
+- 공통 입력·실행 층·실패 수정·제외 범위: [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 최신 제품/fixture 입력 e89a1fab, 마지막 f64cc671은 테스트만 변경했다.
+
+### TASK-BOARD-01
+
+- 담당자: Codex 참고 제작. 실제 A/B 학습자 진행은 Planned.
+- 완료 범위: 서버 보드 상태와 명령의 원자성/개체 수명 완료다. 화면·물리 터치의 Android 부분은 MAP/UI 작업에 남긴다.
+- 검수 Run ID: [RUN-20260928-05](TEST_RUNS.md). [수용 기준별 실행·증거](verification.json)의 같은 작업을 따른다.
+- 공통 입력·실행 층·실패 수정·제외 범위: [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 최신 제품/fixture 입력 e89a1fab, 마지막 f64cc671은 테스트만 변경했다.
+
+### TASK-WAVE-01
+
+- 담당자: Codex 참고 제작. 실제 A/B 학습자 진행은 Planned.
+- 완료 범위: 정상5판과 조건을 제어한 경계 fixture를 구분해 수량/마감/승리 조건을 대조했다. 밸런스 목표 승률 달성이라는 판정은 하지 않는다.
+- 검수 Run ID: [RUN-20260928-06](TEST_RUNS.md). [수용 기준별 실행·증거](verification.json)의 같은 작업을 따른다.
+- 공통 입력·실행 층·실패 수정·제외 범위: [최종 PC 보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [독립 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md). 최신 제품/fixture 입력 e89a1fab, 마지막 f64cc671은 테스트만 변경했다.
+
+### TASK-TEST-01
+
+- 담당자: Codex 참고 제작. 상태 QA. G3 PC 별도 패키지·지연/손실·중복/동시 요청·새 매치 세대·반복 복귀·실제 화면·새 재현 검수는 Pass다.
+- 증거: [최종 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [자연5판·회복](evidence/RUN-20260918-G3/SUMMARY.md), [기존 패키지20분 실측](evidence/RUN-20260918-G3/PERFORMANCE.md), [새73파일 재현](evidence/RUN-20260918-G3/REPLAY_EVIDENCE.md).
+- 남은 필수 검수: 실제 거절 효과음 청음은 사용자 답변 대기. 기존 -nosound 실행을 청음 Pass로 표시하지 않는다. P0 최종 완료는 G4도 필요하다.
+
+### TASK-MAP-01
+
+- 담당자: Codex 참고 제작. 상태 InProgress. G1 실제 패키지7화면비·두 바퀴·전체 셀 투영/소유권 입력과 G3 최종 양쪽 화면은 Pass다. [G1 재현](evidence/RUN-20260918-G1/final-pair-summary.json), [G3 화면](evidence/RUN-20260918-G3/SUPPLEMENTS.md).
+- 남은 조건: Android 실기기 SafeArea·물리 터치·화면비별 가시성과 좌표 일치. PC 주입 입력을 실기기 입력으로 승계하지 않는다.
+
+### TASK-UI-01
+
+- 담당자: Codex 참고 제작. 상태 InProgress. PC HUD/결과·조작 거절·Entry 복귀·한글/에셋 로딩·Result/Status 재생성 후 구독/상태 보존을 검수했다. [최종 PC 보충](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [실제 PIE proof](evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-pie-proof.json).
+- 남은 조건: Android 실기기 SafeArea·터치 키보드·선택/합성/판매/사거리 UI와 실제 화면. 실제 청음은 TEST의 QA와 연결한다.
+
+### TASK-MOB-01
+
+- 담당자: Codex 참고 제작. 상태 InProgress. 사용자 Android 구성 요소 설치 예정 답변을 받았으며 [2026-09-28 준비 확인](evidence/RUN-20260918-G3/android-latest-readiness.json)에서 UE Android 플랫폼 미설치·adb 연결0을 확인했다.
+- 남은 조건: 플랫폼 설치 확인 후 APK 패키징·실기기 설치/실행·터치/SafeArea·10웨이브·초기 성능. 모두 NotRun이며 SDK/NDK 준비 또는 PC Pass로 대체하지 않는다.
 
 진행 중이거나 완료한 작업의 후속 메모는 아래 형식을 사용한다.
 

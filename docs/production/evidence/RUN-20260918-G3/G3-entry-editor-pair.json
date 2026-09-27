@@ -1,0 +1,100 @@
+{
+  "Scope": "Actual GPU two-process Editor-game supplement; not packaged",
+  "Probe": "G3Entry",
+  "Started": "2026-09-28T00:23:48.9464069+09:00",
+  "Head": "b65a974b9c857510be3ad2c4c499a16b695aa99c",
+  "Executable": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+  "ExecutableSHA256": "6F9C95C131F37CBDC384ADE02FCF6ED828BAA366B25234D0D85E212244CAC9AA",
+  "ExpectedCases": 0,
+  "Resolution": [
+    360,
+    780
+  ],
+  "MaxFPS": 60,
+  "RenderOffscreen": true,
+  "Fixture": "Explicit Development supplement. Each role result records its exact setup and observations. Not natural balance or physical input.",
+  "Processes": [
+    {
+      "PID": 53244,
+      "Role": "host",
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+        "/Game/LD/Maps/L_P0Entry",
+        "-game",
+        "-ModelContextProtocolPort=17877",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=360",
+        "-ResY=780",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3Entry",
+        "-P0Role=host",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-entry-editor-pair\\host",
+        "-P0TimeoutSeconds=600",
+        "-P0Seed=1776",
+        "-P0CommandTrace",
+        "-abslog=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-entry-editor-pair\\host/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-P0EntryRunId=G3-entry-editor-pair",
+        "-RenderOffscreen"
+      ]
+    },
+    {
+      "PID": 46920,
+      "Role": "client",
+      "Arguments": [
+        "C:\\Users\\iam12\\P0_reference_integration\\Mobile_defense_clone.uproject",
+        "/Game/LD/Maps/L_P0Entry",
+        "-game",
+        "-ModelContextProtocolPort=17878",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=360",
+        "-ResY=780",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3Entry",
+        "-P0Role=client",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-entry-editor-pair\\client",
+        "-P0TimeoutSeconds=600",
+        "-P0Seed=1776",
+        "-P0CommandTrace",
+        "-abslog=C:\\Users\\iam12\\P0_reference_integration\\Saved\\P0Runs\\G3-entry-editor-pair\\client/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-P0EntryRunId=G3-entry-editor-pair",
+        "-RenderOffscreen"
+      ]
+    }
+  ],
+  "Result": "Pass",
+  "RoleResults": [
+    {
+      "Role": "host",
+      "ExitCode": 0,
+      "Cases": 1,
+      "Checks": 32,
+      "FailedChecks": 0,
+      "CriticalLog": false,
+      "Pass": true
+    },
+    {
+      "Role": "client",
+      "ExitCode": 0,
+      "Cases": 1,
+      "Checks": 27,
+      "FailedChecks": 0,
+      "CriticalLog": false,
+      "Pass": true
+    }
+  ],
+  "Finished": "2026-09-28T00:25:16.8815459+09:00"
+}

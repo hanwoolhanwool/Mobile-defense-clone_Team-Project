@@ -7,7 +7,7 @@
 | 상위 TASK·정식 설계 | TASK-MOB-01; [빌드 규약](../../../docs/technical/BUILD_RUN.md), [P0 검수](../../../docs/BACKLOG_QA.md), [공통 계약](../COMMON.md) |
 | 참고 자료 제작 상태 | Draft — Android 엔진 구성 요소 및 실기기 대기 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | G3 검증 소스 확정 후 고정 / 미생성 |
+| 참고 시작/완료 SHA | f64cc671848560923595cc1955efe12620f326de / 미생성 |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | B의 보드 좌표·터치·SafeZone 및 G3 PC 통합; Schema2/Rules0.3.0 |
 | 제공 코드 / 직접 작성할 코드 | 제공: JSON·맵·기존 패키징 도구. 직접 작성/설정: 아래 모바일 설정과 실기기에서 발견한 P0 결함 수정. 미검증을 완료 코드로 취급하지 않음 |
@@ -39,7 +39,7 @@ ARM64 Android 기기에 데이터가 포함된 APK를 설치하고, 같은 네�
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
 | SDK/NDK/JDK 준비 후 Android 빌드 | APK 생성 | UE Android 플랫폼 구성 요소 누락으로 exit6; APK 없음 | [공통 실행 기록](../../../docs/production/P0_REFERENCE_RUN.md); SDK 준비는 패키징 Pass가 아님 |
-| 2026-09-27 도구 재확인 | 엔진 플랫폼 파일/adb device | Android 플랫폼 디렉터리 없음, adb 연결0 | 실기기 미실행 |
+| 2026-09-28 02:23 KST 도구 재확인 | 엔진 플랫폼 파일/adb device | Android 플랫폼 디렉터리 없음, adb 연결0; [실제 점검](../../../docs/production/evidence/RUN-20260918-G3/android-latest-readiness.json) | 실기기 미실행 |
 | 물리 터치·SafeArea·10웨이브 | 양쪽 상태 일치·조작/표시 정상 | NotRun | 기기 모델/OS/실측 뷰포트/이미지 미확보 |
 | 초기30FPS·메모리·복귀 | 측정값과 정상/실패 원인 기록 | NotRun | PC 수치를 모바일 결과로 대체하지 않음 |
 

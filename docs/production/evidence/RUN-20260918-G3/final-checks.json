@@ -1,0 +1,35 @@
+{
+  "CheckedAt": "2026-09-28T02:23:33.7743829+09:00",
+  "Scope": "Documentation/data/style/learning-links and validator regression tests; not Unreal or gameplay execution",
+  "Result": "Pass",
+  "DataChecks": 2689,
+  "PlanningChecks": 8279,
+  "CppStyleFiles": 83,
+  "CppStyleErrors": 0,
+  "LearningDocuments": 64,
+  "LearningLinks": 704,
+  "LearningErrors": 0,
+  "ValidatorTests": 25,
+  "ValidatorFailed": 0,
+  "SourceAndRuntimeUnchanged": "f64cc671848560923595cc1955efe12620f326de",
+  "ChangedValidatorTest": "Stale P0 count mutation now adjusts the observed backlog count and asserts a mutation occurred; previous hardcoded 10 no longer existed",
+  "FirstFailures": [
+    "PROJECT_STATUS missing literal InProgress 3개",
+    "Permanent QA Markdown/JSON referenced removable learning evidence",
+    "One missing explicit lesson anchor",
+    "Validation test hardcoded historical Backlog10; mutation made no change"
+  ],
+  "Fix": "Correct count and anchor; exact evidence copies/hash index in permanent QA; regression mutation independent of current count",
+  "OriginalFailureLogs": [
+    "Saved/P0Runs/G3-final-project-check.log",
+    "Saved/P0Runs/G3-final-learning-check.log",
+    "Saved/P0Runs/G3-final-tool-tests.log"
+  ],
+  "PassLogs": [
+    "final-project-check.log",
+    "final-learning-check.log",
+    "final-tool-tests.log",
+    "final-planning-after-evidence.log",
+    "final-learning-after-evidence.log"
+  ]
+}

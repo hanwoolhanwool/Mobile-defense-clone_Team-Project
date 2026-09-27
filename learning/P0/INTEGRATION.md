@@ -1,6 +1,6 @@
 # P0 게이트 통합
 
-참고 제작은 G0 코드 게이트와 native 통합 재현 **Verified**, 전체 P0 자료는 후속 G3/G4 검수 중 / 실제 학습 **Planned**다. A/B G0 수업은 각 독립 출발 소스의 실제 PIE까지 확인했다. 공통 출발점과 실행 도구는 [COMMON](COMMON.md), 최신 상태는 [작업 기록](../../docs/production/P0_REFERENCE_RUN.md)을 따른다.
+참고 제작은 G0 코드 게이트와 native 통합 재현 **Verified**, G1~G3도 문서의 PC 재현 범위 Verified, G4 Draft·P0 최종 미완료 / 실제 학습 **Planned**다. A/B G0 수업은 각 독립 출발 소스의 실제 PIE까지 확인했다. 공통 출발점과 실행 도구는 [COMMON](COMMON.md), 최신 상태는 [작업 기록](../../docs/production/P0_REFERENCE_RUN.md)을 따른다.
 
 G0에서 독립 작성한 A/B 공통 코드의 타입·로더·초기화·상태 원본을 비교한다. 합의한 한 구현만 실행하고 B의 Controller/CommandProcessor를 GameMode 연결부에 결합한다. 각 역할과 통합 Editor 빌드, 독립 기대값 검사, ARCH-01~06 리뷰 후 G1에 들어간다.
 
@@ -73,3 +73,5 @@ native TopDown에는 G0 전용 HUD가 없으므로 실제 두 참가자의 복�
 이해 확인: 왜 Processor가 캐시를 보존해도 Controller 연결을 끊으면 멱등 응답이 깨지는가? 왜 BIndependentLoader 테스트 이름만 보고 통합에서 B 로더를 사용한다고 단정할 수 없는가? 작은 변형: 학습자 테스트 픽스처에서 초기화 호출 순서를 바꾸고 참가자 ID/세대가 한 번만 정해지는지 확인한다. 제품 규칙이나 역할 기준 SHA를 이 실습으로 바꾸지 않는다.
 
 G1 후속: [두 경로와 양쪽 입력 통합 수업](G1_INTEGRATION.md), [시작점 재현 증거](evidence/G1_REPLAY/SUMMARY.md). G1은 df8a2f27의 실제 양쪽7화면비·전체 입력·두 바퀴를 통과했다. G2 전투·경제는 이 통과 뒤 진행한다.
+
+G3 후속: [10웨이브·반복·경계 재현 수업](G3_INTEGRATION.md), [최종 PC 증거](../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md). 실제 청음과 Android G4는 별도 미검증이다.

@@ -1,0 +1,8 @@
+{
+  "Scope": "Actual Editor-game fixture failure, not product gameplay pass",
+  "SourceSha": "5ce7fb6a14471e02bdd1bf8910e13cd392de71a3",
+  "Result": "Fail",
+  "Observed": "Both Slate attempt checks passed before initial HUD layout; no P0WIRE requests, no summon responses. Natural play continued without fixture initialization and reached EnemyLimit.",
+  "Stopped": "Root stopped only the two processes identified by this RunId in their command lines; preserved logs and progress. User editor not touched.",
+  "Fix": "4002bd4 waits one second after local readiness; actual response absence now fails after three seconds."
+}

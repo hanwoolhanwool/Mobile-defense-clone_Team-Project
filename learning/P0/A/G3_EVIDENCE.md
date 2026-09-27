@@ -1,16 +1,16 @@
 # G3 A 공통 증거·전달 기록
 
-참고 자료 제작 **Draft**, 실제 학습자 **Planned**. 시작 SHA는 `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6`이며 **최종 Source SHA·참고 완료 SHA는 미정**이다. A 초기 기능의 `0d358bc`와 기존 패키지의 `0e473f4`는 중간 입력이며 현재 수업의 완료 SHA가 아니다. learn 브랜치에 완성 코드를 병합하거나 제공 파일 조립을 학습자의 직접 구현으로 기록하지 않는다.
+참고 자료 제작은 A의4개 G3 수업에서 **명시한 PC 재현 범위 Verified**, 실제 학습자는 **Planned**다. 시작 SHA는 `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6`, 완료 제품+검사 소스는 `f64cc671848560923595cc1955efe12620f326de`다. 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`이며 마지막 차이는 `Tests/LDWaveTests.cpp`의 검사 보강뿐이다. learn 브랜치에는 완성 코드를 병합하지 않는다.
 
 공통 규칙은 [작업 기록](../../../docs/production/P0_REFERENCE_RUN.md), [현행 전투 명세](../../../docs/design/BATTLE.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md)에 둔다. 실행 수치·환경·결함 상태의 원본은 아래 세 문서다. 수업마다 같은 표를 복사하지 않고 해당 기능의 관찰과 차이만 기록한다.
 
 | 정식 근거 | 읽을 내용 | 이 수업에 적용하는 한계 |
 |---|---|---|
 | [SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md) | 컴파일·자동화·PIE·패키지·네트워크·학습 재현의 입력과 실제 결과 | 이전 소스의 성공을 보충 소스의 실행으로 승계하지 않음 |
-| [REVIEW_FINDINGS](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md) | 독립 기대값, 실제 실패→수정, 정적 발견과 실행 실패의 구분, NET-LIFE01 | Unreal 회귀가 닫힌 결함도 패키지 재전송까지 실행했다는 뜻은 아님 |
+| [REVIEW_FINDINGS](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md) | 독립 기대값, 실제 실패→수정, 정적 발견과 실행 실패의 구분, NET-LIFE01 | NET-LIFE01의 Unreal 회귀와 최종 패키지 실제 재전송을 별도 증거로 확인 |
 | [PERFORMANCE](../../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md) | 실제 20분 PC 패키지 부하·CSV·수거·측정 환경과 한계 | 명시 고정 부하의 결과. 자연 플레이·Android 성능·보편적인 무누수를 증명하지 않음 |
 
-20분 부하는 이제 정식 증거에 기록되어 있다. 이를 진행 중으로 쓰지 않는다. 다만 후속 세대 수정과 보충 검사까지 포함한 **수업 절차의 새 조립·빌드·실행은 대기**이므로 G3 수업은 Draft다. Android 실기기는 별도 G4 NotRun이다.
+20분 고정 부하는 PERFORMANCE의 이전 제품 입력·환경·한계로 보존한다. 최종 PC 재현은 [SUPPLEMENTS](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결했다. Android G4 실기기와 실제 청음은 NotRun이며 P0 최종 완료로 표시하지 않는다. 선택 변형 과제와 미관찰 입력 조합은 Verified 범위 밖이다.
 
 ## 수업 순서와 작성/제공 경계
 
@@ -23,16 +23,15 @@
 
 ## 출발점에서 재현하는 절차
 
-공유 리소스와 Editor/패키지/포트는 통합 담당자가 순차 사용한다. 사용자 파일이 있는 폴더를 덮어쓰거나 실행 중인 Editor를 임의 종료하지 않는다. 명령 인자와 출력 위치의 기준은 [통합 수업](../G3_INTEGRATION.md)이다.
+정확한 명령·SourceSha·보존 경로는 [통합 수업](../G3_INTEGRATION.md)의3단계 절차를 따른다. **최초66파일은 0981d073 당시의 역사 Replay 도구가 필요하다. 현재 Replay 도구에 옛 SourceSha만 넣는 조합을 쓰지 않는다.**
 
-1. 새 경로에서 시작 SHA `f735b588`를 확보한다. `learning/tools/Replay-P0G3.ps1`로 최초 66개 입력을 조립한다. 원래 입력은 `0981d07307112857dfdf0e91c79bcecdbcbc291b`의 manifest이며 C++ `0e473f4`·Config `98727f0`를 구분한다. 이 명령은 현재 최종 제품을 이미 검증한 것으로 표시하지 않는다.
-2. [문서화된 보충 절차](../G3_INTEGRATION.md)대로 `learning/tools/Apply-P0G3Supplement.ps1`에 **향후 확정할 full Source SHA**와 새 RunId를 전달하여 73개 입력으로 갱신한다. 기존 66개 해시와 새 7개 부재를 먼저 확인하고 변경 전 파일은 새 증거 폴더에 보존한다. 불일치를 무시하거나 현재 HEAD를 최종 SHA로 추정하지 않는다.
-3. 새 입력 manifest에서 파일별 blob/SHA256, 제공·작성 분류, 변경 전후를 대조한다. 부분 묶음은 다음 묶음을 참조하므로 전체 조립 후 Editor 빌드를 수행한다. 실제 재현본 HEAD는 시작 SHA에 남을 수 있으므로 실행 입력 식별에 manifest를 반드시 함께 쓴다.
-4. 새 RunId로 `tools/Build-P0Editor.ps1` → `tools/Test-P0Automation.ps1 -Filter LD.P0` → `tools/Test-P0PIE.ps1`을 순차 실행한다. 실제 GPU PIE 필터는 `LD.PIE.P0.Session`이며 NullRHI 자동화에 포함되지 않는다. 프로세스 exit0만 보지 말고 report의 Fail/Warnings/NotRun, proof, 실제 양쪽 PNG, PIE World0와 원설정 복원을 대조한다.
-5. 같은 입력으로 Win64 패키지를 만든다. 자연 규칙의 `Run-P0G3.ps1`과 보충 `Run-P0G3Supplement.ps1 -Probe G3Boundary|G3NetConflict|G3Entry`를 별도 RunId·포트로 순차 실행한다. 양쪽 JSON·실제 RPC·정상 종료·PNG를 모두 확인한다. 생성·HP·등록 시각을 바꾼 Boundary와 무료 재료의 NetConflict는 자연 플레이/밸런스 결과에 합치지 않는다.
-6. 실패하면 원본 로그와 입력을 보존하고 실제 원인·수정 SHA·같은 독립 기대값의 재실행을 기록한다. 최종 Source SHA, 두 단계 manifest, 위 실행 결과를 연결한 뒤 해당 수업의 필수 절차가 재현된 범위만 Verified로 바꾼다. 실제 학습자 상태는 별도다.
+실제 재현은 시작 f735b588의 기존66파일(역사 도구/입력0981d073)→Apply-P0G3Supplement의 Source e89a1fa로73파일→LDWaveTests.cpp만 f64cc671로 갱신(+197행) 순서다. 최종73개 해시를 모두 대조했다. 파일 조립은 제공 입력 재현이며 학습자가 직접 작성했다는 기록이 아니다.
 
-**현재 상태:** 최초 66개 조립의 실제 증거는 [G3_REPLAY](../evidence/G3_REPLAY/README.md)에 있다. 73개 보충까지 포함하는 이번 전체 재현은 미실행이며, 통합 브랜치의 최신 자동화·PIE 성공을 이 절차의 대체 증거로 쓰지 않는다. 이후 실행 결과는 SUMMARY에 한 번만 추가한다.
+e89a1fa 재현본의 Editor·전체58개 자동화·실제2월드 PIE·Win64 Development 패키지가 통과했다. 이어 f64cc671의 Waves9종을 통합/재현본 모두 무경고 통과했다. 등록된 전체 검사 수는58개로 같으며58+9를67개 서로 다른 검사로 합산하지 않는다. [후속 Editor](../evidence/G3_REPLAY/final-detail-editor.json)와 [Waves 결과](../evidence/G3_REPLAY/final-detail-waves.json)를 함께 읽는다.
+
+새 패키지의 Boundary4사례/실제 Return3회/옛 payload InvalidEpoch, NetConflict의 실제 경쟁 RPC, Entry의 대기/시간초과/늦은 접속/host 우선 복귀와 양쪽 화면은 [최종 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 있다. 실행 숫자·PNG·정상 종료·소스/해시는 그 문서에서 관리한다. 자연 규칙5판·회복·고정 부하는 기존 SUMMARY/PERFORMANCE의 각 입력으로 보존한다.
+
+다시 실행할 때도 사용자 폴더/기존 로그를 덮어쓰지 않고 새 경로·RunId·비충돌 포트를 사용한다. 프로세스 exit0만으로 판정하지 않으며 report/proof/양쪽 JSON·RPC·PNG·종료 정리를 함께 대조한다. 미관찰 조건을 기존 성공으로 승계하지 않는다.
 
 ## 전달 커밋과 통합 순서
 
@@ -77,11 +76,11 @@ B Entry 스타일 수명(PKG01)과 필수 효과음 cook(PKG02) 등 공용 의�
 
 통합 후 구현자와 구분된 리뷰의 결론과 미검증은 REVIEW_FINDINGS에 둔다. 이 표는 코드 선택 이유이며 정적 표만으로 구조 검수 또는 런타임 통과를 선언하지 않는다.
 
-## Verified 진입 조건
+## PC Verified 판정 범위
 
-- [ ] 시작 SHA→66개 조립→73개 보충의 문서 절차를 새 경로에서 재현하고 최종 full Source SHA를 확정했다.
-- [ ] 새 입력의 Editor·필수 자동화·실제 PIE·패키지/네트워크 결과를 구분해 보존했다.
-- [ ] 각 수업의 정상·실패·중복·종료/시간 경계에 독립 기대값과 실제 관찰을 연결했다.
-- [ ] 양쪽 화면, 결과 후 UI 재생성/입력 차단/구독·타이머 정리, 같은 프로세스 재진입을 확인했다.
-- [ ] 독립 리뷰의 차단 결함을 수정·재검증하고 코드·수업·정식 검수의 입력이 일치한다.
+- [x] 시작 SHA→역사66파일→73파일 보충→테스트 파일 갱신을 재현하고 제품+검사/패키지 소스 SHA를 구분했다.
+- [x] 새 입력의 Editor·필수 자동화·실제 PIE·패키지/네트워크 결과를 구분해 보존했다.
+- [x] 각 수업의 정상·실패·중복·종료/시간 경계에 독립 기대값과 실제 관찰을 연결했다.
+- [x] 양쪽 화면, 결과 후 UI 재생성/입력 차단/구독·타이머 정리, 같은 프로세스 재진입을 확인했다.
+- [x] 독립 리뷰의 차단 결함을 수정·재검증하고 코드·수업·정식 검수의 입력이 일치한다.
 - [x] 이전 20분 성능의 입력/환경/측정 한계와 Android G4 NotRun을 분리했다.

@@ -5,11 +5,13 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01 / [사건 순서](../../../docs/design/BATTLE.md), [공통 종료 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
-| 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미정**. 최종 Source SHA도 미정이며 중간 구현·최초66파일 증거는 [공통 기록](G3_EVIDENCE.md)에 구분 |
+| 참고 자료 제작 / 실제 개발 상태 | **Verified — 아래 명시한 PC 재현 범위** / Planned |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `f64cc671848560923595cc1955efe12620f326de` (제품+검사 소스). 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`; 마지막 차이는 테스트 파일만 |
 | 실제 개발 시작 / 완료 SHA | 자기 G2 통합 결과 / 미생성 |
 | 상대 산출물 | G3-A-01 Director, B Processor.AfterExternalCommandClock `8405a93` 및 자기해제 보호 `c697c91` |
 | 제공 / 직접 작성 | 제공: G2 매치·실제 서비스. 직접 작성: Core/LDGameMode.*, LDGameState.*와 독립 기대값. 제공 검수 코드: Tests/LDWaveTests.cpp, LDLifecycleTests.cpp, LDPieTests.cpp, G3 probe; 통과 결과를 제품 구현 대신 사용하지 않음 |
+
+PC Verified는 [통합 수업의3단계 재현](../G3_INTEGRATION.md)과 [최종 PC 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결한 실행 범위다. 선택 변형 과제·미관찰 입력 조합은 완료로 올리지 않는다. Android G4와 실제 청음은 NotRun이며 P0 최종 완료가 아니다. 실제 학습자는 Planned를 유지한다.
 
 ## 이번에 만들 동작
 
@@ -43,15 +45,17 @@
 
 ## 실행·실패·수정 기록
 
-아래 실제 결과는 당시 입력에서 관찰한 이력이다. 이번 수업의 최종73파일 입력을 출발점에서 다시 조립한 결과는 아직 미실행이다. 공통 실행 수치·SHA는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)를 따른다.
+아래 초기 실패/결과는 당시 입력의 이력으로 보존한다. 최종73파일을 시작점에서 재조립해 검증했으며, 마지막 테스트 보강은 별도 Editor·Waves9종으로 확인했다. 공통 실행 수치·SHA는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)를 따른다.
 
 | 조건 | 독립 기대 결과 | 실제 결과·범위 |
 |---|---|---|
 | 두 번째 참가자30초 /30.001초 | 정확30은 Preparing40, 늦으면 LoadingTimeout | NullRHI 자동화 Pass |
+| P+9.999 실제 PC 구매·판매→Running | gold70/n2/pop1·보드/경제rev3, 준비 중 기존due.25 유지; Running에서 같은 Actor·전체 보드/경제·RNG 유지 | f64cc671 추가 회귀, [최종 Waves9종](../evidence/G3_REPLAY/final-detail-waves.json) 무경고 Pass. Running 이후 도달한 due의 정상 처리를 정지시키는 검사가 아님 |
 | 준비 중 첫 실제구매 |100→80/n1/인구1, 시작해도 동일 actor | NullRHI 자동화 Pass |
 | 두 보스 due69.999 /70 /한쪽70.001, deadline70 | Victory /Victory /Defeat, 늦은 타격 보상0 | 실제 서비스 조립 NullRHI 자동화 Pass |
 | 타이머를 WorldTime70에 먼저 호출 후 같은시각PC판매 | 판매한 공격 취소→보스 생존패배 | NullRHI 자동화 Pass |
 | D+.04 새 구매와 앞선 timeout | clock 후단 결과/보상 게시 뒤 PhaseNotAllowed, 부분소비0 | NullRHI 자동화 Pass |
+| N99·예정spawn11, World11.04의 실제 PC 새 구매 | Before hook이11초 한도 패배부터 확정; PhaseNotAllowed, Gold91/보드/RNG 불변, 원래 성공 응답 cache 유지 | f64cc671 추가 회귀, [최종 Waves9종](../evidence/G3_REPLAY/final-detail-waves.json) 무경고 Pass. 명시 추가 생성·WorldTime fixture이며 요청 직전 수동 finalizer 없음 |
 | 최종 결과 observer | 먼저 최종 골드/별을 관찰, 반복 Result0 | NullRHI 자동화 Pass |
 | A01: due11 공격2, HP70 적2; 첫 피해 관찰자에서 Mode.AbortMatch만 호출 | 공격1/첫HP0/다른HP70/양쪽Gold101 | 실제 Fail(공격2·다른HP0)→즉시 Combat.Stop 수정→Pass |
 | A02: HP6000 보스2, 물리120·방어20; 첫100피해 직후 Abort | 결과 관찰자가 Actor와 같은5900/6000을 읽음; 다음 공격0 | 실제 Fail(GS6000/Actor5900)→결과 전 조회 갱신→Pass |
@@ -61,7 +65,7 @@
 
 준비 대기 회귀의 최초 코드는 private AdvanceLogic 직접 호출로 C2248 컴파일 실패했다. `0d358bc`는 public TimerManager.Tick으로 등록된 실제 delegate를 구동하고 프레임 식별자와 프로브 옵션을 scope 종료 시 복원한다. 이후 자동화·준비 분기 smoke·PIE·패키지의 입력과 수치는 정식 SUMMARY/REVIEW에 둔다.
 
-기존 패키지는 같은 프로세스의 반복 매치·결과 복귀·지연망 회복·원래 응답 재전달을 관찰했지만 모두 자연 패배였다. 정확 D/D+.001, 혼합 승패, 옛 payload의 새 Controller 재전송은 최종 보충 입력의 별도 검사 대상이다. 고정 부하 실측은 정식 PERFORMANCE의 이전 입력 범위로 유지한다.
+기존 패키지는 같은 프로세스의 반복 매치·결과 복귀·지연망 회복·원래 응답 재전달을 관찰했지만 모두 자연 패배였다. 정확 D/D+.001, 혼합 승패, 옛 payload의 새 Controller 재전송은 [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)의 별도 패키지 실행으로 확인했다. 정확 D의 판매는 자동화 근거로 구분한다. 고정 부하 실측은 정식 PERFORMANCE의 이전 입력 범위로 유지한다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -78,6 +82,6 @@ B는 공용 snapshot 조회·두 위젯 수명·복귀를 연결한다. Processo
 
 - [x] 사건 순서·상태 원본·호출 경계·타이머/구독 정리를 기록했다.
 - [x] 당시 Editor/자동화/PIE/패키지 이력과 실패 원인을 정식 증거에 연결했다.
-- [ ] 문서 시작점→66파일→73파일 보충의 새 Editor·자동화·실제 PIE·패키지 실행을 완료하고 최종 Source SHA를 기록했다.
+- [x] 문서 시작점→66파일→73파일 보충의 새 Editor·자동화·실제 PIE·패키지 실행을 완료하고 최종 Source SHA를 기록했다.
 - [x] 실제 PC 패키지·PIE·지연망·반복 매치에서 위 관찰 범위를 확인했다. 경계 fixture와 자연 패배 실행은 구분한다.
-- [ ] 독립 리뷰 차단0 및 정식 G3 검수 후 다음 게이트에 진입한다. Android는 별도 G4다.
+- [x] 명시 PC 재현·독립 리뷰 결과를 연결했다. Android G4와 실제 청음은 별도 NotRun이며 P0 최종 완료로 표시하지 않는다.

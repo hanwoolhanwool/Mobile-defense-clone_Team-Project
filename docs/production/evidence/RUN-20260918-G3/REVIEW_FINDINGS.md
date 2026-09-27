@@ -222,11 +222,34 @@ GameInstance/entry/return/network 코드는1차 이후 제품 diff가 없어 불
 - 수정 후: 제품53af399의 [실제 GPU PIE Pass](terminal-ui-after.json), [상세 요약](terminal-ui-summary.json), [전체 proof](terminal-ui-after-proof.json).1Success/0Warning/0Fail, 원설정/자기 관찰자 복원, 종료 월드0. 양쪽 소유자당 Result/Status 새 인스턴스1·반환 구독1, 옛 반환/버튼 구독0, 강제수거4, 종료 후 실제 SERVER RPC0·보드/경제/Battle/캐시/RNG 불변·논리 타이머 해제를 확인했다. [host](terminal-ui-host.png)와 [client](terminal-ui-client.png)를 직접 열어 한글 결과·정지 시계·버튼 배치를 확인했다.
 - 입력 범위는 Controller의 Engine InputKey S/M/X 및 InputTouch begin/move/end와 public intent API다. PlayerInput 상태·바인딩 수와 실제 서버 요청0을 확인했으나 물리 입력이나 각 입력 콜백의 호출 횟수 관측이라고 확대하지 않는다. 결과 반환 버튼의 실제 클릭은 별도 패키지 증거를 사용한다.
 
-### NET-LIFE01 — 새 매치에서 이전 요청 payload의 세대 재사용 (Unreal 회귀 Closed, 패키지 후속 대기)
+### NET-LIFE01 — 새 매치에서 이전 요청 payload의 세대 재사용 (Unreal·패키지 Closed)
 
 - 파일/경로: `Core/LDGameMode.h::NextConnectionEpoch=1`, `LDGameMode.cpp::RegisterParticipant`→`LDPlayerController::ServerRequestCommand/SubmitServerCommand`→`LDCommandProcessor::SubmitAtTime`.
 - 재현/영향: FLDCommand에는 MatchId가 없고 각 Mode가 다시 epoch1/2를 발급했다. 이전 판의 유효 첫 Summon(id1,epoch1,revision0)을 새 소유 Controller/빈 보드에 다시 보내면 새 매치 Context와 epoch가 같아 새 구매로 승인된다. 이전 Actor 채널을 대상으로 늦게 도착한 패킷과 구별하여 **이전 payload를 새 Controller로 재전송하는 상황**을 검사했다.
 - 독립 기대/실제 실패: 테스트 `62b5180`은 실제 첫 World에서 구매 후 종료하고 새 World를 만들었다. [수정 전1Fail](epoch-before.json), [실패 항목](epoch-before-errors.json): 새판 gold100 기대/실제80, 인구0/실제1, n0/실제1, revision0/실제1, RNG와 새 캐시 변경. 서버 API 수명 회귀이며 실제 네트워크 전송은 후속이다.
 - 최소 수정 `53af399`: 익명 namespace의 GameThread 전용 process 수명 uint64 발급기를 사용한다. 첫 값은 경제 RNG와 독립적인 FGuid 기반 identity 값이며 이후 단조 증가한다.0으로 소진되면 계속0을 반환하여 기존 ParticipantContext/PlayerState 검증에서 실패하고 Abort하므로 이전 값을 재사용하지 않는다. Controller DTO·Processor·재화/보드 소유권은 그대로다. 재시작 간 충돌 감소는 확률적이며 수학적 유일성 보장이 아니다.
 - 실제 수정 후: [통합 Editor34.22초 Pass](epoch-after-editor.json), [전체58개 무경고/0Fail/0NotRun](epoch-after-58.json). 독립 B 리뷰에서 초기화 전 거절·중복 로그인·기존 epoch 단조 조건·수명·상태 원본을 재확인했고 추가 차단 결함0. uint64 증거는 문자열로 기록하며 double JSON의 반올림을 세대 일치 판단에 쓰지 않는다.
-- 새 패키지의 이전 payload 재전송과 혼합 승패 반복을 확인할 때까지 이 수정의 패키지 검수는 대기다. 이전 패키지의5시드/20분 수치에는 옛 소스/해시를 그대로 표시한다. 전투/렌더/부하 함수 변경은 없어 기존 측정의 범위를 소급 확장하거나 무효로 바꾸지 않는다.
+- 최종 e89 패키지 [Boundary](final-G3Boundary-pair.json)에서 혼합 승패4매치/3회 복귀와 이전 payload3회 실제 재전송을 확인했다. InvalidEpoch와 새판 상태/RNG/캐시 불변, 새 요청 정상 처리로 패키지 검수도 Closed다. 이전 패키지의5시드/20분 수치에는 옛 소스/해시를 그대로 표시한다. 전투/렌더/부하 함수 변경은 없어 기존 측정의 범위를 소급 확장하거나 무효로 바꾸지 않는다.
+
+### SUP-TEST01 — 보충 검수 통합과 첫 프레임 클릭 (Editor·패키지 Closed)
+
+- `LDG3EntryProbeSubsystem.cpp::SaveJson`은 기존 자연 플레이 probe의 익명 namespace 함수와 Unreal Unity 묶음에서 충돌했다. [실제 compile exit6](supplement-editor-before.json)을 보존하고 `5ce7fb6`에서 전용 `SaveEntryJson` 이름으로 변경했다. [후속 Editor Pass](supplement-editor-after.json). 제품 동작 변경은 없다.
+- `LDG3BoundaryProbeSubsystem.cpp::Local`은 처음 Preparing snapshot이 준비된 프레임에 Slate 클릭을 주입하고 이를 접수 성공으로 취급했다. 실제 양쪽 서버 요청/응답이0인 채 소환이 진행되지 않았으며 자연 적 한도까지 진행했다. [원본 실패](boundary-editor-before.json), [관찰과 검사 프로세스 중단 기록](boundary-editor-before-note.json). 파일·사용자 에디터를 삭제하거나 종료하지 않았다.
+- `4002bd4`는 로컬 snapshot 준비 후1초간 UMG 배치/활성 갱신을 기다리며 클릭 뒤3초 동안 실제 응답이 없으면 검사 실패로 종료한다. 클릭 전달 시도와 실제 구매 응답을 별도로 확인한다. UI를 직접 호출하거나 재화를 주입해 성공 처리하지 않는다. 후속 실제 Editor-game와 최종 패키지 결과를 아래에서 각각 확인했다.
+- 첫 수정 실행은 마감 D−.001/D 타격·실제0.200634초 hitch·Victory D·금280/별4를 양쪽에서 확인했지만 다음 판의 실제 `InvalidEpoch` 수신을 검사기가 놓쳐 [전체 Fail](boundary-editor-observer-before.json)이었다. [client 실패 JSON](boundary-editor-observer-before-client.json)과 원본 로그의 동일 MatchId/epoch/id, code5 응답을 대조했다. `FOutputDevice::Serialize`의 GameThread 필터가 비동기 로그 전달을 버리는 구조였다. `ab03161`은 분류한 문자열만 mutex 큐에 복사하고 GameThread Tick에서 현재 매치/세대/요청을 대조한다. 독립 리뷰에서 스레드 간 UObject/state 접근이 없고 자기 관찰자를 해제한 뒤 수명을 종료함을 확인했다. [후속 컴파일 Pass](boundary-observer-editor.json).
+- 같은 보강에서 소환 timeout을 Pending/단계 조기 return 앞으로 옮기고 별도 발송 시각을 사용했다. 최초 PNG는 `showUI=false`로 HUD가 빠져 있었으므로 세 캡처 위치를 `true`로 고쳤다. 이전 이미지는 보드 관찰 범위만 유효하며 최종 HUD 증거로 사용하지 않는다.
+- `ab03161` 실제 후속 Editor-game [양쪽 종합 Pass](boundary-editor-after.json), [host175 검사](boundary-editor-after-host.json), [client86 검사](boundary-editor-after-client.json). 각각4개 다른 매치/3회 실제 복귀, 모든 검사 true, 양쪽 공용 결과 일치, PNG9개씩 존재, exit0/critical0. 승리 D, 시간초과 D, 잔여 일반 처치 후 승리 D+2, N100 즉시 패배를 구별했다. Editor 검사 결함은 닫혔으며 패키지 검수는 별도다.
+
+### EXPECT-01 — 독립 계획의 명시 표본 보강 (UE Closed)
+
+최종 리뷰는 R01의29.999초 ready와 R06의 손상된 수량101 방어 표본이 기존 검사 이름만으로 입증되지 않음을 발견했다. `e89a1fa`는 기존 `LDWaveTests.cpp`의 실제 준비 검사를29.999/30.0으로 반복하고30.001실패는 유지한다. 한도 검사는 **공용 수량만100으로 바꾸는 명시 손상 fixture** 뒤 실제 Director 생성으로101을 관찰해 즉시 명령 차단/원래 시각 EnemyLimit/보상0을 요구한다. 정상 실제 Actor101마리 생성이나 패키지 결과라고 쓰지 않는다. [Editor](final-expectations-editor.json)와 [Waves9개 무경고/0Fail](final-expectations-waves.json) Pass. 제품 코드는 변경하지 않았다.
+
+2026-09-28 마감 보충: SUP-TEST01은 최종 패키지 Boundary179/86, Entry35/29, NetConflict27/14의 전체Pass/정상exit로 닫았다. 원본 화면도 직접 대조했다([공통 보충](SUPPLEMENTS.md), [독립 client 리뷰](final-boundary-client-visual.md)). 축소 미리보기에서 누락처럼 보인 버튼 글자는 원본에서 정상이었으므로 제품 결함으로 등록하지 않았다.
+
+EXPECT-01의 후속 f64cc671은 기존9검사 안에 준비9.999초 구매·판매/기존 Actor·예약 유지, wave9 일반 Actor의 wave10 유지, N99에서11.04초 명령보다 앞선11초 생성·즉시 한도 패배·원응답 전체 재전송을 추가했다. 통합과 학습 재현의 Editor 및 Waves9종은 모두 무경고 Pass([통합 결과](final-detail-waves.json), [재현](REPLAY_EVIDENCE.md)). 제품 변경0이며 패키지의 정확 시각 RPC 도착이나 자연 밸런스 증거로 확대하지 않는다.
+
+### DOC-01 — 완료 집계·선택 학습 자료 의존·검사기 표본 (Closed)
+
+최종 정적 검사에서 PROJECT_STATUS의 InProgress 수 표기 누락, 영구 검수 문서/완료 JSON의 선택 learning 경로 의존, 수업 앵커 하나 누락을 발견했다. 런타임 Source/Config에는 learning 참조가 없었다. 영구 증거에 필요한 실행 결과만 바이트 동일 사본/해시 목록으로 남기고 링크를 바꿨다. 학습 폴더 제거를 위해 검사 규칙을 약화하지 않았다. 수업 앵커·집계도 수정했다.
+
+기존 `tools/validate-planning.test.mjs`의 stale status 검사는 Backlog10 문자열을 고정해서 현재 Backlog0에서 변형이 일어나지 않았다. 현재 숫자를1 증가시키고 실제 텍스트 변경을 요구하도록 바꿨다. 문서 정상 fixture와 의도한 실패 fixture25개 모두 Pass, 문서·데이터·스타일·학습 검사도 Pass([마감 기록](final-checks.json)). 첫 실패 로그는 Saved에 보존했다. 이 수정은 문서 검사기이며 게임 코드 변경·추가 Unreal 빌드 대상이 아니다.

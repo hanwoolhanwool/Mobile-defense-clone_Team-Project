@@ -1,0 +1,29 @@
+{
+  "Scope": "Compile/cook/package only; installation and gameplay separate",
+  "Platform": "Win64",
+  "Started": "2026-09-28T00:50:03.7974868+09:00",
+  "Head": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "Command": "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Build\\BatchFiles\\RunUAT.bat",
+  "Arguments": [
+    "BuildCookRun",
+    "-project=C:\\Users\\iam12\\P0_lesson_replay_g3\\Mobile_defense_clone.uproject",
+    "-noP4",
+    "-unattended",
+    "-utf8output",
+    "-target=Mobile_defense_clone",
+    "-platform=Win64",
+    "-clientconfig=Development",
+    "-build",
+    "-cook",
+    "-stage",
+    "-pak",
+    "-package",
+    "-archive",
+    "-ubtargs=-NoHotReloadFromIDE -MaxParallelActions=4",
+    "-map=/Game/LD/Maps/L_P0+/Game/LD/Maps/L_P0Entry",
+    "-archivedirectory=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-final-package/Package"
+  ],
+  "ExitCode": 0,
+  "Finished": "2026-09-28T00:51:48.2498051+09:00",
+  "Result": "Pass"
+}

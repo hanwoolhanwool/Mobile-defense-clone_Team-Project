@@ -1,0 +1,9 @@
+{
+  "Before": "f4ee1742545ecfb816a7951d77c435fff745561e",
+  "Canonical": "e1b4d63b8e47504ed71ec7cadc1fc295b907ca1e",
+  "Tree": "2b96df9f074cac2027fca8a9804734a1e0eaa228",
+  "AHistory": "71c7b8b3553c12c60eda167e5059fb2b2f4ca1e6",
+  "BHistory": "6063215acd9a1f06dcaaab18315e359b97f357c2",
+  "Reason": "Reviewed role changes already integrated; preserve ancestry without replacing validated canonical content. A LDWaveTests identical; B late-entry assertions retained with formatter and unique helper fix.",
+  "Result": "Pass"
+}

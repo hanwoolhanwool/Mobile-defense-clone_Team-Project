@@ -69,7 +69,12 @@ rejected('altered archived evidence fails its hash',({edit})=>{
  edit('docs/production/evidence/archived/RUN-20260913-03/Logs/editor.log',text=>text+'tampered\n');
 },'Evidence hash mismatch');
 rejected('a stale status summary fails',({edit})=>{
- edit('docs/production/PROJECT_STATUS.md',text=>text.replace('| P0 | 11 | 10 |','| P0 | 11 | 9 |'));
+ edit('docs/production/PROJECT_STATUS.md',text=>{
+  const changed=text.replace(/^(\| P0 \| \d+ \| )(\d+)( \|)/m,
+   (_,prefix,count,suffix)=>`${prefix}${Number(count)+1}${suffix}`);
+  assert.notEqual(changed,text,'P0 backlog fixture must actually change');
+  return changed;
+ });
 },'P0 counts differ from board');
 rejected('a completed task cannot be the next action',({edit})=>{
  edit('docs/production/PROJECT_STATUS.md',text=>text.replace(/^\| 다음 착수 후보 \|.*$/m,'| 다음 착수 후보 | TASK-CORE-01 |'));

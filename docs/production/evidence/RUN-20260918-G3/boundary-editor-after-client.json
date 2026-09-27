@@ -1,0 +1,963 @@
+{
+	"result": "Pass",
+	"scope": "Development two-process boundary fixture; paid summon/move; skips remaining preparation/waves; boss HP 6000->1 and case2 normal HP 70->1 lowered nonlethally; attack registration times selected; case3 extra normal spawns and remaining scheduled normal spawns skipped; actual World clock and production result/reward/death paths unchanged. Not natural play or balance.",
+	"role": "client",
+	"processId": 24492,
+	"completedCases": 4,
+	"returns": 3,
+	"elapsedWallSeconds": 255.84092529863119,
+	"checks": [
+		{
+			"name": "explicit-development-arguments",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 3.5099685192108154e-05
+		},
+		{
+			"name": "new-evidence-output",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 0.00016349926590919495
+		},
+		{
+			"name": "evidence-directory-created",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 0.00035119801759719849
+		},
+		{
+			"name": "entry-idle-more-than-loading-timeout",
+			"pass": true,
+			"detail": "40.008291",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 40.828211698681116
+		},
+		{
+			"name": "entry-slate-action",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 40.828474201261997
+		},
+		{
+			"name": "new-match-context",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 40.963759198784828
+		},
+		{
+			"name": "paid-summon-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 41.994552798569202
+		},
+		{
+			"name": "paid-summon-actual-response",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 42.294442098587751
+		},
+		{
+			"name": "paid-unit-real-move-request",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 42.294494099915028
+		},
+		{
+			"name": "actual-fixture-actors-replicated",
+			"pass": true,
+			"detail": "88D126094DA472DA8049D791C129384A/10/2/10/10/0/100/1/0/0/30.000000000/19.419208899/0.000000000/70.802568398/0.000000000|1/0/1.000000000/6000.000000000/1|2/1/1.000000000/6000.000000000/1",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 42.59478959813714
+		},
+		{
+			"name": "replicated-terminal-battle-identical",
+			"pass": true,
+			"detail": "88D126094DA472DA8049D791C129384A/13/3/10/10/0/100/1/1/0/30.000000000/19.419208899/0.000000000/70.802568398/70.802568398|1/0/0.000000000/6000.000000000/0|2/1/0.000000000/6000.000000000/0",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.36676559969783
+		},
+		{
+			"name": "replicated-owner-board-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.36679799854755
+		},
+		{
+			"name": "replicated-owner-economy-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.3668061979115
+		},
+		{
+			"name": "actual-replicated-actor-hp-agrees-with-battle",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.36681170016527
+		},
+		{
+			"name": "local-fixture-ready-was-observed",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.36681700125337
+		},
+		{
+			"name": "same-paid-unit-and-board-revision",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.36682190001011
+		},
+		{
+			"name": "terminal-actions-closed",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.36682699993253
+		},
+		{
+			"name": "actual-terminal-normal-identities-and-hp",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.36683220043778
+		},
+		{
+			"name": "terminal-snapshot-remains-fixed",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.40805190056562
+		},
+		{
+			"name": "result-return-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 103.75815669819713
+		},
+		{
+			"name": "entry-slate-action",
+			"pass": true,
+			"detail": "",
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"caseIndex": 0,
+			"wallSeconds": 110.80843960121274
+		},
+		{
+			"name": "new-match-context",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 110.9594682008028
+		},
+		{
+			"name": "prior-payload-fresh-board-before-purchase",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 111.992018699646
+		},
+		{
+			"name": "actual-prior-generation-differs",
+			"pass": true,
+			"detail": "priorMatch=88D126094DA472DA8049D791C129384A priorEpoch=1968206049260732517 newMatch=B4C78CAD492D3A4CF97479B77600D7A6 newEpoch=1968206049260732519 id=1 expectedBoard=0; previous payload deliberately sent on NEW Controller, not old Actor packet delivery",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 111.99204469844699
+		},
+		{
+			"name": "prior-payload-authority-board-economy-cache-rng-unchanged",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 112.02534500136971
+		},
+		{
+			"name": "prior-payload-actual-rpc-invalid-epoch",
+			"pass": true,
+			"detail": "P0WIRE CLIENT match=B4C78CAD492D3A4CF97479B77600D7A6 epoch=1968206049260732517 id=1 code=5 board=0 economy=0 event=0 created=- moved=- removed=-",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 112.02536829933524
+		},
+		{
+			"name": "prior-payload-economy-board-unchanged",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 112.02537579834461
+		},
+		{
+			"name": "paid-summon-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 112.02556749805808
+		},
+		{
+			"name": "paid-summon-actual-response",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 112.32571730017662
+		},
+		{
+			"name": "paid-unit-real-move-request",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 112.32577120140195
+		},
+		{
+			"name": "actual-fixture-actors-replicated",
+			"pass": true,
+			"detail": "B4C78CAD492D3A4CF97479B77600D7A6/10/2/10/10/0/100/1/0/0/30.000000000/13.616781000/0.000000000/65.033591900/0.000000000|1/0/1.000000000/6000.000000000/1|2/1/1.000000000/6000.000000000/1",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 112.60875549912453
+		},
+		{
+			"name": "replicated-terminal-battle-identical",
+			"pass": true,
+			"detail": "B4C78CAD492D3A4CF97479B77600D7A6/12/3/10/10/0/100/1/2/2/30.000000000/13.616781000/0.000000000/65.033591900/65.033591900|1/0/0.000000000/6000.000000000/0|2/1/1.000000000/6000.000000000/1",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99096699804068
+		},
+		{
+			"name": "replicated-owner-board-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99106829985976
+		},
+		{
+			"name": "replicated-owner-economy-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99107559770346
+		},
+		{
+			"name": "actual-replicated-actor-hp-agrees-with-battle",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99108050018549
+		},
+		{
+			"name": "local-fixture-ready-was-observed",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99108500033617
+		},
+		{
+			"name": "same-paid-unit-and-board-revision",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99108939990401
+		},
+		{
+			"name": "terminal-actions-closed",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99109509959817
+		},
+		{
+			"name": "actual-terminal-normal-identities-and-hp",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 172.99109980091453
+		},
+		{
+			"name": "terminal-snapshot-remains-fixed",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 173.03506639972329
+		},
+		{
+			"name": "result-return-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 173.38558720052242
+		},
+		{
+			"name": "entry-slate-action",
+			"pass": true,
+			"detail": "",
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"caseIndex": 1,
+			"wallSeconds": 180.43387980014086
+		},
+		{
+			"name": "new-match-context",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 180.58747889846563
+		},
+		{
+			"name": "prior-payload-fresh-board-before-purchase",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.62009409815073
+		},
+		{
+			"name": "actual-prior-generation-differs",
+			"pass": true,
+			"detail": "priorMatch=B4C78CAD492D3A4CF97479B77600D7A6 priorEpoch=1968206049260732519 newMatch=CA8244E54106AB609AABD8A69F6EFA6E newEpoch=1968206049260732521 id=1 expectedBoard=0; previous payload deliberately sent on NEW Controller, not old Actor packet delivery",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.62011820077896
+		},
+		{
+			"name": "prior-payload-authority-board-economy-cache-rng-unchanged",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.65335480123758
+		},
+		{
+			"name": "prior-payload-actual-rpc-invalid-epoch",
+			"pass": true,
+			"detail": "P0WIRE CLIENT match=CA8244E54106AB609AABD8A69F6EFA6E epoch=1968206049260732519 id=1 code=5 board=0 economy=0 event=0 created=- moved=- removed=-",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.65337689965963
+		},
+		{
+			"name": "prior-payload-economy-board-unchanged",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.65338410064578
+		},
+		{
+			"name": "paid-summon-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.65355389937758
+		},
+		{
+			"name": "paid-summon-actual-response",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.95341769978404
+		},
+		{
+			"name": "paid-unit-real-move-request",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 181.95348719879985
+		},
+		{
+			"name": "actual-fixture-actors-replicated",
+			"pass": true,
+			"detail": "CA8244E54106AB609AABD8A69F6EFA6E/11/2/10/10/1/100/1/0/0/30.000000000/13.603403699/0.000000000/65.020079900/0.000000000|1/0/1.000000000/6000.000000000/1|2/1/1.000000000/6000.000000000/1",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 182.23690919950604
+		},
+		{
+			"name": "replicated-normal-one-past-boss-deadline",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 242.08470689877868
+		},
+		{
+			"name": "replicated-terminal-battle-identical",
+			"pass": true,
+			"detail": "CA8244E54106AB609AABD8A69F6EFA6E/15/3/10/10/0/100/1/1/0/30.000000000/13.603403699/0.000000000/65.020079900/67.020079900|1/0/0.000000000/6000.000000000/0|2/1/0.000000000/6000.000000000/0",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59753379970789
+		},
+		{
+			"name": "replicated-owner-board-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59755750000477
+		},
+		{
+			"name": "replicated-owner-economy-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59756710007787
+		},
+		{
+			"name": "actual-replicated-actor-hp-agrees-with-battle",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59757339954376
+		},
+		{
+			"name": "client-observed-normal-blocking-victory",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59757959842682
+		},
+		{
+			"name": "local-fixture-ready-was-observed",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59758469834924
+		},
+		{
+			"name": "same-paid-unit-and-board-revision",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59759039804339
+		},
+		{
+			"name": "terminal-actions-closed",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59759689867496
+		},
+		{
+			"name": "actual-terminal-normal-identities-and-hp",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.59760339930654
+		},
+		{
+			"name": "terminal-snapshot-remains-fixed",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.63859299942851
+		},
+		{
+			"name": "result-return-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 244.98869939893484
+		},
+		{
+			"name": "entry-slate-action",
+			"pass": true,
+			"detail": "",
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"caseIndex": 2,
+			"wallSeconds": 252.03647720068693
+		},
+		{
+			"name": "new-match-context",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 252.21851550042629
+		},
+		{
+			"name": "prior-payload-fresh-board-before-purchase",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.25081070140004
+		},
+		{
+			"name": "actual-prior-generation-differs",
+			"pass": true,
+			"detail": "priorMatch=CA8244E54106AB609AABD8A69F6EFA6E priorEpoch=1968206049260732521 newMatch=1D60D92743C16756452B7792E9C3B8D5 newEpoch=1968206049260732523 id=1 expectedBoard=0; previous payload deliberately sent on NEW Controller, not old Actor packet delivery",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.25083290040493
+		},
+		{
+			"name": "prior-payload-authority-board-economy-cache-rng-unchanged",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.28416619822383
+		},
+		{
+			"name": "prior-payload-actual-rpc-invalid-epoch",
+			"pass": true,
+			"detail": "P0WIRE CLIENT match=1D60D92743C16756452B7792E9C3B8D5 epoch=1968206049260732521 id=1 code=5 board=0 economy=0 event=0 created=- moved=- removed=-",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.28418830037117
+		},
+		{
+			"name": "prior-payload-economy-board-unchanged",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.28419550135732
+		},
+		{
+			"name": "paid-summon-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.28437279909849
+		},
+		{
+			"name": "paid-summon-actual-response",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.58417069911957
+		},
+		{
+			"name": "paid-unit-real-move-request",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 253.58423810079694
+		},
+		{
+			"name": "actual-fixture-actors-replicated",
+			"pass": true,
+			"detail": "1D60D92743C16756452B7792E9C3B8D5/105/2/1/10/99/100/0/0/0/30.000000000/13.648471899/25.065208599/0.000000000/0.000000000",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.10118409991264
+		},
+		{
+			"name": "replicated-terminal-battle-identical",
+			"pass": true,
+			"detail": "1D60D92743C16756452B7792E9C3B8D5/107/3/1/10/100/100/0/2/1/30.000000000/13.648471899/25.065208599/0.000000000/5.596430302",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78416299819946
+		},
+		{
+			"name": "replicated-owner-board-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78418929874897
+		},
+		{
+			"name": "replicated-owner-economy-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78419800102711
+		},
+		{
+			"name": "actual-replicated-actor-hp-agrees-with-battle",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78420469909906
+		},
+		{
+			"name": "local-fixture-ready-was-observed",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78421119973063
+		},
+		{
+			"name": "same-paid-unit-and-board-revision",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78421799838543
+		},
+		{
+			"name": "terminal-actions-closed",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78422379866242
+		},
+		{
+			"name": "actual-terminal-normal-identities-and-hp",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.78427059948444
+		},
+		{
+			"name": "terminal-snapshot-remains-fixed",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 254.82424249872565
+		},
+		{
+			"name": "four-distinct-matches",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 255.8408988006413
+		},
+		{
+			"name": "three-actual-return-clicks",
+			"pass": true,
+			"detail": "",
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"caseIndex": 3,
+			"wallSeconds": 255.84091909974813
+		}
+	],
+	"cases": [
+		{
+			"name": "early-and-exact-victory",
+			"caseIndex": 0,
+			"matchId": "88D126094DA472DA8049D791C129384A",
+			"battle": "88D126094DA472DA8049D791C129384A/13/3/10/10/0/100/1/1/0/30.000000000/19.419208899/0.000000000/70.802568398/70.802568398|1/0/0.000000000/6000.000000000/0|2/1/0.000000000/6000.000000000/0",
+			"ownerBoard": "88D126094DA472DA8049D791C129384A/1/2/1|2/C03/1/35/11.085901599",
+			"ownerEconomy": "88D126094DA472DA8049D791C129384A/1/3/280/4/1/22",
+			"deadline": 70.802568398416042,
+			"resultSeconds": 70.802568398416042,
+			"result": 1,
+			"reason": 0,
+			"revision": 13,
+			"normalCount": 0,
+			"dueTimes": [
+				70.801568398416038,
+				70.802568398416042
+			],
+			"actualNormalIds": [],
+			"originalLocalUnitId": "2",
+			"actualBosses": [
+				{
+					"enemyId": "1",
+					"route": 0,
+					"actualActorHP": 0
+				},
+				{
+					"enemyId": "2",
+					"route": 1,
+					"actualActorHP": 0
+				}
+			],
+			"authorityBoards": [
+				"88D126094DA472DA8049D791C129384A/0/2/1|1/C01/0/5/11.069234698",
+				"88D126094DA472DA8049D791C129384A/1/2/1|2/C03/1/35/11.085901599"
+			],
+			"authorityEconomies": [
+				"88D126094DA472DA8049D791C129384A/0/3/280/4/1/22",
+				"88D126094DA472DA8049D791C129384A/1/3/280/4/1/22"
+			],
+			"hitchBeforeWorldSeconds": 0,
+			"hitchSleptWallSeconds": 0,
+			"committedHitsOnAuthority": []
+		},
+		{
+			"name": "late-boss-timeout",
+			"caseIndex": 1,
+			"matchId": "B4C78CAD492D3A4CF97479B77600D7A6",
+			"battle": "B4C78CAD492D3A4CF97479B77600D7A6/12/3/10/10/0/100/1/2/2/30.000000000/13.616781000/0.000000000/65.033591900/65.033591900|1/0/0.000000000/6000.000000000/0|2/1/1.000000000/6000.000000000/1",
+			"ownerBoard": "B4C78CAD492D3A4CF97479B77600D7A6/1/2/1|2/C03/1/35/5.316925097",
+			"ownerEconomy": "B4C78CAD492D3A4CF97479B77600D7A6/1/2/180/2/1/22",
+			"deadline": 65.033591900020838,
+			"resultSeconds": 65.033591900020838,
+			"result": 2,
+			"reason": 2,
+			"revision": 12,
+			"normalCount": 0,
+			"dueTimes": [
+				65.033591900020838,
+				65.034591900020843
+			],
+			"actualNormalIds": [],
+			"originalLocalUnitId": "2",
+			"actualBosses": [
+				{
+					"enemyId": "1",
+					"route": 0,
+					"actualActorHP": 0
+				},
+				{
+					"enemyId": "2",
+					"route": 1,
+					"actualActorHP": 1
+				}
+			],
+			"authorityBoards": [
+				"B4C78CAD492D3A4CF97479B77600D7A6/0/2/1|1/C01/0/5/5.250258099",
+				"B4C78CAD492D3A4CF97479B77600D7A6/1/2/1|2/C03/1/35/5.316925097"
+			],
+			"authorityEconomies": [
+				"B4C78CAD492D3A4CF97479B77600D7A6/0/2/180/2/1/22",
+				"B4C78CAD492D3A4CF97479B77600D7A6/1/2/180/2/1/22"
+			],
+			"hitchBeforeWorldSeconds": 0,
+			"hitchSleptWallSeconds": 0,
+			"committedHitsOnAuthority": []
+		},
+		{
+			"name": "normal-blocks-victory",
+			"caseIndex": 2,
+			"matchId": "CA8244E54106AB609AABD8A69F6EFA6E",
+			"battle": "CA8244E54106AB609AABD8A69F6EFA6E/15/3/10/10/0/100/1/1/0/30.000000000/13.603403699/0.000000000/65.020079900/67.020079900|1/0/0.000000000/6000.000000000/0|2/1/0.000000000/6000.000000000/0",
+			"ownerBoard": "CA8244E54106AB609AABD8A69F6EFA6E/1/2/1|2/C03/1/35/5.303412999",
+			"ownerEconomy": "CA8244E54106AB609AABD8A69F6EFA6E/1/4/281/4/1/22",
+			"deadline": 65.020079899579287,
+			"resultSeconds": 67.020079899579287,
+			"result": 1,
+			"reason": 0,
+			"revision": 15,
+			"normalCount": 0,
+			"dueTimes": [
+				65.020079899579287,
+				65.020079899579287
+			],
+			"actualNormalIds": [],
+			"originalLocalUnitId": "2",
+			"actualBosses": [
+				{
+					"enemyId": "1",
+					"route": 0,
+					"actualActorHP": 0
+				},
+				{
+					"enemyId": "2",
+					"route": 1,
+					"actualActorHP": 0
+				}
+			],
+			"authorityBoards": [
+				"CA8244E54106AB609AABD8A69F6EFA6E/0/2/1|1/C01/0/5/5.253412600",
+				"CA8244E54106AB609AABD8A69F6EFA6E/1/2/1|2/C03/1/35/5.303412999"
+			],
+			"authorityEconomies": [
+				"CA8244E54106AB609AABD8A69F6EFA6E/0/4/281/4/1/22",
+				"CA8244E54106AB609AABD8A69F6EFA6E/1/4/281/4/1/22"
+			],
+			"hitchBeforeWorldSeconds": 0,
+			"hitchSleptWallSeconds": 0,
+			"committedHitsOnAuthority": []
+		},
+		{
+			"name": "enemy-cap",
+			"caseIndex": 3,
+			"matchId": "1D60D92743C16756452B7792E9C3B8D5",
+			"battle": "1D60D92743C16756452B7792E9C3B8D5/107/3/1/10/100/100/0/2/1/30.000000000/13.648471899/25.065208599/0.000000000/5.596430302",
+			"ownerBoard": "1D60D92743C16756452B7792E9C3B8D5/1/2/1|2/C03/1/35/5.348541799",
+			"ownerEconomy": "1D60D92743C16756452B7792E9C3B8D5/1/1/80/0/1/22",
+			"deadline": 65.065208598971367,
+			"resultSeconds": 5.5964303016662598,
+			"result": 2,
+			"reason": 1,
+			"revision": 107,
+			"normalCount": 100,
+			"dueTimes": [
+				65.065208598971367,
+				65.065208598971367
+			],
+			"actualNormalIds": [
+				"1",
+				"2",
+				"3",
+				"4",
+				"5",
+				"6",
+				"7",
+				"8",
+				"9",
+				"10",
+				"11",
+				"12",
+				"13",
+				"14",
+				"15",
+				"16",
+				"17",
+				"18",
+				"19",
+				"20",
+				"21",
+				"22",
+				"23",
+				"24",
+				"25",
+				"26",
+				"27",
+				"28",
+				"29",
+				"30",
+				"31",
+				"32",
+				"33",
+				"34",
+				"35",
+				"36",
+				"37",
+				"38",
+				"39",
+				"40",
+				"41",
+				"42",
+				"43",
+				"44",
+				"45",
+				"46",
+				"47",
+				"48",
+				"49",
+				"50",
+				"51",
+				"52",
+				"53",
+				"54",
+				"55",
+				"56",
+				"57",
+				"58",
+				"59",
+				"60",
+				"61",
+				"62",
+				"63",
+				"64",
+				"65",
+				"66",
+				"67",
+				"68",
+				"69",
+				"70",
+				"71",
+				"72",
+				"73",
+				"74",
+				"75",
+				"76",
+				"77",
+				"78",
+				"79",
+				"80",
+				"81",
+				"82",
+				"83",
+				"84",
+				"85",
+				"86",
+				"87",
+				"88",
+				"89",
+				"90",
+				"91",
+				"92",
+				"93",
+				"94",
+				"95",
+				"96",
+				"97",
+				"98",
+				"99",
+				"100"
+			],
+			"originalLocalUnitId": "2",
+			"actualBosses": [],
+			"authorityBoards": [
+				"1D60D92743C16756452B7792E9C3B8D5/0/2/1|1/C01/0/5/5.298541299",
+				"1D60D92743C16756452B7792E9C3B8D5/1/2/1|2/C03/1/35/5.348541799"
+			],
+			"authorityEconomies": [
+				"1D60D92743C16756452B7792E9C3B8D5/0/1/80/0/1/22",
+				"1D60D92743C16756452B7792E9C3B8D5/1/1/80/0/1/22"
+			],
+			"hitchBeforeWorldSeconds": 0,
+			"hitchSleptWallSeconds": 0,
+			"committedHitsOnAuthority": []
+		}
+	]
+}

@@ -1,6 +1,6 @@
 # P0 참고 구현 학습 시작
 
-참고 제작 상태 **Draft**, 실제 개발자 A/B 상태 **Planned**. G0~G4 검수 진행 중이며 P0 완료본이 아니다.
+참고 수업 G0~G3의 문서화한 PC 재현 범위는 **Verified**, G4는 **Draft**다. 실제 개발자 A/B는 **Planned**다. 실제 청음·Android 필수 검수가 남아 P0 최종 완료본은 아니다.
 
 공통 출발 SHA: `8c6856d235de87cc28c12b49ca775bd0937334a5`. `learn/p0-a`, `learn/p0-b`, `learn/p0-integration`은 이 출발점에 유지한다. 참고 코드를 실제 학습 결과로 기록하지 않는다.
 
@@ -15,7 +15,7 @@
 | G0 | Schema2 타입·로더·매치 / 명령·거절 / 독립 구현 비교·Editor 빌드 | Pass; 독립 A/누락A/B/canonical 실제 PIE 추가, 역할·통합 native 수업 Verified |
 | G1 | 경로 생성·이동 / 보드·카메라·전 셀 입력 / 양쪽 실제 화면·2바퀴 | Pass, 역할·[통합 수업](G1_INTEGRATION.md) 재현 Verified |
 | G2 | 16종 기본 공격·사망 / 경제·뭉치·합성·판매 / 단일 보상·실패 불변 | Pass, 39+보충12자동화·실제 두 프로세스20단계; A/B·[통합 수업](G2_INTEGRATION.md) 재현 Verified |
-| G3 | 웨이브·보스·결과 / HUD / PC 별도2프로세스·5판·성능 | 5시드/회복/20분 패키지 부하 Pass. 세대 재사용 수정 후58종·종료 위젯 PIE Pass; 패키지 경계 보충 진행, [통합 수업](G3_INTEGRATION.md) Draft |
-| G4 | Android 빌드·기기 / 터치·SafeArea / 실기기10웨이브 | 기기 연결 및 통합 빌드 필요 |
+| G3 | 웨이브·보스·결과 / HUD / PC 별도2프로세스·5판·성능 | PC 패키지5판·부하·경계/동시/진입 보충 Pass, 58자동화+최종9회귀·실제 PIE Pass; [통합 수업](G3_INTEGRATION.md) PC 재현 Verified. 실제 청음 대기 |
+| G4 | Android 빌드·기기 / 터치·SafeArea / 실기기10웨이브 | NotRun: UE Android 구성 요소·기기 필요. 최초 Android 빌드 exit6, APK 없음 |
 
 수업 문서의 절차로 시작 SHA에서 재현하고 실행 증거까지 연결한 경우만 Verified로 변경한다.

@@ -5,9 +5,9 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01, TASK-NET-01, TASK-UI-01; [공통 계약](COMMON.md), [독립 기대값](../../docs/production/evidence/RUN-20260918-G3/REVIEW_PLAN.md) |
-| 참고 자료 제작 상태 | Draft — 패키지5시드/회복/20분 부하 통과. 세대 수정 후58자동화·종료 위젯 PIE 통과, 패키지 경계 보충 중 |
+| 참고 자료 제작 상태 | Verified — 아래 PC 참고 재현 절차. 실제 청음·Android·선택 변형 과제 제외 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | f735b5889a5bd197e46d29bdfaa2b38c246d5ea6 / 검증 입력0981d07307112857dfdf0e91c79bcecdbcbc291b (실행 Config98727f0, 후처리 검사기만 갱신), C++는0e473f4af380506d209a95f7ec42eccf89c69df4와 동일 (게이트 완료 미확정) |
+| 참고 시작/완료 SHA | f735b5889a5bd197e46d29bdfaa2b38c246d5ea6 / f64cc671848560923595cc1955efe12620f326de (제품·제공 검사 소스). 최종 패키지 입력 e89a1fabaf5ef5e3a1d03a09397806814551ec20과 뒤의 테스트 전용 보충을 구분 |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | G2 통합, Schema2/Rules0.3.0; A Director/공용 상태/전투·결과 위젯, B 진입/복귀/Controller |
 | 제공 코드 / 직접 작성할 코드 | 제공: 기존 JSON·UI v2·검사기·에셋 생성기. 직접 작성: A/B G3 수업의 런타임 코드와 독립 기대 검사. 참고 파일 조립은 학습자 구현 완료가 아님 |
@@ -49,7 +49,7 @@
 |---|---|---|---|
 | 첫 자연 규칙2프로세스, seed1776 | 규칙대로10웨이브 결과, 서버/양쪽 상태 일치 | 보스 시간초과 패배, N0, HP467/3901. 내부 host16/client14 Pass. launcher seed 로그 문구 불일치로 종합Fail 보존 | [첫 실행 요약](../../docs/production/evidence/RUN-20260918-G3/first-editor-pair.json); Editor-game, 패키지 아님 |
 | 현재 프레임에 웨이브 전환·캡처 | 현재 HUD와 snapshot 일치 | host 캡처가 UMG 갱신보다 빨라 WAVE0. 전환 후0.5초 예약으로 수정 후 양쪽 WAVE1/20초/N2 관찰 | 실제 PIEv2 및 새 재현 PIE 양쪽 PNG 직접 대조 |
-| 보스 패배 결과 | 종료 안내·비활성 조작·복귀 버튼 | 하단 참가자 대기 문구를 종료 안내로 수정 `28a5f2e`; 최종 결과 화면 재확인 진행 | 최초 실패 PNG 보존 |
+| 보스 패배 결과 | 종료 안내·비활성 조작·복귀 버튼 | 하단 참가자 대기 문구를 종료 안내로 수정 `28a5f2e`; 후속 실제 패키지 양쪽 결과 화면 정상 확인 | 최초 실패 PNG 보존 |
 | 새 재현본의 실제 GPU PIE 두 네트워크 월드 | 각소환1/gold80, Running, 종료시 월드0/설정복원 | 1Pass, 설정복원true; 양쪽546×720 화면에서 WAVE1/20초/N2·gold80/pop1 확인 | 재현 폴더 `Saved/P0Runs/Replay-G3-pie` 및 `-proof`; 제품 승리/10웨이브 검사 아님 |
 | 부분 보스 생성 실패·정확 마감·한도·종료 재진입 | 부분 성공 게시/중복 보상/추가 공격 없이 일관 종료 | A01/A02/검사용 준비 순서 결함 수정 후56종 무경고Pass, 새 재현본도56Pass | [리뷰 기록](../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md) |
 | 부하 출력 경로·2000회 수명 smoke | 실제 게임 World가 지정 폴더에 한 결과 저장, 실제 처치·정리 | 전환 World의 경로 선점으로v2 종합Fail. 출력 지연 초기화 후v3 host69/client33 및 종합Pass | [smoke v3](../../docs/production/evidence/RUN-20260918-G3/load-smoke-v3.json);10초 유지 Editor-game,20분 패키지 성능 아님 |
@@ -62,7 +62,17 @@
 
 ## 상대에게 전달하고 통합하기
 
-A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Controller·Entry/GI를 연결한다. `learning/tools/Replay-P0G3.ps1 -RepositoryRoot C:/Users/iam12/P0_reference_integration -ReplayRoot <존재하지 않는 절대 경로> -SourceSha 0981d07307112857dfdf0e91c79bcecdbcbc291b -RunId <새 이름>`으로 기준 `f735b588`의 새 detached worktree에66파일을 수업 순서로 조립하고 blob을 대조한다.15개는 제공 기반,51개는 G3 최종 입력이다. 중간 파일 묶음은 다음 묶음을 참조하므로 전체 조립 후 빌드한다. 조립은 학습자의 직접 구현을 대신하지 않는다.
+A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Controller·Entry/GI를 연결한다. 아래는 실제 수행한 **초기66개→보충73개** 재현 경로다. 현재 `Replay-P0G3.ps1`은73개를 요구하므로 과거0981 입력에 현재 도구를 실행하면 사전 검사에서 거절된다. 초기 단계에는 반드시 같은0981 커밋의 도구를 사용한다. PowerShell7에서 통합 참고 폴더를 현재 경로로 두고, 존재하지 않는 새 경로와 고유 이름을 지정한다.
+
+```powershell
+$ReplayDirectory = 'C:/Users/iam12/P0_replay_my_g3'
+$HistoricalTool = Join-Path $env:TEMP ('P0-G3-66-' + [guid]::NewGuid() + '.ps1')
+git show 0981d07307112857dfdf0e91c79bcecdbcbc291b:learning/tools/Replay-P0G3.ps1 | Set-Content -LiteralPath $HistoricalTool -Encoding utf8
+& $HistoricalTool -RepositoryRoot $PWD.Path -ReplayRoot $ReplayDirectory -SourceSha 0981d07307112857dfdf0e91c79bcecdbcbc291b -RunId My-G3-66
+& ./learning/tools/Apply-P0G3Supplement.ps1 -RepositoryRoot $PWD.Path -ReplayRoot $ReplayDirectory -SourceSha e89a1fabaf5ef5e3a1d03a09397806814551ec20 -RunId My-G3-73
+```
+
+초기15개는 제공 기반이고51개는 당시 G3 입력이다. 보충은7파일 추가와6파일 교체이며 기존 내용을 새 Saved 증거 폴더의 `before`에 보존한다. 중간 파일 묶음은 다음 묶음을 참조하므로 전체 조립 후 빌드한다. 조립은 학습자의 직접 구현을 대신하지 않는다. 현재 도구에 e89a1fa를 주는 새73개 일괄 조립은 사전검사만 수행했으며, 위 실제 두 단계 경로와 구별한다.
 
 이번 실제 재현 경로는 `C:/Users/iam12/P0_lesson_replay_g3`다. 초기65파일 manifest와 제공 도구·Entry 스타일·효과음 cook 수정 후66파일 blob 대조를 [재현 증거](evidence/G3_REPLAY/README.md)에 보관했다. 패키지/Editor 실패는 보존하고 필요한 변경만 적용했다. 이 폴더 HEAD는 출발점 f735b588에 그대로 있으므로 실행 기록의 HEAD만 최종 코드로 해석하지 말고 반드시 manifest의 SourceSha/파일 blob을 함께 대조한다. 세 learn 브랜치는 최초 공통8c6856d에 유지하며 완성 코드를 병합하지 않는다.
 
@@ -72,7 +82,39 @@ A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Control
 
 보충 검수 제공 코드는 `Verification/LDG3BoundaryProbeSubsystem.*`, `LDG3NetConflictProbeSubsystem.*`, `LDG3EntryProbeSubsystem.*`와 `tools/Run-P0G3Supplement.ps1`이다. 학습자가 직접 작성해야 할 제품 코드와 분리한다. 각각 `-Probe G3Boundary`(명시 최종 웨이브/HP/예정 타격 fixture), `G3NetConflict`(무료 고정 재료의 실제 소유 RPC 경쟁), `G3Entry`(정상 Entry 대기/LoadingTimeout/늦은 참가/host 우선 복귀)를 지정한다. 기본 실행과 Shipping에서는 생성되지 않는다. 보충 관찰을 자연 플레이·밸런스 결과로 합치지 않는다.
 
-기존66파일 재현본을 이어가는 경로는 `learning/tools/Apply-P0G3Supplement.ps1 -RepositoryRoot <참고 통합 폴더> -ReplayRoot <기존 G3 재현 폴더> -SourceSha <보충 검수 완료 full SHA> -RunId <새 ID>`다. 원래66개 SHA256이 모두 같고 새7개가 없을 때만 진행하며, 바뀌는 입력은 Saved의 새 증거 폴더/before에 복사한다. 삭제·브랜치 병합·빌드·실행·학습 완료 처리는 하지 않는다. 이후 Editor/해당 자동화/PIE/새 패키지 보충 검수를 별도로 실행한다. 아직 보충 소스가 미완성이므로 현재는 이 경로를 Verified로 표시하지 않는다.
+기존66파일 재현본에도 위 보충 명령을 적용한다. 원래66개 SHA256이 모두 같고 새7개가 없을 때만 진행한다. 삭제·브랜치 병합·빌드·실행·학습 완료 처리는 하지 않는다. 실제 [73파일 조립](evidence/G3_REPLAY/supplement-inputs.json)은 e89a1fa와 전부 일치했고, [새 Editor](evidence/G3_REPLAY/final-editor.json)·[58자동화](evidence/G3_REPLAY/final-58.json)·[실제 PIE](evidence/G3_REPLAY/final-pie.json)·[Win64 패키징](evidence/G3_REPLAY/final-package.json)을 순서대로 실행했다. 패키지 실제 실행은 별도 결과를 따른다.
+
+## 마지막 기대 사례 보충과 실제 재현 완료
+
+위73파일 조립 뒤 제품 변경 없이 `LDWaveTests.cpp`에 독립 기대 사례만 추가했다. 실제 작업은 기존73개 해시 확인→변경 전 테스트 사본 보존→검토된 참고 파일 한 개 복사→최종73개 Git blob 대조→Editor 빌드→Waves9종 검사 순이었다. 같은 순서의 재현 명령은 다음과 같다. 참고 폴더는 `$PWD.Path`, `$ReplayDirectory`는 위에서 만든 새 detached 폴더다. 기존 증거를 덮어쓰지 않도록 RunId를 바꾼다.
+
+```powershell
+$FinalSource = 'f64cc671848560923595cc1955efe12620f326de'
+$TestPath = 'Source/Mobile_defense_clone/Tests/LDWaveTests.cpp'
+$PriorManifest = Get-Content "$ReplayDirectory/Saved/P0Runs/My-G3-73/assembly.json" -Raw | ConvertFrom-Json
+foreach ($File in $PriorManifest.Files) {
+    if ((Get-FileHash -LiteralPath "$ReplayDirectory/$($File.Path)").Hash -ne $File.SHA256) { throw "Preserve changed input: $($File.Path)" }
+}
+if ((git hash-object $TestPath) -ne (git rev-parse "${FinalSource}:$TestPath")) { throw 'Reference test source differs; review before copying.' }
+$Amendment = "$ReplayDirectory/Saved/P0Runs/My-G3-test-expectations"
+if (Test-Path -LiteralPath $Amendment) { throw 'Choose a new evidence directory.' }
+New-Item -ItemType Directory -Path $Amendment | Out-Null
+Copy-Item -LiteralPath "$ReplayDirectory/$TestPath" -Destination "$Amendment/LDWaveTests.before.cpp"
+Copy-Item -LiteralPath $TestPath -Destination "$ReplayDirectory/$TestPath"
+$FinalFiles = foreach ($File in $PriorManifest.Files) {
+    $Expected = git rev-parse "${FinalSource}:$($File.Path)"
+    $Actual = git -C $ReplayDirectory hash-object $File.Path
+    if ($Actual -ne $Expected) { throw "Final blob mismatch: $($File.Path)" }
+    [ordered]@{ Path=$File.Path; ExpectedBlob=$Expected; ActualBlob=$Actual; SHA256=(Get-FileHash -LiteralPath "$ReplayDirectory/$($File.Path)").Hash }
+}
+[ordered]@{SourceSha=$FinalSource;PackageSourceSha=$PriorManifest.SourceSha;Files=@($FinalFiles)} | ConvertTo-Json -Depth 5 | Set-Content "$Amendment/manifest.json" -Encoding utf8
+& "$ReplayDirectory/tools/Build-P0Editor.ps1" -ProjectRoot $ReplayDirectory -RunId My-G3-detail-editor
+& "$ReplayDirectory/tools/Test-P0Automation.ps1" -ProjectRoot $ReplayDirectory -Filter LD.P0.G3.Waves -RunId My-G3-detail-waves
+```
+
+[최종73파일 manifest](evidence/G3_REPLAY/final-detail-inputs.json), [재현 Editor](evidence/G3_REPLAY/final-detail-editor.json), [재현9Waves](evidence/G3_REPLAY/final-detail-waves.json)는 모두 Pass다. 선행 e89 전체58종·실제 PIE·패키지 결과에 추가한 선택 회귀이며58종을 새로 추가했다는 뜻이 아니다. 같은 테스트 등록9개 안에 준비 끝 구매·판매, wave9 일반 개체의 wave10 유지, 늦은 명령보다 앞선 한도 사건·종료 캐시 기대값을 보강했다.
+
+새 패키지로 `Run-P0G3Supplement.ps1`을 G3Boundary→G3NetConflict→G3Entry 순서로 직렬 실행해 세 결과가 모두 Pass였다. 마지막 Entry만 `-Width 360 -Height 780`을 사용했고, 나머지는540×1170이다. `-GameExecutable`에는 `Replay-G3-final-package/Package/Windows/Mobile_defense_clone/Binaries/Win64/Mobile_defense_clone.exe`의 절대 경로를 전달하고 각각 새 RunId·`-RenderOffscreen`을 지정한다. [독립 기대값·결과·화면·fixture 한계](../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 수치와 원본 경로를 한 번 관리한다. 실제 복귀와 이전 세대 거절, 동시 재료 요청, 늦은 참가·host 우선 복귀까지 확인했다.
 
 ## 이해 확인
 
@@ -84,10 +126,10 @@ A의 DTO/Director/Mode/위젯을 먼저 받고 B의 clock 완료 접점·Control
 
 ## 단계 완료
 
-- [x] 새 출발점 조립·빌드·실행을 재현하고 입력 manifest/검증 소스 SHA를 고정했다. 게이트 완료 SHA는 대표 부하·최종 문서 확인 후 기록한다.
+- [x] 새 출발점 조립·빌드·실행을 재현하고 입력 manifest/검증 소스 SHA를 고정했다. 완료 제품·검사 소스는 위 f64cc671이고 패키지 소스는 e89a1fab이다.
 - [x] 최종 패키지2인·5시드·600초 이상 지연/손실·회복·중복·반복 매치를 확인했다. [정식 실행 증거](../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md).
 - [x] 대표 부하20분과2000회 실제 수명·정리·메모리를 측정했다. [측정 조건·수치·한계](../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md).
-- [ ] 독립 구조 리뷰·학습 문서·작업 보드·검수 기록을 동기화했다.
+- [x] [독립 구조 리뷰](../../docs/production/evidence/RUN-20260918-G3/FINAL_REVIEW.md)·학습 문서·작업 보드·검수 기록에 실제 범위를 분리했다.
 - [x] Android 실기기는 별도 G4 NotRun이며 P0 최종 완료와 혼동하지 않는다.
 
-G3 검수가 남아 Draft다. 학습자는 Planned이며 실제 진행 기록은 별도로 작성한다. P0 완료 전 P1/P2로 확장하지 않는다.
+문서의 PC 재현 절차를 실행한 범위에서 참고 수업은 Verified다. 실제 효과음 청음과 Android G4는 NotRun이며 P0는 최종 미완료다. 학습자는 Planned이고 실제 진행 기록은 별도로 작성한다. P0 완료 전 P1/P2로 확장하지 않는다.

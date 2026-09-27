@@ -1,0 +1,88 @@
+{
+  "Scope": "Read-only summary of original actual GPU PIE evidence; native TopDown/LDGameMode only. No new execution in this documentation task.",
+  "Result": "Pass",
+  "FixtureSource": "5f1f08606f87e264b5ff0a12d957dbc7720f7e6c",
+  "FixtureSHA256": "BC2181B6BFCE2D27BE5C79F32DEEE3C4D0361848FEA405C3A0A92A70345274FD",
+  "BAssemblyOriginalFileCount": 27,
+  "BAssemblyDifferences": [
+    {
+      "Path": "Source/Mobile_defense_clone/Mobile_defense_clone.Build.cs",
+      "OriginalBlob": "c7c6fb866cd399655bfaf22ad13c2399871b690d",
+      "ActualBlob": "7be0ba67448c4ac191b39c9aada79adb8db296bf"
+    }
+  ],
+  "BAssemblyUnchangedCount": 26,
+  "Roles": [
+    {
+      "Role": "B",
+      "ProductSource": "03acb67e95a804b2d49e4f17fa3d4ec5a41dfd92",
+      "ReplayRoot": "C:/Users/iam12/P0_lesson_replay_b",
+      "ReplayHead": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "RunPrefix": "G0-actual-network-replay-B",
+      "EditorResult": "Pass",
+      "EditorSeconds": 44.1904704,
+      "PIEResult": "Pass",
+      "Filter": "LD.PIE.G0.B.OwnedRPC",
+      "Succeeded": 1,
+      "Failed": 0,
+      "WarnedTests": 1,
+      "WarningEventCount": 1,
+      "WarningEvents": [
+        "LogCrowdFollowing: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance"
+      ],
+      "TerminalCompletions": 3,
+      "ActualServerRequestCount": 40,
+      "ActualClientReplyCount": 19,
+      "ServerSendAttemptCount": 19,
+      "SettingsRestored": true,
+      "PacketSettingsRestored": true,
+      "EventObserverRestored": true,
+      "SendObserverRestored": true,
+      "FixtureSHA256": "BC2181B6BFCE2D27BE5C79F32DEEE3C4D0361848FEA405C3A0A92A70345274FD",
+      "BuildSHA256": "1E1767DBFEE96EE7CC967ECE856B8AF295AC75FC12C558A18DA42D4CCDB48390",
+      "ProofSHA256": "3323CAD8B78DDE7BA558F5AC0AA78F75CBC9FD029CF13A708EB9CA9AA690BD41",
+      "AutomationReportSHA256": "E150E202584251156556DB6A4FE5800DB048A28E917BF415AB49A205C6E174F4"
+    },
+    {
+      "Role": "canonical",
+      "ProductSource": "649c1dedd6832c41089a76b59bc76518cd262296",
+      "ReplayRoot": "C:/Users/iam12/P0_lesson_replay_g0_integration",
+      "ReplayHead": "649c1dedd6832c41089a76b59bc76518cd262296",
+      "RunPrefix": "G0-actual-network-replay-canonical",
+      "EditorResult": "Pass",
+      "EditorSeconds": 54.7176851,
+      "PIEResult": "Pass",
+      "Filter": "LD.PIE.G0.Canonical.TerminalCache",
+      "Succeeded": 1,
+      "Failed": 0,
+      "WarnedTests": 1,
+      "WarningEventCount": 2,
+      "WarningEvents": [
+        "LogNavigation: Recreating dtNavMesh instance (RecastNavMesh_UAID_F4A475FF15A3C17202-Default) due mismatch in number of bytes required to store serialized maxTiles (serialized: 128, 7 bits) vs calculated required (48, 6 bits)",
+        "LogCrowdFollowing: Unable to find RecastNavMesh instance while trying to create UCrowdManager instance"
+      ],
+      "TerminalCompletions": 3,
+      "ActualServerRequestCount": 43,
+      "ActualClientReplyCount": 22,
+      "ServerSendAttemptCount": 22,
+      "SettingsRestored": true,
+      "PacketSettingsRestored": true,
+      "EventObserverRestored": true,
+      "SendObserverRestored": true,
+      "FixtureSHA256": "BC2181B6BFCE2D27BE5C79F32DEEE3C4D0361848FEA405C3A0A92A70345274FD",
+      "BuildSHA256": "6CD676BCFB6FF3A04D80FEBB6F4318AA926236D5F5A123F801FF0118071A9354",
+      "ProofSHA256": "E11DC2D8CE73C95318C22C623674F3DF8E83C518C58E6701C7DB2632AE2F12A3",
+      "AutomationReportSHA256": "13D2A76B90849DFEBD7B84B65EE33A611A60EA0A0AE4A2B7A115DE913587D329"
+    }
+  ],
+  "Limitations": [
+    "Same-process distinct PIE network worlds, not two OS process packaged networking.",
+    "Optional Blueprint GameMode wiring and gameplay UI are not verified.",
+    "G0 Board/Economy are explicit closed Stub; no economic or combat success is claimed.",
+    "Old-match/epoch/Pending responses are explicit server Client-RPC fixtures.",
+    "Client packet loss100 and server response budget exhaustion are separate observed stages.",
+    "Runner Warnings is warned-test count; WarningEventCount above is actual report event count.",
+    "Original package/Android/rendering performance scope is not included.",
+    "Learner state remains Planned."
+  ]
+}

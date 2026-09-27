@@ -5,11 +5,13 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01 / [전투 5.1~5.3](../../../docs/design/BATTLE.md), [A-05](../../../docs/technical/IMPLEMENTATION_A.md#a05) |
-| 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미정**. 최종 Source SHA도 미정이며 중간 구현·최초66파일 증거는 [공통 기록](G3_EVIDENCE.md)에 구분 |
+| 참고 자료 제작 / 실제 개발 상태 | **Verified — 아래 명시한 PC 재현 범위** / Planned |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `f64cc671848560923595cc1955efe12620f326de` (제품+검사 소스). 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`; 마지막 차이는 테스트 파일만 |
 | 실제 개발 시작 / 완료 SHA | 자기 G2 통합 결과 / 미생성 |
 | 상대 산출물 | G2 Combat/Board/Economy/Processor, G3-A-02의 사건 순서 조립 |
 | 제공 / 직접 작성 | 제공: G2 실제 서비스·로더·맵·경로. 직접 작성: Data/LDBattleTypes.h, Battle/LDWaveDirector.h/.cpp, EnemyActor의 사망 시각. 제공 검수: LDWaveTests/LDPieTests와 G3 probe; 테스트 기대값은 먼저 독립 작성 |
+
+PC Verified는 [통합 수업의3단계 재현](../G3_INTEGRATION.md)과 [최종 PC 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결한 실행 범위다. 선택 변형 과제·미관찰 입력 조합은 완료로 올리지 않는다. Android G4와 실제 청음은 NotRun이며 P0 최종 완료가 아니다. 실제 학습자는 Planned를 유지한다.
 
 ## 이번에 만들 동작
 
@@ -41,7 +43,7 @@
 
 ## 실행·실패·수정 기록
 
-아래 실제 결과는 당시 입력에서 관찰한 이력이다. 이번 수업의 최종73파일 입력을 출발점에서 다시 조립한 결과는 아직 미실행이다. 공통 실행 수치·SHA는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)를 따른다.
+아래 초기 실패/결과는 당시 입력의 이력으로 보존한다. 최종73파일을 시작점에서 재조립해 검증했으며, 마지막 테스트 보강은 별도 Editor·Waves9종으로 확인했다. 공통 실행 수치·SHA는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원본은 [정식 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)를 따른다.
 
 | 입력/조건 | 독립 기대 결과 | 실제 결과·범위 |
 |---|---|---|
@@ -51,9 +53,10 @@
 | N99, 같은시각 처치0/1/2 후 생성2 |100즉시패배 /100즉시패배 /99계속 | NullRHI 자동화 Pass; N100 알림 중 새 구매도 거절 |
 | 중복/위조 Death | 원본 actor·등록에 맞는 단일 사망만 처리 | NullRHI 자동화 Pass |
 | 두 번째 보스 생성 실패/외부 World actor 반환 | 최종생성 false, Aborted, 등록0; 외부 actor 보존 | NullRHI 자동화 Pass |
+| wave9 첫 일반 ID321/322·Route0/1을 남기고 나머지 명시 처치→wave10 | 같은 실제 Actor/ID/Route/HP112, N2+보스2·등록4, 358처치 보상으로 각Gold458 | f64cc671 추가 회귀, 통합/재현본 [최종 Waves9종](../evidence/G3_REPLAY/final-detail-waves.json) 무경고 Pass; 자연 플레이가 아닌 명시 처치 fixture |
 | 종료 뒤 다음 생성 | 생성/11웨이브0, 결과 불변 | NullRHI 자동화 Pass |
 
-생성·승리 조합의 자동화와 실제 패키지 자연 플레이를 구분한다. 기존 자연 패키지는10웨이브 보스 시간초과·잔여 일반0·11웨이브 없음 및 양쪽 상태 일치를 보였다. 강제 피해 fixture의 승리 검사를 자연 승리로 기록하지 않는다. 사망 후 actor/등록 수거와20분 부하의 실제 측정 범위·한계는 [PERFORMANCE](../../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md)에 있다. 후속 보충 Boundary의 승리/한도 사례는 같은 최종 입력의 새 실행 결과를 별도로 연결해야 한다.
+생성·승리 조합의 자동화와 실제 패키지 자연 플레이를 구분한다. 기존 자연 패키지는10웨이브 보스 시간초과·잔여 일반0·11웨이브 없음 및 양쪽 상태 일치를 보였다. 강제 피해 fixture의 승리 검사를 자연 승리로 기록하지 않는다. 사망 후 actor/등록 수거와20분 부하의 실제 측정 범위·한계는 [PERFORMANCE](../../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md)에 있다. 후속 Boundary의 승리/한도 사례는 [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)의 실제 패키지 결과·양쪽 화면으로 확인했다.
 
 ## 상대에게 전달하고 통합하기
 
@@ -73,8 +76,8 @@
 
 - [x] 제공/작성 경계·파일 순서·설정·API·독립 기대값을 기록했다.
 - [x] 최초66파일의 조립·실행 이력을 공통 근거에 연결했다. 후속 입력의 재현을 대신하지 않는다.
-- [ ] 같은 시작점에 문서화된73파일 보충을 적용하고 최종 Source SHA·Editor·자동화·PIE·패키지 경계를 새로 확인했다.
-- [x] 확인한 실패 기록·수정 SHA·통합 자동화 증거를 연결했다. 최종 실행 검수 완료는 아니다.
+- [x] 같은 시작점에 문서화된73파일 보충을 적용하고 최종 Source SHA·Editor·자동화·PIE·패키지 경계를 새로 확인했다.
+- [x] 확인한 실패 기록·수정 SHA·통합 자동화 증거를 연결했다. Android·청음이 남아 P0 최종 완료는 아니다.
 - [x]10웨이브 패키지·지연망·반복 매치를 확인했다. 자동 전술의5패배는 사람의 플레이 밸런스 검증이 아니다.
 - [x] 기존20분 부하의 입력·실측·한계는 정식 PERFORMANCE에 연결했다.
-- [ ] 최종 게이트 리뷰와 수업 재현 증거를 고정했다. Android는 G4 NotRun이며 수업은 Draft를 유지한다.
+- [x] PC 명시 범위의 리뷰·수업 재현 증거를 고정했다. Android G4와 실제 청음은 NotRun으로 남긴다.

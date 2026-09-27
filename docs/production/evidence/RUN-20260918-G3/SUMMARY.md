@@ -1,24 +1,25 @@
 # G3 이번 구현·검수 요약
 
-실행일2026-09-27. G3 **InProgress**, P0 최종 미완료. 실제 학습자는 Planned. [공통 작업 기록](../../P0_REFERENCE_RUN.md), [독립 기대값](REVIEW_PLAN.md), [결함·구조 리뷰](REVIEW_FINDINGS.md), [새 조립 입력](replay-inputs.json).
+실행일2026-09-27~28. **PC 자동·화면 검수 통과, 실제 청음 대기**. G4 NotRun이며 P0 최종 미완료다. 실제 학습자는 Planned. [공통 작업 기록](../../P0_REFERENCE_RUN.md), [독립 기대값](REVIEW_PLAN.md), [결함·구조 리뷰](REVIEW_FINDINGS.md), [최종 독립 리뷰](FINAL_REVIEW.md).
 
-| 실행 층 | 확인한 결과 | 남은 범위 |
+| 실행 층 | 확인한 결과 | 한계·남은 범위 |
 |---|---|---|
-| 문서·데이터·스타일 | 최근검사Pass,스타일77파일/오류0,학습57문서479링크/오류0 | 후속 수정 뒤 관련 검사 갱신 |
-| Unreal 컴파일 | 통합·새 재현 Editor,최종 A/B 역할 Editor Pass | 최종 실행 입력 일치 확인 |
-| Unreal 자동화 | 0e473f4 전체57개/경고0/실패0,실제 객체의 시각·소유권·종료·스타일 수명 | 실제 패키지·네트워크·물리 입력과 별개 |
-| GPU PIE | 새 재현 listen/client2World,각 소환1·gold80,Running,종료 후 World0·설정 복원 Pass | 실제10웨이브 결과 검수 아님 |
-| Editor-game2프로세스 | G2 회귀host213/client57. 부하smoke host69/client33 및 실제2000사망·fallback0·GC2141 Pass |20분 대표 패키지 성능 아님 |
-| Win64 패키지 빌드 | 최초210.94초, Entry 수정132.82초, 필수 음향 cook 수정34.77초 compile/cook/archive Pass | 최종 패키지 해시를 각 실행 증거에 고정 |
-| Win64 패키지 실행 | 5시드 host82/client72·실제RPC로그62 Pass. 같은 두 프로세스에서 각4회 결과 복귀·5개의 새 매치. 300ms/3% 손실→120초 회복 한 판 host19/client17 및 RPC로그 Pass | 별도 승리·정확 마감·적 한도·동시 재료 합성 보충 검수 진행. 첫 시작화면 크래시와 효과음 cook 누락 Fail은 수정 후 닫음 |
-| 대표 부하·수명 | 최종 패키지 양쪽20분,40유닛/99일반/2보스 유지; host69/client33 Pass, 실제2000사망·fallback0·GC2141 | [실측과 환경·한계](PERFORMANCE.md). 전체 무누수·Android 성능으로 확대하지 않음 |
-| Android | 도구 준비, 실제 첫 빌드 exit6 | UE Android 선택 구성 요소와 실기기 필요, 설치/물리 터치/10웨이브/성능 NotRun |
+| 문서·데이터·스타일 | [마감 검사](final-checks.json): 데이터2689·기획8279검사, C++스타일83파일 오류0, 학습64문서704링크 오류0, 검사기 회귀25Pass | 문서 검사를 게임 실행으로 기록하지 않음 |
+| Unreal 컴파일 | 최종 통합·새 재현 Editor Pass; A/B canonical 반영 후 각각45.02/58.54초 Pass | [A](final-A-editor.json), [B](final-B-editor.json), [입력 동일성](final-role-build-summary.json) |
+| Unreal 자동화 | 새 재현 e89 전체58종 경고0/실패0. f64 테스트 전용197줄 추가 후 통합·재현 Waves9종 모두 무경고 Pass | NullRHI 실제 객체 검사이며 GPU·실제 RPC와 구별 |
+| GPU PIE | 새 재현 listen/client2World, 소환·Running·종료 위젯 재생성·기존4위젯 수거·구독1·종료명령0·설정 복원1Success | 명시 종료 fixture. 자연10웨이브 결과는 패키지 증거 |
+| Win64 패키지 빌드 | 최종 e89 입력73파일 compile/cook/archive104.45초 Pass | EXE 해시·입력은 [final-package-inputs](final-package-inputs.json) |
+| Win64 자연 실행 | 기존 패키지5시드 host82/client72·실제RPC62검사, 같은 두 프로세스5매치/각4회 실제 결과복귀.300ms/3%→회복 한 판19/17 Pass | 모두 보스 시간초과. 자동 전술이며 사람 승률 아님. 이전 입력을 최신 패키지 실행으로 승계하지 않음 |
+| 최종 패키지 보충 | 경계179/86, 동시재료27/14, 진입/늦은참가/복귀35/29 모두Pass. 세대 재사용 결함의 실제 새 매치 재전송도 거절 확인 | [독립 기대값·실제 결과·화면·fixture](SUPPLEMENTS.md). 무음,Engine/Slate입력 |
+| 대표 부하·수명 | 기존 패키지20분,40유닛/99일반/2보스;69/33 Pass,2000실제사망/fallback0/GC2141 | [정확한 입력·실측 환경·한계](PERFORMANCE.md). 제한60FPS, 같은PC2프로세스 |
+| 실제 소리 | cooked 거절 효과음 로드 Pass | 청음 NotRun, 사용자 실행 요청 중 |
+| Android | SDK/NDK/JDK 준비, 최초 실제 빌드 exit6. 9/28 재확인도 엔진Android파일 없음/adb0 | APK·설치·물리터치·SafeArea·10웨이브·성능 NotRun |
 
-입력: G2 시작 `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6`. 새 재현은 이 HEAD에 원본 파일들을 조립했으므로 실행 JSON의 HEAD만으로 런타임 소스를 추정하지 않는다. 최초65파일de6e2f6→제공 도구 포함66파일5359cda→Entry 수명 수정0e473f4→필수 효과음 cook 설정98727f0를 별도 manifest/수정 기록으로 연결한다. [최종 패키지 입력66개](package-final-inputs.json)의 C++는0e473f4, Config는98727f0다. 기존 조립·패키지·실패 입력은 덮어쓰지 않는다.
+G3 시작 `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6`, 최종 제품·검사 소스 `f64cc671848560923595cc1955efe12620f326de`. 패키지 소스는 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`이며 이후 diff는 LDWaveTests.cpp만197줄이다. [학습의 실제66→73→테스트1파일 조립](REPLAY_EVIDENCE.md)을 실행했고 최종73개 blob과 Editor·선택9회귀까지 확인하여 그 PC 수업 범위만 Verified다. 실행 JSON의 detached HEAD f735만으로 입력을 추정하지 않는다. learn3브랜치는 최초8c6856d에 유지했다.
 
-주요 수정은 종료 관찰 중 다음 공격 차단(A01), 이미 반영된 보스HP를 종료 snapshot에 반영(A02), 검수 fixture의 두 참가자 준비 대기, 실제 World에서 증거 경로 확보, cooked Entry의 임시 스타일 참조 제거(PKG01)다. 기대값·원인·수정·실패/후속 증거는 리뷰 문서가 원본이다.
+자연5판/회복/20분의 이전 EXE SHA256은 `4339F4E3C166D244DC77D780C4E26FBC423E30E7BDB0923C1E39628F5B2B6B54`, C++0e473f4/Config98727f0/후처리0981이다. 마지막 패키지는 `349F4660D6A0729807EA4FFD04DEE7A6D732001D00D830488EF00C42C049B177`이다. 제품 변경은 World를 넘어 유지되는 연결 세대 발급기53af399이고 전투·렌더링·자연 전술·데이터·맵·음향·cook 설정 변경은 없다. 세대 변경은 새 패키지4매치/3복귀로 검증했다. 변경 근거 없는20분/5판 반복 대신 각 입력의 증거를 그대로 연결했다.
 
-전체 실행 로그는 각 작업 폴더 Saved/P0Runs에, 선택한 작은 결과·manifest·화면은 정식 검수와 학습 재현 증거 폴더에 보존한다. 부하 fixture와 정상 규칙 자동 플레이를 구분하고 실제 학습자/사람의 플레이로 기록하지 않는다. [최종 패키지 성능](PERFORMANCE.md)은 독립 리뷰에서 명시 부하 범위의 Pass로 수용했다. 아직 남은 패키지 승리/경계와 종료 위젯 재생성 검수는 이 결과로 대체하지 않는다.
+실제 결함(종료 타격·보스HP 게시·Entry 스타일 수명·음향cook·세대 재사용), fixture/도구 결함(조립 LiveCoding·수명GC·Unityhelper·초기Slate레이아웃·비동기응답관찰)과 수정 전 실패 기록을 [리뷰](REVIEW_FINDINGS.md)에 보존한다. 전체 로그는 작업 폴더 Saved/P0Runs, 정식 작은 결과/선택 화면은 현재 폴더, 재현별 manifest는 learning/P0/evidence에 둔다. 필수 런타임은 Source/Content/Config에 있으며 learning을 로드하지 않는다.
 
 ## 최종 패키지 자연 규칙·네트워크 관찰
 

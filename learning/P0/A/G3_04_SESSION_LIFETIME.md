@@ -5,13 +5,15 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-WAVE-01의 종료/재진입, [공통 명령·수명 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [코딩 규약](../../../docs/technical/CODING_STANDARD.md) |
-| 참고 자료 제작 / 실제 개발 상태 | Draft / Planned |
-| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / 미정. G3-A-01~03 뒤 이 차이를 적용하며 최종 Source SHA도 미정 |
+| 참고 자료 제작 / 실제 개발 상태 | **Verified — 아래 명시한 PC 재현 범위** / Planned |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `f64cc671848560923595cc1955efe12620f326de` (제품+검사 소스). 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`; 마지막 차이는 테스트 파일만 |
 | 실제 개발 시작 / 완료 SHA | 자기 G3-A-03 통합 결과 / 미생성 |
 | 상대 산출물 | B의 Controller 소유 RPC, Processor 세대 검증/완료 캐시, Entry/GI의 결과 복귀와 새 접속 |
 | 제공 코드 / 직접 작성 | 제공: G2/B 계약과 `Tests/LDLifecycleTests.cpp`, `Tests/LDPieTests.cpp`, `Verification/LDG3BoundaryProbeSubsystem.*`, 실행 도구. 직접 작성: `Core/LDGameMode.cpp` 발급기·등록 연결 및 `LDGameMode.h`의 World별 카운터 제거 |
 
 전체 코드/실행 수치와 재현 입력은 [G3 A 공통 기록](G3_EVIDENCE.md), 실패→수정 원본은 [정식 리뷰 NET-LIFE01](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md)에 둔다. 자동화 통과를 패키지 또는 이 문서 절차의 재현 완료로 바꾸지 않는다.
+
+PC Verified는 [통합 수업의3단계 재현](../G3_INTEGRATION.md)과 [최종 PC 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결한 실행 범위다. 선택 변형 과제·미관찰 입력 조합은 완료로 올리지 않는다. Android G4와 실제 청음은 NotRun이며 P0 최종 완료가 아니다. 실제 학습자는 Planned를 유지한다.
 
 ## 이번에 만들 동작
 
@@ -50,11 +52,11 @@
 | 입력/조건 | 구현과 독립적인 기대 | 현재 실제 결과·범위 |
 |---|---|---|
 | 첫 World에서 첫 유료 소환, 같은 World에서 같은 명령 중복 | 한 번만 소비, 동일 응답/개체; 중복 접속은 context 유지 | 기존 명령/수명 회귀. 현재 소스의 실행 결과는 SUMMARY에서 확인 |
-| 종료→새 World→원래 성공한 id1/옛 epoch/revision0 재전송 | InvalidEpoch; gold100/인구0/n0/revision0/RNG/cache 불변 | NET-LIFE01 실제 수정 전 실패→`53af399` 후 자동화 통과. 패키지와 새73파일 재현은 별도 대기 |
-| 새 세대의 첫 정상 명령 | 새 매치 소유 보드에서 소환1·gold80 | 이전 payload 거절 회귀만으로 정상 새 구매까지 확인했다고 쓰지 않음. 최종 Boundary의 실제 후속 소환 결과를 별도로 연결 예정 |
+| 종료→새 World→원래 성공한 id1/옛 epoch/revision0 재전송 | InvalidEpoch; gold100/인구0/n0/revision0/RNG/cache 불변 | NET-LIFE01 실제 수정 전 실패→`53af399` 후 자동화 통과. 최종73파일 재현과 패키지의 실제 구 payload InvalidEpoch·서버 원본 불변도 [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에서 Pass |
+| 새 세대의 첫 정상 명령 | 새 매치 소유 보드에서 소환1·gold80 | 최종 Boundary에서 구 payload 거절 확인 후 새 정상 소환·이동도 성공. 별도 소켓 RPC 증거는 [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md) |
 | 세대 발급 소진0 | 기존 context 검증 실패; 이전 세대 재사용0 | 코드 경로 검토. 실제 uint64 전체 발급 실행은 하지 않음 |
-| Result 후 위젯 제거/재생성·S/M/X/터치/직접 intent | 표시1쌍/소유 복귀 구독1; 새 서버 요청0, 전투/보드/경제/선택 상태 불변 | 통합의 제공 실제 PIE 수명 검수는 정식 리뷰에 있음. 새 수업 조립 절차 재실행은 대기; 물리 키/터치 검사로 확대하지 않음 |
-| 같은 두 PID에서4매치·옛 payload3회 | MatchId4개/Return3회, 각 새 세대 구분, 양쪽 스냅샷 일치 | 제공 Boundary 구현·정적 리뷰 완료. 이 문서 작성 시 최종 패키지 실행 결과 미확정 |
+| Result 후 위젯 제거/재생성·S/M/X/터치/직접 intent | 표시1쌍/소유 복귀 구독1; 새 서버 요청0, 전투/보드/경제/선택 상태 불변 | 통합의 제공 실제 PIE 수명 검수는 정식 리뷰에 있음. 최종 재현본 실제 PIE에서도 Pass; 물리 키/터치 검사로 확대하지 않음 |
+| 같은 두 PID에서4매치·옛 payload3회 | MatchId4개/Return3회, 각 새 세대 구분, 양쪽 스냅샷 일치 | e89a1fa 실제 패키지에서4사례·3회 Slate 복귀·옛 요청 거절·양쪽 상태/화면 Pass. [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md) |
 
 수정 전에는 GameMode마다 epoch가 다시1/2가 되어 새 Controller의 현재 context와 이전 payload가 같아졌다. Processor는 정상 새 요청으로 처리하여 골드·보드·난수·캐시를 변경했다. `62b5180` 실패 회귀→`53af399` 최소 수정의 원본 결과/수치는 정식 리뷰에 보존한다. 기대값을 구현 결과에 맞추거나 과거 payload 대신 임의 epoch를 써서 통과시키지 않는다.
 
@@ -64,7 +66,7 @@
 
 A는 제품 `53af399`의 발급 수명 변경과 회귀 기대값을 B/통합에 전달한다. B는 기존 요청 DTO/Controller의 세대 수신·새 매치 로컬 RequestId 초기화·옛 응답 거절을 유지한다. `bb18616` 등 제공 Boundary는 같은 제품 버전에 붙여 검수하고 정상 실행에서는 생성하지 않는다. 상세 전달 커밋/보충 입력은 [공통 기록](G3_EVIDENCE.md)의 순서를 따른다.
 
-통합 참고 완료 SHA는 아직 미정이고 학습자의 실제 통합 SHA는 미생성이다. 제공 검수물을 적용한 조립과 직접 작성 코드의 완료를 구분한다. 최종 full Source SHA와73파일 manifest가 확정되기 전에는 이 수업의 완료란을 채우지 않는다.
+참고 완료 제품+검사 소스는 표의 f64cc671, 실제 패키지 소스는 e89a1fa다. 학습자의 실제 통합 SHA는 미생성이다.73파일 해시 일치와3단계 재현은 공통 기록에 연결하며 제공 조립을 학습자의 직접 작성 완료로 기록하지 않는다.
 
 ## 이해 확인
 
@@ -78,7 +80,7 @@ A는 제품 `53af399`의 발급 수명 변경과 회귀 기대값을 B/통합에
 
 - [x] 파일 순서·API·수명 선택 이유·설정·제공/작성 구분을 기록했다.
 - [x] 실제 실패→수정의 독립 기대와 정식 증거를 연결했다.
-- [ ] 시작 SHA의66파일 조립→문서화된73파일 보충→Editor/자동화/실제 PIE를 새로 재현했다.
-- [ ] 최종 패키지에서 원래 payload 재전송,4매치/3복귀,양쪽 JSON/RPC/화면/정리를 확인했다.
-- [ ] 최종 Source/완료 SHA와 실행 증거를 고정하고 독립 리뷰 후 Verified로 바꿨다.
+- [x] 시작 SHA의66파일 조립→문서화된73파일 보충→Editor/자동화/실제 PIE를 새로 재현했다.
+- [x] 최종 패키지에서 원래 payload 재전송,4매치/3복귀,양쪽 JSON/RPC/화면/정리를 확인했다.
+- [x] 최종 Source/완료 SHA와 실행 증거를 고정하고 독립 리뷰 후 Verified로 바꿨다.
 - [x] 학습자는 Planned로 유지하고 Android는 별도 G4 NotRun으로 남긴다.

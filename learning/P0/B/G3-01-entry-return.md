@@ -5,14 +5,16 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-UI-01, TASK-TEST-01; [B 구현 8~9절](../../../docs/technical/IMPLEMENTATION_B.md), [G3 재기획](../../../docs/design/P0_REPLAN.md) |
-| 참고 자료 제작 상태 | **Draft — 최종 소스 고정·73파일 보충 후 수업 재현 대기** |
+| 참고 자료 제작 상태 | **Verified — 아래 명시한 PC 재현 범위** |
 | 실제 개발 상태 | Planned — 학습자가 작성한 것으로 기록하지 않음 |
-| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미확정**. `0981d07307112857dfdf0e91c79bcecdbcbc291b`는 초기 66파일의 보존된 입력이며 최종 완료본이 아님 |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `f64cc671848560923595cc1955efe12620f326de` (제품+검사 소스). 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`; 마지막 차이는 테스트 파일만 |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A `L_P0` 매치와 결과 계약; 통합 담당의 새 `L_P0Entry` 맵·Config·쿠킹 설정 |
 | 제공 코드 / 직접 작성할 코드 | G2 기준·빌드/패키지 도구·G3 검사 코드는 제공. 아래 Entry 8파일을 직접 작성. A 전투 코드는 상대 제공 |
 
 공통 규칙은 [P0 공통](../COMMON.md), 실행별 SHA·수치·검증 범위는 [정식 SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 실패 원인은 [공통 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md), 대표 부하는 [PERFORMANCE](../../../docs/production/evidence/RUN-20260918-G3/PERFORMANCE.md)에 둔다. [학습 운영](../../WORKFLOW.md)을 따라 이 수업은 P0 진입·결과 복귀만 제공하며 정식 로비나 매칭 시스템을 만들지 않는다. 제품 파일은 Source/Content/Config에 두고 learning 폴더에서 로드하지 않는다.
+
+PC Verified는 [통합 수업의3단계 재현](../G3_INTEGRATION.md)과 [최종 PC 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결한 실행 범위다. 선택 변형 과제·미관찰 입력 조합은 완료로 올리지 않는다. Android G4와 실제 청음은 NotRun이며 P0 최종 완료가 아니다. 실제 학습자는 Planned를 유지한다.
 
 ## 이번에 만들 동작
 
@@ -46,14 +48,14 @@ Blueprint/UMG 추가 에셋은 필요 없다. UI 구성은 C++ `RebuildWidget`�
 
 | 입력/조건 | 기대 결과 | 실제 결과 | 실행 범위·증거 |
 |---|---|---|---|
-| Entry에서35초 이상 대기 | LoadingTimeout 없음, Host/Join 유지, 매치 Mode/State 없음 | 실제 두 프로세스 Editor-game Pass | `G3-entry-editor-pair`; 60초를 양쪽에서 검수한 것으로 확대하지 않음. 최종 패키지 보충 대기 |
+| Entry에서35초 이상 대기 | LoadingTimeout 없음, Host/Join 유지, 매치 Mode/State 없음 | 실제 두 프로세스 Editor-game 및 최종 패키지 Pass | [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)의 G3Entry; 60초를 양쪽에서 검수한 것으로 확대하지 않음 |
 | Host 클릭→다른 프로세스 주소 입력/Join | 두 참가자 준비·개인 보드 표시 | Pass: 첫 진입의 양쪽 실제 Slate 버튼·새 매치 문맥 확인 | 최종5시드 패키지; 주소 텍스트는 제공 probe가 설정하므로 물리 키보드 입력 증거는 아님 |
 | 잘못된 주소·포트0·65536·`?listen` | 여행 없음, 입력 안내 | 주소 정규화·거절 Pass, 실제 UI 안내 검수 대기 | B 57자동화 중 `NumericAddressBoundary` |
 | 두 번 빠른 Host/Join·중복 실패 통지 | 여행 의도/예약1개, Entry 준비 후 새 의도 허용 | GI gate·ticker 정리 자동화 Pass. 실제 빠른 Host/Join 클릭은 미검증 | `TravelIntentAndReturnLifetime`; 아래 실제 Result 두 번 클릭과 구분 |
 | 첫 cooked Entry 렌더링 | 제목·Host·주소·Join 유지 | **Fail PKG01→Closed**: client 프레임2 접근 위반 수정 후 새 패키지 진입·반복 복귀 Pass | [원본 실패](../../../docs/production/evidence/RUN-20260918-G3/packaged-entry-crash.json)와 [최종5판](../../../docs/production/evidence/RUN-20260918-G3/package-five-seeds-summary.json)을 별도 보존 |
 | 입력창 크기 변경→후속 prepass→GC | 원래 FontObject와 소유 스타일 유지 | 수정 후 Pass | B 57자동화 중 `OwnedAddressStyleSurvivesPrepass`; NullRHI |
-| 호스트 결과 두 번 클릭·peer 연결 종료 | 여행1회, peer도 실제 실패 후 Entry·오류 문구, 이전 World/Controller/Result 정리 | 실제 Editor-game Pass | 실제 Slate 두 번 클릭→두 번째 의도 거절. client probe는 복귀를 직접 호출하지 않음. 최종 패키지 보충 대기 |
-| 실제 LoadingTimeout 뒤 늦은 Join | 원래 결과/MatchId/마감 시각 불변, Preparing 재개 없음 | 실제 Editor-game의 결과 표시·관찰 RPC Pass | 늦은 client 문맥 invalid/epoch0·서버 두 번째 슬롯 초기 상태를 검증 항목으로 강화한 뒤 실행은 대기 |
+| 호스트 결과 두 번 클릭·peer 연결 종료 | 여행1회, peer도 실제 실패 후 Entry·오류 문구, 이전 World/Controller/Result 정리 | 실제 Editor-game Pass | 최종 G3Entry도 실제 Slate 두 번 클릭→두 번째 의도 거절. client probe는 복귀를 직접 호출하지 않음. [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md) |
+| 실제 LoadingTimeout 뒤 늦은 Join | 원래 결과/MatchId/마감 시각 불변, Preparing 재개 없음 | 실제 Editor-game의 결과 표시·관찰 RPC Pass | 늦은 client 문맥 invalid/epoch0·서버 두 번째 슬롯 초기 상태·구독 해제까지 최종 패키지 G3Entry Pass. [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md) |
 | 같은 두 프로세스에서3회 이상 재매치 | 각 매치 새 MatchId·초기 재화·명령 문맥, 새 위젯 하나 | Pass: 양쪽4회 실제 결과 복귀 클릭·서로 다른5개 매치·각 판 게임 HUD3회 재생성 | 최종5시드. 후속 host 진입은 시드 지정 OpenLevel, client 재참가는 ClientTravel이므로 모든 재진입 버튼의 실제 클릭 증거로 확대하지 않음 |
 
 PKG01은 실제 패키지 실패다. 첫 패키지는 만들어졌지만 `SEditableText::SynchronizeTextStyle → FSlateFontInfo::GetCompositeFont → UObjectBaseUtility::GetInterfaceAddress`에서 client가 종료했다. 원인은 초기 `NativeTick`의 지역 `FEditableTextBoxStyle`이었다. 로컬 UE5.8 `UMG/Private/Components/EditableTextBox.cpp:392`의 setter는 프로퍼티에 복사한 뒤 **호출자가 전달한 `&InStyle`**을 Slate에 전달하고, `Slate/Private/Widgets/Input/SEditableTextBox.cpp:113`은 그 주소를 보관한다. 따라서 함수 반환 뒤 폰트·브러시를 읽는 주소가 유효하지 않았다. 기본 폰트가 패키지에 없다고 단정하거나 엔진/에셋을 바꾸지 않았다.
@@ -64,13 +66,15 @@ PKG01은 실제 패키지 실패다. 첫 패키지는 만들어졌지만 `SEdita
 
 - API: `ALDEntryPlayerController.GetEntryActionScreenRect(true/false, Rect)`, `SetJoinAddressText`, `RequestHost`, `RequestJoin`; `ULDGameInstance.RequestEntryReturn`, `NotifyEntryReady`.
 - 초안 `d2183ae`와 계약 선행 A `e61c414`, Processor 경계 `8405a93` 뒤 **PKG01 수정 `501be90`을 포함한 초기 패키지 C++ `0e473f4`**를 비교한다. 이전 초안을 최종 코드로 복사하지 않는다. 통합은 계약→B Source→A 위젯 cpp→Config/맵→Editor→Entry/2인/복귀→패키지 반복 검수 순서다.
-- 필수 `L_P0Entry`·`L_P0`와 GI/cook 설정은 통합 입력에 포함되어 있다. 초기 조립 `0981d073`과 Config `98727f0`의 실제 패키지 증거는 보존한다. 이후 [B04](G3-04-session-epoch.md)의 제품 세대 수정과 보충 검사가 추가되었으므로 초기 입력을 현재 완료본으로 재사용하지 않는다. [통합 수업](../G3_INTEGRATION.md)의 최초66파일→문서화된73파일 보충→새 Editor/자동화/PIE/패키지 순서로 최종 SHA를 확정한다.
+- 필수 `L_P0Entry`·`L_P0`와 GI/cook 설정은 통합 입력에 포함되어 있다. 초기 조립 `0981d073`과 Config `98727f0`의 실제 패키지 증거는 보존한다. 이후 [B04](G3-04-session-epoch.md)의 제품 세대 수정과 보충 검사가 추가되었으므로 초기 입력을 현재 완료본으로 재사용하지 않는다. [통합 수업](../G3_INTEGRATION.md)의 역사66파일→e89a1fa의73파일 보충→테스트 파일 f64cc671 갱신의 정확한3단계와 실제 재현 증거를 따른다.
+
+<a id="제공-진입복귀-검사와-실제-관찰"></a>
 
 ### 제공 진입/복귀 검사와 실제 관찰
 
 `Verification/LDG3EntryProbeSubsystem.h/.cpp`와 `tools/Run-P0G3Supplement.ps1`는 제공 검사다. 학습자가 직접 작성할 제품의 Entry/GI 8파일과 구분한다. 기본 실행·Shipping에서는 probe를 만들지 않는다. `-Probe G3Entry -Width 360 -Height 780 -GameExecutable <새-패키지-exe> -RunId <새-ID>`로 별도 프로세스를 실행한다. 최초에는 파일 신호로 늦은 Join 시점만 맞추고, 게임 판정은 각 GameState/UMG와 실제 소유 관찰 RPC로 확인한다. 매치 시계·참가자·결과를 주입하지 않는다. 주소 텍스트 설정과 Slate 클릭은 물리 키보드·Android 터치 입력의 증거가 아니다.
 
-실제 Editor-game 원본은 `C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G3-entry-editor-pair/`의 `pair.json`, 양쪽 `result.json`, `entry-idle35.png`, `late-terminal.png`, `entry-returned.png`다. 360×780 화면에서 Entry 버튼·주소, 접속 대기 시간 초과 결과, client 복귀 후 연결 오류 문구를 확인했다. 새로운 미등록/빈 슬롯·구독 해제 assertion `9451a39`는 이 이전 Pass에 소급 적용하지 않는다. 제공 probe의 Unity `SaveJson` 이름 충돌은 **검사 코드 컴파일 실패**이며 `5ce7fb6`에서 `SaveEntryJson`으로 구분해 Editor를 통과했다. 게임 규칙 수정이나 패키지 검수로 기록하지 않는다. 원본 실패·수정 근거는 공통 리뷰에서 관리한다.
+실제 Editor-game 원본은 `C:/Users/iam12/P0_reference_integration/Saved/P0Runs/G3-entry-editor-pair/`의 `pair.json`, 양쪽 `result.json`, `entry-idle35.png`, `late-terminal.png`, `entry-returned.png`다. 360×780 화면에서 Entry 버튼·주소, 접속 대기 시간 초과 결과, client 복귀 후 연결 오류 문구를 확인했다. 새로운 미등록/빈 슬롯·구독 해제 assertion `9451a39`는 이 이전 Pass에 소급 적용하지 않으며, 최종 패키지 G3Entry에서 별도로 통과했다. 제공 probe의 Unity `SaveJson` 이름 충돌은 **검사 코드 컴파일 실패**이며 `5ce7fb6`에서 `SaveEntryJson`으로 구분해 Editor를 통과했다. 게임 규칙 수정이나 패키지 검수로 기록하지 않는다. 원본 실패·수정 근거는 공통 리뷰에서 관리한다.
 
 검사 완료 후 probe 옵션을 빼고 정상 게임 진입을 확인한다. 다른 프로세스의 출력/맵/포트와 겹치지 않도록 새 RunId를 사용한다. 실제 학습 통합에는 A 계약→[B03](G3-03-clock-finalization.md)→B01→[B02](G3-02-battle-result-hud.md)→B04 순으로 자기 변경을 전달하고 자기 시작/완료 SHA를 별도 기록한다.
 
@@ -90,7 +94,7 @@ PKG01은 실제 패키지 실패다. 첫 패키지는 만들어졌지만 `SEdita
 - [x] 수정 후 cooked Entry 렌더링·접속·결과 복귀를 새 재현본에서 확인했다.
 - [x] 실제 같은 두 프로세스4회 복귀/5개 매치와 게임 HUD 재생성을 확인했다.
 - [x] 별도 Editor-game의 Entry35초 이상 대기·Result 빠른 두 번 클릭·host 우선 복귀 후 peer 오류 문구를 확인했다.
-- [ ] 강화한 미등록/구독 검사를 최종 패키지에서 통과시키고 73파일 보충 후 수업 재현·완료 SHA를 기록한다.
+- [x] 강화한 미등록/구독 검사를 최종 패키지에서 통과시키고3단계 수업 재현·완료 SHA를 기록했다.
 - [ ] Android 가상 키보드·SafeArea·물리 터치를 확인했다.
 
-이전 패키지·대표 부하 결과는 각각 SUMMARY/PERFORMANCE의 당시 입력과 범위로 보존한다. 위 최종 재현·보강 검수가 남아 Draft다. Android 가상 키보드·SafeArea·물리 터치는 G4 **NotRun**이다. 참고 제작이 학습자의 실제 완료나 P0 최종 완료를 뜻하지 않는다.
+이전 패키지·대표 부하 결과는 각각 SUMMARY/PERFORMANCE의 당시 입력과 범위로 보존한다. 명시한 최종 PC 재현·보강 검수는 Verified다. 선택 주소 안내 UI/빠른 Host·Join 조합은 표의 미검증 상태를 유지한다. Android 가상 키보드·SafeArea·물리 터치는 G4 **NotRun**이다. 참고 제작이 학습자의 실제 완료나 P0 최종 완료를 뜻하지 않는다.

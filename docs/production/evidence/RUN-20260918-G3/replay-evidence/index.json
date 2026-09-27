@@ -1,0 +1,95 @@
+{
+  "Scope": "Exact copies of execution evidence so permanent QA records survive removal of optional learning material; no new game execution",
+  "Files": [
+    {
+      "OriginalPath": "learning/P0/evidence/G0_REPLAY/B-native-proof.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-B-native-proof.json",
+      "SHA256": "a95b7524ce0652643c1905c7df7287d5d80d389c2fe67541fbf0f2f37b7ca5a3",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G0_REPLAY/B-network-summary.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-B-network-summary.json",
+      "SHA256": "621cb2b07d1ee1a208fdaf17c64b6374742a337a27df7aa49afcef41913836c7",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G0_REPLAY/a-tests-result.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-a-tests-result.json",
+      "SHA256": "1d5086d361e81699523c6e79b73669114aa429bb5bac3ad99d8f789bf32eb724",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G0_REPLAY/canonical-native-proof.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G0_REPLAY-canonical-native-proof.json",
+      "SHA256": "95b443cf3ab8b0263791a0ed0914197b08b22c7dc80689e97c3502b426017cf9",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-58.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-58.json",
+      "SHA256": "53c7ad368b94bbb493fb515426d65c946508353ac815b5b73b88770ff57a4c2b",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-client-terminal.png",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-client-terminal.png",
+      "SHA256": "6f60b608c1c229d30d2cc09e0741475838976d2ca901fe376bba7ba478421d0c",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-detail-editor.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-detail-editor.json",
+      "SHA256": "d14bb75fad44d699f702918fdecb6654c929a20a1bd3e40a2a994ba9ed582629",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-detail-inputs.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-detail-inputs.json",
+      "SHA256": "5a9386ac3d9d9a73e53014034c64b3f598ac3ab8141a364ed58714ed36c20061",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-detail-waves.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-detail-waves.json",
+      "SHA256": "4f3c5369d8a8be1aede035136a29a7c9bdfb72a92205d4cecfdd46f4152ecfd1",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-editor.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-editor.json",
+      "SHA256": "14a48a5b372856e13f917921a3e5003082019af74cbff09532725a3d6a23c306",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-host-terminal.png",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-host-terminal.png",
+      "SHA256": "92aa3d0363aaf0e468622f96e992b52d0c6ba07d4f2844cc722f8dc9c12e5425",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-package.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-package.json",
+      "SHA256": "53a1e2f1ccd8b56d0d538efcf1c2c54c16d13a1ed0664130992f737f178c2994",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-pie-proof.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-pie-proof.json",
+      "SHA256": "80186d58beeb470cec1edddfb6b10e6b09f1025fdd13cf157225bebf5e371883",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/final-pie.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-final-pie.json",
+      "SHA256": "d96e866c7336a80bc37bcb468aaf8541e5b489ca21d6cffd037e7240946bf505",
+      "ExactBytesPreserved": true
+    },
+    {
+      "OriginalPath": "learning/P0/evidence/G3_REPLAY/supplement-inputs.json",
+      "PermanentEvidencePath": "docs/production/evidence/RUN-20260918-G3/replay-evidence/G3_REPLAY-supplement-inputs.json",
+      "SHA256": "e7e521b9495d0a2fe3282a73f0662a92bce3f0afa5a9206f86914cae79936af6",
+      "ExactBytesPreserved": true
+    }
+  ]
+}

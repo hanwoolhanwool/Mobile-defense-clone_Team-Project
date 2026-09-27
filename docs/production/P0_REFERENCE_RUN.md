@@ -33,10 +33,10 @@
 | 구분 | 결과 | 증거 / 남은 의존성 |
 |---|---|---|
 | 출발 문서·데이터·스타일 | Pass | 원본 Saved/P0Runs/20260918-start/check-project.log; 문서6601 checks. 게임 실행 증거 아님 |
-| G0 | Pass | A4/B4/통합12 자동화와 각 Editor Pass. 후속 독립 A·누락A·B·canonical 실제 GPU PIE4종 Pass; native 수업 Verified. [직렬 실행](evidence/RUN-20260918-G0/native-replay-queue.json), [학습 재현](../../learning/P0/evidence/G0_REPLAY/SUMMARY.md) |
+| G0 | Pass | A4/B4/통합12 자동화와 각 Editor Pass. 후속 독립 A·누락A·B·canonical 실제 GPU PIE4종 Pass; native 수업 Verified. [직렬 실행](evidence/RUN-20260918-G0/native-replay-queue.json), [학습 재현](evidence/RUN-20260918-G0/native-replay-queue.json) |
 | G1 | Pass | 소스 df8a2f2. 새 G0 재현 Editor·22자동화·실제2프로세스7화면비·전체 셀·2바퀴 Pass. 카메라/표시/검사기 실패 수정·리뷰 완료 |
 | G2 | Pass | 시작4861b987→제품5baa960/검사포함ae6be1b. 새56파일 조립·Editor·39+보충12 무경고Pass(44종); 실제GPU20단계 host213/client57 Pass. 독립 리뷰 차단0; [증거](evidence/RUN-20260918-G2/SUMMARY.md) |
-| G3 | InProgress | 기존 패키지5시드/회복/20분 부하 Pass. 추가 세대 재사용 결함을 실제 재현 후53af399 수정, 전체58종 무경고·종료 위젯 실제 PIE Pass. 새 패키지 승리/마감/한도·동시 합성·진입 실패 보충 진행. [현재 증거](evidence/RUN-20260918-G3/SUMMARY.md) |
+| G3 | PC 자동·화면 Pass / 청음 대기 | 자연5판·회복·20분, 최종 패키지 경계179/86·동시27/14·진입35/29 Pass. 재현58종·실제 PIE·최종9회귀 Pass. PC 재현 수업 Verified, 실제 청음 NotRun. [현재 증거](evidence/RUN-20260918-G3/SUMMARY.md) |
 | G4 | NotRun | SDK36/BuildTools36.0.0/NDK27.2.12479018/JDK21.0.3 준비. Android 실제 빌드 exit6: UE Android 선택 구성 요소 누락. 사용자가 설치 진행, adb 장치0 |
 
 원격 push/PR 병합/외부 배포/기존 작업 삭제는 수행하지 않는다. 전체 로그는 Saved/P0Runs에 저장하고 핵심 결과는 이 기록과 정식 검수 기록에 연결한다.
@@ -84,3 +84,13 @@ Windows11 Pro 10.0.26200, Ryzen5 7500F(6C/12T), RAM32GiB, RTX4060Ti(driver32.0.1
 - 실제 PIEv2(2f144fe): listen/client2World, 각소환1·골드80, 준비→Running, 명시종료→World0·설정복원. 양쪽546×720 PNG 직접 관찰에서 WAVE1/20초/N2가 일치했다. 패키지/10웨이브 증거가 아니다.
 - 최초 자연 Editor-game2프로세스는 각1판10웨이브BossTimeout/N0/보스HP467·3901. 내부host16/client14Pass지만 launcher seed로그정규식 오류로 종합Fail을 보존했다. 수정후 최종패키지재실행예정. 자동전략이며 학습자 플레이가 아니다.
 - 문서·데이터 검사Pass, 스타일77파일오류0, 학습55문서457링크오류0. 실행로그는Saved/P0Runs/G3-*, 요약은docs/production/evidence/RUN-20260918-G3에분리보존한다.
+
+## 2026-09-28 마감 통합과 미검증
+
+제품·제공 검사 최종 입력은 `f64cc671848560923595cc1955efe12620f326de`, 마지막 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`이다. 이후 차이는 테스트 기대 사례197줄뿐이다. [보충 검수](evidence/RUN-20260918-G3/SUPPLEMENTS.md), [학습 재현](evidence/RUN-20260918-G3/REPLAY_EVIDENCE.md), [독립 ARCH 리뷰](evidence/RUN-20260918-G3/FINAL_REVIEW.md)에 코드·기대값·실제 실행을 연결했다.
+
+A/B의 개별 전달은 이미 검토·선별 통합했다. A 최신 LDWaveTests 파일이 canonical과 같고 B 늦은참가 문맥/빈 owner1 상태 검사가 보존됨을 대조했다. [역할 이력 통합](evidence/RUN-20260918-G3/final-role-history.json)은 `ours` 이력 병합 전후 tree가 동일함을 확인하고 각 역할 폴더를 canonical로 fast-forward했다. 독립 구현 커밋은 조상으로 보존하고 검증된 공용 상태 원본 하나를 쓴다. learn 브랜치에 완성 코드는 반영하지 않는다.
+
+G3의 실제 청음과 G4는 외부 입력 대기다. 9/28 02:23 KST [실제 Android 점검](evidence/RUN-20260918-G3/android-latest-readiness.json)에서 UE Android 구성 디렉터리 부재·adb0을 확인했다. 같은 누락 상태로 실패 빌드를 반복하지 않았다. 사용자가 설치 예정이라고 답한 상태이며 실기기 검수/P0 완료로 표시하지 않는다. 원본 사용자 에디터를 종료하거나 원격 작업을 수행하지 않았다.
+
+최종 A/B Editor도45.02/58.54초 Pass이며 통합·재현과 같은 제품/검사 소스다. [역할 빌드](evidence/RUN-20260918-G3/final-role-build-summary.json), [문서·데이터·스타일·학습·검사기25회귀](evidence/RUN-20260918-G3/final-checks.json). 정식 실행 근거는 선택 학습 폴더 없이 보존되도록 [동일 바이트 사본](evidence/RUN-20260918-G3/replay-evidence/index.json)을 연결했다. 이는 새 게임 실행이 아니다.

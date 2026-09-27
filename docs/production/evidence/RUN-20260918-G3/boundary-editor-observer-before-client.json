@@ -1,0 +1,272 @@
+{
+	"result": "Fail",
+	"scope": "Development two-process boundary fixture; paid summon/move; skips remaining preparation/waves; boss HP 6000->1 and case2 normal HP 70->1 lowered nonlethally; attack registration times selected; case3 extra normal spawns and remaining scheduled normal spawns skipped; actual World clock and production result/reward/death paths unchanged. Not natural play or balance.",
+	"role": "client",
+	"processId": 8412,
+	"completedCases": 1,
+	"returns": 1,
+	"elapsedWallSeconds": 116.99963469803333,
+	"checks": [
+		{
+			"name": "explicit-development-arguments",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 3.6098062992095947e-05
+		},
+		{
+			"name": "new-evidence-output",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 0.00019899755716323853
+		},
+		{
+			"name": "evidence-directory-created",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 0.00040749832987785339
+		},
+		{
+			"name": "entry-idle-more-than-loading-timeout",
+			"pass": true,
+			"detail": "40.009264",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 40.811932098120451
+		},
+		{
+			"name": "entry-slate-action",
+			"pass": true,
+			"detail": "",
+			"matchId": "00000000000000000000000000000000",
+			"caseIndex": 0,
+			"wallSeconds": 40.812152996659279
+		},
+		{
+			"name": "new-match-context",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 40.967103697359562
+		},
+		{
+			"name": "paid-summon-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 41.998859297484159
+		},
+		{
+			"name": "paid-summon-actual-response",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 42.315324399620295
+		},
+		{
+			"name": "paid-unit-real-move-request",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 42.315391898155212
+		},
+		{
+			"name": "actual-fixture-actors-replicated",
+			"pass": true,
+			"detail": "214186664907113B417F1C910EB4BC43/10/2/10/10/0/100/1/0/0/30.000000000/18.385314699/0.000000000/69.785358898/0.000000000|1/0/1.000000000/6000.000000000/1|2/1/1.000000000/6000.000000000/1",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 42.59928759932518
+		},
+		{
+			"name": "replicated-terminal-battle-identical",
+			"pass": true,
+			"detail": "214186664907113B417F1C910EB4BC43/13/3/10/10/0/100/1/1/0/30.000000000/18.385314699/0.000000000/69.785358898/69.785358898|1/0/0.000000000/6000.000000000/0|2/1/0.000000000/6000.000000000/0",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35328239947557
+		},
+		{
+			"name": "replicated-owner-board-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35331259667873
+		},
+		{
+			"name": "replicated-owner-economy-identical",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35332139953971
+		},
+		{
+			"name": "actual-replicated-actor-hp-agrees-with-battle",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35332660004497
+		},
+		{
+			"name": "local-fixture-ready-was-observed",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35333099961281
+		},
+		{
+			"name": "same-paid-unit-and-board-revision",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35333659872413
+		},
+		{
+			"name": "terminal-actions-closed",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35334229841828
+		},
+		{
+			"name": "actual-terminal-normal-identities-and-hp",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.35334919765592
+		},
+		{
+			"name": "terminal-snapshot-remains-fixed",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.40284939855337
+		},
+		{
+			"name": "result-return-slate-click",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 103.75341999903321
+		},
+		{
+			"name": "entry-slate-action",
+			"pass": true,
+			"detail": "",
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"caseIndex": 0,
+			"wallSeconds": 110.80115439742804
+		},
+		{
+			"name": "new-match-context",
+			"pass": true,
+			"detail": "",
+			"matchId": "25DBAADA4DC372C8347D6D800F1C2F76",
+			"caseIndex": 1,
+			"wallSeconds": 110.94931969791651
+		},
+		{
+			"name": "prior-payload-fresh-board-before-purchase",
+			"pass": true,
+			"detail": "",
+			"matchId": "25DBAADA4DC372C8347D6D800F1C2F76",
+			"caseIndex": 1,
+			"wallSeconds": 111.98193419724703
+		},
+		{
+			"name": "actual-prior-generation-differs",
+			"pass": true,
+			"detail": "priorMatch=214186664907113B417F1C910EB4BC43 priorEpoch=16373526291311569886 newMatch=25DBAADA4DC372C8347D6D800F1C2F76 newEpoch=16373526291311569888 id=1 expectedBoard=0; previous payload deliberately sent on NEW Controller, not old Actor packet delivery",
+			"matchId": "25DBAADA4DC372C8347D6D800F1C2F76",
+			"caseIndex": 1,
+			"wallSeconds": 111.98196049779654
+		},
+		{
+			"name": "prior-payload-rpc-response-timeout",
+			"pass": false,
+			"detail": "",
+			"matchId": "25DBAADA4DC372C8347D6D800F1C2F76",
+			"caseIndex": 1,
+			"wallSeconds": 116.98287429660559
+		},
+		{
+			"name": "four-distinct-matches",
+			"pass": false,
+			"detail": "",
+			"matchId": "25DBAADA4DC372C8347D6D800F1C2F76",
+			"caseIndex": 1,
+			"wallSeconds": 116.99960889667273
+		},
+		{
+			"name": "three-actual-return-clicks",
+			"pass": false,
+			"detail": "",
+			"matchId": "25DBAADA4DC372C8347D6D800F1C2F76",
+			"caseIndex": 1,
+			"wallSeconds": 116.99962819740176
+		}
+	],
+	"cases": [
+		{
+			"name": "early-and-exact-victory",
+			"caseIndex": 0,
+			"matchId": "214186664907113B417F1C910EB4BC43",
+			"battle": "214186664907113B417F1C910EB4BC43/13/3/10/10/0/100/1/1/0/30.000000000/18.385314699/0.000000000/69.785358898/69.785358898|1/0/0.000000000/6000.000000000/0|2/1/0.000000000/6000.000000000/0",
+			"ownerBoard": "214186664907113B417F1C910EB4BC43/1/2/1|2/C03/1/35/10.068692099",
+			"ownerEconomy": "214186664907113B417F1C910EB4BC43/1/3/280/4/1/22",
+			"deadline": 69.785358898341656,
+			"resultSeconds": 69.785358898341656,
+			"result": 1,
+			"reason": 0,
+			"revision": 13,
+			"normalCount": 0,
+			"dueTimes": [
+				69.784358898341651,
+				69.785358898341656
+			],
+			"actualNormalIds": [],
+			"originalLocalUnitId": "2",
+			"actualBosses": [
+				{
+					"enemyId": "1",
+					"route": 0,
+					"actualActorHP": 0
+				},
+				{
+					"enemyId": "2",
+					"route": 1,
+					"actualActorHP": 0
+				}
+			],
+			"authorityBoards": [
+				"214186664907113B417F1C910EB4BC43/0/2/1|1/C01/0/5/10.018691699",
+				"214186664907113B417F1C910EB4BC43/1/2/1|2/C03/1/35/10.068692099"
+			],
+			"authorityEconomies": [
+				"214186664907113B417F1C910EB4BC43/0/3/280/4/1/22",
+				"214186664907113B417F1C910EB4BC43/1/3/280/4/1/22"
+			],
+			"hitchBeforeWorldSeconds": 0,
+			"hitchSleptWallSeconds": 0,
+			"committedHitsOnAuthority": []
+		}
+	]
+}

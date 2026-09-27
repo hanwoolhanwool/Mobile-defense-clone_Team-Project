@@ -1,0 +1,141 @@
+{
+	"result": "Pass",
+	"scope": "Development G3NetConflict fixture. Three free C01 units on remote owner1 via public Board preparation; two different IDs sent to actual owned ServerRequestCommand in one client tick. Actual server dispatch and client receipt observed without interception. No natural summon, Pending UI, two-remote-client concurrency, or physical-input claim.",
+	"engine": "5.8.2-56702186+++UE5+Release-5.8",
+	"processId": 50352,
+	"localPlayerIndex": 1,
+	"matchId": "5D14FD3140F13F3AB49E62BF6954DE29",
+	"completionHandshakeConfirmed": true,
+	"observersRestored": true,
+	"authorityMetricsAvailable": false,
+	"serverRequestCount": 0,
+	"observedResponseCount": 2,
+	"mergePublicationCount": 0,
+	"firstSendFrame": "11",
+	"secondSendFrame": "11",
+	"burstSentWallSeconds": 0.25126620009541512,
+	"checks": [
+		{
+			"name": "role-matches-real-local-owner",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.22422949969768524
+		},
+		{
+			"name": "remote-baseline-sees-three-C01-and-unchanged-economy",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.22445299848914146
+		},
+		{
+			"name": "burst-starts-on-actual-owned-remote-Preparing-controller",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.25093910098075867
+		},
+		{
+			"name": "two-distinct-request-IDs-sent-same-client-tick",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.26881889998912811
+		},
+		{
+			"name": "both-actual-client-response-arrivals-match-server-in-all-fields",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.26903619989752769
+		},
+		{
+			"name": "client-one-success-one-stale-board",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.26919550076127052
+		},
+		{
+			"name": "client-owner-snapshots-converged",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.26934349909424782
+		},
+		{
+			"name": "client-three-old-actors-replaced-by-exact-one",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.26947199925780296
+		},
+		{
+			"name": "server-independent-state-oracles-passed",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.26959419995546341
+		},
+		{
+			"name": "raw-burst-does-not-pretend-to-test-Pending-UI",
+			"pass": true,
+			"detail": "Fixture calls owned ServerRequestCommand directly; unrequested replies are observed before the normal client guard",
+			"wallSeconds": 0.2697288990020752
+		},
+		{
+			"name": "replicated-explicit-cleanup-retains-final-owner-state",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.28461360186338425
+		},
+		{
+			"name": "observer-handles-restored",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.28496320173144341
+		},
+		{
+			"name": "server-confirms-client-cleanup-acknowledgment",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.30111970007419586
+		},
+		{
+			"name": "server-received-final-client-acknowledgment",
+			"pass": true,
+			"detail": "",
+			"wallSeconds": 0.31770319864153862
+		}
+	],
+	"wire": [
+		{
+			"kind": "client-response-arrival",
+			"frame": "12",
+			"worldSeconds": 0.14655820280313492,
+			"wallSeconds": 0.26740619912743568,
+			"matchId": "5D14FD3140F13F3AB49E62BF6954DE29",
+			"requestId": 1,
+			"epoch": "16598904652818786291",
+			"code": 0,
+			"boardRevision": 4,
+			"economyRevision": 1,
+			"eventId": "1",
+			"created": [
+				"4"
+			],
+			"removed": [
+				"1",
+				"2",
+				"3"
+			]
+		},
+		{
+			"kind": "client-response-arrival",
+			"frame": "12",
+			"worldSeconds": 0.14655820280313492,
+			"wallSeconds": 0.26794600114226341,
+			"matchId": "5D14FD3140F13F3AB49E62BF6954DE29",
+			"requestId": 2,
+			"epoch": "16598904652818786291",
+			"code": 11,
+			"boardRevision": 4,
+			"economyRevision": 1,
+			"eventId": "0",
+			"created": [],
+			"removed": []
+		}
+	]
+}

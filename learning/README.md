@@ -1,10 +1,10 @@
 # A·B 개발 학습 자료
 
-**선택 자료 · 현재 상태: 기존 P0 삭제, P1/P2 계획·양식만 보존**
+**선택 자료 · 현재 상태: 새 P0의 G0~G3 PC 재현 Verified / G4 Draft / 실제 학습자 Planned**
 
 Codex가 A 개발자 시점과 B 개발자 시점으로 각각 기능을 구현하고 제작 과정을 기록한 뒤 통합한다. 실제 개발자 A와 B는 각자 별도의 개발 브랜치에서 자기 자료를 따라 구현하고, 자신들이 작성한 결과를 통합한다. 이 흐름을 P0·P1·P2와 이후 마일스톤에 반복한다.
 
-2026-09-16 사용자 요청으로 기존 P0 참고 구현·A/B 학습 작업과 P0 자료를 삭제했다. [초기화 내역](../docs/production/P0_RESET.md). 새 P0 수업과 브랜치는 아직 없으며 실제 구현/검수에 맞춰 다시 작성한다. 아래 P1/P2는 이후 제작 계획이다.
+2026-09-16 [초기화](../docs/production/P0_RESET.md) 이후 새 공통 출발점8c6856d에서 P0 참고 구현과 수업을 작성했다. [P0 시작 문서](P0/README.md)의 실제 재현 범위와 미검증을 구분한다. learn 세 브랜치는 출발점에 유지하고 학습자의 완성 코드로 기록하지 않는다. 실제 청음·Android 검수가 남아 P0는 최종 미완료이며 아래 P1/P2는 기존 계획이다.
 
 ## 읽는 순서
 
@@ -16,7 +16,7 @@ Codex가 A 개발자 시점과 B 개발자 시점으로 각각 기능을 구현�
 
 | 마일스톤 | 시작점 | A 경로 | B 경로 | 통합 | 현재 상태 |
 |---|---|---|---|---|---|
-| P0 | [새 계획](../docs/design/P0_REPLAN.md) | 삭제·재작성 대기 | 삭제·재작성 대기 | 새 구현 검수 대기 | 기존 자료 제거 완료 |
+| P0 | [시작](P0/README.md) · [공통](P0/COMMON.md) | [A 수업](P0/A/README.md) | [B 수업](P0/B/README.md) | [게이트 통합](P0/INTEGRATION.md) | PC 명시 범위 Verified, G4 Draft, 학습자 Planned |
 | P1 | [범위·기준점](P1/README.md) · [공통 준비](P1/COMMON.md) | [전투·콘텐츠 확장](P1/A/README.md) | [경제·UI 확장](P1/B/README.md) | [P1 통합](P1/INTEGRATION.md) | 같은 구조 준비, 일부 역할 미배정 |
 | P2 | [범위·기준점](P2/README.md) · [공통 준비](P2/COMMON.md) | [A 경로](P2/A/README.md) | [B 경로](P2/B/README.md) | [P2 통합](P2/INTEGRATION.md) | 구조만 준비, 서비스 범위·역할 미확정 |
 
@@ -32,7 +32,7 @@ learning/
     MILESTONE.md
   tools/
     validate.mjs
-  P1/                       # P2/도 같은 구조. P0/는 현재 삭제됨
+  P0/                       # P1/, P2/도 같은 공통 구조
     README.md               # 범위·출발/완료 기준점·제작/학습 상태
     COMMON.md               # 공통 기반과 상대 산출물 전달 규칙
     A/

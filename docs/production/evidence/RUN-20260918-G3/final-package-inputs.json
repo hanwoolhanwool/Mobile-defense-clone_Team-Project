@@ -1,0 +1,13 @@
+{
+  "Scope": "Final reference package input mapping; execution recorded separately",
+  "SourceSha": "e89a1fabaf5ef5e3a1d03a09397806814551ec20",
+  "ReplayHead": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "Manifest": "learning/P0/evidence/G3_REPLAY/supplement-inputs.json",
+  "InputFiles": 73,
+  "ReplacedOrAdded": 13,
+  "Executable": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-final-package\\Package\\Windows\\Mobile_defense_clone\\Binaries\\Win64\\Mobile_defense_clone.exe",
+  "ExecutableSHA256": "349F4660D6A0729807EA4FFD04DEE7A6D732001D00D830488EF00C42C049B177",
+  "PackageResult": "Pass",
+  "PriorPackageRetained": "Replay-G3-package-audio-fixed",
+  "PriorRuntimeDelta": "Product connection epoch allocator (53af399), test-only expectations/PIE and explicit Development supplements; no combat, render, natural strategy, data, map, audio or cook configuration change"
+}

@@ -1,0 +1,103 @@
+{
+  "Scope": "Actual GPU two-process packaged supplement",
+  "Probe": "G3Entry",
+  "Started": "2026-09-28T00:56:44.8518336+09:00",
+  "Head": "f735b5889a5bd197e46d29bdfaa2b38c246d5ea6",
+  "RunnerSHA256": "ED3281E655B54AF90FF78005ED8997D7B21ABA2C9A060E3B664DBE71D4845457",
+  "Executable": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-G3-final-package\\Package\\Windows\\Mobile_defense_clone\\Binaries\\Win64\\Mobile_defense_clone.exe",
+  "ExecutableSHA256": "349F4660D6A0729807EA4FFD04DEE7A6D732001D00D830488EF00C42C049B177",
+  "EditorModuleSHA256": null,
+  "ExpectedCases": 0,
+  "Resolution": [
+    360,
+    780
+  ],
+  "MaxFPS": 60,
+  "RenderOffscreen": true,
+  "Fixture": "Explicit Development supplement. Each role result records its exact setup and observations. Not natural balance or physical input.",
+  "Processes": [
+    {
+      "PID": 55176,
+      "Arguments": [
+        "/Game/LD/Maps/L_P0Entry",
+        "-ModelContextProtocolPort=17877",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=360",
+        "-ResY=780",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3Entry",
+        "-P0Role=host",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Entry\\host",
+        "-P0TimeoutSeconds=600",
+        "-P0Seed=1776",
+        "-P0CommandTrace",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Entry\\host/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-P0EntryRunId=Replay-final-G3Entry",
+        "-RenderOffscreen"
+      ],
+      "Role": "host"
+    },
+    {
+      "PID": 27316,
+      "Arguments": [
+        "/Game/LD/Maps/L_P0Entry",
+        "-ModelContextProtocolPort=17878",
+        "-windowed",
+        "-ForceRes",
+        "-ResX=360",
+        "-ResY=780",
+        "-port=17777",
+        "-nosplash",
+        "-nosound",
+        "-unattended",
+        "-culture=ko",
+        "-P0Probe=G3Entry",
+        "-P0Role=client",
+        "-P0PeerAddress=127.0.0.1:17777",
+        "-P0ProbeOutput=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Entry\\client",
+        "-P0TimeoutSeconds=600",
+        "-P0Seed=1776",
+        "-P0CommandTrace",
+        "-abslog=C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Entry\\client/engine.log",
+        "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS 60,r.VSync 0",
+        "-P0EntryRunId=Replay-final-G3Entry",
+        "-RenderOffscreen"
+      ],
+      "Role": "client"
+    }
+  ],
+  "Result": "Pass",
+  "PairStateConsistent": true,
+  "RoleResults": [
+    {
+      "Role": "host",
+      "ExitCode": 0,
+      "Cases": 0,
+      "Checks": 35,
+      "FailedChecks": 0,
+      "CriticalLog": false,
+      "RequiredImages": 5,
+      "MissingImages": [],
+      "Pass": true
+    },
+    {
+      "Role": "client",
+      "ExitCode": 0,
+      "Cases": 0,
+      "Checks": 29,
+      "FailedChecks": 0,
+      "CriticalLog": false,
+      "RequiredImages": 4,
+      "MissingImages": [],
+      "Pass": true
+    }
+  ],
+  "Finished": "2026-09-28T00:58:05.4448413+09:00"
+}

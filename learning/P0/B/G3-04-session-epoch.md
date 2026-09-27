@@ -5,14 +5,16 @@
 | 항목 | 값 |
 |---|---|
 | 상위 TASK·정식 설계 | TASK-NET-01, TASK-TEST-01; [식별자·캐시 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md), [ARCH-03/05/06](../../../docs/technical/CODING_STANDARD.md) |
-| 참고 자료 제작 상태 | **Draft — 제품 수정 후 최종 패키지·수업 재현 대기** |
+| 참고 자료 제작 상태 | **Verified — 아래 명시한 PC 재현 범위** |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / **미확정** |
+| 참고 시작 / 완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / `f64cc671848560923595cc1955efe12620f326de` (제품+검사 소스). 실제 패키지 입력은 `e89a1fabaf5ef5e3a1d03a09397806814551ec20`; 마지막 차이는 테스트 파일만 |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A/통합 GameMode 수정 `53af3993b49234b4f78b0c0213c4f3ed5041f7be`; G2 Processor·B Controller 계약 |
 | 제공 코드 / 직접 작성할 코드 | 제공: A GameMode 수정·수명 회귀·패키지 보충 probe. 직접 작성/대조: B Controller의 요청·응답 세대 검사, 세션 종료와 UI 수명 연결 |
 
-[B01](G3-01-entry-return.md)·[B02](G3-02-battle-result-hud.md)·[B03](G3-03-clock-finalization.md) 뒤에 진행한다. NET-LIFE01 실패/수정은 [공통 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md), 실행별 SHA·검사 수는 [SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 조립은 [통합 수업](../G3_INTEGRATION.md)에 둔다. 초기66파일 입력은 보존된 과거 기준이며 이 수정의 최종 완료본이 아니다.
+[B03](G3-03-clock-finalization.md)→[B01](G3-01-entry-return.md)→[B02](G3-02-battle-result-hud.md) 뒤에 진행한다. NET-LIFE01 실패/수정은 [공통 리뷰](../../../docs/production/evidence/RUN-20260918-G3/REVIEW_FINDINGS.md), 실행별 SHA·검사 수는 [SUMMARY](../../../docs/production/evidence/RUN-20260918-G3/SUMMARY.md), 조립은 [통합 수업](../G3_INTEGRATION.md)에 둔다. 초기66파일 입력은 보존된 과거 기준이며 이 수정의 최종 완료본이 아니다.
+
+PC Verified는 [통합 수업의3단계 재현](../G3_INTEGRATION.md)과 [최종 PC 보충 증거](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md)에 연결한 실행 범위다. 선택 변형 과제·미관찰 입력 조합은 완료로 올리지 않는다. Android G4와 실제 청음은 NotRun이며 P0 최종 완료가 아니다. 실제 학습자는 Planned를 유지한다.
 
 ## 이번에 만들 동작
 
@@ -51,15 +53,15 @@
 | 같은 회귀에 process 발급기 적용 | 다른 epoch, 새 원본 불변 | `53af399` 이후 자동화 Pass. 실제 서버 admission 호출이며 소켓 RPC는 아님 |
 | 같은 매치의 동일 요청 재시도 | 원응답·효과 한 번 | 기존 G2/G3 실제 RPC 증거는 SUMMARY. 새 매치 거절 검사와 합치지 않음 |
 | 다른 MatchId/epoch의 늦은 응답 | 현재 pending을 완료/삭제하지 않음 | G2 및 G0 실제 소유 RPC의 명시 응답 주입 증거와 구분. 제품 서버가 틀린 응답을 자연 생성했다는 뜻은 아님 |
-| 최신 패키지 새 매치의 구 payload | 실제 RPC InvalidEpoch와 양쪽 초기 상태 보존 | 보충 검수 대기. 과거 서로 다른 MatchId 목록만으로 통과 처리하지 않음 |
+| 최신 패키지 새 매치의 구 payload | 실제 RPC InvalidEpoch와 양쪽 초기 상태 보존 | 최종 Boundary에서 실제 CLIENT InvalidEpoch·초기 서버 보드/경제/cache/RNG 불변·후속 정상 구매 Pass. [최종 보충 검수](../../../docs/production/evidence/RUN-20260918-G3/SUPPLEMENTS.md) |
 
-예상 화면은 새 매치의 초기 보드·재화가 구 요청 때문에 변하지 않는 모습이다. 현재 이 결함의 직접 수정 전후 근거는 자동화의 실제 서비스 값이며 해당 검사 화면 캡처는 없다. 최신 패키지 UI/wire 관찰 전에 화면 Pass를 붙이지 않는다. 이전 반복 매치와 성능 측정은 당시 소스·조건으로 보존한다.
+예상 화면은 새 매치의 초기 보드·재화가 구 요청 때문에 변하지 않는 모습이다. 현재 이 결함의 직접 수정 전후 근거는 자동화의 실제 서비스 값이며 해당 검사 화면 캡처는 없다. 최종 Boundary의 양쪽 화면·wire·서버 관찰 ACK와 실제 복귀 후 정상 구매는 보충 증거로 확인했다. 이전 반복 매치와 성능 측정은 당시 소스·조건으로 보존한다.
 
 ## 상대에게 전달하고 통합하기
 
 전달 계약은 변경 없는 `FLDCommand/FLDCommandResult/FLDParticipantContext`, 서버 문맥 기반 `SubmitAtTime`, 로컬 pending/응답 필터다. A/통합 `53af399`를 B Controller·Processor의 기존 비교 조건과 연결한다. 새 wire 필드나 GI gameplay 상태를 추가하지 않는다.
 
-통합 수업의 `Replay-P0G3.ps1` 최초66파일과 `Apply-P0G3Supplement.ps1`의 문서화된73파일 보충 manifest를 대조한다. 시작 HEAD는 `f735b588`에 유지하고 기존 SHA256·변경 전 복사본·보충 SourceSha를 확인한다. 조립은 직접 작성의 대체가 아니며 learn 브랜치를 이동하지 않는다. 새 Editor→전체 자동화→실제 PIE→최신 패키지 보충을 순서대로 실행하고 완료 SHA를 적는다.
+[통합 수업](../G3_INTEGRATION.md)의 정확한3단계, 즉 역사 도구의66파일→e89a1fa 보충73파일→LDWaveTests.cpp만 f64cc671 갱신을 따른다.73개 해시·변경 전 보존·실제 재현 결과를 확인했으며, 제품+검사 완료 SHA와 패키지 SHA는 상태 표처럼 구분한다. learn 브랜치는 이동하지 않는다.
 
 독립 리뷰는 epoch 단조 조건·0 거절·중복 로그인·서버 소유권·종료 구독/타이머를 대조한다. `G3Boundary/G3NetConflict/G3Entry` 제공 fixture는 각 명시 조건만 증명하며 자연 밸런스나 Android 검수로 확대하지 않는다.
 
@@ -75,7 +77,7 @@
 
 - [x] 실제 실패→수정→Unreal 회귀와 네트워크 검수의 차이를 기록했다.
 - [x] 제공 A 수정·B 작성 범위·상태 원본·API를 구분했다.
-- [ ] 최종73파일 입력·완료 SHA와 새 수업 재현 결과를 연결한다.
-- [ ] 최신 패키지 실제 구 payload 거절·새 정상 요청·반복 수명 검수를 통과한다.
+- [x] 최종73파일 입력·완료 SHA와 새 수업 재현 결과를 연결했다.
+- [x] 최신 패키지 실제 구 payload 거절·새 정상 요청·반복 수명 검수를 통과했다.
 
-위 조건 전에는 Draft, 학습자 Planned다. G4 설치·실행·터치·SafeArea·완주 미검증이 남으면 P0 최종 완료로 표시하지 않는다. P1/P2는 확장하지 않는다.
+위 명시 PC 재현 범위는 Verified, 학습자는 Planned다. 선택 변형 과제는 별도 미검증이다. G4 설치·실행·터치·SafeArea·완주 미검증이 남으면 P0 최종 완료로 표시하지 않는다. P1/P2는 확장하지 않는다.

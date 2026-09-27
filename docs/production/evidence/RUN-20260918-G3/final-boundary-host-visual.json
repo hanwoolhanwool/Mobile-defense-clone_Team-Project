@@ -1,0 +1,61 @@
+{
+  "Scope": "Actual packaged host screenshots, nine original PNG files; original resolution recheck resolves misleading reduced preview",
+  "Result": "Pass",
+  "SourceSha": "e89a1fabaf5ef5e3a1d03a09397806814551ec20",
+  "Screenshots": [
+    {
+      "Name": "case0-ready.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case0-ready.png",
+      "SHA256": "E82324E0FCFF444B107678FDFE4CF5B95E30B47E7B1F3C98D198086988A243F1",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case0-result.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case0-result.png",
+      "SHA256": "DFD11CBBB7553ADADADFB23F568BD64BD0EA913AC619EB9C750BC5D5F5A3DBBB",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case1-ready.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case1-ready.png",
+      "SHA256": "A1D6170C1E628C7A3DAD182F3F74404944A7CFF158E971C1253B4413A5CE7C62",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case1-result.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case1-result.png",
+      "SHA256": "7A8D1ABDF8FE0E1D5F29094AB3CFB40AB21C3F1BAE6B20D80B152BC7C72E23DE",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case2-normal-wait.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case2-normal-wait.png",
+      "SHA256": "78A66BA8EBE614068B5EB91B0F6B9BA8506CD31376960BEFC5841D69A2710D3C",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case2-ready.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case2-ready.png",
+      "SHA256": "A13E0A09A247D366B67008D8D1A1EFF24064BC023CC67F54E80215608FD9A7B8",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case2-result.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case2-result.png",
+      "SHA256": "94BD97A8519FD3B13159920BF3301947E0421284ED33DA40DB06C9828FA841AE",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case3-ready.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case3-ready.png",
+      "SHA256": "FAB95BCFAFBB5FCB3F2C1D6FCC18E5C7FC65BCEB488161BFD33992C89A2ED4D3",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    },
+    {
+      "Name": "case3-result.png",
+      "FullPath": "C:\\Users\\iam12\\P0_lesson_replay_g3\\Saved\\P0Runs\\Replay-final-G3Boundary\\host\\case3-result.png",
+      "SHA256": "22D320DD94EEAEB88275F9492703E3500F429E5BAA662CB9E8C5059E775DF37B",
+      "Viewed": "Original image reviewed by integration implementer; independent client review recorded separately"
+    }
+  ]
+}
