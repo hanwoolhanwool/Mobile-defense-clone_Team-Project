@@ -4,6 +4,7 @@
 #include "Board/LDBoardTypes.h"
 #include "Data/LDBattleTypes.h"
 #include "Economy/LDEconomyTypes.h"
+#include "Network/LDCommandTypes.h"
 #include "GameFramework/Actor.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Tickable.h"
@@ -85,6 +86,9 @@ private:
 	int32 CompletedMatches = 0;
 	int32 MinimumSeconds = 0;
 	int32 TimeoutSeconds = 1500;
+	int32 RecoverAfterSeconds = 0;
+	bool bNetworkRecovered = false;
+	TWeakObjectPtr<class UNetDriver> RecoveredDriver;
 	double StartedAt = 0;
 	double LastActionAt = 0;
 	double LastPingAt = 0;
@@ -95,6 +99,11 @@ private:
 	double ConnectedGameplaySeconds = 0;
 	double LastTickAt = 0;
 	double CaptureWaveAt = 0;
+	double LastReplayAt = 0;
+	int32 ReplaysSent = 0;
+	FLDCommand FirstSummon;
+	bool bReplayAfterChange = false;
+	bool bReplayAfterTerminal = false;
 	int64 EffectiveDamage[2] = {0, 0};
 	double FirstMergeAt[2] = {-1, -1};
 	int32 LocalPlayer = INDEX_NONE;

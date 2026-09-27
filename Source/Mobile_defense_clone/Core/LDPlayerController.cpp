@@ -26,6 +26,31 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDBoardInput, Log, All);
 
+namespace
+{
+	void TraceCommandResponse(const TCHAR* Direction, const FLDCommandResult& Result)
+	{
+#if !UE_BUILD_SHIPPING
+		static const bool bEnabled = FParse::Param(FCommandLine::Get(), TEXT("P0CommandTrace"));
+		if (!bEnabled)
+			return;
+		auto Ids = [](const TArray<uint64>& Values)
+		{
+			FString Text;
+			for (uint64 Id : Values)
+				Text += FString::Printf(TEXT("%llu,"), Id);
+			return Text.IsEmpty() ? FString(TEXT("-")) : Text;
+		};
+		UE_LOG(LogLDBoardInput, Display,
+		       TEXT("P0WIRE %s match=%s epoch=%llu id=%u code=%d board=%d economy=%d event=%llu created=%s moved=%s removed=%s"),
+		            Direction, *Result.MatchId.ToString(), Result.ConnectionEpoch, Result.RequestId,
+		            static_cast<int32>(Result.ResultCode), Result.NewBoardRevision, Result.EconomyRevision,
+		            Result.EventId, *Ids(Result.CreatedInstanceIds), *Ids(Result.MovedInstanceIds),
+		            *Ids(Result.RemovedInstanceIds));
+#endif
+	}
+} // namespace
+
 void ALDPlayerController::InitializeServerSession(const FLDParticipantContext& Context, ULDCommandProcessor& Processor)
 {
 	if (!HasAuthority() || !Context.IsValid())
@@ -118,6 +143,7 @@ FLDCommandResult ALDPlayerController::SubmitServerCommand(const FLDCommand& Comm
 void ALDPlayerController::ServerRequestCommand_Implementation(const FLDCommand& Command)
 {
 	const FLDCommandResult Result = SubmitServerCommand(Command);
+	TraceCommandResponse(TEXT("SERVER"), Result);
 	// A flood may delay a response, but must never replace an already cached outcome.
 	if (!CommandProcessor || CommandProcessor->CanSendResponse(ServerContext, FPlatformTime::Seconds()))
 	{
@@ -127,6 +153,8 @@ void ALDPlayerController::ServerRequestCommand_Implementation(const FLDCommand& 
 
 void ALDPlayerController::ClientCommandResult_Implementation(const FLDCommandResult& Result)
 {
+	// Trace arrival before the normal stale/pending guard; diagnostics do not publish UI events.
+	TraceCommandResponse(TEXT("CLIENT"), Result);
 	if (Result.MatchId != CurrentMatchId || Result.ConnectionEpoch != ConnectionEpoch || !PendingCommand.IsSet() ||
 	    Result.RequestId != PendingCommand->RequestId)
 	{

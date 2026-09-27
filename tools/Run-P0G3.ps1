@@ -3,6 +3,7 @@ param(
     [string]$GameExecutable = '',
     [int]$MatchCount = 1,
     [int]$MinimumSeconds = 0,
+    [int]$RecoverAfterSeconds = 0,
     [int]$TimeoutSeconds = 1500,
     [ValidateSet(0,150,300)][int]$RTTMilliseconds = 0,
     [ValidateSet(0,1,3)][int]$PacketLossPercent = 0,
@@ -35,6 +36,7 @@ $Metadata = [ordered]@{
     Resolution = @($Width,$Height); MaxFPS = $MaxFPS; VSync = 0; RenderOffscreen = [bool]$RenderOffscreen
     Strategy = 'Automated Slate summon/merge/sale and Controller move using normal product rules; no HP/gold/wave clock override.'
     Seeds = @(1776,42,1729,2026,9001); Processes = @(); Result = 'Running'
+    RecoverAfterConnectedSeconds = $RecoverAfterSeconds
 }
 $Pairs = @()
 $AllPassed = $false
@@ -49,6 +51,7 @@ try {
         $ToolPort = $Port + $(if ($Role -eq 'host') {100} else {101})
         if (Get-NetTCPConnection -LocalPort $ToolPort -State Listen -ErrorAction SilentlyContinue) { throw "Tool port $ToolPort is occupied." }
         $Arguments += @("-ModelContextProtocolPort=$ToolPort",'-windowed','-ForceRes',"-ResX=$Width", "-ResY=$Height", "-port=$Port", '-nosplash', '-nosound', '-unattended', '-culture=ko', '-P0Probe=G3', "-P0Role=$Role", "-P0PeerAddress=127.0.0.1:$Port", "-P0Matches=$MatchCount", "-P0MinimumSeconds=$MinimumSeconds", "-P0TimeoutSeconds=$TimeoutSeconds", '-P0Seed=1776', "-P0ProbeOutput=$Output", "-abslog=$Output/engine.log", "-ExecCmds=t.IdleWhenNotForeground 0,t.MaxFPS $MaxFPS,r.VSync 0", "-PktLagMin=$($RTTMilliseconds / 2)", "-PktLagMax=$($RTTMilliseconds / 2)", "-PktLoss=$PacketLossPercent")
+        $Arguments += @('-P0CommandTrace', "-P0RecoverAfter=$RecoverAfterSeconds")
         if ($RenderOffscreen) { $Arguments += '-RenderOffscreen' }
         $QuotedArguments = ($Arguments | ForEach-Object { '"' + $_.Replace('"','\"') + '"' }) -join ' '
         $Process = Start-Process -FilePath $GameExecutable -ArgumentList $QuotedArguments -PassThru -WindowStyle Hidden -RedirectStandardOutput "$Output/stdout.log" -RedirectStandardError "$Output/stderr.log"

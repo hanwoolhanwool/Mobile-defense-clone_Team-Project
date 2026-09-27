@@ -128,6 +128,7 @@ void ULDG3ProbeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	FParse::Value(FCommandLine::Get(), TEXT("P0Matches="), RequestedMatches);
 	FParse::Value(FCommandLine::Get(), TEXT("P0MinimumSeconds="), MinimumSeconds);
 	FParse::Value(FCommandLine::Get(), TEXT("P0TimeoutSeconds="), TimeoutSeconds);
+	FParse::Value(FCommandLine::Get(), TEXT("P0RecoverAfter="), RecoverAfterSeconds);
 	RequestedMatches = FMath::Clamp(RequestedMatches, 1, 20);
 	OutputDirectory = FPaths::ConvertRelativePathToFull(OutputDirectory);
 	IFileManager::Get().MakeDirectory(*OutputDirectory, true);
@@ -195,6 +196,10 @@ void ULDG3ProbeSubsystem::BeginMatch(ALDGameMode* Mode, const FLDBattleSnapshot&
 	EntryAt = 0;
 	LastWave = -1;
 	CaptureWaveAt = 0;
+	FirstSummon = FLDCommand();
+	ReplaysSent = 0;
+	bReplayAfterChange = false;
+	bReplayAfterTerminal = false;
 	LastResultId = 0;
 	SuccessfulCommands = 0;
 	FailedCommands = 0;
@@ -388,8 +393,13 @@ void ULDG3ProbeSubsystem::RecordMatch(ALDPlayerController& Controller, ALDG3Prob
 {
 	const FLDBattleSnapshot& Battle = GetWorld()->GetGameState<ALDGameState>()->GetBattleSnapshot();
 	bool bBossesMatch = Battle.Bosses.Num() == Peer.FinalBattle.Bosses.Num();
+	TSet<uint64> BossIds;
+	TSet<int32> BossRoutes;
 	for (const FLDBossSnapshot& Boss : Battle.Bosses)
 	{
+		bBossesMatch &= !BossIds.Contains(Boss.EnemyId) && !BossRoutes.Contains(Boss.RouteIndex);
+		BossIds.Add(Boss.EnemyId);
+		BossRoutes.Add(Boss.RouteIndex);
 		const FLDBossSnapshot* Other = Peer.FinalBattle.Bosses.FindByPredicate(
 		    [&Boss](const FLDBossSnapshot& Candidate) { return Candidate.EnemyId == Boss.EnemyId; });
 		bBossesMatch &= Other && Other->RouteIndex == Boss.RouteIndex && Other->HP == Boss.HP &&
@@ -404,6 +414,8 @@ void ULDG3ProbeSubsystem::RecordMatch(ALDPlayerController& Controller, ALDG3Prob
 	               Battle.MaxEnemyCount == Peer.FinalBattle.MaxEnemyCount);
 	Check(TEXT("terminal-battle-state-matches-server"),
 	           Battle.MatchId == Peer.FinalBattle.MatchId && Battle.Revision == Peer.FinalBattle.Revision &&
+	               Battle.Phase == Peer.FinalBattle.Phase &&
+	               Battle.LoadingDeadlineServerSeconds == Peer.FinalBattle.LoadingDeadlineServerSeconds &&
 	               Battle.Result == Peer.FinalBattle.Result && Battle.ResultReason == Peer.FinalBattle.ResultReason &&
 	               Battle.WaveIndex == Peer.FinalBattle.WaveIndex &&
 	               Battle.ActiveEnemyCount == Peer.FinalBattle.ActiveEnemyCount &&
@@ -488,6 +500,22 @@ void ULDG3ProbeSubsystem::RecordMatch(ALDPlayerController& Controller, ALDG3Prob
 	Item->SetArrayField(TEXT("unreliableEchoRoundTripMs"), RTT);
 	Item->SetNumberField(TEXT("pingsSent"), Peer.PingsSent);
 	Item->SetNumberField(TEXT("pongsReceived"), Peer.PongsReceived);
+	Item->SetBoolField(TEXT("networkRecovered"), bNetworkRecovered);
+	if (UNetDriver* Driver = GetWorld()->GetNetDriver())
+	{
+		UNetConnection* Connection = Driver->ServerConnection;
+		if (!Connection && Driver->ClientConnections.Num() > 0)
+			Connection = Driver->ClientConnections[0];
+		if (Connection)
+		{
+			Item->SetNumberField(TEXT("netInBytes"), Connection->InTotalBytes);
+			Item->SetNumberField(TEXT("netOutBytes"), Connection->OutTotalBytes);
+			Item->SetNumberField(TEXT("netInPackets"), Connection->InTotalPackets);
+			Item->SetNumberField(TEXT("netOutPackets"), Connection->OutTotalPackets);
+			Item->SetNumberField(TEXT("netInPacketsLost"), Connection->InTotalPacketsLost);
+			Item->SetNumberField(TEXT("netOutPacketsLost"), Connection->OutTotalPacketsLost);
+		}
+	}
 	Matches.Add(MakeShared<FJsonValueObject>(Item));
 	++CompletedMatches;
 	bRecordedTerminal = true;
@@ -516,6 +544,32 @@ void ULDG3ProbeSubsystem::TickLocal(ALDPlayerController& Controller, const FLDBa
 		}
 	}
 	const double Now = FPlatformTime::Seconds();
+	if (FirstSummon.RequestId == 0 && Controller.GetLastResult().RequestId == 1 &&
+	    Controller.GetLastResult().ResultCode == ELDCommandResultCode::Success)
+	{
+		FirstSummon.ConnectionEpoch = Controller.GetLastResult().ConnectionEpoch;
+		FirstSummon.RequestId = 1;
+		FirstSummon.ExpectedBoardRevision = 0;
+	}
+	if (FirstSummon.RequestId > 0 && ReplaysSent < 20 && Now - LastReplayAt >= 0.3)
+	{
+		Controller.ServerRequestCommand(FirstSummon);
+		LastReplayAt = Now;
+		++ReplaysSent;
+	}
+	if (FirstSummon.RequestId > 0 && !bReplayAfterChange && Battle.WaveIndex >= 2)
+	{
+		Controller.ServerRequestCommand(FirstSummon);
+		FLDCommand Conflict = FirstSummon;
+		Conflict.Source = 1;
+		Controller.ServerRequestCommand(Conflict);
+		bReplayAfterChange = true;
+	}
+	if (FirstSummon.RequestId > 0 && !bReplayAfterTerminal && Battle.IsTerminal())
+	{
+		Controller.ServerRequestCommand(FirstSummon);
+		bReplayAfterTerminal = true;
+	}
 	if (LocalPeer.IsValid() && LocalPlayer == 1 && Now - LastPingAt >= 1)
 	{
 		LastPingAt = Now;
@@ -718,6 +772,18 @@ void ULDG3ProbeSubsystem::Tick(float DeltaTime)
 	    (World->GetNetDriver()->ServerConnection || World->GetNetDriver()->ClientConnections.Num() > 0))
 	{
 		ConnectedGameplaySeconds += WallDelta;
+	}
+	if (RecoverAfterSeconds > 0 && ConnectedGameplaySeconds >= RecoverAfterSeconds && World->GetNetDriver() &&
+	    RecoveredDriver.Get() != World->GetNetDriver())
+	{
+#if DO_ENABLE_NET_TEST
+		World->GetNetDriver()->SetPacketSimulationSettings(FPacketSimulationSettings());
+		RecoveredDriver = World->GetNetDriver();
+		bNetworkRecovered = true;
+		Check(TEXT("network-emulation-cleared"), true,
+		           FString::Printf(TEXT("connectedSeconds=%.3f; subsequent echo samples use real transport"),
+		                                ConnectedGameplaySeconds));
+#endif
 	}
 	if (!Battle.MatchId.IsValid())
 	{
