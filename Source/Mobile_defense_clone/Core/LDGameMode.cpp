@@ -2,6 +2,8 @@
 
 #include "Battle/LDCombatService.h"
 #include "Battle/LDUnitActor.h"
+#include "Battle/LDWaveDirector.h"
+#include "Kismet/GameplayStatics.h"
 #include "Board/LDBoardManager.h"
 #include "Core/LDGameState.h"
 #include "Core/LDPlayerController.h"
@@ -28,6 +30,20 @@ ALDGameMode::ALDGameMode()
 	Participants.SetNum(2);
 }
 
+void ALDGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	LoadingStartSeconds = GetWorld() ? GetWorld()->GetTimeSeconds() : 0;
+	TravelSeed.Reset();
+#if !UE_BUILD_SHIPPING
+	const FString SeedText = UGameplayStatics::ParseOption(Options, TEXT("P0Seed"));
+	int32 ParsedSeed = 0;
+	if (!SeedText.IsEmpty() && LexTryParseString(ParsedSeed, *SeedText))
+	{
+		TravelSeed = ParsedSeed;
+	}
+#endif
+	Super::InitGame(MapName, Options, ErrorMessage);
+}
 void ALDGameMode::InitGameState()
 {
 	if (!HasAuthority() || bEnding)
@@ -55,7 +71,7 @@ void ALDGameMode::InitGameState()
 	FLDMatchContext Context;
 	Context.MatchId = FGuid::NewGuid();
 	Context.RulesVersion = GameData->GetRules().RulesVersion;
-	if (!State->InitializeMatch(Context) || !State->SetPhase(ELDMatchPhase::Preparing))
+	if (!State->InitializeMatch(Context))
 	{
 		AbortMatch(TEXT("GameState refused initial match context"));
 		return;
@@ -70,11 +86,18 @@ void ALDGameMode::InitGameState()
 	EconomyService = NewObject<ULDEconomyService>(this);
 	CombatService = NewObject<ULDCombatService>(this);
 	int32 Seed = static_cast<int32>(Context.MatchId.A);
+#if !UE_BUILD_SHIPPING
 	FParse::Value(FCommandLine::Get(), TEXT("P0Seed="), Seed);
+	if (TravelSeed.IsSet())
+	{
+		Seed = TravelSeed.GetValue();
+	}
+#endif
 #if !UE_BUILD_SHIPPING
 	FString Probe;
 	FParse::Value(FCommandLine::Get(), TEXT("P0Probe="), Probe);
 	bG1Probe = Probe.Equals(TEXT("G1"), ESearchCase::IgnoreCase);
+	bG2Probe = Probe.Equals(TEXT("G2"), ESearchCase::IgnoreCase);
 #endif
 	if (!BoardManager->Initialize(*GetWorld(), Context, *GameData) ||
 	    !EconomyService->Initialize(Context, *GameData, Seed) ||
@@ -88,9 +111,29 @@ void ALDGameMode::InitGameState()
 	EconomyChangedHandle = EconomyService->OnEconomyChanged.AddUObject(this, &ALDGameMode::HandleEconomyChanged);
 	EnemyDeathHandle = CombatService->OnEnemyDeathCommitted.AddUObject(this, &ALDGameMode::HandleEnemyDeath);
 	CommandProcessor->BeforeExternalCommand.BindUObject(this, &ALDGameMode::AdvanceBeforeExternalCommand);
+	CommandProcessor->AfterExternalCommandClock.BindUObject(this, &ALDGameMode::FinalizePendingTerminal);
+	FLDBattleSnapshot Snapshot = State->GetBattleSnapshot();
+	Snapshot.FinalWave = GameData->GetRules().FinalWave;
+	Snapshot.MaxEnemyCount = GameData->GetRules().ActiveEnemyThreshold;
+	Snapshot.LoadingDeadlineServerSeconds = LoadingStartSeconds + GameData->GetRules().LoadingTimeoutSeconds;
+	State->UpdateBattle(Snapshot);
+	if (!bG1Probe && !bG2Probe)
+	{
+		WaveDirector = NewObject<ULDWaveDirector>(this);
+		if (!WaveDirector->Initialize(*GameData, *State, *CombatService))
+		{
+			AbortMatch(TEXT("Wave director initialization failed"));
+			return;
+		}
+		WaveDirector->OnTerminalRequested.AddUObject(this, &ALDGameMode::RequestTerminal);
+	}
+	else
+	{
+		State->SetPhase(ELDMatchPhase::Preparing);
+	}
 	bServicesReady = true;
 	UE_LOG(LogLDMatch, Display,
-	       TEXT("G2 match %s rules=%s seed=%d units=%d; G1Probe=%d"), *Context.MatchId.ToString(),
+	       TEXT("P0 match %s rules=%s seed=%d units=%d; G1Probe=%d"), *Context.MatchId.ToString(),
 	            *Context.RulesVersion.ToString(), Seed, GameData->GetUnits().Num(), bG1Probe);
 	RefreshReadiness();
 }
@@ -99,6 +142,11 @@ void ALDGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	bPlayStarted = true;
+	if (GameData && !bEnding)
+	{
+		GetWorldTimerManager().SetTimer(LogicTimer, this, &ALDGameMode::AdvanceLogic,
+		                                1.0f / GameData->GetRules().LogicHz, true);
+	}
 	RefreshReadiness();
 }
 
@@ -219,9 +267,12 @@ void ALDGameMode::Logout(AController* Exiting)
 	}
 	Super::Logout(Exiting);
 	if (bLostParticipant && !bEnding && GetGameState<ALDGameState>() &&
-	    GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Running)
+	    (GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Running ||
+	     GetGameState<ALDGameState>()->GetPhase() == ELDMatchPhase::Preparing))
 	{
-		AbortMatch(TEXT("Participant disconnected during active match"));
+		RequestTerminal(ELDMatchResult::Aborted, ELDResultReason::ParticipantDisconnected,
+		                GetWorld()->GetTimeSeconds());
+		FinalizePendingTerminal();
 	}
 	RefreshReadiness();
 }
@@ -241,15 +292,15 @@ const ULDGameData* ALDGameMode::GetGameData() const
 bool ALDGameMode::CanAcceptCommands() const
 {
 	const ALDGameState* State = GetGameState<ALDGameState>();
-	return HasAuthority() && !bEnding && !bG1Probe && bServicesReady && State &&
-	       State->GetPhase() == ELDMatchPhase::Running;
+	return HasAuthority() && !bEnding && PendingResult == ELDMatchResult::None && !bG1Probe && bServicesReady &&
+	       State && (State->GetPhase() == ELDMatchPhase::Preparing || State->GetPhase() == ELDMatchPhase::Running);
 }
 
 void ALDGameMode::RefreshReadiness()
 {
 	RegisterPendingParticipants();
 	ALDGameState* State = GetGameState<ALDGameState>();
-	if (bEnding || !State || State->GetPhase() != ELDMatchPhase::Preparing)
+	if (bEnding || PendingResult != ELDMatchResult::None || !State || State->GetBattleSnapshot().IsTerminal())
 	{
 		return;
 	}
@@ -264,45 +315,92 @@ void ALDGameMode::RefreshReadiness()
 		    FString::Printf(TEXT("G1 fixture: %d/2 participants; combat and commands closed"), ConnectedCount));
 		return;
 	}
+	const double Now = GetWorld()->GetTimeSeconds();
+	if (!bG2Probe && State->GetPhase() == ELDMatchPhase::Loading &&
+	    Now > State->GetBattleSnapshot().LoadingDeadlineServerSeconds)
+	{
+		RequestTerminal(ELDMatchResult::Aborted, ELDResultReason::LoadingTimeout,
+		                State->GetBattleSnapshot().LoadingDeadlineServerSeconds);
+		FinalizePendingTerminal();
+		return;
+	}
 	if (ConnectedCount != 2 || !bServicesReady || !bPlayStarted)
 	{
 		State->SetReadinessReason(
-		    FString::Printf(TEXT("Preparing: %d/2 participants; services=%d"), ConnectedCount, bServicesReady));
+		    FString::Printf(TEXT("Loading: %d/2 participants; services=%d"), ConnectedCount, bServicesReady));
 		return;
 	}
-	if (!State->SetPhase(ELDMatchPhase::Running))
+	if (bG2Probe && State->GetPhase() == ELDMatchPhase::Preparing)
 	{
-		AbortMatch(TEXT("GameState refused ready match transition"));
-		return;
+		State->SetPhase(ELDMatchPhase::Running);
+		State->SetReadinessReason(TEXT("G2 explicit combat fixture; normal waves disabled"));
+		LogicOriginSeconds = Now;
+		LogicStep = 0;
+		CommandProcessor->SetAcceptingCommands(true);
 	}
-	State->SetReadinessReason(TEXT("G2 running: board/economy/combat ready; waves are a later gate"));
-	LogicOriginSeconds = GetWorld()->GetTimeSeconds();
-	LogicStep = 0;
-	CommandProcessor->SetAcceptingCommands(true);
-	GetWorldTimerManager().SetTimer(LogicTimer, this, &ALDGameMode::AdvanceLogic, 1.0f / GameData->GetRules().LogicHz,
-	                                true);
+	else if (State->GetPhase() == ELDMatchPhase::Loading)
+	{
+		FLDBattleSnapshot Snapshot = State->GetBattleSnapshot();
+		Snapshot.PreparationEndServerSeconds = Now + GameData->GetRules().PreparationSeconds;
+		State->UpdateBattle(Snapshot);
+		State->SetPhase(ELDMatchPhase::Preparing);
+		State->SetReadinessReason(TEXT("Preparing: 2/2 participants; P0 board commands enabled"));
+		CommandProcessor->SetAcceptingCommands(true);
+	}
 }
-
 void ALDGameMode::AbortMatch(const FString& Reason)
 {
-	if (!HasAuthority() || bEnding)
+	if (!HasAuthority() || bEnding || PendingResult != ELDMatchResult::None)
 	{
 		return;
 	}
 	if (ALDGameState* State = GetGameState<ALDGameState>())
 	{
-		if (State->GetPhase() == ELDMatchPhase::Aborted || State->GetPhase() == ELDMatchPhase::Result)
-		{
-			StopMatchServices();
-			return;
-		}
 		State->SetReadinessReason(Reason);
-		State->SetPhase(ELDMatchPhase::Aborted);
 	}
-	StopMatchServices();
+	RequestTerminal(ELDMatchResult::Aborted, ELDResultReason::InitializationFailure, GetWorld()->GetTimeSeconds());
+	if (!bAdvancingTimeline)
+	{
+		FinalizePendingTerminal();
+	}
 	UE_LOG(LogLDMatch, Error, TEXT("Match aborted: %s"), *Reason);
 }
 
+void ALDGameMode::RequestTerminal(ELDMatchResult Result, ELDResultReason Reason, double ServerSeconds)
+{
+	if (bEnding || PendingResult != ELDMatchResult::None)
+	{
+		return;
+	}
+	PendingResult = Result;
+	PendingReason = Reason;
+	PendingResultSeconds = ServerSeconds;
+	if (CommandProcessor)
+	{
+		CommandProcessor->SetAcceptingCommands(false);
+	}
+}
+
+void ALDGameMode::FinalizePendingTerminal()
+{
+	if (bEnding || PendingResult == ELDMatchResult::None)
+	{
+		return;
+	}
+	// Called after Processor releases its command-clock guard and drains accepted deaths.
+	if (CommandProcessor)
+	{
+		CommandProcessor->DrainCombatRewards();
+	}
+	if (ALDGameState* State = GetGameState<ALDGameState>())
+	{
+		State->FinalizeResult(PendingResult, PendingReason, PendingResultSeconds);
+	}
+	UE_LOG(LogLDMatch, Display,
+	       TEXT("P0 terminal result=%d reason=%d time=%.6f"), static_cast<int32>(PendingResult),
+	            static_cast<int32>(PendingReason), PendingResultSeconds);
+	StopMatchServices();
+}
 void ALDGameMode::StopMatchServices()
 {
 	if (bEnding)
@@ -317,6 +415,10 @@ void ALDGameMode::StopMatchServices()
 		CommandProcessor->SetAcceptingCommands(false);
 		CommandProcessor->DrainCombatRewards();
 		CommandProcessor->Close();
+	}
+	if (WaveDirector)
+	{
+		WaveDirector->Stop();
 	}
 	if (CombatService)
 	{
@@ -358,31 +460,103 @@ void ALDGameMode::ReleasePlayerSessions()
 
 void ALDGameMode::AdvanceLogic()
 {
-	if (!CanAcceptCommands())
+	if (bEnding || bG1Probe || !bServicesReady)
 	{
 		return;
 	}
-	const double Now = GetWorld()->GetTimeSeconds();
-	const double StepSeconds = 1.0 / GameData->GetRules().LogicHz;
-	// Slate input and next-frame network dispatch can still submit this WorldTime. Close only older times.
-	// Integer step index avoids accumulating interval drift and retains missed logical steps.
-	while (LogicOriginSeconds + (LogicStep + 1) * StepSeconds < Now && CanAcceptCommands())
-	{
-		++LogicStep;
-		CombatService->AdvanceCombatTo(LogicOriginSeconds + LogicStep * StepSeconds);
-		CommandProcessor->DrainCombatRewards();
-	}
+	AdvanceTimelineBefore(GetWorld()->GetTimeSeconds());
+	CommandProcessor->DrainCombatRewards();
+	FinalizePendingTerminal();
 }
 
 void ALDGameMode::AdvanceBeforeExternalCommand(double ServerSeconds)
 {
 	if (CanAcceptCommands())
 	{
-		// The processor drains queued deaths after releasing its reentrancy guard, before reading money/board.
-		CombatService->AdvanceCombatBefore(ServerSeconds);
+		AdvanceTimelineBefore(ServerSeconds);
 	}
 }
 
+void ALDGameMode::AdvanceTimelineBefore(double ServerSeconds)
+{
+	if (bEnding || bAdvancingTimeline || !FMath::IsFinite(ServerSeconds) || ServerSeconds < 0 ||
+	    PendingResult != ELDMatchResult::None)
+	{
+		return;
+	}
+	TGuardValue<bool> Advancing(bAdvancingTimeline, true);
+	ALDGameState* State = GetGameState<ALDGameState>();
+	if (!State)
+	{
+		return;
+	}
+	if (State->GetPhase() == ELDMatchPhase::Loading)
+	{
+		if (State->GetBattleSnapshot().LoadingDeadlineServerSeconds < ServerSeconds)
+		{
+			RequestTerminal(ELDMatchResult::Aborted, ELDResultReason::LoadingTimeout,
+			                State->GetBattleSnapshot().LoadingDeadlineServerSeconds);
+		}
+		return;
+	}
+	if (State->GetPhase() == ELDMatchPhase::Preparing)
+	{
+		const double StartSeconds = State->GetBattleSnapshot().PreparationEndServerSeconds;
+		if (StartSeconds >= ServerSeconds)
+		{
+			return;
+		}
+		State->SetPhase(ELDMatchPhase::Running);
+		State->SetReadinessReason(TEXT("Running: two participants; 10 P0 waves"));
+		LogicOriginSeconds = StartSeconds;
+		LogicStep = 0;
+		if (!WaveDirector || !WaveDirector->StartAt(StartSeconds))
+		{
+			if (PendingResult == ELDMatchResult::None)
+			{
+				RequestTerminal(ELDMatchResult::Aborted, ELDResultReason::InitializationFailure, StartSeconds);
+			}
+			return;
+		}
+	}
+	if (State->GetPhase() != ELDMatchPhase::Running)
+	{
+		return;
+	}
+	const double Interval = 1.0 / GameData->GetRules().LogicHz;
+	while (!bEnding && PendingResult == ELDMatchResult::None)
+	{
+		const double NextStep = LogicOriginSeconds + (LogicStep + 1) * Interval;
+		const double NextEvent = WaveDirector ? WaveDirector->GetNextEventSeconds() : NextStep;
+		const double At = FMath::Min(NextStep, NextEvent);
+		if (At >= ServerSeconds)
+		{
+			break;
+		}
+		// The current world time remains open for commands. Older exact event times close in stage order.
+		CombatService->AdvanceCombatTo(At);
+		CommandProcessor->DrainCombatRewards();
+		if (WaveDirector)
+		{
+			WaveDirector->RefreshCombatView();
+			WaveDirector->ProcessEventsAt(At);
+		}
+		if (At == NextStep)
+		{
+			++LogicStep;
+		}
+	}
+	if (PendingResult == ELDMatchResult::None)
+	{
+		// Close intervening due hits, but not ServerSeconds itself; all prior deadlines/spawns are now closed.
+		CombatService->AdvanceCombatBefore(ServerSeconds);
+		if (WaveDirector)
+		{
+			WaveDirector->RefreshCombatView();
+			WaveDirector->EvaluateVictory(ServerSeconds);
+		}
+	}
+}
 void ALDGameMode::HandleBoardCommitted(const FLDBoardCommit& Commit)
 {
 	const ALDGameState* State = GetGameState<ALDGameState>();
@@ -422,7 +596,8 @@ void ALDGameMode::HandleEconomyChanged(const FLDEconomySnapshot& Snapshot)
 
 void ALDGameMode::HandleEnemyDeath(const FLDCombatDeath& Death)
 {
-	if (!bEnding && CommandProcessor)
+	if (!bEnding && PendingResult == ELDMatchResult::None && CommandProcessor &&
+	    (!WaveDirector || WaveDirector->HandleEnemyDeath(Death)))
 	{
 		CommandProcessor->EnqueueCombatReward(Death);
 	}
@@ -455,4 +630,9 @@ ULDCombatService* ALDGameMode::GetCombatService() const
 ULDCommandProcessor* ALDGameMode::GetCommandProcessor() const
 {
 	return HasAuthority() ? CommandProcessor.Get() : nullptr;
+}
+
+ULDWaveDirector* ALDGameMode::GetWaveDirector() const
+{
+	return HasAuthority() ? WaveDirector.Get() : nullptr;
 }

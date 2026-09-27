@@ -22,6 +22,8 @@ public:
 	ELDMatchPhase GetPhase() const;
 	const FString& GetReadinessReason() const;
 	const FLDBattleSnapshot& GetBattleSnapshot() const;
+	bool UpdateBattle(const FLDBattleSnapshot& Snapshot);
+	bool FinalizeResult(ELDMatchResult Result, ELDResultReason Reason, double ServerSeconds);
 	FOnLDMatchStateChanged OnMatchStateChanged;
 
 private:
