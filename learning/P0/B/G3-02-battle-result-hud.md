@@ -7,7 +7,7 @@
 | 상위 TASK·정식 설계 | TASK-UI-01, TASK-TEST-01; [B HUD 계약](../../../docs/technical/IMPLEMENTATION_B.md), [공통 계약](../../../docs/technical/IMPLEMENTATION_SHARED.md) |
 | 참고 자료 제작 상태 | Draft — A Widget cpp·실제 실행 검수 전 |
 | 실제 개발 상태 | Planned |
-| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / 초안 `d2183ae8c809541da4602b99964f90fd22b50b93` |
+| 참고 시작/완료 SHA | `f735b5889a5bd197e46d29bdfaa2b38c246d5ea6` / HUD 초안 `d2183ae8c809541da4602b99964f90fd22b50b93`, 상단 연결 `82ce2494e3d6fea3b7ceef0e3518089d1c43db50` |
 | 실제 개발 시작/완료 SHA | 미생성 / 미생성 |
 | 필요한 상대 산출물·버전 | A 계약 `e61c414`의 `FLDBattleSnapshot`, `ALDGameState`, `ULDBattleStatusWidget`, `ULDResultWidget`; 위젯 구현은 후속 |
 | 제공 코드 / 직접 작성할 코드 | A DTO/전투/결과 위젯과 G2는 제공. B `LDPlayerController`, `LDGameplayWidget` 변경을 직접 작성 |
@@ -26,6 +26,7 @@ Loading/Preparing/Running 화면 위에 서버의 웨이브·적 수·보스 HP/
 4. `CanUseGameplayActions`는 MatchId 일치·개인 스냅샷 준비·Preparing 또는 Running·복귀 미요청을 확인한다. `Request*` 의도 API와 `UI/LDGameplayWidget.cpp`의 버튼 활성화에서 함께 사용한다. 서버 Processor의 권한·Phase 검증은 여전히 최종 판정이다.
 5. `InputScreenPosition`의 terminal guard와 드래그 초기화로 결과 화면 뒤 칸 선택/이동이 새 요청을 만들지 않게 한다. 기존 요청의 동일 키 재전송은 서버 원응답 확인 경로이므로 `RetryPendingCommand`와 캐시 자체를 지우지 않는다.
 6. `RequestReturnToEntry`는 로컬 Controller·terminal·GI가 있을 때만 GI 복귀를 요청한다. PC의 `bEntryReturnRequested`와 GI의 예약 gate가 반복 이벤트를 막는다.
+7. `UI/LDG1BoardWidget.h/.cpp`에 `SetBattleOverlayVisible(bool)`을 추가한다. A 전투 Widget이 viewport에 있으면 옛 Title/OpponentLabel만 숨긴다. Development의 명시적 `-P0Probe=G1/G2`에서는 새 Battle/Result Widget 생성을 생략해 과거 게이트 픽스처의 표시를 보존한다. Shipping에는 이 probe 예외를 넣지 않는다.
 
 ## Unreal 설정 순서
 
@@ -50,11 +51,11 @@ Loading/Preparing/Running 화면 위에 서버의 웨이브·적 수·보스 HP/
 | 결과 여러 번 갱신·빠른 복귀 클릭2번 | Entry 여행1회 | 미실행 | GI gate 단위 검사 + 실제 여행 |
 | 양쪽 UI 같은 snapshot revision | 웨이브·보스·승패 일치 | 미실행 | 패키지 두 프로세스·지연 검수 |
 
-현재 정적 diff 검토만 수행했으며 화면·PIE·패키지·Android 결과는 없다. 기존 G2 UI 검수를 이 새 결과 화면의 통과로 사용하지 않는다.
+현재 정적 diff 검토만 수행했으며 화면·PIE·패키지·Android 결과는 없다. 기존 G2 UI 검수를 이 새 결과 화면의 통과로 사용하지 않는다. 통합 전 배치 대조에서 기존 G1 Title y146px와 상대 라벨 y240px(540×1170)이 A Status y114~230px와 Boss y238~259px에 겹쳤다. `558c168`에서 전투 Widget의 실제 viewport 존재에 맞춰 두 기존 라벨만 숨겼고, `82ce249`에서 probe 예외를 GameMode와 같은 Development/대소문자 규칙으로 맞췄다. 이 관찰은 좌표·코드 검토이며 수정 후 실제 화면은 아직 미검증이다.
 
 ## 상대에게 전달하고 통합하기
 
-API: `GameState.GetBattleSnapshot`, `BattleStatusWidget.UpdateView`, `ResultWidget.UpdateView/OnReturnRequested/GetReturnButtonScreenRect`, `PlayerController.CanUseGameplayActions/GetReturnButtonScreenRect/RequestReturnToEntry`. A 계약 `e61c414`→B `d2183ae`→A 실제 위젯/타임라인→통합 Editor/실행 순서다. 위젯 cpp 미도착 상태는 헤더 계약만 조립된 상태이며 빌드 가능 완료로 기록하지 않는다.
+API: `GameState.GetBattleSnapshot`, `BattleStatusWidget.UpdateView`, `ResultWidget.UpdateView/OnReturnRequested/GetReturnButtonScreenRect`, `PlayerController.CanUseGameplayActions/GetReturnButtonScreenRect/RequestReturnToEntry`, `G1BoardWidget.SetBattleOverlayVisible`. A 계약 `e61c414`→B `d2183ae`→A 실제 위젯/타임라인 `61fb3a`(선행 `b425226`)→B 상단 연결 `558c168/82ce249`→통합 Editor/실행 순서다. A 위젯 cpp는 B에 조립했으며 B 역할 Editor는 통합 담당의 직렬 실행을 기다린다.
 
 ## 이해 확인
 
