@@ -87,6 +87,16 @@ void ULDG1BoardWidget::SetGameplayOverlayVisible(bool bVisible)
 	}
 }
 
+void ULDG1BoardWidget::SetBattleOverlayVisible(bool bVisible)
+{
+	const ESlateVisibility OverlayVisibility = bVisible ? ESlateVisibility::Hidden : ESlateVisibility::HitTestInvisible;
+	if (Title)
+	{
+		Title->SetVisibility(OverlayVisibility);
+		OpponentLabel->SetVisibility(OverlayVisibility);
+	}
+}
+
 void ULDG1BoardWidget::SetViewState(int32 PlayerIndex, int32 SelectedCell, ELDCellInputResult Result)
 {
 	ViewPlayerIndex = PlayerIndex;

@@ -18,6 +18,7 @@ public:
 	void SetViewState(int32 PlayerIndex, int32 SelectedCell, ELDCellInputResult Result);
 	bool TryGetSafeRectPixels(FBox2D& OutRect) const;
 	void SetGameplayOverlayVisible(bool bVisible);
+	void SetBattleOverlayVisible(bool bVisible);
 
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
