@@ -16,6 +16,7 @@
 #include "Engine/Player.h"
 #include "Engine/World.h"
 #include "Misc/AutomationTest.h"
+#include "Misc/CommandLine.h"
 #include "Network/LDCommandProcessor.h"
 
 // Explicit test fixture control. Product admissions never expose time/HP/wave setters.
@@ -92,6 +93,19 @@ struct FLDWaveTestAccess
 
 namespace
 {
+	struct FScopedProbeCommandLine
+	{
+		FString Previous;
+		explicit FScopedProbeCommandLine(const TCHAR* Probe) : Previous(FCommandLine::Get())
+		{
+			FCommandLine::Set(*FString::Printf(TEXT("-P0Probe=%s %s"), Probe, *Previous));
+		}
+		~FScopedProbeCommandLine()
+		{
+			FCommandLine::Set(*Previous);
+		}
+	};
+
 	struct FWaveFixture
 	{
 		UWorld* World = nullptr;
@@ -150,6 +164,57 @@ namespace
 		}
 	};
 } // namespace
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDCombatFixtureReadinessTest, "LD.P0.G3.Waves.CombatFixturesWaitForBothParticipants",
+                                 EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FLDCombatFixtureReadinessTest::RunTest(const FString& Parameters)
+{
+	const FString OriginalCommandLine = FCommandLine::Get();
+	for (const TCHAR* Probe : {TEXT("G2"), TEXT("G3Load")})
+	{
+		FScopedProbeCommandLine ProbeCommandLine(Probe);
+		FWaveFixture F;
+		TestNull(TEXT("Actual combat-only probe option does not construct a wave director"), F.Mode->GetWaveDirector());
+		F.Mode->DispatchBeginPlay();
+		F.World->TimeSeconds = .1f;
+		F.Mode->AdvanceLogic();
+		if (!TestEqual(FString::Printf(TEXT("%s zero-participant timer remains Preparing"), Probe),
+		                               F.State()->GetPhase(), ELDMatchPhase::Preparing))
+		{
+			continue;
+		}
+		TestFalse(TEXT("Probe cannot start fixture authoring before participants join"), F.Mode->CanAcceptCommands());
+		F.Login(0);
+		F.World->TimeSeconds = 35;
+		F.Mode->AdvanceLogic();
+		TestEqual(TEXT("One participant still waits beyond normal Loading timeout"), F.State()->GetPhase(),
+		               ELDMatchPhase::Preparing);
+		TestEqual(TEXT("Fixture wait never produces initialization failure"), F.State()->GetBattleSnapshot().Result,
+		               ELDMatchResult::None);
+		TestFalse(TEXT("One participant cannot start fixture authoring"), F.Mode->CanAcceptCommands());
+		TestTrue(TEXT("Waiting keeps its readiness logic timer alive"), F.Mode->IsLogicTimerActive());
+		TestEqual(TEXT("Waiting rejects an actual owned summon request"),
+		               F.Players[0]->SubmitServerCommand(F.Command(0, 1)).ResultCode,
+		               ELDCommandResultCode::PhaseNotAllowed);
+		TestEqual(TEXT("Rejected waiting command spends no gold"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold,
+		               100);
+		F.Login(1);
+		TestEqual(TEXT("Second participant opens combat-only Running immediately"), F.State()->GetPhase(),
+		               ELDMatchPhase::Running);
+		TestTrue(TEXT("Both participants allow fixture authoring"), F.Mode->CanAcceptCommands());
+		F.World->TimeSeconds = 35.1f;
+		F.Mode->AdvanceLogic();
+		TestEqual(TEXT("Combat-only timer never creates normal waves"), F.State()->GetBattleSnapshot().WaveIndex, 0);
+		TestEqual(TEXT("Combat-only timer has no unauthored enemies"),
+		               F.Mode->GetCombatService()->GetRegisteredEnemyCount(), 0);
+		TestEqual(TEXT("Ready fixture accepts actual owned summon request"),
+		               F.Players[0]->SubmitServerCommand(F.Command(0, 2)).ResultCode, ELDCommandResultCode::Success);
+		TestEqual(TEXT("Ready paid summon spends exactly20"), F.Mode->GetEconomyService()->GetSnapshot(0).Gold, 80);
+	}
+	TestEqual(TEXT("Probe test restores the original process options"), FString(FCommandLine::Get()),
+	               OriginalCommandLine);
+	return true;
+}
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FLDWaveReadinessTest, "LD.P0.G3.Waves.LoadingPreparationAndExactReadiness",
                                  EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
