@@ -52,3 +52,9 @@ GPU `UnrealEditor.exe`에서 각 필터를 별도 새 RunId로 실행한다. Nul
 - B의 게임 명령 RPC, canonical G0 통합, 최종 PC 패키지, 물리 입력·Android, Blueprint 생성은 이 검사의 범위가 아니다. 해당 검수를 완료로 승계하지 않는다.
 
 엔진 실행 뒤 원래 제품 blob 유지, 새 검사/의존 해시, 빌드·자동화·PIE 결과와 실패 원인을 수업 증거에 별도로 연결해야 한다. 실행 전에는 이 제공 코드만으로 수업을 Verified로 바꾸지 않는다.
+
+## 실행 전 독립 리뷰 수정
+
+최초 제공 코드는 두 `FStartPIEForAutomationCommand`를 RunTest에서 즉시 생성해 큐에 넣었다. 로컬 UE5.8 `AutomationEditorCommon.cpp`1176행 부근의 생성자는 PostPIEStarted/EndPIE 전역 delegate에 바로 구독하므로, 두 번째 명령이 첫 번째 세션의 시작/종료를 먼저 받아 잘못 실패할 수 있었다. 이는 **실행 전 정적 리뷰로 발견한 경로**이며 실제 실패 로그가 있는 것으로 기록하지 않는다.
+
+`FDeferredStartG0APIE`는 자기 큐 순서의 첫 Update에서 설정 복제와 내부 엔진 명령을 생성한다. 진행 중에는 그 명령만 구동하고, 완료 직후 파기하여 delegate 구독과 rooted 설정을 해제한다. 아직 실행 차례가 오지 않은 명령은 전역 이벤트에 구독하지 않고 설정도 생성하지 않는다. 정상 두 세션과 누락 입력 한 세션 모두 같은 wrapper를 사용한다. 수정 후 빌드/실행은 여전히 NotRun이다.

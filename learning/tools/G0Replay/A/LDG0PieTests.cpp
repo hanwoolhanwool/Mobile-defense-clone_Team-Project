@@ -639,6 +639,31 @@ namespace
 		return Request;
 	}
 
+	class FDeferredStartG0APIE final : public IAutomationLatentCommand
+	{
+	public:
+		explicit FDeferredStartG0APIE(TSharedRef<FG0PIEProof> InProof) : Proof(InProof) {}
+		virtual bool Update() override
+		{
+			if (!Command)
+			{
+				// The engine command subscribes to global PIE delegates in its constructor. Construct it only
+				// when this queue entry is active, so the next session cannot observe this session's events.
+				Command = MakeUnique<FStartPIEForAutomationCommand>(MakeRequest(*Proof));
+			}
+			if (!Command->Update())
+			{
+				return false;
+			}
+			Command.Reset(); // Remove its delegate subscriptions and release its rooted settings immediately.
+			return true;
+		}
+
+	private:
+		TSharedRef<FG0PIEProof> Proof;
+		TUniquePtr<FStartPIEForAutomationCommand> Command;
+	};
+
 	TSharedPtr<FG0PIEProof> PrepareProof(FAutomationTestBase& Test, bool bMissingData)
 	{
 		if (!GEditor || GEditor->PlayWorld || !FSlateApplication::IsInitialized())
@@ -692,13 +717,11 @@ bool FLDG0AActualPIETest::RunTest(const FString& Parameters)
 	{
 		return false;
 	}
-	const FRequestPlaySessionParams First = MakeRequest(*Proof);
-	const FRequestPlaySessionParams Second = MakeRequest(*Proof);
-	ADD_LATENT_AUTOMATION_COMMAND(FStartPIEForAutomationCommand(First));
+	ADD_LATENT_AUTOMATION_COMMAND(FDeferredStartG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FVerifyG0APIE(Proof.ToSharedRef(), 0));
 	ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FFinishG0APIE(Proof.ToSharedRef(), false));
-	ADD_LATENT_AUTOMATION_COMMAND(FStartPIEForAutomationCommand(Second));
+	ADD_LATENT_AUTOMATION_COMMAND(FDeferredStartG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FVerifyG0APIE(Proof.ToSharedRef(), 1));
 	ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FFinishG0APIE(Proof.ToSharedRef(), true));
@@ -715,8 +738,7 @@ bool FLDG0AMissingDataPIETest::RunTest(const FString& Parameters)
 		return false;
 	}
 	AddExpectedError(TEXT("Match aborted:.*GameRules.json"), EAutomationExpectedErrorFlags::Contains, 1);
-	const FRequestPlaySessionParams Request = MakeRequest(*Proof);
-	ADD_LATENT_AUTOMATION_COMMAND(FStartPIEForAutomationCommand(Request));
+	ADD_LATENT_AUTOMATION_COMMAND(FDeferredStartG0APIE(Proof.ToSharedRef()));
 	ADD_LATENT_AUTOMATION_COMMAND(FVerifyG0APIE(Proof.ToSharedRef(), 0));
 	ADD_LATENT_AUTOMATION_COMMAND(FEndPlayMapCommand());
 	ADD_LATENT_AUTOMATION_COMMAND(FFinishG0APIE(Proof.ToSharedRef(), true));
