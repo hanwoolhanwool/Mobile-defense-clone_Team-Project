@@ -15,6 +15,8 @@ class ULDGameData;
 class ALDBoardPresentation;
 class ULDG1BoardWidget;
 class ULDGameplayWidget;
+class ULDBattleStatusWidget;
+class ULDResultWidget;
 class USoundBase;
 
 USTRUCT()
@@ -49,6 +51,9 @@ public:
 	const FLDBoardSnapshot& GetBoardSnapshot() const;
 	const FLDEconomySnapshot& GetEconomySnapshot() const;
 	bool IsGameplaySnapshotReady() const;
+	bool CanUseGameplayActions() const;
+	bool GetReturnButtonScreenRect(FBox2D& OutRect) const;
+	bool RequestReturnToEntry();
 	bool RequestSummon();
 	bool RequestMergeSelection();
 	bool RequestSellSelection();
@@ -101,6 +106,8 @@ private:
 	void HandleMergeKey();
 	void HandleSellKey();
 	void UpdateGameplayView();
+	void UpdateBattleView();
+	void HandleReturnRequested();
 	void PublishCellFeedback();
 	UPROPERTY()
 	TObjectPtr<ULDCommandProcessor> CommandProcessor;
@@ -122,6 +129,11 @@ private:
 	TObjectPtr<ULDG1BoardWidget> LocalBoardWidget;
 	UPROPERTY()
 	TObjectPtr<ULDGameplayWidget> GameplayWidget;
+	UPROPERTY()
+	TObjectPtr<ULDBattleStatusWidget> BattleStatusWidget;
+	UPROPERTY()
+	TObjectPtr<ULDResultWidget> ResultWidget;
+	bool bEntryReturnRequested = false;
 	UPROPERTY()
 	TSoftObjectPtr<USoundBase> RejectedSound =
 	    TSoftObjectPtr<USoundBase>(FSoftObjectPath(TEXT("/Game/LD/Audio/S_P0Rejected.S_P0Rejected")));

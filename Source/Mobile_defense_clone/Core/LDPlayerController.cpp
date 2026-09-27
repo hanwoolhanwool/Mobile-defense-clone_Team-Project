@@ -6,6 +6,8 @@
 #include "Camera/PlayerCameraManager.h"
 #include "Components/InputComponent.h"
 #include "Core/LDPlayerState.h"
+#include "Core/LDGameInstance.h"
+#include "Core/LDGameState.h"
 #include "Data/LDGameData.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
@@ -17,6 +19,8 @@
 #include "Sound/SoundBase.h"
 #include "UI/LDG1BoardWidget.h"
 #include "UI/LDGameplayWidget.h"
+#include "UI/LDBattleStatusWidget.h"
+#include "UI/LDResultWidget.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogLDBoardInput, Log, All);
 
@@ -58,13 +62,15 @@ void ALDPlayerController::OnRep_ConnectionEpoch()
 	LastResult = {};
 	bAwaitingCommittedSnapshot = false;
 	RetryCount = 0;
+	bEntryReturnRequested = false;
 	ReleaseLocalBoard();
 }
 
 bool ALDPlayerController::SubmitLocalCommand(FLDCommand Command)
 {
+	const ALDGameState* State = GetWorld() ? GetWorld()->GetGameState<ALDGameState>() : nullptr;
 	if (!IsLocalController() || !CurrentMatchId.IsValid() || ConnectionEpoch == 0 || HasPendingCommand() ||
-	    NextRequestId == MAX_uint32)
+	    NextRequestId == MAX_uint32 || (State && State->GetBattleSnapshot().IsTerminal()))
 	{
 		return false;
 	}
@@ -222,6 +228,10 @@ void ALDPlayerController::OnRep_GameplaySnapshot()
 
 bool ALDPlayerController::RequestSummon()
 {
+	if (!CanUseGameplayActions())
+	{
+		return false;
+	}
 	if (CanRetryPendingCommand())
 	{
 		// An uncertain outcome must retain its original request identity, even after a user retry.
@@ -269,7 +279,7 @@ bool ALDPlayerController::CanMergeSelection() const
 
 bool ALDPlayerController::RequestMergeSelection()
 {
-	if (!IsGameplaySnapshotReady() || !IsLocalBoardReady() || !CanMergeSelection())
+	if (!CanUseGameplayActions() || !IsLocalBoardReady() || !CanMergeSelection())
 	{
 		return false;
 	}
@@ -294,7 +304,7 @@ bool ALDPlayerController::RequestMergeSelection()
 
 bool ALDPlayerController::RequestSellSelection()
 {
-	if (!IsGameplaySnapshotReady() || !IsLocalBoardReady() || GetSelectedInstanceId() == 0)
+	if (!CanUseGameplayActions() || !IsLocalBoardReady() || GetSelectedInstanceId() == 0)
 	{
 		return false;
 	}
@@ -307,7 +317,7 @@ bool ALDPlayerController::RequestSellSelection()
 
 bool ALDPlayerController::RequestMove(uint64 InstanceId, int32 DestinationCellId)
 {
-	if (!IsGameplaySnapshotReady() || !IsLocalBoardReady())
+	if (!CanUseGameplayActions() || !IsLocalBoardReady())
 	{
 		return false;
 	}
@@ -397,6 +407,7 @@ void ALDPlayerController::UpdateGameplayView()
 	{
 		return;
 	}
+	UpdateBattleView();
 	if (IsGameplaySnapshotReady() && bAwaitingCommittedSnapshot &&
 	    GetBoardSnapshot().BoardRevision >= LastResult.NewBoardRevision &&
 	    GetEconomySnapshot().EconomyRevision >= LastResult.EconomyRevision)
@@ -434,7 +445,8 @@ void ALDPlayerController::UpdateGameplayView()
 	{
 		return;
 	}
-	if (!IsGameplaySnapshotReady())
+	const ALDGameState* MatchState = GetWorld()->GetGameState<ALDGameState>();
+	if (!IsGameplaySnapshotReady() || (MatchState && MatchState->GetBattleSnapshot().IsTerminal()))
 	{
 		LocalBoard->SetRangePresentation(FVector::ZeroVector, 0);
 		return;
@@ -465,6 +477,96 @@ void ALDPlayerController::UpdateGameplayView()
 bool ALDPlayerController::GetActionScreenRect(ELDCommandType Type, FBox2D& OutRect) const
 {
 	return GameplayWidget && GameplayWidget->GetActionScreenRect(Type, OutRect);
+}
+
+bool ALDPlayerController::CanUseGameplayActions() const
+{
+	const ALDGameState* State = GetWorld() ? GetWorld()->GetGameState<ALDGameState>() : nullptr;
+	if (!State || !IsGameplaySnapshotReady() || bEntryReturnRequested)
+	{
+		return false;
+	}
+	const FLDBattleSnapshot& Snapshot = State->GetBattleSnapshot();
+	return Snapshot.MatchId == CurrentMatchId &&
+	       (Snapshot.Phase == ELDMatchPhase::Preparing || Snapshot.Phase == ELDMatchPhase::Running);
+}
+
+void ALDPlayerController::UpdateBattleView()
+{
+	ALDGameState* State = GetWorld() ? GetWorld()->GetGameState<ALDGameState>() : nullptr;
+	if (!State)
+	{
+		return;
+	}
+	if (BattleStatusWidget && !BattleStatusWidget->IsInViewport())
+	{
+		BattleStatusWidget = nullptr;
+	}
+	if (!BattleStatusWidget)
+	{
+		BattleStatusWidget = CreateWidget<ULDBattleStatusWidget>(this, ULDBattleStatusWidget::StaticClass());
+		if (BattleStatusWidget)
+		{
+			BattleStatusWidget->AddToViewport(30);
+		}
+	}
+	const FLDBattleSnapshot& Snapshot = State->GetBattleSnapshot();
+	const double ServerNow = State->GetServerWorldTimeSeconds();
+	if (BattleStatusWidget)
+	{
+		BattleStatusWidget->UpdateView(Snapshot, ServerNow);
+	}
+	if (ResultWidget && (!ResultWidget->IsInViewport() || !Snapshot.IsTerminal()))
+	{
+		ResultWidget->OnReturnRequested.RemoveAll(this);
+		ResultWidget->RemoveFromParent();
+		ResultWidget = nullptr;
+	}
+	if (!Snapshot.IsTerminal())
+	{
+		return;
+	}
+	DragSourceInstanceId = 0;
+	if (LocalBoard)
+	{
+		LocalBoard->SetRangePresentation(FVector::ZeroVector, 0);
+	}
+	if (!ResultWidget)
+	{
+		ResultWidget = CreateWidget<ULDResultWidget>(this, ULDResultWidget::StaticClass());
+		if (ResultWidget)
+		{
+			ResultWidget->OnReturnRequested.AddUObject(this, &ALDPlayerController::HandleReturnRequested);
+			ResultWidget->AddToViewport(100);
+		}
+	}
+	if (ResultWidget)
+	{
+		ResultWidget->UpdateView(Snapshot, ServerNow);
+	}
+}
+
+bool ALDPlayerController::GetReturnButtonScreenRect(FBox2D& OutRect) const
+{
+	return ResultWidget && ResultWidget->GetReturnButtonScreenRect(OutRect);
+}
+
+bool ALDPlayerController::RequestReturnToEntry()
+{
+	const ALDGameState* State = GetWorld() ? GetWorld()->GetGameState<ALDGameState>() : nullptr;
+	ULDGameInstance* Instance = GetGameInstance<ULDGameInstance>();
+	if (!IsLocalController() || bEntryReturnRequested || !State || !State->GetBattleSnapshot().IsTerminal() ||
+	    !Instance)
+	{
+		return false;
+	}
+	bEntryReturnRequested = Instance->RequestEntryReturn(FText::GetEmpty());
+	return bEntryReturnRequested;
+}
+
+void ALDPlayerController::HandleReturnRequested()
+{
+	RequestReturnToEntry();
 }
 
 void ALDPlayerController::HandleSummonKey()
@@ -685,7 +787,8 @@ bool ALDPlayerController::InputScreenPosition(const FVector2D& ScreenPixels)
 {
 	LastHitCellId = INDEX_NONE;
 	LastCellInputResult = ELDCellInputResult::NotReady;
-	if (!IsLocalBoardReady())
+	const ALDGameState* State = GetWorld() ? GetWorld()->GetGameState<ALDGameState>() : nullptr;
+	if (!IsLocalBoardReady() || (State && State->GetBattleSnapshot().IsTerminal()))
 	{
 		PublishCellFeedback();
 		return false;
@@ -785,6 +888,17 @@ void ALDPlayerController::PublishCellFeedback()
 
 void ALDPlayerController::ReleaseLocalBoard()
 {
+	if (ResultWidget)
+	{
+		ResultWidget->OnReturnRequested.RemoveAll(this);
+		ResultWidget->RemoveFromParent();
+		ResultWidget = nullptr;
+	}
+	if (BattleStatusWidget)
+	{
+		BattleStatusWidget->RemoveFromParent();
+		BattleStatusWidget = nullptr;
+	}
 	if (GameplayWidget)
 	{
 		GameplayWidget->RemoveFromParent();
