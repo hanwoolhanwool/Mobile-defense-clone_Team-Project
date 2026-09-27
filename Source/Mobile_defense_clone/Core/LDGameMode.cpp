@@ -402,6 +402,12 @@ void ALDGameMode::FinalizePendingTerminal()
 	{
 		CommandProcessor->DrainCombatRewards();
 	}
+	// Combat has stopped, but an observer may have requested Abort immediately after a nonlethal hit.
+	// Publish that last committed actor HP before Result without advancing combat or evaluating victory.
+	if (WaveDirector)
+	{
+		WaveDirector->RefreshCombatView();
+	}
 	if (ALDGameState* State = GetGameState<ALDGameState>())
 	{
 		State->FinalizeResult(PendingResult, PendingReason, PendingResultSeconds);
