@@ -193,7 +193,7 @@ bool FLDP0LoginReadinessTest::RunTest(const FString& Parameters)
 		TestTrue(TEXT("Exactly two registered participants before BeginPlay"),
 		              State->GetReadinessReason().Contains(TEXT("2/2 participants")));
 		TestEqual(TEXT("Readiness does not skip the world BeginPlay boundary"), State->GetPhase(),
-		               ELDMatchPhase::Preparing);
+		               ELDMatchPhase::Loading);
 		Fixture.Mode->EndPlay(EEndPlayReason::EndPlayInEditor);
 	}
 	return true;
@@ -292,6 +292,10 @@ bool FLDP0OpenFrameBoundaryTest::RunTest(const FString& Parameters)
 			return false;
 		}
 		Fixture.PrepareServices();
+		// Explicit combat-only G2 fixture; normal G3 loading/preparation/waves are tested separately.
+		Fixture.Mode->bG2Probe = true;
+		Fixture.Mode->WaveDirector = nullptr;
+		Fixture.Mode->GetGameState<ALDGameState>()->SetPhase(ELDMatchPhase::Preparing);
 		ALDPlayerController* First = Fixture.CreateController();
 		ALDPlayerController* Second = Fixture.CreateController();
 		if (!TestNotNull(TEXT("Host controller"), First) || !TestNotNull(TEXT("Peer controller"), Second))

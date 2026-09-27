@@ -96,3 +96,38 @@ const FLDBattleSnapshot& ALDGameState::GetBattleSnapshot() const
 {
 	return BattleSnapshot;
 }
+
+bool ALDGameState::UpdateBattle(const FLDBattleSnapshot& Snapshot)
+{
+	if (!HasAuthority() || BattleSnapshot.IsTerminal() || Snapshot.MatchId != MatchContext.MatchId ||
+	    Snapshot.Phase != BattleSnapshot.Phase || Snapshot.Result != ELDMatchResult::None ||
+	    Snapshot.ActiveEnemyCount < 0 || Snapshot.WaveIndex < BattleSnapshot.WaveIndex ||
+	    Snapshot.WaveIndex > Snapshot.FinalWave)
+	{
+		return false;
+	}
+	const int32 Revision = BattleSnapshot.Revision + 1;
+	BattleSnapshot = Snapshot;
+	BattleSnapshot.Revision = Revision;
+	OnRep_CommonState();
+	ForceNetUpdate();
+	return true;
+}
+
+bool ALDGameState::FinalizeResult(ELDMatchResult Result, ELDResultReason Reason, double ServerSeconds)
+{
+	if (!HasAuthority() || BattleSnapshot.IsTerminal() || Result == ELDMatchResult::None ||
+	    !FMath::IsFinite(ServerSeconds) || ServerSeconds < 0 ||
+	    (Result != ELDMatchResult::Aborted && BattleSnapshot.Phase != ELDMatchPhase::Running))
+	{
+		return false;
+	}
+	BattleSnapshot.Result = Result;
+	BattleSnapshot.ResultReason = Reason;
+	BattleSnapshot.ResultServerSeconds = ServerSeconds;
+	BattleSnapshot.Phase = Result == ELDMatchResult::Aborted ? ELDMatchPhase::Aborted : ELDMatchPhase::Result;
+	++BattleSnapshot.Revision;
+	OnRep_CommonState();
+	ForceNetUpdate();
+	return true;
+}

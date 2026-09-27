@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/LDBattleTypes.h"
 #include "GameFramework/GameModeBase.h"
 #include "TimerManager.h"
 #include "LDGameMode.generated.h"
@@ -11,6 +12,7 @@ class ALDPlayerController;
 class ULDBoardManager;
 class ULDEconomyService;
 class ULDCombatService;
+class ULDWaveDirector;
 struct FLDBoardCommit;
 struct FLDEconomySnapshot;
 struct FLDCombatDeath;
@@ -22,6 +24,7 @@ class MOBILE_DEFENSE_CLONE_API ALDGameMode : public AGameModeBase
 
 public:
 	ALDGameMode();
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	virtual void InitGameState() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void Logout(AController* Exiting) override;
@@ -34,6 +37,7 @@ public:
 	ULDEconomyService* GetEconomyService() const;
 	ULDCombatService* GetCombatService() const;
 	ULDCommandProcessor* GetCommandProcessor() const;
+	ULDWaveDirector* GetWaveDirector() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -41,6 +45,8 @@ protected:
 private:
 #if WITH_DEV_AUTOMATION_TESTS
 	friend class FLDP0OpenFrameBoundaryTest;
+	friend class FLDWaveModeBoundaryTest;
+	friend class FLDWaveReadinessTest;
 #endif
 	void RefreshReadiness();
 	void RegisterPendingParticipants();
@@ -49,6 +55,9 @@ private:
 	void ReleasePlayerSessions();
 	void AdvanceLogic();
 	void AdvanceBeforeExternalCommand(double ServerSeconds);
+	void AdvanceTimelineBefore(double ServerSeconds);
+	void RequestTerminal(ELDMatchResult Result, ELDResultReason Reason, double ServerSeconds);
+	void FinalizePendingTerminal();
 	void HandleBoardCommitted(const FLDBoardCommit& Commit);
 	void HandleEconomyChanged(const FLDEconomySnapshot& Snapshot);
 	void HandleEnemyDeath(const FLDCombatDeath& Death);
@@ -65,6 +74,8 @@ private:
 	TObjectPtr<ULDEconomyService> EconomyService = nullptr;
 	UPROPERTY()
 	TObjectPtr<ULDCombatService> CombatService = nullptr;
+	UPROPERTY()
+	TObjectPtr<ULDWaveDirector> WaveDirector = nullptr;
 	FDelegateHandle BoardCommitHandle;
 	FDelegateHandle EconomyChangedHandle;
 	FDelegateHandle EnemyDeathHandle;
@@ -75,6 +86,13 @@ private:
 	bool bServicesReady = false;
 	bool bPlayStarted = false;
 	bool bG1Probe = false;
+	bool bG2Probe = false;
+	double LoadingStartSeconds = 0;
+	TOptional<int32> TravelSeed;
+	ELDMatchResult PendingResult = ELDMatchResult::None;
+	ELDResultReason PendingReason = ELDResultReason::None;
+	double PendingResultSeconds = 0;
+	bool bAdvancingTimeline = false;
 
 	TArray<TWeakObjectPtr<APlayerController>> Participants;
 	TArray<TWeakObjectPtr<ALDPlayerController>> PendingParticipants;

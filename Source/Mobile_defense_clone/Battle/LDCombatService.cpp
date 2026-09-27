@@ -233,6 +233,8 @@ void ULDCombatService::ResolveScheduledAttacks(double ServerSeconds, bool bInclu
 		// The event timeline is monotonic. Advancing the victim before death preserves its exact final location.
 		Target->AdvanceRouteTo(DueSeconds);
 		FLDCombatDeath Death;
+		const int32 AttackingPlayer = Unit->GetPlacement().PlayerIndex;
+		const int32 EffectiveDamage = FMath::Min(Event.Amount, FMath::CeilToInt(Target->GetCombatSnapshot().HP));
 		const ELDDamageResult Result = Target->TryApplyDamage(Event, Death);
 		if (Result != ELDDamageResult::Applied && Result != ELDDamageResult::Killed)
 		{
@@ -245,7 +247,9 @@ void ULDCombatService::ResolveScheduledAttacks(double ServerSeconds, bool bInclu
 			State->ReservedAttackAt = State->NextAttackAt;
 		}
 		Unit->PresentCommittedAttack(Event.DamageEventId, HitPosition, DueSeconds);
-		if (Result == ELDDamageResult::Killed)
+		// These are copied values; observers may stop services or remove actors during either notification.
+		OnDamageCommitted.Broadcast(Event, AttackingPlayer, EffectiveDamage);
+		if (Result == ELDDamageResult::Killed && !bStopped)
 		{
 			// The subscriber may mutate Units or stop the match; do not retain map references across this call.
 			OnEnemyDeathCommitted.Broadcast(Death);
@@ -270,6 +274,7 @@ void ULDCombatService::Stop()
 	Units.Reset();
 	Enemies.Reset();
 	OnEnemyDeathCommitted.Clear();
+	OnDamageCommitted.Clear();
 }
 
 bool ULDCombatService::TryGetUnitAttackState(uint64 InstanceId, double& OutNextAttackAt) const

@@ -11,6 +11,7 @@ class ALDEnemyActor;
 struct FLDGameRules;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FLDEnemyDeathCommitted, const FLDCombatDeath&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FLDDamageCommitted, const FLDDamageEvent&, int32, int32);
 
 // GameMode owns the lifetime and the fixed clock. No service lookup or economic mutation occurs here.
 UCLASS()
@@ -32,6 +33,7 @@ public:
 	int32 GetRegisteredUnitCount() const;
 	int32 GetLivingEnemyCount() const;
 	FLDEnemyDeathCommitted OnEnemyDeathCommitted;
+	FLDDamageCommitted OnDamageCommitted;
 
 private:
 	struct FUnitAttackState
