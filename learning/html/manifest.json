@@ -4,6 +4,15 @@
   "sourceHashFormat": "UTF-8 Markdown normalized to LF line endings",
   "documents": [
     {
+      "source": "GIT_GUIDE.md",
+      "output": "html/GIT_GUIDE.html",
+      "title": "두 개발자를 위한 Git · 프로젝트 사용 안내",
+      "shortTitle": "두 개발자를 위한 Git · 프로젝트 사용 안내",
+      "course": "",
+      "gate": "",
+      "sha256": "9d1eefda08ff305f244ba22603b464eafeaa28edb4bb72ae2c424a22e46eb78b"
+    },
+    {
       "source": "P0/A/G0_01_DATA.md",
       "output": "html/P0/A/G0_01_DATA.html",
       "title": "P0 규칙 snapshot — P0 / A / A-01",
@@ -352,7 +361,7 @@
       "shortTitle": "P0 참고 구현 학습 시작",
       "course": "",
       "gate": "",
-      "sha256": "c90716f47c8aac5c3cda8e09eea46f4353c7149c7671f75c9a1a807e017eec92"
+      "sha256": "fc9357adea362ab1cf6549e611d015e6b806ee0907ff9e1afc0e7fb4fa0bdb55"
     },
     {
       "source": "P0/evidence/G0_REPLAY/B-network.md",
@@ -514,7 +523,7 @@
       "shortTitle": "A·B 개발 학습 자료",
       "course": "",
       "gate": "",
-      "sha256": "9e9117041b07b8a7ef9e6998c96b995dc21bce4f35670cd33e4fc88b3521aee9"
+      "sha256": "28f40b9d3a55de6a2080b631e454ccc790001f402d0cc3ed06c864e46a835824"
     },
     {
       "source": "REMOVAL.md",

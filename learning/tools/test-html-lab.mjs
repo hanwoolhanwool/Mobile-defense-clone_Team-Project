@@ -28,18 +28,18 @@ async function shot(name){await page.screenshot({path:path.join(output,name),ani
 async function importPayload(payload){await page.evaluate(()=>document.querySelector('#toast').textContent='');await page.locator('#import-file').setInputFiles({name:'records.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(payload))});await page.waitForFunction(()=>document.querySelector('#confirm-dialog').open||document.querySelector('#toast').textContent.startsWith('백업을 읽지 못했습니다.'));}
 try {
   await go('');
-  check(await page.evaluate(()=>window.P0_LAB.documents.length)===64,'64 source documents expected');
+  check(await page.evaluate(()=>window.P0_LAB.documents.length)===manifest.documents.length,'All source documents expected');
   check(await page.evaluate(()=>window.P0_LAB.documents.filter(doc=>doc.course).length)===27,'27 practice units expected');
   check(await page.locator('#nav-count').textContent()==='0 / 27','Reference checklists must not create personal completion');
   await shot('dashboard-desktop.png');
-  pass('Fresh dashboard: 64 documents / 27 practices / zero personal completion');
+  pass(`Fresh dashboard: ${manifest.documents.length} documents / 27 practices / zero personal completion`);
   await page.locator('#search').fill('UnitColor');
   check(await page.locator('#main .lesson-card').count()>0,'Body-only symbol must be searchable');
   check(await page.locator('#main .lesson-card').filter({hasText:'준비된 유닛과 표시'}).count()===1,'UnitColor should find its lesson');
   await page.locator('#search').fill('no-such-source-symbol-xyz');
   check(await page.locator('#main .empty').count()===1,'No-result feedback');
   await page.locator('#search').fill('');
-  check(await page.locator('#main .lesson-card').count()===64,'Clear search restores all documents');
+  check(await page.locator('#main .lesson-card').count()===manifest.documents.length,'Clear search restores all documents');
   await go('#view=library&group=A');
   check(await page.locator('#main .lesson-card').filter({hasText:'P0/A/G1_ROUTE_NOTE.md'}).count()===1,'Role library must include its reference notes, not only numbered practices');
   pass('Full-text search, no-results and reset');
@@ -133,8 +133,8 @@ try {
     if(!href.startsWith('file:'))continue;const uri=new URL(href),target=fileURLToPath(uri);check(fs.existsSync(target),`Missing target: ${href}`);fileLinks++;
     if(uri.hash&&!uri.hash.startsWith('#doc=')&&!uri.hash.startsWith('#view=')&&allIds.has(target))check(allIds.get(target).has(decodeURIComponent(uri.hash.slice(1))),`Missing HTML anchor: ${href}`);
   }
-  result.localLinks=fileLinks;result.appDocuments=64;result.standalonePages=65;result.widths=[1480,390];
-  pass('64 app documents and 65 independent pages at desktop/mobile widths; source body content and local links');
+  result.localLinks=fileLinks;result.appDocuments=manifest.documents.length;result.standalonePages=manifest.documents.length+1;result.widths=[1480,390];
+  pass(`${manifest.documents.length} app documents and ${manifest.documents.length+1} independent pages at desktop/mobile widths; source body content and local links`);
   await go('#doc='+encodeURIComponent(documentId));await shot('lesson-mobile.png');
   await page.locator('#menu-toggle').click();check(await page.locator('#menu-toggle').getAttribute('aria-expanded')==='true','Mobile drawer open');
   check(await page.evaluate(()=>document.querySelector('#sidebar').contains(document.activeElement)),'Mobile menu receives focus');

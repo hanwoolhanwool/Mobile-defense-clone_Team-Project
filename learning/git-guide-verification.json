@@ -1,0 +1,126 @@
+{
+  "Scope": "Git collaboration guide and generated HTML only",
+  "Date": "2026-10-03",
+  "BaseSha": "cbd65cd54296c69812a5752522a0ce4f015b2b05",
+  "Result": "Pass within the listed static and local Git checks; browser/product checks NotRun",
+  "ActualRepositoryObservation": {
+    "Remote": "https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project.git",
+    "ReadOnlyCommand": "git -c credential.interactive=false ls-remote --heads origin main docs/operations-baseline reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration",
+    "ExitCode": 0,
+    "RemoteMain": "c366829075caa5a8bcdcf99eb60420e81204f301",
+    "RemoteDocsBaseline": "a93138791dba9854f8be42a9480c652c03b926d6",
+    "RemoteReferenceAndLearnBranches": "Absent at observation time; no remote writes performed",
+    "OriginalCheckout": "Clean at 8c6856d235de87cc28c12b49ca775bd0937334a5",
+    "ReferenceWorktrees": "A/B/integration clean at base SHA before this documentation change",
+    "LearnerWorktrees": "None in the real repository; no learner worktree created by this guide task"
+  },
+  "StaticChecks": [
+    {
+      "Command": "node learning/tools/build-html.mjs --check",
+      "Result": "Pass",
+      "Documents": 65,
+      "HtmlPages": 66,
+      "LocalLinks": 736
+    },
+    {
+      "Command": "node learning/tools/validate.mjs",
+      "Result": "Pass",
+      "MarkdownFiles": 65,
+      "LocalLinks": 736,
+      "Errors": []
+    },
+    {
+      "Command": "node --check learning/tools/html-lab.mjs; node --check learning/tools/test-html-lab.mjs",
+      "Result": "Pass"
+    },
+    {
+      "Command": "git diff --check",
+      "Result": "Pass"
+    },
+    {
+      "Result": "Pass",
+      "Scope": "Static generated artifact and catalog inspection; no browser execution",
+      "Documents": 65,
+      "HtmlPages": 66,
+      "PracticeUnits": 27,
+      "PagesWithGuideNavigation": 66,
+      "GuideIsPractice": false,
+      "GuideEmbedded": true,
+      "GuideSectionLink": true
+    }
+  ],
+  "GitProcedureReplay": {
+    "Scope": "Real Git operations in tiny isolated local repositories; no Unreal, GitHub write, or learner branch changes",
+    "Result": "Pass",
+    "Checks": [
+      "All 14 PowerShell examples parse successfully",
+      "Dry-run does not create the six remote branches",
+      "Explicit atomic publication creates exactly six fixture branches",
+      "a reference worktree uses the shared reference SHA",
+      "a learning worktree starts at the common baseline",
+      "a setup refuses to overwrite existing folders",
+      "a owns the correct branch",
+      "b reference worktree uses the shared reference SHA",
+      "b learning worktree starts at the common baseline",
+      "b setup refuses to overwrite existing folders",
+      "b owns the correct branch",
+      "Integration includes both reviewed learner commits",
+      "Reference-only implementation never enters learning integration",
+      "a receives the verified integration SHA",
+      "a learning stays separate from reference code",
+      "b receives the verified integration SHA",
+      "b learning stays separate from reference code",
+      "Reference checkout remains unchanged after learning integration",
+      "Actual learn/p0-a remains at the original baseline",
+      "Actual learn/p0-b remains at the original baseline",
+      "Actual learn/p0-integration remains at the original baseline"
+    ],
+    "Failures": [],
+    "GitVersion": "git version 2.47.0.windows.2",
+    "SourceSha": "cbd65cd54296c69812a5752522a0ce4f015b2b05",
+    "GuideHash": "9D1EEFDA08FF305F244BA22603B464EAFEAA28EDB4BB72AE2C424A22E46EB78B"
+  },
+  "ReplayMethod": "Extract PowerShell blocks from GIT_GUIDE.md. Syntax-parse all 14. Run fresh-setup for both roles, integration-setup, reviewed SHA merges and integration return against a tiny local bare repository. Only replace repository URL, workspace paths, role and fixture SHA. Also exercise dry-run/atomic publication in that local fixture. No Unreal/product assets or real GitHub writes.",
+  "ReplayEvidenceDirectory": "Saved/P0Runs/git-guide-20261003",
+  "ReplayEvidenceFiles": [
+    "replay.ps1",
+    "replay.log",
+    "replay-result.json",
+    "html-generate.log",
+    "html-check.log",
+    "learning-check.log",
+    "catalog-check.json"
+  ],
+  "Reproduction": "Read replay.ps1 and copy it to a new run folder before executing pwsh -NoProfile -File <new folder>/replay.ps1. It rejects an existing repositories folder and preserves all test repositories. Adjust ProjectRoot if on another PC. Evidence under Saved is local-only; this checked-in summary contains the checks and limits.",
+  "Inputs": [
+    {
+      "Path": "learning/GIT_GUIDE.md",
+      "SHA256": "9d1eefda08ff305f244ba22603b464eafeaa28edb4bb72ae2c424a22e46eb78b"
+    },
+    {
+      "Path": "learning/tools/html-lab.mjs",
+      "SHA256": "943308980c9b1874c24618a440469d3f37b40033ddff648a33e8512cebf4862c"
+    },
+    {
+      "Path": "learning/tools/test-html-lab.mjs",
+      "SHA256": "4a7effa7235a42296c8d6368f56c7590944dae5785e3d6befdc22813f7497580"
+    },
+    {
+      "Path": "learning/html/manifest.json",
+      "SHA256": "8386abafed1304b801c682ac9a10eb771d590be8458d6adebbe9e0d6808c8b55"
+    },
+    {
+      "Path": "learning/html/GIT_GUIDE.html",
+      "SHA256": "213a8ea1c82291d3a5692f5ef27873b3a588e096a368ca4cd788a911e5a4226e"
+    },
+    {
+      "Path": "learning/html/index.html",
+      "SHA256": "f35295ba90075047490442ba28dc5b770191eb01ba836f40bcf916f8ffbdc267"
+    }
+  ],
+  "ProductRuntimeVerification": "NotRun: documentation-only change; existing game, audio and Android status unchanged",
+  "BrowserVerification": "NotRun: prior in-app browser file URL policy restriction remains; no alternate browser access attempted. Historical html-verification.json covers the prior version only.",
+  "RemoteWrites": "None. Remote publication, invitations, developer machines and team PRs remain future user procedures.",
+  "LearnerProgress": "Unchanged: all three learn branches retained at 8c6856d235de87cc28c12b49ca775bd0937334a5",
+  "Review": "Compared ownership, folder/branch instructions, safe failure handling, independent learner baseline, reference update path, package/source distinction and current commands with repository sources. No runtime or product contract changes."
+}

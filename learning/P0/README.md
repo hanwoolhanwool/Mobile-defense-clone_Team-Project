@@ -6,6 +6,8 @@
 
 순서: [공통 계약](COMMON.md) → [A 수업](A/README.md)과 [B 수업](B/README.md) → [각 게이트 통합](INTEGRATION.md). [제작 방식](../WORKFLOW.md)과 [수업 양식](../templates/LESSON.md)을 사용한다.
 
+두 개발자가 같은 참고본을 확인하고 각자 작업 폴더를 준비하는 절차는 [Git · 프로젝트 사용 안내](../GIT_GUIDE.md)에 있다. 수업 HTML은 참고 폴더에서 읽고, 실제 구현은 자기 learn 폴더에서 진행한다.
+
 현재 참고 프로젝트는 `C:/Users/iam12/P0_reference_integration/Mobile_defense_clone.uproject`다. 원래 폴더는 기획·기본 프로젝트 출발점을 보존한다. 완료 SHA와 실제 검증 범위는 [작업 기록](../../docs/production/P0_REFERENCE_RUN.md) 및 각 수업에서 갱신한다.
 
 ## 수업 순서와 진입 조건
