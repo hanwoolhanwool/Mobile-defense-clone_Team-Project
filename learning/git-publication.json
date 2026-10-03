@@ -1,0 +1,171 @@
+{
+  "ObservationDate": "2026-10-03",
+  "Repository": "hanwoolhanwool/Mobile-defense-clone_Team-Project",
+  "DefaultBranch": "main",
+  "Visibility": "public",
+  "Archived": false,
+  "CurrentAccountPermissions": {
+    "admin": true,
+    "maintain": true,
+    "push": true,
+    "triage": true,
+    "pull": true
+  },
+  "Branches": [
+    {
+      "Branch": "reference/p0-a",
+      "LocalSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "RemoteSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "SHAMatch": true,
+      "Protected": false,
+      "ActiveRuleCount": 0,
+      "ActiveRuleTypes": []
+    },
+    {
+      "Branch": "reference/p0-b",
+      "LocalSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "RemoteSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "SHAMatch": true,
+      "Protected": false,
+      "ActiveRuleCount": 0,
+      "ActiveRuleTypes": []
+    },
+    {
+      "Branch": "reference/p0-integration",
+      "LocalSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "RemoteSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "SHAMatch": true,
+      "Protected": false,
+      "ActiveRuleCount": 0,
+      "ActiveRuleTypes": []
+    },
+    {
+      "Branch": "learn/p0-a",
+      "LocalSHA": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "RemoteSHA": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "SHAMatch": true,
+      "Protected": false,
+      "ActiveRuleCount": 0,
+      "ActiveRuleTypes": []
+    },
+    {
+      "Branch": "learn/p0-b",
+      "LocalSHA": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "RemoteSHA": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "SHAMatch": true,
+      "Protected": false,
+      "ActiveRuleCount": 0,
+      "ActiveRuleTypes": []
+    },
+    {
+      "Branch": "learn/p0-integration",
+      "LocalSHA": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "RemoteSHA": "8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "SHAMatch": true,
+      "Protected": false,
+      "ActiveRuleCount": 0,
+      "ActiveRuleTypes": []
+    }
+  ],
+  "Rulesets": [],
+  "ClassicProtection": {
+    "nodes": [
+      {
+        "pattern": "main",
+        "allowsDeletions": false,
+        "isAdminEnforced": true
+      }
+    ],
+    "pageInfo": {
+      "hasNextPage": false
+    }
+  },
+  "InitialPushExitCode": 0,
+  "DeletionAssessment": "Allowed by current account permissions and current configuration; no target branch actually deleted",
+  "RulesChanged": false,
+  "BranchesDeleted": [],
+  "Scope": "Initial real publication plus documentation update; no gameplay verification or actual branch deletion",
+  "SourceBranch": "reference/p0-integration",
+  "DocumentationStatus": "Guide source and regenerated HTML checked; follow-up commit is published to the three reference branches. Initial publication SHAs above are a fixed snapshot, not the later documentation tip.",
+  "FreshRemoteClone": {
+    "Result": "Pass",
+    "CloneSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+    "Scope": "Fresh clone from GitHub, no checkout; verified Git objects for project/source/maps/runtime data/HTML. No build or game execution.",
+    "RemoteBranches": [
+      "origin/learn/p0-a 8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "origin/learn/p0-b 8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "origin/learn/p0-integration 8c6856d235de87cc28c12b49ca775bd0937334a5",
+      "origin/reference/p0-a 02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "origin/reference/p0-b 02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "origin/reference/p0-integration 02bad44db7a9d1ed0389417e1c0b69aa1f11631c"
+    ]
+  },
+  "GuideCommandCheck": {
+    "Result": "Pass",
+    "ParsedExamples": 18,
+    "Executed": "Read-only SHA/worktree comparison block extracted from guide",
+    "Expected": "SameCommit=true; WorkingTreeClean=false while editing guide",
+    "Observed": {
+      "LocalSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "RemoteSHA": "02bad44db7a9d1ed0389417e1c0b69aa1f11631c",
+      "SameCommit": true,
+      "WorkingTreeClean": false
+    },
+    "DeletionCommandsExecuted": false
+  },
+  "HtmlCheck": {
+    "result": "Pass",
+    "mode": "check",
+    "markdownDocuments": 65,
+    "htmlPages": 66,
+    "rewrittenLocalLinks": 742,
+    "output": "learning/html/index.html"
+  },
+  "LearningCheck": {
+    "result": "PASS",
+    "phases": 3,
+    "markdownFiles": 65,
+    "localLinks": 742,
+    "errors": []
+  },
+  "GuideInputHashes": [
+    {
+      "Path": "learning/GIT_GUIDE.md",
+      "SHA256": "2c11743b2decb3c3eaf25447d200dd77a9c3cabaf19727857e0e558525c60afb"
+    },
+    {
+      "Path": "learning/html/GIT_GUIDE.html",
+      "SHA256": "4373495882b7f9ca242afd1b42a9e7abf4d6018f61a3b8e46785e02118f42c53"
+    },
+    {
+      "Path": "learning/html/index.html",
+      "SHA256": "f3aac87fed677eac69d0da2fe13ddad00155c00092c18afc64eb1921d2e01c38"
+    },
+    {
+      "Path": "learning/html/manifest.json",
+      "SHA256": "eef7c204e9b5a945da0db8fae545633dca7a1a10c3cf44f900d75e833be2ae0f"
+    }
+  ],
+  "EvidenceDirectory": "Saved/P0Runs/git-publish-20261003",
+  "EvidenceFiles": [
+    "push-dry-run.log",
+    "push-initial.log",
+    "initial-publication.json",
+    "clone.log",
+    "clone-result.json",
+    "guide-command-check.json",
+    "html-check.log",
+    "learning-check.log"
+  ],
+  "Limits": [
+    "No actual deletion test on any real branch. Deletability assessed from current API permissions, default branch and protection/rules state. Recheck before future deletion.",
+    "No Unreal rebuild, gameplay, Android or new browser UI verification for this documentation/publication change.",
+    "Fresh clone validates Git objects, not a second developer machine/toolchain.",
+    "The checked-in initial publication snapshot intentionally remains fixed; latest tips can be compared with commands in the guide.",
+    "No changes to main, original documentation branch, repository visibility, rules or team permissions. No PR merge or deployment."
+  ],
+  "Sources": [
+    "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+    "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets"
+  ]
+}

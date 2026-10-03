@@ -122,5 +122,6 @@
   "BrowserVerification": "NotRun: prior in-app browser file URL policy restriction remains; no alternate browser access attempted. Historical html-verification.json covers the prior version only.",
   "RemoteWrites": "None. Remote publication, invitations, developer machines and team PRs remain future user procedures.",
   "LearnerProgress": "Unchanged: all three learn branches retained at 8c6856d235de87cc28c12b49ca775bd0937334a5",
-  "Review": "Compared ownership, folder/branch instructions, safe failure handling, independent learner baseline, reference update path, package/source distinction and current commands with repository sources. No runtime or product contract changes."
+  "Review": "Compared ownership, folder/branch instructions, safe failure handling, independent learner baseline, reference update path, package/source distinction and current commands with repository sources. No runtime or product contract changes.",
+  "HistoricalScope": "Initial guide before publication. Source hashes/checks describe that version. See git-publication.json for the subsequent authorized push and current guide checks."
 }

@@ -2,7 +2,7 @@
 
 **함께 볼 곳은 `reference/p0-integration`, 직접 만들 곳은 `learn/p0-a`와 `learn/p0-b`, 학습 결과를 합칠 곳은 `learn/p0-integration`입니다.** 두 개발자가 저장소를 따로 만들 필요는 없습니다. 같은 GitHub 저장소를 각자의 PC에 내려받고, 참고용 프로젝트와 개발용 프로젝트를 다른 폴더에서 엽니다.
 
-이 문서는 2026-10-03에 실제 로컬 브랜치·worktree와 원격 브랜치를 확인하여 작성했습니다. 아래 원격 게시·새 PC 설치·학습 병합은 **앞으로 팀이 실행할 절차**입니다. 이 안내 제작 과정에서는 GitHub에 올리거나 학습 브랜치에 완성 코드를 넣지 않았습니다. 현재 참고본은 G0~G3의 명시된 PC 검증 범위를 확인한 구현이며, 실제 청음·Android 실기기 검수가 남아 P0 최종 완료 상태는 아닙니다.
+2026-10-03 사용자가 기존 원격 push 금지를 해제하여 **참고·학습 브랜치 6개를 GitHub에 게시했습니다.** 현재 계정의 쓰기 권한과 각 브랜치의 보호·삭제 제한을 확인했습니다. 새 PC 설치·실제 학습·학습 통합·차후 삭제는 앞으로 팀이 진행할 절차입니다. 학습 브랜치는 공통 출발점 그대로이며 완성 코드를 넣지 않았습니다. 현재 참고본은 G0~G3의 명시된 PC 검증 범위를 확인한 구현이며, 실제 청음·Android 실기기 검수가 남아 P0 최종 완료 상태는 아닙니다.
 
 > 먼저 두 사람이 같은 참고본으로 게임과 코드를 확인하세요. 수업은 참고 폴더의 HTML에서 읽고, 코드는 자기 학습 폴더에서 작성합니다. 학습 출발점에는 완성된 게임과 최신 HTML이 들어 있지 않는 것이 정상입니다.
 
@@ -11,7 +11,9 @@
 | 지금 하려는 일 | 이동할 곳 | 준비 사항 |
 |---|---|---|
 | 이 PC에서 현재 게임·코드 확인 | [현재 PC의 폴더](#current-pc) → [게임 열기](#run) | 기존 통합 참고 폴더 사용 |
-| 다른 개발자의 PC로 참고본 전달 | [담당자의 첫 공유](#publish) → [각 PC의 첫 설정](#new-pc) | 참고·학습 6개 브랜치를 원격에 게시해야 함 |
+| 다른 개발자의 PC로 참고본 전달 | [게시 확인](#published-check) → [각 PC의 첫 설정](#new-pc) | 원격 게시 완료. 참고 브랜치를 선택하여 내려받기 |
+| 게시 여부·같은 버전인지 확인 | [웹·명령으로 확인](#published-check) | GitHub 브랜치와 전체 SHA 대조 |
+| 사용 종료 후 공유 브랜치 정리 | [백업·삭제 절차](#delete-branches) | 담당자·학습자 작업 보존 후 삭제. 지금은 유지 |
 | A 또는 B가 직접 구현 시작 | [각 PC의 첫 설정](#new-pc) → [매일 작업](#daily) | 자기 역할의 learn 브랜치와 별도 폴더 |
 | A/B 결과를 하나의 게임으로 연결 | [리뷰와 통합](#integration) | 같은 게이트의 계약·실행 증거·상호 리뷰 |
 | 에셋 충돌·잘못된 폴더가 걱정됨 | [파일 관리](#files) → [문제 해결](#troubleshooting) | 작업 전 브랜치와 변경 파일 확인 |
@@ -26,18 +28,18 @@
 https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project.git
 ```
 
-| 브랜치 | 확인한 위치 | 확인 당시 상태 | 앞으로의 용도 |
+| 브랜치 | 확인한 위치 | 최초 게시 시점 | 앞으로의 용도 |
 |---|---|---|---|
-| `reference/p0-integration` | 로컬 | `cbd65cd` | 두 사람이 함께 확인할 통합 참고본 |
-| `reference/p0-a` | 로컬 | `cbd65cd` | A 참고 구현 이력·게이트별 비교 |
-| `reference/p0-b` | 로컬 | `cbd65cd` | B 참고 구현 이력·게이트별 비교 |
-| `learn/p0-a` | 로컬 | `8c6856d` | A가 수업을 따라 직접 작성 |
-| `learn/p0-b` | 로컬 | `8c6856d` | B가 수업을 따라 직접 작성 |
-| `learn/p0-integration` | 로컬 | `8c6856d` | 두 사람이 작성한 결과만 통합 |
+| `reference/p0-integration` | 로컬 / 원격 | `02bad44` | 두 사람이 함께 확인할 통합 참고본 |
+| `reference/p0-a` | 로컬 / 원격 | `02bad44` | A 참고 구현 이력·게이트별 비교 |
+| `reference/p0-b` | 로컬 / 원격 | `02bad44` | B 참고 구현 이력·게이트별 비교 |
+| `learn/p0-a` | 로컬 / 원격 | `8c6856d` | A가 수업을 따라 직접 작성 |
+| `learn/p0-b` | 로컬 / 원격 | `8c6856d` | B가 수업을 따라 직접 작성 |
+| `learn/p0-integration` | 로컬 / 원격 | `8c6856d` | 두 사람이 작성한 결과만 통합 |
 | `docs/operations-baseline` | 로컬 / 원격 | 로컬 `8c6856d`, 원격 `a931387` | 원래 프로젝트·기획 출발점 보존 |
 | `main` | 로컬 / 원격 | `c366829` | 검증·리뷰한 제품 변경의 최종 반영 대상 |
 
-**읽기 전용 원격 조회 결과, reference·learn 6개 브랜치는 아직 GitHub에 없습니다.** 지금 다른 PC에서 기본 clone만 하면 현재 참고본을 볼 수 없습니다. 표의 원격 상태는 작성 시점의 관찰이며, 공유 후에는 아래 조회로 다시 확인합니다. 원격 접근 권한·보호 규칙은 이번에 변경하거나 재검증하지 않았습니다.
+**6개 브랜치가 모두 게시됐으며 원격 SHA와 로컬 SHA가 일치하는 것을 확인했습니다.** 위 표는 최초 push의 고정 기록입니다. 이 게시 안내를 반영하는 문서 커밋은 참고 3개 브랜치에 추가로 공유하므로, 최신 끝점은 아래 조회와 5절의 비교 명령으로 확인합니다. 기본 브랜치는 여전히 `main`이므로 브랜치를 지정하지 않은 clone은 참고본을 바로 열지 않습니다. 현재 GitHub 계정에 쓰기·관리 권한이 있고, 6개 브랜치에는 보호/삭제 제한이 없습니다. 저장소 설정은 변경하지 않았습니다.
 
 ```powershell
 git ls-remote --heads origin main docs/operations-baseline reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration
@@ -48,7 +50,7 @@ git ls-remote --heads origin main docs/operations-baseline reference/p0-a refere
 | 구분 | 전체 SHA | 해석 |
 |---|---|---|
 | 학습 공통 출발점 | `8c6856d235de87cc28c12b49ca775bd0937334a5` | learn 세 브랜치의 시작점 |
-| 안내 작성 전 참고본 | `cbd65cd54296c69812a5752522a0ce4f015b2b05` | 기존 HTML 학습실까지 포함. 이 안내 커밋 후 참고 브랜치의 HEAD는 달라짐 |
+| 최초 원격 게시 참고본 | `02bad44db7a9d1ed0389417e1c0b69aa1f11631c` | 게임 구현·학습실·Git 안내 포함. 게시 안내 후속 문서 커밋은 이 SHA의 뒤에 이어짐 |
 | 최신 팔레트 PC 패키지의 소스 입력 | `65b7feebceb3b2aa94e1b191a010038706369d79` | [빌드·실행 증거](../docs/production/evidence/RUN-20260928-08/SUMMARY.md)로 식별. HTML 문서 커밋을 게임 재빌드 증거로 사용하지 않음 |
 
 현재 reference A/B/integration의 끝점은 같습니다. A와 B가 서로 다른 완성 게임을 쓰는 구조가 아닙니다. 역할별 독립 구현과 통합 선택은 커밋 이력과 [G0 통합 기록](P0/INTEGRATION.md)에서 비교합니다. 앞으로 학습자가 구현을 시작하면 자신의 learn 브랜치가 출발점에서 진행됩니다. 참고본 전체 병합으로 학습을 대신하지 않습니다.
@@ -109,36 +111,122 @@ worktree는 한 브랜치를 같은 저장소의 여러 폴더에 동시에 체�
 
 <a id="publish"></a>
 
-## 5. 담당자 한 명이 처음 공유하기
+## 5. 게시 결과 · 확인 · 나중에 삭제
 
-**이 절차는 아직 실행하지 않았습니다. 원격 게시가 결정된 뒤 저장소 담당자가 한 번 수행합니다.** 계정 초대·쓰기 권한도 담당자가 확인합니다. 이 문서를 읽는 것만으로 GitHub 권한이나 브랜치가 만들어지지 않습니다.
+### 이번에 실제로 게시한 내용
 
-1. 참고 A/B/통합의 파일 변경을 검토하고 커밋합니다. 미커밋 파일은 push에 포함되지 않습니다.
-2. learn 세 브랜치가 여전히 학습 공통 출발점인지 확인합니다. 누군가 이미 학습을 시작했다면 그 커밋을 보존하고 이 초기 배포 절차를 다시 적용하지 않습니다.
-3. 원격을 다시 조회합니다. 아래와 달리 같은 이름의 원격 브랜치가 생겼다면 fetch 후 이력 차이를 검토합니다. 강제 덮어쓰기를 하지 않습니다.
-4. 아래 첫 명령은 전송 예정 내용을 확인하는 dry-run입니다. **두 번째 push만 실제 게시**합니다. `--atomic`은 여섯 브랜치가 모두 반영되거나 모두 거절되게 요청합니다. 서버가 지원하지 않으면 실패 원인을 검토하고 멈춥니다.
+참고 A/B/통합 3개는 `02bad44db7a9d1ed0389417e1c0b69aa1f11631c`, 학습 A/B/통합 3개는 `8c6856d235de87cc28c12b49ca775bd0937334a5`에서 처음 게시했습니다. 대상 6개를 명시한 atomic push가 성공했고 각 로컬 브랜치의 원격 추적도 설정했습니다. 이 안내의 후속 커밋 역시 참고 3개 브랜치로 공유합니다. `main`·원래 기획 브랜치·기존 worktree는 보존했으며 PR 병합·외부 배포·브랜치 삭제는 실행하지 않았습니다.
+
+공유한 것은 Git에 기록된 프로젝트·코드·에셋·명세·학습 HTML입니다. `Saved/`의 패키지 실행 파일은 올라가지 않았습니다. 게임만 실행하려면 [7절의 패키지 안내](#run)를 따릅니다. GitHub 게시와 P0 전체 검수 완료는 별개입니다.
+
+현재 저장소는 공개 상태라 두 개발자가 참고본을 내려받아 읽을 수 있습니다. 각자의 계정으로 학습 코드를 push하려면 저장소 담당자가 해당 계정의 쓰기 권한을 확인·부여해야 합니다. 이번에 확인한 권한은 게시에 사용한 현재 계정의 권한이며, 다른 개발자의 초대나 권한 변경은 수행하지 않았습니다.
+
+<a id="published-check"></a>
+
+### 두 개발자가 게시 상태를 확인하는 방법
+
+**웹에서 확인:** [통합 참고 브랜치](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/tree/reference/p0-integration)를 열고 브랜치 표시가 `reference/p0-integration`인지 확인합니다. 루트의 `.uproject`, `Source`, `Content`, `learning`이 보이고 최근 커밋에서 전체 SHA를 확인할 수 있어야 합니다. [전체 브랜치 목록](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/branches)에서 참고·학습 6개 이름도 확인합니다.
+
+GitHub의 HTML 파일 화면은 파일 소스/다운로드용입니다. 문서가 웹사이트로 배포된 것은 아닙니다. 아래 6절로 내려받은 뒤 `reference/learning/html/index.html` 또는 `GIT_GUIDE.html`을 로컬 브라우저에서 엽니다.
+
+**명령으로 확인:** 저장소가 있는 폴더에서 다음을 실행합니다. 정상 결과는 브랜치마다 `전체 SHA + refs/heads/브랜치명` 한 줄씩, 총 6줄입니다. 명령 실패와 정상 조회에서 결과가 없는 경우를 구분합니다.
 
 ```powershell
-Set-Location 'C:/Users/iam12/P0_reference_integration'
-git status --short
-git branch -vv
-git remote -v
-git ls-remote --heads origin 'reference/p0-*' 'learn/p0-*'
+git ls-remote --heads origin reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration
+if ($LASTEXITCODE -ne 0) { throw '원격 조회 실패: 인증·네트워크·저장소 주소를 확인하세요.' }
+```
 
-# 검토용: 원격 브랜치를 만들지 않음
-git push --dry-run --atomic origin reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration
-if ($LASTEXITCODE -ne 0) { throw '전송 예정 검사 실패. 실제 게시를 진행하지 마세요.' }
+**내 참고본과 원격이 같은지 확인:** 다음 예시는 현재 PC 경로입니다. 새 PC에서는 `$ReferenceRoot`를 `C:/P0Team/reference`로 바꿉니다. `fetch`로 원격 이력을 받은 다음, 로컬 `HEAD`와 원격 통합 참고본의 SHA를 비교합니다. SHA가 같아도 미커밋 파일이 있다면 실제 파일 내용은 다를 수 있으므로 작업 폴더 상태도 함께 확인합니다.
+
+```powershell
+$ReferenceRoot = 'C:/Users/iam12/P0_reference_integration'
+git -C $ReferenceRoot fetch origin
+if ($LASTEXITCODE -ne 0) { throw '원격 이력 수신 실패' }
+$LocalSha = git -C $ReferenceRoot rev-parse HEAD
+if ($LASTEXITCODE -ne 0) { throw '로컬 SHA 조회 실패' }
+$RemoteSha = git -C $ReferenceRoot rev-parse origin/reference/p0-integration
+if ($LASTEXITCODE -ne 0) { throw '원격 SHA 조회 실패' }
+$WorkingChanges = git -C $ReferenceRoot status --porcelain
+if ($LASTEXITCODE -ne 0) { throw '작업 폴더 상태 조회 실패' }
+[pscustomobject]@{
+    LocalSHA = $LocalSha
+    RemoteSHA = $RemoteSha
+    SameCommit = ($LocalSha -eq $RemoteSha)
+    WorkingTreeClean = [string]::IsNullOrWhiteSpace(($WorkingChanges -join "`n"))
+}
+```
+
+`SameCommit=True`, `WorkingTreeClean=True`면 원격과 같은 커밋의 수정되지 않은 참고본입니다. 다르면 [참고본 업데이트](#update-reference)를 따릅니다. 다른 PC끼리는 각자 확인한 `LocalSHA`를 서로 비교합니다. 최신 reference SHA가 달라져도 learn 세 브랜치의 출발점은 별도로 유지됩니다.
+
+<a id="delete-branches"></a>
+
+### 나중에 삭제할 수 있는가?
+
+**현재는 삭제 가능한 설정입니다.** GitHub API 조회에서 6개 모두 `protected=false`, 적용 중인 브랜치 규칙 0개, 기본 브랜치 아님을 확인했습니다. 현재 인증 계정에는 `push=true`, `admin=true`가 있습니다. 전통적 보호 규칙은 `main`에만 있고 전체 ruleset은 없습니다. `main`의 삭제 금지 보호는 유지했습니다. 대상 브랜치를 실제로 삭제하여 시험하지는 않았습니다. [게시·권한 조회 기록](git-publication.json).
+
+나중에 권한이나 보호 설정이 바뀌면 삭제 가능 여부도 달라집니다. 삭제 시점에 GitHub의 [규칙 화면](https://github.com/hanwoolhanwool/Mobile-defense-clone_Team-Project/rules)과 브랜치 보호 설정을 다시 확인합니다. 보호 브랜치와 ruleset의 삭제 제한은 각각 적용될 수 있습니다. [GitHub 보호 브랜치 설명](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches), [삭제 제한 규칙](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets).
+
+GitHub CLI가 설치·인증된 담당자는 다음으로 현재 계정의 권한과 6개 브랜치 상태를 다시 조회할 수 있습니다. 명령 실패를 `보호 없음`으로 해석하지 않습니다. `permissions.push=true`인지와 저장소가 보관 상태가 아닌지도 함께 확인합니다.
+
+```powershell
+$Repository = 'hanwoolhanwool/Mobile-defense-clone_Team-Project'
+gh api "repos/$Repository" --jq '{default_branch,archived,permissions}'
+if ($LASTEXITCODE -ne 0) { throw '저장소 권한 조회 실패' }
+$Branches = @('reference/p0-a','reference/p0-b','reference/p0-integration','learn/p0-a','learn/p0-b','learn/p0-integration')
+foreach ($BranchName in $Branches) {
+    $Encoded = [uri]::EscapeDataString($BranchName)
+    gh api "repos/$Repository/branches/$Encoded" --jq '{name,protected,sha:.commit.sha}'
+    if ($LASTEXITCODE -ne 0) { throw "브랜치 조회 실패: $BranchName" }
+    gh api "repos/$Repository/rules/branches/$Encoded" --jq '[.[].type]'
+    if ($LASTEXITCODE -ne 0) { throw "규칙 조회 실패: $BranchName" }
+}
+```
+
+### 사용을 끝낸 뒤 백업하고 삭제하는 순서
+
+**아래는 차후 정리용이며 지금 실행하지 않습니다.** 실제 학습을 시작한 뒤에는 learn 브랜치에도 두 사람이 작성한 코드가 생기므로, 참고 브랜치와 함께 자동 삭제하지 않습니다. 각 브랜치의 사용 종료와 보존 여부를 먼저 확인하고 삭제 대상을 정합니다.
+
+1. 두 개발자가 작업을 중단하고 필요한 미커밋 파일·개인 메모·로컬 전용 커밋을 각자 보존합니다. 원격에 없는 내용은 아래 백업에 포함되지 않습니다. 브랜치를 참조하는 PR도 확인합니다.
+2. 보존할 게임 코드·학습 이력·증거를 검증된 통합이나 별도 Git 백업으로 확보합니다. 아래 bundle은 **원격 6개 브랜치의 커밋 이력**을 보관하는 선택 방법입니다. 패키지·Saved 로그·HTML 개인 메모는 별도로 보존합니다.
+3. 이후 사용할 저장소 권한·보호 규칙을 다시 확인합니다. `git bundle list-heads`의 브랜치별 SHA와 `git ls-remote`의 현재 원격 SHA를 대조하고, 백업 뒤 새 커밋이 올라왔다면 삭제를 멈추고 다시 보존합니다. 정리 대상만 원격에서 삭제하며 아직 개발 중인 learn 브랜치는 명령에서 제외합니다.
+4. 원격 재조회 결과에서 삭제한 이름이 사라졌는지 확인합니다. 원격 삭제는 로컬 브랜치나 worktree 폴더 삭제와 별개입니다. 기존 프로젝트 폴더는 그대로 둡니다.
+
+```powershell
+# 차후 삭제 전, 저장소 폴더에서 실행하는 백업 예시
+$BackupRoot = Join-Path $env:USERPROFILE 'P0-GitBackups'
+New-Item -ItemType Directory -Force -Path $BackupRoot | Out-Null
+$BackupFile = Join-Path $BackupRoot ('p0-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.bundle')
+if (Test-Path -LiteralPath $BackupFile) { throw '기존 백업 파일을 덮어쓰지 마세요.' }
+git fetch origin
+if ($LASTEXITCODE -ne 0) { throw '원격 수신 실패. 삭제 중단' }
+git bundle create $BackupFile refs/remotes/origin/reference/p0-a refs/remotes/origin/reference/p0-b refs/remotes/origin/reference/p0-integration refs/remotes/origin/learn/p0-a refs/remotes/origin/learn/p0-b refs/remotes/origin/learn/p0-integration
+if ($LASTEXITCODE -ne 0) { throw '백업 생성 실패. 삭제 중단' }
+git bundle verify $BackupFile
+if ($LASTEXITCODE -ne 0) { throw '백업 검사 실패. 삭제 중단' }
+git bundle list-heads $BackupFile
+if ($LASTEXITCODE -ne 0) { throw '백업 브랜치 조회 실패. 삭제 중단' }
+Get-FileHash -LiteralPath $BackupFile -Algorithm SHA256
 ```
 
 ```powershell
-# 실제 공유를 승인·결정한 담당자만 실행
-git push --atomic -u origin reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration
-if ($LASTEXITCODE -ne 0) { throw '게시 실패. 인증·이력·보호 규칙을 확인하세요.' }
-git ls-remote --heads origin 'reference/p0-*' 'learn/p0-*'
-git rev-parse reference/p0-integration
+# 차후: 6개 모두 사용 종료·백업 확인 후에만 실행. 남길 브랜치는 목록에서 제외
+# dry-run은 예정 변경만 표시하며 서버의 실제 삭제 허용을 보장하지 않음
+git push --dry-run --atomic origin --delete reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration
+if ($LASTEXITCODE -ne 0) { throw '삭제 예정 검사 실패' }
 ```
 
-담당자는 마지막의 **통합 참고본 전체 SHA**를 두 개발자에게 전달합니다. 두 사람 모두 내려받은 뒤 이 값과 비교합니다. `main`이나 원래 문서 브랜치를 함께 올릴 필요는 없습니다. `--all`, `--mirror`, 강제 push는 이 절차에 사용하지 않습니다.
+```powershell
+# 차후 실제 삭제 명령. 이번 게시 작업에서는 실행하지 않음
+git push --atomic origin --delete reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration
+if ($LASTEXITCODE -ne 0) { throw '삭제 실패. 규칙·권한·실제 원격 상태를 다시 확인하세요.' }
+git ls-remote --heads origin reference/p0-a reference/p0-b reference/p0-integration learn/p0-a learn/p0-b learn/p0-integration
+if ($LASTEXITCODE -ne 0) { throw '삭제 후 원격 조회 실패' }
+# 정상 조회가 성공하고 출력이 없으면 위 6개 원격 브랜치 이름은 모두 제거된 상태
+# 로컬 브랜치와 worktree는 보존. 불필요해진 원격 추적 이름만 다음으로 정리 가능
+# git fetch --prune origin
+```
+
+브랜치 삭제는 이름이 가리키던 연결을 제거하는 작업입니다. 이미 받은 다른 사람의 복사본, 다른 브랜치에 남은 커밋, 별도 백업까지 지워지지는 않습니다. 모든 공개 데이터가 완전히 삭제된다는 뜻으로 사용하지 않습니다. 복구는 원격의 커밋 보존을 기대하기보다 검증한 bundle·로컬 저장소를 사용합니다. 이 안내도 참고 브랜치 안에 있으므로 정리 전에 로컬 HTML 또는 저장소 백업을 남깁니다.
 
 <a id="new-pc"></a>
 
@@ -146,7 +234,7 @@ git rev-parse reference/p0-integration
 
 먼저 Git, PowerShell 7, UE 5.8.2와 해당 프로젝트의 C++ 빌드 도구를 준비합니다. 저장소 설정은 Visual Studio 2026, MSVC `14.50.35717`, Windows SDK `10.0.26100.0`을 지정하고 있습니다. `.uproject`는 엔진 계열 `5.8`을 가리키므로 설치 패치도 [개발 환경](../docs/technical/DEVELOPMENT_SETUP.md)·[빌드 절차](../docs/technical/BUILD_RUN.md)와 대조합니다. 임의의 최신 엔진으로 에셋을 저장하지 않습니다. HTML 읽기에는 Unreal이나 Node 설치가 필요 없고, HTML 재생성에는 Node.js 20 이상이 필요합니다.
 
-아래 예시는 **새 PC / 존재하지 않는 `C:/P0Team` 폴더**용입니다. A는 `$Role = 'a'`, B는 `'b'`로 지정합니다. 앞 절의 원격 게시가 끝나야 성공합니다. 기본 clone 폴더 `repo`는 Git 관리용이며, 실제 프로젝트는 `reference`와 `learn-a` 또는 `learn-b`에서 엽니다.
+아래 예시는 **새 PC / 존재하지 않는 `C:/P0Team` 폴더**용입니다. A는 `$Role = 'a'`, B는 `'b'`로 지정합니다. 앞 절의 6개 브랜치는 게시 완료 상태입니다. 차후 삭제된 경우에는 해당 절차를 그대로 실행할 수 없습니다. 기본 clone 폴더 `repo`는 Git 관리용이며, 실제 프로젝트는 `reference`와 `learn-a` 또는 `learn-b`에서 엽니다.
 
 ```powershell
 # GUIDE: fresh-setup
@@ -400,7 +488,7 @@ HTML만 바뀌었다면 열려 있는 학습실을 새로고침하면 됩니다.
 | 증상 | 원인부터 확인 | 다음 행동 |
 |---|---|---|
 | clone했는데 참고 게임·HTML이 없음 | main이나 원래 출발 폴더를 열었는지, 원격 게시가 끝났는지 | 원격 branch 확인 → fetch → reference worktree 사용 |
-| `invalid reference` / 원격 브랜치가 없음 | 참고·학습 6개 브랜치가 아직 게시되지 않았거나 권한 없음 | 담당자에게 저장소 접근·실제 게시 SHA 확인 |
+| `invalid reference` / 원격 브랜치가 없음 | 다른 저장소를 보고 있거나 fetch 누락·차후 삭제·권한 문제 | origin 주소·원격 branch를 조회하고 담당자에게 현재 SHA 확인 |
 | branch already checked out | 같은 로컬 저장소의 다른 worktree가 사용 중 | `git worktree list`의 기존 경로 사용. 강제 연결 해제하지 않음 |
 | 폴더가 이미 존재한다는 오류 | 이전 설치/재현 파일이 남아 있음 | 상태 확인 후 기존 폴더 사용 또는 새 이름 선택. 삭제로 해결하지 않음 |
 | 수정했는데 GitHub에서 안 보임 | 저장 → add → commit → push 중 어디까지 했는지 | status·최근 커밋·upstream 확인. 파일 저장만으로 공유되지 않음 |
@@ -430,6 +518,6 @@ HTML만 바뀌었다면 열려 있는 학습실을 새로고침하면 됩니다.
 
 ## 14. 이 안내에서 확인한 것과 남은 확인
 
-실제 로컬·원격 브랜치, 연결된 worktree, 무시 규칙, 에셋 속성, 시작 맵·접속 UI 코드, 제공 빌드 스크립트를 읽고 경로를 대조했습니다. HTML 생성·링크 검사와 Git 절차의 재현 결과는 [안내 검증 기록](git-guide-verification.json)에 분리해 기록합니다. 로컬 Git 절차 재현은 작은 검사용 저장소를 사용하며 제품 구현 검증으로 표시하지 않습니다.
+실제 로컬·원격 브랜치, 연결된 worktree, 무시 규칙, 에셋 속성, 시작 맵·접속 UI 코드, 제공 빌드 스크립트를 읽고 경로를 대조했습니다. 최초 안내의 HTML·Git 절차 재현은 [이전 안내 검증 기록](git-guide-verification.json), 이번 실제 원격 게시·권한·후속 검사 결과는 [게시 검증 기록](git-publication.json)에 구분해 기록합니다. 로컬 Git 절차 재현은 작은 검사용 저장소를 사용하며 제품 구현 검증으로 표시하지 않습니다.
 
-원격 게시·계정 초대·두 개발자의 새 PC 설치·실제 학습 커밋·팀 PR/병합은 실행하지 않았습니다. 이번 변경은 안내·HTML에 한정하여 Unreal과 게임 검수를 새로 수행하지 않습니다. 기존 HTML UI 검증과 이번 문서 정적 검사는 별개이며, 자동 브라우저의 로컬 파일 접근 제한 때문에 이번 안내의 브라우저 화면·버튼은 새로 검수하지 않았습니다. 실제 학습자 상태와 미완료 제품 게이트를 그대로 유지합니다.
+원격 게시와 현재 계정·브랜치 규칙 조회는 이번에 실제 수행했습니다. 계정 초대·두 개발자의 새 PC 설치·실제 학습 커밋·팀 PR/병합·브랜치 삭제는 실행하지 않았습니다. 이번 변경은 안내·HTML에 한정하여 Unreal과 게임 검수를 새로 수행하지 않습니다. 기존 HTML UI 검증과 이번 문서 정적 검사는 별개이며, 자동 브라우저의 로컬 파일 접근 제한 때문에 이번 안내의 브라우저 화면·버튼은 새로 검수하지 않았습니다. 실제 학습자 상태와 미완료 제품 게이트를 그대로 유지합니다.
